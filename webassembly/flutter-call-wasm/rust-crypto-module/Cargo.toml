@@ -1,0 +1,18 @@
+[package]
+name = "rust-crypto-module"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+getrandom = { version="0.2.10", features = ["js"] }
+rsa = "0.5.0"
+rand = "0.8.4"
+wasm-bindgen = "0.2.86"
+
+[profile.release]
+# Tell `rustc` to optimize for small code size.
+opt-level = "s"

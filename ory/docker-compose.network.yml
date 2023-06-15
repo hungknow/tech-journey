@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  hello:
+    networks:
+      ipvlan_1:
+        ipv4_address: 192.168.10.30
+  world:
+    networks:
+      ipvlan_1:
+        ipv4_address: 192.168.10.31
+  
+  kong-migrations:
+    networks:
+      - ipvlan_1
+
+  kong:
+    networks:
+      ipvlan_1:
+        ipv4_address: 192.168.10.32
+  
+  kratos-migrate:
+    networks:
+      ipvlan_1:
+        ipv4_address: 192.168.10.34
+  
+  kratos:
+    networks:
+        ipvlan_1:
+          ipv4_address: 192.168.10.36
+
+  kratos-selfservice-ui-node:
+    networks:
+        ipvlan_1:
+          ipv4_address: 192.168.10.38
+ 
+networks:
+  ipvlan_1:
+    external:
+      name: ipvlan_l3_1
+     

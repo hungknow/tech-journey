@@ -1,0 +1,61 @@
+{
+  "name": "custom-elements",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "wireit",
+    "start": "wireit"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "wireit": "^0.9.3"
+  },
+  "wireit": {
+    "test": {
+      "dependencies": [
+        "build"
+      ]
+    },
+    "copy-and-verify-results": {
+      "dependencies": [
+        "./libraries/angular:build",
+        "./libraries/angularjs:build",
+        "./libraries/dio:build",
+        "./libraries/dojo:build",
+        "./libraries/hybrids:build",
+        "./libraries/hyperapp:build",
+        "./libraries/hyperhtml:build",
+        "./libraries/lit:build",
+        "./libraries/mithril:build",
+        "./libraries/omi:build",
+        "./libraries/polymer:build",
+        "./libraries/preact:build",
+        "./libraries/react:build",
+        "./libraries/react-experimental:build",
+        "./libraries/riot:build",
+        "./libraries/skate:build",
+        "./libraries/solid:build",
+        "./libraries/stencil:build",
+        "./libraries/surplus:build",
+        "./libraries/svelte:build",
+        "./libraries/vue:build"
+      ],
+      "output": [
+        "docs/libraries"
+      ],
+      "command": "node scripts/copy-and-verify-results.mjs"
+    },
+    "build": {
+      "dependencies": [
+      ]
+    },
+    "start": {
+      "dependencies": [
+        "build"
+      ],
+      "command": "cd out && http-server -o -c-1"
+    }
+  }
+}

@@ -1,0 +1,62 @@
+openapi: 3.0.1
+info:
+  title: Echo API
+  description: Simple Rest Echo
+  version: "1.0.0"
+# host: "localhost:8002"
+servers:
+- url: http://localhost:8002/v1
+# schemes:
+  # - http
+# basePath: /v1
+# produces:
+#   - application/json
+paths:
+  /echo:
+    get:
+      description: "Returns the 'message' to the caller"
+      operationId: "echo"
+      parameters:
+        #- name: X-header-param
+        - name: headerParam
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: message
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EchoResponse'
+        default:
+          description: "Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    EchoResponse:
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        fields:
+          type: string
