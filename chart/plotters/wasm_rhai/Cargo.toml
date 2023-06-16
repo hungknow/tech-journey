@@ -1,0 +1,21 @@
+[package]
+name = "plotter-wasm"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type=["cdylib"]
+
+[dependencies]
+plotters = {git = "https://github.com/plotters-rs/plotters"}
+wasm-bindgen = "0.2.62"
+wee_alloc = "0.4.5"
+web-sys = { version = "0.3.39", features = ["HtmlCanvasElement"] }
+
+[dependencies.plotters-canvas]
+git = "https://github.com/hungknow/plotters-canvas"
+
+[profile.release]
+lto = true
