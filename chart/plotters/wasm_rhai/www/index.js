@@ -1,4 +1,5 @@
-class Chart {}
+// class Chart {}
+import { Chart } from "plotter-wasm/plotter_wasm";
 
 let chart = null;
 
@@ -10,9 +11,9 @@ const yaw = document.getElementById("yaw");
 const control = document.getElementById("3d-control");
 const status = document.getElementById("status");
 
-export function setup(WasmChart) {
-    Chart = WasmChart;
-}
+// export function setup(WasmChart) {
+//     Chart = WasmChart;
+// }
 
 export function main() {
     let hash = location.hash.substr(1);

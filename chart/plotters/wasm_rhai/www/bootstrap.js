@@ -4,7 +4,7 @@ async function init() {
             import("plotter-wasm"),
             import("./index.js")
         ]);
-        setup(Chart);
+        // setup(Chart);
         main();
     } else {
         const [{Chart, default: init}, { main, setup } ] = await Promise.all([
@@ -12,7 +12,7 @@ async function init() {
             import("./index.js")
         ]);
         // await init();
-        setup(Chart);
+        // setup(Chart);
         main();
     }
 }
