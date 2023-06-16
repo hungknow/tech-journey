@@ -1,5 +1,6 @@
 mod func_plot;
 mod mandelbrot;
+mod plot3d;
 
 use wasm_bindgen::prelude::*;
 use web_sys::HtmlCanvasElement;
@@ -10,6 +11,12 @@ pub type DrawResult<T> = Result<T, Box<dyn std::error::Error>>;
 #[wasm_bindgen]
 pub struct Chart {
     convert: Box<dyn Fn((i32, i32)) -> Option<(f64, f64)>>,
+}
+
+#[wasm_bindgen]
+pub struct Point {
+    pub x: f64,
+    pub y: f64,
 }
 
 #[wasm_bindgen]
@@ -26,5 +33,14 @@ impl Chart {
         Ok(Chart {
             convert: Box::new(map_coord),
         })
+    }
+
+    pub fn plot3d(canvas: HtmlCanvasElement, pitch: f64, yaw: f64) -> Result<(), JsValue> {
+        plot3d::draw(canvas, pitch, yaw).map_err(|err| err.to_string())?;
+        Ok(())
+    }
+
+    pub fn coord(&self, x: i32, y: i32) -> Option<Point> {
+        (self.convert)((x, y)).map(|(x, y)| Point { x, y })
     }
 }

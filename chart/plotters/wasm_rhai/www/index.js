@@ -49,6 +49,27 @@ function setupCanvas() {
 }
 
 function onMouseMove(event) {
+    if (chart) {
+		var text = "Mouse pointer is out of range";
+
+		if(event.target == canvas) {
+			let actualRect = canvas.getBoundingClientRect();
+			let logicX = event.offsetX * canvas.width / actualRect.width;
+			let logicY = event.offsetY * canvas.height / actualRect.height;
+			const point = chart.coord(logicX, logicY);
+			text = (point) 
+				? `(${point.x.toFixed(3)}, ${point.y.toFixed(3)})`
+				: text;
+		}
+        coord.innerText = text;
+    }
+}
+
+function updatePlot3d() {
+	let yaw_value = Number(yaw.value) / 100.0;
+	let pitch_value = Number(pitch.value) / 100.0;
+	Chart.plot3d(canvas, pitch_value, yaw_value);
+	coord.innerText = `Pitch:${pitch_value}, Yaw:${yaw_value}`
 }
 
 function updatePlot() {
