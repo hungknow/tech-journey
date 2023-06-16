@@ -1,4 +1,6 @@
 
+Reference: https://plotters-rs.github.io/plotters-doc-data/evcxr-jupyter-integration.html
+
 ## For Ubuntu/Debian users¶
 
 ```bash
