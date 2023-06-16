@@ -11,4 +11,8 @@ Install [wasm-bindgen](https://rustwasm.github.io/wasm-pack/installer/)
 # Build
 ```
 wasm-pack build
+
+cd www
+npm run build
+npm run start
 ```
