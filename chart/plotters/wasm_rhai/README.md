@@ -1,6 +1,8 @@
+![](./wasm_rhai.png)
+
 # Purpose
-- [ ] Draw the Canvas chart by Plotter library
-- [ ] Javascript call Rust function to raw. Rust is compiled into web-assembly binary code
+- [x] Draw the Canvas chart by Plotter library
+- [x] Javascript call Rust function to raw. Rust is compiled into web-assembly binary code
 - [ ] Rhai scripting language call web-assembly function to draw the chart
 
 
