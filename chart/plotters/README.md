@@ -21,3 +21,7 @@ evcxr_jupyter --install
 jupyter notebook
 ```
 
+To use Plotters with `jupyter-evcxr`, add the below line in the jupyter notebook.
+```
+:dep plotters = { version = "^0.3.0", default_features = false, features = ["evcxr", "all_series"] }
+```
