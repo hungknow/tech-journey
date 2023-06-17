@@ -1,7 +1,10 @@
 mod func_plot;
 mod mandelbrot;
 mod plot3d;
+mod playground;
+mod scripting;
 
+use rhai::TypeBuilder;
 use wasm_bindgen::prelude::*;
 use web_sys::HtmlCanvasElement;
 
@@ -43,4 +46,38 @@ impl Chart {
     pub fn coord(&self, x: i32, y: i32) -> Option<Point> {
         (self.convert)((x, y)).map(|(x, y)| Point { x, y })
     }
+
+}
+
+#[derive(Clone)]
+pub struct RhaiChart {
+    // canvas_id: str, 
+}
+
+impl RhaiChart {
+    pub fn new_power(canvas_id: &str, power: i32) -> Self {
+        let map_coord = func_plot::draw(canvas_id, power).map_err(|err| err.to_string()).unwrap();
+        RhaiChart {
+            // canvas_id: canvas_id,
+            // convert: Box::new(move |coord| map_coord(coord).map(|(x, y)| (x.into(), y.into()))),
+        }
+    } 
+}
+// For rhai type
+// https://rhai.rs/book/rust/build_type.html
+impl rhai::CustomType for RhaiChart {
+    fn build(mut builder: TypeBuilder<Self>) {
+        builder
+            .with_name("Chart")
+            .with_fn("new_power", Self::new_power);
+    }
+}
+
+#[wasm_bindgen]
+pub fn run_script(
+    script: String,
+    print_callback: js_sys::Function,
+    debug_callback: js_sys::Function,
+    progress_callback: Option<js_sys::Function>,
+) -> Result<String, JsValue> {
 }
