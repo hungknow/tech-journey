@@ -14,7 +14,7 @@ impl Playground {
         engine.on_debug(|_, _, _| {});
 
         Self {
-            engine: prepare_engine(),
+            engine: Engine::new(),
         }
     }
 

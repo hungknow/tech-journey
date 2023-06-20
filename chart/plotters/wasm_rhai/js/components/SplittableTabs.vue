@@ -97,6 +97,13 @@ export default {
             }
         }
     },
+    data() {
+        return {
+            _autoIsSplitted: false,
+            tabItems: [],
+            activeTab: -1,
+        }
+    },
     computed: {
         isSplitted() {
             if (this.layout === "auto") {
@@ -132,13 +139,6 @@ export default {
             } else if (this._unsplittedActiveTab >= 0) {
                 this.activeTab = this._unsplittedActiveTab;
             }
-        }
-    },
-    data() {
-        return {
-            _autoIsSplitted: false,
-            tabItems: [],
-            activeTab: -1,
         }
     },
     methods: {
@@ -185,7 +185,6 @@ export default {
     },
     destroyed() {
         this._matchMedia.removeListener(this._matchMediaListener);
-    },
-    components: [TabItem]
+    }
 }
 </script>
