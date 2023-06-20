@@ -1,4 +1,68 @@
 <style scoped>
+.tabsContainer {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: auto minmax(0, 1fr);
+}
+
+.tabsContainer > .tabs {
+    margin-bottom: 0;
+    grid-column: 1 / span 2;
+    grid-row: 1;
+}
+
+.tabsContainer > .tabs li.is-disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.tabsContainer > .tabItem {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+/* Horizontal split */
+.tabsContainer.splitted {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto minmax(0, 1fr);
+}
+
+.tabsContainer.splitted > .tabs {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.tabsContainer.splitted > .tabItem {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.tabsContainer.splitted > .tabItem.splittable {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+}
+
+/* Vertical split */
+.tabsContainer.splitted.vertical {
+    grid-template-columns: 100%;
+    grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+
+.tabsContainer.splitted.vertical > .tabs {
+    grid-column: 1;
+    grid-row: 2;
+}
+.tabsContainer.splitted.vertical > .tabItem {
+    grid-column: 1;
+    grid-row: 3;
+}
+.tabsContainer.splitted.vertical > .tabItem.splittable {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+
 </style>
 <template>
     <div class="tabsContainer" :class="{ splitted: isSplitted, vertical: isVerticalSplit }">
@@ -46,8 +110,28 @@ export default {
         }
     },
     watch: {
-        isSplitted(newValue) {
+        activeTab(newVal) {
+            this.tabItems.forEach((tab, i) => {
+                tab.isActive = this.activeTab == i;
+            });
+            this.$emit("activeTabChanged", newVal);
+        },
+        isSplitted(newVal) {
+            for (const tab of this.tabItems) {
+                if (tab.splittable) {
+                    tab.isSplitted = newVal;
+                }
+            }
 
+            if (newVal) {
+                if (this.activeTab >= 0 && this.tabItems[this.activeTab].isSplitted) {
+                    // Store last active tab to revert to when unsplitting:
+                    this._unsplittedActiveTab = this.activeTab;
+                    this.activeTab = this.tabItems.findIndex(tab => !tab.isSplitted);
+                }
+            } else if (this._unsplittedActiveTab >= 0) {
+                this.activeTab = this._unsplittedActiveTab;
+            }
         }
     },
     data() {
@@ -82,6 +166,26 @@ export default {
                 this.activeTab = idx;
             }
         }
-    }
+    },
+    created() {
+        const matchMedia = window.matchMedia("(min-width: 900px)");
+        matchMedia.addListener(this._matchMediaListener = () => {
+            this.$data._autoIsSplitted = matchMedia.matches;
+        })
+        this._matchMedia = matchMedia;
+        this.$watch(function() {
+            return this.isSplitted + this.isVerticalSplit;
+        }, function () {
+            this.$emit("layoutChanged");
+        });
+    },
+    mounted() {
+        this.$data._autoIsSplitted = this._matchMedia.matches
+        this.refreshSlots();
+    },
+    destroyed() {
+        this._matchMedia.removeListener(this._matchMediaListener);
+    },
+    components: [TabItem]
 }
 </script>
