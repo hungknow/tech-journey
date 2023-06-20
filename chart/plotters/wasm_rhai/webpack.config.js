@@ -23,7 +23,7 @@ module.exports = {
     },
     plugins: [
         new CopyWebpackPlugin({
-            patterns: ["index.html"]
+            patterns: ["js/index.html"]
         }),
         new VueLoaderPlugin()
     ],
