@@ -80,4 +80,18 @@ pub fn run_script(
     debug_callback: js_sys::Function,
     progress_callback: Option<js_sys::Function>,
 ) -> Result<String, JsValue> {
+    Ok(scripting::run_script(
+        &script,
+        move |s| {
+            let _ = print_callback.call1(&JsValue::null(), &JsValue::from_str(s));
+        },
+        move |s| {
+            let _ = debug_callback.call1(&JsValue::null(), &JsValue::from_str(s));
+        },
+        move |ops| {
+            if let Some(f) = &progress_callback {
+                let _ = f.call1(&JsValue::null(), &JsValue::from_f64(ops as f64));
+            }
+        }
+    )?)
 }

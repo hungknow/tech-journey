@@ -1,4 +1,5 @@
 use rhai::Engine;
+use crate::RhaiChart;
 
 pub fn prepare_engine() -> Engine {
     let mut self_engine = Engine::new();
@@ -17,7 +18,7 @@ pub fn run_script(
 ) -> Result<String, String> {
     let mut engine = prepare_engine();
 
-    let script_ast: Result<rhai::AST, String> = engine.compile(&script).map_err(|e| e.to_string());
-    let result = engine.eval_ast(&script_ast).map_err(|e| e.to_string())?;
+    let script_ast= engine.compile(&script).map_err(|e| e.to_string())?;
+    let result: rhai::Dynamic = engine.eval_ast(&script_ast).map_err(|e| e.to_string())?;
     Ok(result.to_string())
 }

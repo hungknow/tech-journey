@@ -5,9 +5,7 @@
 - [x] Javascript call Rust function to raw. Rust is compiled into web-assembly binary code
 - [ ] Rhai scripting language call web-assembly function to draw the chart
 
-
-# Prequisites
-
+# Prerequisites
 Install [wasm-bindgen](https://rustwasm.github.io/wasm-pack/installer/)
 
 # Build

@@ -1,4 +1,4 @@
-use crate::{RhaiChart, scripting::prepare_engine};
+use crate::{scripting::prepare_engine};
 use rhai::Engine;
 use wasm_bindgen::prelude::wasm_bindgen;
 
