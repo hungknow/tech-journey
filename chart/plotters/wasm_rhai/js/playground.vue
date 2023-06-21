@@ -46,6 +46,50 @@
                     </p>
                 </b-field>
             </b-field>
+            <b-field style="margin-bottom: 0.75rem;">
+                <p class="control" v-if="isRunScriptOnWorker">
+                    <b-toolip
+                        position="is-bottom"
+                        :label="(isScriptRunning ? (runningOps !== null ? 'Running' : 'Loading...') : 'Idle') + (runningOps ? ` / Ops : ${runningOpsDIsplay}` : '')"
+                        :always="isScriptRunning && runningOps !== null && runningOps > 0">
+                        <b-button type="is-danger"
+                            native-type="button"
+                            icon-left="stop"
+                            @click="stopSript"
+                            :disabled="stopDisabled">
+                            Stop
+                        </b-button> 
+                    </b-toolip>
+                </p>
+            </b-field>
+            <b-field style="margin-bottom: 0.75rem;">
+                <p class="control" v-if="!$data._isEmbedded">
+                    <b-dropdown
+                        aria-role="menu"
+                        :disabled="exampleScriptChangePromise !== null || isScriptRunning"
+                        >
+                        <button
+                            class="button"
+                            position="is-bottom-left"
+                            slot="trigger"
+                            role="button"
+                            type="button"
+                            >
+                            <span>Example Scripts</span>
+                            <b-icon icon="menu-down" />
+                        </button>
+                        <b-dropdown-item
+                            aria-role="menu-item"
+                            v-for="i in exampleScriptList"
+                            :key="i.value"
+                            @click.native.prevent="loadExampleScript(i.value)"
+                            href="#"
+                            >
+                            {{ i.text }}
+                        </b-dropdown-item>
+                    </b-dropdown>
+                </p>
+            </b-field>
         </header>
         <splittable-tabs :layout="splitLayout">
             <tab-item label="Code" ref="codeTab" splittable>
@@ -76,15 +120,34 @@ const initialCode = `\
 fn run(a) {
     let b = a + 1;
     print("Hello world! a = " + b);
-    new_power(2);
 }
 run(10);
 `;
 
 function initEditor(vm) {
-    const tryCompileDebounced = {
-        trigger(arg) {
+    let lastErrorMarker = null;
 
+    function tryCompileScript(editor) {
+
+    }
+
+    const tryCompileDebounced = {
+        delayMsec: 500,
+        timeout: null,
+        cancel() {
+            if (this.timeout !== null) {
+                window.clearTimeout(this.timeout);
+            }
+        },
+        trigger(arg) {
+            this.cancel();
+            this.timeout = window.setTimeout(
+                () => this._fire(arg),
+                this.delayMsec
+            );
+        },
+        _fire(editor) {
+            vm.astText = tryCompileScript(editor) || "";
         }
     };
 
@@ -197,6 +260,21 @@ function initEditor(vm) {
     }
 }
 
+// With the help of webpack, we can get a list of all the example script files
+// and the ability to lazily load them on demand:
+const exampleScriptsImport = require.context("!raw-loader!../example-scripts/", false, /\.rhai$/, "lazy");
+
+let exampleScriptList = [];
+for (let key of exampleScriptsImport.keys()) {
+    const value = key;
+    if (key.startsWith("./")) {
+        key = key.substr(2);
+    }
+    const text = key;
+    exampleScriptList.push({ value, text });
+}
+Object.freeze(exampleScriptList);
+
 export default {
     props: {
         initialCode: {
@@ -210,6 +288,7 @@ export default {
     },
     data() {
         return {
+            exampleScriptList,
             exampleScriptChangePromise: null,
             selectedCmTheme: "default",
             isRunScriptOnWorker: false,
@@ -254,6 +333,29 @@ export default {
         },
         getEditor() {
             return this.$refs.editor.getEditor();
+        },
+        stopScript() {
+            Runner.stopScript();
+        },
+        loadExampleScript(key) {
+            const cm = this.getEditor();
+            this.$_r.tryCompileDebounced.cancel();
+            cm.setOption("readOnly", true);
+            this.exampleScriptChangePromise = exampleScriptsImport(key)
+                .then(module => {
+                    cm.setValue(module.default);
+                    this.$refs.codeTab.makeTabActive();
+                    this.$nextTick(() => {
+                        cm.focus();
+                    })
+                })
+                .catch(e => {
+                    console.error("Error loading script", e);
+                })
+                .finally(() => {
+                    cm.setOption("readOnly", true);
+                    this.exampleScriptChangePromise = null;
+                });
         }
     },
     mounted() {

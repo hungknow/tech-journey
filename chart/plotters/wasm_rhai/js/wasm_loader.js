@@ -1,5 +1,5 @@
-import wasmPath from "plotter-wasm/index_bg.wasm";
-import wasmInit, * as wasm from "plotter-wasm";
+import wasmPath from "../pkg/index_bg.wasm";
+import wasmInit, * as wasm from "../pkg";
 
 const wasmLoadPromise = wasmInit(wasmPath)
 const wasmImport = wasmLoadPromise.then(_wasmInternal => wasm);
