@@ -1,4 +1,4 @@
-use crate::scripting::prepare_engine;
+use crate::scripting::{prepare_engine, init_engine};
 use rhai::Engine;
 use wasm_bindgen::prelude::*;
 
@@ -13,8 +13,10 @@ impl Playground {
         engine.on_print(|_| {});
         engine.on_debug(|_, _, _| {});
 
+        init_engine(&mut engine);
+
         Self {
-            engine: Engine::new(),
+            engine: engine,
         }
     }
 

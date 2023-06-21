@@ -7,7 +7,7 @@ async function runScript(script) {
     function output(line) {
         self.postMessage({
             req: "runScript/output",
-            output:line,
+            output: line,
         })
     }
     try {
@@ -20,7 +20,7 @@ async function runScript(script) {
                 req: "runScript/updateOps",
                 ops,
             });
-        } );
+        });
         output(`\nScript returned: "${result}"`);
     } catch (ex) {
         output(`\nEXCEPTION: ${ex}`);

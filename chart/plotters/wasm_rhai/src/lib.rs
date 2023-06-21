@@ -24,7 +24,7 @@ pub struct Point {
 
 #[wasm_bindgen]
 impl Chart {
-    pub fn power(canvas_id: &str, power: i32) -> Result<Chart, JsValue> {
+    pub fn power(canvas_id: &str, power: i64) -> Result<Chart, JsValue> {
         let map_coord = func_plot::draw(canvas_id, power).map_err(|err| err.to_string())?;
         Ok(Chart {
             convert: Box::new(move |coord| map_coord(coord).map(|(x, y)| (x.into(), y.into()))),
@@ -51,18 +51,28 @@ impl Chart {
 
 #[derive(Clone)]
 pub struct RhaiChart {
-    // canvas_id: str, 
+    // canvas_id: &'x str, 
+    // chart: &Chart,
 }
 
+static mut rhaiChart: RhaiChart = RhaiChart{
+    // canvas_id: "canvas",
+};
+
 impl RhaiChart {
-    pub fn new_power(canvas_id: &str, power: i32) -> Self {
-        let map_coord = func_plot::draw(canvas_id, power).map_err(|err| err.to_string()).unwrap();
-        RhaiChart {
+    pub fn set_canvas_id(canvas_id: &str) {
+        // unsafe { rhaiChart.canvas_id = canvas_id };
+    }
+    
+    pub fn new_power(power: i64)  {
+        let map_coord = func_plot::draw("canvas", power).map_err(|err| err.to_string()).unwrap();
+        // RhaiChart {
             // canvas_id: canvas_id,
             // convert: Box::new(move |coord| map_coord(coord).map(|(x, y)| (x.into(), y.into()))),
-        }
+        // }
     } 
 }
+
 // For rhai type
 // https://rhai.rs/book/rust/build_type.html
 impl rhai::CustomType for RhaiChart {

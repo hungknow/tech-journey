@@ -19,9 +19,19 @@ pub fn prepare_engine(
         });
 
     // Register the custom types
-    self_engine.build_type::<RhaiChart>();
+    // self_engine.build_type::<RhaiChart>();
+    init_engine(&mut self_engine);
 
     self_engine
+}
+
+pub fn init_engine(
+    engine: &mut Engine
+) {
+    // engine.build_type::<RhaiChart>();
+    // engine.register_fn()
+    engine.register_type_with_name::<RhaiChart>("RhaiChart")
+      .register_fn("new_power", RhaiChart::new_power);
 }
 
 pub fn run_script(

@@ -3,7 +3,7 @@ use plotters::prelude::*;
 use plotters_canvas::CanvasBackend;
 
 /// Draw power function f(x) = x^power.
-pub fn draw(canvas_id: &str, power: i32) -> DrawResult<impl Fn((i32, i32)) -> Option<(f32, f32)>> {
+pub fn draw(canvas_id: &str, power: i64) -> DrawResult<impl Fn((i32, i32)) -> Option<(f32, f32)>> {
     let backend = CanvasBackend::new(canvas_id).expect("cannot find canvas");
     let root = backend.into_drawing_area();
     let font: FontDesc = ("sans-serif", 20.0).into();
@@ -26,6 +26,6 @@ pub fn draw(canvas_id: &str, power: i32) -> DrawResult<impl Fn((i32, i32)) -> Op
         &RED,
     ))?;
 
-    root.present()?;
+    // root.present()?;
     return Ok(chart.into_coord_trans());
 }

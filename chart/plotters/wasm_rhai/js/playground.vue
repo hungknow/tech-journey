@@ -62,6 +62,7 @@
                 <canvas id="canvas" width="300" height="250"></canvas>
             </tab-item>
         </splittable-tabs>
+        <!-- <canvas id="canvas" width="300" height="250"></canvas> -->
     </div>
 </template>
 
@@ -78,6 +79,7 @@ const initialCode = `\
 fn run(a) {
     let b = a + 1;
     print("Hello world! a = " + b);
+    new_power(2);
 }
 run(10);
 `;
@@ -213,7 +215,7 @@ export default {
         return {
             exampleScriptChangePromise: null,
             selectedCmTheme: "default",
-            isRunScriptOnWorker: true,
+            isRunScriptOnWorker: false,
             isScriptRunning: false,
             runningOps: null,
             stopDisabled: true,
