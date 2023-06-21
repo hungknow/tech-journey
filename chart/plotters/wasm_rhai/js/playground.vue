@@ -58,11 +58,8 @@
             <tab-item label="AST">
 
             </tab-item>
-            <tab-item label="Canvas">
-                <canvas id="canvas" width="300" height="250"></canvas>
-            </tab-item>
         </splittable-tabs>
-        <!-- <canvas id="canvas" width="300" height="250"></canvas> -->
+        <canvas id="canvas" width="300" height="250"></canvas>
     </div>
 </template>
 
