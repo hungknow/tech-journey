@@ -1,10 +1,8 @@
-// import * as Wasm from "plotter-wasm/index";
 import { wasmImport } from "./wasm_loader.js";
 
 const playgroundPromise = wasmImport.then(wasm => wasm.Playground.new());
 
 async function runScript(script) {
-    // const playground = Wasm.Playground.new();
     const playground = await playgroundPromise;
     function output(line) {
         self.postMessage({
@@ -40,7 +38,6 @@ self.onmessage = ev => {
     }
 }
 
-// self.postMessage({ req: "_ready" });
 wasmImport.then(() => {
     self.postMessage({ req: "_ready" });
 });

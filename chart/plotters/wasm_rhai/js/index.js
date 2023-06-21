@@ -1,4 +1,4 @@
-const plotterWasmImport = import("plotter-wasm/plotter_wasm");
+import { wasmLoadPromise } from "./wasm_loader";
 const bootstrapImport = import("./bootstrap");
 const buefyCssImport = import("buefy/dist/buefy.css");
 
@@ -16,7 +16,7 @@ if (window.location.hash.startsWith("#embed-") && window.parent !== window) {
 	embedWaitPromise = Promise.resolve(null);
 }
 
-Promise.all([bootstrapImport, embedWaitPromise, plotterWasmImport, buefyCssImport]).then(([m, embedInit, _wasm, _buefyCss]) => {
+Promise.all([bootstrapImport, embedWaitPromise, wasmLoadPromise, buefyCssImport]).then(([m, embedInit, _wasm, _buefyCss]) => {
 	document.getElementById("loading").remove();
 	m.default("#topContainer", embedInit);
 })

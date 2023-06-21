@@ -70,8 +70,9 @@ import SplittableTabs from "./components/SplittableTabs.vue";
 import TabItem from "./components/TabItem.vue";
 import Editor from "./components/Editor.vue";
 import CodeMirror from "codemirror";
-import * as Wasm from "plotter-wasm";
+// import * as Wasm from "plotter-wasm";
 import * as Runner from "./playground-runner";
+import { wasm } from "./wasm_loader";
 
 const initialCode = `\
 fn run(a) {
@@ -103,7 +104,7 @@ function initEditor(vm) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 try {
-                    let result = Wasm.run_script(
+                    let result = wasm.run_script(
                         script,
                         s => {
                             appendOutput(`[PRINT] ${s}`);
