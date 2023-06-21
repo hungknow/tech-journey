@@ -58,6 +58,9 @@
             <tab-item label="AST">
 
             </tab-item>
+            <tab-item label="Canvas">
+                <canvas id="canvas" width="300" height="250"></canvas>
+            </tab-item>
         </splittable-tabs>
     </div>
 </template>
@@ -68,6 +71,7 @@ import TabItem from "./components/TabItem.vue";
 import Editor from "./components/Editor.vue";
 import CodeMirror from "codemirror";
 import * as Wasm from "plotter-wasm";
+import * as Runner from "./playground-runner";
 
 const initialCode = `\
 fn run(a) {
@@ -120,6 +124,56 @@ function initEditor(vm) {
 
     }
 
+    let runScriptPromise = null;
+    async function doRunScriptAsync(editor, resultEl, updateOps) {
+        if (runScriptPromise) {
+            console.log(
+                "Blocked run script request as another script is already running."
+            );
+            return;
+        }
+        let script = editor.getValue();
+        resultEl.value = "";
+        let appendBuffer = "";
+        let appendBufferTimeout = null;
+        let lastUpdateTime = null;
+        function appendOutput(line) {
+            appendBuffer += line + "\n";
+            if (appendBufferTimeout === null) {
+                const animFn = ts => {
+                    let elapsed = ts - lastUpdateTime;
+                    if (elapsed < 32) {
+                        appendBufferTimeout = requestAnimationFrame(animFn);
+                        return;
+                    }
+                    lastUpdateTime = ts;
+                    const scroll = resultEl.scrollTop >= resultEl.scrollHeight - resultEl.clientHeight - 2;
+                    let v = resultEl.value;
+                    const totalLen = v.length + appendBuffer.length;
+                    if (totalLen > 10000) {
+                        v = v.substr(totalLen - 10000);
+                    }
+                    v += appendBuffer;
+                    resultEl.value = v;
+                    if (scroll) {
+                        resultEl.scrollTop = resultEl.scrollHeight - resultEl.clientHeight;
+                    }
+                    appendBuffer = "";
+                    appendBufferTimeout = null;
+                }
+                appendBufferTimeout = requestAnimationFrame(animFn);
+            }
+        }
+
+        try {
+            await (runScriptPromise = Runner.runScript(script, appendOutput, updateOps));
+        } catch (ex) {
+            appendOutput(`\nEXCEPTION: "${ex}"`);
+        } finally {
+            runScriptPromise = null;
+        }
+    }
+
     let isScriptRunning = false;
     async function doRunScript(editor, isAsync, resultEl, updateOps) {
         if (isScriptRunning) {
@@ -128,11 +182,11 @@ function initEditor(vm) {
         }
 
         isScriptRunning = true;
-        // if (isAsync) {
-        //     await doRunScriptAsync(editor, resultEl, updateOps);
-        // } else {
+        if (isAsync) {
+            await doRunScriptAsync(editor, resultEl, updateOps);
+        } else {
             await doRunScriptSync(editor, resultEl);
-        // }
+        }
 
         isScriptRunning = false;
     }
@@ -158,7 +212,7 @@ export default {
         return {
             exampleScriptChangePromise: null,
             selectedCmTheme: "default",
-            isRunScriptOnWorker: false,
+            isRunScriptOnWorker: true,
             isScriptRunning: false,
             runningOps: null,
             stopDisabled: true,
