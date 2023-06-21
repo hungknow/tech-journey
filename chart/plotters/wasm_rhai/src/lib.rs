@@ -1,7 +1,10 @@
 mod func_plot;
 mod mandelbrot;
 mod plot3d;
+mod playground;
+mod scripting;
 
+use rhai::TypeBuilder;
 use wasm_bindgen::prelude::*;
 use web_sys::HtmlCanvasElement;
 
@@ -21,7 +24,7 @@ pub struct Point {
 
 #[wasm_bindgen]
 impl Chart {
-    pub fn power(canvas_id: &str, power: i32) -> Result<Chart, JsValue> {
+    pub fn power(canvas_id: &str, power: i64) -> Result<Chart, JsValue> {
         let map_coord = func_plot::draw(canvas_id, power).map_err(|err| err.to_string())?;
         Ok(Chart {
             convert: Box::new(move |coord| map_coord(coord).map(|(x, y)| (x.into(), y.into()))),
@@ -43,4 +46,62 @@ impl Chart {
     pub fn coord(&self, x: i32, y: i32) -> Option<Point> {
         (self.convert)((x, y)).map(|(x, y)| Point { x, y })
     }
+
+}
+
+#[derive(Clone)]
+pub struct RhaiChart {
+    // canvas_id: &'x str, 
+    // chart: &Chart,
+}
+
+static mut rhaiChart: RhaiChart = RhaiChart{
+    // canvas_id: "canvas",
+};
+
+impl RhaiChart {
+    pub fn set_canvas_id(canvas_id: &str) {
+        // unsafe { rhaiChart.canvas_id = canvas_id };
+    }
+    
+    pub fn new_power(power: i64)  {
+        let map_coord = func_plot::draw("canvas", power).map_err(|err| err.to_string()).unwrap();
+        // RhaiChart {
+            // canvas_id: canvas_id,
+            // convert: Box::new(move |coord| map_coord(coord).map(|(x, y)| (x.into(), y.into()))),
+        // }
+    } 
+}
+
+// For rhai type
+// https://rhai.rs/book/rust/build_type.html
+impl rhai::CustomType for RhaiChart {
+    fn build(mut builder: TypeBuilder<Self>) {
+        builder
+            .with_name("Chart")
+            .with_fn("new_power", Self::new_power);
+    }
+}
+
+#[wasm_bindgen]
+pub fn run_script(
+    script: String,
+    print_callback: js_sys::Function,
+    debug_callback: js_sys::Function,
+    progress_callback: Option<js_sys::Function>,
+) -> Result<String, JsValue> {
+    Ok(scripting::run_script(
+        &script,
+        move |s| {
+            let _ = print_callback.call1(&JsValue::null(), &JsValue::from_str(s));
+        },
+        move |s| {
+            let _ = debug_callback.call1(&JsValue::null(), &JsValue::from_str(s));
+        },
+        move |ops| {
+            if let Some(f) = &progress_callback {
+                let _ = f.call1(&JsValue::null(), &JsValue::from_f64(ops as f64));
+            }
+        }
+    )?)
 }

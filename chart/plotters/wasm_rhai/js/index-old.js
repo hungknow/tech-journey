@@ -1,5 +1,5 @@
-// class Chart {}
 import { Chart } from "plotter-wasm/plotter_wasm";
+import "buefy/dist/buefy.css";
 
 let chart = null;
 
