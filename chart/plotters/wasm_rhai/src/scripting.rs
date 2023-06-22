@@ -28,6 +28,8 @@ pub fn prepare_engine(
 pub fn init_engine(
     engine: &mut Engine
 ) {
+    // engine.set_max_call_levels(10000);
+
     // engine.build_type::<RhaiChart>();
     // engine.register_fn()
     engine.register_type_with_name::<RhaiChart>("RhaiChart")

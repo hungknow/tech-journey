@@ -368,6 +368,7 @@ export default {
             cm.setValue(this.initialCode);
             cm.focus(); ``
         })
+        this.loadExampleScript('./power.rhai');
     },
     components: { Editor, SplittableTabs, TabItem }
 }

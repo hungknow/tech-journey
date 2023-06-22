@@ -1,12 +1,13 @@
+mod canvas_utils;
 mod func_plot;
-mod mandelbrot;
-mod plot3d;
+// mod mandelbrot;
+// mod plot3d;
 mod playground;
 mod scripting;
 
 use rhai::TypeBuilder;
 use wasm_bindgen::prelude::*;
-use web_sys::HtmlCanvasElement;
+use web_sys::{OffscreenCanvas};
 
 /// Type alias for the result of a drawing function.
 pub type DrawResult<T> = Result<T, Box<dyn std::error::Error>>;
@@ -25,23 +26,30 @@ pub struct Point {
 #[wasm_bindgen]
 impl Chart {
     pub fn power(canvas_id: &str, power: i64) -> Result<Chart, JsValue> {
-        let map_coord = func_plot::draw(canvas_id, power).map_err(|err| err.to_string())?;
+        let map_coord = func_plot::draw_on_canvas_id(canvas_id, power).map_err(|err| err.to_string())?;
         Ok(Chart {
             convert: Box::new(move |coord| map_coord(coord).map(|(x, y)| (x.into(), y.into()))),
         })
     }
 
-    pub fn mandelbrot(canvas: HtmlCanvasElement) -> Result<Chart, JsValue> {
-        let map_coord = mandelbrot::draw(canvas).map_err(|err| err.to_string())?;
+    pub fn power_offscreen(canvas: OffscreenCanvas, power: i64) -> Result<Chart, JsValue> {
+        let map_coord = func_plot::draw_on_offscreen_canvas(canvas, power).map_err(|err| err.to_string())?;
         Ok(Chart {
-            convert: Box::new(map_coord),
-        })
+            convert: Box::new(move |coord| map_coord(coord).map(|(x, y)| (x.into(), y.into()))),
+        }) 
     }
 
-    pub fn plot3d(canvas: HtmlCanvasElement, pitch: f64, yaw: f64) -> Result<(), JsValue> {
-        plot3d::draw(canvas, pitch, yaw).map_err(|err| err.to_string())?;
-        Ok(())
-    }
+    // pub fn mandelbrot(canvas: HtmlCanvasElement) -> Result<Chart, JsValue> {
+    //     let map_coord = mandelbrot::draw(canvas).map_err(|err| err.to_string())?;
+    //     Ok(Chart {
+    //         convert: Box::new(map_coord),
+    //     })
+    // }
+
+    // pub fn plot3d(canvas: HtmlCanvasElement, pitch: f64, yaw: f64) -> Result<(), JsValue> {
+    //     plot3d::draw(canvas, pitch, yaw).map_err(|err| err.to_string())?;
+    //     Ok(())
+    // }
 
     pub fn coord(&self, x: i32, y: i32) -> Option<Point> {
         (self.convert)((x, y)).map(|(x, y)| Point { x, y })
@@ -65,7 +73,7 @@ impl RhaiChart {
     }
     
     pub fn new_power(power: i64)  {
-        let map_coord = func_plot::draw("canvas", power).map_err(|err| err.to_string()).unwrap();
+        let map_coord = func_plot::draw_on_canvas_id("canvas", power).map_err(|err| err.to_string()).unwrap();
         // RhaiChart {
             // canvas_id: canvas_id,
             // convert: Box::new(move |coord| map_coord(coord).map(|(x, y)| (x.into(), y.into()))),
