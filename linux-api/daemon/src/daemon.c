@@ -8,6 +8,7 @@
 #include <signal.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <fcntl.h>
 
 static int running = 0;
 static int delay = 1;
@@ -16,6 +17,7 @@ static FILE *log_stream = NULL;
 static char *app_name = NULL;
 static char *pid_file_name = NULL;
 static char *conf_file_name = NULL;
+static int pid_fd = -1;
 
 int read_conf_file(int reload)
 {
@@ -63,6 +65,14 @@ void handle_signal(int sig)
     if (sig == SIGINT)
     {
         fprintf(log_stream, "Debug: stopping daemon ...\n");
+        if (pid_fd != -1) {
+			lockf(pid_fd, F_ULOCK, 0);
+			close(pid_fd);
+		}
+        /* Try to delete lockfile */
+		if (pid_file_name != NULL) {
+			unlink(pid_file_name);
+		}
 
         running = 0;
         /* Reset signal handling to default behavior */
@@ -104,6 +114,11 @@ static void daemonize()
     /* Ignore signal sent from child to parent process */
     signal(SIGCHLD, SIG_IGN);
 
+    /* Close all open file descriptors */
+    for (fd = sysconf(_SC_OPEN_MAX); fd > 0; fd--) {
+        close(fd);
+    }
+
     /* Reopen stdin (fd = 0), stdout (fd = 1), stderr (fd = 2) */
     stdin = fopen("/dev/null", "r");
     stdout = fopen("/dev/null", "w+");
@@ -112,6 +127,20 @@ static void daemonize()
     /* Try to write PID of daemon to lockfile */
     if (pid_file_name != NULL)
     {
+        char str[256];
+        pid_fd = open(pid_file_name, O_RDWR|O_CREAT, 0640);
+        if (pid_fd < 0) {
+            exit(EXIT_FAILURE);
+        }
+        if (lockf(pid_fd, F_TLOCK, 0) < 0) {
+            /* Can't lock file */
+			exit(EXIT_FAILURE);
+        }
+
+        /* Get current PID */
+		sprintf(str, "%d\n", getpid());
+		/* Write PID to lockfile */
+		write(pid_fd, str, strlen(str));
     }
 }
 
