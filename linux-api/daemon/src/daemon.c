@@ -9,11 +9,11 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include "log.h"
 
 static int running = 0;
 static int delay = 1;
 static int counter = 0;
-static FILE *log_stream = NULL;
 static char *app_name = NULL;
 static char *pid_file_name = NULL;
 static char *conf_file_name = NULL;
@@ -64,7 +64,7 @@ void handle_signal(int sig)
 {
     if (sig == SIGINT)
     {
-        fprintf(log_stream, "Debug: stopping daemon ...\n");
+        infof("Debug: stopping daemon ...\n");
         if (pid_fd != -1) {
 			lockf(pid_fd, F_ULOCK, 0);
 			close(pid_fd);
@@ -80,7 +80,7 @@ void handle_signal(int sig)
     }
     else if (sig == SIGHUP)
     {
-        fprintf(log_stream, "Debug: reloading daemon config file ...\n");
+        infof("Debug: reloading daemon config file ...\n");
         read_conf_file(1);
     }
 }
@@ -206,29 +206,12 @@ int main(int argc, char *argv[])
         daemonize();
     }
 
-    // Open system log and write message to it
-    openlog(argv[0], LOG_PID | LOG_CONS, LOG_DAEMON);
-    syslog(LOG_INFO, "Started %s", app_name);
-
     /* Daemon will handle two signals */
     signal(SIGINT, handle_signal);
     signal(SIGHUP, handle_signal);
 
     /* Try to open log file to this daemon */
-    if (log_file_name != NULL)
-    {
-        log_stream = fopen(log_file_name, "a+");
-        if (log_stream == NULL)
-        {
-            syslog(LOG_ERR, "Can not open log file: %s, error: %s",
-                   log_file_name, strerror(errno));
-            log_stream = stdout;
-        }
-    }
-    else
-    {
-        log_stream = stdout;
-    }
+    init_log(log_file_name, app_name);
 
     /* Read configuration from config file */
     read_conf_file(0);
@@ -237,7 +220,7 @@ int main(int argc, char *argv[])
 
     while (running)
     {
-        ret = fprintf(log_stream, "Debug: %d\n", counter++);
+        ret = infof("Debug: %d\n", counter++);
         if (ret < 0)
         {
             syslog(LOG_ERR, "Can not write to log stream: %s, error: %s",
@@ -259,10 +242,7 @@ int main(int argc, char *argv[])
     }
 
     /* Close log file, when it is used. */
-    if (log_stream != stdout)
-    {
-        fclose(log_stream);
-    }
+    uninit_log();
 
     /* Write system log and close it. */
     syslog(LOG_INFO, "Stopped %s", app_name);

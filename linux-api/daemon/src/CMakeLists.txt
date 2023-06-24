@@ -1,4 +1,6 @@
-set(daemon_src daemon.c)
+set(daemon_src 
+    daemon.c
+    log.c)
 
 if (CMAKE_COMPILER_IS_GNUCC)
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
