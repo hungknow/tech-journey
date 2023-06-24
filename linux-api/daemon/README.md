@@ -24,3 +24,9 @@ systemctl status simple-daemon
 systemctl reload simple-daemon
 systemctl stop simple-daemon
 ```
+
+# Remove files
+
+```
+sudo xargs rm < install_manifest.txt
+```
