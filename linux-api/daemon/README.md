@@ -1,3 +1,7 @@
+# Purpose
+
+IPC via stream-based UNIX domain sockets.
+
 # Build
 
 ```sh
