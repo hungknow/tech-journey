@@ -6,7 +6,6 @@ pub fn depth_first_search(graph: &Graph, root: Vertex, objective: Vertex) -> Opt
     let mut queue = VecDeque::new();
     queue.push_back(root);
 
-    // Get the neighbors of the parent node
     while let Some(current_vertex) = queue.pop_front() {
         history.push(current_vertex.value());
 
@@ -14,9 +13,9 @@ pub fn depth_first_search(graph: &Graph, root: Vertex, objective: Vertex) -> Opt
             return Some(history);
         }
 
-        for neighbor in current_vertex.neighbors(graph).into_iter().rev() {
-            if visited.insert(neighbor) {
-                queue.push_front(neighbor); 
+        for children in current_vertex.children(graph).into_iter().rev() {
+            if visited.insert(children) {
+                queue.push_front(children); 
             }
 
         }
@@ -55,7 +54,7 @@ impl Vertex {
         self.0
     }
 
-    pub fn neighbors(&self, graph: &Graph) -> VecDeque<Vertex> {
+    pub fn children(&self, graph: &Graph) -> VecDeque<Vertex> {
         graph.edges.iter().filter(|e| e.0 == self.0).map(|x| x.1.into()).collect()
     }
 }
