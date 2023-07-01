@@ -1,6 +1,7 @@
 import { wasmImport } from "./wasm_loader.js";
 
 const playgroundPromise = wasmImport.then(wasm => wasm.Playground.new());
+let offscreenCanvas = null;
 
 async function runScript(script) {
     const playground = await playgroundPromise;
@@ -11,6 +12,7 @@ async function runScript(script) {
         })
     }
     try {
+        playground.set_offscreen_canvas(offscreenCanvas);
         let result = playground.run_script(script, s => {
             output(`[PRINT] ${s}`);
         }, s => {
@@ -33,7 +35,10 @@ async function runScript(script) {
 self.onmessage = ev => {
     if (ev.data.req === "runScript") {
         runScript(ev.data.script);
-    } else {
+    } else if (ev.data.req === "setOffScreenCanvas") {
+        offscreenCanvas = ev.data.canvas    
+        // playground.set_offscreen_canvas(offscreenCanvas);
+    }else {
         console.log("Unknown message received by worker:", ev.data);
     }
 }

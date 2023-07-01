@@ -87,6 +87,9 @@ function runScript(script, appendOutput, updateOps) {
                 }
             })
             runSCriptPromiseReject = reject;
+            let canvas = document.getElementById("canvas");
+            let offscreenCanvas = canvas.transferControlToOffscreen();
+            worker.postMessage({ req: "setOffScreenCanvas", canvas: offscreenCanvas}, [offscreenCanvas]);
             worker.postMessage({ req: "runScript", script });
         }).catch(e => {
             reject("Cannot load Worker: " + e);

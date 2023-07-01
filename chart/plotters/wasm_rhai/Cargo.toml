@@ -16,9 +16,13 @@ wee_alloc = { version = "0.4.5", optional = true }
 web-sys = { version = "0.3.39", features = ["HtmlCanvasElement"] }
 rhai = { version = "1.14.0", features = ["only_i64","internals","wasm-bindgen"] }
 js-sys = "0.3"
+console_error_panic_hook = { version = "0.1.7", optional = true }
 
 [dependencies.plotters-offscreen-canvas]
 git = "https://github.com/hungknow/plotters-offscreen-canvas"
 
 [profile.release]
 lto = true
+
+[features]
+default = ["console_error_panic_hook"]

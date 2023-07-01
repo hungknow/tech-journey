@@ -48,18 +48,18 @@
             </b-field>
             <b-field style="margin-bottom: 0.75rem;">
                 <p class="control" v-if="isRunScriptOnWorker">
-                    <b-toolip
+                    <b-tooltip
                         position="is-bottom"
                         :label="(isScriptRunning ? (runningOps !== null ? 'Running' : 'Loading...') : 'Idle') + (runningOps ? ` / Ops : ${runningOpsDIsplay}` : '')"
                         :always="isScriptRunning && runningOps !== null && runningOps > 0">
                         <b-button type="is-danger"
                             native-type="button"
                             icon-left="stop"
-                            @click="stopSript"
+                            @click="stopScript"
                             :disabled="stopDisabled">
                             Stop
                         </b-button> 
-                    </b-toolip>
+                    </b-tooltip>
                 </p>
             </b-field>
             <b-field style="margin-bottom: 0.75rem;">
@@ -291,7 +291,7 @@ export default {
             exampleScriptList,
             exampleScriptChangePromise: null,
             selectedCmTheme: "default",
-            isRunScriptOnWorker: false,
+            isRunScriptOnWorker: true,
             isScriptRunning: false,
             runningOps: null,
             stopDisabled: true,

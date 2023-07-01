@@ -4,17 +4,17 @@ use plotters_offscreen_canvas::OffscreenCanvasBackend;
 use web_sys::OffscreenCanvas;
 
 /// Draw power function f(x) = x^power.
-pub fn draw_on_canvas_id(canvas_id: &str, power: i64) -> DrawResult<impl Fn((i32, i32)) -> Option<(f32, f32)>> {
+pub fn draw_on_canvas_id(canvas_id: &str, power: i64) -> DrawResult<()> {
     let canvas = canvas_id_to_offscreen_canvas(canvas_id).unwrap();
-    draw_on_offscreen_canvas(canvas, power)
+    draw_on_offscreen_canvas(&canvas, power)
 }
 
-pub fn draw_on_offscreen_canvas(canvas: OffscreenCanvas, power: i64)-> DrawResult<impl Fn((i32, i32)) -> Option<(f32, f32)>> { 
+pub fn draw_on_offscreen_canvas(canvas: &OffscreenCanvas, power: i64)-> DrawResult<()> { 
     let backend = OffscreenCanvasBackend::new(canvas).expect("cannot find canvas");
     draw_on_drawing_area(&backend.into_drawing_area(), power)
 }
 
-pub fn draw_on_drawing_area(root: &DrawingArea<OffscreenCanvasBackend, Shift>, power: i64) -> DrawResult<impl Fn((i32, i32)) -> Option<(f32, f32)>>  {
+pub fn draw_on_drawing_area(root: &DrawingArea<OffscreenCanvasBackend, Shift>, power: i64) -> DrawResult<()>  {
     let font: FontDesc = ("sans-serif", 20.0).into();
     root.fill(&WHITE)?;
 
@@ -35,5 +35,6 @@ pub fn draw_on_drawing_area(root: &DrawingArea<OffscreenCanvasBackend, Shift>, p
     ))?;
 
     root.present()?;
-    return Ok(chart.into_coord_trans());
+    let t = chart.into_coord_trans();
+    Ok(())
 }

@@ -1,6 +1,10 @@
-use crate::scripting::{prepare_engine, init_engine};
+use std::panic;
+use crate::scripting::{init_engine};
 use rhai::Engine;
 use wasm_bindgen::prelude::*;
+use web_sys::OffscreenCanvas;
+
+pub static mut globalOffscreenCanvas: Option<OffscreenCanvas> = None;
 
 pub struct Playground {
     engine: Engine,
@@ -27,6 +31,7 @@ impl Playground {
         debug_callback: impl Fn(&str) + 'static,
         progress_callback: impl Fn(u64) + 'static,
     ) -> Result<String, String> {
+        panic::set_hook(Box::new(console_error_panic_hook::hook));
         struct Defer<'z> {
             mut_self: &'z mut Playground,
         }
@@ -80,6 +85,15 @@ impl PlaygroundExport {
                 }
             },
         )?)
+    }
+
+    pub fn set_offscreen_canvas(
+        &mut self,
+        offscreenCanvas: OffscreenCanvas
+    ) {
+        unsafe {
+            globalOffscreenCanvas = Some(offscreenCanvas)
+        }
     }
 }
 
