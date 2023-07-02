@@ -14,7 +14,7 @@ pub fn breadth_first_search(graph: &Graph, root: Vertex, objective: Vertex) -> O
             return Some(history);
         }
 
-        for neighbor in current_vertex.neighbors(graph) {
+        for neighbor in current_vertex.children(graph) {
             if visited.insert(neighbor) {
                 queue.push_back(neighbor);
                 // println!("{:?}", queue);
@@ -55,7 +55,7 @@ impl Vertex {
         self.0
     }
 
-    pub fn neighbors(&self, graph: &Graph) -> VecDeque<Vertex> {
+    pub fn children(&self, graph: &Graph) -> VecDeque<Vertex> {
         graph.edges.iter().filter(|e| e.0 == self.0).map(|x| x.1.into()).collect()
     }
 }
