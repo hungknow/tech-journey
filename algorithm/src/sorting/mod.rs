@@ -1,6 +1,8 @@
 mod bubble_sort;
+mod merge_sort;
 
 pub use self::bubble_sort::bubble_sort;
+pub use self::merge_sort::top_down_merge_sort;
 
 #[cfg(test)]
 use std::cmp;
@@ -15,7 +17,7 @@ where
         true => {
             let set_a: HashSet<&T> = a.iter().collect();
             let set_b: HashSet<&T> = b.iter().collect();
-            set_a == set_b;
+            set_a == set_b
         }
         false => false
     }

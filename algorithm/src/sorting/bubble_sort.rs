@@ -34,6 +34,7 @@ pub fn bubble_sort<T: Ord>(arr: &mut [T]) {
 mod tests {
     use super::*;
     use crate::sorting::is_sorted;
+    use crate::sorting::have_same_elements;
 
     #[test]
     fn descending() {
@@ -62,8 +63,8 @@ mod tests {
     #[test]
     fn random() {
         let mut ve4 = vec![5, 6, 3, 4, 1, 2];
-        let cloned = ve1.clone();
+        let cloned = ve4.clone();
         bubble_sort(&mut ve4);
-        assert!(is_sorted(&ve4) && have_same_elements(&ve1, &cloned));
+        assert!(is_sorted(&ve4) && have_same_elements(&ve4, &cloned));
     }
 }
