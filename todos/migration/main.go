@@ -26,6 +26,7 @@ func main() {
 		log.Panic(err)
 	}
 
+	// Create the Postgres Connection
 	db, err := sql.Open("postgres", dbConfig.DbUrl)
 	if err != nil {
 		log.Panic(err)
@@ -34,6 +35,7 @@ func main() {
 		db.Close()
 	}()
 
+	// Create the Postgres driver for migration
 	pgDriver, err := postgres.WithInstance(db, &postgres.Config{})
 	if err != nil {
 		log.Panic(err)
