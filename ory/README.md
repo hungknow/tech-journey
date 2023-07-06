@@ -6,10 +6,13 @@ Reference: https://www.ory.sh/zero-trust-api-security-ory-tutorial/
 
 # Overview
 
+- Kong gateway can be an excellent solution for an ingress load balancer and API gateway if you do not want vendor lock-in of any cloud API Gateways in your application. Kong uses OpenResty and Lua. OpenResty extends Nginx with Lua scripting to use Nginx's event model for non-blocking I/O with HTTP clients and remote backends like PostgreSQL, Memcached, and Redis. OpenResty is not an Nginx fork, and Kong is not an Openresty fork. Kong uses OpenResty to enable API gateway features.
+
+- Oathkeeper acts like an identity and access proxy for our microservices. It allows us to proxy only authenticated requests to our microservices, so we don't need to implement middleware to check authentication. It can also transform requests, for example, convert session auth into JWT for a back-end service.
+
+- Kratos is the authentication provider; it handles all first-party authentication flows: username/password, forgot password, MFA/2FA, and more. It also provides OIDC/social login capabilities for example, "Login with GitHub".
+
 - A simple Go HTTP API that exposes /greet endpoint and listens :8090 port.
-- Ory Oathkeeper as Zero Trust Identity Access Proxy.
-- Ory Kratos to manage identities and users.
-- Kong as ingress for incoming HTTP traffic.
 
 Request Flow:
 
@@ -32,6 +35,11 @@ Redirects user to the Kratos UI if the identity check fails.
 create database kong1;
 create user kong1 with password 'kong1';
 grant all privileges on database kong1 to kong1;
+
+create database kratos1;
+create user kratos1 with password 'kratos1';
+grant all privileges on database kratos1 to kratos1;
+
 ```
 
 # Run locally
