@@ -1,0 +1,18 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: todo_pg
+    image: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-todos}
+      POSTGRES_USER: ${POSTGRES_USER:-test}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-test}
+      PGDATA: /data/postgres
+    volumes:
+       - pg:/data/postgres
+    ports:
+      - "5435:5432"
+
+volumes:
+  pg:

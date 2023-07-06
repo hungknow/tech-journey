@@ -1,0 +1,5 @@
+BEGIN;
+
+DROP IF EXISTS todos;
+
+COMMIT;
