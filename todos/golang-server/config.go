@@ -8,6 +8,7 @@ type Config struct {
 
 func LoadServerConfig() (config Config, err error) {
 	viper.AddConfigPath("./config")
+	viper.AddConfigPath("../config")
 
 	viper.SetConfigName("serverconfig")
 	viper.SetConfigType("yaml")

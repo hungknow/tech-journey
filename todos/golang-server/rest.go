@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 )
 
@@ -20,7 +21,13 @@ func NewRest() *Rest {
 }
 
 func getTodos(w http.ResponseWriter, r *http.Request) {
-	data := map[string]string{"hello": "haha"}
+	data := []Todo{
+		{
+			Id:        uuid.NewString(),
+			Title:     "Todo1",
+			Completed: false,
+		},
+	}
 	err := json.NewEncoder(w).Encode(data)
 	if err != nil {
 		log.Fatal(errors.WithStack(err))
