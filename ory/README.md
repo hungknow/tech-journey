@@ -112,17 +112,30 @@ Three flow types:
 - API flows
 
 ### Browser flows for server-side apps
+Your application use the third-party authentication UI.
+
 The browser flow has three stages:
-- Initialize and redirect to UI
-- Form rendering
-- Form submission and payload validation
+- Initialize and redirect to the third-party authentication UI
+    - GET the html content from `/self-service/login/browser`, the header is  `Accept: text/html`.
+    - Receive HTTP 303 from the server
+- The authentication UI render the form
+    - Authentication UI generate the random token for CSRF token
+    - Fetch the flowId from `/self-service/login/browser` with `Accept: application/json` header
+    - Fetch the form data from `/self-service/login/flows?id=$flowId`
+- The authentication UI submit form and perform the payload validation
+    - Submit to `/self-service/login/flows?id=$theFlowI`
+- Your application receive the session cookie, user...
 
 ### Browser flows for client-side apps
-- Initialization without redirect using an AJAX request
+Your UI app redirect your own authentication UI.
+
+- Initialization without redirect using an AJAX request to `/self-service/login/browser`
 - Client-side apps render form using HTML
-- Client-side apps submit the form as application/json and payload validation
+- Client-side apps submit the form as `application/json` and perform the payload validation
+
+The difference with the server-side app flow is to use `Accept: application/json` when calling `/self-service/login/browser` at the first step.
 
 ### API flows
-- Initialization without redirect and cookies;
+- Initialization without redirect and cookies `/self-service/login/api`
 - Form rendering using for example native iOS, Android, ... components;
-- Form submission as application/json and payload validation.
+- Form submission as `application/json`` and payload validation.
