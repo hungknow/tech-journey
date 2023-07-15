@@ -35,11 +35,14 @@ Redirects user to the Kratos UI if the identity check fails.
 - **User** run `./kong.config.sh` to create a service for Kong and configure routes.
     ![Alt text](kong_config_sh.png)
 - **User** open `http://127.0.0.1:8000/hello` or `http://127.0.0.1:8000/world` in your browser and there are two possible scenarios:
-    - You receive {"message": "Hello microservice"} (or "World microservice").
-    - The browser redirects you to http://127.0.0.1:4455/login.
-![Alt text](kratos_ui.png)
-- You can get an activation link "localhost:4436" for Mailslurper - a mock Email server.
+    Flow: `oathkeeper` check session against `kratos:4433`. 
+        - If not authenticated, `kratos` redirect to `kratos-selfservice-ui-node:4455`.
+        - If authenticated, You receive {"message": "Hello microservice"} (or "World microservice").
 
+![Alt text](kratos_ui.png)
+- Check the session information at `http://127.0.0.1:4455/sessions`
+    ![Alt text](selfservice_session.png)
+- You can get an activation link `http://localhost:4436` for Mailslurper - a mock Email server.
 
 # Prequisites
 - Create Postgres database:
