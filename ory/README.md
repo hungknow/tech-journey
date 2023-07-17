@@ -135,6 +135,11 @@ Your UI app redirect your own authentication UI.
 
 The difference with the server-side app flow is to use `Accept: application/json` when calling `/self-service/login/browser` at the first step.
 
+
+### Enable Social sign-in
+
+Open the [kratos.yml](kratos/kratos.yml) file, add config in `selfservice > methods > oidc`
+
 ### API flows
 - Initialization without redirect and cookies `/self-service/login/api`
 - Form rendering using for example native iOS, Android, ... components;
