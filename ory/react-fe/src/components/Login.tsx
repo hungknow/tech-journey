@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { oryClient, useOrySdk } from "../orySdk";
-import { LoginFlow, UiNode, UiNodeInputAttributes } from "@ory/client";
+import { mapUINode, oryClient, useOrySdk } from "../orySdk";
 import {
-  filterNodesByGroups,
-  isUiNodeInputAttributes,
-} from "@ory/integrations/ui";
+  LoginFlow,
+  UpdateLoginFlowBody,
+  UpdateLoginFlowWithOidcMethod,
+} from "@ory/client";
+import { filterNodesByGroups } from "@ory/integrations/ui";
 import { FlowUiMessage } from "./FlowUiMessage";
-import { Link } from "react-router-dom";
-import { mapUINode } from "./components_utils";
+import { Link, useNavigate } from "react-router-dom";
 
 export interface LoginProps {
   flowId?: string | null;
@@ -19,6 +19,7 @@ export interface LoginProps {
 // After receiving the flow, depending on the UINode, create the corresponding UI
 export const Login: React.FC<LoginProps> = ({ flowId, aal2 }) => {
   const [flow, setFlow] = useState<LoginFlow | null>(null);
+  const navigate = useNavigate();
 
   const getFlow = useCallback(
     (flowId: string) =>
@@ -38,14 +39,63 @@ export const Login: React.FC<LoginProps> = ({ flowId, aal2 }) => {
         setFlow(flow);
       })
       .catch(sdkErrorHandler);
+
+  const submitFlow = (body: UpdateLoginFlowBody) => {
+    if (!flow) return navigate("/login", { replace: true });
+    oryClient
+      .updateLoginFlow({
+        flow: flow.id,
+        updateLoginFlowBody: body,
+      })
+      .then(() => {
+        navigate("/", { replace: true });
+      })
+      .catch(sdkErrorHandler);
+  };
+
+  const submitFlowByForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    let body: UpdateLoginFlowBody = {} as UpdateLoginFlowBody;
+
+    const formData = new FormData(event.currentTarget);
+    formData.forEach((value, key) => {
+      body = {
+        ...body,
+        [key]: value,
+      };
+    });
+
+    if ("submitter" in event.nativeEvent) {
+      const submitter = (
+        event.nativeEvent as unknown as { submitter: HTMLInputElement }
+      ).submitter;
+      body = {
+        ...body,
+        ...{ [submitter.name]: submitter.value },
+      };
+    }
+
+    submitFlow(body);
+  };
+
+  const submitFlowOidc = (oidcProvider: string) => {
+    const updateLoginFlowOidc: UpdateLoginFlowWithOidcMethod = {
+      method: "oidc",
+      provider: oidcProvider,
+    };
+    submitFlow(updateLoginFlowOidc);
+  };
+
   // Fetch the flow
   useEffect(() => {
     if (flowId) {
       getFlow(flowId).catch(createFlow);
     } else {
+      console.log("second time");
       createFlow();
     }
-  }, [flowId]);
+  }, []);
 
   if (!flow) {
     return <div>Loading</div>;
@@ -54,7 +104,11 @@ export const Login: React.FC<LoginProps> = ({ flowId, aal2 }) => {
   return (
     <div>
       <FlowUiMessage uiMessages={flow.ui.messages} />
-      <form action={flow.ui.action} method={flow.ui.method}>
+      <form
+        action={flow.ui.action}
+        method={flow.ui.method}
+        onSubmit={submitFlowByForm}
+      >
         {filterNodesByGroups({
           nodes: flow.ui.nodes,
           // we will also map default fields here such as csrf_token
@@ -67,18 +121,30 @@ export const Login: React.FC<LoginProps> = ({ flowId, aal2 }) => {
         nodes: flow.ui.nodes,
         groups: ["iodc"],
       }).map((node, idx) => mapUINode(node, idx))} */}
-
-        <button type="submit" value="google">
-          Sign in with Google
-        </button>
-        <button type="submit" value="facebook">
-          Sign in with Facebook
-        </button>
-        <button type="submit" value="github">
-          Sign in with Github
-        </button>
-        <Link to="/registration">Register</Link>
       </form>
+
+      <button
+        type="submit"
+        value="google"
+        onClick={() => {
+          submitFlowOidc("google");
+        }}
+      >
+        Sign in with Google
+      </button>
+      <button type="submit" value="facebook">
+        Sign in with Facebook
+      </button>
+      <button
+        type="submit"
+        value="github"
+        onClick={() => {
+          submitFlowOidc("github");
+        }}
+      >
+        Sign in with Github
+      </button>
+      <Link to="/registration">Register</Link>
     </div>
   );
 };

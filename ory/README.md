@@ -144,3 +144,9 @@ Open the [kratos.yml](kratos/kratos.yml) file, add config in `selfservice > meth
 - Initialization without redirect and cookies `/self-service/login/api`
 - Form rendering using for example native iOS, Android, ... components;
 - Form submission as `application/json`` and payload validation.
+
+
+# Registration
+
+## After 
+![Alt text](afterRegistration.png)
