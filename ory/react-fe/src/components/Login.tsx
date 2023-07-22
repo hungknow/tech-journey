@@ -119,7 +119,7 @@ export const Login: React.FC<LoginProps> = ({ flowId, aal2 }) => {
 
         {/* {filterNodesByGroups({
         nodes: flow.ui.nodes,
-        groups: ["iodc"],
+        groups: ["oidc"],
       }).map((node, idx) => mapUINode(node, idx))} */}
       </form>
 
