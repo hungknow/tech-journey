@@ -8,3 +8,6 @@
 
 # Run
 
+```
+cp ./env.example ./.env
+```
