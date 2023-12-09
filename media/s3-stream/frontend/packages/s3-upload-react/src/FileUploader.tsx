@@ -50,10 +50,10 @@ export const FileUploader: React.FC = () => {
       encType="multipart/form-data"
       onSubmit={fileSubmit}
     >
-      {/* <div className="input-group"> */}
-        <label htmlFor="files">Select a file</label>
+      <div className="input-group">
+        <label htmlFor="files">Select video files: </label>
         <input ref={fileInputRef} id="file" type="file" accept="video/mp4" multiple />
-      {/* </div> */}
+      </div>
       <input type="submit" name="submit" value="Upload" />
     </form>
   );

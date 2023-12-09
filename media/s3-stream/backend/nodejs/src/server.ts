@@ -50,15 +50,33 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-// API to upload the file to S3 bucket
+// API to get all availables file on S3 bucket
 app.get("/video", async (_, res) => {
-  const objectStream = await minioClient.getObject(
+  const bucketStream = minioClient.extensions.listObjectsV2WithMetadata(
     bucketName,
-    "file_example_MP4_480_1_5MG.mp4"
+    "",
+    false
   );
-  // // const stream = await createS3Stream('test', 'test.mp4')
+  const filelist: { fileName: string }[] = [];
+  bucketStream.on("data", (obj) => {
+    const metadata = obj.metadata! as ItemBucketMetadata;
+    filelist.push({
+      // filePathName: obj.name!,
+      fileName: metadata.filename,
+    });
+  });
+  bucketStream.on("end", function () {
+    res.status(200).send({ fileList: filelist });
+  });
+  bucketStream.on("error", function (err) {
+    res.status(500).send(err);
+  });
+});
+
+app.get("/video/:filename", async (req, res) => {
+  const fileName = req.params.filename;
+  const objectStream = await minioClient.getObject(bucketName, fileName);
   objectStream.pipe(res);
-  // res.status(400)
 });
 
 const fileUploaders: Record<string, FileUploader> = {};
@@ -102,7 +120,7 @@ app.post("/video", videoUploads.single("file"), async (req, res) => {
       };
 
       console.log(
-        `Uploading file ${JSON.stringify(
+        `Uploading file ${fileUploader.filePath} ${JSON.stringify(
           fileMetadata
         )} to bucket ${bucketName}/${fileOriginalName}`
       );
@@ -129,26 +147,7 @@ app.post("/video", videoUploads.single("file"), async (req, res) => {
   } else {
     res.status(200).send("Chunk uploaded successfully.");
   }
-
-  // const objectName = req.file.originalname;
-  // console.log(`Uploading file ${JSON.stringify(fileMetadata)} to bucket ${bucketName}/${objectName}`);
-  // minioClient.putObject(
-  //   bucketName,
-  //   objectName,
-  //   req.file.buffer,
-  //   req.file.size,
-  //   fileMetadata,
-  //   function (err) {
-  //     if (err) {
-  //       res.status(500).send(err);
-  //       return;
-  //     }
-  //     res.status(200).send("File uploaded successfully.");
-  //   }
-  // );
 });
-
-// API to get all availables file on S3 bucket
 
 const httpPort = process.env.HTTP_PORT;
 app.listen(httpPort, () => {

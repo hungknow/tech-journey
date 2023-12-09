@@ -11,7 +11,7 @@ export const App = () => {
           controls
           muted
         >
-          <source src="/video" type="video/mp4" />
+          <source src={`${process.env.SERVER_URL}/video/file_example_MP4_480_1_5MG.mp4`} type="video/mp4" />
         </video>
       </main>
       <aside>
