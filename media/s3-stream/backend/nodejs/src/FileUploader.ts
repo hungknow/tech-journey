@@ -26,8 +26,12 @@ export class FileUploader extends EventEmitter {
         `chunkIndex ${chunkIndex} is greater than totalChunks ${this.totalChunks}`
       );
     }
-    if (this.writtenChunks[chunkIndex]) {
-      throw new Error("The chunk was written before");
+    if (this.writtenChunks[chunkIndex] === true) {
+      throw new Error(
+        `The chunk index ${chunkIndex} was written before. ${JSON.stringify(
+          this.writtenChunks
+        )}`
+      );
     }
 
     this.writtenChunks[chunkIndex] = true;
@@ -42,14 +46,14 @@ export class FileUploader extends EventEmitter {
 
     let allChunksWritten = false;
 
-    if (this.writtenChunkCount === this.totalChunks) {
-        allChunksWritten = true;
+    if (this.writtenChunkCount == this.totalChunks) {
+      allChunksWritten = true;
       fs.closeSync(this.fileFd);
       this.emit("allChunksWritten");
-    } 
+    }
 
     return {
-        allChunksWritten,
-    }
+      allChunksWritten,
+    };
   }
 }

@@ -1,29 +1,61 @@
 import dotenv from "dotenv";
 dotenv.config();
+import os from "os";
+import fs from "fs";
 
 import express from "express";
 import { minioClient } from "./s3stream";
-import multer, { diskStorage } from "multer";
+import multer, { diskStorage, memoryStorage } from "multer";
 import { ItemBucketMetadata } from "minio";
 import path from "path";
 import { FileUploader } from "./FileUploader";
 
+fs.mkdirSync(os.tmpdir() + "/uploads/", { recursive: true });
+
 // start expressjs
 const app = express();
-const videoUploads = multer({ 
+const videoUploads = multer({
   // Upload file to the temporal folders
-  storage: diskStorage({ destination: '/tmp/uploads' }), 
-  limits: { fileSize: 1024 * 1024 * 128 } 
+  // storage: diskStorage({ destination: '/tmp/uploads' }),
+  storage: memoryStorage(),
+  limits: { fileSize: 1024 * 1024 * 128 },
 });
 const bucketName = process.env.S3_BUCKET || "minio_media_test";
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/index.html"));
+app.use(function (req, res, next) {
+  // Website you wish to allow to connect
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
+  // Request methods you wish to allow
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+
+  // Request headers you wish to allow
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+
+  // Pass to next layer of middleware
+  next();
+});
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 // API to upload the file to S3 bucket
 app.get("/video", async (_, res) => {
-  const objectStream = await minioClient.getObject(bucketName, "file_example_MP4_480_1_5MG.mp4");
+  const objectStream = await minioClient.getObject(
+    bucketName,
+    "file_example_MP4_480_1_5MG.mp4"
+  );
   // // const stream = await createS3Stream('test', 'test.mp4')
   objectStream.pipe(res);
   // res.status(400)
@@ -39,10 +71,10 @@ app.post("/video", videoUploads.single("file"), async (req, res) => {
   const totalChunks = req.body.chunkCount;
   const chunkIndex = req.body.chunkIndex;
   const chunkSize = req.body.chunkSize;
-  const fileOriginalName = req.file.originalname;
+  const fileOriginalName = req.body.filename;
   const mimeType = req.file.mimetype;
 
-  if (!totalChunks || !chunkIndex || !chunkSize) {
+  if (!totalChunks || !chunkIndex || !chunkSize || !fileOriginalName) {
     res.status(400).send("Missing required parameters.");
     return;
   }
@@ -50,31 +82,53 @@ app.post("/video", videoUploads.single("file"), async (req, res) => {
   let fileUploader = fileUploaders[fileOriginalName];
 
   if (!fileUploader) {
-    fileUploader = new FileUploader(fileOriginalName, mimeType, req.file.filename, totalChunks, chunkSize);
+    const filePath = `${os.tmpdir()}/uploads/${fileOriginalName}`;
+    console.log(`filePath, ${filePath}`);
+    fileUploader = new FileUploader(
+      fileOriginalName,
+      mimeType,
+      filePath,
+      totalChunks,
+      chunkSize
+    );
     fileUploaders[fileOriginalName] = fileUploader;
 
     fileUploader.once("allChunksWritten", async () => {
-      delete fileUploaders[fileOriginalName];;
+      delete fileUploaders[fileOriginalName];
 
-        const fileMetadata: ItemBucketMetadata = {
-          filename: fileUploader.originalFileName,
-          mimeType: fileUploader.mimeType,
-        };
-  
+      const fileMetadata: ItemBucketMetadata = {
+        filename: fileUploader.originalFileName,
+        mimeType: fileUploader.mimeType,
+      };
+
+      console.log(
+        `Uploading file ${JSON.stringify(
+          fileMetadata
+        )} to bucket ${bucketName}/${fileOriginalName}`
+      );
       // Write file to s3
       // Then delete the file
-      await minioClient.fPutObject(bucketName, fileOriginalName, fileUploader.filePath, fileMetadata);
+      await minioClient.fPutObject(
+        bucketName,
+        fileOriginalName,
+        fileUploader.filePath,
+        fileMetadata
+      );
+      fs.unlinkSync(fileUploader.filePath);
     });
   }
 
   // Write the chuni
-  const { allChunksWritten } = fileUploader.writeChunk(chunkIndex, req.file.buffer, req.file.size);
+  const { allChunksWritten } = fileUploader.writeChunk(
+    chunkIndex,
+    req.file.buffer,
+    req.file.size
+  );
   if (allChunksWritten) {
     res.status(201).send("File uploaded successfully.");
   } else {
     res.status(200).send("Chunk uploaded successfully.");
   }
-
 
   // const objectName = req.file.originalname;
   // console.log(`Uploading file ${JSON.stringify(fileMetadata)} to bucket ${bucketName}/${objectName}`);

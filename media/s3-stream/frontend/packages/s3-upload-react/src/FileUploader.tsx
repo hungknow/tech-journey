@@ -1,40 +1,44 @@
-import React, { ChangeEvent, FormEventHandler } from "react";
+import React, { ChangeEvent, FormEvent, FormEventHandler, useRef } from "react";
 
-const fileChunkSize = 1024 * 1024 * 5; // 5MB
+const fileChunkSize = 1024 * 1024 * 1; // 5MB
 
 export const FileUploader: React.FC = () => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const uploadFile = async (file: File) => {
-    let chunkIndex = 0;
     let chunkCounts = Math.ceil(file.size / fileChunkSize);
 
-    for (let i = 0; i < chunkCounts; i++) {
+    for (let chunkIndex = 0; chunkIndex < chunkCounts; chunkIndex++) {
       const chunkByteIndex = chunkIndex * fileChunkSize;
       const fileChunk = file.slice(
         chunkByteIndex,
         chunkByteIndex + fileChunkSize
       );
       const formData = new FormData();
+      formData.append("filename", file.name);
       formData.append("chunkSize", fileChunk.size.toString());
       formData.append("chunkIndex", chunkIndex.toString());
       formData.append("chunkCount", chunkCounts.toString());
       formData.append("file", fileChunk);
 
-      await fetch("/video", {
+      await fetch("http://localhost:10000/video", {
         method: "POST",
         body: formData,
       });
     }
   };
 
-  const fileSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
+  const fileSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!e.target.files) {
+    
+    const files = fileInputRef.current?.files;
+    // fileInputRef.current.tar
+    if (!files) {
       console.error("There's no file to upload");
       return;
     }
 
     // try to upload each file
-    for (const file of e.target.files) {
+    for (const file of files) {
       await uploadFile(file);
     }
   };
@@ -46,10 +50,10 @@ export const FileUploader: React.FC = () => {
       encType="multipart/form-data"
       onSubmit={fileSubmit}
     >
-      <div className="input-group">
+      {/* <div className="input-group"> */}
         <label htmlFor="files">Select a file</label>
-        <input id="file" type="file" accept="video/mp4" multiple />
-      </div>
+        <input ref={fileInputRef} id="file" type="file" accept="video/mp4" multiple />
+      {/* </div> */}
       <input type="submit" name="submit" value="Upload" />
     </form>
   );
