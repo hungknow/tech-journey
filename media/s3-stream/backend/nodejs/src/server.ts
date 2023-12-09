@@ -9,6 +9,7 @@ import multer, { diskStorage, memoryStorage } from "multer";
 import { ItemBucketMetadata } from "minio";
 import path from "path";
 import { FileUploader } from "./FileUploader";
+import { start } from "repl";
 
 fs.mkdirSync(os.tmpdir() + "/uploads/", { recursive: true });
 
@@ -73,10 +74,73 @@ app.get("/video", async (_, res) => {
   });
 });
 
+function getRangeBytes(rangeHeader?: string): [number, number] {
+  if (!rangeHeader) return [NaN, NaN];
+  const parts = rangeHeader.split("=");
+  if (parts[0] === "bytes" && parts[1]) {
+    const rangeParts = parts[1].split("-");
+    return [parseInt(rangeParts[0]), parseInt(rangeParts[1])];
+  }
+  return [NaN, NaN];
+}
+
 app.get("/video/:filename", async (req, res) => {
-  const fileName = req.params.filename;
-  const objectStream = await minioClient.getObject(bucketName, fileName);
-  objectStream.pipe(res);
+  try {
+    // console.log(`header: ${JSON.stringify(req.headers)}`);
+    let [startRange, endRange] = getRangeBytes(req.headers["range"]);
+    res.setHeader("Accept-Ranges", "bytes");
+    // res.setHeader("Range", "bytes=0-1000");
+    // if (range[0] === null) {
+    //   res.status(400).send("Invalid range");
+    //   return;
+    // }
+
+    const defaultChunkSize = 1024 * 256;
+    const fileName = req.params.filename;
+    const fileMetadata = await minioClient.statObject(bucketName, fileName);
+    const fileSize = fileMetadata.size;
+    // console.log(`before: ${JSON.stringify(range)}`);
+    // let startRange = range[0];
+    // let endRange = range[1];
+    if (!isNaN(startRange) && isNaN(endRange)) {
+      endRange = startRange + defaultChunkSize;
+      endRange = Math.min(endRange, fileMetadata.size);
+    } else if (isNaN(startRange) && !isNaN(endRange)) {
+      startRange = endRange - defaultChunkSize;
+      startRange = Math.max(startRange, 0);
+    }
+
+    if (startRange >= fileMetadata.size || endRange > fileMetadata.size) {
+      res.writeHead(416, {
+        "content-range": `bytes */${fileMetadata.size}`,
+      });
+      return res.end();
+    }
+
+    const rangeLength = endRange - startRange;
+    // console.log(`range: ${startRange} ${endRange - 1}`);
+    // res.setHeader("Content-Range", `bytes ${startRange}-${endRange}/${fileMetadata.size}`);
+    // res.setHeader("Content-Length", `${rangeLength}`);
+    // res.setHeader("Content-Type", "video/mp4");
+    // res.status(206);
+    res.writeHead(206, {
+      "Content-Range": `bytes ${startRange}-${endRange - 1}/${
+        fileMetadata.size
+      }`,
+      "Content-Length": rangeLength,
+      "Content-Type": "video/mp4",
+    });
+
+    const objectStream = await minioClient.getPartialObject(
+      bucketName,
+      fileName,
+      startRange,
+      rangeLength
+    );
+    objectStream.pipe(res);
+  } catch (e) {
+    res.status(500).send(e);
+  }
 });
 
 const fileUploaders: Record<string, FileUploader> = {};
@@ -86,13 +150,13 @@ app.post("/video", videoUploads.single("file"), async (req, res) => {
     res.status(400).send("No file uploaded.");
     return;
   }
-  const totalChunks = req.body.chunkCount;
-  const chunkIndex = req.body.chunkIndex;
-  const chunkSize = req.body.chunkSize;
+  const totalChunks = Number(req.body.chunkCount);
+  const chunkIndex = Number(req.body.chunkIndex);
+  const chunkSize = Number(req.body.chunkSize);
   const fileOriginalName = req.body.filename;
   const mimeType = req.file.mimetype;
 
-  if (!totalChunks || !chunkIndex || !chunkSize || !fileOriginalName) {
+  if (!totalChunks || !chunkSize || !fileOriginalName) {
     res.status(400).send("Missing required parameters.");
     return;
   }

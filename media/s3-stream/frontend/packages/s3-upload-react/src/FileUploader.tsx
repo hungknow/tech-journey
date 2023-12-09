@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, FormEventHandler, useRef } from "react";
+import React, { FormEvent, useRef } from "react";
 
 const fileChunkSize = 1024 * 1024 * 1; // 5MB
 
@@ -20,7 +20,7 @@ export const FileUploader: React.FC = () => {
       formData.append("chunkCount", chunkCounts.toString());
       formData.append("file", fileChunk);
 
-      await fetch("http://localhost:10000/video", {
+      await fetch(`${process.env.SERVER_URL}/video`, {
         method: "POST",
         body: formData,
       });
@@ -29,7 +29,7 @@ export const FileUploader: React.FC = () => {
 
   const fileSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     const files = fileInputRef.current?.files;
     // fileInputRef.current.tar
     if (!files) {
@@ -45,14 +45,20 @@ export const FileUploader: React.FC = () => {
 
   return (
     <form
-      action="/video"
+      action={`${process.env.SERVER_URL}/video`}
       method="post"
       encType="multipart/form-data"
       onSubmit={fileSubmit}
     >
       <div className="input-group">
         <label htmlFor="files">Select video files: </label>
-        <input ref={fileInputRef} id="file" type="file" accept="video/mp4" multiple />
+        <input
+          ref={fileInputRef}
+          id="file"
+          type="file"
+          accept="video/mp4"
+          multiple
+        />
       </div>
       <input type="submit" name="submit" value="Upload" />
     </form>

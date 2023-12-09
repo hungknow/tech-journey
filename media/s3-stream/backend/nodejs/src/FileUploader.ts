@@ -45,6 +45,7 @@ export class FileUploader extends EventEmitter {
     );
 
     let allChunksWritten = false;
+    console.log(`Written chunk ${chunkIndex} ${this.writtenChunkCount} of ${this.totalChunks}`)
 
     if (this.writtenChunkCount == this.totalChunks) {
       allChunksWritten = true;
