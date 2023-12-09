@@ -1,4 +1,5 @@
 import { Client } from "minio";
+import fs from "fs";
 
 export const minioClient = new Client({
   endPoint: process.env.S3_ENDPOINT || '',
@@ -7,6 +8,19 @@ export const minioClient = new Client({
   accessKey: process.env.S3_ACCESS_KEY || '',
   secretKey: process.env.S3_SECRET_KEY || '',
 });
+
+// Write chunk to temporal folder
+export async function writeChunkToTempFile(writeMyStream: fs.WriteStream, chunk: any, chunkIndex: number) {
+  // writeMyStream.write
+  // const writeMyStream = fs.createWriteStream(__dirname+'/APPENDED.webm', {flags:'a', encoding:null});
+
+  // Write chunk to temporal folder
+  // fs.writeFileSync(`/tmp/uploads/${chunkIndex}`, chunk, {});
+  // fs.writeFileSync()
+}
+
+// Merge all chunks into a single file
+// Upload the file to S3
 
 // create S3 Stream for the file
 // export async function createS3Stream(s3Bucket: string, objectPath: string): Promise<Readable> {
