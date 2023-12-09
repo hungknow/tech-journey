@@ -2,14 +2,12 @@ import dotenv from "dotenv";
 dotenv.config();
 import os from "os";
 import fs from "fs";
-
 import express from "express";
 import { minioClient } from "./s3stream";
-import multer, { diskStorage, memoryStorage } from "multer";
+import multer, { memoryStorage } from "multer";
 import { ItemBucketMetadata } from "minio";
 import path from "path";
 import { FileUploader } from "./FileUploader";
-import { start } from "repl";
 
 fs.mkdirSync(os.tmpdir() + "/uploads/", { recursive: true });
 
@@ -62,8 +60,7 @@ app.get("/video", async (_, res) => {
   bucketStream.on("data", (obj) => {
     const metadata = obj.metadata! as ItemBucketMetadata;
     filelist.push({
-      // filePathName: obj.name!,
-      fileName: metadata.filename,
+      fileName: metadata["X-Amz-Meta-Filename"],
     });
   });
   bucketStream.on("end", function () {
@@ -86,50 +83,40 @@ function getRangeBytes(rangeHeader?: string): [number, number] {
 
 app.get("/video/:filename", async (req, res) => {
   try {
-    // console.log(`header: ${JSON.stringify(req.headers)}`);
     let [startRange, endRange] = getRangeBytes(req.headers["range"]);
-    res.setHeader("Accept-Ranges", "bytes");
-    // res.setHeader("Range", "bytes=0-1000");
-    // if (range[0] === null) {
-    //   res.status(400).send("Invalid range");
-    //   return;
-    // }
 
     const defaultChunkSize = 1024 * 256;
     const fileName = req.params.filename;
     const fileMetadata = await minioClient.statObject(bucketName, fileName);
     const fileSize = fileMetadata.size;
-    // console.log(`before: ${JSON.stringify(range)}`);
-    // let startRange = range[0];
-    // let endRange = range[1];
+
+    // range: 0-
     if (!isNaN(startRange) && isNaN(endRange)) {
-      endRange = startRange + defaultChunkSize;
-      endRange = Math.min(endRange, fileMetadata.size);
+      endRange = Math.min(startRange + defaultChunkSize, fileSize);
     } else if (isNaN(startRange) && !isNaN(endRange)) {
-      startRange = endRange - defaultChunkSize;
-      startRange = Math.max(startRange, 0);
+      // range: -1000
+      startRange = Math.max(endRange - defaultChunkSize, 0);
     }
 
-    if (startRange >= fileMetadata.size || endRange > fileMetadata.size) {
+    if (startRange >= fileSize || endRange > fileSize) {
       res.writeHead(416, {
-        "content-range": `bytes */${fileMetadata.size}`,
+        "content-range": `bytes */${fileSize}`,
       });
       return res.end();
     }
 
     const rangeLength = endRange - startRange;
     // console.log(`range: ${startRange} ${endRange - 1}`);
-    // res.setHeader("Content-Range", `bytes ${startRange}-${endRange}/${fileMetadata.size}`);
-    // res.setHeader("Content-Length", `${rangeLength}`);
-    // res.setHeader("Content-Type", "video/mp4");
-    // res.status(206);
-    res.writeHead(206, {
-      "Content-Range": `bytes ${startRange}-${endRange - 1}/${
-        fileMetadata.size
-      }`,
-      "Content-Length": rangeLength,
-      "Content-Type": "video/mp4",
-    });
+
+    res.status(206);
+    res.setHeader(
+      "Content-Range",
+      `bytes ${startRange}-${endRange - 1}/${fileSize}`
+    );
+    res.setHeader("Content-Length", rangeLength);
+    res.setHeader("Content-Type", "video/mp4");
+    res.setHeader("Accept-Ranges", "bytes");
+    // });
 
     const objectStream = await minioClient.getPartialObject(
       bucketName,
@@ -139,7 +126,13 @@ app.get("/video/:filename", async (req, res) => {
     );
     objectStream.pipe(res);
   } catch (e) {
-    res.status(500).send(e);
+    console.error(e);
+    // console.log(`destroy: ${res.destroyed}`)
+    // if () {
+    //   res.status(500).send(e);
+    // } else {
+    res.end();
+    // }
   }
 });
 
