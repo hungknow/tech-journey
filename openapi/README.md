@@ -4,5 +4,12 @@ Use [`openapi-generator`](https://github.com/OpenAPITools/openapi-generator) to 
 docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
     -i /local/yaml/echo.yaml \
     -g go \
-    -o /local/out/go
+    -o /local/out/echo/go
+```
+
+```
+docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
+    -i /local/yaml/ory-client.yaml \
+    -g go \
+    -o /local/out/ory/client/go
 ```
