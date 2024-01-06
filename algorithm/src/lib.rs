@@ -1,3 +1,4 @@
+pub mod awaitasync;
 pub mod graph;
 pub mod pipe;
 pub mod sorting;

@@ -15,7 +15,7 @@ fn test_s_iterator() {
  * Move
  */
 
-use std::time::Duration;
+use std::{time::Duration, fs::OpenOptions, sync::{Arc, Mutex, mpsc}, thread::{self, sleep}};
 
 fn s_move() {
     let data = vec![1, 2, 3];
@@ -40,6 +40,7 @@ fn test_move() {
  * Closure
  */
 
+#[test]
 fn s_closure() {
     let list = vec![1, 2, 3];
 
@@ -70,9 +71,13 @@ fn s_closure() {
     // println!("after: {:?}", list1);
 }
 
+fn s_closure_return<F: Fn(i32) -> i32>(x: i32, f: F) -> i32 {
+    f(x) + f(x)
+}
+
 #[test]
-fn test_s_closure() {
-    s_closure();
+fn test_s_closure_return() {
+    assert_eq!(s_closure_return(5, |x| x + 1), 12);
 }
 
 /***
@@ -80,6 +85,26 @@ fn test_s_closure() {
  */
 // Sync: It's safe to move a &T across a thread boundary.
 // Send: It's safe to move a T across a thread boundary.
+
+#[test]
+fn test_arc_mutex() {
+    let data = Arc::new(Mutex::new(vec![1, 2, 3]));
+
+    let (tx, rx) = mpsc::channel();
+
+    for i in 0..2 {
+        let (data, tx) = (data.clone(), tx.clone());
+        thread::spawn(move || {
+            let mut data = data.lock().unwrap();
+            data[0] += i;
+            tx.send(());
+        });
+    }
+
+    for i in 0..2 {
+        rx.recv();
+    } 
+}
 
 /***
  * Time
@@ -105,6 +130,7 @@ fn test_s_timer() {
  * Array 
  */
 
+ #[test]
 fn s_slice() {
     let mut arr = [0, 1, 2, 3, 4, 5, 6];
     // Multiple slice of the same array
@@ -123,7 +149,69 @@ fn s_slice() {
     println!("arr: {:?}", arr);
 }
 
+/**
+ * Pointer
+ */
+fn s_box_return(i: &i32) -> i32 {
+    *i + 1
+}
+
+fn s_box_change(i: &mut i32) {
+    *i = *i + 1
+}
+
 #[test]
-fn test_s_slice() {
-    s_slice()
+fn s_box() {
+    let mut x = Box::new(5);
+
+    println!("x: {}", x);
+    println!("s_box_return: {}", s_box_return(&x));
+    s_box_change(&mut x);
+    println!("s_box_return: {}", *x);
+}
+
+/**
+ * Lifetime
+ */
+struct LifetimeFoo<'a> {
+    x: &'a i32,
+}
+
+#[test]
+fn s_lifetime() {
+    let y = &5;
+    let f = LifetimeFoo { x: y };
+    println!("f.x: {}", f.x)
+}
+
+struct Car {
+    name: String,
+}
+
+struct Wheel<'a> {
+    size: i32,
+    owner: &'a Car,
+}
+
+#[test]
+fn test_car_lifetime() {
+    let car = Car { name: "DeLorean".to_string() };
+
+    for _ in 0..4 {
+        Wheel { size: 360, owner: &car };
+    }
+}
+
+#[test]
+fn test_switch() {
+    enum OptionValue {
+        Some(i32),
+        None
+    }
+    let optionValue = OptionValue::Some(5);
+    match optionValue {
+        OptionValue::Some(x) if x > 5 => println!("x > 5: {}", x),
+        OptionValue::Some(x) => println!("x: {}", x),
+        OptionValue::None => println!("None")
+    }
 }
