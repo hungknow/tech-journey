@@ -31,3 +31,13 @@ fn test_mutex() {
 
     println!("after loop counter = {:?}", counter.lock().unwrap());
 }
+
+#[test]
+fn test_rc_array() {
+    let constant_arr = [1,2,3];
+    let arr1: Rc<&[i32]> = Rc::new(&constant_arr);
+    let arr2 = arr1.clone();
+    let arr3 = arr2.clone();
+    assert_eq!(arr1[0], 1);
+    assert_eq!(arr3[2], 3);
+}
