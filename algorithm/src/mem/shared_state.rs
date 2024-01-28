@@ -32,12 +32,21 @@ fn test_mutex() {
     println!("after loop counter = {:?}", counter.lock().unwrap());
 }
 
+fn use_shared_state(arr: Rc<&[i32]>) {
+    assert_eq!(arr[0], 1);
+}
 #[test]
 fn test_rc_array() {
-    let constant_arr = [1,2,3];
+    let constant_arr = [1, 2, 3];
     let arr1: Rc<&[i32]> = Rc::new(&constant_arr);
     let arr2 = arr1.clone();
     let arr3 = arr2.clone();
     assert_eq!(arr1[0], 1);
     assert_eq!(arr3[2], 3);
+    use_shared_state(arr1);
+    use_shared_state(arr2);
+
+    // Convert vector to reference of array
+    let vec1 = vec![1, 2, 3];
+    use_shared_state(Rc::new(vec1.as_slice()));
 }

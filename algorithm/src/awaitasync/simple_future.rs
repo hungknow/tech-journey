@@ -28,7 +28,6 @@ where
             }
         }
 
-        
         // Attempt to complete future `b`.
         if let Some(b) = &mut self.b {
             if let Poll::Ready(()) = b.poll(wake) {

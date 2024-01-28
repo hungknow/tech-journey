@@ -1,7 +1,12 @@
 use std::{
+    future,
     pin::Pin,
     task::{Context, Poll},
+    time::Duration,
 };
+
+use futures::future::join_all;
+use tokio::time::sleep;
 
 trait Stream {
     /// The type of the value yielded by the stream.
@@ -27,6 +32,19 @@ trait Stream {
 //     assert_eq!(Some(2), rx.next().await);
 //     assert_eq!(None, rx.next().await);
 // }
+
+async fn async_print(func_name: &str) {
+    for i in 0..10 {
+        async {println!("{}: {}", func_name, i)}.await;
+        sleep(Duration::from_millis(10)).await;
+    }
+}
+#[tokio::test]
+async fn multiple_print() {
+    let print_1 = async_print("print_1");
+    let print_2 = async_print("print_2");
+    futures::join!(print_1, print_2);
+}
 
 #[cfg(test)]
 mod tests {
