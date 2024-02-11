@@ -20,7 +20,7 @@ class LinkedList:
         current = self.head
         while current.next:
             current = current.next
-        current.next = Node(data, None)
+        current.next = Node(data) 
 
     def insert_at_index(self, index, data):
         if index < 0:
