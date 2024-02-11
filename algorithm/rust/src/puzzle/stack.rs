@@ -13,11 +13,10 @@ impl<T> Stack<T> {
     }
 
     pub fn push(&mut self, value: T) {
-        let newNode = Box::new(Node {
+        self.top = Some(Box::new(Node {
             value: value,
             next: self.top.take(),
-        });
-        self.top = Some(newNode);
+        }))
     }
 
     pub fn pop(&mut self) -> Option<T> {
@@ -33,6 +32,16 @@ impl<T> Stack<T> {
 
     pub fn is_empty(&self) -> bool {
         self.top.is_none()
+    }
+
+    pub fn size(&self) -> usize {
+        let mut count = 0;
+        let mut current = &self.top;
+        while let Some(node) = current {
+            count += 1;
+            current = &node.next;
+        }
+        count
     }
 }
 
@@ -87,5 +96,29 @@ mod tests {
 
         stack.pop();
         assert_eq!(stack.is_empty(), true);
+    }
+
+    #[test]
+    fn test_size() {
+        let mut stack: Stack<i32> = Stack::new();
+        assert_eq!(stack.size(), 0);
+
+        stack.push(1);
+        assert_eq!(stack.size(), 1);
+
+        stack.push(2);
+        assert_eq!(stack.size(), 2);
+
+        stack.push(3);
+        assert_eq!(stack.size(), 3);
+
+        stack.pop();
+        assert_eq!(stack.size(), 2);
+
+        stack.pop();
+        assert_eq!(stack.size(), 1);
+
+        stack.pop();
+        assert_eq!(stack.size(), 0);
     }
 }
