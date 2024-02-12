@@ -1,17 +1,14 @@
-// Define a struct for the node
-struct Node<T> {
-    value: T,
-    next: Option<Box<Node<T>>>,
-}
-
-// Define the queue struct
 pub struct Queue<T> {
     head: Option<Box<Node<T>>>,
     tail: Option<*mut Node<T>>,
 }
 
+struct Node<T> {
+    data: T,
+    next: Option<Box<Node<T>>>,
+}
+
 impl<T> Queue<T> {
-    // Create a new empty queue
     pub fn new() -> Self {
         Queue {
             head: None,
@@ -19,22 +16,20 @@ impl<T> Queue<T> {
         }
     }
 
-    // Check if the queue is empty
     pub fn is_empty(&self) -> bool {
         self.head.is_none()
     }
 
-    // Enqueue an element to the back of the queue
-    pub fn enqueue(&mut self, value: T) {
+    pub fn enqueue(&mut self, data: T) {
         let new_node = Box::new(Node {
-            value,
+            data,
             next: None,
         });
 
         let raw_node = Box::into_raw(new_node);
 
         unsafe {
-            if let Some(&tail) = self.tail.as_ref() {
+            if let Some(&mut tail) = self.tail.as_mut() {
                 (*tail).next = Some(Box::from_raw(raw_node));
             } else {
                 self.head = Some(Box::from_raw(raw_node));
@@ -44,7 +39,6 @@ impl<T> Queue<T> {
         }
     }
 
-    // Dequeue an element from the front of the queue
     pub fn dequeue(&mut self) -> Option<T> {
         self.head.take().map(|node| {
             self.head = node.next;
@@ -53,10 +47,11 @@ impl<T> Queue<T> {
                 self.tail = None;
             }
 
-            node.value
+            node.data
         })
     }
 }
+
 
 #[cfg(test)]
 mod tests {
