@@ -5,13 +5,13 @@ import (
 	"strings"
 )
 
-type Node struct {
+type LinkedListNode struct {
     data interface{}
-    next *Node
+    next *LinkedListNode
 }
 
 type LinkedList struct {
-    head *Node
+    head *LinkedListNode
 }
 
 func NewLinkedList() *LinkedList {
@@ -19,10 +19,10 @@ func NewLinkedList() *LinkedList {
 }
 
 func (ll *LinkedList) Insert(data interface{}) {
-   ll.head = &Node{data: data, next: ll.head} 
+   ll.head = &LinkedListNode{data: data, next: ll.head} 
 }
 func (ll *LinkedList) InsertAtIndex(data interface{}, index int) {
-    newNode := &Node{data: data, next: nil}
+    newNode := &LinkedListNode{data: data, next: nil}
 
     if index == 0 {
         newNode.next = ll.head
