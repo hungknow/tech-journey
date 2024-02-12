@@ -13,6 +13,7 @@ func TestContainsDuplicate(t *testing.T) {
 		nums     []int
 		expected bool
 	}{
+		{"empty array, not contains", []int{}, false},
 		{"short array, contains", []int{1, 2, 3, 1}, true},
 		{"not contains duplicate", []int{1, 2, 3, 4}, false},
 		{"not contains duplicate", []int{1, 1, 1, 3, 3, 4, 3, 2, 4, 2}, true},
