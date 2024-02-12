@@ -1,7 +1,7 @@
-package com.hungknow
+package com.hungknow.kotlin
 
 fun twoSum(nums: IntArray, target: Int): IntArray {
-    val map = HashMap<Int, Int>()
+    val map = hashMapOf<Int, Int>()
     for (i in nums.indices) {
         val complement = target - nums[i]
         if (map.containsKey(complement)) {

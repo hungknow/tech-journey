@@ -1,4 +1,4 @@
-package com.hungknow
+package com.hungknow.kotlin
 
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
