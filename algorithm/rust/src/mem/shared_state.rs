@@ -53,14 +53,16 @@ fn test_rc_array() {
 
 #[test]
 fn test_moveable_buf() {
-    struct MoveableBuf {
-        buf: Vec<i32>,
-    }
+    #[derive(Clone, Copy)]
     struct MoveableBufRef<'a> {
         buf: &'a Vec<i32>,
     }
+    struct Buf {
+        buf: Vec<i32>,
+    }
+
     // Create a struct with a buffer
-    let buf = MoveableBuf { buf: vec![1, 2, 3] };
+    let buf = Buf { buf: vec![1, 2, 3] };
     // Create two references to the struct
     let buf_ref1 = MoveableBufRef { buf: &buf.buf };
     let buf_ref2 = MoveableBufRef { buf: &buf.buf };
@@ -73,4 +75,25 @@ fn test_moveable_buf() {
     // Move the buffer to another reference
     let buf_ref3 = buf_ref2;
     assert_eq!(buf_ref3.buf[1], 2);
+
+    struct MoveableBuf<'a> {
+        vec: Vec<i32>,
+        child: Option<MoveableBufRef<'a>>,
+    }
+    let mut shared_buf = MoveableBuf {
+        vec: vec![1, 2, 3],
+        child: None,
+        // child: MoveableBufRef { buf: &shared_vec },
+    };
+    shared_buf.child = Some(MoveableBufRef { buf: &shared_buf.vec });
+    match shared_buf.child {
+        Some(child) => assert_eq!(child.buf[0], 1),
+        None => panic!("child is None"),
+    }
+    // assert_eq!(shared_buf.child.as_ref().buf[0], 1);
+    // let shared_buf2 = shared_buf;
+    // match shared_buf2.child {
+    //     Some(child) => assert_eq!(child.buf[0], 1),
+    //     None => panic!("child is None"),
+    // }
 }

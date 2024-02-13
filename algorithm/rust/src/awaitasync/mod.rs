@@ -1,3 +1,4 @@
+mod select;
 mod simple_future;
 mod simple_http_server;
 mod stream;
