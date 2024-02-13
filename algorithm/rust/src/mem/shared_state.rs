@@ -50,3 +50,27 @@ fn test_rc_array() {
     let vec1 = vec![1, 2, 3];
     use_shared_state(Rc::new(vec1.as_slice()));
 }
+
+#[test]
+fn test_moveable_buf() {
+    struct MoveableBuf {
+        buf: Vec<i32>,
+    }
+    struct MoveableBufRef<'a> {
+        buf: &'a Vec<i32>,
+    }
+    // Create a struct with a buffer
+    let buf = MoveableBuf { buf: vec![1, 2, 3] };
+    // Create two references to the struct
+    let buf_ref1 = MoveableBufRef { buf: &buf.buf };
+    let buf_ref2 = MoveableBufRef { buf: &buf.buf };
+    // print out the content of buffer
+    assert_eq!(buf_ref1.buf[0], 1);
+    assert_eq!(buf_ref2.buf[0], 1);
+    assert_eq!(buf_ref1.buf[1], 2);
+    assert_eq!(buf_ref2.buf[1], 2);
+
+    // Move the buffer to another reference
+    let buf_ref3 = buf_ref2;
+    assert_eq!(buf_ref3.buf[1], 2);
+}
