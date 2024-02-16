@@ -1,6 +1,7 @@
 pub mod awaitasync;
 pub mod graph;
 mod mem;
+mod parallel;
 pub mod pipe;
 mod puzzle;
 pub mod sorting;
