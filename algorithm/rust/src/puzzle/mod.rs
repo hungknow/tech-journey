@@ -1,3 +1,4 @@
+mod binary_search;
 mod bufferred_queue;
 mod contains_duplicate;
 mod linked_list;
