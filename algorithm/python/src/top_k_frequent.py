@@ -9,7 +9,7 @@ def topKFrequent(nums: List[int], k: int) -> List[int]:
         counts[num] = 1 + counts.get(num, 0)
 
     counts = sorted(counts.items(), key=lambda x: x[1], reverse=True)
-    result = [key for key,v in counts[:k]]
+    result = [key for key in counts[:k]]
     if result:
         result.sort()
     return result
