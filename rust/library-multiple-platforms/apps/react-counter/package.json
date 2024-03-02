@@ -1,0 +1,25 @@
+{
+  "name": "react-counter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm run wasm:build && next dev",
+    "build": "pnpm run wasm:build && next build",
+    "wasm:build": "cd ../../crates/lib1 && wasm-pack build --target web",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "next": "14.1.1",
+    "lib1": "link:../../crates/lib1/pkg",
+    "shared_types": "link:../../crates/shared_types/generated/typescript"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18"
+  }
+}

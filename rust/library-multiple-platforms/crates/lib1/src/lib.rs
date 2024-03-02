@@ -1,3 +1,11 @@
+pub mod bridge_echo;
+mod bridge_echo_wasm;
+pub use bridge_echo_wasm::*;
+
+pub mod counter;
+mod counter_wasm;
+pub use counter_wasm::*;
+
 pub struct MyClass {}
 
 impl MyClass {
