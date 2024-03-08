@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+enum AuthenticatorPB {
+    Local = 0;
+    Supabase = 1;
+    AppFlowyCloud = 2;
+}
+
+message SignUpPayloadPB {
+    string email = 1;
+    string name = 2;
+    string password = 3;
+    AuthenticatorPB auth_type = 4;
+    string device_id = 5;
+}

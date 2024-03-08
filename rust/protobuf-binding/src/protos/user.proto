@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "auth.proto";
+
+message UserProfilePB {
+    int64 id = 1;
+    string email = 2;
+    string name = 3;
+    string token = 4;
+    string icon_url = 5;
+    string openai_key = 6;
+    AuthenticatorPB authenticator = 7;
+    string encryption_sign = 8;
+    EncryptionTypePB encryption_type = 9;
+    string workspace_id = 10;
+    string stability_ai_key = 11;
+}
+
+enum EncryptionTypePB {
+    NoEncryption = 0;
+    Symmetric = 1;
+}
+

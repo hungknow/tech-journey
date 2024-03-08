@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+enum ErrorCode {
+    Internal = 0;
+    UserUnauthorized = 2;
+    RecordNotFound = 3;
+    UserIdIsEmpty = 4;
+    WorkspaceNameInvalid = 5;
+    WorkspaceDescTooLong = 8;
+    WorkspaceNameTooLong = 9;
+    WorkspaceInitializeError = 6;
+    ViewNameInvalid = 12;
+    ViewThumbnailInvalid = 13;
+    ViewIdIsInvalid = 14;
+    ViewDataInvalid = 16;
+    ViewNameTooLong = 17;
+    EmailIsEmpty = 19;
+    EmailFormatInvalid = 20;
+}
+
+message FlowyError {
+    ErrorCode code = 1;
+    string msg = 2;
+    bytes payload = 3;
+}
