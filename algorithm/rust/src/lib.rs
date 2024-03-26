@@ -7,3 +7,5 @@ mod puzzle;
 pub mod sorting;
 pub mod structural;
 mod rust_syntax;
+
+mod misconcept;
