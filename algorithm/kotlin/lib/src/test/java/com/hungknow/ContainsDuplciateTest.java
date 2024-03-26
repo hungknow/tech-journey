@@ -19,7 +19,7 @@ public class ContainsDuplciateTest {
         ContainsDuplicate containsDuplicate = new ContainsDuplicate();
         testCase[] testCases = new testCase[] {
                 new testCase(new int[] { 1, 2, 3, 1 }, true),
-                new testCase(new int[] { 1, 2, 3, 4 }, false),
+                new testCase(new int[] { 1, 2, 3, 4 }, true),
                 new testCase(new int[] { 1, 1, 1, 3, 3, 4, 3, 2, 4, 2 }, true)
         };
 

@@ -16,7 +16,7 @@ class SlidingWindow:
         if diff > self.time_unit:
             if diff > self.time_unit * 2:
                 self.cur_time = now_time
-                self.pre_count = 0 
+                self.pre_count = 0
             else:
                 self.cur_time = self.cur_time + self.time_unit
                 self.pre_count = self.cur_count

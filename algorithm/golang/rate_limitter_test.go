@@ -31,6 +31,7 @@ func callForSeconds(client http.Client, url string, seconds time.Duration) error
 		case <-timer.C:
 			return nil
 		default:
+			// Call the HTTP as much as possible
 			_, err := rateLimitterHttpCall(client, url)
 			if err != nil {
 				return err
@@ -79,7 +80,7 @@ func TestRateLimiter(t *testing.T) {
 			Transport: algo.NewRateLimitter1Transport(time.Second, expectedCount, http.DefaultTransport),
 		}
 		counter.SetSeconds(time.Second)
-		err = callForSeconds(client, server.URL, time.Second * 2)
+		err = callForSeconds(client, server.URL, time.Second*2)
 		require.NoError(t, err)
 		require.Equal(t, expectedCount, counter.Count)
 	})
