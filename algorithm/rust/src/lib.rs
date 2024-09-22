@@ -9,3 +9,4 @@ pub mod structural;
 mod rust_syntax;
 
 mod misconcept;
+pub mod wasm;
