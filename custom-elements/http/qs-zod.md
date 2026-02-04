@@ -36,37 +36,87 @@ Use `req.searchQuery.sort` for multi-column `ORDER BY` (e.g. `ORDER BY age DESC,
 
 ---
 
-## Types — `searchTypes.ts`
+## Types & helpers — `searchTypes.ts`
+
+Filter config is defined with **Zod**. Helpers build operator objects (eq, gte, like, etc.) from a base type so the middleware can validate and infer types from the same schema.
 
 ```typescript
-import { z } from 'zod';
+import { z, ZodTypeAny } from 'zod';
 
-export type FieldType = 'string' | 'number' | 'enum' | 'date' | 'boolean';
-
-export interface SearchFieldConfig {
-  type: FieldType;
-  options?: string[]; // Required when type is 'enum'
-}
-
-export interface SearchConfig {
-  fields: Record<string, SearchFieldConfig>;
-}
-
-export interface FilterOperators<T> {
-  eq?: T;
-  ne?: T;
-  gt?: T;
-  lt?: T;
-  gte?: T;
-  lte?: T;
-  like?: string; // strings only: substring match
-  in?: T[];
-}
-
-export interface SearchQuery<T = any> {
-  filters: Partial<Record<keyof T, FilterOperators<any>>>;
+export interface SearchQuery<T = Record<string, unknown>> {
+  filters: Partial<T>;
   pagination: { page: number; limit: number };
   sort?: Array<{ field: string; order: 'asc' | 'desc' }>;
+}
+
+const inOperator = z
+  .union([z.string(), z.array(z.string())])
+  .transform((val) => (Array.isArray(val) ? val : val.split(',').map((s) => s.trim()).filter(Boolean)));
+
+/** String filters: eq, ne, like, in */
+export function filterFieldString() {
+  return z
+    .object({
+      eq: z.string().optional(),
+      ne: z.string().optional(),
+      like: z.string().optional(),
+      in: inOperator.optional(),
+    })
+    .optional();
+}
+
+/** Number filters: eq, ne, gt, lt, gte, lte, in */
+export function filterFieldNumber() {
+  return z
+    .object({
+      eq: z.coerce.number().optional(),
+      ne: z.coerce.number().optional(),
+      gt: z.coerce.number().optional(),
+      lt: z.coerce.number().optional(),
+      gte: z.coerce.number().optional(),
+      lte: z.coerce.number().optional(),
+      in: inOperator.pipe(z.array(z.coerce.number())).optional(),
+    })
+    .optional();
+}
+
+/** Date filters: eq, ne, gt, lt, gte, lte, in */
+export function filterFieldDate() {
+  return z
+    .object({
+      eq: z.coerce.date().optional(),
+      ne: z.coerce.date().optional(),
+      gt: z.coerce.date().optional(),
+      lt: z.coerce.date().optional(),
+      gte: z.coerce.date().optional(),
+      lte: z.coerce.date().optional(),
+      in: inOperator.pipe(z.array(z.coerce.date())).optional(),
+    })
+    .optional();
+}
+
+/** Enum filters: eq, ne, in (validated against options) */
+export function filterFieldEnum<T extends [string, ...string[]]>(options: T) {
+  const enumSchema = z.enum(options);
+  return z
+    .object({
+      eq: enumSchema.optional(),
+      ne: enumSchema.optional(),
+      in: inOperator.pipe(z.array(enumSchema)).optional(),
+    })
+    .optional();
+}
+
+/** Boolean filter: eq only */
+export function filterFieldBoolean() {
+  return z
+    .object({
+      eq: z
+        .enum(['true', 'false'])
+        .transform((v) => v === 'true')
+        .optional(),
+    })
+    .optional();
 }
 ```
 
@@ -74,85 +124,47 @@ export interface SearchQuery<T = any> {
 
 ## Middleware — `searchMiddleware.ts`
 
-- Builds a **dynamic Zod schema** from `SearchConfig` (once at startup).
-- Parses `req.query` (qs-shaped), validates, then splits into `filters`, `pagination`, `sort`.
-- Sets `req.searchQuery`; on validation failure returns 400 with Zod `format()`.
+- Accepts a **Zod object schema** for the filters (the same schema you use to define searchable fields).
+- Merges it with **pagination** and **sort** schemas, then validates `req.query` (qs-shaped).
+- Sets `req.searchQuery` with typed filters inferred from the schema; on failure returns 400 with Zod `format()`.
 
 ```typescript
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { z, ZodTypeAny } from 'zod';
-import { SearchConfig } from './searchTypes';
+import { z, ZodObject } from 'zod';
+import { SearchQuery } from './searchTypes';
 
 declare global {
   namespace Express {
     interface Request {
-      searchQuery: {
-        filters: Record<string, any>;
-        pagination: { page: number; limit: number };
-        sort?: Array<{ field: string; order: 'asc' | 'desc' }>;
-      };
+      searchQuery: SearchQuery;
     }
   }
 }
 
-export const createSearchMiddleware = (config: SearchConfig): RequestHandler => {
-  const fieldSchemas: Record<string, ZodTypeAny> = {};
-
-  Object.entries(config.fields).forEach(([key, rule]) => {
-    let baseType: ZodTypeAny;
-    switch (rule.type) {
-      case 'number':
-        baseType = z.coerce.number();
-        break;
-      case 'boolean':
-        baseType = z.enum(['true', 'false']).transform((v) => v === 'true');
-        break;
-      case 'date':
-        baseType = z.coerce.date();
-        break;
-      case 'enum':
-        if (!rule.options) throw new Error(`Enum field '${key}' missing options`);
-        baseType = z.enum(rule.options as [string, ...string[]]);
-        break;
-      case 'string':
-      default:
-        baseType = z.string();
-        break;
-    }
-
-    const operators = z.object({
-      eq: baseType.optional(),
-      ne: baseType.optional(),
-      gt: rule.type === 'number' || rule.type === 'date' ? baseType.optional() : z.undefined(),
-      lt: rule.type === 'number' || rule.type === 'date' ? baseType.optional() : z.undefined(),
-      gte: rule.type === 'number' || rule.type === 'date' ? baseType.optional() : z.undefined(),
-      lte: rule.type === 'number' || rule.type === 'date' ? baseType.optional() : z.undefined(),
-      like: rule.type === 'string' ? z.string().optional() : z.undefined(),
-      in: z.union([z.string(), z.array(z.string())])
-        .transform((val) => (Array.isArray(val) ? val : val.split(',')))
-        .optional(),
+const sortSchema = z
+  .union([z.string(), z.array(z.string())])
+  .optional()
+  .transform((val): Array<{ field: string; order: 'asc' | 'desc' }> | undefined => {
+    if (val == null) return undefined;
+    const parts = Array.isArray(val) ? val : val.split(',').map((s) => s.trim()).filter(Boolean);
+    if (parts.length === 0) return undefined;
+    return parts.map((part) => {
+      const [field, order] = part.split(':');
+      return { field: field ?? '', order: (order === 'desc' ? 'desc' : 'asc') as 'asc' | 'desc' };
     });
-
-    fieldSchemas[key] = operators.optional();
   });
 
-  const querySchema = z.object({
-    ...fieldSchemas,
-    page: z.coerce.number().min(1).default(1),
-    limit: z.coerce.number().min(1).max(100).default(10),
-    sort: z
-      .union([z.string(), z.array(z.string())])
-      .optional()
-      .transform((val): Array<{ field: string; order: 'asc' | 'desc' }> | undefined => {
-        if (val == null) return undefined;
-        const parts = Array.isArray(val) ? val : val.split(',').map((s) => s.trim()).filter(Boolean);
-        if (parts.length === 0) return undefined;
-        return parts.map((part) => {
-          const [field, order] = part.split(':');
-          return { field: field ?? '', order: (order === 'desc' ? 'desc' : 'asc') as 'asc' | 'desc' };
-        });
-      }),
-  });
+const paginationSchema = z.object({
+  page: z.coerce.number().min(1).default(1),
+  limit: z.coerce.number().min(1).max(100).default(10),
+  sort: sortSchema,
+});
+
+/** Creates search middleware from a Zod filters schema. Infers filter shape from the schema. */
+export function createSearchMiddleware<T extends z.ZodRawShape>(
+  filtersSchema: ZodObject<T>
+): RequestHandler {
+  const querySchema = filtersSchema.merge(paginationSchema);
 
   return (req: Request, res: Response, next: NextFunction): void => {
     const result = querySchema.safeParse(req.query);
@@ -164,37 +176,42 @@ export const createSearchMiddleware = (config: SearchConfig): RequestHandler => 
     req.searchQuery = { filters, pagination: { page, limit }, sort };
     next();
   };
-};
+}
 ```
 
 ---
 
 ## Usage — `userController.ts`
 
-1. Define **field config** (type + enum options when needed).
-2. Use **createSearchMiddleware(config)** on the route.
-3. Read **req.searchQuery** (filters, pagination, sort) in the handler.
+1. Define the **filters schema** with Zod using the helpers (`filterFieldString`, `filterFieldNumber`, `filterFieldEnum`, etc.).
+2. Pass that schema to **createSearchMiddleware(filtersSchema)** — the middleware understands and validates using the same Zod type.
+3. Read **req.searchQuery** (typed filters, pagination, sort) in the handler.
 
 ```typescript
 import express, { Request, Response } from 'express';
 import { createSearchMiddleware } from './searchMiddleware';
-import { SearchConfig } from './searchTypes';
+import {
+  filterFieldString,
+  filterFieldNumber,
+  filterFieldEnum,
+  filterFieldBoolean,
+  filterFieldDate,
+} from './searchTypes';
+import { z } from 'zod';
 
 const router = express.Router();
 
-const userSearchConfig: SearchConfig = {
-  fields: {
-    name: { type: 'string' },
-    age: { type: 'number' },
-    role: { type: 'enum', options: ['admin', 'user', 'guest'] },
-    isActive: { type: 'boolean' },
-    joinedAt: { type: 'date' },
-  },
-};
+const userSearchConfig = z.object({
+  name: filterFieldString(),
+  age: filterFieldNumber(),
+  role: filterFieldEnum(['admin', 'user', 'guest']),
+  isActive: filterFieldBoolean(),
+  joinedAt: filterFieldDate(),
+});
 
 const getUsers = (req: Request, res: Response) => {
   const { filters, pagination, sort } = req.searchQuery;
-  // e.g. filters.name?.like, filters.age?.gte, sort → ORDER BY
+  // filters are typed from userSearchConfig, e.g. filters.name?.like, filters.age?.gte
   res.json({ meta: { pagination, sort }, data: 'Mock Data based on filters' });
 };
 
