@@ -1,26 +1,24 @@
-# Purpose
+# Query String Parsing with qs + Zod
 
-This document explains how to parse complex URL query strings—such as filter and search parameters—into a structured, type-safe format in your TypeScript backend.
+Parse complex URL query strings (filters, sort, pagination) into a typed structure in a TypeScript backend.
 
-# Data flow
+---
 
-**Example:**  
+## Data flow
+
+**URL:**  
 `GET /users?age[gte]=21&role=admin&name[like]=john&sort=age:desc,name:asc`
 
-**qs result:**  
+**After qs:**  
 `{ age: { gte: '21' }, role: 'admin', name: { like: 'john' }, sort: 'age:desc,name:asc' }`  
-*(With array form `sort[]=age:desc&sort[]=name:asc`, qs gives `sort: ['age:desc', 'name:asc']`—both are supported.)*
+*(Also supports array form: `sort[]=age:desc&sort[]=name:asc` → `sort: ['age:desc', 'name:asc']`.)*
 
-**Middleware logic:**  
-- `age` is a number: checks `gte`, casts to `21`
-- `role` is enum: checks `'admin'` ∈ `['admin','user','guest']`
-- `name` is a string: accepts any text in `like`; backend finds records whose name **includes** the input (substring match, e.g. "John Doe", "johnny")
-- `sort`: multiple columns supported. Either comma-separated string `age:desc,name:asc` or array `['age:desc', 'name:asc']`. Each part is `column:direction`; default direction is `asc` if omitted. Result is an array of `{ field, order }` in order (first = primary sort).
-- `page`, `limit` → pagination
+**Middleware:** numbers/date coerce; enums validated; `like` = substring match; `sort` = `column:direction` (default `asc`); `page`/`limit` = pagination.
 
-**Result:**  
+**Attached to request:**
+
 ```ts
-{
+req.searchQuery = {
   pagination: { page: 1, limit: 10 },
   filters: {
     age: { gte: 21 },
@@ -33,30 +31,27 @@ This document explains how to parse complex URL query strings—such as filter a
   ]
 }
 ```
-Usage: Use `req.searchQuery.sort` (array) for multi-column ordering: each element has `field` (column) and `order` (`'asc'` | `'desc'`). Apply in order, e.g. `ORDER BY age DESC, name ASC`.
 
-# Code
+Use `req.searchQuery.sort` for multi-column `ORDER BY` (e.g. `ORDER BY age DESC, name ASC`).
 
-## Typescript
+---
 
-`searchTypes.ts`
+## Types — `searchTypes.ts`
+
 ```typescript
 import { z } from 'zod';
 
-// --- Configuration Types ---
 export type FieldType = 'string' | 'number' | 'enum' | 'date' | 'boolean';
 
 export interface SearchFieldConfig {
   type: FieldType;
-  options?: string[]; // Required if type is 'enum'
+  options?: string[]; // Required when type is 'enum'
 }
 
 export interface SearchConfig {
   fields: Record<string, SearchFieldConfig>;
 }
 
-// --- Output Data Types (What your controller receives) ---
-// This interface defines what standard operators look like
 export interface FilterOperators<T> {
   eq?: T;
   ne?: T;
@@ -64,28 +59,30 @@ export interface FilterOperators<T> {
   lt?: T;
   gte?: T;
   lte?: T;
-  like?: string; // Only for strings: "contains" / substring (e.g. find name that includes this text)
+  like?: string; // strings only: substring match
   in?: T[];
 }
 
 export interface SearchQuery<T = any> {
   filters: Partial<Record<keyof T, FilterOperators<any>>>;
-  pagination: {
-    page: number;
-    limit: number;
-  };
-  /** Multiple columns in order (first = primary sort). */
+  pagination: { page: number; limit: number };
   sort?: Array<{ field: string; order: 'asc' | 'desc' }>;
 }
 ```
 
-`searchMiddleware.ts`
+---
+
+## Middleware — `searchMiddleware.ts`
+
+- Builds a **dynamic Zod schema** from `SearchConfig` (once at startup).
+- Parses `req.query` (qs-shaped), validates, then splits into `filters`, `pagination`, `sort`.
+- Sets `req.searchQuery`; on validation failure returns 400 with Zod `format()`.
+
 ```typescript
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { z, ZodObject, ZodTypeAny } from 'zod';
+import { z, ZodTypeAny } from 'zod';
 import { SearchConfig } from './searchTypes';
 
-// Extend Express Request to include our new property
 declare global {
   namespace Express {
     interface Request {
@@ -99,15 +96,10 @@ declare global {
 }
 
 export const createSearchMiddleware = (config: SearchConfig): RequestHandler => {
-  // 1. Build the Dynamic Zod Schema based on the Config
-  // We compute this ONCE when the app starts.
-  
   const fieldSchemas: Record<string, ZodTypeAny> = {};
 
   Object.entries(config.fields).forEach(([key, rule]) => {
     let baseType: ZodTypeAny;
-
-    // Define the base Zod validator for the value type
     switch (rule.type) {
       case 'number':
         baseType = z.coerce.number();
@@ -128,7 +120,6 @@ export const createSearchMiddleware = (config: SearchConfig): RequestHandler => 
         break;
     }
 
-    // Define allowed operators for this field
     const operators = z.object({
       eq: baseType.optional(),
       ne: baseType.optional(),
@@ -137,71 +128,53 @@ export const createSearchMiddleware = (config: SearchConfig): RequestHandler => 
       gte: rule.type === 'number' || rule.type === 'date' ? baseType.optional() : z.undefined(),
       lte: rule.type === 'number' || rule.type === 'date' ? baseType.optional() : z.undefined(),
       like: rule.type === 'string' ? z.string().optional() : z.undefined(),
-      in: z.union([z.string(), z.array(z.string())]) // Handle "val,val" string or array
-        .transform((val) => {
-           const arr = Array.isArray(val) ? val : val.split(',');
-           // We must re-validate the array items against the baseType if needed, 
-           // but for simplicity here we return strings. 
-           // In a complex app, you'd map this array to baseType parsing.
-           return arr;
-        }).optional(),
+      in: z.union([z.string(), z.array(z.string())])
+        .transform((val) => (Array.isArray(val) ? val : val.split(',')))
+        .optional(),
     });
 
     fieldSchemas[key] = operators.optional();
   });
 
-  // 2. Add Standard Pagination & Sort Schemas
   const querySchema = z.object({
-    ...fieldSchemas, // Spread the dynamic fields
-    
-    // Pagination (Standardized)
+    ...fieldSchemas,
     page: z.coerce.number().min(1).default(1),
     limit: z.coerce.number().min(1).max(100).default(10),
-    
-    // Sorting: ?sort=age:desc,name:asc or ?sort[]=age:desc&sort[]=name:asc (multiple columns)
-    sort: z.union([
-      z.string(),
-      z.array(z.string()),
-    ]).optional().transform((val): Array<{ field: string; order: 'asc' | 'desc' }> | undefined => {
-      if (val == null) return undefined;
-      const parts = Array.isArray(val) ? val : val.split(',').map((s) => s.trim()).filter(Boolean);
-      if (parts.length === 0) return undefined;
-      return parts.map((part) => {
-        const [field, order] = part.split(':');
-        return { field: field ?? '', order: (order === 'desc' ? 'desc' : 'asc') as 'asc' | 'desc' };
-      });
-    }),
+    sort: z
+      .union([z.string(), z.array(z.string())])
+      .optional()
+      .transform((val): Array<{ field: string; order: 'asc' | 'desc' }> | undefined => {
+        if (val == null) return undefined;
+        const parts = Array.isArray(val) ? val : val.split(',').map((s) => s.trim()).filter(Boolean);
+        if (parts.length === 0) return undefined;
+        return parts.map((part) => {
+          const [field, order] = part.split(':');
+          return { field: field ?? '', order: (order === 'desc' ? 'desc' : 'asc') as 'asc' | 'desc' };
+        });
+      }),
   });
 
-  // 3. The Middleware Function
   return (req: Request, res: Response, next: NextFunction): void => {
-    // req.query is assumed to be parsed by 'qs' (Express default)
     const result = querySchema.safeParse(req.query);
-
     if (!result.success) {
-      res.status(400).json({
-        error: 'Invalid Search Parameters',
-        details: result.error.format(),
-      });
+      res.status(400).json({ error: 'Invalid Search Parameters', details: result.error.format() });
       return;
     }
-
-    // Separate pagination/sort from filters
     const { page, limit, sort, ...filters } = result.data;
-
-    // Attach to Request
-    req.searchQuery = {
-      filters,
-      pagination: { page, limit },
-      sort,
-    };
-
+    req.searchQuery = { filters, pagination: { page, limit }, sort };
     next();
   };
 };
 ```
 
-`userController.ts`
+---
+
+## Usage — `userController.ts`
+
+1. Define **field config** (type + enum options when needed).
+2. Use **createSearchMiddleware(config)** on the route.
+3. Read **req.searchQuery** (filters, pagination, sort) in the handler.
+
 ```typescript
 import express, { Request, Response } from 'express';
 import { createSearchMiddleware } from './searchMiddleware';
@@ -209,57 +182,30 @@ import { SearchConfig } from './searchTypes';
 
 const router = express.Router();
 
-// --- 1. Define the Rules (The Contract) ---
 const userSearchConfig: SearchConfig = {
   fields: {
-    name:     { type: 'string' },  // User can input any text; use filters.name.like for "name includes text"
-    age:      { type: 'number' },
-    role:     { type: 'enum', options: ['admin', 'user', 'guest'] },
+    name: { type: 'string' },
+    age: { type: 'number' },
+    role: { type: 'enum', options: ['admin', 'user', 'guest'] },
     isActive: { type: 'boolean' },
-    joinedAt: { type: 'date' }
-  }
+    joinedAt: { type: 'date' },
+  },
 };
 
-// --- 2. The Controller Handler ---
-// The filters inside req.searchQuery will match the config above.
 const getUsers = (req: Request, res: Response) => {
   const { filters, pagination, sort } = req.searchQuery;
-
-  // Example Logging to show structure
-  console.log("Page:", pagination.page);   // number
-  console.log("Limit:", pagination.limit); // number
-  
-  // name.like: user input; find records where name includes this text (e.g. SQL LIKE '%' || value || '%')
-  if (filters.name?.like) {
-    console.log("Search name containing:", filters.name.like);
-  }
-  
-  if (filters.age?.gte) {
-    console.log("Search age >=", filters.age.gte);
-  }
-
-  // --- At this point, you pass `req.searchQuery` to your Service Layer ---
-  // const users = userService.find(req.searchQuery);
-  
-  // Build ORDER BY from sort (e.g. ORDER BY age DESC, name ASC)
-  if (sort?.length) {
-    console.log("Sort by:", sort.map((s) => `${s.field} ${s.order}`).join(', '));
-  }
-
-  res.json({ 
-    meta: { pagination, sort },
-    data: "Mock Data based on filters" 
-  });
+  // e.g. filters.name?.like, filters.age?.gte, sort → ORDER BY
+  res.json({ meta: { pagination, sort }, data: 'Mock Data based on filters' });
 };
 
-// --- 3. Wire it up ---
 // GET /users?age[gte]=18&name[like]=john&role[in]=admin,user&sort=age:desc,name:asc
 router.get('/users', createSearchMiddleware(userSearchConfig), getUsers);
 
 export default router;
 ```
 
-## Golang
+---
 
-```golang
-```
+## Other languages
+
+- **Golang:** (placeholder — implement equivalent with a query parser + struct tags or manual parsing.)
