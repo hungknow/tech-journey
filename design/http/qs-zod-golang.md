@@ -205,6 +205,26 @@ type QueryBinderFor[T any] interface {
 	Filters() T
 }
 
+// ToSearchQuery builds SearchQuery[T] from any QueryBinderFor[T]. Use this instead of
+// implementing ToSearchQuery on every query type. Applies default page/limit and parses sort.
+func ToSearchQuery[T any](q QueryBinderFor[T]) SearchQuery[T] {
+	page, limit := q.GetPage(), q.GetLimit()
+	if page < 1 {
+		page = 1
+	}
+	if limit < 1 {
+		limit = 10
+	}
+	if limit > 100 {
+		limit = 100
+	}
+	return SearchQuery[T]{
+		Filters:    q.Filters(),
+		Pagination: Pagination{Page: page, Limit: limit},
+		Sort:       SortSpecsFromStrings(q.GetSort()),
+	}
+}
+
 // CreateSearchMiddleware returns a Gin handler that parses query with qs, validates,
 // and sets SearchQuery[T] on context. key is the context key. Use the same T in the handler when reading (e.g. *SearchQuery[UserFilters]).
 // For concurrent safety, allocate a new query struct per request inside the handler
@@ -217,30 +237,14 @@ func CreateSearchMiddleware[T any](q QueryBinderFor[T], key string) gin.HandlerF
 			c.Abort()
 			return
 		}
-		page, limit := q.GetPage(), q.GetLimit()
-		if page < 1 {
-			page = 1
-		}
-		if limit < 1 {
-			limit = 10
-		}
-		if limit > 100 {
-			limit = 100
-		}
-		q.SetPagination(page, limit)
-		sort := SortSpecsFromStrings(q.GetSort())
-		q.SetSort(sort)
-		c.Set(key, &SearchQuery[T]{
-			Filters:    q.Filters(),
-			Pagination: Pagination{Page: page, Limit: limit},
-			Sort:       sort,
-		})
+		sq := ToSearchQuery(q)
+		c.Set(key, &sq)
 		c.Next()
 	}
 }
 ```
 
-Using a **concrete query struct** per resource (no interface) keeps the middleware simpler. Example pattern:
+You only implement **QueryBinderFor[T]** (getters + `Filters()`); no per-type `ToSearchQuery` method. Example:
 
 ```go
 // UserQuery is the raw query struct for GET /users (matches qs shape).
@@ -266,31 +270,7 @@ type UserFilters struct {
 	JoinedAt *DateFilter
 }
 
-func (q *UserQuery) ToSearchQuery() SearchQuery[UserFilters] {
-	page, limit := q.Page, q.Limit
-	if page < 1 {
-		page = 1
-	}
-	if limit < 1 {
-		limit = 10
-	}
-	if limit > 100 {
-		limit = 100
-	}
-	return SearchQuery[UserFilters]{
-		Filters: UserFilters{
-			Age:      q.Age,
-			Role:     q.Role,
-			Name:     q.Name,
-			IsActive: q.IsActive,
-			JoinedAt: q.JoinedAt,
-		},
-		Pagination: Pagination{Page: page, Limit: limit},
-		Sort:       SortSpecsFromStrings(q.Sort),
-	}
-}
-
-// Implement QueryBinderFor[UserFilters] so *UserQuery can be used with CreateSearchMiddleware[UserFilters].
+// Implement QueryBinderFor[UserFilters] so *UserQuery works with ToSearchQuery and CreateSearchMiddleware[UserFilters].
 func (q *UserQuery) GetPage() int   { return q.Page }
 func (q *UserQuery) GetLimit() int { return q.Limit }
 func (q *UserQuery) GetSort() []string { return q.Sort }
@@ -310,7 +290,7 @@ You can either **parse in the handler** (recommended for per-request structs and
 ### Option A: Parse in the handler (no middleware)
 
 1. Define the **query struct** with qs `query` tags (filters + page, limit, sort).
-2. In the handler, call **qs.Unmarshal(c.Request.URL.RawQuery, &query)**, then **query.ToSearchQuery()**.
+2. In the handler, call **qs.Unmarshal(c.Request.URL.RawQuery, &query)**, then **search.ToSearchQuery(&query)**.
 3. Read **SearchQuery** (typed filters, pagination, sort) and build DB query (e.g. ORDER BY, WHERE).
 
 ```go
@@ -330,7 +310,7 @@ func getUsers(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid search parameters", "details": err.Error()})
 		return
 	}
-	sq := q.ToSearchQuery()
+	sq := search.ToSearchQuery(&q)
 	filters := sq.Filters // type search.UserFilters; no assertion needed
 
 	// Optional: validate enum for role
