@@ -25,7 +25,6 @@ cfg.MinConns = 2
 cfg.MaxConnLifetime = time.Hour
 pool, _ := pgxpool.NewWithConfig(ctx, cfg)
 ```
-/* Handle errors in production code */
 
 ## TypeScript
 ```typescript
@@ -50,9 +49,10 @@ pool.putconn(conn)      # return
 
 ## Golang
 ```go
+// Scan is by position — no struct tag needed
 type User struct{ Id int; Name string }
 var u User
-id, name := 1, "alice"  // values you provide
+id, name := 1, "alice"
 db.QueryRow("SELECT id, name FROM users WHERE id = $1 AND name = $2", id, name).Scan(&u.Id, &u.Name)
 ```
 
@@ -84,9 +84,12 @@ with conn.cursor() as cur:
 
 ## Golang
 ```go
-type User struct{ Id int; Name string }
+type User struct {
+  Id   int    `db:"user_id"`
+  Name string `db:"full_name"`
+}
 id, name := 1, "alice"
-rows, err := db.Query("SELECT id, name FROM users WHERE id = $1 AND name = $2", id, name)
+rows, err := db.Query("SELECT user_id, full_name FROM users WHERE user_id = $1 AND full_name = $2", id, name)
 defer rows.Close()
 var users []User
 for rows.Next() {
@@ -97,17 +100,20 @@ for rows.Next() {
 ```
 
 ```go
-// pgx reference
-rows, _ := pool.Query(ctx, "SELECT id, name FROM users WHERE id = $1 AND name = $2", id, name)
+// pgx reference: RowToStructByName maps by db tag
+rows, _ := pool.Query(ctx, "SELECT user_id, full_name FROM users WHERE user_id = $1 AND full_name = $2", id, name)
 users, _ := pgx.CollectRows(rows, pgx.RowToStructByName[User])
 ```
 
 ## TypeScript
 ```typescript
+// pg has no native column→field mapping. Use SQL AS or .map():
 type User = { id: number; name: string };
-const id = 1, name = 'alice';  // values you provide
-const r = await pool.query<User>('SELECT id, name FROM users WHERE id = $1 AND name = $2', [id, name]);
-const users: User[] = r.rows;
+type Row = { user_id: number; full_name: string };
+const id = 1, name = 'alice';
+const r = await pool.query<Row>('SELECT user_id, full_name FROM users WHERE user_id = $1 AND full_name = $2', [id, name]);
+const users: User[] = r.rows.map(row => ({ id: row.user_id, name: row.full_name }));
+// alternative: SELECT user_id AS id, full_name AS name — then r.rows is User[]
 ```
 
 ## Python
