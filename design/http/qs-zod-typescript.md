@@ -220,9 +220,3 @@ router.get('/users', createSearchMiddleware(userSearchConfig), getUsers);
 
 export default router;
 ```
-
----
-
-## Other languages
-
-- **Golang:** (placeholder — implement equivalent with a query parser + struct tags or manual parsing.)
