@@ -21,7 +21,7 @@ SearchQuery[UserFilters]{
     Pagination: Pagination{Page: 1, Limit: 10},
     Filters: UserFilters{
         Age:     &IntFilter{Gte: ptr(21)},
-        Role:    &StringFilter{Eq: ptr("admin")},
+        Role:    &RoleFilter{Eq: ptr("admin")},
         Name:    &StringFilter{Like: ptr("john")},
     },
     Sort: []SortSpec{
@@ -39,13 +39,14 @@ Use `SearchQuery.Sort` for multi-column `ORDER BY` (e.g. `ORDER BY age DESC, nam
 
 ```bash
 go get github.com/zaytracom/qs/v1
+go get github.com/go-playground/validator/v10
 ```
 
 ---
 
 ## Types & helpers — `search_types.go`
 
-Filter config is defined with **structs** and **query tags**. Operator structs (eq, gte, like, etc.) match the shape produced by qs so `qs.Unmarshal` can fill them. Validation is done after unmarshaling (e.g. enum allowlist, pagination bounds).
+Filter config is defined with **structs** and **query tags**. Operator structs (eq, gte, like, etc.) match the shape produced by qs so `qs.Unmarshal` can fill them. Add **`validate`** tags ([go-playground/validator](https://github.com/go-playground/validator)) for rules like enum, min/max—the Go counterpart to Zod schemas.
 
 ```go
 package search
@@ -116,14 +117,70 @@ type BoolFilter struct {
 	Eq *bool `query:"eq"`
 }
 
-// Enum filter: use StringFilter (eq, ne, in) and validate against allowed values in middleware.
+// Enum filter: use a dedicated struct with validate:"oneof=..." so validator enforces allowed values.
 type EnumFilter = StringFilter
 
 func ptr[T any](v T) *T { return &v }
 ```
 
-- **Enum:** Reuse `StringFilter` and validate `Eq` / `In` against an allowlist in your handler or middleware.
-- **Coercion:** qs and `Unmarshal` will coerce string query values into `int`, `float64`, `bool`, and `time.Time` when target fields are typed accordingly; you can add custom validation (e.g. min/max, date range) after unmarshal.
+- **Enum:** Use a filter struct with the same `query` shape as `StringFilter` but add `validate:"omitempty,oneof=admin user guest"` on `Eq` and `validate:"omitempty,dive,oneof=..."` on `In` (see RoleFilter below).
+- **Coercion:** qs and `Unmarshal` coerce query strings into `int`, `float64`, `bool`, `time.Time`; add `validate` tags (e.g. `min`, `max`) for bounds.
+
+---
+
+## Validation with go-playground/validator
+
+[go-playground/validator](https://github.com/go-playground/validator) is the usual Go replacement for Zod: struct tags declare rules and `validate.Struct()` runs them after unmarshaling. Use it **after** `qs.Unmarshal` (and optionally after `ToSearchQuery`) to return 400 with field errors when invalid.
+
+**Typical flow:** Unmarshal query → `validate.Struct(&q)` → on error, translate `validator.ValidationErrors` to a JSON response.
+
+```go
+package search
+
+import (
+	"errors"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	validator "github.com/go-playground/validator/v10"
+)
+
+// Validate is the shared validator instance (export so handlers can call Validate.Struct).
+var Validate = validator.New()
+
+// ValidationErrorsToMap converts validator.ValidationErrors to a map suitable for 400 JSON.
+func ValidationErrorsToMap(err error) map[string]string {
+	if err == nil {
+		return nil
+	}
+	out := make(map[string]string)
+	var valErr validator.ValidationErrors
+	if !errors.As(err, &valErr) {
+		out["_"] = err.Error()
+		return out
+	}
+	for _, e := range valErr {
+		out[e.Field()] = e.Tag() // or e.Translate(translator) for messages
+	}
+	return out
+}
+
+// In a handler after qs.Unmarshal:
+func getUsers(c *gin.Context) {
+	var q search.UserQuery
+	if err := qs.Unmarshal(c.Request.URL.RawQuery, &q); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid query", "details": err.Error()})
+		return
+	}
+	if err := Validate.Struct(&q); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Validation failed", "details": ValidationErrorsToMap(err)})
+		return
+	}
+	// ... ToSearchQuery(&q), use filters
+}
+```
+
+**Useful tags:** `oneof=admin user guest`, `min=1`, `max=100`, `dive` (for slices), `omitempty` (skip when zero). See [baked-in validations](https://github.com/go-playground/validator#baked-in-validations) for the full list.
 
 ---
 
@@ -225,17 +282,24 @@ func ToSearchQuery[T any](q QueryBinderFor[T]) SearchQuery[T] {
 	}
 }
 
-// CreateSearchMiddleware returns a Gin handler that parses query with qs, validates,
-// and sets SearchQuery[T] on context. key is the context key. Use the same T in the handler when reading (e.g. *SearchQuery[UserFilters]).
-// For concurrent safety, allocate a new query struct per request inside the handler
-// (see getUsers example) or use a sync.Pool of query structs instead of a shared q.
-func CreateSearchMiddleware[T any](q QueryBinderFor[T], key string) gin.HandlerFunc {
+// CreateSearchMiddleware returns a Gin handler that parses query with qs, optionally validates (when Validate is set),
+// and sets SearchQuery[T] on context. newBinder is called once per request so each request gets its own struct—safe for concurrent use.
+// key is the context key. Use the same T in the handler when reading (e.g. *SearchQuery[UserFilters]).
+func CreateSearchMiddleware[T any](newBinder func() QueryBinderFor[T], key string) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		q := newBinder() // fresh binder per request
 		rawQuery := c.Request.URL.RawQuery
 		if err := qs.Unmarshal(rawQuery, q); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid query", "details": err.Error()})
 			c.Abort()
 			return
+		}
+		if Validate != nil {
+			if err := Validate.Struct(q); err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Validation failed", "details": ValidationErrorsToMap(err)})
+				c.Abort()
+				return
+			}
 		}
 		sq := ToSearchQuery(q)
 		c.Set(key, &sq)
@@ -244,27 +308,35 @@ func CreateSearchMiddleware[T any](q QueryBinderFor[T], key string) gin.HandlerF
 }
 ```
 
-You only implement **QueryBinderFor[T]** (getters + `Filters()`); no per-type `ToSearchQuery` method. Example:
+You only implement **QueryBinderFor[T]** (getters + `Filters()`); no per-type `ToSearchQuery` method. Add **`validate`** tags so [go-playground/validator](https://github.com/go-playground/validator) enforces enums and bounds (Zod-style). Example:
 
 ```go
+// RoleFilter is StringFilter with enum validation (oneof).
+type RoleFilter struct {
+	Eq   *string  `query:"eq"  validate:"omitempty,oneof=admin user guest"`
+	Ne   *string  `query:"ne"  validate:"omitempty,oneof=admin user guest"`
+	Like *string  `query:"like"`
+	In   []string `query:"in"  validate:"omitempty,dive,oneof=admin user guest"`
+}
+
 // UserQuery is the raw query struct for GET /users (matches qs shape).
 type UserQuery struct {
 	// Filters (nested objects from e.g. age[gte]=21&name[like]=john)
-	Age      *IntFilter     `query:"age"`
-	Role     *StringFilter  `query:"role"`
-	Name     *StringFilter  `query:"name"`
-	IsActive *BoolFilter    `query:"isActive"`
-	JoinedAt *DateFilter    `query:"joinedAt"`
-	// Pagination & sort (top-level); qs fills Sort for sort[]=... or sort=...
-	Page  int      `query:"page"`
-	Limit int      `query:"limit"`
+	Age      *IntFilter    `query:"age"`
+	Role     *RoleFilter   `query:"role"`
+	Name     *StringFilter `query:"name"`
+	IsActive *BoolFilter   `query:"isActive"`
+	JoinedAt *DateFilter   `query:"joinedAt"`
+	// Pagination & sort; omitempty allows missing (ToSearchQuery defaults); when present, bounds enforced
+	Page  int      `query:"page"  validate:"omitempty,min=1"`
+	Limit int      `query:"limit" validate:"omitempty,min=1,max=100"`
 	Sort  []string `query:"sort"`
 }
 
 // UserFilters groups filter fields for type-safe access in handlers.
 type UserFilters struct {
 	Age      *IntFilter
-	Role     *StringFilter
+	Role     *RoleFilter
 	Name     *StringFilter
 	IsActive *BoolFilter
 	JoinedAt *DateFilter
@@ -307,20 +379,15 @@ import (
 func getUsers(c *gin.Context) {
 	var q search.UserQuery
 	if err := qs.Unmarshal(c.Request.URL.RawQuery, &q); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid search parameters", "details": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid query", "details": err.Error()})
+		return
+	}
+	if err := search.Validate.Struct(&q); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Validation failed", "details": search.ValidationErrorsToMap(err)})
 		return
 	}
 	sq := search.ToSearchQuery(&q)
-	filters := sq.Filters // type search.UserFilters; no assertion needed
-
-	// Optional: validate enum for role
-	if filters.Role != nil {
-		allowed := map[string]bool{"admin": true, "user": true, "guest": true}
-		if filters.Role.Eq != nil && !allowed[*filters.Role.Eq] {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid role"})
-			return
-		}
-	}
+	filters := sq.Filters // type search.UserFilters; role enum already validated
 
 	// Use sq.Pagination, sq.Sort, filters.* in DB layer. Pass typed filters to child:
 	// buildWhereClause(filters) or fetchUsers(c.Request.Context(), sq.Pagination, sq.Sort, filters)
@@ -343,25 +410,26 @@ func main() {
 
 ### Option B: Use CreateSearchMiddleware
 
-Wire the middleware so the handler receives a ready-made **SearchQuery[T]** from context. The binder must implement **QueryBinderFor[T]** (e.g. `*UserQuery` with the methods above for T = UserFilters). Specify the type parameter when calling the middleware so the context carries `*SearchQuery[UserFilters]`.
+Wire the middleware so the handler receives a ready-made **SearchQuery[T]** from context. Pass a **factory** that returns a new binder per request so the middleware is safe for concurrent use.
 
 ```go
 const searchQueryKey = "searchQuery"
 
 func main() {
 	r := gin.Default()
-	var q search.UserQuery
-	// Middleware parses query, normalizes pagination/sort, sets SearchQuery[UserFilters] on context
-	r.GET("/users", search.CreateSearchMiddleware[search.UserFilters](&q, searchQueryKey), getUsersWithSearch)
+	// New binder per request (concurrent-safe); middleware runs qs.Unmarshal, Validate.Struct, ToSearchQuery
+	r.GET("/users", search.CreateSearchMiddleware[search.UserFilters](
+		func() search.QueryBinderFor[search.UserFilters] { return &search.UserQuery{} },
+		searchQueryKey,
+	), getUsersWithSearch)
 	r.Run()
 }
 
 func getUsersWithSearch(c *gin.Context) {
 	sq, _ := c.Get(searchQueryKey)
-	searchQuery := sq.(*search.SearchQuery[search.UserFilters]) // concrete type, no filter assertion
-	filters := searchQuery.Filters                              // type search.UserFilters
+	searchQuery := sq.(*search.SearchQuery[search.UserFilters])
+	filters := searchQuery.Filters
 
-	// Optional: validate enum for role, etc.
 	// Use searchQuery.Pagination, searchQuery.Sort, filters.* in DB layer
 	c.JSON(http.StatusOK, gin.H{
 		"meta": gin.H{"pagination": searchQuery.Pagination, "sort": searchQuery.Sort},
@@ -369,8 +437,6 @@ func getUsersWithSearch(c *gin.Context) {
 	})
 }
 ```
-
-**Note:** The example above reuses a single `UserQuery` for every request, which is not safe under concurrent access. For production, use Option A (parse in handler with a new `var q search.UserQuery` per request) or make the middleware allocate a new binder per request (e.g. via a `func() search.QueryBinderFor[T]` factory or `sync.Pool`).
 
 ---
 
@@ -395,7 +461,7 @@ err := qs.Unmarshal(c.Request.URL.RawQuery, &q, opts)
 |----------------|----------------------|------------------------------------------------------|
 | Parse query    | qs → object          | `qs.Unmarshal(rawQuery, &struct)`                    |
 | Filter shape   | Zod schema           | Structs with `query:"..."` tags; `SearchQuery[T]` for typed filters |
-| Validation     | Zod `.safeParse()`   | Post-unmarshal checks                            |
+| Validation     | Zod `.safeParse()`   | `validate.Struct()` + struct tags ([go-playground/validator](https://github.com/go-playground/validator)) |
 | Attach to req  | `req.searchQuery`    | Context key or handler variable                 |
 | Sort parsing   | Zod transform        | qs fills `Sort []string`; `SortSpecsFromStrings(Sort)` → `[]SortSpec` |
 
