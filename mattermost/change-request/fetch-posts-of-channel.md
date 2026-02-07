@@ -1,31 +1,52 @@
-# Fetch Posts of Channel — Change Request
+# Fetch Posts of Channel
 
 This document describes how the frontend fetches the latest posts for a specific channel: which API is used, how thread (reply) posts are handled, and how pagination works when the user scrolls. The description is based on the current web app and server code.
 
-## Summary
+**Abbreviations:** **CRT** = Collapsed Reply Threads — replies are shown in a thread view (not inline in the channel); the channel shows root posts + thread metadata; when CRT is on, unread and mentions use root-post counts (`msg_count_root`, `mention_count_root`, `messageCount.root`).
 
-| Scenario | API / params | Frontend entry |
-|----------|--------------|----------------|
-| Open channel, show latest | `GET .../channels/{id}/posts` `page=0`, `per_page=30` | `loadLatestPosts` → `PostActions.getPosts` |
-| Scroll up (older) | `GET .../channels/{id}/posts` `before={oldestVisibleId}`, `per_page=30` | `loadOlderPosts` → `loadPosts(BEFORE_ID)` → `getPostsBefore` |
-| Scroll down (newer) | `GET .../channels/{id}/posts` `after={newestVisibleId}`, `per_page=30` | `loadNewerPosts` → `loadPosts(AFTER_ID)` → `getPostsAfter` |
-| Sync after reconnect | `GET .../channels/{id}/posts` `since={timestamp}` | `syncPostsInChannel` → `getPostsSince` |
-| Permalink / focused post | `getPostThread(postId)` + `getPostsAfter` + `getPostsBefore` | `loadPostsAround` → `getPostsAround` (3 parallel calls) |
-| Open thread (replies) | `GET .../posts/{post_id}/thread` | Thread viewer / `getPostThread` |
+## Use cases and API
 
-Thread behaviour: channel list uses `skipFetchThreads` and `collapsedThreads` on the channel posts endpoint; thread viewer uses the thread endpoint.
+**Entry point:** `PostList` calls `postsOnLoad(channelId)` (in `post_list.tsx`). That function picks one of the actions below: first it checks for a focused/permalink post, then first-load unreads, then sync after reconnect, then falls back to loading the latest posts. Scroll (older/newer) and other actions run later, when the user scrolls or opens a thread.
 
-### Frontend → Backend
+**Main post-loading (used by `postsOnLoad`):**
 
-- **loadLatestPosts** → `GET /api/v4/channels/{channel_id}/posts?page=0&per_page=30`
-- **loadUnreads** → `GET /api/v4/users/{user_id}/channels/{channel_id}/posts/unread?limit_after=30&limit_before=30`
-- **syncPostsInChannel** → `GET .../posts?since={timestamp}`
-- **Scroll up** → **getPostsBefore** → `GET .../posts?before={postId}&page=0&per_page=30`
-- **Scroll down** → **getPostsAfter** → `GET .../posts?after={postId}&page=0&per_page=30`
-- **loadPostsAround** → 3 calls: `getPostThread(postId)`, `getPostsAfter`, `getPostsBefore`
-- **Thread viewer** → `GET /api/v4/posts/{post_id}/thread`
+- **Open channel (latest).**
+    - Function: `loadLatestPosts` → `getPosts(channelId, 0, 30)`.
+    - API: `GET /api/v4/channels/{channel_id}/posts?page=0&per_page=30`.
+    - Optional query: `skipFetchThreads`, `collapsedThreads`, `collapsedThreadsExtended`.
 
-Key paths: `webapp/channels/src/actions/views/channel.ts`; Redux/Client: `mattermost-redux/actions/posts.ts`, `client4.ts`. Server: `getPostsForChannel` in `api4/post.go`.
+- **First load with unreads.**
+    - Function: `loadUnreads` → `getPostsUnread`.
+    - API: `GET /api/v4/users/{user_id}/channels/{channel_id}/posts/unread?limit_after=30&limit_before=30`.
+    - May also call `getPosts` when “start from newest”.
+
+- **Sync after reconnect.**
+    - Function: `syncPostsInChannel` → `getPostsSince(since)`.
+    - API: `GET /api/v4/channels/{channel_id}/posts?since={timestamp}`.
+
+**Other actions (scroll, permalink, thread, etc.):**
+
+- **Scroll up (older).**
+    - Function: `loadOlderPosts` → `getPostsBefore(channelId, oldestPostId, …)`.
+    - API: `GET /api/v4/channels/{channel_id}/posts?before={postId}&page=0&per_page=30`.
+
+- **Scroll down (newer).**
+    - Function: `loadNewerPosts` → `getPostsAfter(channelId, newestPostId, …)`.
+    - API: `GET /api/v4/channels/{channel_id}/posts?after={postId}&page=0&per_page=30`.
+
+- **Permalink / focused post.**
+    - Function: `loadPostsAround` — runs three calls in parallel: `getPostThread(postId)`, `getPostsAfter`, `getPostsBefore`.
+    - API: `GET /api/v4/posts/{post_id}/thread` plus channel posts with `after` / `before`. Results merged so the list is centered on that post.
+
+- **Thread viewer (replies).**
+    - Function: `getPostThread(postId)`.
+    - API: `GET /api/v4/posts/{post_id}/thread`. Optional query: `skipFetchThreads`, `collapsedThreads`, `collapsedThreadsExtended`.
+
+- **Load specific posts by ID.**
+    - Function: `getPostsByIds(ids)`.
+    - API: `POST /api/v4/posts/ids` (body: JSON array of post IDs). For specific posts, not the channel timeline.
+
+**Notes:** Thread behaviour: channel list uses `skipFetchThreads` and `collapsedThreads` on the channel posts endpoint; thread viewer uses the thread endpoint. Key paths: `webapp/channels/src/actions/views/channel.ts`; Redux/Client: `mattermost-redux/actions/posts.ts`, `client4.ts`. Server: `getPostsForChannel` in `api4/post.go`.
 
 ---
 
@@ -35,16 +56,14 @@ Key paths: `webapp/channels/src/actions/views/channel.ts`; Redux/Client: `matter
 
 **Query params:**
 
-| Parameter | Description |
-|-----------|-------------|
-| `page`, `per_page` | Default pagination (no `since`/`before`/`after`). |
-| `since` | Unix ms; posts modified after (sync). Mutually exclusive with before/after/page. |
-| `before` | Post ID → page of **older** posts. |
-| `after` | Post ID → page of **newer** posts. |
-| `skipFetchThreads` | If true, no reply posts; only roots (and thread metadata when collapsed). |
-| `collapsedThreads` | Only root posts + thread metadata (reply count, last reply, etc.). |
-| `collapsedThreadsExtended` | Extended thread metadata. |
-| `include_deleted` | Include deleted (system admin). |
+- `page`, `per_page` — Default pagination (no `since`/`before`/`after`).
+- `since` — Unix ms; posts modified after (sync). Mutually exclusive with before/after/page.
+- `before` — Post ID → page of **older** posts.
+- `after` — Post ID → page of **newer** posts.
+- `skipFetchThreads` — If true, no reply posts; only roots (and thread metadata when collapsed).
+- `collapsedThreads` — Only root posts + thread metadata (reply count, last reply, etc.).
+- `collapsedThreadsExtended` — Extended thread metadata.
+- `include_deleted` — Include deleted (system admin).
 
 **Response (PostList):**  
 - `order`: list of post IDs, newest first  
@@ -57,16 +76,27 @@ Key paths: `webapp/channels/src/actions/views/channel.ts`; Redux/Client: `matter
 
 ## 2. How the frontend fetches “latest” posts
 
-Entry: `PostList` → `postsOnLoad(channelId)` (in `post_list.tsx` / `post_list/index.tsx`).
+**Entry:** `PostList` → `postsOnLoad(channelId)` (in `post_list.tsx` / `post_list/index.tsx`).
 
-**Which call:**
+**Which call (order matches `postsOnLoad` logic):**
 
-1. **Permalink / focused post** → `loadPostsAround(channelId, focusedPostId)`: 3 parallel calls — `getPostThread(postId)` (focused post + thread), `getPostsAfter`, `getPostsBefore`; merged so list is centered on that post.
-2. **First load with unreads** → `loadUnreads(channelId)` → unread endpoint; may also call `getPosts(channelId, 0, …)` when “start from newest”.
-3. **Re-sync (e.g. reconnect)** → `syncPostsInChannel(channelId, latestPostTimeStamp)` → `getPostsSince(since)`.
-4. **Default** → `loadLatestPosts(channelId)` → `getPosts(channelId, 0, 30)` → `GET .../posts?page=0&per_page=30`.
+1. **Permalink / focused post** → `loadPostsAround(channelId, focusedPostId)`: 3 parallel calls — `getPostThread(postId)` → `GET .../posts/{id}/thread`, `getPostsAfter` → `GET .../channels/{id}/posts?after=...`, `getPostsBefore` → `GET .../channels/{id}/posts?before=...`; merged so list is centered on that post.
+2. **First load with unreads** → `loadUnreads(channelId)` → `getPostsUnread` → **API:** `GET /api/v4/users/{user_id}/channels/{channel_id}/posts/unread?limit_after=30&limit_before=30`; may also call `getPosts(channelId, 0, …)` when “start from newest”.
+3. **Re-sync (e.g. reconnect)** → `syncPostsInChannel(channelId, latestPostTimeStamp)` → `getPostsSince(since)` → **API:** `GET /api/v4/channels/{channel_id}/posts?since={timestamp}`.
+4. **Default** → `loadLatestPosts(channelId)` → `getPosts(channelId, 0, 30)` → **API:** `GET /api/v4/channels/{channel_id}/posts?page=0&per_page=30`.
 
 Typical “open channel” = **GET** `.../posts` with `page=0`, `per_page=30`.
+
+### 2.1 Load unreads vs load latest
+
+- **First open** (no posts in channel yet): the app calls **load unreads** → `GET .../users/{user_id}/channels/{channel_id}/posts/unread?limit_after=30&limit_before=30`. The server uses the user’s membership (`last_viewed_at`, `msg_count`) to return a window around the unread position. Whether the UI then shows that unread window or the newest posts is controlled by the “Scroll position when viewing an unread channel” setting (start from unread vs start from newest).
+- **Later opens** (channel already has posts in Redux): the app uses **load latest** or **sync** → `GET .../channels/{id}/posts?page=0&per_page=30` (or `since=...`).
+
+**How “unread” is determined** (for sidebar and behaviour):  
+- **`myMembers`** = `state.entities.channels.myMembers` — a map **channelId → your membership** in that channel. Each value is a `ChannelMembership`: your read position and mention counts for that channel (see types in `webapp/platform/types/src/channels.ts`).
+- **Per channel you have:** `msg_count` / `msg_count_root` = number of posts (or root posts) you’ve “read” (count at last view); `mention_count` / `mention_count_root` = unread @mentions for you. Channel totals live in `state.entities.channels.messageCounts[channelId]` as `total` and `root`.
+- **Formulas:** unread messages = `messageCount.total − member.msg_count` (or `root − msg_count_root` when CRT is on); unread mentions = `member.mention_count` (or `mention_count_root`). **Show as unread** = `mention_count > 0` OR (channel not muted AND unread message count > 0). See `calculateUnreadCount` in `mattermost-redux/utils/channel_utils.ts`.
+- **Example (no CRT):** Channel has 100 posts (`messageCount.total = 100`), you’ve read up to 93 (`member.msg_count = 93`), 2 unread @mentions (`member.mention_count = 2`). Unread messages = 100 − 93 = **7**; sidebar shows unread (mentions 2 > 0 and 7 unread).
 
 ---
 
@@ -79,7 +109,7 @@ Typical “open channel” = **GET** `.../posts` with `page=0`, `per_page=30`.
 - `skipFetchThreads = true`: only roots (and metadata); replies loaded when user opens thread.  
 - `collapsedThreads = true`: only roots + thread metadata; full replies when thread opens.
 
-**Thread viewer:** `GET /api/v4/posts/{post_id}/thread` via `Client4.getPostThread`. Returns PostList for that thread (root + replies). Not the channel-posts endpoint.
+**Thread viewer:** `Client4.getPostThread(postId)` → **API:** `GET /api/v4/posts/{post_id}/thread`. Returns PostList for that thread (root + replies). Not the channel-posts endpoint.
 
 **loadPostsAround:** Always calls thread API with focused post ID. Backend returns: single post (no thread), root+replies (root), or full thread (when focused post is a reply). Frontend merges with before/after channel posts and centers.
 
@@ -90,8 +120,8 @@ Typical “open channel” = **GET** `.../posts` with `page=0`, `per_page=30`.
 **Trigger:** Virtualized list (`post_list_virtualized.tsx`). Near top → `loadOlderPosts()`; near bottom → `loadNewerPosts()`. Threshold ~1000px.
 
 **Calls:**  
-- Older: `getPostsBefore(channelId, oldestVisiblePostId, …)` → `GET .../posts?before={postId}&page=0&per_page=30`.  
-- Newer: `getPostsAfter(channelId, newestVisiblePostId, …)` → `GET .../posts?after={postId}&page=0&per_page=30`.
+- Older: `getPostsBefore(channelId, oldestVisiblePostId, …)` → **API:** `GET /api/v4/channels/{channel_id}/posts?before={postId}&page=0&per_page=30`.  
+- Newer: `getPostsAfter(channelId, newestVisiblePostId, …)` → **API:** `GET /api/v4/channels/{channel_id}/posts?after={postId}&page=0&per_page=30`.
 
 **Sizes:** User scroll = 30/request; auto-load up to 200.  
 **Boundaries:** `atOldestPost` / `atLatestPost` from `prev_post_id === ''` / `next_post_id === ''`; then no more requests.  
@@ -105,7 +135,7 @@ Typical “open channel” = **GET** `.../posts` with `page=0`, `per_page=30`.
 
 ```
 webapp/channels/src/
-├── actions/views/channel.ts           # loadLatestPosts, loadPosts, loadUnreads, loadPostsAround, syncPostsInChannel
+├── actions/views/channel.ts           # loadLatestPosts→getPosts, loadUnreads→getPostsUnread, loadPostsAround→(3 APIs), syncPostsInChannel→getPostsSince
 ├── actions/websocket_actions.ts       # syncPostsInChannel on reconnect
 ├── components/channel_view/channel_view.tsx
 ├── components/data_prefetch/          # prefetchChannelPosts (current + unread)
@@ -113,12 +143,18 @@ webapp/channels/src/
 │   ├── post_view.tsx, post_list/      # postsOnLoad, getPostsBefore/After
 │   └── post_list_virtualized/         # onScroll → loadOlder/Newer
 └── packages/mattermost-redux/src/
-    ├── actions/posts.ts              # getPosts, getPostsBefore/After, getPostsSince, getPostsAround, getPostsUnread
-    ├── selectors/entities/posts.ts
-    ├── reducers/entities/posts.ts
-    └── utils/post_list.ts
+    ├── actions/posts.ts              # Defines functions that call the various post-related API endpoints, including:
+    │                                 #   - getPosts:               GET /channels/{id}/posts
+    │                                 #   - getPostsBefore:         GET /channels/{id}/posts?before={postId}
+    │                                 #   - getPostsAfter:          GET /channels/{id}/posts?after={postId}
+    │                                 #   - getPostsSince:          GET /channels/{id}/posts?since={timestamp}
+    │                                 #   - getPostsAround:         Runs thread+before+after calls and merges them
+    │                                 #   - getPostsUnread:         GET /users/{user_id}/channels/{channel_id}/posts/unread
+    ├── selectors/entities/posts.ts    # Selectors to extract post data from the Redux store.
+    ├── reducers/entities/posts.ts     # Redux reducers for managing post state.
+    └── utils/post_list.ts             # Post list utilities, sorting, merging, etc.
 
-webapp/platform/client/src/client4.ts  # HTTP: getPosts, getPostsBefore/After, getPostsSince, getPostThread
+webapp/platform/client/src/client4.ts  # Contains low-level HTTP functions for all post-related endpoints used above:
 ```
 
 **Server:** `server/channels/api4/api.go` (route), `post.go` (`getPostsForChannel`); `app/post.go` (GetPostsPage, GetPostsBeforePost, GetPostsAfterPost, GetPostsSince).
