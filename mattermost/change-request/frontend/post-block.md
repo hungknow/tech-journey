@@ -104,7 +104,31 @@ From the chosen chunk the UI uses: `chunk.order` (post IDs to render, newest fir
 
 ---
 
-## 5. How the UI knows there is more data (server ↔ client)
+## 5. Thread fetch: where the root and replies live (blocks vs threads)
+
+**When the user fetches a thread** (e.g. opens the thread in the RHS via `getPostThread`):
+
+- **`posts`** — The root post and all reply posts are merged into the global post map (`state.entities.posts.posts`). Every post is stored once by id.
+- **`postsInThread`** — Only **reply** IDs are stored here, keyed by root id: `postsInThread[rootId]` = array of reply post IDs (not the root). The root post is not added to this array. Updated by `RECEIVED_POSTS_IN_THREAD` in `reducers/entities/posts.ts` (and by other actions that receive posts in channel/thread).
+- **`postsInChannel` (blocks)** — **Not updated** by a thread fetch. The client does not dispatch `RECEIVED_POSTS_IN_CHANNEL` when loading a thread. The root post is already in a block from the initial channel load (when CRT is on, the channel timeline API returns only root posts). So after fetching a thread, the channel’s blocks still only contain whatever was there before (e.g. root post IDs in the “latest” block).
+
+So: the **root** is in both the block (from channel load) and the `posts` map; **replies** are only in the `posts` map and in `postsInThread[rootId]`. The channel timeline (blocks) is not extended with reply IDs when you open a thread.
+
+**What IDs can appear in a block’s `order`?**
+
+- **CRT on, normal channel load** — The server returns only root posts (`Posts.RootId = ''` in `getPostsCollapsedThreads`). So block `order` is root post IDs only.
+- **CRT off** — The channel API can return root and reply posts in timeline order, so block `order` may contain both root and reply IDs.
+- **Permalink / focused post** — `getPostsAround` builds one combined list from “after” + “thread” + “before” and dispatches `RECEIVED_POSTS_IN_CHANNEL`. The `order` includes the focused `postId`. If the user opened a permalink to a **reply**, that reply id is in the block, so the block can contain reply IDs in this case.
+
+**How does the channel know which post to render when the post is a reply?**
+
+The channel does **not** filter the list by `root_id`. It renders every id in the chosen chunk’s `order`. For each id it looks up the post in the `posts` map and renders it. The **post object** has a `root_id` field (empty for root posts, set to the thread root for replies). The **post component** (`post_component.tsx`, etc.) uses `post.root_id` to decide how to display the row (e.g. show “Commented on” for replies, show `ThreadFooter` only when `!post.root_id`). So “is this a reply?” is determined per post from the stored entity when rendering, not by excluding replies from the block’s `order`. If a reply id is in the block (e.g. permalink to a reply or CRT-off timeline), it is rendered in the channel list like any other post, with reply-specific layout.
+
+**Thread view (RHS)** uses `postsInThread[rootId]` plus the root post (from `posts`) to build the ordered list of posts in the thread; it does not use the channel blocks.
+
+---
+
+## 6. How the UI knows there is more data (server ↔ client)
 
 The UI does not ask the server on every scroll. It uses the block flags `recent` and `oldest`, which were set when data was last fetched from the server's pagination cursors.
 
@@ -116,7 +140,7 @@ The UI does not ask the server on every scroll. It uses the block flags `recent`
 
 ---
 
-## 6. Summary
+## 7. Summary
 
 - **Storage** — Per channel: array of blocks in memory; one block = one (possibly merged) contiguous slice of the timeline.
 - **Pagination** — Each “get posts” (latest, before, after, unread, around) adds or updates blocks; `recent` and `oldest` come from API `next_post_id` / `prev_post_id`.
