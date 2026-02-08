@@ -242,3 +242,15 @@ The following list is taken from the code that updates the channel→blocks map.
 - **Maintenance** — Merging keeps blocks non-overlapping; cleanup keeps the recent block even when empty.
 
 In short: a **post block** is the frontend’s representation of a contiguous, ordered slice of the channel timeline and whether that slice is at the latest messages (`recent`), at the oldest loaded messages (`oldest`), or in between. All channel post fetches and the post list UI are built on this in-memory abstraction.
+
+---
+
+## 7. How the UI knows there is more data on the server (both sides)
+
+The UI does not ask the server on every scroll. It uses the post block flags `recent` and `oldest`, which were set when data was last fetched and come from the server’s pagination cursors.
+
+**Server:** Each post list response has `next_post_id` and `prev_post_id` (IDs of the next/previous post, or empty string if none). Empty means “no more in that direction.” The server sets these in `server/channels/app/post.go` (`GetNextPostIdFromPostList`, `GetPrevPostIdFromPostList`, `AddCursorIdsForPostList`).
+
+**Client:** When storing posts, the client sets block flags from those cursors: `recent` when `next_post_id === ''` (reached latest), `oldest` when `prev_post_id === ''` (reached oldest). Done in `receivedPostsInChannel`, `receivedPostsBefore`, `receivedPostsAfter` in `mattermost-redux/src/actions/posts.ts`.
+
+**UI:** The post list picks one chunk to display and derives `atLatestPost = Boolean(chunk.recent)` and `atOldestPost = Boolean(chunk.oldest)` (`post_list/index.tsx`). If `!atOldestPost` it can show “Load older messages” and call `loadOlderPosts`; if `!atLatestPost` it can show “Load newer messages” and call `loadNewerPosts`. Scroll handlers in `post_list.tsx` and `post_list_virtualized.tsx` use these props to trigger loading. So the UI knows there is more data only from the current chunk’s flags, not from a separate server check.
