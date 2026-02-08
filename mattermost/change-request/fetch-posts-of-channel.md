@@ -8,21 +8,25 @@ This document describes how the frontend fetches the latest posts for a specific
 
 **Entry point:** `PostList` calls `postsOnLoad(channelId)` (in `post_list.tsx`). That function picks one of the actions below: first it checks for a focused/permalink post, then first-load unreads, then sync after reconnect, then falls back to loading the latest posts. Scroll (older/newer) and other actions run later, when the user scrolls or opens a thread.
 
-**Main post-loading (used by `postsOnLoad`):**
+**Main post-loading (used by `postsOnLoad`), in priority order:**
 
-- **Open channel (latest).**
+1. **Permalink / focused post.** (checked first)
+    - Function: `loadPostsAround(channelId, focusedPostId)` — three calls in parallel: `getPostThread(postId)`, `getPostsAfter`, `getPostsBefore`.
+    - API: `GET /api/v4/posts/{post_id}/thread` plus `GET /api/v4/channels/{channel_id}/posts?after=...` and `?before=...`. Results merged so the list is centered on that post.
+
+2. **First load with unreads.**
+    - Function: `loadUnreads` → `getPostsUnread`.
+    - API: `GET /api/v4/users/{user_id}/channels/{channel_id}/posts/unread?limit_after=30&limit_before=30`.
+    - May also call `getPosts` when "start from newest".
+
+3. **Sync after reconnect.**
+    - Function: `syncPostsInChannel` → `getPostsSince(since)`.
+    - API: `GET /api/v4/channels/{channel_id}/posts?since={timestamp}`.
+
+4. **Open channel (latest).** (default fallback)
     - Function: `loadLatestPosts` → `getPosts(channelId, 0, 30)`.
     - API: `GET /api/v4/channels/{channel_id}/posts?page=0&per_page=30`.
     - Optional query: `skipFetchThreads`, `collapsedThreads`, `collapsedThreadsExtended`.
-
-- **First load with unreads.**
-    - Function: `loadUnreads` → `getPostsUnread`.
-    - API: `GET /api/v4/users/{user_id}/channels/{channel_id}/posts/unread?limit_after=30&limit_before=30`.
-    - May also call `getPosts` when “start from newest”.
-
-- **Sync after reconnect.**
-    - Function: `syncPostsInChannel` → `getPostsSince(since)`.
-    - API: `GET /api/v4/channels/{channel_id}/posts?since={timestamp}`.
 
 **Other actions (scroll, permalink, thread, etc.):**
 
