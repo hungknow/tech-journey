@@ -1,6 +1,6 @@
-# Posts Model in Redux
+# Posts Model
 
-This document describes how posts are stored in memory in the Redux store (data structure and update behavior) and how backend APIs and WebSocket events change that model.
+This document describes how posts are stored in memory (data structure and update behavior) and how backend APIs and WebSocket events change that model.
 
 **Key paths:** `webapp/channels/src/packages/mattermost-redux/src/reducers/entities/posts.ts`, `actions/posts.ts`, `webapp/platform/types/src/posts.ts`.
 
@@ -8,7 +8,7 @@ This document describes how posts are stored in memory in the Redux store (data 
 
 ## 1. Data structure: how posts are stored in memory
 
-The posts slice lives under `state.entities.posts`. All post-related state is normalized: each post object exists once and is referenced by id elsewhere.
+The posts state lives under `state.entities.posts`. All post-related state is normalized: each post object exists once and is referenced by id elsewhere.
 
 - **posts**
   - Map of post id → post. Every post entity lives here once.
@@ -17,7 +17,7 @@ The posts slice lives under `state.entities.posts`. All post-related state is no
   - Reply count per root post (and for the root post itself).
 
 - **postsInChannel**
-  - Per channel, an array of “blocks.” Each block has an ordered list of post ids (newest first) and flags like `recent` and `oldest`. This is the channel timeline order; blocks are merged when they overlap.
+  - Per channel, an array of post blocks (channel timeline order). See **post-block.md** for block shape and which APIs/events add, update, or remove blocks.
 
 - **postsInThread**
   - Per root post id, an array of reply post ids (order not guaranteed).
@@ -46,11 +46,11 @@ The posts slice lives under `state.entities.posts`. All post-related state is no
 - **limitedViews**
   - For cloud message limits: per channel or thread, the time of the first inaccessible post.
 
-Posts are stored once in `posts` and referenced by id from `postsInChannel` and `postsInThread`. Channel order is maintained as blocks that can be merged when they overlap.
+Posts are stored once in `posts` and referenced by id from `postsInChannel` and `postsInThread`. For which APIs and events add, merge, or remove blocks in `postsInChannel`, see **post-block.md** (§2).
 
 ---
 
-## 2. How the store is updated (merge, delete, remove)
+## 2. How the in-memory model is updated (merge, delete, remove)
 
 **Merge one post**
   - One post is added or updated in `posts` using an update rule: if the stored post is newer (by `update_at`), it is kept; if same `update_at` and same CRT/metadata, skip; otherwise overwrite. Permalink embeds with nested posts are merged recursively (with a depth limit). Deleted posts (`delete_at > 0`) update the stored post to deleted state. If the incoming post has a `pending_post_id` different from its id, the pending post is removed from `posts` and the real id is used. For replies, the root’s `participants` and `reply_count` may be updated.
@@ -66,13 +66,13 @@ Posts are stored once in `posts` and referenced by id from `postsInChannel` and 
   - The post and its replies are removed from `posts`, and their ids are removed from `postsInChannel` and `postsInThread`. Used when the current user deletes or when a failed pending post is discarded.
 
 **Other updates**
-  - Pinned flag and last update time can be updated for a post. Focused (permalink) post id can be set. Edit history list can be set. Reactions and acknowledgements can be added or removed per post. Burn-on-read metadata (e.g. expire_at, recipients) can be updated. Channel order can be cleared (e.g. when toggling CRT), then the list is reloaded by refetching. Leaving a channel or team clears that channel’s posts from the store; logout clears the whole posts slice; following a thread updates the root post’s `is_following` in the store.
+  - Pinned flag and last update time can be updated for a post. Focused (permalink) post id can be set. Edit history list can be set. Reactions and acknowledgements can be added or removed per post. Burn-on-read metadata (e.g. expire_at, recipients) can be updated. Channel order can be cleared (e.g. when toggling CRT), then the list is reloaded by refetching. Leaving a channel or team clears that channel’s posts from the model; logout clears the whole posts state; following a thread updates the root post’s `is_following` in the model.
 
 ---
 
 ## 3. Backend API → changes in the model
 
-Which backend API leads to which changes in the Redux posts model. Base URL is `/api/v4`.
+Which backend API leads to which changes in the posts model. Base URL is `/api/v4`. For how each affects **postsInChannel** (add/merge/remove blocks), see **post-block.md** (§2).
 
 **GET /api/v4/posts/{post_id}**
   - **Trigger:** `getPost(postId)`.
@@ -134,7 +134,7 @@ Which backend API leads to which changes in the Redux posts model. Base URL is `
 
 ## 4. WebSocket events → changes in the model
 
-Which WebSocket event leads to which changes in the Redux posts model.
+Which WebSocket event leads to which changes in the posts model.
 
 **posted** / **ephemeral_message**
   - **Handler:** `handleNewPostEvent` → `handleNewPost` → `completePostReceive`.
@@ -160,20 +160,10 @@ Which WebSocket event leads to which changes in the Redux posts model.
   - **Handler:** `handleBurnOnReadAllRevealed`.
   - **Model change:** Sender’s expire time is set in that post’s metadata in `posts`.
 
-**Note:** The frontend does not wait for the server to send a WebSocket event to update the store after a user action. For example, delete updates the model immediately (soft delete) and then calls the delete API in the background; create adds a pending post to the store first, then replaces it with the server post on success.
+**Note:** The frontend does not wait for the server to send a WebSocket event to update the model after a user action. For example, delete updates the model immediately (soft delete) and then calls the delete API in the background; create adds a pending post to the model first, then replaces it with the server post on success.
 
 ---
 
-## 5. Reducer helpers (how blocks and order are maintained)
+## 5. Other helpers
 
-- **mergePostBlocks**
-  - Sorts blocks by recency, merges overlapping adjacent blocks, dedupes and sorts by `create_at`.
-
-- **mergePostOrder**
-  - Concatenates two id arrays without duplicates and sorts by `create_at` (newest first).
-
-- **removeNonRecentEmptyPostBlocks**
-  - Drops empty blocks except the one marked recent.
-
-- **removePostsAndEmbedsForChannels**
-  - Removes all posts in the given channels and any permalink embeds pointing into them (used on leave channel/team).
+- **removePostsAndEmbedsForChannels** — Removes all posts in the given channels and any permalink embeds pointing into them (used on leave channel/team). Block merge/order helpers (`mergePostBlocks`, `mergePostOrder`, `removeNonRecentEmptyPostBlocks`) are described in **post-block.md**.

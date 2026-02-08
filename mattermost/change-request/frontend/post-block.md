@@ -28,7 +28,45 @@ The client keeps a **map: channel id → array of post blocks**. So for each cha
 
 ---
 
-## 2. When blocks are created and updated (by scenario)
+## 2. What API or event updates a post block?
+
+This section maps each backend API and WebSocket event to how it changes the channel→blocks map (add/merge block, add to recent block only, remove post from blocks, remove channel, or clear all). Base URL for REST is `/api/v4`.
+
+**Add or merge block**
+
+- **GET** `/api/v4/channels/{channel_id}/posts` — New block added (or merged) for that channel with the returned order; `recent`/`oldest` set from page. Trigger: `getPosts`, `getPostsSince`, `getPostsBefore`, `getPostsAfter` (and `getPostsAround` uses before + after + thread).
+- **GET** `/api/v4/users/.../channels/{channel_id}/posts/unread` — Same as above: merge into `posts`, add/merge block(s) for that channel. Trigger: `getPostsUnread`.
+- **GET** `/api/v4/posts/{post_id}` (via `getPostsAround`) — Combined before+after+thread: add/merge block for channel.
+- **GET** with `before` → `getPostsBefore` — New block added (older posts); merged with existing blocks.
+- **GET** with `after` → `getPostsAfter` — New block added (newer posts); merged with existing blocks.
+- **GET** with `since` → `getPostsSince` — New posts appended to the existing **recent** block only (no new block).
+
+**Add to recent block only**
+
+- **POST** `/api/v4/posts` (create post) — Pending post id added to channel's recent block; on success, id replaced with server id in same block. Trigger: `createPost`.
+- WebSocket **posted** / **ephemeral_message** — New post id added to channel's recent block (and pending replaced if applicable).
+
+**Remove post from blocks**
+
+- **DELETE** `/api/v4/posts/{post_id}` — Soft delete: post id (and reply ids for that root) removed from all blocks. Trigger: `deletePost` (model updated immediately; API runs in background).
+- Current user deletes → **POST_REMOVED** — Hard remove: post id and its reply ids removed from all blocks.
+- WebSocket **post_deleted** — Same as soft delete: id and reply ids removed from channel/thread order.
+- WebSocket **burn_on_read_post_burned** — Hard remove: post id removed from blocks.
+
+**Remove channel entry**
+
+- User leaves channel (**LEAVE_CHANNEL**) — That channel's key is removed from the map (all blocks for that channel dropped).
+
+**Clear all blocks**
+
+- CRT toggle → `resetReloadPostsInChannel` (**RESET_POSTS_IN_CHANNEL**) — Map set to `{}`; channel is then refetched.
+- Logout (**LOGOUT_SUCCESS**) — Map cleared.
+
+**Notes:** **Merge** means a new block is pushed for that channel, then `mergePostBlocks` sorts by recency, merges overlapping adjacent blocks, dedupes and sorts by `create_at`. **Add to recent block** (create post, WebSocket new post, `getPostsSince`) only touches the block marked `recent`; it does not create a new block.
+
+---
+
+## 3. When blocks are created and updated (by scenario)
 
 Each scenario below is the single place that describes both the intent and the main behavior. Redux action names are in parentheses for reference.
 
@@ -63,7 +101,7 @@ Each scenario below is the single place that describes both the intent and the m
 
 ---
 
-## 3. How the merge algorithm works (detail)
+## 4. How the merge algorithm works (detail)
 
 When a new block is added, the client runs **mergePostBlocks**:
 
@@ -78,7 +116,7 @@ When a new block is added, the client runs **mergePostBlocks**:
 
 ---
 
-## 4. How the UI uses blocks
+## 5. How the UI uses blocks
 
 **Choosing which chunk to display**
 
@@ -104,7 +142,7 @@ From the chosen chunk the UI uses: `chunk.order` (post IDs to render, newest fir
 
 ---
 
-## 5. Thread fetch: where the root and replies live (blocks vs threads)
+## 6. Thread fetch: where the root and replies live (blocks vs threads)
 
 **When the user fetches a thread** (e.g. opens the thread in the RHS via `getPostThread`):
 
@@ -128,7 +166,7 @@ The channel does **not** filter the list by `root_id`. It renders every id in th
 
 ---
 
-## 6. How the UI knows there is more data (server ↔ client)
+## 7. How the UI knows there is more data (server ↔ client)
 
 The UI does not ask the server on every scroll. It uses the block flags `recent` and `oldest`, which were set when data was last fetched from the server's pagination cursors.
 
@@ -140,7 +178,7 @@ The UI does not ask the server on every scroll. It uses the block flags `recent`
 
 ---
 
-## 7. Summary
+## 8. Summary
 
 - **Storage** — Per channel: array of blocks in memory; one block = one (possibly merged) contiguous slice of the timeline.
 - **Pagination** — Each “get posts” (latest, before, after, unread, around) adds or updates blocks; `recent` and `oldest` come from API `next_post_id` / `prev_post_id`.
