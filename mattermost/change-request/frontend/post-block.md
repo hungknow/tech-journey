@@ -107,6 +107,85 @@ When new data is written into the channel’s block list, the client maintains c
 
 So: **post block** is the unit that gets merged, cleaned, and kept or dropped when updating the in-memory timeline.
 
+### 4.1 How a new block is merged into existing blocks
+
+Whenever a **new block** is added to a channel (e.g. when posts are received in channel, after, or before), the client appends it to the channel's block list and then runs the merge logic (**mergePostBlocks(blocks, posts)**). The following describes the exact sequence of steps and behaviours.
+
+**1. Clean empty blocks (before merge)**  
+The function first runs **removeNonRecentEmptyPostBlocks** on the current list: any block with `order.length === 0` is removed **except** when that block has `recent: true`. So the "recent" block is always kept even if empty; all other empty blocks are dropped. This ensures the merge step never has to handle overlapping logic for blocks that no longer contain any posts.
+
+**2. Early return when no blocks remain**  
+If, after that cleanup, the list is empty (e.g. channel with no posts or experimental case), the function returns the **original** `blocks` argument unchanged (reference identity). No sort or merge is performed.
+
+**3. Sort blocks by recency**  
+Blocks are sorted so the **most recent** block is first. Ordering is by the **first** post's `create_at` in each block (because `order` is newest-first, the first element is the newest). Comparison is `bStartsAt - aStartsAt`, so newer `create_at` comes first. After this step, the newly added block sits in the position implied by its newest post, and all blocks are in timeline order (newest block first, oldest block last).
+
+**4. Merge adjacent overlapping blocks**  
+The code walks adjacent pairs `(a, b)` where `a` is at index `i` and `b` at `i + 1`.
+
+- **Overlap condition:** Two adjacent blocks are merged when the **last** post in `a` (oldest in that block) is **older than or equal to** the **first** post in `b` (newest in that block), by `create_at`. That is, `aEndsAt <= bStartsAt` means they overlap or touch in time, so they are combined into one contiguous block.
+- **When they overlap:**  
+  - The two blocks are combined into one: `order = mergePostOrder(a.order, b.order, posts)` (see below).  
+  - The merged block keeps **recent** and **oldest** from both: `recent = a.recent || b.recent`, `oldest = a.oldest || b.oldest`.  
+  - The second block (`b`) is removed from the list (`splice(i + 1, 1)`).  
+  - The index `i` is **not** incremented, so the same (merged) block is compared again with the next block; this repeats until it no longer overlaps with its successor.
+- **When they do not overlap:** The index is incremented (`i += 1`) and the next pair is considered.
+
+So a new block can merge with an existing block below it (in timeline order), and that merged block can in turn merge with the next, until no more adjacent pairs overlap.
+
+**5. Combining two blocks' post IDs (mergePostOrder)**  
+When two blocks are merged, their `order` arrays are combined with **mergePostOrder(left, right, posts)**:
+
+- Start from a copy of `left`. Add every id from `right` that is not already in `left` (dedupe by id).
+- If no new ids were added (`result.length === left.length`), return `left` unchanged (reference identity).
+- Otherwise, sort the combined array by `posts[id].create_at` in **descending** order (newest first) and return it. So the merged block's `order` remains newest-first and deduplicated.
+
+**6. Return value (reference identity)**  
+If, after all merges, the resulting list has the **same length** as the original `blocks` argument, the function returns the **original** `blocks` (no new array). Otherwise it returns the new list. So callers can rely on reference equality when no structural change occurred (no empty blocks removed and no adjacent merges).
+
+**Summary:** A new block is merged by (1) dropping non-recent empty blocks, (2) sorting all blocks by newest post first, (3) repeatedly merging adjacent blocks whose time ranges overlap or touch (`aEndsAt <= bStartsAt`), combining their `order` with dedupe and newest-first sort and preserving `recent`/`oldest`, and (4) returning the original array when no changes were made.
+
+### 4.2 Received posts in channel
+
+When the new block has `recent: true`, the client first finds the current recent block. If the new `order` is **identical** to that block (same length, same first id, same last id), it does not push a new block or run merge. Duplicate "latest page" responses therefore do not create extra blocks.
+
+### 4.3 Received new post
+
+If the channel has blocks but none has `recent: true`, the client **creates** a new block `{ order: [], recent: true }`, adds the new post id to it, then either pushes that block or replaces the block at the recent index. The recent block is thus created on demand when the first new post arrives after load.
+
+If the post has `pending_post_id` and the real `post.id` differs, the client removes `pending_post_id` from the recent block's `order`, adds `post.id` if not already present, then **re-sorts** that block's `order` with `comparePosts` (pending/failed posts first, then by `create_at`) so the confirmed post is in the right position.
+
+### 4.4 Received post (single post, e.g. server confirmation)
+
+When a single post is received that replaces a previously pending post (`pending_post_id` set): the client finds the recent block and replaces that entry in place (`order[index] = post.id`). No new block is created and no re-sort is run.
+
+### 4.5 Received posts since
+
+When the client receives posts since a timestamp (e.g. after reconnect): for each post id in the API `order`, it adds the post to the **recent block** only if the post exists in the post map, its `create_at` is **strictly greater than** the current oldest post's `create_at` in the recent block, and it is not already in the block. It iterates the API `order` in **reverse** (newest first) and prepends with `unshift`. No new block is created and merge is not run. If no ids were added, the block list is left unchanged.
+
+### 4.6 Post deleted
+
+For each block in the channel, the client removes from `order` the deleted post id and (unless the deleted post is burn-on-read) any reply whose `root_id` is the deleted post. Then it runs the same cleanup as in merge: drop empty blocks except the one marked `recent`. The recent block is always kept even when empty.
+
+### 4.7 Post removed
+
+Same as post deleted but for hard remove: the client removes from each block's `order` the post id and (for non–burn-on-read) any reply with `root_id` equal to that post; for burn-on-read only the post id is removed. Then it drops empty blocks except the recent block.
+
+### 4.8 Reading blocks: recent, oldest, around time, unread, around post
+
+- **Recent block** — The first block with `recent === true` for the channel (post IDs at the bottom of the channel).
+- **Oldest block** — The first block with `oldest === true` for the channel.
+- **Post IDs at bottom** — The recent block's `order`; does not include older posts from other blocks.
+- **Oldest post time in channel** — For each block with non-empty `order`, take the last id (oldest in block) and its `create_at`; return the minimum of those times, or 0 if none.
+- **Block around a timestamp** — The first block whose time range contains the timestamp: first post in block `create_at >= timeStamp` and last post in block `create_at <= timeStamp`.
+- **Block for unread view** — (1) If the recent chunk has empty `order`, use it. (2) If the recent chunk's oldest post has `create_at <= timeStamp`, all read at bottom → use recent chunk. (3) If an oldest chunk exists and its oldest post has `create_at >= timeStamp`, all unread → use oldest chunk. (4) Otherwise use the block around `timeStamp` if found. (5) Else use the recent chunk.
+- **Block containing a post id** — The first block whose `order` contains that post id (used for permalink/focused post).
+- **Chunk includes unreads** — True when the chunk has non-empty `order` and the oldest post in the chunk (last in `order`) has `create_at <= timeStamp` (the chunk contains posts at or older than that time).
+
+### 4.9 Choosing the chunk to display in the post list
+
+The post list picks one chunk to render: if there is a **focused post id** (permalink), it uses the block that contains that post. Else if **unread chunk timestamp** is set and not "start from bottom when unread", it uses the block for the unread view. Otherwise it uses the recent block. From the chosen chunk it uses `chunk.order` as the list of post IDs to render, `chunk.recent` for "at latest post", and `chunk.oldest` for "at oldest loaded post".
+
 ---
 
 ## 5. All logic: how blocks are created and updated (from source)
