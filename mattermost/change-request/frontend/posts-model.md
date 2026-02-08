@@ -6,7 +6,44 @@ This document describes how posts are stored in memory (data structure and updat
 
 ---
 
-## 1. Data structure: how posts are stored in memory
+## 1. Post model (entity shape)
+
+A single post in the store is an object of type **Post** (see `webapp/platform/types/src/posts.ts`). Each post exists once in `state.entities.posts.posts` keyed by id.
+
+**Core fields**
+
+- **id** (string) — Unique post id (server-generated, or temporary for pending).
+- **create_at** (number) — Creation timestamp (ms).
+- **update_at** (number) — Last update timestamp; used for merge ordering.
+- **edit_at** (number) — Last edit timestamp (0 if never edited).
+- **delete_at** (number) — If > 0, post is soft-deleted (message cleared, etc.).
+- **user_id** (string) — Author’s user id.
+- **channel_id** (string) — Channel the post belongs to.
+- **root_id** (string) — Root post id for replies; empty string for root posts.
+- **original_id** (string) — Id of the original post when this is a cross-post or similar.
+- **message** (string) — Post body (plain text; can be empty for deleted/system posts).
+- **type** (PostType) — `''` for normal, or a system type (e.g. `system_join_channel`, `system_ephemeral`, `burn_on_read`).
+- **is_pinned** (boolean) — Whether the post is pinned in the channel.
+- **props** (Record<string, unknown>) — Custom/client props (e.g. from integrations).
+- **hashtags** (string) — Parsed hashtags (e.g. space-separated).
+- **pending_post_id** (string) — Temporary id before server assignation; empty when final.
+- **reply_count** (number) — Number of replies (for root posts).
+- **metadata** (PostMetadata) — Embeds, files, images, reactions, priority, acknowledgements, translations, burn-on-read (expire_at, recipients), etc.
+- **file_ids** (string[], optional) — Ids of attached files.
+- **failed** (boolean, optional) — True if send failed (pending post kept for retry/display).
+- **state** (PostState, optional) — e.g. `'DELETED'` for UI state.
+- **last_reply_at** (number, optional) — Timestamp of latest reply (for roots).
+- **participants** (optional) — Thread participant info.
+- **is_following** (boolean, optional) — Whether the current user follows the thread (CRT).
+- **user_activity_posts** (Post[], optional) — Nested posts for combined activity messages.
+
+**PostMetadata** includes: `embeds` (link, image, opengraph, permalink), `emojis`, `files`, `images`, `reactions`, `priority` (urgent/important, ack requests), `acknowledgements`, `translations`, and for burn-on-read posts `expire_at` and `recipients`.
+
+**PostType** values include the empty string (normal message), `system_*` variants (e.g. join/leave, channel rename), `system_ephemeral`, `reminder`, `burn_on_read`, etc.
+
+---
+
+## 2. Data structure: how posts are stored in memory
 
 The posts state lives under `state.entities.posts`. All post-related state is normalized: each post object exists once and is referenced by id elsewhere.
 
@@ -50,7 +87,7 @@ Posts are stored once in `posts` and referenced by id from `postsInChannel` and 
 
 ---
 
-## 2. How the in-memory model is updated (merge, delete, remove)
+## 3. How the in-memory model is updated (merge, delete, remove)
 
 **Merge one post**
   - One post is added or updated in `posts` using an update rule: if the stored post is newer (by `update_at`), it is kept; if same `update_at` and same CRT/metadata, skip; otherwise overwrite. Permalink embeds with nested posts are merged recursively (with a depth limit). Deleted posts (`delete_at > 0`) update the stored post to deleted state. If the incoming post has a `pending_post_id` different from its id, the pending post is removed from `posts` and the real id is used. For replies, the root’s `participants` and `reply_count` may be updated.
@@ -70,7 +107,7 @@ Posts are stored once in `posts` and referenced by id from `postsInChannel` and 
 
 ---
 
-## 3. Backend API → changes in the model
+## 4. Backend API → changes in the model
 
 Which backend API leads to which changes in the posts model. Base URL is `/api/v4`. For how each affects **postsInChannel** (add/merge/remove blocks), see **post-block.md** (§2).
 
@@ -132,7 +169,7 @@ Which backend API leads to which changes in the posts model. Base URL is `/api/v
 
 ---
 
-## 4. WebSocket events → changes in the model
+## 5. WebSocket events → changes in the model
 
 Which WebSocket event leads to which changes in the posts model.
 
@@ -164,6 +201,6 @@ Which WebSocket event leads to which changes in the posts model.
 
 ---
 
-## 5. Other helpers
+## 6. Other helpers
 
 - **removePostsAndEmbedsForChannels** — Removes all posts in the given channels and any permalink embeds pointing into them (used on leave channel/team). Block merge/order helpers (`mergePostBlocks`, `mergePostOrder`, `removeNonRecentEmptyPostBlocks`) are described in **post-block.md**.
