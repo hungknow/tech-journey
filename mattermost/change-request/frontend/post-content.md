@@ -213,3 +213,46 @@ Base path: **`/api/v4`** (e.g. `GET https://your-server/api/v4/...`). All listed
 - **GET** `/api/v4/channels/{channel_id}/posts/before/{post_id}` and `.../after/{post_id}` — pagination.
 
 All of these that return posts run them through **PreparePostForClient** or **PreparePostForClientWithEmbedsAndImages**, so you get `message`, `message_source`, `props`, `file_ids`, and a populated `metadata` (files, reactions, embeds, images, emojis, priority, acknowledgements, etc.) in a single response. For most use cases, **GET /api/v4/posts/{post_id}** is enough to obtain the full post body and all related items (rich text, list of files, images, reactions, and other metadata).
+
+---
+
+## File types: frontend rendering and server storage
+
+### How the frontend supports different file types (PDF, images, video, etc.)
+
+The frontend treats files as a small set of **logical types** (image, video, audio, PDF, code, text, spreadsheet, word, presentation, patch, SVG, other). Type is derived from the file’s **extension** (and for some flows from **mime_type**) using `getFileType(extension)` in `webapp/channels/src/utils/utils.tsx`. The extension lists live in `webapp/channels/src/utils/constants.tsx` (e.g. `PDF_TYPES: ['pdf']`, `IMAGE_TYPES`, `VIDEO_TYPES`, `AUDIO_TYPES`, `CODE_TYPES`, etc.).
+
+**In the post (file list / thumbnail):**
+- **FilePreview** (`file_preview/file_preview.tsx`): Renders a row of file “cards.” For each file it uses `Utils.getFileType(info.extension)`. If type is **IMAGE** (or **SVG** when SVGs are enabled), it shows a thumbnail (or image); otherwise it shows a generic icon per type via `Utils.getIconClassName(type)` (e.g. PDF icon, video icon). So PDF and other non-image types appear as an icon + name/size, not an inline preview.
+- **FileAttachment** / **FileThumbnail**: Same idea — images get a real thumbnail (or mini preview from `metadata.files`); other types get an icon based on `getFileType(extension)`.
+
+**In the file preview modal (when the user opens a file):**
+- **FilePreviewModal** (`file_preview_modal/file_preview_modal.tsx`) chooses the viewer from `getFileTypeFromFileInfo(fileInfo)` (which uses `fileInfo.extension` or the URL):
+  - **IMAGE or SVG** → **ImagePreview** (img or SVG render).
+  - **VIDEO or AUDIO** → **AudioVideoPreview** (HTML5 `<video>` / `<audio>` with `fileUrl`).
+  - **PDF** → **PDFPreview** (lazy-loaded). Renders the PDF in-browser using **pdfjs-dist** (Mozilla’s PDF.js): fetches the file via `getFileDownloadUrl`/`fileUrl`, uses `pdfjsLib.getDocument({ url: fileUrl })`, then renders each page to canvas. Supports zoom and scroll. So PDF is fully supported in the modal with no server-side conversion.
+  - **Code** (extension in **CODE_TYPES**, and `hasSupportedLanguage(fileInfo)` for syntax highlighting) → **CodePreview**: fetches file content and shows it in a code block with highlighting.
+  - **Other** (Word, spreadsheet, presentation, patch, text, etc.) → **FileInfoPreview**: shows file name, type label, size, and a download/open link. No inline viewer; user can download.
+- Plugins can register **pluginFilePreviewComponents** to override the preview for specific files.
+
+So: **images** (including SVG when enabled) and **video/audio** are rendered inline in the modal; **PDF** is rendered in the modal via PDF.js; **code** files get a code viewer; **all other types** (e.g. .docx, .xlsx, .pptx) are “icon + metadata + download” only. The server does not convert PDF or Office files to images or HTML; the frontend only needs the file URL and metadata (extension, mime_type, size, etc.) from `FileInfo`.
+
+**Relevant frontend code:** `utils/utils.tsx` (`getFileType`), `utils/constants.tsx` (`FileTypes`, `*_TYPES` arrays, `ICON_FROM_TYPE`), `utils/file_utils.tsx` (`getFileTypeFromMime`), `file_preview_modal/file_preview_modal.tsx`, `pdf_preview.tsx`, `audio_video_preview`, `code_preview`, `file_info_preview`.
+
+### How the server stores files
+
+The server does **not** store file content in the database. It stores:
+
+**1. Metadata in the database (fileinfo table)**  
+Each uploaded file has a row in **fileinfo** with: id, creatorid, postid (set when attached to a post), channelid, createat, updateat, deleteat, name, extension, size, **mime_type**, width, height, haspreviewimage, minipreview (optional small image blob for list views), content (optional extracted text when “extract content” is enabled), remoteid, archived. Paths (path, thumbnailpath, previewpath) are stored in the DB but **not** sent to the client (they are server-side only). The server derives **MimeType** from the file **extension** using Go’s `mime.TypeByExtension(extension)` in `getInfoForBytes` (`server/channels/app/file_info.go`). So for a `.pdf` file, MimeType is `application/pdf`; for images, `image/png`, etc. No separate “file type” column — type is implied by extension and mime_type. Only **images** (non-SVG) get width/height and optional preview/thumbnail paths; the server generates preview and thumb images for those and stores paths. PDF and other non-image types do not get server-generated previews; they are stored as a single blob.
+
+**2. File content on a file backend (disk or S3)**  
+The actual bytes are written by the **FileBackend** interface (`server/platform/shared/filestore/`). Two drivers are implemented:
+- **Local** (`localstore.go`): Files are written under a configurable **Directory** (e.g. `./data/`). Path format is: `{YYYYMMDD}/teams/{teamId}/channels/{channelId}/users/{userId}/{fileId}/{filename}` (or a variant for bookmark-owned files). So each file is stored as one file on disk at `directory + path`. PDF, images, and every other type use the same path scheme; the filename keeps the original extension.
+- **S3** (`s3store.go`): Same logical path is used as the object key; the bucket and optional path prefix come from config (AmazonS3Bucket, AmazonS3PathPrefix, etc.). So PDFs and other types are stored as S3 objects under the same naming convention.
+
+Upload flow (simplified): client uploads to `/api/v4/files` (or resumable upload); server reads the stream, calls `getInfoForBytes(name, data, size)` to get extension and mime type and (for images) dimensions; then `WriteFile(reader, info.Path)` to the backend, then `Store().FileInfo().Save(info)` to persist metadata. For **images** (non-SVG), the server also generates preview and thumbnail files and sets `PreviewPath` and `ThumbnailPath` on the FileInfo. For other types (PDF, Office, etc.) there is no preview/thumbnail generation — only the single file is stored. Optional **content extraction** (config **ExtractContent**) can run asynchronously to populate the `Content` field for search; that does not change how the file itself is stored.
+
+**Serving files to the frontend:** The client gets a **file URL** (e.g. from `getFileUrl(fileId)` or `getFileDownloadUrl(fileId)`), which points to an API route that reads the file from the backend with `FileReader(info.Path)` and streams it with the correct **Content-Type** (from `fileInfo.MimeType`). So the browser receives the raw file (PDF, image, etc.) and the frontend can open it in the modal (PDF.js for PDF, `<video>` for video, etc.) or offer download.
+
+**Summary:** All file types (PDF, images, video, Office, etc.) are stored the same way: one row in **fileinfo** (metadata) and one object in **local** or **S3** storage at a path like `{date}/teams/.../channels/.../users/.../{fileId}/{filename}`. The server does not convert or index file contents by type beyond setting mime_type and (for images) generating preview/thumbnail files. The frontend decides how to render each type (inline viewer for image/video/audio/PDF/code, or icon + download for others) using extension and mime_type from `FileInfo`.
