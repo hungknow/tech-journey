@@ -1,0 +1,75 @@
+erDiagram
+    users {
+        varchar id PK
+        varchar username
+        varchar authservice
+        bigint createat
+    }
+
+    sessions {
+        varchar id PK
+        varchar userid FK
+        varchar token
+        bigint expiresat
+    }
+
+    audits {
+        varchar id PK
+        varchar userid FK
+        varchar action
+        bigint createat
+    }
+
+    bots {
+        varchar userid PK
+        varchar ownerid FK
+        bigint createat
+    }
+
+    oauthapps {
+        varchar id PK
+        varchar creatorid FK
+        varchar name
+    }
+
+    oauthaccessdata {
+        varchar token PK
+        varchar userid FK
+        varchar clientid FK
+    }
+
+    useraccesstokens {
+        varchar id PK
+        varchar userid FK
+        varchar token
+    }
+
+    termsofservice {
+        varchar id PK
+        varchar userid FK
+        text text
+    }
+
+    usertermsofservice {
+        varchar userid PK
+        varchar termsofserviceid FK
+    }
+
+    tokens {
+        varchar token PK
+        varchar type
+    }
+
+    outgoingoauthconnections {
+        varchar id PK
+        varchar creatorid FK
+        varchar name
+    }
+
+    users ||--o{ sessions : "has"
+    users ||--o{ audits : "audited"
+    users ||--o{ bots : "is bot"
+    users ||--o{ oauthaccessdata : "has"
+    users ||--o{ useraccesstokens : "has"
+    users ||--o{ usertermsofservice : "accepted"
+    oauthapps ||--o{ oauthaccessdata : "tokens"

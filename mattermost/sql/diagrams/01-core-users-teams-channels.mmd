@@ -1,0 +1,68 @@
+erDiagram
+    users {
+        varchar id PK
+        varchar username
+        varchar email
+        bigint createat
+    }
+
+    teams {
+        varchar id PK
+        varchar name
+        varchar displayname
+        varchar schemeid FK
+        bigint createat
+    }
+
+    schemes {
+        varchar id PK
+        varchar scope
+        varchar name
+    }
+
+    channels {
+        varchar id PK
+        varchar name
+        varchar teamid FK
+        varchar creatorid FK
+        varchar schemeid FK
+        varchar type
+        bigint createat
+    }
+
+    channelmembers {
+        varchar channelid PK
+        varchar userid PK
+        bigint lastviewedat
+        bigint mentioncount
+    }
+
+    teammembers {
+        varchar teamid PK
+        varchar userid PK
+        varchar roles
+        bigint deleteat
+    }
+
+    channelmemberhistory {
+        varchar channelid PK
+        varchar userid PK
+        bigint jointime PK
+    }
+
+    publicchannels {
+        varchar id PK
+        varchar teamid FK
+        varchar name
+    }
+
+    schemes ||--o{ teams : "team scheme"
+    schemes ||--o{ channels : "channel scheme"
+    users ||--o{ channelmembers : "member of"
+    users ||--o{ teammembers : "member of"
+    users ||--o{ channelmemberhistory : "in"
+    teams ||--o{ channels : "contains"
+    teams ||--o{ teammembers : "has"
+    teams ||--o{ publicchannels : "has"
+    channels ||--o{ channelmembers : "has"
+    channels ||--o{ channelmemberhistory : "history"

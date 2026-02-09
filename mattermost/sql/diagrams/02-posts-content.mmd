@@ -1,0 +1,99 @@
+erDiagram
+    channels {
+        varchar id PK
+        varchar name
+        varchar teamid FK
+    }
+
+    users {
+        varchar id PK
+        varchar username
+    }
+
+    posts {
+        varchar id PK
+        varchar channelid FK
+        varchar userid FK
+        varchar rootid FK
+        varchar parentid FK
+        varchar message
+        bigint createat
+    }
+
+    fileinfo {
+        varchar id PK
+        varchar channelid FK
+        varchar postid FK
+        varchar creatorid FK
+        varchar name
+        bigint createat
+    }
+
+    reactions {
+        varchar postid FK
+        varchar userid FK
+        varchar channelid FK
+        varchar emojiname
+    }
+
+    threads {
+        varchar postid PK
+        varchar channelid FK
+        bigint replycount
+    }
+
+    threadmemberships {
+        varchar postid PK
+        varchar userid PK
+        boolean following
+    }
+
+    readreceipts {
+        varchar postid PK
+        varchar userid PK
+        bigint expireat
+    }
+
+    persistentnotifications {
+        varchar postid PK
+        smallint sentcount
+    }
+
+    temporaryposts {
+        varchar postid PK
+        bigint expireat
+    }
+
+    scheduledposts {
+        varchar id PK
+        varchar channelid FK
+        varchar userid FK
+        bigint scheduledat
+    }
+
+    uploadsessions {
+        varchar id PK
+        varchar channelid FK
+        varchar userid FK
+    }
+
+    users ||--o{ posts : "author"
+    users ||--o{ reactions : "adds"
+    users ||--o{ threadmemberships : "follows"
+    users ||--o{ readreceipts : "read"
+    users ||--o{ scheduledposts : "schedules"
+    users ||--o{ uploadsessions : "uploads"
+    channels ||--o{ posts : "contains"
+    channels ||--o{ fileinfo : "has"
+    channels ||--o{ threads : "has"
+    channels ||--o{ reactions : "in"
+    channels ||--o{ scheduledposts : "scheduled in"
+    channels ||--o{ uploadsessions : "upload to"
+    posts ||--o{ fileinfo : "attachments"
+    posts ||--o{ reactions : "has"
+    posts ||--o{ threads : "thread root"
+    posts ||--o{ threadmemberships : "followed"
+    posts ||--o{ readreceipts : "read"
+    posts ||--o{ persistentnotifications : "notified"
+    posts ||--o{ temporaryposts : "temp"
+    posts ||--o{ posts : "parent"

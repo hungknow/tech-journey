@@ -1,0 +1,96 @@
+erDiagram
+    users {
+        varchar id PK
+        varchar username
+    }
+
+    channels {
+        varchar id PK
+        varchar name
+        varchar teamid FK
+    }
+
+    teams {
+        varchar id PK
+        varchar name
+    }
+
+    recaps {
+        varchar id PK
+        varchar userid FK
+        varchar botid FK
+        varchar status
+        varchar title
+    }
+
+    recapchannels {
+        varchar id PK
+        varchar channelid FK
+        varchar recapid FK
+    }
+
+    retentionpolicies {
+        varchar id PK
+        varchar displayname
+    }
+
+    retentionpolicieschannels {
+        varchar channelid PK
+        varchar policyid FK
+    }
+
+    retentionpoliciesteams {
+        varchar teamid PK
+        varchar policyid FK
+    }
+
+    retentionidsfordeletion {
+        varchar id PK
+        varchar tablename
+    }
+
+    sharedchannels {
+        varchar channelid PK
+        varchar teamid FK
+        varchar remoteid FK
+    }
+
+    sharedchannelremotes {
+        varchar id PK
+        varchar channelid PK
+        varchar remoteid FK
+    }
+
+    sharedchannelusers {
+        varchar id PK
+        varchar channelid FK
+        varchar userid FK
+        varchar remoteid FK
+    }
+
+    sharedchannelattachments {
+        varchar id PK
+        varchar fileid FK
+    }
+
+    remoteclusters {
+        varchar remoteid PK
+        varchar name PK
+    }
+
+    fileinfo {
+        varchar id PK
+    }
+
+    users ||--o{ recaps : "owns"
+    recaps ||--o{ recapchannels : "includes"
+    channels ||--o{ recapchannels : "recapped"
+    channels ||--o{ retentionpolicieschannels : "policy"
+    channels ||--o{ sharedchannels : "shared"
+    teams ||--o{ retentionpoliciesteams : "policy"
+    teams ||--o{ sharedchannels : "has"
+    retentionpolicies ||--o{ retentionpolicieschannels : "applies to"
+    retentionpolicies ||--o{ retentionpoliciesteams : "applies to"
+    sharedchannels ||--o{ sharedchannelremotes : "remotes"
+    sharedchannels ||--o{ sharedchannelusers : "users"
+    fileinfo ||--o{ sharedchannelattachments : "synced"

@@ -1,0 +1,55 @@
+erDiagram
+    teams {
+        varchar id PK
+        varchar name
+    }
+
+    channels {
+        varchar id PK
+        varchar name
+        varchar teamid FK
+    }
+
+    users {
+        varchar id PK
+        varchar username
+    }
+
+    commands {
+        varchar id PK
+        varchar teamid FK
+        varchar creatorid FK
+        varchar trigger
+    }
+
+    commandwebhooks {
+        varchar id PK
+        varchar channelid FK
+        varchar commandid FK
+        varchar userid FK
+    }
+
+    incomingwebhooks {
+        varchar id PK
+        varchar channelid FK
+        varchar teamid FK
+        varchar userid FK
+    }
+
+    outgoingwebhooks {
+        varchar id PK
+        varchar channelid FK
+        varchar teamid FK
+        varchar creatorid FK
+    }
+
+    users ||--o{ commands : "created"
+    users ||--o{ commandwebhooks : "triggered"
+    users ||--o{ incomingwebhooks : "created"
+    teams ||--o{ commands : "has"
+    teams ||--o{ incomingwebhooks : "has"
+    teams ||--o{ outgoingwebhooks : "has"
+    channels ||--o{ commandwebhooks : "in"
+    channels ||--o{ incomingwebhooks : "target"
+    channels ||--o{ outgoingwebhooks : "target"
+    commands ||--o{ commandwebhooks : "invoked"
