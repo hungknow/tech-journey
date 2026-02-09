@@ -15,18 +15,36 @@ Split ER diagrams from `../final.sql` for readable PNG/SVG export. Each file foc
 
 ## Export to PNG
 
-Single diagram:
+Single diagram (default 800×600, often low resolution):
 
 ```bash
 npx -p @mermaid-js/mermaid-cli mmdc -i mattermost/sql/diagrams/01-core-users-teams-channels.mmd -o mattermost/sql/diagrams/01-core-users-teams-channels.png
 ```
 
-All diagrams (from repo root):
+### High-resolution PNG
+
+Use a larger **width** (`-w`) and **scale** (`-s`) so the image is sharp (e.g. for print or retina):
+
+```bash
+npx -p @mermaid-js/mermaid-cli mmdc -i mattermost/sql/diagrams/01-core-users-teams-channels.mmd -o mattermost/sql/diagrams/01-core-users-teams-channels.png -w 2400 -s 2
+```
+
+- **`-w 2400`** — viewport width in pixels (default 800). Use 2400–4000 for big diagrams.
+- **`-s 2`** — scale factor (default 1). Use 2 for 2× pixel density (sharp on retina).
+- **`-H 1800`** — optional height if the diagram is tall; increase if the bottom is clipped.
+
+**Export all diagrams at high resolution** (from repo root):
 
 ```bash
 for f in mattermost/sql/diagrams/*.mmd; do
-  npx -p @mermaid-js/mermaid-cli mmdc -i "$f" -o "${f%.mmd}.png"
+  npx -p @mermaid-js/mermaid-cli mmdc -i "$f" -o "${f%.mmd}.png" -w 2400 -s 2
 done
 ```
 
-Or use [Mermaid Live Editor](https://mermaid.live): paste each `.mmd` file and export as PNG/SVG.
+**SVG** stays sharp at any size; use it when you need to zoom or print:
+
+```bash
+npx -p @mermaid-js/mermaid-cli mmdc -i mattermost/sql/diagrams/01-core-users-teams-channels.mmd -o mattermost/sql/diagrams/01-core-users-teams-channels.svg
+```
+
+Or use [Mermaid Live Editor](https://mermaid.live): paste each `.mmd` file and export as PNG/SVG (use the zoom/scale in the editor before export for higher-res PNG).
