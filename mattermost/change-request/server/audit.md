@@ -45,6 +45,37 @@ Many handlers use both: they create an `AuditRecord` and also call `LogAudit` fo
 
 ---
 
+## How AuditRecord is stored and how to review audit data
+
+**How AuditRecord is stored**
+
+AuditRecord is **not** stored in the database. There is no table for it.
+
+When code calls `c.LogAuditRec(auditRec)` (or `LogAuditRecWithLevel`), the app calls `App.Srv().Audit.LogRecord(level, *rec)`. The audit engine (`server/channels/audit/audit.go`) converts the record into mlog fields (event_name, status, actor, event, meta, error) and calls `a.logger.Log(level, "", flds...)`. That logger is an mlog instance whose targets are configured at server startup from **Config > Experimental > Audit** (`ExperimentalAuditSettings`):
+
+- **File target:** If `FileEnabled` is true, a file target is added (e.g. `FileName` under the log root). AuditRecord entries are written as JSON lines to that file. Rotation and retention are controlled by `FileMaxSizeMB`, `FileMaxAgeDays`, `FileMaxBackups`, and `FileMaxQueueSize`.
+- **Advanced logging:** If `AdvancedLoggingJSON` (or the config source) defines additional targets, those can send the same audit log stream to syslog, a remote server, or other mlog-supported outputs.
+
+So **AuditRecord is “stored” only as log output** — in the audit log file and/or whatever external targets (syslog, SIEM, etc.) are configured. The server does not persist AuditRecord to any database or queryable store.
+
+**How users can review a list of audit data**
+
+**Legacy audits (listable in product):** The APIs that return audit data to the client use the **Audits** table only (legacy `model.Audit` rows from `LogAudit` / `LogAuditWithUserId`):
+
+- **GET /api/v4/audits** — System admins (or users with `read_audits`). Returns paginated rows from `Audits` for all users (`App.GetAuditsPage(rctx, "", page, perPage)`). Query params: `page`, `per_page`.
+- **GET /api/v4/users/:user_id/audits** — Same permission; returns audits for that user only (`App.GetAuditsPage(rctx, userId, page, perPage)`).
+
+Each returned item has: `id`, `create_at`, `user_id`, `action`, `extra_info`, `ip_address`, `session_id`. This is the data that can be shown in the System Console or any UI that calls these APIs. It does **not** include the structured AuditRecord fields (event_name, parameters, prior_state, resulting_state, object_type, etc.).
+
+**AuditRecord (structured) — no list API:** There is no REST API or UI in the server that returns a list of AuditRecords. To review AuditRecord content, users (or admins) must:
+
+- Read the **audit log file** on the server (path from `ExperimentalAuditSettings.FileName` when file audit is enabled), or
+- Use whatever **external system** ingests the audit stream (e.g. syslog, log aggregator, SIEM). Those systems can search, filter, and display the JSON audit lines.
+
+So in practice: **listing “audit” in the product = legacy Audits table via the two GET APIs above.** Reviewing the **full AuditRecord** (event name, parameters, prior/result state, etc.) is done outside the product via the audit log file or external log/audit tools.
+
+---
+
 ## Example: Create User
 
 In `api4/user.go`, `createUser`:
