@@ -45,6 +45,107 @@ Many handlers use both: they create an `AuditRecord` and also call `LogAudit` fo
 
 ---
 
+## AuditRecord structure, helpers, and JSON format (implementation guide)
+
+**Go struct definitions** (from `server/public/model/audit_record.go`)
+
+```go
+type AuditRecord struct {
+    EventName string          `json:"event_name"`
+    Status    string          `json:"status"`
+    EventData AuditEventData  `json:"event"`
+    Actor     AuditEventActor `json:"actor"`
+    Meta      map[string]any  `json:"meta"`
+    Error     AuditEventError `json:"error"`
+}
+
+type AuditEventData struct {
+    Parameters  map[string]any `json:"parameters"`       // request payload / query params
+    PriorState  map[string]any `json:"prior_state"`      // state before change; nil for create
+    ResultState map[string]any `json:"resulting_state"`   // state after change
+    ObjectType  string         `json:"object_type"`      // e.g. "user", "channel", "post"
+}
+
+type AuditEventActor struct {
+    UserId        string `json:"user_id"`
+    SessionId     string `json:"session_id"`
+    Client        string `json:"client"`
+    IpAddress     string `json:"ip_address"`
+    XForwardedFor string `json:"x_forwarded_for"`
+}
+
+type AuditEventError struct {
+    Description string `json:"description,omitempty"`
+    Code        int    `json:"status_code,omitempty"`
+}
+```
+
+**Constants**
+
+- Status: `AuditStatusSuccess`, `AuditStatusAttempt`, `AuditStatusFail` (values `"success"`, `"attempt"`, `"fail"`).
+- Field keys used when mapping to mlog (and in JSON): `AuditKeyEventName` = `"event_name"`, `AuditKeyStatus` = `"status"`, `AuditKeyActor` = `"actor"`, `AuditKeyEvent` = `"event"`, `AuditKeyMeta` = `"meta"`, `AuditKeyError` = `"error"`.
+
+**How to build a record (helpers)**
+
+- **Create:** Use `c.MakeAuditRecord(eventName, initialStatus)` so `Actor` and `Meta` (e.g. `api_path`, `cluster_id`) are filled from context. Then add event-specific data:
+
+  - **Parameters (input):**  
+    - `model.AddEventParameterToAuditRec(rec, key, val)` — `val` must be one of: `string`, `bool`, `int`, `int64`, `[]string`, `map[string]string`. Stored in `EventData.Parameters[key]`.  
+    - `model.AddEventParameterAuditableToAuditRec(rec, key, val)` — `val` implements `Auditable`; stores `val.Auditable()` in `EventData.Parameters[key]`.  
+    - `model.AddEventParameterAuditableArrayToAuditRec(rec, key, val)` — `val` is `[]T` with `T` implementing `Auditable`; stores a slice of `Auditable()` maps in `EventData.Parameters[key]`.
+
+  - **Prior/result state and object type:**  
+    - `rec.AddEventPriorState(obj)` — sets `EventData.PriorState = obj.Auditable()` (use for updates/deletes).  
+    - `rec.AddEventResultState(obj)` — sets `EventData.ResultState = obj.Auditable()` (use after create/update).  
+    - `rec.AddEventObjectType(objectType)` — sets `EventData.ObjectType` (e.g. `"user"`).
+
+  - **Meta (extra context):**  
+    - `rec.AddMeta(name, val)` — sets `Meta[name] = val` (any type; e.g. `"admin"`, `true` or `"token_type"`, `"guest_invitation"`).
+
+  - **Status:**  
+    - `rec.Success()` — set `Status` to success.  
+    - `rec.Fail()` — set `Status` to fail.
+
+  - **Error (on failure):**  
+    - `rec.AddErrorCode(code)` — set `Error.Code` (e.g. HTTP status).  
+    - `rec.AddErrorDesc(description)` — set `Error.Description`.  
+    - `rec.AddAppError(appErr)` — sets both from `*model.AppError`.
+
+**Auditable interface**
+
+Types that are safe to log (no secrets) implement:
+
+```go
+type Auditable interface {
+    Auditable() map[string]any
+}
+```
+
+Use `AddEventParameterAuditableToAuditRec`, `AddEventPriorState`, or `AddEventResultState` with that type; the map returned by `Auditable()` is what gets stored and later serialized to JSON.
+
+**How it is formatted into JSON**
+
+The audit engine does **not** serialize `AuditRecord` to JSON itself. It passes the record to mlog as six fields:
+
+- `event_name` (string)  
+- `status` (string)  
+- `actor` (AuditEventActor → JSON object)  
+- `event` (AuditEventData → JSON object)  
+- `meta` (map[string]any → JSON object)  
+- `error` (AuditEventError → JSON object)
+
+So each log line is one JSON object. The file target uses format options that include `timestamp` and omit `msg`/level. The exact top-level keys in that JSON line are the mlog field keys above (e.g. `event_name`, `status`, `actor`, `event`, `meta`, `error`), plus any formatter-added keys like `timestamp`. Nested structures use the same `json` tags as the Go structs.
+
+**Example single-line JSON output** (one AuditRecord as written to the audit file):
+
+```json
+{"timestamp":1640000000123,"event_name":"createUser","status":"success","actor":{"user_id":"admin_uid","session_id":"sess_xyz","client":"Mozilla/5.0 ...","ip_address":"192.168.1.100","x_forwarded_for":""},"event":{"parameters":{"invite_id":"","redirect":"","user":{"id":"","username":"newuser","email":"newuser@example.com","roles":"system_user"}},"prior_state":null,"resulting_state":{"id":"new_uid","username":"newuser","email":"newuser@example.com","roles":"system_user"},"object_type":"user"},"meta":{"api_path":"/api/v4/users","cluster_id":"cluster_abc","admin":true},"error":{"description":"","status_code":0}}
+```
+
+So to implement a new audited action: create the record with `MakeAuditRecord`, add parameters/prior state/result state/object type and meta with the helpers above, call `Success()` or `Fail()` (and on failure set error code/description), then `defer c.LogAuditRec(auditRec)` so the record is emitted when the handler returns (with failure applied if `c.Err != nil`).
+
+---
+
 ## How AuditRecord is stored and how to review audit data
 
 **How AuditRecord is stored**
