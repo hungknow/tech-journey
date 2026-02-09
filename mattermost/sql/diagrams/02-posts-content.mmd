@@ -17,7 +17,14 @@ erDiagram
         varchar rootid FK
         varchar parentid FK
         varchar message
+        varchar fileids
+        varchar filenames
+        varchar type
+        boolean ispinned
+        boolean hasreactions
         bigint createat
+        bigint deleteat
+        bigint updateat
     }
 
     fileinfo {
@@ -26,7 +33,11 @@ erDiagram
         varchar postid FK
         varchar creatorid FK
         varchar name
+        varchar extension
+        varchar mimetype
+        bigint size
         bigint createat
+        bigint deleteat
     }
 
     reactions {
@@ -68,7 +79,10 @@ erDiagram
         varchar id PK
         varchar channelid FK
         varchar userid FK
+        varchar message
+        varchar fileids
         bigint scheduledat
+        bigint processedat
     }
 
     uploadsessions {

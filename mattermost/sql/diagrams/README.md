@@ -2,6 +2,8 @@
 
 Split ER diagrams from `../final.sql` for readable PNG/SVG export. Each file focuses on one area.
 
+**Diagram convention:** Each entity shows a **subset** of columns — primary keys (PK), foreign keys (FK), and other important fields. The **authoritative schema is `../final.sql`**; diagrams omit some columns (e.g. long text, jsonb, or rarely-used fields) to stay readable. If a column exists in `final.sql` but not in a diagram, it is intentional omission, not an error. Critical fields like `posts.fileids` are included.
+
 | File | Description |
 |------|-------------|
 | **01-core-users-teams-channels.mmd** | Users, teams, schemes, channels, channel/team members, channel member history, public channels |

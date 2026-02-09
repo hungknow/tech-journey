@@ -23,18 +23,24 @@ erDiagram
     channels {
         varchar id PK
         varchar name
+        varchar displayname
         varchar teamid FK
         varchar creatorid FK
         varchar schemeid FK
         varchar type
+        boolean shared
         bigint createat
+        bigint deleteat
+        bigint lastpostat
     }
 
     channelmembers {
         varchar channelid PK
         varchar userid PK
+        varchar roles
         bigint lastviewedat
         bigint mentioncount
+        bigint msgcount
     }
 
     teammembers {
@@ -48,12 +54,15 @@ erDiagram
         varchar channelid PK
         varchar userid PK
         bigint jointime PK
+        bigint leavetime
     }
 
     publicchannels {
         varchar id PK
         varchar teamid FK
         varchar name
+        varchar displayname
+        bigint deleteat
     }
 
     schemes ||--o{ teams : "team scheme"
