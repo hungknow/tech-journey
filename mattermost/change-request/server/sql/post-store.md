@@ -206,7 +206,13 @@ WHERE Id = any (array (SELECT Id FROM Posts WHERE CreateAt < ? LIMIT ?))
 
 **PermanentDeleteBatchForRetentionPolicies**
 
-- Uses a Squirrel builder `SELECT Posts.Id FROM Posts` with optional filter for non-pinned or already-deleted pinned posts, then delegates to `genericPermanentDeleteBatchForRetentionPolicies` for batched permanent deletion by retention policy.
+- Uses a Squirrel builder with optional filter for non-pinned or already-deleted pinned posts, then delegates to **genericPermanentDeleteBatchForRetentionPolicies** for batched permanent deletion by retention policy. Shape:
+
+```sql
+SELECT Posts.Id
+FROM Posts
+-- optional: non-pinned or already-deleted pinned filter
+```
 
 ---
 
