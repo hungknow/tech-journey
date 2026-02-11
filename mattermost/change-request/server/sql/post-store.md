@@ -337,6 +337,8 @@ LIMIT ? OFFSET ?
 
 ## Get posts by channel / time / thread
 
+**What is root vs parent post?** A **root post** is a top-level post in a channel (it has `RootId = ''` and starts a thread). A **parent post** is the post that a reply belongs to—i.e. the post whose `Id` equals that reply’s `RootId`. In the schema, every reply points to the thread’s root, so the parent of a reply is always that thread’s root post. The same post can be called “root” when we mean “top-level in the channel” and “parent” when we mean “the post that owns these replies.” **getRootPosts** returns the channel’s main timeline (root posts). **getParentsPosts** returns only the roots that are parents of replies visible on the current page, so the UI can show thread context for those replies.
+
 ### GetPosts (non–collapsed path)
 
 Uses: **getRootPosts**, **getParentsPosts** (in parallel).
