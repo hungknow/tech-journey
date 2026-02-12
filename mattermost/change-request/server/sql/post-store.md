@@ -49,6 +49,9 @@ WHERE RootId IN (...)
 GROUP BY RootId
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);`  
+**Purpose:** Speeds up filtering by `RootId IN (...)` and `DeleteAt = 0`, and supports the GROUP BY on `RootId`.
+
 ---
 
 ## Update and overwrite
@@ -123,6 +126,9 @@ SET DeleteAt = $1, UpdateAt = $1, Props = jsonb_set(Props, $2, $3)
 WHERE Id = $4 OR RootId = $4
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);`  
+**Purpose:** Speeds up the `OR RootId = $4` branch; the planner can use this index for the RootId predicate (Id uses primary key).
+
 - If the post is a root: update Threads (via `deleteThread`) and update FileInfo (via `deleteThreadFiles`). If it is a reply: update Threads (via `updateThreadAfterReplyDeletion`) and update root post `UpdateAt`.
 
 ### permanentDelete
@@ -147,6 +153,9 @@ DELETE FROM ThreadMemberships WHERE PostId IN (...)
 DELETE FROM Reactions WHERE PostId IN (...)
 ```
 
+**No index.**  
+**Suggestion:** Add `CREATE INDEX IF NOT EXISTS idx_reactions_post_id ON reactions(postid);` to speed up deletes by `PostId`. The schema only has `idx_reactions_channel_id`.
+
 - Removes temporary (e.g. burn-on-read) posts:
 
 ```sql
@@ -159,11 +168,17 @@ DELETE FROM TemporaryPosts WHERE PostId IN (...)
 DELETE FROM ReadReceipts WHERE PostId IN (...)
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_read_receipts_post_id ON ReadReceipts(PostId);`  
+**Purpose:** Speeds up `WHERE PostId IN (...)` for bulk deletes.
+
 - Permanently deletes the posts and all their replies:
 
 ```sql
 DELETE FROM Posts WHERE Id IN (...) OR RootId IN (...)
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);`  
+**Purpose:** Speeds up the `RootId IN (...)` branch; `Id IN (...)` uses the primary key.
 
 ### permanentDeleteAllCommentByUser
 
@@ -173,11 +188,17 @@ DELETE FROM Posts WHERE Id IN (...) OR RootId IN (...)
 SELECT Id, RootId FROM Posts WHERE UserId = ? AND RootId != ''
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_user_id ON posts(userid);`  
+**Purpose:** Speeds up `WHERE UserId = ?`; filter on `RootId != ''` is applied on the result set.
+
 - Permanently deletes all comments by that user; then uses `updateThreadAfterReplyDeletion` per root and `permanentDeleteReactions`, `permanentDeleteTemporaryPosts`, `permanentDeleteReadReceipts` for those comment ids:
 
 ```sql
 DELETE FROM Posts WHERE UserId = ? AND RootId != ''
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_user_id ON posts(userid);`  
+**Purpose:** Speeds up locating rows by `UserId` for the delete.
 
 ### PermanentDeleteByUser
 
@@ -189,6 +210,9 @@ Uses: **permanentDeleteAllCommentByUser**, then **permanentDelete** in a loop.
 SELECT Id FROM Posts WHERE UserId = ? LIMIT 1000
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_user_id ON posts(userid);`  
+**Purpose:** Speeds up `WHERE UserId = ?` for batched id fetch.
+
 and `permanentDelete(ids)` until no more posts.
 
 ### PermanentDeleteByChannel
@@ -198,6 +222,9 @@ and `permanentDelete(ids)` until no more posts.
 ```sql
 SELECT Id FROM Posts WHERE ChannelId = ? AND Id > ? ORDER BY Id ASC LIMIT 500
 ```
+
+**No index.**  
+**Suggestion:** Add `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_id ON posts(channelid, id);` for cursor-based pagination by `(ChannelId, Id)`. Existing `idx_posts_channel_id_delete_at_create_at` is on `(channelid, deleteat, createat)` and does not match `ORDER BY Id`.
 
 For each batch, runs `permanentDeleteThreads`, `permanentDeleteReactions`, `permanentDeleteTemporaryPosts`, `permanentDeleteReadReceipts`, then:
 
@@ -216,6 +243,9 @@ DELETE FROM Posts
 WHERE Id = any (array (SELECT Id FROM Posts WHERE CreateAt < ? LIMIT ?))
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_create_at ON posts(createat);` or `CREATE INDEX IF NOT EXISTS idx_posts_create_at_id on posts(createat, id);`  
+**Purpose:** The subquery filters by `CreateAt < ?` and LIMIT; `idx_posts_create_at_id` supports both the predicate and returning `Id` in order.
+
 ### PermanentDeleteBatchForRetentionPolicies
 
 Uses: **genericPermanentDeleteBatchForRetentionPolicies**. Squirrel builder with optional filter for non-pinned or already-deleted pinned posts.
@@ -227,6 +257,9 @@ SELECT Posts.Id
 FROM Posts
 -- optional: non-pinned or already-deleted pinned filter
 ```
+
+**Existing index:** Depends on filters (e.g. `idx_posts_delete_at`, `idx_posts_is_pinned`, or composite channel/time indexes).  
+**Purpose:** Use the index that matches the optional filter columns (DeleteAt, IsPinned, ChannelId, CreateAt, etc.).
 
 ---
 
@@ -245,6 +278,8 @@ FROM Posts p
 WHERE p.Id = ? AND p.DeleteAt = 0
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);` (subquery: reply count by RootId and DeleteAt = 0).  
+
 - Optional thread fetch (with ordering and limit for thread replies):
 
 ```sql
@@ -254,6 +289,9 @@ FROM Posts p, replycount
 WHERE (p.Id = ? OR p.RootId = ?) AND p.DeleteAt = 0
 ORDER BY ... LIMIT ...
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);` for the subquery `WHERE RootId = ? AND DeleteAt = 0`. Main query uses primary key on `Id`.  
+**Purpose:** Speeds up reply count and thread-reply fetch by RootId and DeleteAt.
 
 ### Get (collapsed-threads path)
 
@@ -276,6 +314,9 @@ WHERE Posts.DeleteAt = 0 AND Posts.Id = ?
 SELECT * FROM Posts WHERE Posts.RootId = ? AND Posts.DeleteAt = 0
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);`  
+**Purpose:** Speeds up `WHERE RootId = ? AND DeleteAt = 0` for thread replies.
+
 ### GetSingle
 
 - Returns one post by id, optionally including deleted:
@@ -290,6 +331,9 @@ WHERE Posts.Id = ?
   -- AND Posts.DeleteAt = 0  (when not inclDeleted)
 ```
 
+**Existing index:** Lookup by `Posts.Id` (primary key). Reply-count subquery: `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);`  
+**Purpose:** Same as Get (non–collapsed): primary key for main row, root_id+delete_at for reply count.
+
 ### GetEtag
 
 **What is etag?** An *entity tag* used for cache validation. The server builds a short value that represents “how up to date” the channel’s post list is (from the latest post’s `Id` and `UpdateAt`). The client can send this etag on the next request (e.g. in `If-None-Match`); if nothing changed, the server can respond 304 Not Modified so the client keeps using its cached list.
@@ -301,6 +345,9 @@ SELECT Id, UpdateAt FROM Posts WHERE ChannelId = ?
 -- AND RootId = ''  (when collapsedThreads)
 ORDER BY UpdateAt DESC LIMIT 1
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_update_at ON posts(channelid, updateat);`  
+**Purpose:** Speeds up `WHERE ChannelId = ?` and `ORDER BY UpdateAt DESC LIMIT 1` for etag.
 
 ---
 
@@ -333,6 +380,9 @@ ORDER BY CreateAt DESC
 LIMIT ? OFFSET ?
 ```
 
+**Existing index:** `Posts.Id IN (...)` uses primary key. `idx_preferences_category` / preferences by (UserId, Category) via PK. `idx_channelmembers_user_id_channel_id_last_viewed_at` or channel membership by UserId. Reply-count subquery: `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);`. Ordering: `CREATE INDEX IF NOT EXISTS idx_posts_create_at ON posts(createat);` helps only indirectly (posts already restricted by Id IN).  
+**Purpose:** Main filter is `Id IN (SELECT Name FROM Preferences ...)`; primary key covers Id. RootId reply count uses `idx_posts_root_id_delete_at`. Consider composite on (CreateAt, Id) if sorting large flagged sets is slow.
+
 ---
 
 ## Get posts by channel / time / thread
@@ -358,11 +408,17 @@ ORDER BY p.CreateAt DESC
 LIMIT ? OFFSET ?
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_delete_at_create_at ON posts(channelid, deleteat, createat);`  
+**Purpose:** Speeds up `WHERE ChannelId = ? AND DeleteAt = 0` and `ORDER BY CreateAt DESC` for root posts.
+
 - Without reply count:
 
 ```sql
 SELECT Posts.* FROM Posts WHERE Posts.ChannelId = ? AND Posts.DeleteAt = 0 ORDER BY Posts.CreateAt DESC LIMIT ? OFFSET ?
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_delete_at_create_at ON posts(channelid, deleteat, createat);`  
+**Purpose:** Same as getRootPosts: channel + delete filter and CreateAt ordering.
 
 ### getParentsPosts
 
@@ -389,6 +445,9 @@ WHERE q2.ChannelId = ? AND q2.DeleteAt = 0
 ORDER BY q2.CreateAt
 ```
 
+**Existing index:** Inner subquery: `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_delete_at_create_at ON posts(channelid, deleteat, createat);` for `WHERE ChannelId = ? AND DeleteAt = 0 ORDER BY CreateAt DESC`. Join and outer filter on `q2.Id` / `q2.ChannelId` + `DeleteAt`: same index or primary key. Reply-count subquery: `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);`  
+**Purpose:** Channel timeline and root id list use channel+delete_at+create_at; parent lookup and reply count use root_id+delete_at.
+
 ### GetPosts (collapsed-threads path)
 
 Uses: **getPostsCollapsedThreads**.
@@ -404,6 +463,9 @@ ORDER BY Posts.CreateAt DESC
 LIMIT ? OFFSET ?
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_delete_at_create_at ON posts(channelid, deleteat, createat);` (for `ChannelId`, `RootId = ''`, `DeleteAt = 0`, `ORDER BY CreateAt DESC`). Threads join on PostId (PK); ThreadMemberships on (PostId, UserId) (PK).  
+**Purpose:** Channel root posts with thread metadata; channel+delete_at+create_at index covers the main Posts filter and sort.
+
 ### GetPostsSince (non–collapsed path)
 
 - Fetches recently updated posts and their root posts:
@@ -418,6 +480,9 @@ UNION
 ORDER BY CreateAt DESC
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_update_at ON posts(channelid, updateat);`  
+**Purpose:** Speeds up `WHERE ChannelId = ? AND UpdateAt > ?`; ordering may use this index or idx_posts_create_at depending on planner.
+
 ### getPostsSinceCollapsedThreads
 
 ```sql
@@ -429,6 +494,9 @@ WHERE Posts.ChannelId = ? AND Posts.UpdateAt > ? AND Posts.RootId = ''
 ORDER BY Posts.CreateAt DESC
 LIMIT 1000
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_update_at ON posts(channelid, updateat);`  
+**Purpose:** Speeds up `WHERE ChannelId = ? AND UpdateAt > ? AND RootId = ''` and ordering by CreateAt for collapsed-threads “since” feed.
 
 ### HasAutoResponsePostByUserSince
 
@@ -442,9 +510,15 @@ SELECT EXISTS (
 )
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_update_at ON posts(channelid, updateat);` and `CREATE INDEX IF NOT EXISTS idx_posts_user_id ON posts(userid);` can be used; no single composite on (ChannelId, UpdateAt, UserId, Type).  
+**Purpose:** Planner may use channel_id_update_at then filter UserId/Type. **Suggestion:** For a hot path, add `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_update_at_user_id_type ON posts(channelid, updateat, userid, type);` to cover the full predicate.
+
 ### GetPostsSinceForSync
 
 - Used for sync/export; Squirrel SELECT from Posts with ORDER BY UpdateAt/Id, LIMIT, and optional filters (cursor, ChannelId, DeleteAt, ExcludeRemoteId, Type).
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_update_at ON posts(channelid, updateat);`, `CREATE INDEX IF NOT EXISTS idx_posts_create_at_id on posts(createat, id);`, and filter-related indexes (`idx_posts_delete_at`, `idx_posts_user_id`) depending on filters.  
+**Purpose:** Cursor-based export/sync by UpdateAt or (CreateAt, Id); channel and other filters use the listed indexes.
 
 ### GetPostsBefore / GetPostsAfter
 
@@ -458,6 +532,9 @@ WHERE CreateAt < (SELECT CreateAt FROM Posts WHERE Id = ?)  -- or > for After
 ORDER BY p.CreateAt DESC
 LIMIT ? OFFSET ?
 ```
+
+**Existing index:** Subquery `(SELECT CreateAt FROM Posts WHERE Id = ?)` uses primary key. Main query: `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_delete_at_create_at ON posts(channelid, deleteat, createat);` for `WHERE ChannelId = ? AND DeleteAt = 0` and `CreateAt < ... ORDER BY CreateAt DESC`.  
+**Purpose:** Lookup by Id for cursor; then channel + delete_at + create_at for before/after page.
 
 May then run a second query to fetch root/parent posts for reply counts.
 
@@ -475,6 +552,9 @@ ORDER BY CreateAt ASC, Id ASC
 LIMIT perPage + 1
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_delete_at_create_at ON posts(channelid, deleteat, createat);` — column order is (channelid, deleteat, createat); the query uses `(CreateAt, Id) > (?, ?)` and `ORDER BY CreateAt ASC, Id ASC`. The index supports channel + DeleteAt + CreateAt; for strict (CreateAt, Id) cursor, `idx_posts_create_at_id` on (createat, id) helps ordering but not ChannelId filter.  
+**Purpose:** Composite (channelid, deleteat, createat, id) would be ideal. Existing: use `idx_posts_channel_id_delete_at_create_at` for filter; planner may add id from table. **Suggestion:** Consider `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_delete_at_create_at_id ON posts(channelid, deleteat, createat, id);` for reporting pagination.
+
 ### GetPostsByThread
 
 - All replies in a thread since a given time:
@@ -482,6 +562,9 @@ LIMIT perPage + 1
 ```sql
 SELECT * FROM Posts WHERE RootId = ? AND DeleteAt = 0 AND CreateAt >= ?
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);`  
+**Purpose:** Speeds up `WHERE RootId = ? AND DeleteAt = 0`; filter `CreateAt >= ?` applied on index result. For optimal range on CreateAt, **suggestion:** `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at_create_at ON posts(rootid, deleteat, createat);` if this query is frequent.
 
 ### GetPostIdBeforeTime / GetPostIdAfterTime
 
@@ -499,6 +582,9 @@ ORDER BY Posts.CreateAt DESC  -- or ASC for After
 LIMIT 1
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_delete_at_create_at ON posts(channelid, deleteat, createat);` for `WHERE ChannelId = ? AND DeleteAt = 0` and `ORDER BY CreateAt DESC` (or ASC for After).  
+**Purpose:** Cursor-based before/after by CreateAt; channel + delete_at + create_at supports the predicate and sort.
+
 ### GetPostAfterTime
 
 ```sql
@@ -507,6 +593,9 @@ WHERE CreateAt > ? AND ChannelId = ? AND DeleteAt = 0
 ORDER BY Posts.CreateAt ASC
 LIMIT 1
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_delete_at_create_at ON posts(channelid, deleteat, createat);`  
+**Purpose:** Speeds up `WHERE ChannelId = ? AND DeleteAt = 0` and `CreateAt > ? ORDER BY CreateAt ASC LIMIT 1`.
 
 ---
 
@@ -524,6 +613,9 @@ WHERE p.Id IN (?)
 ORDER BY CreateAt DESC
 ```
 
+**Existing index:** Lookup by `p.Id IN (...)` uses primary key. Reply-count subquery: `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);`  
+**Purpose:** Id list uses PK; reply count uses root_id + delete_at.
+
 ### GetEditHistoryForPost
 
 - Edit history (previous versions) for a post:
@@ -532,11 +624,17 @@ ORDER BY CreateAt DESC
 SELECT * FROM Posts WHERE Posts.OriginalId = ? ORDER BY Posts.EditAt DESC
 ```
 
+**No index.**  
+**Suggestion:** Add `CREATE INDEX IF NOT EXISTS idx_posts_original_id_edit_at ON posts(originalid, editat DESC);` to speed up edit-history lookup and ordering. The schema has no index on `OriginalId`.
+
 ### GetPostsCreatedAt
 
 ```sql
 SELECT * FROM Posts WHERE CreateAt = ? AND ChannelId = ?
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_channel_id_delete_at_create_at ON posts(channelid, deleteat, createat);` or `idx_posts_create_at` — the composite matches (ChannelId, CreateAt) if DeleteAt is not in the query; otherwise `idx_posts_create_at` + filter.  
+**Purpose:** Supports equality on CreateAt and ChannelId (composite covers both when deleteat is constant or not filtered).
 
 ---
 
@@ -570,6 +668,9 @@ ORDER BY q2.CreateAt DESC
 LIMIT 100
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_message_txt ON posts USING gin(to_tsvector('english', message));` for full-text on Message. `idx_posts_create_at` for CreateAt date filters. `idx_posts_delete_at`, channel membership and Channels.Id (PK). Optional UserId: `idx_posts_user_id`. Reply-count subquery: `idx_posts_root_id_delete_at`.  
+**Purpose:** Full-text uses message GIN index; date and channel/user filters use the listed indexes; ordering by CreateAt uses idx_posts_create_at.
+
 ---
 
 ## Analytics
@@ -586,6 +687,9 @@ GROUP BY DATE(TO_TIMESTAMP(Posts.CreateAt / 1000))
 ORDER BY Name DESC
 LIMIT 30
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_create_at ON posts(createat);`  
+**Purpose:** Speeds up `WHERE CreateAt >= ? AND CreateAt <= ?` for the date range; GROUP BY on date uses the same range scan.
 
 ### countBotPostsByDay
 
@@ -629,6 +733,9 @@ WHERE 1=1
   -- AND (SinceUpdateAt/UntilUpdateAt cursor)
 ```
 
+**Existing index:** Depends on filters: `idx_posts_create_at`, `idx_posts_update_at`, `idx_posts_delete_at`, `idx_posts_user_id`, etc. Full table count uses sequential scan unless filtered.  
+**Purpose:** Use the index that matches the active filter (CreateAt, UpdateAt, Type, UserId, etc.).
+
 ---
 
 ## Indexing and export
@@ -646,11 +753,17 @@ ORDER BY Posts.CreateAt ASC, Posts.Id ASC
 LIMIT ?
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_create_at_id on posts(createat, id);`  
+**Purpose:** Speeds up `WHERE (CreateAt, Id) > (?, ?) ORDER BY CreateAt ASC, Id ASC LIMIT ?` for indexing cursor.
+
 ### GetOldest
 
 ```sql
 SELECT * FROM Posts ORDER BY CreateAt LIMIT 1
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_create_at ON posts(createat);` or `idx_posts_create_at_id`  
+**Purpose:** Speeds up `ORDER BY CreateAt LIMIT 1` for oldest post.
 
 ### GetNthRecentPostTime
 
@@ -663,6 +776,9 @@ ORDER BY p.CreateAt DESC
 LIMIT 1 OFFSET (n - 1)
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_create_at ON posts(createat);` or `idx_posts_create_at_id` for `ORDER BY CreateAt DESC`.  
+**Purpose:** Supports ordering by CreateAt; UserId/Type filters may use idx_posts_user_id or table filter.
+
 ### GetParentsForExportAfter
 
 - First, get root ids:
@@ -673,6 +789,9 @@ WHERE Posts.Id > ? AND Posts.RootId = '' AND Posts.DeleteAt = 0
 ORDER BY Posts.Id
 LIMIT ?
 ```
+
+**Existing index:** No index on (Id, RootId, DeleteAt) for `WHERE Id > ? AND RootId = '' AND DeleteAt = 0 ORDER BY Id`. Primary key gives Id order; filter RootId = '' and DeleteAt = 0 on rows.  
+**Purpose:** Id range uses PK. **Suggestion:** For large exports, consider `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at_id ON posts(rootid, deleteat, id);` with condition `WHERE rootid = '' AND deleteat = 0` (partial index) to speed up export cursor.
 
 - Then join with Users, Teams, Channels, Preferences for export (with deleted team/channel filter).
 
@@ -689,6 +808,9 @@ GROUP BY Posts.Id, u2.Username
 ORDER BY Posts.Id
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);` helps filter RootId and DeleteAt; Id order from table/ PK.  
+**Purpose:** Join and filter on RootId = ? and DeleteAt = 0; reply order by Id.
+
 ### GetDirectPostParentsForExportAfter
 
 - Root posts in DM/GM channels, then channel members:
@@ -703,6 +825,9 @@ GROUP BY p.Id, u2.Username
 ORDER BY p.Id
 LIMIT ?
 ```
+
+**Existing index:** Same as GetParentsForExportAfter: Id range; RootId = '' and DeleteAt = 0. `idx_posts_channel_id_delete_at_create_at` or PK for Id. Channels by Type uses `idx_channels_team_id_type` or table.  
+**Purpose:** Root posts in DM/GM; filter by channel type and post root/delete.
 
 ```sql
 SELECT u.Username, ChannelId, UserId, ... FROM ChannelMembers cm
@@ -724,6 +849,9 @@ FROM (
   (SELECT MIN(createat) AS min_createat FROM Channels)
 ) entities
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_create_at ON posts(createat);`, `idx_users_create_at`, `idx_channels_create_at`  
+**Purpose:** Each subquery uses MIN(createat) with an index on createat for that table.
 
 ---
 
@@ -761,6 +889,9 @@ FROM Posts
 WHERE FileInfo.PostId = Posts.Id AND Posts.RootId = ?
 ```
 
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_fileinfo_postid_at ON fileinfo (postid);` for the join/lookup by PostId. `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);` for `Posts.RootId = ?`.  
+**Purpose:** FileInfo by PostId; Posts by RootId for the join.
+
 ### updateThreadAfterReplyDeletion
 
 - Count user’s posts in thread:
@@ -769,6 +900,9 @@ WHERE FileInfo.PostId = Posts.Id AND Posts.RootId = ?
 SELECT COUNT(Posts.Id) FROM Posts
 WHERE Posts.RootId = ? AND Posts.UserId = ? AND Posts.DeleteAt = 0
 ```
+
+**Existing index:** `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);` (UserId can be applied on the result).  
+**Purpose:** Count by RootId and DeleteAt; UserId filter on indexed rows.
 
 - Then update thread (participants, LastReplyAt, ReplyCount):
 
@@ -780,6 +914,9 @@ SET Participants = Participants - ?,
 WHERE PostId = ? AND ReplyCount > 0
 ```
 
+**Existing index:** Subqueries on Posts: `CREATE INDEX IF NOT EXISTS idx_posts_root_id_delete_at ON posts(rootid, deleteat);` for `WHERE RootId = ? AND DeleteAt = 0`. Update by `Threads.PostId` (PK).  
+**Purpose:** Aggregates for thread use root_id_delete_at; thread update by PostId.
+
 ### updateThreadsFromPosts
 
 - Load existing threads:
@@ -789,6 +926,9 @@ SELECT Threads.PostId, Threads.ChannelId, Threads.ReplyCount, Threads.LastReplyA
 FROM Threads
 WHERE Threads.PostId IN (rootIds)
 ```
+
+**Existing index:** Lookup by `Threads.PostId IN (rootIds)` uses primary key of `threads` (PostId).  
+**Purpose:** Fetch threads by root post ids; PK on Threads.PostId.
 
 - Per root: participant/reply aggregates, then either:
 
@@ -843,11 +983,17 @@ ON CONFLICT (postid, userid) DO UPDATE SET TargetTime = ?
 DELETE FROM PostReminders WHERE TargetTime <= $1 RETURNING PostId, UserId
 ```
 
+**No index.**  
+**Suggestion:** If PostReminders exists and this query is used often, add `CREATE INDEX IF NOT EXISTS idx_post_reminders_target_time ON postreminders(targettime);` to speed up `WHERE TargetTime <= ?`.
+
 ### DeleteAllPostRemindersForPost
 
 ```sql
 DELETE FROM PostReminders WHERE PostId = ?
 ```
+
+**No index.**  
+**Suggestion:** If PostReminders exists, add `CREATE INDEX IF NOT EXISTS idx_post_reminders_post_id ON postreminders(postid);` for deletes by PostId.
 
 ### GetPostReminderMetadata
 
@@ -861,6 +1007,9 @@ JOIN Channels c ON p.ChannelId = c.Id
 LEFT JOIN Teams t ON c.TeamId = t.Id
 JOIN Users u ON p.UserId = u.Id AND p.Id = ?
 ```
+
+**Existing index:** Lookup by `p.Id = ?` uses `Posts.Id` (primary key). Channels join on `c.Id`, Teams on `t.Id`, Users on `u.Id` (all PKs).  
+**Purpose:** Single-post metadata; primary keys suffice.
 
 ---
 
