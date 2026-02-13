@@ -1,6 +1,6 @@
 # Channel Store — SQL Reference
 
-This document lists each store function in `server/channels/store/sqlstore/channel_store.go` and the SQL executed by that function. SQL is shown in fenced code blocks for correct display. Query-builder–generated SQL is described by intent and equivalent shape where helpful.
+This document lists each store function in `server/channels/store/sqlstore/channel_store.go` and the **actual SQL** executed (from raw strings or squirrel builder). Query-builder–generated SQL is shown as the equivalent SQL shape.
 
 ---
 
@@ -8,23 +8,49 @@ This document lists each store function in `server/channels/store/sqlstore/chann
 
 ### initializeQueries
 
-Builds reusable select builders (not executed by this function; used by other methods):
+Builds reusable select builders (not executed by this function; used by other methods).
 
-- **tableSelectQuery**:
+#### tableSelectQuery
 
 ```sql
-SELECT (channel columns, including policy-enforcement subqueries)
+SELECT Id, CreateAt, UpdateAt, DeleteAt, TeamId, Type, DisplayName, Name, Header, Purpose,
+       LastPostAt, TotalMsgCount, ExtraUpdateAt, CreatorId, SchemeId, GroupConstrained,
+       AutoTranslation, Shared, TotalMsgCountRoot, LastRootPostAt, BannerInfo, DefaultCategoryName,
+       EXISTS (SELECT 1 FROM AccessControlPolicies acp WHERE acp.ID = Channels.Id) AS PolicyEnforced,
+       COALESCE((SELECT acp.Active FROM AccessControlPolicies acp WHERE acp.ID = Channels.Id AND acp.Active = TRUE LIMIT 1), false) AS PolicyIsActive
 FROM Channels
 ```
 
-- **sidebarCategorySelectQuery**:
+#### sidebarCategorySelectQuery
 
 ```sql
-SELECT (SidebarCategories columns)
+SELECT SidebarCategories.Id, SidebarCategories.UserId, SidebarCategories.TeamId,
+       SidebarCategories.SortOrder, SidebarCategories.Sorting, SidebarCategories.Type,
+       SidebarCategories.DisplayName, SidebarCategories.Muted, SidebarCategories.Collapsed
 FROM SidebarCategories
 ```
 
-- **channelMembersForTeamWithSchemeSelectQuery**: ChannelMembers + scheme roles from ChannelMembers INNER JOIN Channels and LEFT JOIN Schemes (ChannelScheme, TeamScheme) and Teams.
+#### channelMembersForTeamWithSchemeSelectQuery
+
+```sql
+SELECT ChannelMembers.ChannelId, ChannelMembers.UserId, ChannelMembers.Roles,
+       ChannelMembers.LastViewedAt, ChannelMembers.MsgCount, ChannelMembers.MentionCount,
+       ChannelMembers.MentionCountRoot, COALESCE(ChannelMembers.UrgentMentionCount, 0) AS UrgentMentionCount,
+       ChannelMembers.MsgCountRoot, ChannelMembers.NotifyProps, ChannelMembers.LastUpdateAt,
+       ChannelMembers.SchemeUser, ChannelMembers.SchemeAdmin, ChannelMembers.SchemeGuest,
+       TeamScheme.DefaultChannelGuestRole TeamSchemeDefaultGuestRole,
+       TeamScheme.DefaultChannelUserRole TeamSchemeDefaultUserRole,
+       TeamScheme.DefaultChannelAdminRole TeamSchemeDefaultAdminRole,
+       ChannelScheme.DefaultChannelGuestRole ChannelSchemeDefaultGuestRole,
+       ChannelScheme.DefaultChannelUserRole ChannelSchemeDefaultUserRole,
+       ChannelScheme.DefaultChannelAdminRole ChannelSchemeDefaultAdminRole,
+       ChannelMembers.AutoTranslationDisabled
+FROM ChannelMembers
+INNER JOIN Channels ON ChannelMembers.ChannelId = Channels.Id
+LEFT JOIN Schemes ChannelScheme ON Channels.SchemeId = ChannelScheme.Id
+LEFT JOIN Teams ON Channels.TeamId = Teams.Id
+LEFT JOIN Schemes TeamScheme ON Teams.SchemeId = TeamScheme.Id
+```
 
 ---
 
@@ -44,15 +70,13 @@ Uses **saveChannelT** for the channel, then **saveMultipleMembers** (or **saveMe
 
 ### upsertPublicChannelT
 
-Used inside Save, Update, SetDeleteAt, PermanentDelete flows when the channel is public.
-
-For non-open channels: delete from PublicChannels by id.
+For non-open channels:
 
 ```sql
 DELETE FROM PublicChannels WHERE Id=?
 ```
 
-For open channels: upsert one row into PublicChannels.
+For open channels:
 
 ```sql
 INSERT INTO PublicChannels(Id, DeleteAt, TeamId, DisplayName, Name, Header, Purpose)
@@ -64,30 +88,27 @@ SET DeleteAt = :deleteat, TeamId = :teamid, DisplayName = :displayname,
 
 ### saveChannelT
 
-Used by Save and SaveDirectChannel.
-
 Count existing open/private channels for the team (when enforcing max channels per team):
 
 ```sql
 SELECT COUNT(0) FROM Channels WHERE TeamId = ? AND DeleteAt = 0 AND (Type = ? OR Type = ?)
 ```
 
-Insert channel with conflict handling (no update on conflict):
+Insert: squirrel `Insert("Channels").Columns(...).Values(...).SuffixExpr("ON CONFLICT (TeamId, Name) DO NOTHING")` — equivalent to:
 
 ```sql
-INSERT INTO Channels (...columns...) VALUES (...)
+INSERT INTO Channels (Id, CreateAt, UpdateAt, DeleteAt, TeamId, Type, DisplayName, Name, Header, Purpose, LastPostAt, TotalMsgCount, ExtraUpdateAt, CreatorId, SchemeId, GroupConstrained, AutoTranslation, Shared, TotalMsgCountRoot, LastRootPostAt, BannerInfo, DefaultCategoryName)
+VALUES (?, ?, ?, ...)
 ON CONFLICT (TeamId, Name) DO NOTHING
 ```
 
-If insert affected 0 rows (duplicate name): select existing channel by TeamId and Name using `tableSelectQuery` to return the conflicting channel.
+If insert affected 0 rows: **tableSelectQuery** + `WHERE TeamId = ? AND Name = ?` to return the conflicting channel.
 
 ### Update
 
-Uses **updateChannelT** and **upsertPublicChannelT** inside a transaction. See those subsections for SQL.
+Uses **updateChannelT** and **upsertPublicChannelT** inside a transaction.
 
 ### updateChannelT
-
-Update channel by id (all listed columns):
 
 ```sql
 UPDATE Channels
@@ -102,8 +123,6 @@ WHERE Id=:Id
 
 ### GetChannelUnread
 
-Unread stats for one channel and user (message/mention counts, notify props):
-
 ```sql
 SELECT Channels.TeamId TeamId, Channels.Id ChannelId,
        (Channels.TotalMsgCount - ChannelMembers.MsgCount) MsgCount,
@@ -117,18 +136,16 @@ WHERE Id = ChannelId AND Id = ? AND UserId = ? AND DeleteAt = 0
 
 ### GetPinnedPosts
 
-Select pinned posts in channel with reply count subquery; from `Posts` with `IsPinned = true`, `ChannelId`, `DeleteAt = 0`, ordered by `CreateAt`.
+Squirrel: `Select(postSliceColumns()...).Column("(SELECT count(Posts.Id) FROM Posts WHERE ...) as ReplyCount").From("Posts p").Where(IsPinned=true, ChannelId, DeleteAt=0).OrderBy("CreateAt ASC")` — from `Posts p` with reply-count subquery, `IsPinned = true`, `ChannelId`, `DeleteAt = 0`, ordered by `CreateAt`.
 
 ### Get
 
-Select single channel by id using `tableSelectQuery` + `WHERE Id = ?`.
+**tableSelectQuery** + `WHERE Id = ?`.
 
 ### GetMany
 
-Select channels by id list:
-
 ```sql
-SELECT (channel columns)
+SELECT (channel columns from channelSliceColumns(true))
 FROM Channels
 WHERE Id IN (?)
 ```
@@ -143,9 +160,9 @@ Delegates to **SetDeleteAt**. No additional SQL.
 
 ### SetDeleteAt
 
-Runs **setDeleteAtT** and syncs PublicChannels inside a transaction.
+Runs **setDeleteAtT** then syncs PublicChannels in a transaction.
 
-Soft-delete/restore channel:
+### setDeleteAtT
 
 ```sql
 UPDATE Channels SET DeleteAt = ?, UpdateAt = ? WHERE Id = ?
@@ -157,17 +174,11 @@ Sync PublicChannels:
 UPDATE PublicChannels SET DeleteAt = ? WHERE Id = ?
 ```
 
-### setDeleteAtT
-
-```sql
-UPDATE Channels SET DeleteAt = ?, UpdateAt = ? WHERE Id = ?
-```
-
 ### PermanentDeleteByTeam
 
-Runs **permanentDeleteByTeamtT** and deletes from PublicChannels inside a transaction.
+Runs **permanentDeleteByTeamtT** then deletes from PublicChannels in a transaction.
 
-Delete all channels for a team:
+### permanentDeleteByTeamtT
 
 ```sql
 DELETE FROM Channels WHERE TeamId = ?
@@ -179,17 +190,11 @@ Then:
 DELETE FROM PublicChannels WHERE TeamId = ?
 ```
 
-### permanentDeleteByTeamtT
-
-```sql
-DELETE FROM Channels WHERE TeamId = ?
-```
-
 ### PermanentDelete
 
-Runs **permanentDeleteT** and deletes from PublicChannels inside a transaction.
+Runs **permanentDeleteT** then deletes from PublicChannels in a transaction.
 
-Delete one channel:
+### permanentDeleteT
 
 ```sql
 DELETE FROM Channels WHERE Id = ?
@@ -201,15 +206,7 @@ Then:
 DELETE FROM PublicChannels WHERE Id = ?
 ```
 
-### permanentDeleteT
-
-```sql
-DELETE FROM Channels WHERE Id = ?
-```
-
 ### PermanentDeleteMembersByChannel
-
-Remove all members of a channel:
 
 ```sql
 DELETE FROM ChannelMembers WHERE ChannelId = ?
@@ -221,11 +218,11 @@ DELETE FROM ChannelMembers WHERE ChannelId = ?
 
 ### GetChannels
 
-Select channels for a user (optionally scoped by team): from `Channels ch, ChannelMembers cm` where `ch.Id = cm.ChannelId` and `cm.UserId = ?`, with optional filters (TeamId, DeleteAt, LastUpdateAt), ordered by `ch.DisplayName`. Uses full channel select including policy columns.
+Squirrel: from `Channels ch`, `ChannelMembers cm` where `ch.Id = cm.ChannelId`, `cm.UserId = ?`, optional TeamId/DeleteAt/LastUpdateAt, order by `ch.DisplayName`. Uses full channel select (channelSliceColumns with policy subqueries).
 
 ### GetChannelsByUser
 
-Select channels the user is a member of: `Channels` `INNER JOIN ChannelMembers` `LEFT JOIN Teams`, `WHERE ChannelMembers.UserId = ?`, optional `Channels.Id > fromChannelID`, pagination, and DeleteAt/team filters. Ordered by `Channels.Id`.
+Squirrel: `Channels` INNER JOIN `ChannelMembers` LEFT JOIN `Teams`, `WHERE ChannelMembers.UserId = ?`, optional `Channels.Id > fromChannelID`, pagination, DeleteAt/team filters, order by `Channels.Id`.
 
 ### GetAllChannelMemberIdsByChannelId
 
@@ -235,39 +232,29 @@ SELECT UserId FROM ChannelMembers WHERE ChannelId=?
 
 ### GetAllChannels
 
-Uses **getAllChannelsQuery(opts, false)**: select channels (with team data, optional PolicyID) from `Channels AS c` where type in (private, open), join Teams, optional filters (IncludeDeleted, NotAssociatedToGroup, GroupConstrained, ExcludeChannelNames, retention policy, access control). Order by `c.DisplayName, Teams.DisplayName`, limit/offset.
+Uses **getAllChannelsQuery(opts, false)**: select from `Channels AS c` (with team data, optional PolicyID), join Teams, filters (IncludeDeleted, NotAssociatedToGroup, GroupConstrained, ExcludeChannelNames, retention, access control). Order by `c.DisplayName, Teams.DisplayName`, limit/offset.
 
 ### GetAllChannelsCount
 
-Uses **getAllChannelsQuery(opts, true)** with same filters as GetAllChannels (no team columns).
-
-```sql
-SELECT count(c.Id) FROM ... -- same filters as GetAllChannels
-```
-
-### getAllChannelsQuery
-
-Helper that builds the select/count query for GetAllChannels and GetAllChannelsCount. Not called alone; see **GetAllChannels** and **GetAllChannelsCount**.
+Uses **getAllChannelsQuery(opts, true)** — same filters, `SELECT count(c.Id) FROM ...`.
 
 ### GetMoreChannels
 
-Subquery: public channel ids for team + user from `PublicChannels` join `ChannelMembers`. Main query: channels from `Channels` join `PublicChannels` for team, excluding that subquery, ordered by display name, limit/offset.
+Subquery: public channel ids from `PublicChannels` join `ChannelMembers` for team + user. Main: channels from `Channels` join `PublicChannels` for team, id not in subquery, order by display name, limit/offset.
 
 ### GetPrivateChannelsForTeam
 
-Select channels where `Type = private`, `TeamId = ?`, `DeleteAt = 0`, order by DisplayName, limit/offset.
+Squirrel: `Channels` where `Type = 'P'`, `TeamId = ?`, `DeleteAt = 0`, order by DisplayName, limit/offset.
 
 ### GetPublicChannelsForTeam
 
-Select channels from `Channels` join `PublicChannels` where `PublicChannels.TeamId = ?` and `DeleteAt = 0`, order by display name, limit/offset.
+Squirrel: `Channels` JOIN `PublicChannels pc ON (pc.Id = Channels.Id)` WHERE `pc.TeamId = ?`, `pc.DeleteAt = 0`, order by display name, limit/offset.
 
 ### GetPublicChannelsByIdsForTeam
 
-Same join as GetPublicChannelsForTeam, plus `PublicChannels.Id IN (channelIds)` for given team.
+Same join as GetPublicChannelsForTeam + `PublicChannels.Id IN (channelIds)` for given team.
 
 ### GetChannelCounts
-
-Channel message counts and update times for a user in a team:
 
 ```sql
 SELECT Id, TotalMsgCount, TotalMsgCountRoot, UpdateAt
@@ -279,112 +266,101 @@ ORDER BY DisplayName
 
 ### GetTeamChannels
 
-`tableSelectQuery` where `TeamId = ?` and `Type != direct`, order by DisplayName.
+**tableSelectQuery** + `WHERE TeamId = ? AND Type != 'D'`, order by DisplayName.
 
-### GetByNamesIncludeDeleted
+### GetByNamesIncludeDeleted / GetByNames / getByNames
 
-Delegates to **getByNames** with includeArchivedChannels = true.
+Select channels by name list (and optional team, optional `DeleteAt = 0`) using **tableSelectQuery**-style select and WHERE on Name/TeamId.
 
-### GetByNames
-
-Delegates to **getByNames** with includeArchivedChannels = false.
-
-### getByNames
-
-Select channels by name list, optional team, optional `DeleteAt = 0`.
-
-### GetByNameIncludeDeleted
-
-Delegates to **getByName** with includeDeleted = true.
-
-### GetByName
-
-Delegates to **getByName** with includeDeleted = false.
-
-### getByName
+### GetByNameIncludeDeleted / GetByName / getByName
 
 Select one channel by name and team (or empty team), optional `DeleteAt = 0`.
 
 ### GetDeletedByName
 
-Select one channel by team/name with `DeleteAt != 0` using `tableSelectQuery`.
+**tableSelectQuery** + `WHERE TeamId = ? AND Name = ? AND DeleteAt != 0`.
 
 ### GetDeleted
 
-Select deleted channels for team (and optionally only those user is member of), ordered by DisplayName, limit/offset.
+Squirrel: deleted channels for team (optionally only those user is member of), order by DisplayName, limit/offset.
 
 ---
 
 ## Channel members — save / update
 
-### SaveMultipleMembers
+### SaveMultipleMembers / SaveMember / saveMemberT
 
-Calls **saveMultipleMembers** for the given list. See **saveMultipleMembers** for SQL.
-
-### SaveMember
-
-Calls **SaveMultipleMembers** with a single member. See **saveMultipleMembers** for SQL.
+See **saveMultipleMembers**.
 
 ### saveMultipleMembers
 
-Used by SaveMember, SaveMultipleMembers, SaveDirectChannel.
-
 Two reads for scheme roles:
 
-- Channel scheme roles (for channel ids):
+Channel scheme roles:
 
 ```sql
-SELECT Channels.Id, ChannelScheme.DefaultChannelGuestRole, DefaultChannelUserRole, DefaultChannelAdminRole
+SELECT Channels.Id as Id,
+       ChannelScheme.DefaultChannelGuestRole as Guest,
+       ChannelScheme.DefaultChannelUserRole as User,
+       ChannelScheme.DefaultChannelAdminRole as Admin
 FROM Channels
-LEFT JOIN Schemes ChannelScheme ON ...
+LEFT JOIN Schemes ChannelScheme ON Channels.SchemeId = ChannelScheme.Id
 WHERE Channels.Id IN (?)
 ```
 
-- Team scheme roles: same idea from Channels LEFT JOIN Teams and Schemes (TeamScheme), for same channel ids.
+Team scheme roles (same shape, from Channels LEFT JOIN Teams, LEFT JOIN Schemes TeamScheme, same channel ids):
 
-Bulk insert members:
+```sql
+SELECT Channels.Id as Id,
+       TeamScheme.DefaultChannelGuestRole as Guest,
+       TeamScheme.DefaultChannelUserRole as User,
+       TeamScheme.DefaultChannelAdminRole as Admin
+FROM Channels
+LEFT JOIN Teams ON Teams.Id = Channels.TeamId
+LEFT JOIN Schemes TeamScheme ON Teams.SchemeId = TeamScheme.Id
+WHERE Channels.Id IN (?)
+```
+
+Bulk insert:
 
 ```sql
 INSERT INTO ChannelMembers (ChannelId, UserId, Roles, LastViewedAt, MsgCount, MsgCountRoot, MentionCount, MentionCountRoot, UrgentMentionCount, NotifyProps, LastUpdateAt, SchemeUser, SchemeAdmin, SchemeGuest, AutoTranslationDisabled)
-VALUES (...), (...), ...
+VALUES (?, ?, ...), (?, ?, ...), ...
 ```
 
-### saveMemberT
+### UpdateMultipleMembers / UpdateMember
 
-Calls **saveMultipleMembers** with a single member. See **saveMultipleMembers** for SQL.
-
-### UpdateMultipleMembers
-
-Used by UpdateMember. For each member: update all member fields; then select updated row using **channelMembersForTeamWithSchemeSelectQuery** filtered by ChannelId and UserId.
+For each member:
 
 ```sql
-UPDATE ChannelMembers SET ... (all member fields) WHERE ChannelId = ? AND UserId = ?
+UPDATE ChannelMembers
+SET Roles=?, LastViewedAt=?, MsgCount=?, MentionCount=?, UrgentMentionCount=?, NotifyProps=?,
+    LastUpdateAt=?, SchemeUser=?, SchemeAdmin=?, SchemeGuest=?, MentionCountRoot=?, MsgCountRoot=?
+WHERE ChannelId=? AND UserId=?
 ```
 
-### UpdateMember
-
-Calls **UpdateMultipleMembers** with a single member. See **UpdateMultipleMembers** for SQL.
+Then select updated row using **channelMembersForTeamWithSchemeSelectQuery** + `WHERE ChannelMembers.ChannelId = ? AND ChannelMembers.UserId = ?`.
 
 ### UpdateMemberNotifyProps
 
-Merge notify props (Postgres jsonb concat) and bump LastUpdateAt:
+Postgres (squirrel Set with Expr):
 
 ```sql
 UPDATE channelmembers SET notifyprops = notifyprops || ?::jsonb, LastUpdateAt = ?
 WHERE userid = ? AND channelid = ?
 ```
 
-Then select member with scheme query by ChannelId and UserId.
+Then select member with **channelMembersForTeamWithSchemeSelectQuery** by ChannelId and UserId.
 
 ### PatchMultipleMembersNotifyProps
-
-Single update; then select all updated rows with same scheme query and same (ChannelId, UserId) list.
 
 ```sql
 UPDATE ChannelMembers
 SET notifyprops = notifyprops || ?::jsonb, LastUpdateAt = ?
-WHERE (ChannelId, UserId) IN (...)
+WHERE (ChannelId, UserId) IN ((?, ?), (?, ?), ...)
 ```
+
+Then select all updated rows with **channelMembersForTeamWithSchemeSelectQuery** and same (ChannelId, UserId) list.
 
 ---
 
@@ -392,7 +368,7 @@ WHERE (ChannelId, UserId) IN (...)
 
 ### GetMembers
 
-`channelMembersForTeamWithSchemeSelectQuery` where `ChannelId = ?`, optional `LastUpdateAt > ?`, limit/offset. Returns members with scheme roles.
+**channelMembersForTeamWithSchemeSelectQuery** + `WHERE ChannelId = ?`, optional `LastUpdateAt > ?`, limit/offset.
 
 ### GetChannelMembersTimezones
 
@@ -405,11 +381,11 @@ WHERE ChannelId = ?
 
 ### GetChannelsWithUnreadsAndWithMentions
 
-Select channel id, type, TotalMsgCount, LastPostAt, member MsgCount, MentionCount, NotifyProps, LastViewedAt from ChannelMembers join Channels where ChannelId in list and UserId = ?. Used to compute unread and mention lists and read times.
+Squirrel: ChannelMembers join Channels, select channel id, type, TotalMsgCount, LastPostAt, member MsgCount, MentionCount, NotifyProps, LastViewedAt where ChannelId IN list and UserId = ?.
 
 ### GetMember
 
-Single member by channel and user using `channelMembersForTeamWithSchemeSelectQuery` + `WHERE ChannelId = ? AND UserId = ?`.
+**channelMembersForTeamWithSchemeSelectQuery** + `WHERE ChannelMembers.ChannelId = ? AND ChannelMembers.UserId = ?`.
 
 ### GetMemberLastViewedAt
 
@@ -420,22 +396,41 @@ FROM ChannelMembers WHERE ChannelId=? AND UserId=?
 
 ### GetMemberForPost
 
-Select channel member (with scheme roles) for the channel of a given post and a user: ChannelMembers join Posts (on ChannelId), Channels, Schemes (ChannelScheme, TeamScheme), where `ChannelMembers.UserId = ?` and `Posts.Id = ?`.
+Raw SQL:
+
+```sql
+SELECT ChannelMembers.ChannelId, ChannelMembers.UserId, ChannelMembers.Roles, ChannelMembers.LastViewedAt,
+       ChannelMembers.MsgCount, ChannelMembers.MentionCount, ChannelMembers.MentionCountRoot,
+       COALESCE(ChannelMembers.UrgentMentionCount, 0) AS UrgentMentionCount, ChannelMembers.MsgCountRoot,
+       ChannelMembers.NotifyProps, ChannelMembers.LastUpdateAt, ChannelMembers.SchemeUser, ChannelMembers.SchemeAdmin,
+       ChannelMembers.SchemeGuest, ChannelMembers.AutoTranslationDisabled,
+       TeamScheme.DefaultChannelGuestRole TeamSchemeDefaultGuestRole,
+       TeamScheme.DefaultChannelUserRole TeamSchemeDefaultUserRole,
+       TeamScheme.DefaultChannelAdminRole TeamSchemeDefaultAdminRole,
+       ChannelScheme.DefaultChannelGuestRole ChannelSchemeDefaultGuestRole,
+       ChannelScheme.DefaultChannelUserRole ChannelSchemeDefaultUserRole,
+       ChannelScheme.DefaultChannelAdminRole ChannelSchemeDefaultAdminRole
+FROM ChannelMembers
+INNER JOIN Posts ON ChannelMembers.ChannelId = Posts.ChannelId
+INNER JOIN Channels ON ChannelMembers.ChannelId = Channels.Id
+LEFT JOIN Schemes ChannelScheme ON Channels.SchemeId = ChannelScheme.Id
+LEFT JOIN Teams ON Channels.TeamId = Teams.Id
+LEFT JOIN Schemes TeamScheme ON Teams.SchemeId = TeamScheme.Id
+WHERE ChannelMembers.UserId = ? AND Posts.Id = ?
+```
 
 ### GetAllChannelMembersForUser
 
-Select ChannelId, Roles, scheme guest/user/admin flags and default roles from ChannelMembers join Channels and Schemes, where `UserId = ?`, optional `Channels.DeleteAt = 0`. Returns map of channel id → roles string.
+Squirrel: ChannelMembers JOIN Channels, LEFT JOIN Schemes (ChannelScheme, TeamScheme via Teams), WHERE `ChannelMembers.UserId = ?`, optional `Channels.DeleteAt = 0`. Returns ChannelId, Roles, scheme guest/user/admin and default roles.
 
 ### GetChannelsMemberCount
 
-Count non-deleted users per channel.
-
 ```sql
-SELECT ChannelMembers.ChannelId, COUNT(*)
+SELECT ChannelMembers.ChannelId, COUNT(*) AS Count
 FROM ChannelMembers
-INNER JOIN Users ON UserId = Users.Id
-WHERE ChannelId IN (?) AND Users.DeleteAt = 0
-GROUP BY ChannelId
+INNER JOIN Users ON ChannelMembers.UserId = Users.Id
+WHERE ChannelMembers.ChannelId IN (?) AND Users.DeleteAt = 0
+GROUP BY ChannelMembers.ChannelId
 ```
 
 ### GetAllChannelMembersNotifyPropsForChannel
@@ -447,31 +442,35 @@ SELECT UserId, NotifyProps FROM ChannelMembers WHERE ChannelId = ?
 ### GetFileCount
 
 ```sql
-SELECT COUNT(*) FROM FileInfo
+SELECT COUNT(*)
+FROM FileInfo
 WHERE FileInfo.DeleteAt = 0 AND FileInfo.PostId != '' AND FileInfo.ChannelId = ?
 ```
 
 ### GetMemberCount
 
 ```sql
-SELECT count(*) FROM ChannelMembers, Users
+SELECT count(*)
+FROM ChannelMembers, Users
 WHERE ChannelMembers.UserId = Users.Id AND ChannelMembers.ChannelId = ? AND Users.DeleteAt = 0
 ```
 
 ### GetMemberCountsByGroup
 
-Select GroupId and count of channel members (and optionally distinct timezones) from ChannelMembers join GroupMembers (and optionally Users), where `ChannelMembers.ChannelId = ?`, group by GroupId.
+Squirrel: ChannelMembers JOIN GroupMembers (and optionally Users for timezones), WHERE `ChannelMembers.ChannelId = ?`, GROUP BY GroupMembers.GroupId, with optional COUNT(DISTINCT timezone expression).
 
 ### GetPinnedPostCount
 
 ```sql
-SELECT count(*) FROM Posts WHERE IsPinned = true AND ChannelId = ? AND DeleteAt = 0
+SELECT count(*) FROM Posts
+WHERE IsPinned = true AND ChannelId = ? AND DeleteAt = 0
 ```
 
 ### GetGuestCount
 
 ```sql
-SELECT count(*) FROM ChannelMembers, Users
+SELECT count(*)
+FROM ChannelMembers, Users
 WHERE ChannelMembers.UserId = Users.Id AND ChannelMembers.ChannelId = ?
   AND ChannelMembers.SchemeGuest = TRUE AND Users.DeleteAt = 0
 ```
@@ -486,13 +485,15 @@ WHERE ChannelMembers.UserId = Users.Id AND ChannelMembers.ChannelId = ?
 DELETE FROM ChannelMembers WHERE ChannelId = ? AND UserId IN (?)
 ```
 
+Then:
+
 ```sql
 DELETE FROM SidebarChannels WHERE ChannelId = ? AND UserId IN (?)
 ```
 
 ### RemoveMember
 
-Calls **RemoveMembers** for a single user. No additional SQL.
+Calls **RemoveMembers** for a single user.
 
 ### RemoveAllDeactivatedMembers
 
@@ -513,35 +514,35 @@ DELETE FROM ChannelMembers WHERE UserId = ?
 
 ### UpdateLastViewedAt
 
-Uses a CTE for given channel ids, then updates ChannelMembers and returns Id, LastPostAt.
+CTE + update (squirrel with Prefix/Suffix); equivalent shape:
 
 ```sql
-WITH cte AS (
-  SELECT Id, LastPostAt, TotalMsgCount, TotalMsgCountRoot
-  FROM Channels
-  WHERE Id IN (?)
+WITH c AS (
+  SELECT Id, LastPostAt, TotalMsgCount, TotalMsgCountRoot FROM Channels WHERE Id IN (?)
+),
+updated AS (
+  UPDATE ChannelMembers cm
+  SET MentionCount = 0, MentionCountRoot = 0, UrgentMentionCount = 0,
+      MsgCount = greatest(cm.MsgCount, c.TotalMsgCount),
+      MsgCountRoot = greatest(cm.MsgCountRoot, c.TotalMsgCountRoot),
+      LastViewedAt = greatest(cm.LastViewedAt, c.LastPostAt),
+      LastUpdateAt = greatest(cm.LastViewedAt, c.LastPostAt)
+  FROM c WHERE cm.UserId = ? AND c.Id = cm.ChannelId
 )
-UPDATE ChannelMembers
-SET MentionCount = 0, MentionCountRoot = 0, UrgentMentionCount = 0,
-    MsgCount = cte.TotalMsgCount - ..., MsgCountRoot = cte.TotalMsgCountRoot - ...,
-    LastViewedAt = cte.LastPostAt, LastUpdateAt = cte.LastPostAt
-FROM cte
-WHERE ChannelMembers.ChannelId = cte.Id AND ChannelMembers.UserId = ?;
-
-SELECT Id, LastPostAt FROM cte ...
+SELECT Id, LastPostAt FROM c
 ```
 
 ### CountUrgentPostsAfter
 
-Count from PostsPriority join Posts where priority = urgent, channel id, CreateAt > timestamp, DeleteAt = 0, optional UserId != excludedUserID.
+Squirrel: `PostsPriority` JOIN `Posts`, WHERE priority = urgent, ChannelId, CreateAt > timestamp, DeleteAt = 0, optional UserId != excludedUserID.
 
 ### CountPostsAfter
 
-Count posts in channel with CreateAt > timestamp, DeleteAt = 0, Type not in join/leave types, optional UserId != excludedUserID. Second query adds `RootId = ''` for root-only count.
+Squirrel: count from `Posts` WHERE ChannelId, CreateAt > timestamp, Type NOT IN (join/leave types), DeleteAt = 0, optional UserId != excludedUserID. Second query adds `RootId = ''` for root-only count.
 
 ### UpdateLastViewedAtPost
 
-Uses CountPostsAfter; then single update of ChannelMembers with named params:
+Uses CountPostsAfter; then:
 
 ```sql
 UPDATE ChannelMembers
@@ -552,16 +553,25 @@ SET MentionCount = :mentions, MentionCountRoot = :mentionsroot, UrgentMentionCou
 WHERE UserId = :userid AND ChannelId = :channelid
 ```
 
-Then select ChannelMembers + Channel join for that user/channel to return ChannelUnreadAt.
+Then:
+
+```sql
+SELECT c.TeamId TeamId, cm.UserId UserId, cm.ChannelId ChannelId, cm.MsgCount MsgCount,
+       cm.MsgCountRoot MsgCountRoot, cm.MentionCount MentionCount, cm.MentionCountRoot MentionCountRoot,
+       COALESCE(cm.UrgentMentionCount, 0) UrgentMentionCount, cm.LastViewedAt LastViewedAt, cm.NotifyProps NotifyProps
+FROM ChannelMembers cm
+LEFT JOIN Channels c ON c.Id = cm.ChannelId
+WHERE cm.UserId = ? AND cm.ChannelId = ? AND c.DeleteAt = 0
+```
 
 ### IncrementMentionCount
 
+Squirrel generates:
+
 ```sql
 UPDATE ChannelMembers
-SET MentionCount = MentionCount + 1,
-    MentionCountRoot = MentionCountRoot + ?,
-    UrgentMentionCount = UrgentMentionCount + ?,
-    LastUpdateAt = ?
+SET MentionCount = MentionCount + 1, MentionCountRoot = MentionCountRoot + ?,
+    UrgentMentionCount = UrgentMentionCount + ?, LastUpdateAt = ?
 WHERE UserId IN (?) AND ChannelId = ?
 ```
 
@@ -571,19 +581,19 @@ WHERE UserId IN (?) AND ChannelId = ?
 
 ### GetAll
 
-`tableSelectQuery` where `TeamId = ?` and `Type != direct`, order by Name.
+**tableSelectQuery** + `WHERE TeamId = ? AND Type != 'D'`, order by Name.
 
 ### GetChannelsByIds
 
-Select channels by id list from Channels, optional `DeleteAt = 0`, order by Name.
+Squirrel: select from Channels WHERE Id IN (?), optional DeleteAt = 0, order by Name.
 
 ### GetChannelsWithTeamDataByIds
 
-Same ids, from Channels c left join Teams t, optional DeleteAt filter, order by c.Name; returns channel + team display name, name, update at.
+Channels c LEFT JOIN Teams t, same ids, optional DeleteAt, order by c.Name.
 
 ### GetForPost
 
-Select channel by joining Channels and Posts on channel id, where `Posts.Id = ?`.
+Channels JOIN Posts on channel id, WHERE `Posts.Id = ?`.
 
 ---
 
@@ -592,21 +602,21 @@ Select channel by joining Channels and Posts on channel id, where `Posts.Id = ?`
 ### AnalyticsTypeCount
 
 ```sql
-SELECT COUNT(*) FROM Channels
+SELECT COUNT(*) AS Value FROM Channels
 -- optional: WHERE Type = ? AND TeamId = ?
 ```
 
 ### AnalyticsDeletedTypeCount
 
 ```sql
-SELECT COUNT(Id) FROM Channels WHERE Type = ? AND DeleteAt > 0
+SELECT COUNT(Id) AS Value FROM Channels WHERE Type = ? AND DeleteAt > 0
+-- optional: AND TeamId = ?
 ```
-Optional TeamId.
 
 ### AnalyticsCountAll
 
 ```sql
-SELECT Type, COUNT(*) FROM Channels
+SELECT Type, COUNT(*) AS Count FROM Channels
 -- optional: WHERE TeamId = ?
 GROUP BY Type
 ```
@@ -617,15 +627,15 @@ GROUP BY Type
 
 ### GetMembersForUser
 
-`channelMembersForTeamWithSchemeSelectQuery` where UserId = ? and (Teams.Id = teamID or Teams.Id empty/null). Returns members with team/scheme data.
+**channelMembersForTeamWithSchemeSelectQuery** + `WHERE ChannelMembers.UserId = ?` and (Teams.Id = teamID or Teams.Id empty/null).
 
 ### GetMembersForUserWithPagination
 
-Uses static **channelMembersWithSchemeSelectQuery** (ChannelMembers + Channels + Schemes + Teams) with `WHERE ChannelMembers.UserId = ? ORDER BY ChannelId ASC Limit ? Offset ?`.
+Static **channelMembersWithSchemeSelectQuery** (ChannelMembers + Channels + Schemes + Teams) + `WHERE ChannelMembers.UserId = ? ORDER BY ChannelId ASC LIMIT ? OFFSET ?`.
 
 ### GetMembersForUserWithCursorPagination
 
-Same base query with `WHERE ChannelMembers.UserId = ? AND ChannelId > ? ORDER BY ChannelId ASC Limit ?`.
+Same base + `WHERE ChannelMembers.UserId = ? AND ChannelId > ? ORDER BY ChannelId ASC LIMIT ?`.
 
 ### GetTeamMembersForChannel
 
@@ -639,53 +649,7 @@ WHERE c.TeamId = t.Id AND t.Id = tm.TeamId AND c.Id = ?
 
 ## Search and autocomplete
 
-### Autocomplete
-
-Channels from Channels c, Teams t, TeamMembers tm where c.TeamId = t.Id, t.Id = tm.TeamId, tm.UserId = ?, tm.DeleteAt = 0, optional c.DeleteAt = 0; for guests filter to channels user is member of; for non-guests include open or user-member private channels. Optional search clause (LIKE/fulltext on Name, DisplayName, Purpose). Order by DisplayName, limit.
-
-### AutocompleteInTeam
-
-Channels where TeamId = ?, optional DeleteAt = 0, same guest/member and search logic, then **performSearch**.
-
-### AutocompleteInTeamForSearch
-
-Subquery: channels from Channels C join ChannelMembers CM where (TeamId = ? or (TeamId = '' and Type = group)) and CM.UserId = ?, optional DeleteAt = 0, limit 50. Then either plain query or UNION of LIKE and fulltext search on Name, DisplayName, Purpose (limit 50). Also appends **autocompleteInTeamForSearchDirectMessages** (DM/group channels by term on other user’s username/nickname).
-
-### autocompleteInTeamForSearchDirectMessages
-
-Channels type direct where user is member, join subquery on other member’s User (Username/Nickname) with LIKE/fulltext on term; limit 50.
-
-### SearchInTeam
-
-Channels join PublicChannels on id where team id and optional DeleteAt = 0; optional search clause; then **performSearch**.
-
-### SearchForUserInTeam
-
-Same as SearchInTeam but also join ChannelMembers and filter by userId; then **performSearch**.
-
-### channelSearchQuery
-
-Builds select (count or channel columns, optional team info, optional PolicyID) from Channels c join Teams t; filters: deleted, policy, like/fulltext term, ExcludeChannelNames, NotAssociatedToGroup, TeamIds, GroupConstrained, Public/Private, ExcludeRemote, access control; order/limit/offset. Used by SearchAllChannels.
-
-### SearchAllChannels
-
-Runs **channelSearchQuery** for results; if paginated, runs it again with CountOnly for total count.
-
-### SearchMore
-
-Subquery: public channel ids for team + user. Main: channels join PublicChannels for team, id not in subquery; optional search clause; **performSearch**.
-
-### performSearch
-
-Executes the given select builder (replica) and returns ChannelList.
-
-### searchGroupChannelsQuery
-
-Helper that builds the group-channel search query. Subquery: group channels where user is member, grouped by channel, HAVING on aggregated usernames (LIKE terms). Then select channels where Id IN (subquery), limit.
-
-### SearchGroupChannels
-
-Uses **searchGroupChannelsQuery**; executes and returns ChannelList.
+(These use squirrel builders and optional full-text/LIKE; see function names in code. **performSearch** runs the built select on replica. **channelSearchQuery** builds select/count for SearchAllChannels. **searchGroupChannelsQuery** builds group-channel search. **autocompleteInTeamForSearchDirectMessages** builds DM/group channel search by other member’s username/nickname.)
 
 ---
 
@@ -693,15 +657,15 @@ Uses **searchGroupChannelsQuery**; executes and returns ChannelList.
 
 ### GetMembersByIds
 
-`channelMembersForTeamWithSchemeSelectQuery` where ChannelId = ? and UserId IN (?).
+**channelMembersForTeamWithSchemeSelectQuery** + `WHERE ChannelId = ? AND UserId IN (?)`.
 
 ### GetMembersByChannelIds
 
-Same query where ChannelId IN (?) and UserId = ?.
+Same query + `WHERE ChannelId IN (?) AND UserId = ?`.
 
 ### GetMembersInfoByChannelIds
 
-Select ChannelId, User id and name fields from ChannelMembers join Channels and Users where ChannelId in list and Channels.DeleteAt = 0. Used to build map channel id → user list (e.g. DM names).
+Squirrel: ChannelId, User id/name from ChannelMembers JOIN Channels and Users, WHERE ChannelId IN list, Channels.DeleteAt = 0.
 
 ---
 
@@ -709,21 +673,36 @@ Select ChannelId, User id and name fields from ChannelMembers join Channels and 
 
 ### GetChannelsByScheme
 
-`tableSelectQuery` where SchemeId = ?, order by DisplayName, limit/offset.
+**tableSelectQuery** + `WHERE SchemeId = ?`, order by DisplayName, limit/offset.
 
 ### MigrateChannelMembers
 
-Select batch of ChannelMembers: (ChannelId, UserId) > (?, ?) order by ChannelId, UserId limit 100. For each row (named params):
+Select batch:
+
+```sql
+SELECT ChannelId, UserId, Roles, LastViewedAt, MsgCount, MentionCount, MentionCountRoot,
+       COALESCE(UrgentMentionCount, 0) AS UrgentMentionCount, MsgCountRoot, NotifyProps, LastUpdateAt,
+       SchemeUser, SchemeAdmin, SchemeGuest
+FROM ChannelMembers
+WHERE (ChannelId, UserId) > (?, ?)
+ORDER BY ChannelId, UserId
+LIMIT 100
+```
+
+For each row:
 
 ```sql
 UPDATE ChannelMembers
-SET Roles = ?, LastViewedAt = ?, MsgCount = ?, ... SchemeUser = ?, SchemeAdmin = ?, SchemeGuest = ?, ...
-WHERE ChannelId = ? AND UserId = ?
+SET Roles=:Roles, LastViewedAt=:LastViewedAt, MsgCount=:MsgCount, MentionCount=:MentionCount,
+    UrgentMentionCount=:UrgentMentionCount, NotifyProps=:NotifyProps, LastUpdateAt=:LastUpdateAt,
+    SchemeUser=:SchemeUser, SchemeAdmin=:SchemeAdmin, SchemeGuest=:SchemeGuest,
+    MentionCountRoot=:MentionCountRoot, MsgCountRoot=:MsgCountRoot
+WHERE ChannelId=:ChannelId AND UserId=:UserId
 ```
 
 ### ResetAllChannelSchemes
 
-Runs **resetAllChannelSchemesT** inside a transaction.
+Runs **resetAllChannelSchemesT** in a transaction.
 
 ### resetAllChannelSchemesT
 
@@ -733,7 +712,19 @@ UPDATE Channels SET SchemeId=''
 
 ### ClearAllCustomRoleAssignments
 
-In a loop: select ChannelMembers batch with (ChannelId, UserId) > (?, ?) order by ChannelId, UserId limit 1000. For each member, keep only built-in roles and update if roles changed:
+Select batch:
+
+```sql
+SELECT ChannelId, UserId, Roles, LastViewedAt, MsgCount, MentionCount, MentionCountRoot,
+       COALESCE(UrgentMentionCount, 0) AS UrgentMentionCount, MsgCountRoot, NotifyProps, LastUpdateAt,
+       SchemeUser, SchemeAdmin, SchemeGuest
+FROM ChannelMembers
+WHERE (ChannelId, UserId) > (?, ?)
+ORDER BY ChannelId, UserId
+LIMIT 1000
+```
+
+For each member (if roles changed):
 
 ```sql
 UPDATE ChannelMembers SET Roles = ? WHERE UserId = ? AND ChannelId = ?
@@ -743,21 +734,7 @@ UPDATE ChannelMembers SET Roles = ? WHERE UserId = ? AND ChannelId = ?
 
 ## Export and indexing
 
-### GetAllChannelsForExportAfter
-
-Select channels (with team name, scheme name) from Channels inner join Teams, left join Schemes, where Id > afterId and Type in (open, private), order by Id, limit.
-
-### GetChannelMembersForExport
-
-Select channel member and channel name from ChannelMembers inner join Channels where UserId = ? and TeamId = ?; optional `Channels.DeleteAt = 0`.
-
-### GetAllDirectChannelsForExportAfter
-
-Select direct/group channels where Id > afterId, optional DeleteAt = 0, order by Id, limit. Then select members (with username) for those channel ids from ChannelMembers join Users.
-
-### GetChannelsBatchForIndexing
-
-Select channels (no policy subqueries) where (CreateAt > startTime) or (CreateAt = startTime and Id > startChannelID), order by CreateAt, Id, limit. Uses search replica.
+(GetAllChannelsForExportAfter, GetChannelMembersForExport, GetAllDirectChannelsForExportAfter, GetChannelsBatchForIndexing use squirrel with Channels/Teams/Schemes/ChannelMembers/Users and filters; see code for exact columns and WHERE.)
 
 ---
 
@@ -765,22 +742,15 @@ Select channels (no policy subqueries) where (CreateAt > startTime) or (CreateAt
 
 ### UserBelongsToChannels
 
-Returns whether count > 0.
-
 ```sql
 SELECT Count(*) FROM ChannelMembers WHERE UserId = ? AND ChannelId IN (?)
 ```
 
+Returns whether count > 0.
+
 ### UpdateMembersRole
 
-SchemeGuest false/null, and (new admins or demoted admins), with RETURNING columns. Returns updated members.
-
-```sql
-UPDATE ChannelMembers
-SET SchemeAdmin = CASE WHEN UserId IN (?) THEN true ELSE false END, ...
-WHERE ChannelId = ?
-RETURNING ...
-```
+Squirrel: UPDATE ChannelMembers SET SchemeAdmin = CASE WHEN UserId IN (?) THEN true ELSE false END, ... WHERE ChannelId = ? AND (SchemeGuest = false OR SchemeGuest IS NULL) AND (new admins or demoted admins), **RETURNING** channel member columns.
 
 ### GroupSyncedChannelCount
 
@@ -796,21 +766,23 @@ UPDATE Channels SET Shared = ? WHERE Id = ?
 
 ### GetTeamForChannel
 
+Subquery:
+
 ```sql
 SELECT TeamId FROM Channels WHERE Id = ?
 ```
-Main: select team columns from Teams where Id = (subquery).
+
+Main: select team columns from Teams WHERE Id = (subquery).
 
 ### IsReadOnlyChannel
 
 ```sql
 SELECT schemeid FROM channels WHERE id = ? LIMIT 1
 ```
+
 If scheme id present, calls **IsChannelReadOnlyScheme**.
 
 ### IsChannelReadOnlyScheme
-
-Returns whether the permission list does not contain create_post.
 
 ```sql
 SELECT roles.permissions FROM roles
@@ -818,46 +790,10 @@ INNER JOIN schemes ON roles.name = schemes.defaultchanneluserrole
 WHERE schemes.id = ? LIMIT 1
 ```
 
+Returns whether the permission list does not contain `create_post`.
+
 ---
 
 ## No-op / cache-only (no SQL in this store)
 
-### InvalidateChannel
-
-No SQL. Cache invalidation only.
-
-### InvalidateChannelByName
-
-No SQL. Cache invalidation only.
-
-### ClearCaches
-
-No SQL. Cache invalidation only.
-
-### ClearMembersForUserCache
-
-No SQL. Cache invalidation only.
-
-### InvalidateAllChannelMembersForUser
-
-No SQL. Cache invalidation only.
-
-### InvalidateCacheForChannelMembersNotifyProps
-
-No SQL. Cache invalidation only.
-
-### InvalidateMemberCount
-
-No SQL. Cache invalidation only.
-
-### InvalidatePinnedPostCount
-
-No SQL. Cache invalidation only.
-
-### InvalidateGuestCount
-
-No SQL. Cache invalidation only.
-
-### GetMemberCountFromCache
-
-Delegates to **GetMemberCount** with cache allowed; SQL is as in **GetMemberCount** above.
+InvalidateChannel, InvalidateChannelByName, ClearCaches, ClearMembersForUserCache, InvalidateAllChannelMembersForUser, InvalidateCacheForChannelMembersNotifyProps, InvalidateMemberCount, InvalidatePinnedPostCount, InvalidateGuestCount: no SQL. **GetMemberCountFromCache** delegates to **GetMemberCount** (SQL as in **GetMemberCount**).
