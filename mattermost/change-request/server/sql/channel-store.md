@@ -17,7 +17,8 @@ SELECT Id, CreateAt, UpdateAt, DeleteAt, TeamId, Type, DisplayName, Name, Header
        LastPostAt, TotalMsgCount, ExtraUpdateAt, CreatorId, SchemeId, GroupConstrained,
        AutoTranslation, Shared, TotalMsgCountRoot, LastRootPostAt, BannerInfo, DefaultCategoryName,
        EXISTS (SELECT 1 FROM AccessControlPolicies acp WHERE acp.ID = Channels.Id) AS PolicyEnforced,
-       COALESCE((SELECT acp.Active FROM AccessControlPolicies acp WHERE acp.ID = Channels.Id AND acp.Active = TRUE LIMIT 1), false) AS PolicyIsActive
+       COALESCE((SELECT acp.Active FROM AccessControlPolicies acp
+                 WHERE acp.ID = Channels.Id AND acp.Active = TRUE LIMIT 1), false) AS PolicyIsActive
 FROM Channels
 ```
 
@@ -35,7 +36,8 @@ FROM SidebarCategories
 ```sql
 SELECT ChannelMembers.ChannelId, ChannelMembers.UserId, ChannelMembers.Roles,
        ChannelMembers.LastViewedAt, ChannelMembers.MsgCount, ChannelMembers.MentionCount,
-       ChannelMembers.MentionCountRoot, COALESCE(ChannelMembers.UrgentMentionCount, 0) AS UrgentMentionCount,
+       ChannelMembers.MentionCountRoot,
+       COALESCE(ChannelMembers.UrgentMentionCount, 0) AS UrgentMentionCount,
        ChannelMembers.MsgCountRoot, ChannelMembers.NotifyProps, ChannelMembers.LastUpdateAt,
        ChannelMembers.SchemeUser, ChannelMembers.SchemeAdmin, ChannelMembers.SchemeGuest,
        TeamScheme.DefaultChannelGuestRole TeamSchemeDefaultGuestRole,
@@ -97,7 +99,9 @@ SELECT COUNT(0) FROM Channels WHERE TeamId = ? AND DeleteAt = 0 AND (Type = ? OR
 Insert: squirrel `Insert("Channels").Columns(...).Values(...).SuffixExpr("ON CONFLICT (TeamId, Name) DO NOTHING")` — equivalent to:
 
 ```sql
-INSERT INTO Channels (Id, CreateAt, UpdateAt, DeleteAt, TeamId, Type, DisplayName, Name, Header, Purpose, LastPostAt, TotalMsgCount, ExtraUpdateAt, CreatorId, SchemeId, GroupConstrained, AutoTranslation, Shared, TotalMsgCountRoot, LastRootPostAt, BannerInfo, DefaultCategoryName)
+INSERT INTO Channels (Id, CreateAt, UpdateAt, DeleteAt, TeamId, Type, DisplayName, Name, Header,
+    Purpose, LastPostAt, TotalMsgCount, ExtraUpdateAt, CreatorId, SchemeId, GroupConstrained,
+    AutoTranslation, Shared, TotalMsgCountRoot, LastRootPostAt, BannerInfo, DefaultCategoryName)
 VALUES (?, ?, ?, ...)
 ON CONFLICT (TeamId, Name) DO NOTHING
 ```
@@ -117,7 +121,8 @@ SET CreateAt=:CreateAt, UpdateAt=:UpdateAt, DeleteAt=:DeleteAt, TeamId=:TeamId, 
     LastPostAt=:LastPostAt, TotalMsgCount=:TotalMsgCount, ExtraUpdateAt=:ExtraUpdateAt,
     CreatorId=:CreatorId, SchemeId=:SchemeId, GroupConstrained=:GroupConstrained, Shared=:Shared,
     TotalMsgCountRoot=:TotalMsgCountRoot, LastRootPostAt=:LastRootPostAt,
-    BannerInfo=:BannerInfo, DefaultCategoryName=:DefaultCategoryName, AutoTranslation=:AutoTranslation
+    BannerInfo=:BannerInfo, DefaultCategoryName=:DefaultCategoryName,
+    AutoTranslation=:AutoTranslation
 WHERE Id=:Id
 ```
 
@@ -324,7 +329,9 @@ WHERE Channels.Id IN (?)
 Bulk insert:
 
 ```sql
-INSERT INTO ChannelMembers (ChannelId, UserId, Roles, LastViewedAt, MsgCount, MsgCountRoot, MentionCount, MentionCountRoot, UrgentMentionCount, NotifyProps, LastUpdateAt, SchemeUser, SchemeAdmin, SchemeGuest, AutoTranslationDisabled)
+INSERT INTO ChannelMembers (ChannelId, UserId, Roles, LastViewedAt, MsgCount, MsgCountRoot,
+    MentionCount, MentionCountRoot, UrgentMentionCount, NotifyProps, LastUpdateAt,
+    SchemeUser, SchemeAdmin, SchemeGuest, AutoTranslationDisabled)
 VALUES (?, ?, ...), (?, ?, ...), ...
 ```
 
@@ -335,7 +342,8 @@ For each member:
 ```sql
 UPDATE ChannelMembers
 SET Roles=?, LastViewedAt=?, MsgCount=?, MentionCount=?, UrgentMentionCount=?, NotifyProps=?,
-    LastUpdateAt=?, SchemeUser=?, SchemeAdmin=?, SchemeGuest=?, MentionCountRoot=?, MsgCountRoot=?
+    LastUpdateAt=?, SchemeUser=?, SchemeAdmin=?, SchemeGuest=?, MentionCountRoot=?,
+    MsgCountRoot=?
 WHERE ChannelId=? AND UserId=?
 ```
 
@@ -346,7 +354,8 @@ Then select updated row using **channelMembersForTeamWithSchemeSelectQuery** + `
 Postgres (squirrel Set with Expr):
 
 ```sql
-UPDATE channelmembers SET notifyprops = notifyprops || ?::jsonb, LastUpdateAt = ?
+UPDATE channelmembers
+SET notifyprops = notifyprops || ?::jsonb, LastUpdateAt = ?
 WHERE userid = ? AND channelid = ?
 ```
 
@@ -399,11 +408,13 @@ FROM ChannelMembers WHERE ChannelId=? AND UserId=?
 Raw SQL:
 
 ```sql
-SELECT ChannelMembers.ChannelId, ChannelMembers.UserId, ChannelMembers.Roles, ChannelMembers.LastViewedAt,
-       ChannelMembers.MsgCount, ChannelMembers.MentionCount, ChannelMembers.MentionCountRoot,
-       COALESCE(ChannelMembers.UrgentMentionCount, 0) AS UrgentMentionCount, ChannelMembers.MsgCountRoot,
-       ChannelMembers.NotifyProps, ChannelMembers.LastUpdateAt, ChannelMembers.SchemeUser, ChannelMembers.SchemeAdmin,
-       ChannelMembers.SchemeGuest, ChannelMembers.AutoTranslationDisabled,
+SELECT ChannelMembers.ChannelId, ChannelMembers.UserId, ChannelMembers.Roles,
+       ChannelMembers.LastViewedAt, ChannelMembers.MsgCount, ChannelMembers.MentionCount,
+       ChannelMembers.MentionCountRoot,
+       COALESCE(ChannelMembers.UrgentMentionCount, 0) AS UrgentMentionCount,
+       ChannelMembers.MsgCountRoot, ChannelMembers.NotifyProps, ChannelMembers.LastUpdateAt,
+       ChannelMembers.SchemeUser, ChannelMembers.SchemeAdmin, ChannelMembers.SchemeGuest,
+       ChannelMembers.AutoTranslationDisabled,
        TeamScheme.DefaultChannelGuestRole TeamSchemeDefaultGuestRole,
        TeamScheme.DefaultChannelUserRole TeamSchemeDefaultUserRole,
        TeamScheme.DefaultChannelAdminRole TeamSchemeDefaultAdminRole,
@@ -452,7 +463,8 @@ WHERE FileInfo.DeleteAt = 0 AND FileInfo.PostId != '' AND FileInfo.ChannelId = ?
 ```sql
 SELECT count(*)
 FROM ChannelMembers, Users
-WHERE ChannelMembers.UserId = Users.Id AND ChannelMembers.ChannelId = ? AND Users.DeleteAt = 0
+WHERE ChannelMembers.UserId = Users.Id AND ChannelMembers.ChannelId = ?
+  AND Users.DeleteAt = 0
 ```
 
 ### GetMemberCountsByGroup
@@ -499,7 +511,8 @@ Calls **RemoveMembers** for a single user.
 
 ```sql
 DELETE FROM ChannelMembers
-WHERE UserId IN (SELECT Id FROM Users WHERE Users.DeleteAt != 0) AND ChannelMembers.ChannelId = ?
+WHERE UserId IN (SELECT Id FROM Users WHERE Users.DeleteAt != 0)
+  AND ChannelMembers.ChannelId = ?
 ```
 
 ### PermanentDeleteMembersByUser
@@ -527,7 +540,8 @@ updated AS (
       MsgCountRoot = greatest(cm.MsgCountRoot, c.TotalMsgCountRoot),
       LastViewedAt = greatest(cm.LastViewedAt, c.LastPostAt),
       LastUpdateAt = greatest(cm.LastViewedAt, c.LastPostAt)
-  FROM c WHERE cm.UserId = ? AND c.Id = cm.ChannelId
+  FROM c
+  WHERE cm.UserId = ? AND c.Id = cm.ChannelId
 )
 SELECT Id, LastPostAt FROM c
 ```
@@ -546,9 +560,11 @@ Uses CountPostsAfter; then:
 
 ```sql
 UPDATE ChannelMembers
-SET MentionCount = :mentions, MentionCountRoot = :mentionsroot, UrgentMentionCount = :urgentmentions,
+SET MentionCount = :mentions, MentionCountRoot = :mentionsroot,
+    UrgentMentionCount = :urgentmentions,
     MsgCount = (SELECT TotalMsgCount FROM Channels WHERE ID = :channelid) - :unreadcount,
-    MsgCountRoot = (SELECT TotalMsgCountRoot FROM Channels WHERE ID = :channelid) - :unreadcountroot,
+    MsgCountRoot = (SELECT TotalMsgCountRoot FROM Channels WHERE ID = :channelid)
+        - :unreadcountroot,
     LastViewedAt = :lastviewedat, LastUpdateAt = :updatedat
 WHERE UserId = :userid AND ChannelId = :channelid
 ```
@@ -557,8 +573,10 @@ Then:
 
 ```sql
 SELECT c.TeamId TeamId, cm.UserId UserId, cm.ChannelId ChannelId, cm.MsgCount MsgCount,
-       cm.MsgCountRoot MsgCountRoot, cm.MentionCount MentionCount, cm.MentionCountRoot MentionCountRoot,
-       COALESCE(cm.UrgentMentionCount, 0) UrgentMentionCount, cm.LastViewedAt LastViewedAt, cm.NotifyProps NotifyProps
+       cm.MsgCountRoot MsgCountRoot, cm.MentionCount MentionCount,
+       cm.MentionCountRoot MentionCountRoot,
+       COALESCE(cm.UrgentMentionCount, 0) UrgentMentionCount,
+       cm.LastViewedAt LastViewedAt, cm.NotifyProps NotifyProps
 FROM ChannelMembers cm
 LEFT JOIN Channels c ON c.Id = cm.ChannelId
 WHERE cm.UserId = ? AND cm.ChannelId = ? AND c.DeleteAt = 0
@@ -681,8 +699,8 @@ Select batch:
 
 ```sql
 SELECT ChannelId, UserId, Roles, LastViewedAt, MsgCount, MentionCount, MentionCountRoot,
-       COALESCE(UrgentMentionCount, 0) AS UrgentMentionCount, MsgCountRoot, NotifyProps, LastUpdateAt,
-       SchemeUser, SchemeAdmin, SchemeGuest
+       COALESCE(UrgentMentionCount, 0) AS UrgentMentionCount, MsgCountRoot, NotifyProps,
+       LastUpdateAt, SchemeUser, SchemeAdmin, SchemeGuest
 FROM ChannelMembers
 WHERE (ChannelId, UserId) > (?, ?)
 ORDER BY ChannelId, UserId
@@ -694,9 +712,9 @@ For each row:
 ```sql
 UPDATE ChannelMembers
 SET Roles=:Roles, LastViewedAt=:LastViewedAt, MsgCount=:MsgCount, MentionCount=:MentionCount,
-    UrgentMentionCount=:UrgentMentionCount, NotifyProps=:NotifyProps, LastUpdateAt=:LastUpdateAt,
-    SchemeUser=:SchemeUser, SchemeAdmin=:SchemeAdmin, SchemeGuest=:SchemeGuest,
-    MentionCountRoot=:MentionCountRoot, MsgCountRoot=:MsgCountRoot
+    UrgentMentionCount=:UrgentMentionCount, NotifyProps=:NotifyProps,
+    LastUpdateAt=:LastUpdateAt, SchemeUser=:SchemeUser, SchemeAdmin=:SchemeAdmin,
+    SchemeGuest=:SchemeGuest, MentionCountRoot=:MentionCountRoot, MsgCountRoot=:MsgCountRoot
 WHERE ChannelId=:ChannelId AND UserId=:UserId
 ```
 
@@ -716,8 +734,8 @@ Select batch:
 
 ```sql
 SELECT ChannelId, UserId, Roles, LastViewedAt, MsgCount, MentionCount, MentionCountRoot,
-       COALESCE(UrgentMentionCount, 0) AS UrgentMentionCount, MsgCountRoot, NotifyProps, LastUpdateAt,
-       SchemeUser, SchemeAdmin, SchemeGuest
+       COALESCE(UrgentMentionCount, 0) AS UrgentMentionCount, MsgCountRoot, NotifyProps,
+       LastUpdateAt, SchemeUser, SchemeAdmin, SchemeGuest
 FROM ChannelMembers
 WHERE (ChannelId, UserId) > (?, ?)
 ORDER BY ChannelId, UserId
@@ -743,7 +761,8 @@ UPDATE ChannelMembers SET Roles = ? WHERE UserId = ? AND ChannelId = ?
 ### UserBelongsToChannels
 
 ```sql
-SELECT Count(*) FROM ChannelMembers WHERE UserId = ? AND ChannelId IN (?)
+SELECT Count(*) FROM ChannelMembers
+WHERE UserId = ? AND ChannelId IN (?)
 ```
 
 Returns whether count > 0.
@@ -755,7 +774,8 @@ Squirrel: UPDATE ChannelMembers SET SchemeAdmin = CASE WHEN UserId IN (?) THEN t
 ### GroupSyncedChannelCount
 
 ```sql
-SELECT COUNT(*) FROM Channels WHERE GroupConstrained = true AND DeleteAt = 0
+SELECT COUNT(*) FROM Channels
+WHERE GroupConstrained = true AND DeleteAt = 0
 ```
 
 ### SetShared
@@ -787,7 +807,8 @@ If scheme id present, calls **IsChannelReadOnlyScheme**.
 ```sql
 SELECT roles.permissions FROM roles
 INNER JOIN schemes ON roles.name = schemes.defaultchanneluserrole
-WHERE schemes.id = ? LIMIT 1
+WHERE schemes.id = ?
+LIMIT 1
 ```
 
 Returns whether the permission list does not contain `create_post`.

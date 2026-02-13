@@ -1,36 +1,41 @@
 # Team Store — SQL Reference
 
-This document lists each store function in `server/channels/store/sqlstore/team_store.go` and the SQL executed by that function. SQL is shown in fenced code blocks for correct display. Query-builder–generated SQL is described by intent and equivalent shape where helpful.
+Real SQL executed by `server/channels/store/sqlstore/team_store.go`. Placeholders: `?` or `:Name`.
 
 ---
 
-## Initialization / Shared query builders
+## Initialization (builder definitions, not executed alone)
 
-### newSqlTeamStore
-
-Builds reusable select builders (not executed by this function):
-
-- **teamsQuery**:
+### teamsQuery
 
 ```sql
-SELECT (teamSliceColumns)
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived
 FROM Teams
 ```
 
-- **teamMembersQuery**:
+### teamMembersQuery
 
 ```sql
-SELECT (TeamMembers columns)
+SELECT TeamMembers.TeamId, TeamMembers.UserId, TeamMembers.Roles, TeamMembers.DeleteAt,
+  TeamMembers.SchemeUser, TeamMembers.SchemeAdmin, TeamMembers.SchemeGuest, TeamMembers.CreateAt
 FROM TeamMembers
 ```
 
 ### getTeamMembersWithSchemeSelectQuery
 
-Adds scheme role columns and joins: TeamMembers + `LEFT JOIN Teams`, `LEFT JOIN Schemes TeamScheme ON Teams.SchemeId = TeamScheme.Id`. Used for member reads with scheme-derived roles.
-
-### teamSearchQuery
-
-Builds search/count query for teams: from `Teams as t`, optional retention policy joins, filters (Term ILIKE Name/DisplayName, AllowOpenInvite, GroupConstrained, TeamType, PolicyID), order/limit/offset. Used by SearchAll, SearchAllPaged, SearchOpen, SearchPrivate, GetAllPage, AnalyticsTeamCount.
+```sql
+SELECT TeamMembers.TeamId, TeamMembers.UserId, TeamMembers.Roles, TeamMembers.DeleteAt,
+  TeamMembers.SchemeUser, TeamMembers.SchemeAdmin, TeamMembers.SchemeGuest, TeamMembers.CreateAt,
+  TeamScheme.DefaultTeamGuestRole TeamSchemeDefaultGuestRole,
+  TeamScheme.DefaultTeamUserRole TeamSchemeDefaultUserRole,
+  TeamScheme.DefaultTeamAdminRole TeamSchemeDefaultAdminRole
+FROM TeamMembers
+LEFT JOIN Teams ON TeamMembers.TeamId = Teams.Id
+LEFT JOIN Schemes TeamScheme ON Teams.SchemeId = TeamScheme.Id
+```
 
 ---
 
@@ -40,49 +45,92 @@ Builds search/count query for teams: from `Teams as t`, optional retention polic
 
 ```sql
 INSERT INTO Teams
-(Id, CreateAt, UpdateAt, DeleteAt, DisplayName, Name, Description, Email, Type, CompanyName, AllowedDomains,
-InviteId, AllowOpenInvite, LastTeamIconUpdate, SchemeId, GroupConstrained, CloudLimitsArchived)
+  (Id, CreateAt, UpdateAt, DeleteAt, DisplayName, Name, Description, Email, Type,
+   CompanyName, AllowedDomains, InviteId, AllowOpenInvite, LastTeamIconUpdate,
+   SchemeId, GroupConstrained, CloudLimitsArchived)
 VALUES
-(:Id, :CreateAt, :UpdateAt, :DeleteAt, :DisplayName, :Name, :Description, :Email, :Type, :CompanyName, :AllowedDomains,
-:InviteId, :AllowOpenInvite, :LastTeamIconUpdate, :SchemeId, :GroupConstrained, :CloudLimitsArchived)
+  (:Id, :CreateAt, :UpdateAt, :DeleteAt, :DisplayName, :Name, :Description, :Email, :Type,
+   :CompanyName, :AllowedDomains, :InviteId, :AllowOpenInvite, :LastTeamIconUpdate,
+   :SchemeId, :GroupConstrained, :CloudLimitsArchived)
 ```
 
 ### Update
 
-Read existing team with **teamsQuery** `WHERE Id = ?`; then:
-
 ```sql
 UPDATE Teams
-SET CreateAt=:CreateAt, UpdateAt=:UpdateAt, DeleteAt=:DeleteAt, DisplayName=:DisplayName, Name=:Name,
-    Description=:Description, Email=:Email, Type=:Type, CompanyName=:CompanyName, AllowedDomains=:AllowedDomains,
-    InviteId=:InviteId, AllowOpenInvite=:AllowOpenInvite, LastTeamIconUpdate=:LastTeamIconUpdate,
-    SchemeId=:SchemeId, GroupConstrained=:GroupConstrained, CloudLimitsArchived=:CloudLimitsArchived
+SET CreateAt=:CreateAt, UpdateAt=:UpdateAt, DeleteAt=:DeleteAt, DisplayName=:DisplayName,
+    Name=:Name, Description=:Description, Email=:Email, Type=:Type, CompanyName=:CompanyName,
+    AllowedDomains=:AllowedDomains, InviteId=:InviteId, AllowOpenInvite=:AllowOpenInvite,
+    LastTeamIconUpdate=:LastTeamIconUpdate, SchemeId=:SchemeId, GroupConstrained=:GroupConstrained,
+    CloudLimitsArchived=:CloudLimitsArchived
 WHERE Id=:Id
 ```
 
 ### Get
 
-**teamsQuery** `WHERE Id = ?`.
+```sql
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived
+FROM Teams
+WHERE Id = ?
+```
 
 ### GetMany
 
-**teamsQuery** `WHERE Teams.Id IN (?)`.
+```sql
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived
+FROM Teams
+WHERE Teams.Id IN (?)
+```
 
 ### GetByInviteId
 
-**teamsQuery** `WHERE InviteId = ?`.
+```sql
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived
+FROM Teams
+WHERE InviteId = ?
+```
 
 ### GetByEmptyInviteID
 
-**teamsQuery** `WHERE InviteId = ''`.
+```sql
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived
+FROM Teams
+WHERE InviteId = ''
+```
 
 ### GetByName
 
-**teamsQuery** `WHERE Name = ?`.
+```sql
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived
+FROM Teams
+WHERE Name = ?
+```
 
 ### GetByNames
 
-**teamsQuery** `WHERE Name IN (?)`.
+```sql
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived
+FROM Teams
+WHERE Name IN (?)
+```
 
 ### PermanentDelete
 
@@ -94,49 +142,102 @@ DELETE FROM Teams WHERE Id = ?
 
 ## Search and listing
 
-### teamSearchQuery
+### teamSearchQuery (data)
 
-Helper that builds the select/count query for SearchAll, SearchAllPaged, SearchOpen, SearchPrivate, GetAllPage, AnalyticsTeamCount. Not called alone.
+```sql
+SELECT t.*
+FROM Teams as t
+WHERE (Name ILIKE ? OR DisplayName ILIKE ?)
+  AND (AllowOpenInvite / GroupConstrained / Type filters per opts)
+ORDER BY t.DisplayName
+LIMIT ? OFFSET ?
+```
 
-### SearchAll
+Optional: `INNER JOIN RetentionPoliciesTeams ON t.Id = RetentionPoliciesTeams.TeamId`,
+`LEFT JOIN RetentionPoliciesTeams ... WHERE RetentionPoliciesTeams.TeamId IS NULL`,
+or `LEFT JOIN RetentionPoliciesTeams`; optional `, RetentionPoliciesTeams.PolicyId as PolicyID`.
 
-Runs **teamSearchQuery(opts, false)** and executes on replica.
+### teamSearchQuery (count)
 
-### SearchAllPaged
-
-Runs **teamSearchQuery(opts, false)** for data; **teamSearchQuery(opts, true)** for total count.
-
-### SearchOpen
-
-**teamSearchQuery** with AllowOpenInvite = true.
-
-### SearchPrivate
-
-**teamSearchQuery** with AllowOpenInvite = false (and GroupConstrained filters).
+```sql
+SELECT count(*)
+FROM Teams as t
+WHERE (Name ILIKE ? OR DisplayName ILIKE ?)
+  AND (AllowOpenInvite / GroupConstrained / Type filters per opts)
+```
 
 ### GetAll
 
-**teamsQuery** (no extra filters).
+```sql
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived
+FROM Teams
+ORDER BY DisplayName
+```
 
 ### GetAllPage
 
-**teamSearchQuery** with pagination (limit/offset).
+```sql
+SELECT Teams.*
+FROM Teams
+ORDER BY DisplayName
+LIMIT ? OFFSET ?
+```
+
+Optional: `LEFT JOIN RetentionPoliciesTeams ON Teams.Id = RetentionPoliciesTeams.TeamId`,
+`WHERE RetentionPoliciesTeams.TeamId IS NULL`, `WHERE AllowOpenInvite = ?`;
+optional column: `, RetentionPoliciesTeams.PolicyId as PolicyID`.
 
 ### GetTeamsByUserId
 
-Select teams from Teams join TeamMembers where TeamMembers.UserId = ? and DeleteAt = 0.
+```sql
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived
+FROM Teams
+JOIN TeamMembers ON TeamMembers.TeamId = Teams.Id
+WHERE TeamMembers.UserId = ? AND TeamMembers.DeleteAt = 0 AND Teams.DeleteAt = 0
+```
 
 ### GetAllPrivateTeamListing
 
-**teamsQuery** with Type = 'I' (invite), DeleteAt = 0.
+```sql
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived
+FROM Teams
+WHERE AllowOpenInvite = false
+ORDER BY DisplayName
+```
 
 ### GetAllTeamListing
 
-**teamsQuery** with DeleteAt = 0.
+```sql
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived
+FROM Teams
+WHERE AllowOpenInvite = true
+ORDER BY DisplayName
+```
 
 ### GetTeamsByScheme
 
-**teamsQuery** `WHERE SchemeId = ?` ORDER BY DisplayName LIMIT/OFFSET.
+```sql
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived
+FROM Teams
+WHERE SchemeId = ?
+ORDER BY DisplayName
+LIMIT ? OFFSET ?
+```
 
 ---
 
@@ -146,44 +247,59 @@ Select teams from Teams join TeamMembers where TeamMembers.UserId = ? and Delete
 
 ```sql
 SELECT COUNT(*) FROM Teams
--- optional: WHERE DeleteAt = 0, AllowOpenInvite = ?
+WHERE DeleteAt = 0 AND AllowOpenInvite = ?
 ```
+
+(DeleteAt and AllowOpenInvite are optional per opts.)
 
 ### AnalyticsGetTeamCountForScheme
 
 ```sql
-SELECT count(*) FROM Teams WHERE SchemeId = ? AND DeleteAt = 0
+SELECT count(*)
+FROM Teams
+WHERE SchemeId = ? AND DeleteAt = 0
 ```
 
 ### GroupSyncedTeamCount
 
 ```sql
-SELECT COUNT(*) FROM Teams WHERE GroupConstrained = true AND DeleteAt = 0
+SELECT COUNT(*)
+FROM Teams
+WHERE GroupConstrained = true AND DeleteAt = 0
 ```
 
 ---
 
 ## Team members — save / update
 
-### SaveMultipleMembers
+### SaveMultipleMembers — default scheme roles
 
-- Optional: select default scheme roles from Teams left join Schemes for team ids.
-- Optional (maxUsersPerTeam >= 0): count members per team from TeamMembers join Users where DeleteAt = 0, GroupBy TeamId; enforce max per team.
-- Bulk insert:
+```sql
+SELECT Teams.Id as Id, TeamScheme.DefaultTeamGuestRole as Guest,
+  TeamScheme.DefaultTeamUserRole as User, TeamScheme.DefaultTeamAdminRole as Admin
+FROM Teams
+LEFT JOIN Schemes TeamScheme ON Teams.SchemeId = TeamScheme.Id
+WHERE Teams.Id IN (?)
+```
+
+### SaveMultipleMembers — member count (maxUsersPerTeam)
+
+```sql
+SELECT COUNT(0) as Count, TeamMembers.TeamId as TeamId
+FROM TeamMembers
+JOIN Users ON TeamMembers.UserId = Users.Id
+WHERE TeamMembers.TeamId IN (?) AND TeamMembers.DeleteAt = 0 AND Users.DeleteAt = 0
+GROUP BY TeamMembers.TeamId
+```
+
+### SaveMultipleMembers — insert
 
 ```sql
 INSERT INTO TeamMembers (TeamId, UserId, Roles, DeleteAt, SchemeUser, SchemeAdmin, SchemeGuest, CreateAt)
-VALUES (...), (...), ...
+VALUES (?, ?, ?, ?, ?, ?, ?, ?), (?, ?, ?, ?, ?, ?, ?, ?), ...
 ```
-- After insert, returns members with scheme roles applied in memory (no second query for list).
 
-### SaveMember
-
-Calls **SaveMultipleMembers** with a single member.
-
-### UpdateMultipleMembers
-
-For each member:
+### UpdateMultipleMembers — update
 
 ```sql
 UPDATE TeamMembers
@@ -192,11 +308,15 @@ SET Roles=:Roles, DeleteAt=:DeleteAt, CreateAt=:CreateAt, SchemeGuest=:SchemeGue
 WHERE TeamId=:TeamId AND UserId=:UserId
 ```
 
-Then select default scheme roles for affected teams (Teams left join Schemes) and returns updated members with roles applied in memory.
+### UpdateMultipleMembers — default scheme roles
 
-### UpdateMember
-
-Calls **UpdateMultipleMembers** with a single member.
+```sql
+SELECT Teams.Id as Id, TeamScheme.DefaultTeamGuestRole as Guest,
+  TeamScheme.DefaultTeamUserRole as User, TeamScheme.DefaultTeamAdminRole as Admin
+FROM Teams
+LEFT JOIN Schemes TeamScheme ON Teams.SchemeId = TeamScheme.Id
+WHERE Teams.Id IN (?)
+```
 
 ### UpdateLastTeamIconUpdate
 
@@ -210,39 +330,106 @@ UPDATE Teams SET LastTeamIconUpdate = ?, UpdateAt = ? WHERE Id = ?
 
 ### GetMember
 
-**getTeamMembersWithSchemeSelectQuery** `WHERE TeamMembers.TeamId = ? AND TeamMembers.UserId = ?`.
+```sql
+SELECT TeamMembers.TeamId, TeamMembers.UserId, TeamMembers.Roles, TeamMembers.DeleteAt,
+  TeamMembers.SchemeUser, TeamMembers.SchemeAdmin, TeamMembers.SchemeGuest, TeamMembers.CreateAt,
+  TeamScheme.DefaultTeamGuestRole TeamSchemeDefaultGuestRole,
+  TeamScheme.DefaultTeamUserRole TeamSchemeDefaultUserRole,
+  TeamScheme.DefaultTeamAdminRole TeamSchemeDefaultAdminRole
+FROM TeamMembers
+LEFT JOIN Teams ON TeamMembers.TeamId = Teams.Id
+LEFT JOIN Schemes TeamScheme ON Teams.SchemeId = TeamScheme.Id
+WHERE TeamMembers.TeamId = ? AND TeamMembers.UserId = ?
+```
 
 ### GetMembers
 
-**getTeamMembersWithSchemeSelectQuery** with optional view restrictions (join Users, TeamMembers rtm, ChannelMembers rcm), `WHERE TeamMembers.TeamId = ?`, optional DeleteAt, ORDER BY UserId, LIMIT/OFFSET.
+Same SELECT and JOINs as GetMember, plus optional `LEFT JOIN Users ON TeamMembers.UserId = Users.Id`,
+optional `WHERE Users.DeleteAt = 0`, optional view-restriction joins (rtm, rcm), then:
+
+```sql
+WHERE TeamMembers.TeamId = ? AND TeamMembers.DeleteAt = 0
+ORDER BY UserId
+LIMIT ? OFFSET ?
+```
+
+(Or ORDER BY Username when Sort = USERNAME.)
 
 ### GetTotalMemberCount
 
-Count from TeamMembers (with optional view restrictions join) where TeamId = ? and DeleteAt = 0.
+```sql
+SELECT count(DISTINCT TeamMembers.UserId)
+FROM TeamMembers, Users
+WHERE TeamMembers.DeleteAt = 0 AND TeamMembers.UserId = Users.Id AND TeamMembers.TeamId = ?
+```
+
+Plus optional view-restriction joins (rtm, rcm).
 
 ### GetActiveMemberCount
 
-Same as GetTotalMemberCount but also join Users and Users.DeleteAt = 0.
+```sql
+SELECT count(DISTINCT TeamMembers.UserId)
+FROM TeamMembers, Users
+WHERE TeamMembers.DeleteAt = 0 AND TeamMembers.UserId = Users.Id AND Users.DeleteAt = 0
+  AND TeamMembers.TeamId = ?
+```
+
+Plus optional view-restriction joins.
 
 ### GetMembersByIds
 
-**getTeamMembersWithSchemeSelectQuery** with optional view restrictions, `WHERE TeamMembers.TeamId = ? AND TeamMembers.UserId IN (?)`.
+Same base as GetMember with:
+
+```sql
+WHERE TeamMembers.TeamId = ? AND TeamMembers.UserId IN (?) AND TeamMembers.DeleteAt = 0
+```
+
+Plus optional view-restriction filter.
 
 ### GetTeamsForUser
 
-**getTeamMembersWithSchemeSelectQuery** where UserId = ? and optionally exclude team and include deleted.
+Same base as GetMember with:
+
+```sql
+WHERE TeamMembers.UserId = ?
+  AND (TeamMembers.TeamId != ? OR exclude not applied)
+  AND (TeamMembers.DeleteAt = 0 OR includeDeleted)
+```
 
 ### GetTeamsForUserWithPagination
 
-**getTeamMembersWithSchemeSelectQuery** where UserId = ?, ORDER BY TeamId, LIMIT/OFFSET.
+Same as GetTeamsForUser with:
+
+```sql
+ORDER BY TeamMembers.TeamId
+LIMIT ? OFFSET ?
+```
 
 ### GetChannelUnreadsForAllTeams
 
-Select ChannelId, TeamId, MsgCount, MentionCount, etc. from ChannelMembers join Channels where UserId = ? and optional excludeTeamId, DeleteAt = 0.
+```sql
+SELECT Channels.TeamId TeamId, Channels.Id ChannelId,
+  (Channels.TotalMsgCount - ChannelMembers.MsgCount) MsgCount,
+  (Channels.TotalMsgCountRoot - ChannelMembers.MsgCountRoot) MsgCountRoot,
+  ChannelMembers.MentionCount MentionCount, ChannelMembers.MentionCountRoot MentionCountRoot,
+  ChannelMembers.NotifyProps NotifyProps
+FROM Channels
+JOIN ChannelMembers ON Id = ChannelId
+WHERE UserId = ? AND DeleteAt = 0 AND TeamId != ?
+```
 
 ### GetChannelUnreadsForTeam
 
-Same shape for a single team.
+```sql
+SELECT Channels.TeamId TeamId, Channels.Id ChannelId,
+  (Channels.TotalMsgCount - ChannelMembers.MsgCount) MsgCount,
+  (Channels.TotalMsgCountRoot - ChannelMembers.MsgCountRoot) MsgCountRoot,
+  ChannelMembers.MentionCount MentionCount, ChannelMembers.MentionCountRoot MentionCountRoot,
+  ChannelMembers.NotifyProps NotifyProps
+FROM Channels
+JOIN ChannelMembers ON Id = ChannelId
+WHERE UserId = ? AND TeamId = ? AND DeleteAt = 0
+```
 
 ---
 
@@ -253,10 +440,6 @@ Same shape for a single team.
 ```sql
 DELETE FROM TeamMembers WHERE TeamId = ? AND UserId IN (?)
 ```
-
-### RemoveMember
-
-Calls **RemoveMembers** for a single user.
 
 ### RemoveAllMembersByTeam
 
@@ -274,9 +457,18 @@ DELETE FROM TeamMembers WHERE UserId = ?
 
 ## Migration and schemes
 
-### MigrateTeamMembers
+### MigrateTeamMembers — batch select
 
-Batch select: **teamMembersQuery** `WHERE (TeamMembers.TeamId, TeamMembers.UserId) > (?, ?)` ORDER BY TeamMembers.TeamId, TeamMembers.UserId LIMIT 100. For each row:
+```sql
+SELECT TeamMembers.TeamId, TeamMembers.UserId, TeamMembers.Roles, TeamMembers.DeleteAt,
+  TeamMembers.SchemeUser, TeamMembers.SchemeAdmin, TeamMembers.SchemeGuest, TeamMembers.CreateAt
+FROM TeamMembers
+WHERE (TeamMembers.TeamId, TeamMembers.UserId) > (?, ?)
+ORDER BY TeamMembers.TeamId, TeamMembers.UserId
+LIMIT 100
+```
+
+### MigrateTeamMembers — update
 
 ```sql
 UPDATE TeamMembers
@@ -291,9 +483,18 @@ WHERE TeamId=:TeamId AND UserId=:UserId
 UPDATE Teams SET SchemeId=''
 ```
 
-### ClearAllCustomRoleAssignments
+### ClearAllCustomRoleAssignments — batch select
 
-In a loop: select batch of TeamMembers with `(TeamId, UserId) > (?, ?)` ORDER BY TeamId, UserId LIMIT 1000. For each member, compute built-in-only roles; if changed:
+```sql
+SELECT TeamMembers.TeamId, TeamMembers.UserId, TeamMembers.Roles, TeamMembers.DeleteAt,
+  TeamMembers.SchemeUser, TeamMembers.SchemeAdmin, TeamMembers.SchemeGuest, TeamMembers.CreateAt
+FROM TeamMembers
+WHERE (TeamMembers.TeamId, TeamMembers.UserId) > (?, ?)
+ORDER BY TeamMembers.TeamId, TeamMembers.UserId
+LIMIT 1000
+```
+
+### ClearAllCustomRoleAssignments — update
 
 ```sql
 UPDATE TeamMembers SET Roles = ? WHERE UserId = ? AND TeamId = ?
@@ -305,16 +506,25 @@ UPDATE TeamMembers SET Roles = ? WHERE UserId = ? AND TeamId = ?
 
 ### GetAllForExportAfter
 
-Select team columns + Schemes.Name from Teams left join Schemes where Teams.Id > afterId, ORDER BY Id, LIMIT.
+```sql
+SELECT Teams.Id, Teams.CreateAt, Teams.UpdateAt, Teams.DeleteAt, Teams.DisplayName,
+  Teams.Name, Teams.Description, Teams.Email, Teams.Type, Teams.CompanyName,
+  Teams.AllowedDomains, Teams.InviteId, Teams.AllowOpenInvite, Teams.LastTeamIconUpdate,
+  Teams.SchemeId, Teams.GroupConstrained, Teams.CloudLimitsArchived, Schemes.Name as SchemeName
+FROM Teams
+LEFT JOIN Schemes ON Teams.SchemeId = Schemes.Id
+WHERE Teams.Id > ?
+ORDER BY Id
+LIMIT ?
+```
 
 ### GetUserTeamIds
 
 ```sql
-SELECT TeamId FROM TeamMembers
+SELECT TeamId
+FROM TeamMembers
 JOIN Teams ON TeamMembers.TeamId = Teams.Id
-WHERE TeamMembers.UserId = ?
-  AND TeamMembers.DeleteAt = 0
-  AND Teams.DeleteAt = 0
+WHERE TeamMembers.UserId = ? AND TeamMembers.DeleteAt = 0 AND Teams.DeleteAt = 0
 ```
 
 ### GetCommonTeamIDsForTwoUsers
@@ -328,42 +538,74 @@ WHERE TM1.UserId = ? AND TM2.UserId = ?
   AND TM1.DeleteAt = 0 AND TM2.DeleteAt = 0 AND Teams.DeleteAt = 0
 ```
 
-### GetCommonTeamIDsForMultipleUsers
+### GetCommonTeamIDsForMultipleUsers — subquery
 
-Subquery: TeamId, UserId from TeamMembers where UserId IN (?) and DeleteAt = 0. Main: select Teams.Id from Teams join (subquery) group by Id HAVING COUNT(UserId) = len(userIDs), Teams.DeleteAt = 0.
+```sql
+SELECT TeamId, UserId
+FROM TeamMembers
+WHERE UserId IN (?) AND DeleteAt = 0
+```
+
+### GetCommonTeamIDsForMultipleUsers — main
+
+```sql
+SELECT t.Id
+FROM Teams AS t
+JOIN (subquery) AS tm ON t.Id = tm.TeamId
+WHERE t.DeleteAt = 0
+GROUP BY t.Id
+HAVING COUNT(UserId) = ?
+```
 
 ### GetTeamMembersForExport
 
-Select TeamMembers fields + Teams.Name from TeamMembers join Teams where TeamMembers.UserId = ? and Teams.DeleteAt = 0.
+```sql
+SELECT TeamMembers.TeamId, TeamMembers.UserId, TeamMembers.Roles, TeamMembers.DeleteAt,
+  (TeamMembers.SchemeGuest IS NOT NULL AND TeamMembers.SchemeGuest) as SchemeGuest,
+  TeamMembers.SchemeUser, TeamMembers.SchemeAdmin, Teams.Name as TeamName
+FROM TeamMembers
+JOIN Teams ON TeamMembers.TeamId = Teams.Id
+WHERE TeamMembers.UserId = ? AND Teams.DeleteAt = 0
+```
 
 ### UserBelongsToTeams
 
-Returns whether count > 0.
-
 ```sql
-SELECT Count(*) FROM TeamMembers
+SELECT Count(*)
+FROM TeamMembers
 WHERE UserId = ? AND TeamId IN (?) AND DeleteAt = 0
 ```
 
 ### UpdateMembersRole
 
-SchemeGuest false/null, restricted to new or demoted admins, with RETURNING columns. Returns updated members.
-
 ```sql
 UPDATE TeamMembers
-SET SchemeAdmin = CASE WHEN UserId IN (?) THEN true ELSE false END, ...
+SET SchemeAdmin = CASE WHEN UserId IN (?) THEN true ELSE false END
 WHERE TeamId = ? AND DeleteAt = 0
-RETURNING ...
+  AND (SchemeGuest = false OR SchemeGuest IS NULL)
+  AND ((SchemeAdmin = false AND UserId IN (?)) OR (SchemeAdmin = true AND UserId NOT IN (?)))
+RETURNING TeamId, UserId, Roles, DeleteAt, SchemeUser, SchemeAdmin, SchemeGuest, CreateAt
 ```
 
 ---
 
-## No-op / cache-only (no SQL in this store)
+## View restriction helpers (applied to member/count queries)
 
-### ClearCaches
+### applyTeamMemberViewRestrictionsFilter
 
-No SQL. Cache invalidation only.
+Adds: `JOIN Users ru ON (TeamMembers.UserId = ru.Id)`, and optionally
+`JOIN TeamMembers rtm ON (rtm.UserId = ru.Id AND rtm.DeleteAt = 0 AND rtm.TeamId IN (?))`,
+`JOIN ChannelMembers rcm ON (rcm.UserId = ru.Id AND rcm.ChannelId IN (?))`, and `DISTINCT`.
+If Teams and Channels both empty: `WHERE 1 = 0`.
 
-### InvalidateAllTeamIdsForUser
+### applyTeamMemberViewRestrictionsFilterForStats
 
-No SQL. Cache invalidation only.
+Same joins on `TeamMembers rtm` and `ChannelMembers rcm` keyed by `Users.Id` (no DISTINCT).
+If both empty: `WHERE 1 = 0`.
+
+---
+
+## No SQL in this store
+
+- **ClearCaches**: cache invalidation only.
+- **InvalidateAllTeamIdsForUser**: cache invalidation only.
