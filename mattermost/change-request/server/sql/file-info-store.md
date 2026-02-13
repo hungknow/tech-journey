@@ -1,8 +1,8 @@
 # File Info Store — SQL Reference
 
-This document lists each store function in `server/channels/store/sqlstore/file_info_store.go`
-and the SQL executed by that function. SQL is shown in fenced code blocks for correct display.
-Query-builder–generated SQL is described by intent and equivalent shape where helpful.
+This document lists each store function in
+`server/channels/store/sqlstore/file_info_store.go` and the real SQL executed by that
+function. Lines are under 120 characters. SELECTs use queryFields (see Initialization).
 
 ---
 
@@ -10,8 +10,16 @@ Query-builder–generated SQL is described by intent and equivalent shape where 
 
 ### newSqlFileInfoStore
 
-Sets **queryFields**: FileInfo columns including COALESCE(FileInfo.ChannelId, ''), Coalesce(Content, ''),
-Coalesce(RemoteId, ''), Archived. No shared select builder; queries built per method.
+queryFields (used in SELECTs):
+
+- FileInfo.Id, FileInfo.CreatorId, FileInfo.PostId,
+- COALESCE(FileInfo.ChannelId, '') AS ChannelId, FileInfo.CreateAt, FileInfo.UpdateAt,
+  FileInfo.DeleteAt,
+- FileInfo.Path, FileInfo.ThumbnailPath, FileInfo.PreviewPath, FileInfo.Name, FileInfo.Extension,
+- FileInfo.Size, FileInfo.MimeType, FileInfo.Width, FileInfo.Height, FileInfo.HasPreviewImage,
+- FileInfo.MiniPreview, Coalesce(FileInfo.Content, '') AS Content,
+  Coalesce(FileInfo.RemoteId, '') AS RemoteId,
+- FileInfo.Archived
 
 ---
 
@@ -19,27 +27,31 @@ Coalesce(RemoteId, ''), Archived. No shared select builder; queries built per me
 
 ### Save
 
+Placeholders are named (`:Id`, `:CreatorId`, etc.).
+
 ```sql
 INSERT INTO FileInfo
-(Id, CreatorId, PostId, ChannelId, CreateAt, UpdateAt, DeleteAt, Path, ThumbnailPath, PreviewPath,
- Name, Extension, Size, MimeType, Width, Height, HasPreviewImage, MiniPreview, Content, RemoteId)
+(Id, CreatorId, PostId, ChannelId, CreateAt, UpdateAt, DeleteAt, Path, ThumbnailPath,
+ PreviewPath, Name, Extension, Size, MimeType, Width, Height, HasPreviewImage, MiniPreview,
+ Content, RemoteId)
 VALUES
-(:Id, :CreatorId, :PostId, :ChannelId, :CreateAt, :UpdateAt, :DeleteAt, :Path, :ThumbnailPath, :PreviewPath,
- :Name, :Extension, :Size, :MimeType, :Width, :Height, :HasPreviewImage, :MiniPreview, :Content, :RemoteId)
+(:Id, :CreatorId, :PostId, :ChannelId, :CreateAt, :UpdateAt, :DeleteAt, :Path, :ThumbnailPath,
+ :PreviewPath, :Name, :Extension, :Size, :MimeType, :Width, :Height, :HasPreviewImage,
+ :MiniPreview, :Content, :RemoteId)
 ```
 
 ### GetByIds
 
 ```sql
 SELECT queryFields FROM FileInfo
-WHERE Id IN (?)
-  -- optional: AND DeleteAt = 0
-ORDER BY CreateAt DESC
+WHERE FileInfo.Id IN (?)
+  -- optional: AND FileInfo.DeleteAt = 0
+ORDER BY FileInfo.CreateAt DESC
 ```
 
 ### Upsert
 
-If 0 rows affected, calls **Save**.
+If 0 rows affected, code calls Save.
 
 ```sql
 UPDATE FileInfo
@@ -52,53 +64,55 @@ WHERE Id = ?
 ### get / Get / GetFromMaster
 
 ```sql
-SELECT queryFields FROM FileInfo WHERE Id = ? AND DeleteAt = 0
+SELECT queryFields FROM FileInfo WHERE FileInfo.Id = ? AND FileInfo.DeleteAt = 0
 ```
 
 ### GetWithOptions
 
 ```sql
 SELECT queryFields FROM FileInfo
--- optional: ChannelIds, UserIds, Since, IncludeDeleted
-ORDER BY CreateAt | Size (ASC/DESC), Id
+-- optional: AND FileInfo.ChannelId IN (?), FileInfo.CreatorId IN (?),
+--           FileInfo.CreateAt >= ?, FileInfo.DeleteAt = 0
+ORDER BY FileInfo.CreateAt ASC, FileInfo.Id ASC
 LIMIT ? OFFSET ?
 ```
 
 ### GetByPath
 
 ```sql
-SELECT queryFields FROM FileInfo WHERE Path = ? AND DeleteAt = 0 LIMIT 1
+SELECT queryFields FROM FileInfo
+WHERE FileInfo.Path = ? AND FileInfo.DeleteAt = 0 LIMIT 1
 ```
 
 ### GetForPost
 
 ```sql
 SELECT queryFields FROM FileInfo
-WHERE PostId = ?
-  -- optional: AND DeleteAt = 0
-ORDER BY CreateAt
+WHERE FileInfo.PostId = ?
+  -- optional: AND FileInfo.DeleteAt = 0
+ORDER BY FileInfo.CreateAt
 ```
 
 ### GetForUser
 
 ```sql
 SELECT queryFields FROM FileInfo
-WHERE CreatorId = ? AND DeleteAt = 0
-ORDER BY CreateAt
+WHERE FileInfo.CreatorId = ? AND FileInfo.DeleteAt = 0
+ORDER BY FileInfo.CreateAt
 ```
 
 ### AttachToPost
 
 ```sql
-UPDATE FileInfo
-SET PostId = ?, ChannelId = ?
-WHERE Id = ? AND PostId = '' AND (CreatorId = ? OR CreatorId = 'nouser')
+UPDATE FileInfo SET PostId = ?, ChannelId = ?
+WHERE FileInfo.Id = ? AND FileInfo.PostId = ''
+  AND (FileInfo.CreatorId = ? OR FileInfo.CreatorId = 'nouser')
 ```
 
 ### SetContent
 
 ```sql
-UPDATE FileInfo SET Content = ? WHERE Id = ?
+UPDATE FileInfo SET Content = ? WHERE FileInfo.Id = ?
 ```
 
 ### DeleteForPost
@@ -110,7 +124,7 @@ UPDATE FileInfo SET DeleteAt = ? WHERE PostId = ?
 ### DeleteForPostByIds
 
 ```sql
-UPDATE FileInfo SET DeleteAt = ? WHERE PostId = ? AND Id IN (?)
+UPDATE FileInfo SET DeleteAt = ? WHERE FileInfo.PostId = ? AND FileInfo.Id IN (?)
 ```
 
 ### PermanentDeleteForPost
@@ -126,8 +140,6 @@ DELETE FROM FileInfo WHERE Id = ?
 ```
 
 ### PermanentDeleteBatch
-
-Batch delete by endTime and limit.
 
 ```sql
 DELETE FROM FileInfo
@@ -147,7 +159,7 @@ DELETE FROM FileInfo WHERE CreatorId = ?
 ### RestoreForPostByIds
 
 ```sql
-UPDATE FileInfo SET DeleteAt = 0 WHERE PostId = ? AND Id IN (?)
+UPDATE FileInfo SET DeleteAt = 0 WHERE FileInfo.PostId = ? AND FileInfo.Id IN (?)
 ```
 
 ---
@@ -156,42 +168,64 @@ UPDATE FileInfo SET DeleteAt = 0 WHERE PostId = ? AND Id IN (?)
 
 ### Search
 
-Complex query builder: from FileInfo with optional joins (Channels, Posts, User), filters (channel, user,
-date range, extensions, etc.), full-text or LIKE on Name/Content, ORDER BY, LIMIT/OFFSET.
-Returns FileInfoList with total count.
+Simplified shape; full query adds optional filters (team, channels, users, dates,
+full-text on Name/Content).
+
+```sql
+SELECT queryFields FROM FileInfo
+LEFT JOIN Channels AS C ON C.Id = FileInfo.ChannelId
+LEFT JOIN ChannelMembers AS CM ON C.Id = CM.ChannelId
+WHERE FileInfo.DeleteAt = 0
+  AND (FileInfo.CreatorId = 'bookmarkfileowner' OR FileInfo.PostId != '')
+  AND NOT EXISTS (
+    SELECT 1 FROM TemporaryPosts WHERE TemporaryPosts.PostId = FileInfo.PostId)
+ORDER BY FileInfo.CreateAt DESC
+LIMIT 100
+```
 
 ### CountAll
 
 ```sql
-SELECT COUNT(*) FROM FileInfo
+SELECT num FROM file_stats
 ```
 
 ### GetFilesBatchForIndexing
 
 ```sql
--- Select file columns for indexing
-SELECT ... FROM FileInfo
-WHERE (CreateAt > ? OR (CreateAt = ? AND Id > ?))
-  -- optional: IncludeDeleted
-ORDER BY CreateAt, Id
+SELECT queryFields FROM FileInfo
+WHERE (FileInfo.CreateAt > ? OR (FileInfo.CreateAt = ? AND FileInfo.Id > ?))
+  -- optional: AND FileInfo.DeleteAt = 0
+ORDER BY FileInfo.CreateAt ASC, FileInfo.Id ASC
 LIMIT ?
 ```
 
 ### GetStorageUsage
 
 ```sql
+-- when includeDeleted = false (default)
+SELECT usage FROM file_stats
+
+-- when includeDeleted = true
 SELECT COALESCE(SUM(Size), 0) FROM FileInfo
--- optional: WHERE DeleteAt = 0
 ```
 
 ### GetUptoNSizeFileTime
 
-Subquery/raw SQL to compute file time for storage reporting (nth largest size).
+```sql
+SELECT fi2.CreateAt FROM (
+  SELECT SUM(fi.Size) OVER (ORDER BY CreateAt DESC, fi.Id) RunningTotal, fi.CreateAt
+  FROM FileInfo fi
+  WHERE fi.DeleteAt = 0
+) fi2
+WHERE fi2.RunningTotal <= ?
+ORDER BY fi2.CreateAt
+LIMIT 1
+```
 
 ### RefreshFileStats
 
 ```sql
-ANALYZE FileInfo
+REFRESH MATERIALIZED VIEW file_stats
 ```
 
 ---

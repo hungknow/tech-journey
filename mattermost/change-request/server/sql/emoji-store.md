@@ -1,16 +1,12 @@
 # Emoji Store — SQL Reference
 
-This document lists each store function in `server/channels/store/sqlstore/emoji_store.go` and the SQL executed by that function. SQL is shown in fenced code blocks for correct display. Query-builder–generated SQL is described by intent and equivalent shape where helpful.
+Final SQL for each function in `server/channels/store/sqlstore/emoji_store.go`.
 
 ---
 
-## Initialization
+## Base query (emojiSelectQuery)
 
-### newSqlEmojiStore
-
-Builds reusable select builder (not executed by this function):
-
-- **emojiSelectQuery**:
+Used by Get, GetByName, GetMultipleByName, GetList, Search. Squirrel builds:
 
 ```sql
 SELECT Id, CreateAt, UpdateAt, DeleteAt, CreatorId, Name
@@ -20,43 +16,109 @@ WHERE DeleteAt = 0
 
 ---
 
-## CRUD and lifecycle
+## Save
 
-### Save
+Raw SQL (NamedExec). Params: `:Id`, `:CreateAt`, `:UpdateAt`, `:DeleteAt`, `:CreatorId`, `:Name`.
 
 ```sql
 INSERT INTO Emoji
-(Id, CreateAt, UpdateAt, DeleteAt, CreatorId, Name)
+    (Id, CreateAt, UpdateAt, DeleteAt, CreatorId, Name)
 VALUES
-(:Id, :CreateAt, :UpdateAt, :DeleteAt, :CreatorId, :Name)
+    (:Id, :CreateAt, :UpdateAt, :DeleteAt, :CreatorId, :Name)
 ```
 
-### Get
+---
 
-**getBy**(rctx, "Id", id): **emojiSelectQuery** WHERE Id = ?.
+## Get
 
-### GetByName
-
-**getBy**(rctx, "Name", name): **emojiSelectQuery** WHERE Name = ?.
-
-### getBy
-
-**emojiSelectQuery** WHERE <what> = <key>. Returns one active emoji.
-
-### GetMultipleByName
-
-**emojiSelectQuery** WHERE Name IN (?).
-
-### GetList
-
-**emojiSelectQuery** with optional ORDER BY Name, LIMIT ? OFFSET ?.
-
-### Delete
+Uses **getBy**(rctx, `"Id"`, id). Final SQL:
 
 ```sql
-UPDATE Emoji SET DeleteAt = ?, UpdateAt = ? WHERE Id = ? AND DeleteAt = 0
+SELECT Id, CreateAt, UpdateAt, DeleteAt, CreatorId, Name
+FROM Emoji
+WHERE DeleteAt = 0
+  AND Id = ?
 ```
 
-### Search
+---
 
-**emojiSelectQuery** WHERE Name LIKE ? (term with optional leading % for prefixOnly), ORDER BY Name, LIMIT ?.
+## GetByName
+
+Uses **getBy**(rctx, `"Name"`, name). Final SQL:
+
+```sql
+SELECT Id, CreateAt, UpdateAt, DeleteAt, CreatorId, Name
+FROM Emoji
+WHERE DeleteAt = 0
+  AND Name = ?
+```
+
+---
+
+## GetMultipleByName
+
+Params: `names` (slice) → `IN (?, ?, ...)`.
+
+```sql
+SELECT Id, CreateAt, UpdateAt, DeleteAt, CreatorId, Name
+FROM Emoji
+WHERE DeleteAt = 0
+  AND Name IN (?, ?, ...)
+```
+
+---
+
+## GetList
+
+Params: `offset`, `limit`, `sort`. If `sort == model.EmojiSortByName` then ORDER BY Name is added.
+
+**Without sort (or sort != by name):**
+
+```sql
+SELECT Id, CreateAt, UpdateAt, DeleteAt, CreatorId, Name
+FROM Emoji
+WHERE DeleteAt = 0
+LIMIT ?
+OFFSET ?
+```
+
+**With sort by name:**
+
+```sql
+SELECT Id, CreateAt, UpdateAt, DeleteAt, CreatorId, Name
+FROM Emoji
+WHERE DeleteAt = 0
+ORDER BY Name
+LIMIT ?
+OFFSET ?
+```
+
+---
+
+## Delete
+
+Raw SQL (Exec). Params: `time`, `time`, `emoji.Id`.
+
+```sql
+UPDATE Emoji
+SET
+    DeleteAt = ?,
+    UpdateAt = ?
+WHERE Id = ?
+  AND DeleteAt = 0
+```
+
+---
+
+## Search
+
+Params: `term` (built from `name`: prefix-only → `name%`, else `%name%`), `limit`. `name` is sanitized before.
+
+```sql
+SELECT Id, CreateAt, UpdateAt, DeleteAt, CreatorId, Name
+FROM Emoji
+WHERE DeleteAt = 0
+  AND Name LIKE ?
+ORDER BY Name
+LIMIT ?
+```
