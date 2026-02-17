@@ -4,6 +4,83 @@ This document lists every LLM prompt used in the codebase: the literal or templa
 
 ---
 
+## Messages sent to the LLM
+
+This section describes the **message list** actually passed to the LLM in each scenario: who builds each part and what the combined input looks like. The sections below give the full content of each prompt; here we only summarize the structure and responsibility.
+
+### Normal chat (user message)
+
+**Built by:** `ContextBuilder.BuildMessages()` in `pkg/agent/context.go`, called from `runAgentLoop()` in `pkg/agent/loop.go` with `history` and `summary` from the session, and the current user message.
+
+**Message list:** `[ system, ...history, user ]`
+
+- **System:** Full main agent system prompt from `BuildSystemPrompt()` (identity, Available Tools, bootstrap files, skills, memory, optional Current Session, optional Summary of Previous Conversation).
+- **History:** Previous turns from `sessions.GetHistory(sessionKey)` — alternating user/assistant (and possibly tool) messages.
+- **User:** The current user message for this turn.
+
+After the first LLM call, if tool calls are present in the response, the loop appends an assistant message (with tool calls) and a tool result message for each call, then calls the LLM again with this updated message list. With each iteration, the list always starts with the same full system prompt—covering identity, tools, bootstrap, skills, memory, etc.—followed by history, user input, assistant/tool messages.
+
+This system prompt is resent on every LLM request: only new assistant and tool messages are appended, the system message itself is unchanged. If multiple tool calls occur, the LLM is called multiple times per turn (e.g., 6 calls means 6 identical copies of the system prompt sent).
+
+As a result, the system prompt dominates repeated token usage since it is never shortened or omitted between tool iterations.
+
+**Tool definitions:** From `ToolRegistry.ToProviderDefs()`, passed to the provider together with the message list.
+
+### Heartbeat run
+
+**Built by:** Same `BuildMessages()`, but with **no history** (`NoHistory: true`) and the **user** slot set to the heartbeat prompt from `buildPrompt()` in `pkg/heartbeat/service.go`.
+
+**Message list:** `[ system, user ]`
+
+- **System:** Same full main agent system prompt from `BuildSystemPrompt()` (so the model still sees identity, Available Tools, bootstrap, skills, memory, etc.).
+- **User:** Single message = output of `buildPrompt()` (Heartbeat Check heading, current time, instructions, raw contents of `HEARTBEAT.md`).
+
+No conversation history; tool definitions are the same as normal chat.
+
+### Conversation summarization (`summarizeBatch`)
+
+**Built by:** `summarizeBatch()` in `pkg/agent/loop.go` — builds a single user message string and calls `provider.Chat()` with no system message and no tools.
+
+**Message list:** `[ user ]`
+
+- **User:** One message containing the summarization instruction, optional "Existing context: …", and "CONVERSATION:" plus the batch of messages as text.
+
+No system message, no tool definitions. Used only to get a summary string; the response is not part of a conversation.
+
+### Merge summaries (`summarizeSession`)
+
+**Built by:** Inline in `summarizeSession()` in `pkg/agent/loop.go` — builds one user message and calls `provider.Chat()` with no system message and no tools.
+
+**Message list:** `[ user ]`
+
+- **User:** One message: "Merge these two conversation summaries into one cohesive summary:\n\n1: <s1>\n\n2: <s2>".
+
+No system message, no tool definitions. Used only to merge two summary strings into one.
+
+### Subagent (async spawn)
+
+**Built by:** `runTask()` in `pkg/tools/subagent.go` — builds a fixed system string and uses the task as the user message, then calls `RunToolLoop()`.
+
+**Message list:** `[ system, user ]`
+
+- **System:** Short subagent system prompt ("You are a subagent. Complete the given task independently…"). It does **not** include the main agent’s "Available Tools" text block or the skills section; the subagent does not use `BuildSystemPrompt()`.
+- **User:** The task string from the spawn tool arguments.
+
+Tool definitions are passed to the provider from the same registry (`ToProviderDefs()`), so the model can call tools, but the system message does not list tool names/descriptions or skills.
+
+### Sync subagent (SubagentTool)
+
+**Built by:** `SubagentTool.Execute()` in `pkg/tools/subagent.go` — builds a fixed system string and the task as user message, then calls `RunToolLoop()`.
+
+**Message list:** `[ system, user ]`
+
+- **System:** Short sync subagent prompt ("You are a subagent. Complete the given task independently and provide a clear, concise result."). It does **not** include the tool section or skills section (same as async subagent).
+- **User:** The task string from the tool arguments.
+
+Same tool registry as the main agent; tools are available via API definitions only, not via text in the system prompt.
+
+---
+
 ## Main agent system prompt
 
 ### Function
@@ -15,6 +92,21 @@ This document lists every LLM prompt used in the codebase: the literal or templa
 Used for every normal chat turn and for heartbeat runs. `ContextBuilder.BuildMessages()` calls `BuildSystemPrompt()` to form the system message. That message list is then passed to `runLLMIteration()` in the agent loop, which calls the LLM provider’s `Chat()` with it. For heartbeat, the same agent (and same context builder) is used; the only difference is the user message (the heartbeat prompt from `buildPrompt()`). Optionally, `BuildMessages()` appends "Current Session" (channel/chatID) and "Summary of Previous Conversation" when those are provided.
 
 ### Full prompt (template)
+
+**Short placeholder template (what parts are available):**  
+Parts are joined by `\n\n---\n\n`. Part 1 is always present; Parts 2–4 and the suffix are included only when applicable.
+
+```
+[Part 1 – always]  <now>  <runtime>  <workspacePath>  <toolsSection>  + Important Rules
+---
+[Part 2 – optional]  Bootstrap: for each existing file (AGENTS.md, SOUL.md, USER.md, IDENTITY.md) → ## <filename> + <contents>
+---
+[Part 3 – optional]  Skills: # Skills + <skills> XML block (one <skill> per skill)
+---
+[Part 4 – optional]  Memory: # Memory + ## Long-term Memory + ## Recent Daily Notes
+---
+[Optional suffix]  ## Current Session (<channel>, <chatID>)  and/or  ## Summary of Previous Conversation (<summary>)
+```
 
 The system prompt is the concatenation of the following parts, joined by `\n\n---\n\n`. Below, each part is shown with **example full content** as filled by the code (from the actual implementations).
 
@@ -223,6 +315,8 @@ After completing the task, provide a clear summary of what was done.
 
 **User message:** The task string passed to the subagent (from the tool arguments).
 
+**Tool section and skills section:** No. The subagent system prompt is only the short text above. It does **not** include the main agent’s "Available Tools" block (the CRITICAL instruction and the list of tool names/descriptions) or the "# Skills" block. The subagent can still use tools because `RunToolLoop()` passes `ToolRegistry.ToProviderDefs()` to the provider, so the model receives tool definitions in the API call and can invoke them; the system message itself does not list tools or skills.
+
 ---
 
 ## Sync subagent system prompt (SubagentTool)
@@ -243,6 +337,8 @@ You are a subagent. Complete the given task independently and provide a clear, c
 
 **User message:** The task string from the tool’s `task` argument.
 
+**Tool section and skills section:** No. Same as the async subagent: the system prompt is only the one line above; no "Available Tools" text and no skills section. Tools are available via the API tool definitions from the same registry.
+
 ---
 
 ## Heartbeat prompt (user message)
@@ -253,7 +349,13 @@ You are a subagent. Complete the given task independently and provide a clear, c
 
 ### Context
 
-The heartbeat service runs on a timer. Each run it reads `HEARTBEAT.md` from the workspace. If the file is missing, it creates the default template with `createDefaultHeartbeatTemplate()` and returns an empty prompt (so that run does nothing). If the file exists and is non-empty, it builds the heartbeat prompt and passes it to the configured handler. The handler (in `cmd/picoclaw/main.go`) calls the agent’s `ProcessHeartbeat(ctx, prompt, channel, chatID)`. The agent uses the **same** system prompt as normal chat (from `BuildSystemPrompt()`); the only difference is that the user message is this heartbeat prompt instead of a user chat message.
+The heartbeat service runs on a timer. On each run, it reads the `HEARTBEAT.md` file from the workspace.
+
+If the file is missing, the service creates the default template by calling `createDefaultHeartbeatTemplate()` and returns an empty prompt. This causes the current heartbeat run to do nothing.
+
+If `HEARTBEAT.md` exists and is non-empty, the service constructs the heartbeat prompt using its contents and passes this prompt to the configured handler. The handler (in `cmd/picoclaw/main.go`) then calls the agent’s `ProcessHeartbeat(ctx, prompt, channel, chatID)` method.
+
+When processing a heartbeat, the agent uses the **same** system prompt as in normal chat (built from `BuildSystemPrompt()`). The only difference is that, for heartbeat runs, the user message passed to the LLM is this heartbeat prompt, whereas in normal operation it is a user chat message.
 
 ### Full prompt (template)
 
@@ -296,42 +398,3 @@ Add your heartbeat tasks below this line:
 ```
 
 So the **full** LLM input for a heartbeat run is: the main agent system prompt (see **Main agent system prompt** above) as the system message, and the above string as the single user message.
-
----
-
-## Default HEARTBEAT.md template (file content, not a direct LLM prompt)
-
-### Function
-
-`createDefaultHeartbeatTemplate()` in `pkg/heartbeat/service.go`.
-
-### Context
-
-When `HEARTBEAT.md` does not exist, this content is written to the file. It is not sent to the LLM as-is; it is the default file that the user edits. On subsequent heartbeat runs, `buildPrompt()` reads this file and embeds it into the heartbeat prompt (see **Heartbeat prompt (user message)** above). Documented here because it defines the instructions that will eventually appear inside the heartbeat user message after the user adds tasks below the line.
-
-### Content
-
-```
-# Heartbeat Check List
-
-This file contains tasks for the heartbeat service to check periodically.
-
-## Examples
-
-- Check for unread messages
-- Review upcoming calendar events
-- Check device status (e.g., MaixCam)
-
-## Instructions
-
-- Execute ALL tasks listed below. Do NOT skip any task.
-- For simple tasks (e.g., report current time), respond directly.
-- For complex tasks that may take time, use the spawn tool to create a subagent.
-- The spawn tool is async - subagent results will be sent to the user automatically.
-- After spawning a subagent, CONTINUE to process remaining tasks.
-- Only respond with HEARTBEAT_OK when ALL tasks are done AND nothing needs attention.
-
----
-
-Add your heartbeat tasks below this line:
-```
