@@ -43,107 +43,73 @@
 
 ---
 
-### 4. Other
+### 4. String
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
+| 0316 | [Remove Duplicate Letters](./problems/0316-remove-duplicate-letters.md) | [Go](./golang/0316_remove_duplicate_letters.go) | _O(n)_| _O(1)_| Hard || Mono Stack |
+| 0402 | [Remove K Digits](./problems/0402-remove-k-digits.md) | [Go](./golang/0402_remove_k_digits.go) | _O(n)_ | _O(n)_ | Medium | LintCode |
+| 0484 | [Find Permutation](./problems/0484-find-permutation.md) | [Go](./golang/0484_find_permutation.go) | _O(n)_       | _O(1)_          | Medium         | 🔒 || Greedy |
+| 0767 | [Reorganize String](./problems/0767-reorganize-string.md) | [Go](./golang/0767_reorganize_string.go) | _O(n)_ | _O(1)_ | Medium | |
+| 0984 | [String Without AAA or BBB](./problems/0984-string-without-aaa-or-bbb.md) | [Go](./golang/0984_string_without_aaa_or_bbb.go) | _O(a + b)_ | _O(1)_ | Easy ||
+| 1081 | [Smallest Subsequence of Distinct Characters](./problems/1081-smallest-subsequence-of-distinct-characters.md) | [Go](./golang/1081_smallest_subsequence_of_distinct_characters.go) | _O(n)_| _O(1)_| Medium | same as [Remove Duplicate Letters](https://leetcode.com/problems/remove-duplicate-letters/) | Mono Stack |
+| 1163 | [Last Substring in Lexicographical Order](./problems/1163-last-substring-in-lexicographical-order.md) | [Go](./golang/1163_last_substring_in_lexicographical_order.go)| _O(n)_ | _O(1)_ | Hard | | |
+| 1578 | [Minimum Deletion Cost to Avoid Repeating Letters](./problems/1578-minimum-deletion-cost-to-avoid-repeating-letters.md) | [Go](./golang/1578_minimum_deletion_cost_to_avoid_repeating_letters.go) | _O(n)_    | _O(1)_          | Medium           ||
+| 1663 | [Smallest String With A Given Numeric Value](./problems/1663-smallest-string-with-a-given-numeric-value.md) | [Go](./golang/1663_smallest_string_with_a_given_numeric_value.go) | _O(n)_ | _O(1)_ | Medium ||
+| 1708 | [Largest Subarray Length K](./problems/1708-largest-subarray-length-k.md) | [Go](./golang/1708_largest_subarray_length_k.go)| _O(n)_ | _O(1)_ | Easy | 🔒, variant of [Last Substring in Lexicographical Order](https://leetcode.com/problems/last-substring-in-lexicographical-order/) | |
+| 1754 | [Largest Merge Of Two Strings](./problems/1754-largest-merge-of-two-strings.md) |[Go](./golang/1754_largest_merge_of_two_strings.go)| _O(m * n)_     | _O(m + n)_         | Medium         |  |  |
+| 2182 | [Construct String With Repeat Limit](./problems/2182-construct-string-with-repeat-limit.md) | [Go](./golang/2182_construct_string_with_repeat_limit.go) | _O(n)_ | _O(1)_ | Medium | | Greedy |
+| 2384 | [Largest Palindromic Number](./problems/2384-largest-palindromic-number.md) | [Go](./golang/2384_largest_palindromic_number.go) | _O(n)_ | _O(1)_ | Medium | | Freq Table, Greedy |
+| 2405 | [Optimal Partition of String](./problems/2405-optimal-partition-of-string.md) | [Go](./golang/2405_optimal_partition_of_string.go) | _O(n)_ | _O(n)_ | Medium || Greedy, Hash Table |
+| 2434 | [Using a Robot to Print the Lexicographically Smallest String](./problems/2434-using-a-robot-to-print-the-lexicographically-smallest-string.md) | [Go](./golang/2434_using_a_robot_to_print_the_lexicographically_smallest_string.go) | _O(n)_   | _O(n)_        | Medium         | | Freq Table, Greedy |
+| 2645 | [Minimum Additions to Make Valid String](./problems/2645-minimum-additions-to-make-valid-string.md) | [Go](./golang/2645_minimum_additions_to_make_valid_string.go) | _O(n)_ | _O(1)_ | Medium | | Greedy |
+| 2663 | [Lexicographically Smallest Beautiful String](./problems/2663-lexicographically-smallest-beautiful-string.md) | [Go](./golang/2663_lexicographically_smallest_beautiful_string.go) | _O(n)_ | _O(1)_ | Hard | | Greedy |
+| 2697 | [Lexicographically Smallest Palindrome](./problems/2697-lexicographically-smallest-palindrome.md) | [Go](./golang/2697_lexicographically_smallest_palindrome.go) | _O(n)_ | _O(1)_ | Easy | | Greedy |
+| 2734 | [Lexicographically Smallest String After Substring Operation](./problems/2734-lexicographically-smallest-string-after-substring-operation.md) | [Go](./golang/2734_lexicographically_smallest_string_after_substring_operation.go) | _O(n)_ | _O(1)_ | Medium | | Greedy |
+| 2825 | [Make String a Subsequence Using Cyclic Increments](./problems/2825-make-string-a-subsequence-using-cyclic-increments.md) | [Go](./golang/2825_make_string_a_subsequence_using_cyclic_increments.go) | _O(n)_ | _O(1)_ | Medium | | Greedy, Two Pointers |
+| 2864 | [Maximum Odd Binary Number](./problems/2864-maximum-odd-binary-number.md) | [Go](./golang/2864_maximum_odd_binary_number.go) | _O(n)_ | _O(1)_ | Easy | | Greedy, Partition |
+| 2914 | [Minimum Number of Changes to Make Binary String Beautiful](./problems/2914-minimum-number-of-changes-to-make-binary-string-beautiful.md) | [Go](./golang/2914_minimum_number_of_changes_to_make_binary_string_beautiful.go) | _O(n)_ | _O(1)_ | Medium |  | Greedy |
+| 2957 | [Remove Adjacent Almost-Equal Characters](./problems/2957-remove-adjacent-almost-equal-characters.md) | [Go](./golang/2957_remove_adjacent_almost_equal_characters.go) | _O(n)_ | _O(1)_ | Medium | | Greedy |
+
+---
+
+### 5. Array
 
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
 |-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
 | 0122 | [Best Time to Buy and Sell Stock II](./problems/0122-best-time-to-buy-and-sell-stock-ii.md) | [Go](./golang/0122_best_time_to_buy_and_sell_stock_ii.go) | _O(n)_ | _O(1)_ | Easy ||
 | 0135 | [Candy](./problems/0135-candy.md) | [Go](./golang/0135_candy.go) | _O(n)_ | _O(n)_ | Hard ||
-| 0316 | [Remove Duplicate Letters](./problems/0316-remove-duplicate-letters.md) | [Go](./golang/0316_remove_duplicate_letters.go) | _O(n)_| _O(1)_| Hard || Mono Stack |
-| 0321 | [Create Maximum Number](./problems/0321-create-maximum-number.md) | [Go](./golang/0321_create_maximum_number.go) | _O(k * (m + n + k))_ ~ _O(k * (m + n + k^2))_| _O(m + n + k^2)_ | Hard | variant of [Delete Digits](http://www.lintcode.com/en/problem/delete-digits/) | Greedy, DP
-| 0330 | [Patching Array](./problems/0330-patching-array.md) | [Go](./golang/0330_patching_array.go) | _O(s + logn)_ | _O(1)_       | Hard           ||
 | 0376 | [Wiggle Subsequence](./problems/0376-wiggle-subsequence.md) | [Go](./golang/0376_wiggle_subsequence.go)   | _O(n)_          | _O(1)_          | Medium         ||
-| 0392 | [Is Subsequence](./problems/0392-is-subsequence.md) | [Go](./golang/0392_is_subsequence.go)   | _O(n)_          | _O(1)_          | Medium         ||
-| 0397 | [Integer Replacement](./problems/0397-integer-replacement.md) | [Go](./golang/0397_integer_replacement.go)   | _O(n)_          | _O(1)_          | Medium         || Math
-| 0402 | [Remove K Digits](./problems/0402-remove-k-digits.md) | [Go](./golang/0402_remove_k_digits.go) | _O(n)_ | _O(n)_ | Medium | LintCode |
-| 0484 | [Find Permutation](./problems/0484-find-permutation.md) | [Go](./golang/0484_find_permutation.go) | _O(n)_       | _O(1)_          | Medium         | 🔒 || Greedy
 | 0621 | [Task Scheduler](./problems/0621-task-scheduler.md) | [Go](./golang/0621_task_scheduler.go) | _O(n)_ | _O(1)_ | Medium | |
-| 0630 | [Course Schedule III](./problems/0630-course-schedule-iii.md) | [Go](./golang/0630_course_schedule_iii.go) | _O(nlogn)_ | _O(k)_ | Hard ||
 | 0649 | [Dota2 Senate](./problems/0649-dota2-senate.md) | [Go](./golang/0649_dota2_senate.go) | _O(n)_ | _O(n)_ | Medium |||
 | 0659 | [Split Array into Consecutive Subsequences](./problems/0659-split-array-into-consecutive-subsequences.md) | [Go](./golang/0659_split_array_into_consecutive_subsequences.go) | _O(n)_ | _O(1)_ | Medium | |
-| 0738 | [Monotone Increasing Digits](./problems/0738-monotone-increasing-digits.md) | [Go](./golang/0738_monotone_increasing_digits.go) | _O(1)_ | _O(1)_ | Medium | |
-| 0757 | [Set Intersection Size At Least Two](./problems/0757-set-intersection-size-at-least-two.md) | [Go](./golang/0757_set_intersection_size_at_least_two.go) | _O(nlogn)_ | _O(n)_ | Hard | |
-| 0759 | [Employee Free Time](./problems/0759-employee-free-time.md) | [Go](./golang/0759_employee_free_time.go) | _O(m * logn)_ | _O(n)_ | Hard | 🔒 |
-| 0767 | [Reorganize String](./problems/0767-reorganize-string.md) | [Go](./golang/0767_reorganize_string.go) | _O(n)_ | _O(1)_ | Medium | |
-| 0798 | [Smallest Rotation with Highest Score](./problems/0798-smallest-rotation-with-highest-score.md) | [Go](./golang/0798_smallest_rotation_with_highest_score.go) | _O(n)_ | _O(1)_ | Hard | |
-| 0843 | [Guess the Word](./problems/0843-guess-the-word.md) | [Go](./golang/0843_guess_the_word.go) | _O(n)_ | _O(n)_ | Hard || MinMax, Math |
-| 0861 | [Score After Flipping Matrix](./problems/0861-score-after-flipping-matrix.md) | [Go](./golang/0861_score_after_flipping_matrix.go) | _O(r * c)_ | _O(1)_ | Medium ||
 | 0870 | [Advantage Shuffle](./problems/0870-advantage-shuffle.md) | [Go](./golang/0870_advantage_shuffle.go) | _O(nlogn)_ | _O(n)_ | Medium ||
 | 0881 | [Boats to Save People](./problems/0881-boats-to-save-people.md) | [Go](./golang/0881_boats_to_save_people.go) | _O(nlogn)_ | _O(n)_ | Medium ||
-| 0936 | [Stamping The Sequence](./problems/0936-stamping-the-sequence.md) | [Go](./golang/0936_stamping_the_sequence.go) | _O((n - m) * m)_ | _O((n - m) * m)_ | Hard ||
-| 0948 | [Bag of Tokens](./problems/0948-bag-of-tokens.md) | [Go](./golang/0948_bag_of_tokens.go) | _O(nlogn)_ | _O(1)_ | Medium || Two Pointers
-| 0962 | [Maximum Width Ramp](./problems/0962-maximum-width-ramp.md) | [Go](./golang/0962_maximum_width_ramp.go) | _O(n)_ | _O(n)_ | Medium || Mono Stack
-| 0968 | [Binary Tree Cameras](./problems/0968-binary-tree-cameras.md) | [Go](./golang/0968_binary_tree_cameras.go) | _O(n)_ | _O(h)_ | Hard || DFS
-| 0984 | [String Without AAA or BBB](./problems/0984-string-without-aaa-or-bbb.md) | [Go](./golang/0984_string_without_aaa_or_bbb.go) | _O(a + b)_ | _O(1)_ | Easy ||
-| 0991 | [Broken Calculator](./problems/0991-broken-calculator.md) | [Go](./golang/0991_broken_calculator.go) | _O(logn)_ | _O(1)_ | Medium ||
-| 0995 | [Minimum Number of K Consecutive Bit Flips](./problems/0995-minimum-number-of-k-consecutive-bit-flips.md) | [Go](./golang/0995_minimum_number_of_k_consecutive_bit_flips.go) | _O(n)_ | _O(1)_ | Hard ||
-| 1005 | [Maximize Sum Of Array After K Negations](./problems/1005-maximize-sum-of-array-after-k-negations.md) | [Go](./golang/1005_maximize_sum_of_array_after_k_negations.go) | _O(n)_ on average | _O(1)_ | Easy || Quick Select
-| 1029 | [Two City Scheduling](./problems/1029-two-city-scheduling.md) | [Go](./golang/1029_two_city_scheduling.go) | _O(n)_ on average | _O(1)_ | Easy | | Quick Select
-| 1053 | [Previous Permutation With One Swap](./problems/1053-previous-permutation-with-one-swap.md) | [Go](./golang/1053_previous_permutation_with_one_swap.go) | _O(n)_ | _O(1)_ | Medium | | 
-| 1055 | [Shortest Way to Form String](./problems/1055-shortest-way-to-form-string.md) | [Go](./golang/1055_shortest_way_to_form_string.go) | _O(m + n)_ | _O(m)_ | Medium | 🔒, variant of [Minimum Window Subsequence](https://leetcode.com/problems/minimum-window-subsequence/) | 
-| 1058 | [Minimize Rounding Error to Meet Target](./problems/1058-minimize-rounding-error-to-meet-target.md) | [Go](./golang/1058_minimize_rounding_error_to_meet_target.go) | _O(n)_ on average | _O(n)_ | Medium | 🔒 | Quick Select
-| 1081 | [Smallest Subsequence of Distinct Characters](./problems/1081-smallest-subsequence-of-distinct-characters.md) | [Go](./golang/1081_smallest_subsequence_of_distinct_characters.go) | _O(n)_| _O(1)_| Medium | same as [Remove Duplicate Letters](https://leetcode.com/problems/remove-duplicate-letters/) | Mono Stack |
 | 1090 | [Largest Values From Labels](./problems/1090-largest-values-from-labels.md) | [Go](./golang/1090_largest_values_from_labels.go) | _O(nlogn)_ | _O(n)_ | Medium ||
-| 1111 | [Maximum Nesting Depth of Two Valid Parentheses Strings](./problems/1111-maximum-nesting-depth-of-two-valid-parentheses-strings.md) | [Go](./golang/1111_maximum_nesting_depth_of_two_valid_parentheses_strings.go) | _O(n)_ | _O(1)_ | Medium ||
-| 1163 | [Last Substring in Lexicographical Order](./problems/1163-last-substring-in-lexicographical-order.md) | [Go](./golang/1163_last_substring_in_lexicographical_order.go)| _O(n)_ | _O(1)_ | Hard | | |
-| 1167 | [Minimum Cost to Connect Sticks](./problems/1167-minimum-cost-to-connect-sticks.md) | [Go](./golang/1167_minimum_cost_to_connect_sticks.go) |  _O(nlogn)_ | _O(n)_   | Medium |🔒|| Heap
-| 1183 | [Maximum Number of Ones](./problems/1183-maximum-number-of-ones.md) | [Go](./golang/1183_maximum_number_of_ones.go) |  _O(1)_ | _O(1)_   | Hard |🔒||
-| 1196 | [How Many Apples Can You Put into the Basket](./problems/1196-how-many-apples-can-you-put-into-the-basket.md) | [Go](./golang/1196_how_many_apples_can_you_put_into_the_basket.go) | _O(nlogn)_ | _O(n)_ | Easy |🔒|
-| 1199 | [Minimum Time to Build Blocks](./problems/1199-minimum-time-to-build-blocks.md) | [Go](./golang/1199_minimum_time_to_build_blocks.go) | _O(nlogn)_ | _O(n)_ | Hard |🔒|
-| 1221 | [Split a String in Balanced Strings](./problems/1221-split-a-string-in-balanced-strings.md) | [Go](./golang/1221_split_a_string_in_balanced_strings.go) | _O(n)_ | _O(1)_ | Easy ||
-| 1247 | [Minimum Swaps to Make Strings Equal](./problems/1247-minimum-swaps-to-make-strings-equal.md) | [Go](./golang/1247_minimum_swaps_to_make_strings_equal.go) | _O(n)_ | _O(1)_ | Easy ||
-| 1249 | [Minimum Remove to Make Valid Parentheses](./problems/1249-minimum-remove-to-make-valid-parentheses.md) | [Go](./golang/1249_minimum_remove_to_make_valid_parentheses.go) | _O(n)_ | _O(1)_ | Medium | | Stack
-| 1253 | [Reconstruct a 2-Row Binary Matrix](./problems/1253-reconstruct-a-2-row-binary-matrix.md) | [Go](./golang/1253_reconstruct_a_2_row_binary_matrix.go) | _O(n)_ | _O(1)_ | Medium ||
 | 1282 | [Group the People Given the Group Size They Belong To](./problems/1282-group-the-people-given-the-group-size-they-belong-to.md) | [Go](./golang/1282_group_the_people_given_the_group_size_they_belong_to.go) | _O(n)_ | _O(n)_ | Medium ||
 | 1296 | [Divide Array in Sets of K Consecutive Numbers](./problems/1296-divide-array-in-sets-of-k-consecutive-numbers.md) | [Go](./golang/1296_divide_array_in_sets_of_k_consecutive_numbers.go) | _O(nlogn)_ | _O(n)_ | Medium ||
-| 1338 | [Reduce Array Size to The Half](./problems/1338-reduce-array-size-to-the-half.md) | [Go](./golang/1338_reduce_array_size_to_the_half.go) | _O(n)_ | _O(n)_ | Medium || Counting Sort
-| 1353 | [Maximum Number of Events That Can Be Attended](./problems/1353-maximum-number-of-events-that-can-be-attended.md) | [Go](./golang/1353_maximum_number_of_events_that_can_be_attended.go) | _O(r + nlogn)_        | _O(n)_          | Medium           | | Heap, Sort |
-| 1354 | [Construct Target Array With Multiple Sums](./problems/1354-construct-target-array-with-multiple-sums.md) | [Go](./golang/1354_construct_target_array_with_multiple_sums.go) | _O(log(max(t)) * logn)_        | _O(n)_          | Hard           | | Heap |
-| 1383 | [Maximum Performance of a Team](./problems/1383-maximum-performance-of-a-team.md) | [Go](./golang/1383_maximum_performance_of_a_team.go) | _O(nlogn)_ | _O(n)_ | Hard | variant of [Minimum Cost to Hire K Workers](https://leetcode.com/problems/minimum-cost-to-hire-k-workers/) | Greedy, Heap |
-| 1386 | [Cinema Seat Allocation](./problems/1386-cinema-seat-allocation.md) | [Go](./golang/1386_cinema_seat_allocation.go) | _O(n)_        | _O(n)_          | Medium           | | |
+| 1338 | [Reduce Array Size to The Half](./problems/1338-reduce-array-size-to-the-half.md) | [Go](./golang/1338_reduce_array_size_to_the_half.go) | _O(n)_ | _O(n)_ | Medium || Counting Sort |
 | 1400 | [Construct K Palindrome Strings](./problems/1400-construct-k-palindrome-strings.md) | [Go](./golang/1400_construct_k_palindrome_strings.go) | _O(n)_        | _O(1)_          | Medium           | | |
-| 1402 | [Reducing Dishes](./problems/1402-reducing-dishes.md) | [Go](./golang/1402_reducing_dishes.go) | _O(nlogn)_        | _O(1)_          | Hard           | | |
 | 1403 | [Minimum Subsequence in Non-Increasing Order](./problems/1403-minimum-subsequence-in-non-increasing-order.md) | [Go](./golang/1403_minimum_subsequence_in_non_increasing_order.go) | _O(nlogn)_        | _O(1)_          | Easy           | | |
 | 1405 | [Longest Happy String](./problems/1405-longest-happy-string.md) | [Go](./golang/1405_longest_happy_string.go) | _O(n)_        | _O(1)_          | Medium           | | |
-| 1414 | [Find the Minimum Number of Fibonacci Numbers Whose Sum Is K](./problems/1414-find-the-minimum-number-of-fibonacci-numbers-whose-sum-is-k.md) | [Go](./golang/1414_find_the_minimum_number_of_fibonacci_numbers_whose_sum_is_k.go) | _O(logk)_        | _O(1)_          | Medium           | | |
-| 1419 | [Minimum Number of Frogs Croaking](./problems/1419-minimum-number-of-frogs-croaking.md) | [Go](./golang/1419_minimum_number_of_frogs_croaking.go) | _O(n)_        | _O(1)_          | Medium           | | |
-| 1432 | [Max Difference You Can Get From Changing an Integer](./problems/1432-max-difference-you-can-get-from-changing-an-integer.md) | [Go](./golang/1432_max_difference_you_can_get_from_changing_an_integer.go)| _O(logn)_ | _O(1)_ | Medium || Greedy |
-| 1433 | [Check If a String Can Break Another String](./problems/1433-check-if-a-string-can-break-another-string.md) | [Go](./golang/1433_check_if_a_string_can_break_another_string.go) | _O(n)_        | _O(1)_          | Medium           | | |
-| 1488 | [Avoid Flood in The City](./problems/1488-avoid-flood-in-the-city.md) | [Go](./golang/1488_avoid_flood_in_the_city.go) | _O(nlogn)_        | _O(n)_          | Medium           | | |
-| 1518 | [Water Bottles](./problems/1518-water-bottles.md) | [Go](./golang/1518_water_bottles.go) | _O(logn/logm)_        | _O(1)_          | Easy           | | |
 | 1526 | [Minimum Number of Increments on Subarrays to Form a Target Array](./problems/1526-minimum-number-of-increments-on-subarrays-to-form-a-target-array.md) | [Go](./golang/1526_minimum_number_of_increments_on_subarrays_to_form_a_target_array.go) | _O(n)_        | _O(1)_          | Hard           | | |
 | 1536 | [Minimum Swaps to Arrange a Binary Grid](./problems/1536-minimum-swaps-to-arrange-a-binary-grid.md) | [Go](./golang/1536_minimum_swaps_to_arrange_a_binary_grid.go) | _O(n^2)_        | _O(1)_          | Medium           | | |
 | 1564 | [Put Boxes Into the Warehouse I](./problems/1564-put-boxes-into-the-warehouse-i.md) | [Go](./golang/1564_put_boxes_into_the_warehouse_i.go) | _O(nlogn)_    | _O(1)_          | Medium           | 🔒 |
 | 1567 | [Maximum Length of Subarray With Positive Product](./problems/1567-maximum-length-of-subarray-with-positive-product.md) | [Go](./golang/1567_maximum_length_of_subarray_with_positive_product.go) | _O(n)_    | _O(1)_          | Medium           ||
-| 1578 | [Minimum Deletion Cost to Avoid Repeating Letters](./problems/1578-minimum-deletion-cost-to-avoid-repeating-letters.md) | [Go](./golang/1578_minimum_deletion_cost_to_avoid_repeating_letters.go) | _O(n)_    | _O(1)_          | Medium           ||
 | 1580 | [Put Boxes Into the Warehouse II](./problems/1580-put-boxes-into-the-warehouse-ii.md) | [Go](./golang/1580_put_boxes_into_the_warehouse_ii.go) | _O(nlogn)_    | _O(1)_          | Medium           | 🔒 |
-| 1585 | [Check If String Is Transformable With Substring Sort Operations](./problems/1585-check-if-string-is-transformable-with-substring-sort-operations.md) | [Go](./golang/1585_check_if_string_is_transformable_with_substring_sort_operations.go) | _O(n)_    | _O(n)_          | Hard           ||
-| 1589 | [Maximum Sum Obtained of Any Permutation](./problems/1589-maximum-sum-obtained-of-any-permutation.md) | [Go](./golang/1589_maximum_sum_obtained_of_any_permutation.go) | _O(nlogn)_    | _O(n)_          | Medium           || 
-| 1591 | [Strange Printer II](./problems/1591-strange-printer-ii.md) | [Go](./golang/1591_strange_printer_ii.go) | _O(c * m * n + e)_ | _O(e)_ | Hard ||
+| 1589 | [Maximum Sum Obtained of Any Permutation](./problems/1589-maximum-sum-obtained-of-any-permutation.md) | [Go](./golang/1589_maximum_sum_obtained_of_any_permutation.go) | _O(nlogn)_    | _O(n)_          | Medium           ||
 | 1599 | [Maximum Profit of Operating a Centennial Wheel](./problems/1599-maximum-profit-of-operating-a-centennial-wheel.md) | [Go](./golang/1599_maximum_profit_of_operating_a_centennial_wheel.go) | _O(n)_ | _O(1)_ | Medium ||
 | 1605 | [Find Valid Matrix Given Row and Column Sums](./problems/1605-find-valid-matrix-given-row-and-column-sums.md) | [Go](./golang/1605_find_valid_matrix_given_row_and_column_sums.go) | _O(m + n)_ | _O(1)_ | Medium ||
-| 1616 | [Split Two Strings to Make Palindrome](./problems/1616-split-two-strings-to-make-palindrome.md) | [Go](./golang/1616_split_two_strings_to_make_palindrome.go) | _O(n)_ | _O(1)_ | Medium || Two Pointers
-| 1632 | [Rank Transform of a Matrix](./problems/1632-rank-transform-of-a-matrix.md) | [Go](./golang/1632_rank_transform_of_a_matrix.go) | _O(m * n * log(m * n))_ | _O(m * n)_ | Hard || Union Find
 | 1647 | [Minimum Deletions to Make Character Frequencies Unique](./problems/1647-minimum-deletions-to-make-character-frequencies-unique.md) | [Go](./golang/1647_minimum_deletions_to_make_character_frequencies_unique.go) | _O(n)_ | _O(1)_ | Medium ||
 | 1653 | [Minimum Deletions to Make String Balanced](./problems/1653-minimum-deletions-to-make-string-balanced.md) | [Go](./golang/1653_minimum_deletions_to_make_string_balanced.go) | _O(n)_ | _O(1)_ | Medium ||
-| 1663 | [Smallest String With A Given Numeric Value](./problems/1663-smallest-string-with-a-given-numeric-value.md) | [Go](./golang/1663_smallest_string_with_a_given_numeric_value.go) | _O(n)_ | _O(1)_ | Medium ||
-| 1665 | [Minimum Initial Energy to Finish Tasks](./problems/1665-minimum-initial-energy-to-finish-tasks.md) | [Go](./golang/1665_minimum_initial_energy_to_finish_tasks.go) | _O(nlogn)_ | _O(1)_ | Hard ||
-| 1673 | [Find the Most Competitive Subsequence](./problems/1673-find-the-most-competitive-subsequence.md) | [Go](./golang/1673_find_the_most_competitive_subsequence.go) | _O(n)_ | _O(k)_ | Meidum || Stack, Greedy
 | 1674 | [Minimum Moves to Make Array Complementary](./problems/1674-minimum-moves-to-make-array-complementary.md) | [Go](./golang/1674_minimum_moves_to_make_array_complementary.go) | _O(n + k)_ | _O(k)_ | Meidum ||
 | 1686 | [Stone Game VI](./problems/1686-stone-game-vi.md) | [Go](./golang/1686_stone_game_vi.go) | _O(nlogn)_ | _O(n)_ | Medium ||
 | 1689 | [Partitioning Into Minimum Number Of Deci-Binary Numbers](./problems/1689-partitioning-into-minimum-number-of-deci-binary-numbers.md) | [Go](./golang/1689_partitioning_into_minimum_number_of_deci_binary_numbers.go) | _O(n)_ | _O(1)_ | Medium ||
 | 1702 | [Maximum Binary String After Change](./problems/1702-maximum-binary-string-after-change.md) | [Go](./golang/1702_maximum_binary_string_after_change.go) | _O(n)_ | _O(1)_ | Medium ||
-| 1705 | [Maximum Number of Eaten Apples](./problems/1705-maximum-number-of-eaten-apples.md) | [Go](./golang/1705_maximum_number_of_eaten_apples.go) | _O(nlogn)_ | _O(n)_ | Medium || Heap
-| 1708 | [Largest Subarray Length K](./problems/1708-largest-subarray-length-k.md) | [Go](./golang/1708_largest_subarray_length_k.go)| _O(n)_ | _O(1)_ | Easy | 🔒, variant of [Last Substring in Lexicographical Order](https://leetcode.com/problems/last-substring-in-lexicographical-order/) | |
-| 1710 | [Maximum Units on a Truck](./problems/1710-maximum-units-on-a-truck.md) | [Go](./golang/1710_maximum_units_on_a_truck.go)| _O(nlogn)_ | _O(1)_ | Easy | | |
-| 1717 | [Maximum Score From Removing Substrings](./problems/1717-maximum-score-from-removing-substrings.md) | [Go](./golang/1717_maximum_score_from_removing_substrings.go)| _O(n)_ | _O(1)_ | Medium | | |
 | 1725 | [Number Of Rectangles That Can Form The Largest Square](./problems/1725-number-of-rectangles-that-can-form-the-largest-square.md) | [Go](./golang/1725_number_of_rectangles_that_can_form_the_largest_square.go)| _O(n)_ | _O(1)_ | Easy | | |
 | 1727 | [Largest Submatrix With Rearrangements](./problems/1727-largest-submatrix-with-rearrangements.md) | [Go](./golang/1727_largest_submatrix_with_rearrangements.go)| _O(m * nlogn)_ | _O(1)_ | Medium | | Sort |
 | 1733 | [Minimum Number of People to Teach](./problems/1733-minimum-number-of-people-to-teach.md) | [Go](./golang/1733_minimum_number_of_people_to_teach.go)| _O(n * m^2)_ | _O(n * m)_ | Medium | | |
-| 1736 | [Latest Time by Replacing Hidden Digits](./problems/1736-latest-time-by-replacing-hidden-digits.md) | [Go](./golang/1736_latest_time_by_replacing_hidden_digits.go)| _O(1)_ | _O(1)_ | Easy | | |
-| 1737 | [Change Minimum Characters to Satisfy One of Three Conditions](./problems/1737-change-minimum-characters-to-satisfy-one-of-three-conditions.md) | [Go](./golang/1737_change_minimum_characters_to_satisfy_one_of_three_conditions.go)| _O(m + n)_ | _O(1)_ | Medium | |  Prefix Sum |
 | 1749 | [Maximum Absolute Sum of Any Subarray](./problems/1749-maximum-absolute-sum-of-any-subarray.md) |[Go](./golang/1749_maximum_absolute_sum_of_any_subarray.go)| _O(n)_     | _O(1)_         | Medium         | variant of [Maximum Subarray](https://leetcode.com/problems/maximum-subarray/) | Prefix Sum |
-| 1754 | [Largest Merge Of Two Strings](./problems/1754-largest-merge-of-two-strings.md) |[Go](./golang/1754_largest_merge_of_two_strings.go)| _O(m * n)_     | _O(m + n)_         | Medium         |  |  |
 | 1758 | [Minimum Changes To Make Alternating Binary String](./problems/1758-minimum-changes-to-make-alternating-binary-string.md) |[Go](./golang/1758_minimum_changes_to_make_alternating_binary_string.go)| _O(n)_     | _O(1)_         | Easy         |  |  |
 | 1759 | [Count Number of Homogenous Substrings](./problems/1759-count-number-of-homogenous-substrings.md) |[Go](./golang/1759_count_number_of_homogenous_substrings.go)| _O(n)_     | _O(1)_         | Medium         |  |  |
 | 1762 | [Buildings With an Ocean View](./problems/1762-buildings-with-an-ocean-view.md) |[Go](./golang/1762_buildings_with_an_ocean_view.go)| _O(n)_     | _O(1)_         | Medium         | 🔒 |  |
@@ -151,12 +117,9 @@
 | 1769 | [Minimum Number of Operations to Move All Balls to Each Box](./problems/1769-minimum-number-of-operations-to-move-all-balls-to-each-box.md) |[Go](./golang/1769_minimum_number_of_operations_to_move_all_balls_to_each_box.go)| _O(n)_     | _O(1)_         | Medium         |  | |
 | 1775 | [Equal Sum Arrays With Minimum Number of Operations](./problems/1775-equal-sum-arrays-with-minimum-number-of-operations.md) |[Go](./golang/1775_equal_sum_arrays_with_minimum_number_of_operations.go)| _O(m + n)_     | _O(1)_         | Medium         |  | |
 | 1785 | [Minimum Elements to Add to Form a Given Sum](./problems/1785-minimum-elements-to-add-to-form-a-given-sum.md) |[Go](./golang/1785_minimum_elements_to_add_to_form_a_given_sum.go)| _O(n)_     | _O(1)_         | Medium         |  | |
-| 1788 | [Maximize the Beauty of the Garden](./problems/1788-maximize-the-beauty-of-the-garden.md) |[Go](./golang/1788_maximize_the_beauty_of_the_garden.go)| _O(n)_     | _O(n)_         | Hard         | 🔒 | |
 | 1793 | [Maximum Score of a Good Subarray](./problems/1793-maximum-score-of-a-good-subarray.md) |[Go](./golang/1793_maximum_score_of_a_good_subarray.go)| _O(n)_     | _O(1)_         | Hard         |  | Greedy, Prefix Sum. Binary Search |
 | 1794 | [Count Pairs of Equal Substrings With Minimum Difference](./problems/1794-count-pairs-of-equal-substrings-with-minimum-difference.md) |[Go](./golang/1794_count_pairs_of_equal_substrings_with_minimum_difference.go)| _O(n)_     | _O(1)_         | Medium         | 🔒 | |
 | 1798 | [Maximum Number of Consecutive Values You Can Make](./problems/1798-maximum-number-of-consecutive-values-you-can-make.md) |[Go](./golang/1798_maximum_number_of_consecutive_values_you_can_make.go)| _O(nlogn)_     | _O(1)_         | Medium         | | |
-| 1801 | [Number of Orders in the Backlog](./problems/1801-number-of-orders-in-the-backlog.md) |[Go](./golang/1801_number_of_orders_in_the_backlog.go)| _O(nlogn)_     | _O(n)_         | Medium         | | Greedy, Heap |
-| 1815 | [Maximum Number of Groups Getting Fresh Donuts](./problems/1815-maximum-number-of-groups-getting-fresh-donuts.md) |[Go](./golang/1815_maximum_number_of_groups_getting_fresh_donuts.go)| _O((b/2) * (n/(b/2)+1)^(b/2))_     | _O((n/(b/2)+1)^(b/2))_         | Hard         | | Greedy, DP |
 | 1827 | [Minimum Operations to Make the Array Increasing](./problems/1827-minimum-operations-to-make-the-array-increasing.md) |[Go](./golang/1827_minimum_operations_to_make_the_array_increasing.go)| _O(n)_     | _O(1)_         | Easy         | |  |
 | 1833 | [Maximum Ice Cream Bars](./problems/1833-minimum-operations-to-make-the-array-increasing.md) |[Go](./golang/1833_minimum_operations_to_make_the_array_increasing.go)| _O(nlogn)_     | _O(1)_         | Medium         | |  |
 | 1840 | [Maximum Building Height](./problems/1840-maximum-building-height.md) |[Go](./golang/1840_maximum_building_height.go)| _O(nlogn)_     | _O(1)_         | Hard         | |  |
@@ -167,115 +130,41 @@
 | 1877 | [Minimize Maximum Pair Sum in Array](./problems/1877-minimize-maximum-pair-sum-in-array.md) | [Go](./golang/1877_minimize_maximum_pair_sum_in_array.go) | _O(nlogn)_ | _O(1)_ | Medium | |  |
 | 1881 | [Maximum Value after Insertion](./problems/1881-maximum-value-after-insertion.md) | [Go](./golang/1881_maximum_value_after_insertion.go) | _O(n)_ | _O(1)_ | Medium | |  |
 | 1887 | [Reduction Operations to Make the Array Elements Equal](./problems/1887-reduction-operations-to-make-the-array-elements-equal.md) | [Go](./golang/1887_reduction_operations_to_make_the_array_elements_equal.go) | _O(nlogn)_ | _O(1)_ | Medium | | Sort |
-| 1893 | [Check if All the Integers in a Range Are Covered](./problems/1893-check-if-all-the-integers-in-a-range-are-covered.md) | [Go](./golang/1893_check_if_all_the_integers_in_a_range_are_covered.go) | _O(n + r)_ | _O(r)_ | Easy | | Line Sweep, Sort |
 | 1894 | [Find the Student that Will Replace the Chalk](./problems/1894-find-the-student-that-will-replace-the-chalk.md) | [Go](./golang/1894_find_the_student_that_will_replace_the_chalk.go) | _O(n)_ | _O(1)_ | Medium | | |
 | 1897 | [Redistribute Characters to Make All Strings Equal](./problems/1897-redistribute-characters-to-make-all-strings-equal.md) | [Go](./golang/1897_redistribute_characters_to_make_all_strings_equal.go) | _O(n)_ | _O(1)_ | Easy | | |
 | 1899 | [Merge Triplets to Form Target Triplet](./problems/1899-merge-triplets-to-form-target-triplet.md) | [Go](./golang/1899_merge_triplets_to_form_target_triplet.go) | _O(n)_ | _O(1)_ | Medium | | |
-| 1911 | [Maximum Alternating Subsequence Sum](./problems/1911-maximum-alternating-subsequence-sum.md) | [Go](./golang/1911_maximum_alternating_subsequence_sum.go) | _O(n)_ | _O(1)_ | Medium | variant of [Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/) | |
 | 1913 | [Maximum Product Difference Between Two Pairs](./problems/1913-maximum-product-difference-between-two-pairs.md) | [Go](./golang/1913_maximum_product_difference_between_two_pairs.go) | _O(n)_ | _O(1)_ | Medium | | |
 | 1921 | [Eliminate Maximum Number of Monsters](./problems/1921-eliminate-maximum-number-of-monsters.md) | [Go](./golang/1921_eliminate_maximum_number_of_monsters.go) | _O(nlogn)_ | _O(1)_ | Medium | | |
-| 1927 | [Sum Game](./problems/1927-sum-game.md) | [Go](./golang/1927_sum_game.go) | _O(n)_ | _O(1)_ | Medium | | |
 | 1936 | [Add Minimum Number of Rungs](./problems/1936-add-minimum-number-of-rungs.md) | [Go](./golang/1936_add_minimum_number_of_rungs.go) | _O(n)_ | _O(1)_ | Medium | | |
 | 1946 | [Largest Number After Mutating Substring](./problems/1946-largest-number-after-mutating-substring.md) | [Go](./golang/1946_largest_number_after_mutating_substring.go) | _O(n)_ | _O(1)_ | Medium | | |
 | 1953 | [Maximum Number of Weeks for Which You Can Work](./problems/1953-maximum-number-of-weeks-for-which-you-can-work.md) | [Go](./golang/1953_maximum_number_of_weeks_for_which_you_can_work.go) | _O(n)_ | _O(1)_ | Medium | | |
 | 1975 | [Maximum Matrix Sum](./problems/1975-maximum-matrix-sum.md) | [Go](./golang/1975_maximum_matrix_sum.go) | _O(n^2)_ | _O(1)_ | Medium | | |
 | 2027 | [Minimum Moves to Convert String](./problems/2027-minimum-moves-to-convert-string.md) | [Go](./golang/2027_minimum_moves_to_convert_string.go) | _O(n)_ | _O(1)_ | Easy | | |
-| 2030 | [Smallest K-Length Subsequence With Occurrences of a Letter](./problems/2030-smallest-k-length-subsequence-with-occurrences-of-a-letter.md) | [Go](./golang/2030_smallest_k_length_subsequence_with_occurrences_of_a_letter.go) | _O(n)_  | _O(n)_         | Hard           | | Mono Stack, Greedy
-| 2036 | [Maximum Alternating Subarray Sum](./problems/2036-maximum-alternating-subarray-sum.md) | [Go](./golang/2036_maximum_alternating_subarray_sum.go) | _O(n)_ | _O(1)_ | Medium | variant of [Maximum Alternating Subsequence Sum](https://leetcode.com/problems/maximum-alternating-subsequence-sum/), 🔒 | Greedy, `Kadane's Algorithm`
 | 2037 | [Minimum Number of Moves to Seat Everyone](./problems/2037-minimum-number-of-moves-to-seat-everyone.md) | [Go](./golang/2037_minimum_number_of_moves_to_seat_everyone.go) | _O(nlogn)_ | _O(1)_ | Easy | | Greedy|
-| 2071 | [Maximum Number of Tasks You Can Assign](./problems/2071-maximum-number-of-tasks-you-can-assign.md) | [Go](./golang/2071_maximum_number_of_tasks_you_can_assign.go) | _O(n * (logn)^2)_ | _O(n)_ | Hard | | Greedy, Binary Search, Sorted List |
-| 2086 | [Minimum Number of Buckets Required to Collect Rainwater from Houses](./problems/2086-minimum-number-of-buckets-required-to-collect-rainwater-from-houses.md) | [Go](./golang/2086_minimum_number_of_buckets_required_to_collect_rainwater_from_houses.go) | _O(n)_ | _O(1)_ | Medium | | Greedy |
-| 2087 | [Minimum Cost Homecoming of a Robot in a Grid](./problems/2087-minimum-cost-homecoming-of-a-robot-in-a-grid.md) | [Go](./golang/2087_minimum_cost_homecoming_of_a_robot_in_a_grid.go) | _O(m + n)_ | _O(1)_ | Medium | | Greedy |
-| 2126 | [Destroying Asteroids](./problems/2126-destroying-asteroids.md) | [Go](./golang/2126_destroying_asteroids.go) | _O(nlogn)_ | _O(1)_ | Medium | | Greedy |
-| 2136 | [Earliest Possible Day of Full Bloom](./problems/2136-earliest-possible-day-of-full-bloom.md) | [Go](./golang/2136_earliest_possible_day_of_full_bloom.go) | _O(nlogn)_ | _O(n)_ | Hard | | Greedy |
-| 2141 | [Maximum Running Time of N Computers](./problems/2141-maximum-running-time-of-n-computers.md) | [Go](./golang/2141_maximum_running_time_of_n_computers.go) | _O(nlogm)_ | _O(1)_ | Hard | | Greedy, Binary Search |
-| 2144 | [Minimum Cost of Buying Candies With Discount](./problems/2144-minimum-cost-of-buying-candies-with-discount.md) | [Go](./golang/2144_minimum_cost_of_buying_candies_with_discount.go) | _O(nlogn)_ | _O(1)_ | Easy | | Greedy, Sort |
-| 2147 | [Number of Ways to Divide a Long Corridor](./problems/2147-number-of-ways-to-divide-a-long-corridor.md) | [Go](./golang/2147_number_of_ways_to_divide_a_long_corridor.go) | _O(n)_ | _O(1)_ | Hard | | Greedy, Combinatorics |
-| 2160 | [Minimum Sum of Four Digit Number After Splitting Digits](./problems/2160-minimum-sum-of-four-digit-number-after-splitting-digits.md) | [Go](./golang/2160_minimum_sum_of_four_digit_number_after_splitting_digits.go) | _O(1)_ | _O(1)_ | Easy | | Greedy |
-| 2165 | [Smallest Value of the Rearranged Number](./problems/2165-smallest-value-of-the-rearranged-number.md) | [Go](./golang/2165_smallest_value_of_the_rearranged_number.go) | _O(d)_ | _O(d)_ | Medium | | Greedy, Counting Sort |
-| 2178 | [Maximum Split of Positive Even Integers](./problems/2178-maximum-split-of-positive-even-integers.md) | [Go](./golang/2178_maximum_split_of_positive_even_integers.go) | _O(sqrt(n))_ | _O(1)_ | Medium | | Greedy |
-| 2182 | [Construct String With Repeat Limit](./problems/2182-construct-string-with-repeat-limit.md) | [Go](./golang/2182_construct_string_with_repeat_limit.go) | _O(n)_ | _O(1)_ | Medium | | Greedy |
-| 2193 | [Minimum Number of Moves to Make Palindrome](./problems/2193-minimum-number-of-moves-to-make-palindrome.md) | [Go](./golang/2193_minimum_number_of_moves_to_make_palindrome.go) | _O(nlogn)_ | _O(n)_ | Hard |  | Greedy, BIT, Fenwick Tree  |
-| 2195 | [Append K Integers With Minimal Sum](./problems/2195-append-k-integers-with-minimal-sum.md) | [Go](./golang/2195_append_k_integers_with_minimal_sum.go) | _O(nlogn)_ | _O(n)_ | Medium | | Greedy |
-| 2207 | [Maximize Number of Subsequences in a String](./problems/2207-maximize-number-of-subsequences-in-a-string.md) | [Go](./golang/2207_maximize_number_of_subsequences_in_a_string.go) | _O(n)_ | _O(1)_ | Medium | | Counting, Greedy |
-| 2214 | [Minimum Health to Beat Game](./problems/2214-minimum-health-to-beat-game.md) | [Go](./golang/2214_minimum_health_to_beat_game.go) | _O(n)_ | _O(1)_ | Medium | 🔒 | Greedy |
-| 2216 | [Minimum Deletions to Make Array Beautiful](./problems/2216-minimum-deletions-to-make-array-beautiful.md) | [Go](./golang/2216_minimum_deletions_to_make_array_beautiful.go) | _O(n)_ | _O(1)_ | Medium | | Greedy |
-| 2224 | [Minimum Number of Operations to Convert Time](./problems/2224-minimum-number-of-operations-to-convert-time.md) | [Go](./golang/2224_minimum_number_of_operations_to_convert_time.go) | _O(1)_ | _O(1)_ | Easy | | Greedy |
-| 2259 | [Remove Digit From Number to Maximize Result](./problems/2259-remove-digit-from-number-to-maximize-result.md) | [Go](./golang/2259_remove_digit_from_number_to_maximize_result.go) | _O(n)_ | _O(1)_ | Easy | | Greedy |
-| 2263 | [Make Array Non-decreasing or Non-increasing](./problems/2263-make-array-non-decreasing-or-non-increasing.md) | [Go](./golang/2263_make_array_non_decreasing_or_non_increasing.go) | _O(nlogn)_ | _O(n)_ | Hard | 🔒 | DP, Greedy, Heap |
-| 2268 | [Minimum Number of Keypresses](./problems/2268-minimum-number-of-keypresses.md) | [Go](./golang/2268_minimum_number_of_keypresses.go) | _O(n)_ | _O(1)_ | Medium | 🔒 | Greedy, Sort |
-| 2279 | [Maximum Bags With Full Capacity of Rocks](./problems/2279-maximum-bags-with-full-capacity-of-rocks.md) | [Go](./golang/2279_maximum_bags_with_full_capacity_of_rocks.go) | _O(nlogn)_ | _O(1)_ | Medium | | Greedy, Sort |
-| 2285 | [Maximum Total Importance of Roads](./problems/2285-maximum-total-importance-of-roads.md) | [Go](./golang/2285_maximum_total_importance_of_roads.go) | _O(n)_ | _O(n)_ | Medium | | Greedy, Counting Sort |
-| 2294 | [Partition Array Such That Maximum Difference Is K](./problems/2294-partition-array-such-that-maximum-difference-is-k.md) | [Go](./golang/2294_partition_array_such_that_maximum_difference_is_k.go) | _O(nlogn)_ | _O(1)_ | Medium | | Greedy |
-| 2311 | [Longest Binary Subsequence Less Than or Equal to K](./problems/2311-longest-binary-subsequence-less-than-or-equal-to-k.md) | [Go](./golang/2311_longest_binary_subsequence_less_than_or_equal_to_k.go) | _O(n)_ | _O(1)_ | Medium | | Greedy |
-| 2321 | [Maximum Score Of Spliced Array](./problems/2321-maximum-score-of-spliced-array.md) | [Go](./golang/2321_maximum_score_of_spliced_array.go) | _O(n)_ | _O(1)_ | Hard | | Greedy, `Kadane's Algorithm`
-| 2323 | [Find Minimum Time to Finish All Jobs II](./problems/2323-find-minimum-time-to-finish-all-jobs-ii.md) | [Go](./golang/2323_find_minimum_time_to_finish_all_jobs_ii.go) | _O(nlogn)_ | _O(1)_ | Medium | 🔒 | Greedy
-| 2340 | [Minimum Adjacent Swaps to Make a Valid Array](./problems/2340-minimum-adjacent-swaps-to-make-a-valid-array.md) | [Go](./golang/2340_minimum_adjacent_swaps_to_make_a_valid_array.go) | _O(n)_ | _O(1)_ | Medium | 🔒 | Array, Greedy
-| 2366 | [Minimum Replacements to Sort the Array](./problems/2366-minimum-replacements-to-sort-the-array.md) | [Go](./golang/2366_minimum_replacements_to_sort_the_array.go) | _O(n)_ | _O(1)_ | Hard | | Greedy, Math
-| 2371 | [Minimize Maximum Value in a Grid](./problems/2371-minimize-maximum-value-in-a-grid.md) | [Go](./golang/2371_minimize_maximum_value_in_a_grid.go) | _O((m * n) * log(m * n))_   | _O(m * n)_        | Hard         | 🔒 | Sort, Greedy
-| 2375 | [Construct Smallest Number From DI String](./problems/2375-construct-smallest-number-from-di-string.md) | [Go](./golang/2375_construct_smallest_number_from_di_string.go) | _O(n)_   | _O(1)_        | Medium         | | Constructive Algorithms, Greedy
-| 2383 | [Minimum Hours of Training to Win a Competition](./problems/2383-minimum-hours-of-training-to-win-a-competition.md) | [Go](./golang/2383_minimum_hours_of_training_to_win_a_competition.go) | _O(n)_ | _O(1)_ | Easy | | Greedy
-| 2384 | [Largest Palindromic Number](./problems/2384-largest-palindromic-number.md) | [Go](./golang/2384_largest_palindromic_number.go) | _O(n)_ | _O(1)_ | Medium | | Freq Table, Greedy
-| 2405 | [Optimal Partition of String](./problems/2405-optimal-partition-of-string.md) | [Go](./golang/2405_optimal_partition_of_string.go) | _O(n)_ | _O(n)_ | Medium || Greedy, Hash Table
-| 2410 | [Maximum Matching of Players With Trainers](./problems/2410-maximum-matching-of-players-with-trainers.md) | [Go](./golang/2410_maximum_matching_of_players_with_trainers.go) | _O(nlogn + mlogm)_ | _O(1)_ | Medium || Greedy, Sort
-| 2412 | [Minimum Money Required Before Transactions](./problems/2412-minimum-money-required-before-transactions.md) | [Go](./golang/2412_minimum_money_required_before_transactions.go) | _O(n)_ | _O(1)_ | Hard || Greedy, Constructive Algorithms
-| 2417 | [Closest Fair Integer](./problems/2417-closest-fair-integer.md) | [Go](./golang/2417_closest_fair_integer.go) | _O(logn)_   | _O(logn)_        | Medium         | 🔒 | Constructive Algorithms, Greedy
-| 2422 | [Merge Operations to Turn Array Into a Palindrome](./problems/2422-merge-operations-to-turn-array-into-a-palindrome.md) | [Go](./golang/2422_merge_operations_to_turn_array_into_a_palindrome.go) | _O(n)_   | _O(1)_        | Medium         | 🔒 | Constructive Algorithms, Greedy, Two Pointers
-| 2434 | [Using a Robot to Print the Lexicographically Smallest String](./problems/2434-using-a-robot-to-print-the-lexicographically-smallest-string.md) | [Go](./golang/2434_using_a_robot_to_print_the_lexicographically_smallest_string.go) | _O(n)_   | _O(n)_        | Medium         | | Freq Table, Greedy
-| 2436 | [Minimum Split Into Subarrays With GCD Greater Than One](./problems/2436-minimum-split-into-subarrays-with-gcd-greater-than-one.md) | [Go](./golang/2436_minimum_split_into_subarrays_with_gcd_greater_than_one.go) | _O(nlogr)_   | _O(1)_        | Medium         | 🔒 | Greedy
-| 2439 | [Minimize Maximum of Array](./problems/2439-minimize-maximum-of-array.md) | [Go](./golang/2439_minimize_maximum_of_array.go) | _O(n)_   | _O(1)_        | Medium         | | Greedy
-| 2440 | [Create Components With Same Value](./problems/2440-create-components-with-same-value.md) | [Go](./golang/2440_create_components_with_same_value.go) | _O(n * sqrt(n))_   | _O(n)_        | Hard         | | BFS, DFS, Greedy
-| 2449 | [Minimum Number of Operations to Make Arrays Similar](./problems/2449-minimum-number-of-operations-to-make-arrays-similar.md) | [Go](./golang/2449_minimum_number_of_operations_to_make_arrays_similar.go) | _O(nlogn)_   | _O(1)_        | Hard         | | Greedy, Sort
-| 2457 | [Minimum Addition to Make Integer Beautiful](./problems/2457-minimum-addition-to-make-integer-beautiful.md) | [Go](./golang/2457_minimum_addition_to_make_integer_beautiful.go) | _O(logn)_   | _O(1)_        | Medium         | | Greedy
-| 2459 | [Sort Array by Moving Items to Empty Space](./problems/2459-sort-array-by-moving-items-to-empty-space.md) | [Go](./golang/2459_sort_array_by_moving_items_to_empty_space.go) | _O(n)_   | _O(n)_        | Hard         | 🔒 | Greedy, Sort
-| 2483 | [Minimum Penalty for a Shop](./problems/2483-minimum-penalty-for-a-shop.md) | [Go](./golang/2483_minimum_penalty_for_a_shop.go) | _O(n)_   | _O(1)_        | Medium         | | Greedy
-| 2486 | [Append Characters to String to Make Subsequence](./problems/2486-append-characters-to-string-to-make-subsequence.md) | [Go](./golang/2486_append_characters_to_string_to_make_subsequence.go) | _O(n)_   | _O(1)_        | Medium         | | Two Pointers, Greedy
-| 2499 | [Minimum Total Cost to Make Arrays Unequal](./problems/2499-minimum-total-cost-to-make-arrays-unequal.md) | [Go](./golang/2499_minimum_total_cost_to_make_arrays_unequal.go) | _O(n)_   | _O(n)_        | Hard         | | Greedy
-| 2522 | [Partition String Into Substrings With Values at Most K](./problems/2522-minimum-total-cost-to-make-arrays-unequal.md) | [Go](./golang/2522_minimum_total_cost_to_make_arrays_unequal.go) | _O(n)_   | _O(1)_        | Medium         | | Greedy
-| 2541 | [Minimum Operations to Make Array Equal II](./problems/2541-minimum-operations-to-make-array-equal-ii.md) | [Go](./golang/2541_minimum_operations_to_make_array_equal_ii.go) | _O(n)_ | _O(1)_ |  Medium | | Greedy
-| 2542 | [Maximum Subsequence Score](./problems/2542-maximum-subsequence-score.md) | [Go](./golang/2542_maximum_subsequence_score.go) | _O(nlogn)_ | _O(n)_ | Medium | variant of [Maximum Performance of a Team](https://leetcode.com/problems/maximum-performance-of-a-team/) | Greedy, Heap |
-| 2548 | [Maximum Price to Fill a Bag](./problems/2548-maximum-price-to-fill-a-bag.md) | [Go](./golang/2548_maximum_price_to_fill_a_bag.go) | _O(nlogn)_ | _O(1)_ | Medium | 🔒 | Greedy, Sort |
-| 2551 | [Put Marbles in Bags](./problems/2551-put-marbles-in-bags.md) | [Go](./golang/2551_put_marbles_in_bags.go) | _O(n)_ on average | _O(1)_ | Hard | | Greedy, Quick Select |
-| 2561 | [Rearranging Fruits](./problems/2561-rearranging-fruits.md) | [Go](./golang/2561_rearranging_fruits.go) | _O(n)_ on average | _O(n)_ | Hard | | Freq Table, Greedy, Quick Select |
+| 2412 | [Minimum Money Required Before Transactions](./problems/2412-minimum-money-required-before-transactions.md) | [Go](./golang/2412_minimum_money_required_before_transactions.go) | _O(n)_ | _O(1)_ | Hard || Greedy, Constructive Algorithms |
+| 2439 | [Minimize Maximum of Array](./problems/2439-minimize-maximum-of-array.md) | [Go](./golang/2439_minimize_maximum_of_array.go) | _O(n)_   | _O(1)_        | Medium         | | Greedy |
+| 2440 | [Create Components With Same Value](./problems/2440-create-components-with-same-value.md) | [Go](./golang/2440_create_components_with_same_value.go) | _O(n * sqrt(n))_   | _O(n)_        | Hard         | | BFS, DFS, Greedy |
+| 2449 | [Minimum Number of Operations to Make Arrays Similar](./problems/2449-minimum-number-of-operations-to-make-arrays-similar.md) | [Go](./golang/2449_minimum_number_of_operations_to_make_arrays_similar.go) | _O(nlogn)_   | _O(1)_        | Hard         | | Greedy, Sort |
+| 2459 | [Sort Array by Moving Items to Empty Space](./problems/2459-sort-array-by-moving-items-to-empty-space.md) | [Go](./golang/2459_sort_array_by_moving_items_to_empty_space.go) | _O(n)_   | _O(n)_        | Hard         | 🔒 | Greedy, Sort |
+| 2499 | [Minimum Total Cost to Make Arrays Unequal](./problems/2499-minimum-total-cost-to-make-arrays-unequal.md) | [Go](./golang/2499_minimum_total_cost_to_make_arrays_unequal.go) | _O(n)_   | _O(n)_        | Hard         | | Greedy |
+| 2522 | [Partition String Into Substrings With Values at Most K](./problems/2522-minimum-total-cost-to-make-arrays-unequal.md) | [Go](./golang/2522_minimum_total_cost_to_make_arrays_unequal.go) | _O(n)_   | _O(1)_        | Medium         | | Greedy |
+| 2541 | [Minimum Operations to Make Array Equal II](./problems/2541-minimum-operations-to-make-array-equal-ii.md) | [Go](./golang/2541_minimum_operations_to_make_array_equal_ii.go) | _O(n)_ | _O(1)_ |  Medium | | Greedy |
 | 2566 | [Maximum Difference by Remapping a Digit](./problems/2566-maximum-difference-by-remapping-a-digit.md) | [Go](./golang/2566_maximum_difference_by_remapping_a_digit.go) | _O(logn)_ | _O(1)_ | Easy | | Greedy |
-| 2567 | [Minimum Score by Changing Two Elements](./problems/2567-minimum-score-by-changing-two-elements.md) | [Go](./golang/2567_minimum_score_by_changing_two_elements.go) | _O(nlogn)_ | _O(1)_ | Medium | | Sort, Greedy |
-| 2571 | [Minimum Operations to Reduce an Integer to 0](./problems/2571-minimum-operations-to-reduce-an-integer-to-0.md) | [Go](./golang/2571_minimum_operations_to_reduce_an_integer_to_0.go) | _O(logn)_ | _O(1)_ | Medium | | Greedy, Trick |
-| 2573 | [Find the String with LCP](./problems/2573-find-the-string-with-lcp.md) | [Go](./golang/2573_find_the_string_with_lcp.go) | _O(n^2)_ | _O(1)_ | Hard | | Constructive Algorithms, Greedy, DP |
-| 2576 | [Find the Maximum Number of Marked Indices](./problems/2576-find-the-maximum-number-of-marked-indices.md) | [Go](./golang/2576_find_the_maximum_number_of_marked_indices.go) | _O(nlogn)_ | _O(1)_ | Medium | | Sort, Greedy, Two Pointers |
-| 2578 | [Split With Minimum Sum](./problems/2578-split-with-minimum-sum.md) | [Go](./golang/2578_split_with_minimum_sum.go) | _O(mlogm)_ | _O(m)_ | Easy | | Sort, Greedy |
 | 2587 | [Rearrange Array to Maximize Prefix Score](./problems/2587-rearrange-array-to-maximize-prefix-score.md) | [Go](./golang/2587_rearrange_array_to_maximize_prefix_score.go) | _O(nlogn)_ | _O(1)_ | Medium | | Sort, Greedy |
-| 2589 | [Minimum Time to Complete All Tasks](./problems/2589-minimum-time-to-complete-all-tasks.md) | [Go](./golang/2589_minimum_time_to_complete_all_tasks.go) | _O(nlogn + n * r)_ | _O(r)_ | Hard | | Sort, Greedy |
 | 2591 | [Distribute Money to Maximum Children](./problems/2591-distribute-money-to-maximum-children.md) | [Go](./golang/2591_distribute_money_to_maximum_children.go) | _O(1)_ | _O(1)_ | Easy | | Greedy, Math |
 | 2599 | [Make the Prefix Sum Non-negative](./problems/2599-make-the-prefix-sum-non-negative.md) | [Go](./golang/2599_make_the_prefix_sum_non_negative.go) | _O(nlogn)_ | _O(n)_ | Medium | 🔒 | Prefix Sum, Greedy, Heap |
 | 2600 | [K Items With the Maximum Sum](./problems/2600-k-items-with-the-maximum-sum.md) | [Go](./golang/2600_k_items_with_the_maximum_sum.go) | _O(1)_ | _O(1)_ | Easy | | Greedy, Math |
-| 2601 | [Prime Subtraction Operation](./problems/2601-prime-subtraction-operation.md) | [Go](./golang/2601_prime_subtraction_operation.go) | _O(p + nlogp)_ | _O(p)_ | Medium | | Number Theory, Greedy, Binary Search |
-| 2604 | [Minimum Time to Eat All Grains](./problems/2604-minimum-time-to-eat-all-grains.md) | [Go](./golang/2604_minimum_time_to_eat_all_grains.go) | _O(mlogm + nlogn + (m + n) * logr)_ | _O(1)_ | Hard | 🔒 | Binary Search, Greedy |
 | 2606 | [Find the Substring With Maximum Cost](./problems/2606-find-the-substring-with-maximum-cost.md) | [Go](./golang/2606_find_the_substring_with_maximum_cost.go) | _O(n)_ | _O(1)_ | Medium | | Greedy, `Kadane's Algorithm`
 | 2607 | [Make K-Subarray Sums Equal](./problems/2607-make-k-subarray-sums-equal.md) | [Go](./golang/2607_make_k_subarray_sums_equal.go) | _O(n)_ | _O(n)_ | Medium | | Math, Greedy, Quick Select
 | 2611 | [Mice and Cheese](./problems/2611-mice-and-cheese.md) | [Go](./golang/2611_mice_and_cheese.go) | _O(n)_ | _O(1)_ | Medium | | Greedy, Quick Select
-| 2645 | [Minimum Additions to Make Valid String](./problems/2645-minimum-additions-to-make-valid-string.md) | [Go](./golang/2645_minimum_additions_to_make_valid_string.go) | _O(n)_ | _O(1)_ | Medium | | Greedy
-| 2663 | [Lexicographically Smallest Beautiful String](./problems/2663-lexicographically-smallest-beautiful-string.md) | [Go](./golang/2663_lexicographically_smallest_beautiful_string.go) | _O(n)_ | _O(1)_ | Hard | | Greedy
 | 2673 | [Make Costs of Paths Equal in a Binary Tree](./problems/2673-make-costs-of-paths-equal-in-a-binary-tree.md) | [Go](./golang/2673_make_costs_of_paths_equal_in_a_binary_tree.go) | _O(n)_ | _O(1)_ | Medium | | Tree, Greedy
 | 2680 | [Maximum OR](./problems/2680-maximum-or.md) | [Go](./golang/2680_maximum_or.go) | _O(n)_ | _O(n)_ | Medium | | Prefix Sum, Greedy
-| 2697 | [Lexicographically Smallest Palindrome](./problems/2697-lexicographically-smallest-palindrome.md) | [Go](./golang/2697_lexicographically_smallest_palindrome.go) | _O(n)_ | _O(1)_ | Easy | | Greedy
 | 2706 | [Buy Two Chocolates](./problems/2706-buy-two-chocolates.md) | [Go](./golang/2706_buy_two_chocolates.go) | _O(n)_ | _O(1)_ | Easy | | Greedy
 | 2708 | [Maximum Strength of a Group](./problems/2708-maximum-strength-of-a-group.md) | [Go](./golang/2708_maximum_strength_of_a_group.go) | _O(n)_ | _O(1)_ | Medium | | Greedy
 | 2712 | [Minimum Cost to Make All Characters Equal](./problems/2712-minimum-cost-to-make-all-characters-equal.md) | [Go](./golang/2712_minimum_cost_to_make_all_characters_equal.go) | _O(n)_ | _O(1)_ | Medium | | Greedy
-| 2734 | [Lexicographically Smallest String After Substring Operation](./problems/2734-lexicographically-smallest-string-after-substring-operation.md) | [Go](./golang/2734_lexicographically_smallest_string_after_substring_operation.go) | _O(n)_ | _O(1)_ | Medium | | Greedy
-| 2769 | [Find the Maximum Achievable Number](./problems/2769-find-the-maximum-achievable-number.md) | [Go](./golang/2769_find_the_maximum_achievable_number.go) | _O(1)_ | _O(1)_ | Easy | | Greedy, Math
 | 2772 | [Apply Operations to Make All Array Elements Equal to Zero](./problems/2772-apply-operations-to-make-all-array-elements-equal-to-zero.md) | [Go](./golang/2772_apply_operations_to_make_all_array_elements_equal_to_zero.go) | _O(n)_ | _O(1)_ | Medium | | Greedy, Sliding Window
 | 2789 | [Largest Element in an Array after Merge Operations](./problems/2789-largest-element-in-an-array-after-merge-operations.md) | [Go](./golang/2789_largest_element_in_an_array_after_merge_operations.go) | _O(n)_ | _O(1)_ | Medium | | Greedy
 | 2790 | [Maximum Number of Groups With Increasing Length](./problems/2790-maximum-number-of-groups-with-increasing-length.md) | [Go](./golang/2790_maximum_number_of_groups_with_increasing_length.go) | _O(n)_ | _O(n)_ | Hard | | Constructive Algorithms, Counting Sort, Greedy, Binary Search, Prefix Sum
-| 2813 | [Maximum Elegance of a K-Length Subsequence](./problems/2813-maximum-elegance-of-a-k-length-subsequence.md) | [Go](./golang/2813_maximum_elegance_of_a_k_length_subsequence.go) | _O(nlogk)_ | _O(k)_ | Hard | | Partial Sort, Heap, Quick Select, BST, Sorted List, Greedy
-| 2819 | [Minimum Relative Loss After Buying Chocolates](./problems/2819-minimum-relative-loss-after-buying-chocolates.md) | [Go](./golang/2819_minimum_relative_loss_after_buying_chocolates.go) | _O((n + q) * logn)_ | _O(n)_ | Hard | 🔒 | Sort, Binary Search, Greedy, Prefix Sum
-| 2825 | [Make String a Subsequence Using Cyclic Increments](./problems/2825-make-string-a-subsequence-using-cyclic-increments.md) | [Go](./golang/2825_make_string_a_subsequence_using_cyclic_increments.go) | _O(n)_ | _O(1)_ | Medium | | Greedy, Two Pointers
-| 2835 | [Minimum Operations to Form Subsequence With Target Sum](./problems/2835-minimum-operations-to-form-subsequence-with-target-sum.md) | [Go](./golang/2835_minimum_operations_to_form_subsequence_with_target_sum.go) | _O(n)_ | _O(logn)_ | Hard | [Educational Codeforces Round #82 D](https://codeforces.com/problemset/problem/1303/D) | Counting Sort, Sort, Heap, Greedy, Bitmasks
-| 2842 | [Count K-Subsequences of a String With Maximum Beauty](./problems/2842-count-k-subsequences-of-a-string-with-maximum-beauty.md) | [Go](./golang/2842_count_k_subsequences_of_a_string_with_maximum_beauty.go) | _O(n)_ | _O(1)_ | Hard |  | Greedy, Quick Select, Combinatorics
-| 2844 | [Minimum Operations to Make a Special Number](./problems/2844-minimum-operations-to-make-a-special-number.md) | [Go](./golang/2844_minimum_operations_to_make_a_special_number.go) | _O(n)_ | _O(1)_ | Medium |  | Math, Greedy
-| 2847 | [Smallest Number With Given Digit Product](./problems/2847-smallest-number-with-given-digit-product.md) | [Go](./golang/2847_smallest_number_with_given_digit_product.go) | _O(logn)_ | _O(logn)_ | Medium | 🔒 | Greedy
-| 2860 | [Happy Students](./problems/2860-happy-students.md) | [Go](./golang/2860_happy_students.go) | _O(n)_ | _O(n)_ | Medium |  [Codeforces Round #844 B](https://codeforces.com/contest/1782/problem/B)  | Sort, Greedy, Freq Table
-| 2864 | [Maximum Odd Binary Number](./problems/2864-maximum-odd-binary-number.md) | [Go](./golang/2864_maximum_odd_binary_number.go) | _O(n)_ | _O(1)_ | Easy | | Greedy, Partition
-| 2868 | [The Wording Game](./problems/2868-the-wording-game.md) | [Go](./golang/2868_the_wording_game.go) | _O(m + n)_ | _O(1)_ | Hard | 🔒 | Game, Greedy
 | 2870 | [Minimum Number of Operations to Make Array Empty](./problems/2870-minimum-number-of-operations-to-make-array-empty.md) | [Go](./golang/2870_minimum_number_of_operations_to_make_array_empty.go) | _O(n)_ | _O(n)_ | Medium | | Freq Table, Greedy
 | 2871 | [Split Array Into Maximum Number of Subarrays](./problems/2871-split-array-into-maximum-number-of-subarrays.md) | [Go](./golang/2871_split_array_into_maximum_number_of_subarrays.go) | _O(n)_ | _O(1)_ | Medium | | Greedy
 | 2872 | [Maximum Number of K-Divisible Components](./problems/2872-maximum-number-of-k-divisible-components.md) | [Go](./golang/2872_maximum_number_of_k_divisible_components.go) | _O(n)_   | _O(n)_        | Hard         | variant of [Create Components With Same Value](https://leetcode.com/problems/create-components-with-same-value/) | BFS, Greedy
@@ -284,10 +173,177 @@
 | 2897 | [Apply Operations on Array to Maximize Sum of Squares](./problems/2897-apply-operations-on-array-to-maximize-sum-of-squares.md) | [Go](./golang/2897_apply_operations_on_array_to_maximize_sum_of_squares.go) | _O(nlogr)_ | _O(logr)_ | Hard |  | Bit Manipulation, Greedy, Freq Table
 | 2900 | [Longest Unequal Adjacent Groups Subsequence I](./problems/2900-longest-unequal-adjacent-groups-subsequence-i.md) | [Go](./golang/2900_longest_unequal_adjacent_groups_subsequence_i.go) | _O(n)_ | _O(1)_ | Medium |  | Greedy
 | 2910 | [Minimum Number of Groups to Create a Valid Assignment](./problems/2910-minimum-number-of-groups-to-create-a-valid-assignment.md) | [Go](./golang/2910_minimum_number_of_groups_to_create_a_valid_assignment.go) | _O(n)_ | _O(n)_ | Medium |  | Linear Search, Greedy, Math
-| 2914 | [Minimum Number of Changes to Make Binary String Beautiful](./problems/2914-minimum-number-of-changes-to-make-binary-string-beautiful.md) | [Go](./golang/2914_minimum_number_of_changes_to_make_binary_string_beautiful.go) | _O(n)_ | _O(1)_ | Medium |  | Greedy
 | 2918 | [Minimum Equal Sum of Two Arrays After Replacing Zeros](./problems/2918-minimum-equal-sum-of-two-arrays-after-replacing-zeros.md) | [Go](./golang/2918_minimum_equal_sum_of_two_arrays_after_replacing_zeros.go) | _O(n + m)_ | _O(1)_ | Medium |  | Greedy
-| 2931 | [Minimum Equal Sum of Two Arrays After Replacing Zeros](./problems/2931-maximum-spending-after-buying-items.md) | [Go](./golang/2931_maximum_spending_after_buying_items.go) | _O(m * n * logm)_ | _O(m)_ | Hard |  | Greedy, Heap
+| 2931 | [Maximum Spending After Buying Items](./problems/2931-maximum-spending-after-buying-items.md) | [Go](./golang/2931_maximum_spending_after_buying_items.go) | _O(m * n * logm)_ | _O(m)_ | Hard |  | Greedy, Heap
 | 2939 | [Maximum Xor Product](./problems/2939-maximum-xor-product.md) | [Go](./golang/2939_maximum_xor_product.go) | _O(n)_ | _O(1)_ | Medium |  | Greedy
-| 2952 | [Minimum Number of Coins to be Added](./problems/2952-minimum-number-of-coins-to-be-added.md) | [Go](./golang/2952_minimum_number_of_coins_to_be_added.go) | _O(nlogn + logt)_ | _O(1)_ | Medium |  variant of [Patching Array](https://leetcode.com/problems/patching-array/) | Sort, Greedy
-| 2957 | [Remove Adjacent Almost-Equal Characters](./problems/2957-remove-adjacent-almost-equal-characters.md) | [Go](./golang/2957_remove_adjacent_almost_equal_characters.go) | _O(n)_ | _O(1)_ | Medium | | Greedy
 | 2971 | [Find Polygon With the Largest Perimeter](./problems/2971-find-polygon-with-the-largest-perimeter.md) | [Go](./golang/2971_find_polygon_with_the_largest_perimeter.go) | _O(n)_ | _O(1)_ | Medium | | Sort, Prefix Sum, Greedy
+
+---
+
+### 6. Heap / Priority Queue
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
+| 0630 | [Course Schedule III](./problems/0630-course-schedule-iii.md) | [Go](./golang/0630_course_schedule_iii.go) | _O(nlogn)_ | _O(k)_ | Hard ||
+| 0659 | [Split Array into Consecutive Subsequences](./problems/0659-split-array-into-consecutive-subsequences.md) | [Go](./golang/0659_split_array_into_consecutive_subsequences.go) | _O(n)_ | _O(1)_ | Medium | |
+| 1167 | [Minimum Cost to Connect Sticks](./problems/1167-minimum-cost-to-connect-sticks.md) | [Go](./golang/1167_minimum_cost_to_connect_sticks.go) |  _O(nlogn)_ | _O(n)_   | Medium |🔒|| Heap
+| 1353 | [Maximum Number of Events That Can Be Attended](./problems/1353-maximum-number-of-events-that-can-be-attended.md) | [Go](./golang/1353_maximum_number_of_events_that_can_be_attended.go) | _O(r + nlogn)_        | _O(n)_          | Medium           | | Heap, Sort |
+| 1354 | [Construct Target Array With Multiple Sums](./problems/1354-construct-target-array-with-multiple-sums.md) | [Go](./golang/1354_construct_target_array_with_multiple_sums.go) | _O(log(max(t)) * logn)_        | _O(n)_          | Hard           | | Heap |
+| 1383 | [Maximum Performance of a Team](./problems/1383-maximum-performance-of-a-team.md) | [Go](./golang/1383_maximum_performance_of_a_team.go) | _O(nlogn)_ | _O(n)_ | Hard | variant of [Minimum Cost to Hire K Workers](https://leetcode.com/problems/minimum-cost-to-hire-k-workers/) | Greedy, Heap |
+| 1705 | [Maximum Number of Eaten Apples](./problems/1705-maximum-number-of-eaten-apples.md) | [Go](./golang/1705_maximum_number_of_eaten_apples.go) | _O(nlogn)_ | _O(n)_ | Medium || Heap
+| 1801 | [Number of Orders in the Backlog](./problems/1801-number-of-orders-in-the-backlog.md) |[Go](./golang/1801_number_of_orders_in_the_backlog.go)| _O(nlogn)_     | _O(n)_         | Medium         | | Greedy, Heap |
+| 2542 | [Maximum Subsequence Score](./problems/2542-maximum-subsequence-score.md) | [Go](./golang/2542_maximum_subsequence_score.go) | _O(nlogn)_ | _O(n)_ | Medium | variant of [Maximum Performance of a Team](https://leetcode.com/problems/maximum-performance-of-a-team/) | Greedy, Heap |
+
+---
+
+### 7. Stack / Monotonic Stack
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
+| 0316 | [Remove Duplicate Letters](./problems/0316-remove-duplicate-letters.md) | [Go](./golang/0316_remove_duplicate_letters.go) | _O(n)_| _O(1)_| Hard || Mono Stack |
+| 0962 | [Maximum Width Ramp](./problems/0962-maximum-width-ramp.md) | [Go](./golang/0962_maximum_width_ramp.go) | _O(n)_ | _O(n)_ | Medium || Mono Stack
+| 1081 | [Smallest Subsequence of Distinct Characters](./problems/1081-smallest-subsequence-of-distinct-characters.md) | [Go](./golang/1081_smallest_subsequence_of_distinct_characters.go) | _O(n)_| _O(1)_| Medium | same as [Remove Duplicate Letters](https://leetcode.com/problems/remove-duplicate-letters/) | Mono Stack |
+| 1249 | [Minimum Remove to Make Valid Parentheses](./problems/1249-minimum-remove-to-make-valid-parentheses.md) | [Go](./golang/1249_minimum_remove_to_make_valid_parentheses.go) | _O(n)_ | _O(1)_ | Medium | | Stack
+| 1673 | [Find the Most Competitive Subsequence](./problems/1673-find-the-most-competitive-subsequence.md) | [Go](./golang/1673_find_the_most_competitive_subsequence.go) | _O(n)_ | _O(k)_ | Meidum || Stack, Greedy |
+| 2030 | [Smallest K-Length Subsequence With Occurrences of a Letter](./problems/2030-smallest-k-length-subsequence-with-occurrences-of-a-letter.md) | [Go](./golang/2030_smallest_k_length_subsequence_with_occurrences_of_a_letter.go) | _O(n)_  | _O(n)_         | Hard           | | Mono Stack, Greedy
+
+---
+
+### 8. Math
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
+| 0397 | [Integer Replacement](./problems/0397-integer-replacement.md) | [Go](./golang/0397_integer_replacement.go)   | _O(n)_          | _O(1)_          | Medium         || Math
+| 0991 | [Broken Calculator](./problems/0991-broken-calculator.md) | [Go](./golang/0991_broken_calculator.go) | _O(logn)_ | _O(1)_ | Medium ||
+| 0995 | [Minimum Number of K Consecutive Bit Flips](./problems/0995-minimum-number-of-k-consecutive-bit-flips.md) | [Go](./golang/0995_minimum_number_of_k_consecutive_bit_flips.go) | _O(n)_ | _O(1)_ | Hard ||
+| 1414 | [Find the Minimum Number of Fibonacci Numbers Whose Sum Is K](./problems/1414-find-the-minimum-number-of-fibonacci-numbers-whose-sum-is-k.md) | [Go](./golang/1414_find_the_minimum_number_of_fibonacci_numbers_whose_sum_is_k.go) | _O(logk)_        | _O(1)_          | Medium           | | |
+| 1432 | [Max Difference You Can Get From Changing an Integer](./problems/1432-max-difference-you-can-get-from-changing-an-integer.md) | [Go](./golang/1432_max_difference_you_can_get_from_changing_an_integer.go)| _O(logn)_ | _O(1)_ | Medium || Greedy |
+| 1518 | [Water Bottles](./problems/1518-water-bottles.md) | [Go](./golang/1518_water_bottles.go) | _O(logn/logm)_        | _O(1)_          | Easy           | | |
+| 2366 | [Minimum Replacements to Sort the Array](./problems/2366-minimum-replacements-to-sort-the-array.md) | [Go](./golang/2366_minimum_replacements_to_sort_the_array.go) | _O(n)_ | _O(1)_ | Hard | | Greedy, Math
+| 2457 | [Minimum Addition to Make Integer Beautiful](./problems/2457-minimum-addition-to-make-integer-beautiful.md) | [Go](./golang/2457_minimum_addition_to_make_integer_beautiful.go) | _O(logn)_   | _O(1)_        | Medium         | | Greedy |
+| 2571 | [Minimum Operations to Reduce an Integer to 0](./problems/2571-minimum-operations-to-reduce-an-integer-to-0.md) | [Go](./golang/2571_minimum_operations_to_reduce_an_integer_to_0.go) | _O(logn)_ | _O(1)_ | Medium | | Greedy, Trick |
+| 2601 | [Prime Subtraction Operation](./problems/2601-prime-subtraction-operation.md) | [Go](./golang/2601_prime_subtraction_operation.go) | _O(p + nlogp)_ | _O(p)_ | Medium | | Number Theory, Greedy, Binary Search |
+| 2769 | [Find the Maximum Achievable Number](./problems/2769-find-the-maximum-achievable-number.md) | [Go](./golang/2769_find_the_maximum_achievable_number.go) | _O(1)_ | _O(1)_ | Easy | | Greedy, Math |
+| 2847 | [Smallest Number With Given Digit Product](./problems/2847-smallest-number-with-given-digit-product.md) | [Go](./golang/2847_smallest_number_with_given_digit_product.go) | _O(logn)_ | _O(logn)_ | Medium | 🔒 | Greedy |
+
+---
+
+### 9. Two Pointers (Additional)
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
+| 0948 | [Bag of Tokens](./problems/0948-bag-of-tokens.md) | [Go](./golang/0948_bag_of_tokens.go) | _O(nlogn)_ | _O(1)_ | Medium || Two Pointers
+| 1616 | [Split Two Strings to Make Palindrome](./problems/1616-split-two-strings-to-make-palindrome.md) | [Go](./golang/1616_split_two_strings_to_make_palindrome.go) | _O(n)_ | _O(1)_ | Medium || Two Pointers
+| 2486 | [Append Characters to String to Make Subsequence](./problems/2486-append-characters-to-string-to-make-subsequence.md) | [Go](./golang/2486_append_characters_to_string_to_make_subsequence.go) | _O(n)_   | _O(1)_        | Medium         | | Two Pointers, Greedy |
+| 2576 | [Find the Maximum Number of Marked Indices](./problems/2576-find-the-maximum-number-of-marked-indices.md) | [Go](./golang/2576_find_the_maximum_number_of_marked_indices.go) | _O(nlogn)_ | _O(1)_ | Medium | | Sort, Greedy, Two Pointers |
+
+---
+
+### 10. Sorting
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
+| 1029 | [Two City Scheduling](./problems/1029-two-city-scheduling.md) | [Go](./golang/1029_two_city_scheduling.go) | _O(n)_ on average | _O(1)_ | Easy | | Quick Select |
+| 1053 | [Previous Permutation With One Swap](./problems/1053-previous-permutation-with-one-swap.md) | [Go](./golang/1053_previous_permutation_with_one_swap.go) | _O(n)_ | _O(1)_ | Medium | |
+| 1058 | [Minimize Rounding Error to Meet Target](./problems/1058-minimize-rounding-error-to-meet-target.md) | [Go](./golang/1058_minimize_rounding_error_to_meet_target.go) | _O(n)_ on average | _O(n)_ | Medium | 🔒 | Quick Select |
+| 1196 | [How Many Apples Can You Put into the Basket](./problems/1196-how-many-apples-can-you-put-into-the-basket.md) | [Go](./golang/1196_how_many_apples_can_you_put_into_the_basket.go) | _O(nlogn)_ | _O(n)_ | Easy |🔒|
+| 1386 | [Cinema Seat Allocation](./problems/1386-cinema-seat-allocation.md) | [Go](./golang/1386_cinema_seat_allocation.go) | _O(n)_        | _O(n)_          | Medium           | | |
+| 1402 | [Reducing Dishes](./problems/1402-reducing-dishes.md) | [Go](./golang/1402_reducing_dishes.go) | _O(nlogn)_        | _O(1)_          | Hard           | | |
+| 1727 | [Largest Submatrix With Rearrangements](./problems/1727-largest-submatrix-with-rearrangements.md) | [Go](./golang/1727_largest_submatrix_with_rearrangements.go)| _O(m * nlogn)_ | _O(1)_ | Medium | | Sort |
+| 1737 | [Change Minimum Characters to Satisfy One of Three Conditions](./problems/1737-change-minimum-characters-to-satisfy-one-of-three-conditions.md) | [Go](./golang/1737_change_minimum_characters_to_satisfy_one_of_three_conditions.go)| _O(m + n)_ | _O(1)_ | Medium | |  Prefix Sum |
+| 1887 | [Reduction Operations to Make the Array Elements Equal](./problems/1887-reduction-operations-to-make-the-array-elements-equal.md) | [Go](./golang/1887_reduction_operations_to_make_the_array_elements_equal.go) | _O(nlogn)_ | _O(1)_ | Medium | | Sort |
+| 2144 | [Minimum Cost of Buying Candies With Discount](./problems/2144-minimum-cost-of-buying-candies-with-discount.md) | [Go](./golang/2144_minimum_cost_of_buying_candies_with_discount.go) | _O(nlogn)_ | _O(1)_ | Easy | | Greedy, Sort |
+| 2165 | [Smallest Value of the Rearranged Number](./problems/2165-smallest-value-of-the-rearranged-number.md) | [Go](./golang/2165_smallest_value_of_the_rearranged_number.go) | _O(d)_ | _O(d)_ | Medium | | Greedy, Counting Sort |
+| 2268 | [Minimum Number of Keypresses](./problems/2268-minimum-number-of-keypresses.md) | [Go](./golang/2268_minimum_number_of_keypresses.go) | _O(n)_ | _O(1)_ | Medium | 🔒 | Greedy, Sort |
+| 2410 | [Maximum Matching of Players With Trainers](./problems/2410-maximum-matching-of-players-with-trainers.md) | [Go](./golang/2410_maximum_matching_of_players_with_trainers.go) | _O(nlogn + mlogm)_ | _O(1)_ | Medium || Greedy, Sort |
+| 2449 | [Minimum Number of Operations to Make Arrays Similar](./problems/2449-minimum-number-of-operations-to-make-arrays-similar.md) | [Go](./golang/2449_minimum_number_of_operations_to_make_arrays_similar.go) | _O(nlogn)_   | _O(1)_        | Hard         | | Greedy, Sort |
+| 2567 | [Minimum Score by Changing Two Elements](./problems/2567-minimum-score-by-changing-two-elements.md) | [Go](./golang/2567_minimum_score_by_changing_two_elements.go) | _O(nlogn)_ | _O(1)_ | Medium | | Sort, Greedy |
+| 2578 | [Split With Minimum Sum](./problems/2578-split-with-minimum-sum.md) | [Go](./golang/2578_split_with_minimum_sum.go) | _O(mlogm)_ | _O(m)_ | Easy | | Sort, Greedy |
+| 2587 | [Rearrange Array to Maximize Prefix Score](./problems/2587-rearrange-array-to-maximize-prefix-score.md) | [Go](./golang/2587_rearrange_array_to_maximize_prefix_score.go) | _O(nlogn)_ | _O(1)_ | Medium | | Sort, Greedy |
+| 2860 | [Happy Students](./problems/2860-happy-students.md) | [Go](./golang/2860_happy_students.go) | _O(n)_ | _O(n)_ | Medium |  [Codeforces Round #844 B](https://codeforces.com/contest/1782/problem/B)  | Sort, Greedy, Freq Table |
+
+---
+
+### 11. Other
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
+| 0321 | [Create Maximum Number](./problems/0321-create-maximum-number.md) | [Go](./golang/0321_create_maximum_number.go) | _O(k * (m + n + k))_ ~ _O(k * (m + n + k^2))_| _O(m + n + k^2)_ | Hard | variant of [Delete Digits](http://www.lintcode.com/en/problem/delete-digits/) | Greedy, DP
+| 0330 | [Patching Array](./problems/0330-patching-array.md) | [Go](./golang/0330_patching_array.go) | _O(s + logn)_ | _O(1)_       | Hard           ||
+| 0392 | [Is Subsequence](./problems/0392-is-subsequence.md) | [Go](./golang/0392_is_subsequence.go)   | _O(n)_          | _O(1)_          | Medium         ||
+| 0738 | [Monotone Increasing Digits](./problems/0738-monotone-increasing-digits.md) | [Go](./golang/0738_monotone_increasing_digits.go) | _O(1)_ | _O(1)_ | Medium | |
+| 0757 | [Set Intersection Size At Least Two](./problems/0757-set-intersection-size-at-least-two.md) | [Go](./golang/0757_set_intersection_size_at_least_two.go) | _O(nlogn)_ | _O(n)_ | Hard | |
+| 0759 | [Employee Free Time](./problems/0759-employee-free-time.md) | [Go](./golang/0759_employee_free_time.go) | _O(m * logn)_ | _O(n)_ | Hard | 🔒 |
+| 0798 | [Smallest Rotation with Highest Score](./problems/0798-smallest-rotation-with-highest-score.md) | [Go](./golang/0798_smallest_rotation_with_highest_score.go) | _O(n)_ | _O(1)_ | Hard | |
+| 0843 | [Guess the Word](./problems/0843-guess-the-word.md) | [Go](./golang/0843_guess_the_word.go) | _O(n)_ | _O(n)_ | Hard || MinMax, Math |
+| 0861 | [Score After Flipping Matrix](./problems/0861-score-after-flipping-matrix.md) | [Go](./golang/0861_score_after_flipping_matrix.go) | _O(r * c)_ | _O(1)_ | Medium ||
+| 0936 | [Stamping The Sequence](./problems/0936-stamping-the-sequence.md) | [Go](./golang/0936_stamping_the_sequence.go) | _O((n - m) * m)_ | _O((n - m) * m)_ | Hard ||
+| 0968 | [Binary Tree Cameras](./problems/0968-binary-tree-cameras.md) | [Go](./golang/0968_binary_tree_cameras.go) | _O(n)_ | _O(h)_ | Hard || DFS
+| 1005 | [Maximize Sum Of Array After K Negations](./problems/1005-maximize-sum-of-array-after-k-negations.md) | [Go](./golang/1005_maximize_sum_of_array_after_k_negations.go) | _O(n)_ on average | _O(1)_ | Easy || Quick Select
+| 1055 | [Shortest Way to Form String](./problems/1055-shortest-way-to-form-string.md) | [Go](./golang/1055_shortest_way_to_form_string.go) | _O(m + n)_ | _O(m)_ | Medium | 🔒, variant of [Minimum Window Subsequence](https://leetcode.com/problems/minimum-window-subsequence/) | 
+| 1111 | [Maximum Nesting Depth of Two Valid Parentheses Strings](./problems/1111-maximum-nesting-depth-of-two-valid-parentheses-strings.md) | [Go](./golang/1111_maximum_nesting_depth_of_two_valid_parentheses_strings.go) | _O(n)_ | _O(1)_ | Medium ||
+| 1183 | [Maximum Number of Ones](./problems/1183-maximum-number-of-ones.md) | [Go](./golang/1183_maximum_number_of_ones.go) |  _O(1)_ | _O(1)_   | Hard |🔒||
+| 1199 | [Minimum Time to Build Blocks](./problems/1199-minimum-time-to-build-blocks.md) | [Go](./golang/1199_minimum_time_to_build_blocks.go) | _O(nlogn)_ | _O(n)_ | Hard |🔒|
+| 1221 | [Split a String in Balanced Strings](./problems/1221-split-a-string-in-balanced-strings.md) | [Go](./golang/1221_split_a_string_in_balanced_strings.go) | _O(n)_ | _O(1)_ | Easy ||
+| 1247 | [Minimum Swaps to Make Strings Equal](./problems/1247-minimum-swaps-to-make-strings-equal.md) | [Go](./golang/1247_minimum_swaps_to_make_strings_equal.go) | _O(n)_ | _O(1)_ | Easy ||
+| 1253 | [Reconstruct a 2-Row Binary Matrix](./problems/1253-reconstruct-a-2-row-binary-matrix.md) | [Go](./golang/1253_reconstruct_a_2_row_binary_matrix.go) | _O(n)_ | _O(1)_ | Medium ||
+| 1419 | [Minimum Number of Frogs Croaking](./problems/1419-minimum-number-of-frogs-croaking.md) | [Go](./golang/1419_minimum_number_of_frogs_croaking.go) | _O(n)_        | _O(1)_          | Medium           | | |
+| 1433 | [Check If a String Can Break Another String](./problems/1433-check-if-a-string-can-break-another-string.md) | [Go](./golang/1433_check_if_a_string_can_break_another_string.go) | _O(n)_        | _O(1)_          | Medium           | | |
+| 1488 | [Avoid Flood in The City](./problems/1488-avoid-flood-in-the-city.md) | [Go](./golang/1488_avoid_flood_in_the_city.go) | _O(nlogn)_        | _O(n)_          | Medium           | | |
+| 1585 | [Check If String Is Transformable With Substring Sort Operations](./problems/1585-check-if-string-is-transformable-with-substring-sort-operations.md) | [Go](./golang/1585_check_if_string_is_transformable_with_substring_sort_operations.go) | _O(n)_    | _O(n)_          | Hard           ||
+| 1591 | [Strange Printer II](./problems/1591-strange-printer-ii.md) | [Go](./golang/1591_strange_printer_ii.go) | _O(c * m * n + e)_ | _O(e)_ | Hard ||
+| 1632 | [Rank Transform of a Matrix](./problems/1632-rank-transform-of-a-matrix.md) | [Go](./golang/1632_rank_transform_of_a_matrix.go) | _O(m * n * log(m * n))_ | _O(m * n)_ | Hard || Union Find
+| 1665 | [Minimum Initial Energy to Finish Tasks](./problems/1665-minimum-initial-energy-to-finish-tasks.md) | [Go](./golang/1665_minimum_initial_energy_to_finish_tasks.go) | _O(nlogn)_ | _O(1)_ | Hard ||
+| 1710 | [Maximum Units on a Truck](./problems/1710-maximum-units-on-a-truck.md) | [Go](./golang/1710_maximum_units_on_a_truck.go)| _O(nlogn)_ | _O(1)_ | Easy | | |
+| 1717 | [Maximum Score From Removing Substrings](./problems/1717-maximum-score-from-removing-substrings.md) | [Go](./golang/1717_maximum_score_from_removing_substrings.go)| _O(n)_ | _O(1)_ | Medium | | |
+| 1736 | [Latest Time by Replacing Hidden Digits](./problems/1736-latest-time-by-replacing-hidden-digits.md) | [Go](./golang/1736_latest_time_by_replacing_hidden_digits.go)| _O(1)_ | _O(1)_ | Easy | | |
+| 1788 | [Maximize the Beauty of the Garden](./problems/1788-maximize-the-beauty-of-the-garden.md) |[Go](./golang/1788_maximize_the_beauty_of_the_garden.go)| _O(n)_     | _O(n)_         | Hard         | 🔒 | |
+| 1815 | [Maximum Number of Groups Getting Fresh Donuts](./problems/1815-maximum-number-of-groups-getting-fresh-donuts.md) |[Go](./golang/1815_maximum_number_of_groups_getting_fresh_donuts.go)| _O((b/2) * (n/(b/2)+1)^(b/2))_     | _O((n/(b/2)+1)^(b/2))_         | Hard         | | Greedy, DP |
+| 1893 | [Check if All the Integers in a Range Are Covered](./problems/1893-check-if-all-the-integers-in-a-range-are-covered.md) | [Go](./golang/1893_check_if_all_the_integers_in_a_range_are_covered.go) | _O(n + r)_ | _O(r)_ | Easy | | Line Sweep, Sort |
+| 1911 | [Maximum Alternating Subsequence Sum](./problems/1911-maximum-alternating-subsequence-sum.md) | [Go](./golang/1911_maximum_alternating_subsequence_sum.go) | _O(n)_ | _O(1)_ | Medium | variant of [Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/) | |
+| 1927 | [Sum Game](./problems/1927-sum-game.md) | [Go](./golang/1927_sum_game.go) | _O(n)_ | _O(1)_ | Medium | | |
+| 2036 | [Maximum Alternating Subarray Sum](./problems/2036-maximum-alternating-subarray-sum.md) | [Go](./golang/2036_maximum_alternating_subarray_sum.go) | _O(n)_ | _O(1)_ | Medium | variant of [Maximum Alternating Subsequence Sum](https://leetcode.com/problems/maximum-alternating-subsequence-sum/), 🔒 | Greedy, `Kadane's Algorithm`
+| 2071 | [Maximum Number of Tasks You Can Assign](./problems/2071-maximum-number-of-tasks-you-can-assign.md) | [Go](./golang/2071_maximum_number_of_tasks_you_can_assign.go) | _O(n * (logn)^2)_ | _O(n)_ | Hard | | Greedy, Binary Search, Sorted List |
+| 2086 | [Minimum Number of Buckets Required to Collect Rainwater from Houses](./problems/2086-minimum-number-of-buckets-required-to-collect-rainwater-from-houses.md) | [Go](./golang/2086_minimum_number_of_buckets_required_to_collect_rainwater_from_houses.go) | _O(n)_ | _O(1)_ | Medium | | Greedy |
+| 2087 | [Minimum Cost Homecoming of a Robot in a Grid](./problems/2087-minimum-cost-homecoming-of-a-robot-in-a-grid.md) | [Go](./golang/2087_minimum_cost_homecoming_of_a_robot_in_a_grid.go) | _O(m + n)_ | _O(1)_ | Medium | | Greedy |
+| 2126 | [Destroying Asteroids](./problems/2126-destroying-asteroids.md) | [Go](./golang/2126_destroying_asteroids.go) | _O(nlogn)_ | _O(1)_ | Medium | | Greedy |
+| 2136 | [Earliest Possible Day of Full Bloom](./problems/2136-earliest-possible-day-of-full-bloom.md) | [Go](./golang/2136_earliest_possible_day_of_full_bloom.go) | _O(nlogn)_ | _O(n)_ | Hard | | Greedy |
+| 2141 | [Maximum Running Time of N Computers](./problems/2141-maximum-running-time-of-n-computers.md) | [Go](./golang/2141_maximum_running_time_of_n_computers.go) | _O(nlogm)_ | _O(1)_ | Hard | | Greedy, Binary Search |
+| 2147 | [Number of Ways to Divide a Long Corridor](./problems/2147-number-of-ways-to-divide-a-long-corridor.md) | [Go](./golang/2147_number_of_ways_to_divide_a_long_corridor.go) | _O(n)_ | _O(1)_ | Hard | | Greedy, Combinatorics |
+| 2160 | [Minimum Sum of Four Digit Number After Splitting Digits](./problems/2160-minimum-sum-of-four-digit-number-after-splitting-digits.md) | [Go](./golang/2160_minimum_sum_of_four_digit_number_after_splitting_digits.go) | _O(1)_ | _O(1)_ | Easy | | Greedy |
+| 2178 | [Maximum Split of Positive Even Integers](./problems/2178-maximum-split-of-positive-even-integers.md) | [Go](./golang/2178_maximum_split_of_positive_even_integers.go) | _O(sqrt(n))_ | _O(1)_ | Medium | | Greedy |
+| 2193 | [Minimum Number of Moves to Make Palindrome](./problems/2193-minimum-number-of-moves-to-make-palindrome.md) | [Go](./golang/2193_minimum_number_of_moves_to_make_palindrome.go) | _O(nlogn)_ | _O(n)_ | Hard |  | Greedy, BIT, Fenwick Tree  |
+| 2195 | [Append K Integers With Minimal Sum](./problems/2195-append-k-integers-with-minimal-sum.md) | [Go](./golang/2195_append_k_integers_with_minimal_sum.go) | _O(nlogn)_ | _O(n)_ | Medium | | Greedy |
+| 2207 | [Maximize Number of Subsequences in a String](./problems/2207-maximize-number-of-subsequences-in-a-string.md) | [Go](./golang/2207_maximize_number_of_subsequences_in_a_string.go) | _O(n)_ | _O(1)_ | Medium | | Counting, Greedy |
+| 2214 | [Minimum Health to Beat Game](./problems/2214-minimum-health-to-beat-game.md) | [Go](./golang/2214_minimum_health_to_beat_game.go) | _O(n)_ | _O(1)_ | Medium | 🔒 | Greedy |
+| 2216 | [Minimum Deletions to Make Array Beautiful](./problems/2216-minimum-deletions-to-make-array-beautiful.md) | [Go](./golang/2216_minimum_deletions_to_make_array_beautiful.go) | _O(n)_ | _O(1)_ | Medium | | Greedy |
+| 2224 | [Minimum Number of Operations to Convert Time](./problems/2224-minimum-number-of-operations-to-convert-time.md) | [Go](./golang/2224_minimum_number_of_operations_to_convert_time.go) | _O(1)_ | _O(1)_ | Easy | | Greedy |
+| 2259 | [Remove Digit From Number to Maximize Result](./problems/2259-remove-digit-from-number-to-maximize-result.md) | [Go](./golang/2259_remove_digit_from_number_to_maximize_result.go) | _O(n)_ | _O(1)_ | Easy | | Greedy |
+| 2263 | [Make Array Non-decreasing or Non-increasing](./problems/2263-make-array-non-decreasing-or-non-increasing.md) | [Go](./golang/2263_make_array_non_decreasing_or_non_increasing.go) | _O(nlogn)_ | _O(n)_ | Hard | 🔒 | DP, Greedy, Heap |
+| 2279 | [Maximum Bags With Full Capacity of Rocks](./problems/2279-maximum-bags-with-full-capacity-of-rocks.md) | [Go](./golang/2279_maximum_bags_with_full_capacity_of_rocks.go) | _O(nlogn)_ | _O(1)_ | Medium | | Greedy, Sort |
+| 2285 | [Maximum Total Importance of Roads](./problems/2285-maximum-total-importance-of-roads.md) | [Go](./golang/2285_maximum_total_importance_of_roads.go) | _O(n)_ | _O(n)_ | Medium | | Greedy, Counting Sort |
+| 2294 | [Partition Array Such That Maximum Difference Is K](./problems/2294-partition-array-such-that-maximum-difference-is-k.md) | [Go](./golang/2294_partition_array_such_that_maximum_difference_is_k.go) | _O(nlogn)_ | _O(1)_ | Medium | | Greedy |
+| 2311 | [Longest Binary Subsequence Less Than or Equal to K](./problems/2311-longest-binary-subsequence-less-than-or-equal-to-k.md) | [Go](./golang/2311_longest_binary_subsequence_less_than_or_equal_to_k.go) | _O(n)_ | _O(1)_ | Medium | | Greedy |
+| 2321 | [Maximum Score Of Spliced Array](./problems/2321-maximum-score-of-spliced-array.md) | [Go](./golang/2321_maximum_score_of_spliced_array.go) | _O(n)_ | _O(1)_ | Hard | | Greedy, `Kadane's Algorithm`
+| 2323 | [Find Minimum Time to Finish All Jobs II](./problems/2323-find-minimum-time-to-finish-all-jobs-ii.md) | [Go](./golang/2323_find_minimum_time_to_finish_all_jobs_ii.go) | _O(nlogn)_ | _O(1)_ | Medium | 🔒 | Greedy
+| 2340 | [Minimum Adjacent Swaps to Make a Valid Array](./problems/2340-minimum-adjacent-swaps-to-make-a-valid-array.md) | [Go](./golang/2340_minimum_adjacent_swaps_to_make_a_valid_array.go) | _O(n)_ | _O(1)_ | Medium | 🔒 | Array, Greedy
+| 2371 | [Minimize Maximum Value in a Grid](./problems/2371-minimize-maximum-value-in-a-grid.md) | [Go](./golang/2371_minimize_maximum_value_in_a_grid.go) | _O((m * n) * log(m * n))_   | _O(m * n)_        | Hard         | 🔒 | Sort, Greedy
+| 2375 | [Construct Smallest Number From DI String](./problems/2375-construct-smallest-number-from-di-string.md) | [Go](./golang/2375_construct_smallest_number_from_di_string.go) | _O(n)_   | _O(1)_        | Medium         | | Constructive Algorithms, Greedy
+| 2383 | [Minimum Hours of Training to Win a Competition](./problems/2383-minimum-hours-of-training-to-win-a-competition.md) | [Go](./golang/2383_minimum_hours_of_training_to_win_a_competition.go) | _O(n)_ | _O(1)_ | Easy | | Greedy
+| 2417 | [Closest Fair Integer](./problems/2417-closest-fair-integer.md) | [Go](./golang/2417_closest_fair_integer.go) | _O(logn)_   | _O(logn)_        | Medium         | 🔒 | Constructive Algorithms, Greedy
+| 2422 | [Merge Operations to Turn Array Into a Palindrome](./problems/2422-merge-operations-to-turn-array-into-a-palindrome.md) | [Go](./golang/2422_merge_operations_to_turn_array_into_a_palindrome.go) | _O(n)_   | _O(1)_        | Medium         | 🔒 | Constructive Algorithms, Greedy, Two Pointers
+| 2436 | [Minimum Split Into Subarrays With GCD Greater Than One](./problems/2436-minimum-split-into-subarrays-with-gcd-greater-than-one.md) | [Go](./golang/2436_minimum_split_into_subarrays_with_gcd_greater_than_one.go) | _O(nlogr)_   | _O(1)_        | Medium         | 🔒 | Greedy
+| 2483 | [Minimum Penalty for a Shop](./problems/2483-minimum-penalty-for-a-shop.md) | [Go](./golang/2483_minimum_penalty_for_a_shop.go) | _O(n)_   | _O(1)_        | Medium         | | Greedy
+| 2548 | [Maximum Price to Fill a Bag](./problems/2548-maximum-price-to-fill-a-bag.md) | [Go](./golang/2548_maximum_price_to_fill_a_bag.go) | _O(nlogn)_ | _O(1)_ | Medium | 🔒 | Greedy, Sort |
+| 2551 | [Put Marbles in Bags](./problems/2551-put-marbles-in-bags.md) | [Go](./golang/2551_put_marbles_in_bags.go) | _O(n)_ on average | _O(1)_ | Hard | | Greedy, Quick Select |
+| 2561 | [Rearranging Fruits](./problems/2561-rearranging-fruits.md) | [Go](./golang/2561_rearranging_fruits.go) | _O(n)_ on average | _O(n)_ | Hard | | Freq Table, Greedy, Quick Select |
+| 2573 | [Find the String with LCP](./problems/2573-find-the-string-with-lcp.md) | [Go](./golang/2573_find_the_string_with_lcp.go) | _O(n^2)_ | _O(1)_ | Hard | | Constructive Algorithms, Greedy, DP |
+| 2589 | [Minimum Time to Complete All Tasks](./problems/2589-minimum-time-to-complete-all-tasks.md) | [Go](./golang/2589_minimum_time_to_complete_all_tasks.go) | _O(nlogn + n * r)_ | _O(r)_ | Hard | | Sort, Greedy |
+| 2604 | [Minimum Time to Eat All Grains](./problems/2604-minimum-time-to-eat-all-grains.md) | [Go](./golang/2604_minimum_time_to_eat_all_grains.go) | _O(mlogm + nlogn + (m + n) * logr)_ | _O(1)_ | Hard | 🔒 | Binary Search, Greedy |
+| 2813 | [Maximum Elegance of a K-Length Subsequence](./problems/2813-maximum-elegance-of-a-k-length-subsequence.md) | [Go](./golang/2813_maximum_elegance_of_a_k_length_subsequence.go) | _O(nlogk)_ | _O(k)_ | Hard | | Partial Sort, Heap, Quick Select, BST, Sorted List, Greedy
+| 2819 | [Minimum Relative Loss After Buying Chocolates](./problems/2819-minimum-relative-loss-after-buying-chocolates.md) | [Go](./golang/2819_minimum_relative_loss_after_buying_chocolates.go) | _O((n + q) * logn)_ | _O(n)_ | Hard | 🔒 | Sort, Binary Search, Greedy, Prefix Sum
+| 2835 | [Minimum Operations to Form Subsequence With Target Sum](./problems/2835-minimum-operations-to-form-subsequence-with-target-sum.md) | [Go](./golang/2835_minimum_operations_to_form_subsequence_with_target_sum.go) | _O(n)_ | _O(logn)_ | Hard | [Educational Codeforces Round #82 D](https://codeforces.com/problemset/problem/1303/D) | Counting Sort, Sort, Heap, Greedy, Bitmasks
+| 2842 | [Count K-Subsequences of a String With Maximum Beauty](./problems/2842-count-k-subsequences-of-a-string-with-maximum-beauty.md) | [Go](./golang/2842_count_k_subsequences_of_a_string_with_maximum_beauty.go) | _O(n)_ | _O(1)_ | Hard |  | Greedy, Quick Select, Combinatorics
+| 2844 | [Minimum Operations to Make a Special Number](./problems/2844-minimum-operations-to-make-a-special-number.md) | [Go](./golang/2844_minimum_operations_to_make_a_special_number.go) | _O(n)_ | _O(1)_ | Medium |  | Math, Greedy
+| 2868 | [The Wording Game](./problems/2868-the-wording-game.md) | [Go](./golang/2868_the_wording_game.go) | _O(m + n)_ | _O(1)_ | Hard | 🔒 | Game, Greedy
+| 2952 | [Minimum Number of Coins to be Added](./problems/2952-minimum-number-of-coins-to-be-added.md) | [Go](./golang/2952_minimum_number_of_coins_to_be_added.go) | _O(nlogn + logt)_ | _O(1)_ | Medium |  variant of [Patching Array](https://leetcode.com/problems/patching-array/) | Sort, Greedy
