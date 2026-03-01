@@ -2,108 +2,70 @@
 
 ## Problem Description
 
-Given an integer array `nums`, return the number of subarrays filled with `0`. A subarray is a contiguous non-empty sequence of elements within an array.
+Given an integer array `nums`, return the number of subarrays filled with 0.
+
+A subarray is a contiguous non-empty sequence of elements within an array.
 
 ### Example 1:
 ```
 Input: nums = [1,0,0,0,0,1]
-Output: 10
-Explanation: There are 4 subarrays with 3 consecutive zeros:
-[0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]
-And 6 subarrays with 2 consecutive zeros:
-[0,0], [0,0], [0,0], [0,0], [0,0], [0,0]
+Output: 6
+Explanation: 
+There are 4 occurrences of [0] as a subarray.
+There are 2 occurrences of [0,0] as a subarray.
+There is 1 occurrence of [0,0,0] as a subarray.
+There is 1 occurrence of [0,0,0,0] as a subarray.
+No other subarray is filled with 0.
 ```
 
 ### Example 2:
 ```
 Input: nums = [0,0,0,2,0,0]
 Output: 9
+Explanation: 
+There are 5 occurrences of [0] as a subarray.
+There are 3 occurrences of [0,0] as a subarray.
+There is 1 occurrence of [0,0,0] as a subarray.
+No other subarray is filled with 0.
 ```
 
-### Example 3:
-```
-Input: nums = [2,10,2019]
-Output: 0
-```
+## Approach
 
-## Two Pointers Approach
+This problem can be solved using a sliding window approach:
 
-This problem can be efficiently solved by identifying consecutive zero sequences and calculating the number of subarrays within each sequence. For a sequence of `k` consecutive zeros, there are `k * (k + 1) / 2` zero-filled subarrays.
-
-### Algorithm Steps:
-
-1. Initialize a counter for the result
-2. Initialize a variable `currentZeros` to track the length of the current zero sequence
-3. Iterate through the array:
-   - If the current element is 0, increment `currentZeros`
-   - Otherwise:
-     - Add the number of subarrays in the current zero sequence to the result
-     - Reset `currentZeros` to 0
-4. After the loop, add the number of subarrays in the last zero sequence (if any)
-5. Return the result
-
-## Complexity
-
-- **Time**: O(n) - we traverse the array once
-- **Space**: O(1) - constant space for counters
+1. Traverse the array and count consecutive zeros.
+2. For each sequence of `k` consecutive zeros, the number of zero-filled subarrays is `k * (k + 1) / 2`.
+3. Sum this value for all sequences of consecutive zeros.
 
 ## Solution Code
 
 ```go
-package main
-
 func zeroFilledSubarray(nums []int) int64 {
+    n := len(nums)
     result := int64(0)
     currentZeros := 0
     
-    for _, num := range nums {
-        if num == 0 {
+    for i := 0; i < n; i++ {
+        if nums[i] == 0 {
             currentZeros++
         } else {
-            // Add the number of subarrays in the current zero sequence
+            // Calculate the number of subarrays for the current sequence of zeros
             result += int64(currentZeros * (currentZeros + 1) / 2)
             currentZeros = 0
         }
     }
     
-    // Add the number of subarrays in the last zero sequence (if any)
+    // Calculate for the last sequence of zeros
     result += int64(currentZeros * (currentZeros + 1) / 2)
     
     return result
 }
 ```
 
-## Alternative Approach (Sliding Window)
+## Complexity Analysis
 
-An alternative approach is to use a sliding window to identify zero-filled subarrays, though this is less efficient for this specific problem.
-
-## Alternative Solution Code
-
-```go
-package main
-
-func zeroFilledSubarray(nums []int) int64 {
-    result := int64(0)
-    
-    for i := 0; i < len(nums); i++ {
-        if nums[i] == 0 {
-            // Count the length of the zero-filled subarray starting at i
-            length := 0
-            for j := i; j < len(nums) && nums[j] == 0; j++ {
-                length++
-            }
-            
-            // Add the number of subarrays in this zero sequence
-            result += int64(length * (length + 1) / 2)
-            
-            // Skip the entire zero sequence
-            i += length - 1
-        }
-    }
-    
-    return result
-}
-```
+- **Time**: O(n) - We traverse the array once
+- **Space**: O(1) - We only use a few variables regardless of the input size
 
 ## Link
 
