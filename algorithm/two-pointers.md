@@ -103,57 +103,85 @@
 
 ---
 
-### 5. Other
+### 5. Partition & Rearrangement
 
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
 |-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
-| 0086 | [Partition List](./problems/0086-partition-list.md) | [Go](./golang/0086_partition_list.go) | _O(n)_       | _O(1)_         | Medium         || 
-| 0143 | [Reorder List](./problems/0143-reorder-list.md) | [Go](./golang/0143_reorder_list.go) | _O(n)_          |  _O(1)_         | Medium         ||  
-| 0167 | [Two Sum II - Input array is sorted](./problems/0167-two-sum-ii-input-array-is-sorted.md) | [Go](./golang/0167_two_sum_ii_input_array_is_sorted.go) | _O(n)_   | _O(1)_         | Medium         | |
+| 0086 | [Partition List](./problems/0086-partition-list.md) | [Go](./golang/0086_partition_list.go) | _O(n)_       | _O(1)_         | Medium         ||
+| 0143 | [Reorder List](./problems/0143-reorder-list.md) | [Go](./golang/0143_reorder_list.go) | _O(n)_          |  _O(1)_         | Medium         ||
 | 0283 | [Move Zeroes](./problems/0283-move-zeroes.md) | [Go](./golang/0283_move_zeroes.go) | _O(n)_ | _O(1)_          | Easy         | |
-| 0287 | [Find the Duplicate Number](./problems/0287-find-the-duplicate-number.md) | [Go](./golang/0287_find_the_duplicate_number.go)   | _O(n)_          | _O(1)_          | Hard       | | Binary Search, Two Pointers |
 | 0360 | [Sort Transformed Array](./problems/0360-sort-transformed-array.md) | [Go](./golang/0360_sort_transformed_array.go) | _O(n)_ | _O(1)_ | Medium         |🔒|
 | 0457 | [Circular Array Loop](./problems/0457-circular-array-loop.md) | [Go](./golang/0457_circular_array_loop.go) | _O(n)_ | _O(1)_ | Medium         ||
-| 0567 | [Permutation in String](./problems/0567-permutation-in-string.md) | [Go](./golang/0567_permutation_in_string.go) | _O(n)_ | _O(1)_ | Medium         ||
-| 0611 | [Valid Triangle Number](./problems/0611-valid-triangle-number.md) | [Go](./golang/0611_valid_triangle_number.go) | _O(n^2)_ | _O(1)_ | Medium         ||
 | 0777 | [Swap Adjacent in LR String](./problems/0777-swap-adjacent-in-lr-string.md) | [Go](./golang/0777_swap_adjacent_in_lr_string.go) | _O(n)_ | _O(1)_ | Medium         ||
-| 0826 | [Most Profit Assigning Work](./problems/0826-most-profit-assigning-work.md) | [Go](./golang/0826_most_profit_assigning_work.go) | _O(mlogm + nlogn)_ | _O(n)_ | Medium         ||
-| 0828 | [Count Unique Characters of All Substrings of a Given String](./problems/0828-count-unique-characters-of-all-substrings-of-a-given-string.md) | [Go](./golang/0828_count_unique_characters_of_all_substrings_of_a_given_string.go) | _O(n)_ | _O(1)_ | Hard         ||
+| 2149 | [Rearrange Array Elements by Sign](./problems/2149-rearrange-array-elements-by-sign.md) | [Go](./golang/2149_rearrange_array_elements_by_sign.go) | _O(n)_ | _O(1)_ | Medium | | Two Pointers
+| 2161 | [Partition Array According to Given Pivot](./problems/2161-partition-array-according-to-given-pivot.md) | [Go](./golang/2161_partition_array_according_to_given_pivot.go) | _O(n)_ | _O(n)_ | Medium | | Two Pointers
+| 2938 | [Separate Black and White Balls](./problems/2938-separate-black-and-white-balls.md) | [Go](./golang/2938_separate_black_and_white_balls.go) | _O(n)_ | _O(1)_ | Medium | | Two Pointers
+
+---
+
+### 6. String Manipulation
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
+| 0567 | [Permutation in String](./problems/0567-permutation-in-string.md) | [Go](./golang/0567_permutation_in_string.go) | _O(n)_ | _O(1)_ | Medium         ||
+| 1750 | [Minimum Length of String After Deleting Similar Ends](./problems/1750-minimum-length-of-string-after-deleting-similar-ends.md) | [Go](./golang/1750_minimum_length_of_string_after_deleting_similar_ends.go) | _O(n)_ | _O(1)_ | Medium | | Two Pointers |
+| 2330 | [Valid Palindrome IV](./problems/2330-valid-palindrome-iv.md) | [Go](./golang/2330_valid_palindrome_iv.go) | _O(n)_ | _O(1)_ | Medium | 🔒 | String, Two Pointers |
+| 2337 | [Move Pieces to Obtain a String](./problems/2337-move-pieces-to-obtain-a-string.md) | [Go](./golang/2337_move_pieces_to_obtain_a_string.go) | _O(n + m)_ | _O(1)_ | Medium | | String, Two Pointers |
+| 2609 | [Find the Longest Balanced Substring of a Binary String](./problems/2609-find-the-longest-balanced-substring-of-a-binary-string.md) | [Go](./golang/2609_find_the_longest_balanced_substring_of_a_binary_string.go) | _O(n)_ | _O(1)_ | Easy | | String, Two Pointers
+| 2730 | [Find the Longest Semi-Repetitive Substring](./problems/2730-find-the-longest-semi-repetitive-substring.md) | [Go](./golang/2730_find_the_longest_semi_repetitive_substring.go) | _O(n)_ | _O(1)_ | Medium | | Two Pointers
+
+---
+
+### 7. Array/Array Operations
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
+| 0167 | [Two Sum II - Input array is sorted](./problems/0167-two-sum-ii-input-array-is-sorted.md) | [Go](./golang/0167_two_sum_ii_input_array_is_sorted.go) | _O(n)_   | _O(1)_         | Medium         | |
 | 0977 | [Squares of a Sorted Array](./problems/0977-squares-of-a-sorted-array.md) | [Go](./golang/0977_squares_of_a_sorted_array.go) | _O(n)_ | _O(1)_ | Easy ||
-| 1033 | [Moving Stones Until Consecutive](./problems/1033-moving-stones-until-consecutive.md) | [Go](./golang/1033_moving_stones_until_consecutive.go) | _O(1)_ | _O(1)_      | Easy         ||
-| 1040 | [Moving Stones Until Consecutive II](./problems/1040-moving-stones-until-consecutive-ii.md) | [Go](./golang/1040_moving_stones_until_consecutive_ii.go) | _O(nlogn)_ | _O(1)_      | Medium         ||
 | 1214 | [Two Sum BSTs](./problems/1214-two-sum-bsts.md) | [Go](./golang/1214_two_sum_bsts.go) | _O(n)_ | _O(n)_      | Medium         |🔒| Stack |
 | 1305 | [All Elements in Two Binary Search Trees](./problems/1305-all-elements-in-two-binary-search-trees.md) | [Go](./golang/1305_all_elements_in_two_binary_search_trees.go) | _O(n)_ | _O(h)_ | Medium || Stack |
 | 1658 | [Minimum Operations to Reduce X to Zero](./problems/1658-minimum-operations-to-reduce-x-to-zero.md) | [Go](./golang/1658_minimum_operations_to_reduce_x_to_zero.go) | _O(n)_ | _O(1)_ |  Medium | | Two Pointers |
-| 1712 | [Ways to Split Array Into Three Subarrays](./problems/1712-ways-to-split-array-into-three-subarrays.md) | [Go](./golang/1712_ways_to_split_array_into_three_subarrays.go) | _O(n)_ | _O(n)_ | Medium | | Two Pointers, Prefix Sum |
-| 1750 | [Minimum Length of String After Deleting Similar Ends](./problems/1750-minimum-length-of-string-after-deleting-similar-ends.md) | [Go](./golang/1750_minimum_length_of_string_after_deleting_similar_ends.go) | _O(n)_ | _O(1)_ | Medium | | Two Pointers |
 | 1855 | [Maximum Distance Between a Pair of Values](./problems/1855-maximum-distance-between-a-pair-of-values.md) | [Go](./golang/1855_maximum_distance_between_a_pair_of_values.go) | _O(n + m)_ | _O(1)_ | Medium | | Two Pointers |
 | 1868 | [Product of Two Run-Length Encoded Arrays](./problems/1868-product-of-two-run-length-encoded-arrays.md) | [Go](./golang/1868_product_of_two_run_length_encoded_arrays.go) | _O(m + n)_ | _O(1)_ | Medium | 🔒 | Two Pointers |
 | 1885 | [Count Pairs in Two Arrays](./problems/1885-count-pairs-in-two-arrays.md) | [Go](./golang/1885_count_pairs_in_two_arrays.go) | _O(nlogn)_ | _O(1)_ | Medium | 🔒 | Two Pointers |
 | 2040 | [Kth Smallest Product of Two Sorted Arrays](./problems/2040-kth-smallest-product-of-two-sorted-arrays.md) | [Go](./golang/2040_kth_smallest_product_of_two_sorted_arrays.go) | _O((m + n) * logr)_| _O(1)_| Hard | | Binary Search, Two Pointers |
 | 2105 | [Watering Plants II](./problems/2105-watering-plants-ii.md) | [Go](./golang/2105_watering_plants_ii.go) | _O(n)_ | _O(1)_ | Medium || Simulation
-| 2149 | [Rearrange Array Elements by Sign](./problems/2149-rearrange-array-elements-by-sign.md) | [Go](./golang/2149_rearrange_array_elements_by_sign.go) | _O(n)_ | _O(1)_ | Medium | | Two Pointers
-| 2161 | [Partition Array According to Given Pivot](./problems/2161-partition-array-according-to-given-pivot.md) | [Go](./golang/2161_partition_array_according_to_given_pivot.go) | _O(n)_ | _O(n)_ | Medium | | Two Pointers
 | 2200 | [Find All K-Distant Indices in an Array](./problems/2200-find-all-k-distant-indices-in-an-array.md) | [Go](./golang/2200_find_all_k_distant_indices_in_an_array.go) | _O(n)_ | _O(1)_ | Easy | | Two Pointers
-| 2234 | [Maximum Total Beauty of the Gardens](./problems/2234-maximum-total-beauty-of-the-gardens.md) | [Go](./golang/2234_maximum_total_beauty_of_the_gardens.go) | _O(nlogn)_ | _O(1)_ | Hard | | Sort, Prefix Sum, Greedy, Binary Search, Two Pointers
-| 2330 | [Valid Palindrome IV](./problems/2330-valid-palindrome-iv.md) | [Go](./golang/2330_valid_palindrome_iv.go) | _O(n)_ | _O(1)_ | Medium | 🔒 | String, Two Pointers |
 | 2332 | [The Latest Time to Catch a Bus](./problems/2332-the-latest-time-to-catch-a-bus.md) | [Go](./golang/2332_the_latest_time_to_catch_a_bus.go) | _O(nlogn + mlogm)_ | _O(1)_ | Medium | | String, Two Pointers |
-| 2337 | [Move Pieces to Obtain a String](./problems/2337-move-pieces-to-obtain-a-string.md) | [Go](./golang/2337_move_pieces_to_obtain_a_string.go) | _O(n + m)_ | _O(1)_ | Medium | | String, Two Pointers |
-| 2348 | [Number of Zero-Filled Subarrays](./problems/2348-number-of-zero-filled-subarrays.md) | [Go](./golang/2348_number_of_zero_filled_subarrays.go) | _O(n)_ | _O(1)_ | Medium | | Two Pointers, Combinatorics |
-| 2393 | [Count Strictly Increasing Subarrays](./problems/2393-count-strictly-increasing-subarrays.md) | [Go](./golang/2393_count_strictly_increasing_subarrays.go) | _O(n)_ | _O(1)_ | Medium | 🔒 | Two Pointers |
-| 2444 | [Count Subarrays With Fixed Bounds](./problems/2444-count-subarrays-with-fixed-bounds.md) | [Go](./golang/2444_count_subarrays_with_fixed_bounds.go) | _O(n)_ | _O(1)_ | Hard | variant of [Number of Substrings Containing All Three Characters](https://leetcode.com/problems/number-of-substrings-containing-all-three-characters/) | Two Pointers |
-| 2461 | [Maximum Sum of Distinct Subarrays With Length K](./problems/2461-maximum-sum-of-distinct-subarrays-with-length-k.md) | [Go](./golang/2461_maximum_sum_of_distinct_subarrays_with_length_k.go) | _O(n)_ | _O(k)_ | Medium | | Two Pointers |
 | 2465 | [Number of Distinct Averages](./problems/2465-number-of-distinct-averages.md) | [Go](./golang/2465_number_of_distinct_averages.go) | _O(nlogn)_ | _O(n)_ | Easy | | Two Pointers, Hash Table |
 | 2511 | [Maximum Enemy Forts That Can Be Captured](./problems/2511-maximum-enemy-forts-that-can-be-captured.md) | [Go](./golang/2511_maximum_enemy_forts_that_can_be_captured.go) | _O(n)_ | _O(1)_ | Easy | | Array, Two Pointers |
 | 2540 | [Minimum Common Value](./problems/2540-minimum-common-value.md) | [Go](./golang/2540_minimum_common_value.go) | _O(n)_ | _O(1)_ | Easy | | Two Pointers |
 | 2563 | [Count the Number of Fair Pairs](./problems/2563-count-the-number-of-fair-pairs.md) | [Go](./golang/2563_count_the_number_of_fair_pairs.go) | _O(nlogn)_ | _O(1)_ | Medium | | Sort, Two Pointers
 | 2570 | [Merge Two 2D Arrays by Summing Values](./problems/2570-merge-two-2d-arrays-by-summing-values.md) | [Go](./golang/2570_merge_two_2d_arrays_by_summing_values.go) | _O(n)_ | _O(1)_ | Easy | | Two Pointers
-| 2609 | [Find the Longest Balanced Substring of a Binary String](./problems/2609-find-the-longest-balanced-substring-of-a-binary-string.md) | [Go](./golang/2609_find_the_longest_balanced_substring_of_a_binary_string.go) | _O(n)_ | _O(1)_ | Easy | | String, Two Pointers
 | 2653 | [Sliding Subarray Beauty](./problems/2653-sliding-subarray-beauty.md) | [Go](./golang/2653_sliding_subarray_beauty.go) | _O(nlogk)_ | _O(k)_ | Medium | | Sorted List, Ordered Set, Two Pointers
-| 2730 | [Find the Longest Semi-Repetitive Substring](./problems/2730-find-the-longest-semi-repetitive-substring.md) | [Go](./golang/2730_find_the_longest_semi_repetitive_substring.go) | _O(n)_ | _O(1)_ | Medium | | Two Pointers
 | 2747 | [Count Zero Request Servers](./problems/2747-count-zero-request-servers.md) | [Go](./golang/2747_count_zero_request_servers.go) | _O(nlogn + mlogm)_ | _O(n + m)_ | Hard | | Sort, Two Pointers, Line Sweep
 | 2824 | [Count Pairs Whose Sum is Less than Target](./problems/2824-count-pairs-whose-sum-is-less-than-target.md) | [Go](./golang/2824_count_pairs_whose_sum_is_less_than_target.go) | _O(nlogn)_ | _O(1)_ | Easy | | Sort, Two Pointers
 | 2838 | [Maximum Coins Heroes Can Collect](./problems/2838-maximum-coins-heroes-can-collect.md) | [Go](./golang/2838_maximum_coins_heroes_can_collect.go) | _O(nlogn + mlogm)_ | _O(n + m)_ | Medium | 🔒 | Sort, Two Pointers
-| 2938 | [Separate Black and White Balls](./problems/2938-separate-black-and-white-balls.md) | [Go](./golang/2938_separate_black_and_white_balls.go) | _O(n)_ | _O(1)_ | Medium | | Two Pointers
+
+---
+
+### 8. Subarray Counting
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
+| 0828 | [Count Unique Characters of All Substrings of a Given String](./problems/0828-count-unique-characters-of-all-substrings-of-a-given-string.md) | [Go](./golang/0828_count_unique_characters_of_all_substrings_of_a_given_string.go) | _O(n)_ | _O(1)_ | Hard         ||
+| 1712 | [Ways to Split Array Into Three Subarrays](./problems/1712-ways-to-split-array-into-three-subarrays.md) | [Go](./golang/1712_ways_to_split_array_into_three_subarrays.go) | _O(n)_ | _O(n)_ | Medium | | Two Pointers, Prefix Sum |
+| 2348 | [Number of Zero-Filled Subarrays](./problems/2348-number-of-zero-filled-subarrays.md) | [Go](./golang/2348_number_of_zero_filled_subarrays.go) | _O(n)_ | _O(1)_ | Medium | | Two Pointers, Combinatorics |
+| 2393 | [Count Strictly Increasing Subarrays](./problems/2393-count-strictly-increasing-subarrays.md) | [Go](./golang/2393_count_strictly_increasing_subarrays.go) | _O(n)_ | _O(1)_ | Medium | 🔒 | Two Pointers |
+| 2444 | [Count Subarrays With Fixed Bounds](./problems/2444-count-subarrays-with-fixed-bounds.md) | [Go](./golang/2444_count_subarrays_with_fixed_bounds.go) | _O(n)_ | _O(1)_ | Hard | variant of [Number of Substrings Containing All Three Characters](https://leetcode.com/problems/number-of-substrings-containing-all-three-characters/) | Two Pointers |
+| 2461 | [Maximum Sum of Distinct Subarrays With Length K](./problems/2461-maximum-sum-of-distinct-subarrays-with-length-k.md) | [Go](./golang/2461_maximum_sum_of_distinct_subarrays_with_length_k.go) | _O(n)_ | _O(k)_ | Medium | | Two Pointers |
 | 2970 | [Count the Number of Incremovable Subarrays I](./problems/2970-count-the-number-of-incremovable-subarrays-i.md) | [Go](./golang/2970_count_the_number_of_incremovable_subarrays_i.go) | _O(n)_ | _O(1)_ | Easy | | Two Pointers, Brute Force
 | 2972 | [Count the Number of Incremovable Subarrays II](./problems/2972-count-the-number-of-incremovable-subarrays-ii.md) | [Go](./golang/2972_count_the_number_of_incremovable_subarrays_ii.go) | _O(n)_ | _O(1)_ | Hard | | Two Pointers
+
+---
+
+### 9. Math & Geometry
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
+| 0287 | [Find the Duplicate Number](./problems/0287-find-the-duplicate-number.md) | [Go](./golang/0287_find_the_duplicate_number.go)   | _O(n)_          | _O(1)_          | Hard       | | Binary Search, Two Pointers |
+| 0611 | [Valid Triangle Number](./problems/0611-valid-triangle-number.md) | [Go](./golang/0611_valid_triangle_number.go) | _O(n^2)_ | _O(1)_ | Medium         ||
+| 0826 | [Most Profit Assigning Work](./problems/0826-most-profit-assigning-work.md) | [Go](./golang/0826_most_profit_assigning_work.go) | _O(mlogm + nlogn)_ | _O(n)_ | Medium         ||
+| 1033 | [Moving Stones Until Consecutive](./problems/1033-moving-stones-until-consecutive.md) | [Go](./golang/1033_moving_stones_until_consecutive.go) | _O(1)_ | _O(1)_      | Easy         ||
+| 1040 | [Moving Stones Until Consecutive II](./problems/1040-moving-stones-until-consecutive-ii.md) | [Go](./golang/1040_moving_stones_until_consecutive_ii.go) | _O(nlogn)_ | _O(1)_      | Medium         ||
+| 2234 | [Maximum Total Beauty of the Gardens](./problems/2234-maximum-total-beauty-of-the-gardens.md) | [Go](./golang/2234_maximum_total_beauty_of_the_gardens.go) | _O(nlogn)_ | _O(1)_ | Hard | | Sort, Prefix Sum, Greedy, Binary Search, Two Pointers
