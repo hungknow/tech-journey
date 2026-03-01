@@ -34,6 +34,8 @@
 | 2196 | [Create Binary Tree From Descriptions](./problems/2196-create-binary-tree-from-descriptions.md) | [Go](./golang/2196_create_binary_tree_from_descriptions.go)| _O(n)_ | _O(n)_ | Medium | | |
 | 1612 | [Check If Two Expression Trees are Equivalent](./problems/1612-check-if-two-expression-trees-are-equivalent.md) | [Go](./golang/1612_check_if_two_expression_trees_are_equivalent.go) | _O(n)_| _O(1)_| Medium           |🔒| `Morris Traversal`, Inorder Traversal, Stack, Hash Table | 
 
+| 0117 | [Populating Next Right Pointers in Each Node II](./problems/0117-populating-next-right-pointers-in-each-node-ii.md) || _O(n)_ | _O(1)_ | Hard ||
+
 ---
 
 ### 2. BST & Search
@@ -127,4 +129,18 @@
 | 2236 | [Root Equals Sum of Children](./problems/2236-root-equals-sum-of-children.md) | [Go](./golang/2236_root_equals_sum_of_children.go)| _O(1)_ | _O(1)_ | Easy | | Tree |
 | 2277 | [Closest Node to Path in Tree](./problems/2277-closest-node-to-path-in-tree.md) | [Go](./golang/2277_closest_node_to_path_in_tree.go)| _O(n + q)_ | _O(n + q)_ | Hard | 🔒 | Tree, BFS, Binary Lifting, `Tarjan's Offline LCA Algorithm` |
 | 2509 | [Cycle Length Queries in a Tree](./problems/2509-cycle-length-queries-in-a-tree.md) | [Go](./golang/2509_cycle_length_queries_in_a_tree.go)| _O(q * n)_ | _O(1)_ | Hard | | Tree, LCA |
+| 0310 | [Minimum Height Trees](./problems/0310-minimum-height-trees.md) | [Go](./golang/0310_minimum_height_trees.go)   | _O(n)_          | _O(n)_          | Medium         ||
+| 0666 | [Path Sum IV](./problems/0666-path-sum-iv.md) | [Go](./golang/0666_path_sum_iv.go)   | _O(n)_          | _O(w)_          | Medium         |🔒| Topological Sort |
+| 0742 | [Closest Leaf in a Binary Tree](./problems/0742-closest-leaf-in-a-binary-tree.md) | [Go](./golang/0742_closest_leaf_in_a_binary_tree.go)| _O(n)_ | _O(n)_ | Medium | | |
+| 1161 | [Maximum Level Sum of a Binary Tree](./problems/1161-maximum-level-sum-of-a-binary-tree.md) | [Go](./golang/1161_maximum_level_sum_of_a_binary_tree.go)| _O(n)_ | _O(w)_ | Medium | | DFS |
+| 1245 | [Tree Diameter](./problems/1245-tree-diameter.md) | [Go](./golang/1245_tree_diameter.go)   | _O(\|V\| + \|E\|)_         | _O(\|E\|)_          | Medium         | variant of [Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree/) ||
+| 1302 | [Deepest Leaves Sum](./problems/1302-deepest-leaves-sum.md) | [Go](./golang/1302_deepest_leaves_sum.go)| _O(n)_ | _O(w)_ | Medium | | |
+| 1602 | [Find Nearest Right Node in Binary Tree](./problems/1602-find-nearest-right-node-in-binary-tree.md) | [Go](./golang/1602_find_nearest_right_node_in_binary_tree.go)| _O(n)_ | _O(w)_ | Medium |🔒|
+| 1609 | [Even Odd Tree](./problems/1609-even-odd-tree.md) | [Go](./golang/1609_even_odd_tree.go)| _O(n)_ | _O(w)_ | Medium ||
+| 1660 | [Correct a Binary Tree](./problems/1660-correct-a-binary-tree.md) | [Go](./golang/1660_correct_a_binary_tree.go)| _O(n)_ | _O(w)_ | Medium |🔒| BFS
+| 2415 | [Reverse Odd Levels of Binary Tree](./problems/2415-reverse-odd-levels-of-binary-tree.md) | [Go](./golang/2415_reverse_odd_levels_of_binary_tree.go)| _O(n)_ | _O(n)_ | Medium | | BFS |
+| 2471 | [Minimum Number of Operations to Sort a Binary Tree by Level](./problems/2471-minimum-number-of-operations-to-sort-a-binary-tree-by-level.md) | [Go](./golang/2471_minimum_number_of_operations_to_sort_a_binary_tree_by_level.go)| _O(nlogn)_ | _O(w)_ | Medium | | Sort, BFS |
+| 2583 | [Kth Largest Sum in a Binary Tree](./problems/2583-kth-largest-sum-in-a-binary-tree.md) | [Go](./golang/2583_kth_largest_sum_in_a_binary_tree.go)| _O(n)_ | _O(n)_ | Medium | | BFS, Quick Select |
+| 2603 | [Collect Coins in a Tree](./problems/2603-collect-coins-in-a-tree.md) | [Go](./golang/2603_collect_coins_in_a_tree.go) | _O(n)_ | _O(n)_| Hard           || Tree, BFS |
+| 2641 | [Cousins in Binary Tree II](./problems/2641-cousins-in-binary-tree-ii.md) | [Go](./golang/2641_cousins_in_binary_tree_ii.go) | _O(n)_ | _O(w)_| Medium           || BFS |
 | 2846 | [Minimum Edge Weight Equilibrium Queries in a Tree](./problems/2846-minimum-edge-weight-equilibrium-queries-in-a-tree.md) | [Go](./golang/2846_minimum_edge_weight_equilibrium_queries_in_a_tree.go)| _O(r * (n + q))_ | _O(r * n + q)_ | Hard | | Tree, Binary Lifting, `Tarjan's Offline LCA Algorithm` |

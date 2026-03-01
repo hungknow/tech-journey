@@ -28,6 +28,7 @@
 | 0174 | [Dungeon Game](./problems/0174-dungeon-game.md) |  [Go](./golang/0174_dungeon_game.go)| _O(m * n)_     | _O(m + n)_      | Hard           ||
 | 0221 | [Maximal Square](./problems/0221-maximal-square.md) | [Go](./golang/0221_maximal_square.go) | _O(n^2)_         | _O(n)_          | Medium           | EPI |
 | 0980 | [Unique Paths III](./problems/0980-unique-paths-iii.md) | [Go](./golang/0980_unique_paths_iii.go) |  _O((m * n) * 2^(m * n))_ | _O((m * n) * 2^(m * n))_   | Hard         ||
+| 0542 | [01 Matrix](./problems/0542-01-matrix.md) | [Go](./golang/0542_01_matrix.go)   | _O(m * n)_          | _O(1)_          | Medium         || DP
 | 2304 | [Minimum Path Cost in a Grid](./problems/2304-minimum-path-cost-in-a-grid.md) | [Go](./golang/2304_minimum_path_cost_in_a_grid.go) | _O(m * n^2)_ | _O(n)_ | Medium | | DP
 
 ---

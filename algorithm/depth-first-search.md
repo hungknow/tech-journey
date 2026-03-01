@@ -21,6 +21,7 @@
 | 0733 | [Max Area of Island](./problems/0733-flood-fill.md) | [Go](./golang/0733_flood_fill.go) | _O(m * n)_          | _O(m * n)_          | Easy           ||
 | 1254 | [Number of Closed Islands](./problems/1254-number-of-closed-islands.md) | [Go](./golang/1254_number_of_closed_islands.go) | _O(m * n)_          | _O(1)_          | Medium           |||
 | 1722 | [Minimize Hamming Distance After Swap Operations](./problems/1722-minimize-hamming-distance-after-swap-operations.md) | [Go](./golang/1722_minimize_hamming_distance_after_swap_operations.go) | _O(n)_          | _O(n)_          | Medium           || Flood Fill, Union Find |
+| 0130 | [Surrounded Regions](./problems/0130-surrounded-regions.md) |[Go](./golang/0130_surrounded_regions.go)| _O(m * n)_ | _O(m + n)_ | Medium         ||
 | 1905 | [Count Sub Islands](./problems/1905-count-sub-islands.md) | [Go](./golang/1905_count_sub_islands.go) | _O(m * n)_ | _O(1)_ | Medium | | Flood Fill |
 
 ---
