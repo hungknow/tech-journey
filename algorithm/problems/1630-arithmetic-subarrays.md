@@ -48,6 +48,28 @@ An arithmetic sequence has a fixed common difference. By checking that all eleme
 - **Time**: O(m * n) where m is the number of queries and n is the average subarray length
 - **Space**: O(m) for the answer array
 
+## Solution Code
+
+```go
+func checkArithmeticSubarrays(nums []int, l []int, r []int) []bool {
+	result := make([]bool, len(l))
+	for i := range l {
+		sub := make([]int, r[i]-l[i]+1)
+		copy(sub, nums[l[i]:r[i]+1])
+		sort.Ints(sub)
+		result[i] = true
+		diff := sub[1] - sub[0]
+		for j := 2; j < len(sub); j++ {
+			if sub[j]-sub[j-1] != diff {
+				result[i] = false
+				break
+			}
+		}
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 1630 Arithmetic Subarrays](https://leetcode.com/problems/arithmetic-subarrays/)

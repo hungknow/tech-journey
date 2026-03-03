@@ -54,6 +54,20 @@ We need to find the k closest points to the origin. There are several approaches
 - **Time**: O(n) on average for Quickselect, O(n log k) for heap approach, O(n log n) for sorting approach
 - **Space**: O(k) for heap approach, O(1) for Quickselect (in-place), O(n) for sorting approach
 
+## Solution Code
+
+```go
+func kClosest(points [][]int, k int) [][]int {
+	dist := func(i int) int {
+		return points[i][0]*points[i][0] + points[i][1]*points[i][1]
+	}
+	sort.Slice(points, func(i, j int) bool {
+		return dist(i) < dist(j)
+	})
+	return points[:k]
+}
+```
+
 ## Link
 
 [LeetCode 0973 K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/)

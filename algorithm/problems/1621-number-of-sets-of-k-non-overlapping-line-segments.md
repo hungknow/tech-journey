@@ -51,6 +51,29 @@ The DP state captures the subproblem of placing segments up to a certain point. 
 - **Time**: O(n * k) - nested loops through n and k
 - **Space**: O(n * k) - DP table
 
+## Solution Code
+
+```go
+func numberOfSets(n int, k int) int {
+	const mod = 1e9 + 7
+	dp := make([][]int, n)
+	for i := range dp {
+		dp[i] = make([]int, k+1)
+	}
+	dp[0][0] = 1
+	for i := 1; i < n; i++ {
+		dp[i][0] = 1
+		for j := 1; j <= k; j++ {
+			dp[i][j] = dp[i-1][j]
+			for s := 0; s < i; s++ {
+				dp[i][j] = (dp[i][j] + dp[s][j-1]) % mod
+			}
+		}
+	}
+	return dp[n-1][k]
+}
+```
+
 ## Link
 
 [LeetCode 1621 Number of Sets of K Non-Overlapping Line Segments](https://leetcode.com/problems/number-of-sets-of-k-non-overlapping-line-segments/)

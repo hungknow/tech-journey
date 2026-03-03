@@ -52,6 +52,27 @@ If the range of numbers is limited:
 - **Time**: O(n log n) for sorting approach, O(n + m) for counting sort where m is the range of values
 - **Space**: O(n) for both approaches
 
+## Solution Code
+
+```go
+func smallerNumbersThanCurrent(nums []int) []int {
+	sorted := make([]int, len(nums))
+	copy(sorted, nums)
+	sort.Ints(sorted)
+	rank := make(map[int]int)
+	for i, v := range sorted {
+		if _, ok := rank[v]; !ok {
+			rank[v] = i
+		}
+	}
+	result := make([]int, len(nums))
+	for i, v := range nums {
+		result[i] = rank[v]
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 1365 How Many Numbers Are Smaller Than the Current Number](https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/)

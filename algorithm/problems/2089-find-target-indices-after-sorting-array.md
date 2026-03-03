@@ -63,6 +63,21 @@ By sorting and using binary search or counting sort, we efficiently find all occ
 - **Time**: O(n log n) for sorting and binary search, O(n + m) for counting sort where m is the range of values
 - **Space**: O(n) for the result list or count array
 
+## Solution Code
+
+```go
+func targetIndices(nums []int, target int) []int {
+	sort.Ints(nums)
+	var result []int
+	for i, v := range nums {
+		if v == target {
+			result = append(result, i)
+		}
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 2089 Find Target Indices After Sorting Array](https://leetcode.com/problems/find-target-indices-after-sorting-array/)

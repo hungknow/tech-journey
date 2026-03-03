@@ -42,6 +42,60 @@ To achieve linear time complexity, we can use the Pigeonhole Principle with buck
 - **Time**: O(n) - single pass to find min/max, another pass to place elements in buckets, and a final pass to find the maximum gap
 - **Space**: O(n) - for the buckets
 
+## Solution Code
+
+```go
+func maximumGap(nums []int) int {
+	if len(nums) < 2 {
+		return 0
+	}
+	minVal, maxVal := nums[0], nums[0]
+	for _, v := range nums {
+		if v < minVal {
+			minVal = v
+		}
+		if v > maxVal {
+			maxVal = v
+		}
+	}
+	if maxVal == minVal {
+		return 0
+	}
+	n := len(nums)
+	bucketSize := (maxVal - minVal + n - 2) / (n - 1)
+	minBucket := make([]int, n)
+	maxBucket := make([]int, n)
+	for i := range minBucket {
+		minBucket[i] = 1<<31 - 1
+		maxBucket[i] = -1
+	}
+	for _, v := range nums {
+		idx := (v - minVal) / bucketSize
+		if idx >= n {
+			idx = n - 1
+		}
+		if v < minBucket[idx] {
+			minBucket[idx] = v
+		}
+		if v > maxBucket[idx] {
+			maxBucket[idx] = v
+		}
+	}
+	maxGap := 0
+	prevMax := minVal
+	for i := 0; i < n; i++ {
+		if maxBucket[i] == -1 {
+			continue
+		}
+		if minBucket[i]-prevMax > maxGap {
+			maxGap = minBucket[i] - prevMax
+		}
+		prevMax = maxBucket[i]
+	}
+	return maxGap
+}
+```
+
 ## Link
 
 [LeetCode 0164 Maximum Gap](https://leetcode.com/problems/maximum-gap/)

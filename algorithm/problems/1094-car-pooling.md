@@ -50,6 +50,31 @@ If the locations are within a reasonable range:
 - **Time**: O(n log n) for sorting approach, O(n + m) for array approach where m is the range of locations
 - **Space**: O(n) for sorting approach, O(m) for array approach
 
+## Solution Code
+
+```go
+func carPooling(trips [][]int, capacity int) bool {
+	var events [][]int
+	for _, t := range trips {
+		events = append(events, []int{t[1], t[0]}, []int{t[2], -t[0]})
+	}
+	sort.Slice(events, func(i, j int) bool {
+		if events[i][0] != events[j][0] {
+			return events[i][0] < events[j][0]
+		}
+		return events[i][1] < events[j][1]
+	})
+	cur := 0
+	for _, e := range events {
+		cur += e[1]
+		if cur > capacity {
+			return false
+		}
+	}
+	return true
+}
+```
+
 ## Link
 
 [LeetCode 1094 Car Pooling](https://leetcode.com/problems/car-pooling/)

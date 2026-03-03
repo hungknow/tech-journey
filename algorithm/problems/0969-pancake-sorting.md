@@ -51,6 +51,35 @@ By moving the largest unsorted element to its correct position in each iteration
 - **Time**: O(n²) - for each of the n elements, we might search through the unsorted portion
 - **Space**: O(n) - for storing the flip operations (the result)
 
+## Solution Code
+
+```go
+func pancakeSort(arr []int) []int {
+	var result []int
+	for n := len(arr); n > 1; n-- {
+		maxIdx := 0
+		for i := 1; i < n; i++ {
+			if arr[i] > arr[maxIdx] {
+				maxIdx = i
+			}
+		}
+		if maxIdx != n-1 {
+			if maxIdx > 0 {
+				for i, j := 0, maxIdx; i < j; i, j = i+1, j-1 {
+					arr[i], arr[j] = arr[j], arr[i]
+				}
+				result = append(result, maxIdx+1)
+			}
+			for i, j := 0, n-1; i < j; i, j = i+1, j-1 {
+				arr[i], arr[j] = arr[j], arr[i]
+			}
+			result = append(result, n)
+		}
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 0969 Pancake Sorting](https://leetcode.com/problems/pancake-sorting/)

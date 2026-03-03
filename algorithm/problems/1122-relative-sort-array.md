@@ -48,6 +48,32 @@ We need to sort arr1 according to the order specified in arr2, with remaining el
 - **Time**: O(n log n) - dominated by sorting
 - **Space**: O(n) - for the frequency map and result list
 
+## Solution Code
+
+```go
+func relativeSortArray(arr1 []int, arr2 []int) []int {
+	order := make(map[int]int)
+	for i, v := range arr2 {
+		order[v] = i
+	}
+	sort.Slice(arr1, func(i, j int) bool {
+		oi, oki := order[arr1[i]]
+		oj, okj := order[arr1[j]]
+		if oki && okj {
+			return oi < oj
+		}
+		if oki {
+			return true
+		}
+		if okj {
+			return false
+		}
+		return arr1[i] < arr1[j]
+	})
+	return arr1
+}
+```
+
 ## Link
 
 [LeetCode 1122 Relative Sort Array](https://leetcode.com/problems/relative-sort-array/)

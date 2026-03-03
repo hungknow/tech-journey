@@ -60,6 +60,33 @@ By sorting and processing segments in order, we can efficiently identify and mer
 - **Time**: O(n log n) - dominated by sorting
 - **Space**: O(n) - for the result list
 
+## Solution Code
+
+```go
+func splitPainting(segments [][]int) [][]int64 {
+	type event struct {
+		pos   int
+		delta int64
+	}
+	var events []event
+	for _, s := range segments {
+		events = append(events, event{s[0], int64(s[2])}, event{s[1], -int64(s[2])})
+	}
+	sort.Slice(events, func(i, j int) bool { return events[i].pos < events[j].pos })
+	var result [][]int64
+	var cur int64
+	start := -1
+	for _, e := range events {
+		if start >= 0 && e.pos > start && cur > 0 {
+			result = append(result, []int64{int64(start), int64(e.pos), cur})
+		}
+		cur += e.delta
+		start = e.pos
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 1943 Describe the Painting](https://leetcode.com/problems/describe-the-painting/)

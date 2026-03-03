@@ -42,6 +42,25 @@ After sorting, the vertical area between two consecutive x-coordinates contains 
 - **Time**: O(n log n) - dominated by sorting
 - **Space**: O(1) - we can sort in-place (or O(n) if using extra space for sorting)
 
+## Solution Code
+
+```go
+func maxWidthOfVerticalArea(points [][]int) int {
+	xs := make([]int, len(points))
+	for i, p := range points {
+		xs[i] = p[0]
+	}
+	sort.Ints(xs)
+	max := 0
+	for i := 1; i < len(xs); i++ {
+		if xs[i]-xs[i-1] > max {
+			max = xs[i] - xs[i-1]
+		}
+	}
+	return max
+}
+```
+
 ## Link
 
 [LeetCode 1637 Widest Vertical Area Between Two Points Containing No Points](https://leetcode.com/problems/widest-vertical-area-between-two-points-containing-no-points/)

@@ -39,6 +39,26 @@ For insertion sort on a linked list, we maintain a sorted portion and an unsorte
 - **Time**: O(n²) - in the worst case, for each node we might traverse through the entire sorted portion
 - **Space**: O(1) - we're rearranging the existing nodes without creating new ones
 
+## Solution Code
+
+```go
+func insertionSortList(head *ListNode) *ListNode {
+	dummy := &ListNode{}
+	curr := head
+	for curr != nil {
+		next := curr.Next
+		prev := dummy
+		for prev.Next != nil && prev.Next.Val < curr.Val {
+			prev = prev.Next
+		}
+		curr.Next = prev.Next
+		prev.Next = curr
+		curr = next
+	}
+	return dummy.Next
+}
+```
+
 ## Link
 
 [LeetCode 0147 Insertion Sort List](https://leetcode.com/problems/insertion-sort-list/)

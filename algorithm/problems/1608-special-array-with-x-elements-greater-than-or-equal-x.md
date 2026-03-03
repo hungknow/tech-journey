@@ -59,6 +59,30 @@ After sorting in descending order, if `nums[i] >= i+1`, then there are at least 
 - **Time**: O(n log n) for sorting approach, O(n + m) for counting sort where m is the maximum value
 - **Space**: O(1) for sorting approach, O(m) for counting sort
 
+## Solution Code
+
+```go
+func specialArray(nums []int) int {
+	n := len(nums)
+	count := make([]int, n+1)
+	for _, v := range nums {
+		if v >= n {
+			count[n]++
+		} else {
+			count[v]++
+		}
+	}
+	acc := 0
+	for x := n; x >= 0; x-- {
+		acc += count[x]
+		if acc == x {
+			return x
+		}
+	}
+	return -1
+}
+```
+
 ## Link
 
 [LeetCode 1608 Special Array With X Elements Greater Than or Equal X](https://leetcode.com/problems/special-array-with-x-elements-greater-than-or-equal-x/)

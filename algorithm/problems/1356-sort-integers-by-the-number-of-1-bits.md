@@ -53,6 +53,29 @@ Since the maximum number of 1's is limited (at most 32 for a 32-bit integer):
 - **Time**: O(n log n) for sorting approach, O(n log m) for bucket sort where m is the maximum value
 - **Space**: O(1) for sorting approach, O(n) for bucket sort
 
+## Solution Code
+
+```go
+func sortByBits(arr []int) []int {
+	bits := func(x int) int {
+		c := 0
+		for x > 0 {
+			c += x & 1
+			x >>= 1
+		}
+		return c
+	}
+	sort.Slice(arr, func(i, j int) bool {
+		bi, bj := bits(arr[i]), bits(arr[j])
+		if bi != bj {
+			return bi < bj
+		}
+		return arr[i] < arr[j]
+	})
+	return arr
+}
+```
+
 ## Link
 
 [LeetCode 1356 Sort Integers by The Number of 1 Bits](https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/)

@@ -44,6 +44,60 @@ By placing larger elements at odd indices and smaller elements at even indices, 
 - **Time**: O(n) on average - quickselect to find the median and a single pass for partitioning
 - **Space**: O(1) - in-place rearrangement with constant extra space
 
+## Solution Code
+
+```go
+func wiggleSort(nums []int) {
+	n := len(nums)
+	if n == 0 {
+		return
+	}
+	mid := quickSelectKth(nums, 0, n-1, (n+1)/2)
+	idx := func(i int) int { return (1 + 2*i) % (n | 1) }
+	i, j, k := 0, 0, n-1
+	for j <= k {
+		if nums[idx(j)] > mid {
+			nums[idx(i)], nums[idx(j)] = nums[idx(j)], nums[idx(i)]
+			i++
+			j++
+		} else if nums[idx(j)] < mid {
+			nums[idx(j)], nums[idx(k)] = nums[idx(k)], nums[idx(j)]
+			k--
+		} else {
+			j++
+		}
+	}
+}
+
+func quickSelectKth(arr []int, left, right, k int) int {
+	if left == right {
+		return arr[left]
+	}
+	pivot := arr[(left+right)/2]
+	i, j := left, right
+	for i <= j {
+		for i <= j && arr[i] < pivot {
+			i++
+		}
+		for i <= j && arr[j] > pivot {
+			j--
+		}
+		if i <= j {
+			arr[i], arr[j] = arr[j], arr[i]
+			i++
+			j--
+		}
+	}
+	if left+k-1 <= j {
+		return quickSelectKth(arr, left, j, k)
+	}
+	if left+k-1 >= i {
+		return quickSelectKth(arr, i, right, k-(i-left))
+	}
+	return pivot
+}
+```
+
 ## Link
 
 [LeetCode 0324 Wiggle Sort II](https://leetcode.com/problems/wiggle-sort-ii/)

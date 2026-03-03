@@ -55,6 +55,66 @@ By processing queries in descending order of minSize, we can maintain a TreeSet 
 - **Time**: O(n log n + q log q + (n + q) log n) where n is the number of rooms and q is the number of queries
 - **Space**: O(n) for the TreeSet
 
+## Solution Code
+
+```go
+func closestRoom(rooms [][]int, queries [][]int) []int {
+	sort.Slice(rooms, func(i, j int) bool {
+		return rooms[i][1] > rooms[j][1]
+	})
+	for i := range queries {
+		queries[i] = append(queries[i], i)
+	}
+	sort.Slice(queries, func(i, j int) bool {
+		return queries[i][1] > queries[j][1]
+	})
+	result := make([]int, len(queries))
+	for i := range result {
+		result[i] = -1
+	}
+	available := []int{}
+	j := 0
+	for _, q := range queries {
+		preferred, minSize, qi := q[0], q[1], q[2]
+		for j < len(rooms) && rooms[j][1] >= minSize {
+			available = append(available, rooms[j][0])
+			j++
+		}
+		if len(available) == 0 {
+			continue
+		}
+		sort.Ints(available)
+		idx := sort.SearchInts(available, preferred)
+		candidates := []int{-1, -1}
+		if idx < len(available) {
+			candidates[0] = available[idx]
+		}
+		if idx > 0 {
+			candidates[1] = available[idx-1]
+		}
+		best := -1
+		for _, c := range candidates {
+			if c == -1 {
+				continue
+			}
+			if best == -1 {
+				best = c
+			} else if abs(c-preferred) < abs(best-preferred) || (abs(c-preferred) == abs(best-preferred) && c < best) {
+				best = c
+			}
+		}
+		result[qi] = best
+	}
+	return result
+}
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
+```
+
 ## Link
 
 [LeetCode 1847 Closest Room](https://leetcode.com/problems/closest-room/)

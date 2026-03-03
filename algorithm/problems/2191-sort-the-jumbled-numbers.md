@@ -54,6 +54,29 @@ By calculating and comparing mapped values, we achieve the desired sorting based
 - **Time**: O(n × d log n) where n is the number of elements and d is the average number of digits
 - **Space**: O(n) - for storing the mapped values
 
+## Solution Code
+
+```go
+func sortJumbled(mapping []int, nums []int) []int {
+	mapVal := func(x int) int {
+		if x == 0 {
+			return mapping[0]
+		}
+		v, mult := 0, 1
+		for x > 0 {
+			v += mapping[x%10] * mult
+			x /= 10
+			mult *= 10
+		}
+		return v
+	}
+	sort.Slice(nums, func(i, j int) bool {
+		return mapVal(nums[i]) < mapVal(nums[j])
+	})
+	return nums
+}
+```
+
 ## Link
 
 [LeetCode 2191 Sort the Jumbled Numbers](https://leetcode.com/problems/sort-the-jumbled-numbers/)

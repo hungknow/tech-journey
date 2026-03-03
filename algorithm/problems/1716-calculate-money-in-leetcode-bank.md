@@ -56,6 +56,20 @@ The pattern increases by $1 for each day of the week, and each subsequent week a
 - **Time**: O(1) - constant time calculations
 - **Space**: O(1) - constant extra space
 
+## Solution Code
+
+```go
+func totalMoney(n int) int {
+	weeks := n / 7
+	rem := n % 7
+	sum := weeks * 28
+	sum += 7 * weeks * (weeks - 1) / 2
+	sum += rem * (weeks + 1)
+	sum += rem * (rem - 1) / 2
+	return sum
+}
+```
+
 ## Link
 
 [LeetCode 1716 Calculate Money in Leetcode Bank](https://leetcode.com/problems/calculate-money-in-leetcode-bank/)

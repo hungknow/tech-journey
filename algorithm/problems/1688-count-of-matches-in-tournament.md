@@ -46,6 +46,14 @@ This is a mathematical observation. In any single-elimination tournament, each m
 - **Time**: O(1) - constant time
 - **Space**: O(1) - constant extra space
 
+## Solution Code
+
+```go
+func numberOfMatches(n int) int {
+	return n - 1
+}
+```
+
 ## Link
 
 [LeetCode 1688 Count of Matches in Tournament](https://leetcode.com/problems/count-of-matches-in-tournament/)

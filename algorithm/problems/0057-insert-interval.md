@@ -43,6 +43,37 @@ The key insight is to process the intervals in three phases:
 - **Time**: O(n) - single pass through the intervals
 - **Space**: O(n) - for the result list
 
+## Solution Code
+
+```go
+func insert(intervals [][]int, newInterval []int) [][]int {
+	result := [][]int{}
+	added := false
+	for i := 0; i < len(intervals); i++ {
+		if intervals[i][1] < newInterval[0] {
+			result = append(result, intervals[i])
+		} else if intervals[i][0] > newInterval[1] {
+			if !added {
+				result = append(result, newInterval)
+				added = true
+			}
+			result = append(result, intervals[i])
+		} else {
+			if newInterval[0] > intervals[i][0] {
+				newInterval[0] = intervals[i][0]
+			}
+			if newInterval[1] < intervals[i][1] {
+				newInterval[1] = intervals[i][1]
+			}
+		}
+	}
+	if !added {
+		result = append(result, newInterval)
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 0057 Insert Interval](https://leetcode.com/problems/insert-interval/)

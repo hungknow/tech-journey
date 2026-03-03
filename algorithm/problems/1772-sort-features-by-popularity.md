@@ -48,6 +48,37 @@ By counting the frequency of each feature and sorting accordingly, we get the de
 - **Time**: O(n × m + n log n) where n is the number of features and m is the average number of words per response
 - **Space**: O(n) - for the frequency map
 
+## Solution Code
+
+```go
+func sortFeatures(features []string, responses []string) []string {
+	freq := make(map[string]int)
+	for _, f := range features {
+		freq[f] = 0
+	}
+	for _, r := range responses {
+		seen := make(map[string]bool)
+		for _, w := range strings.Fields(r) {
+			if _, ok := freq[w]; ok && !seen[w] {
+				seen[w] = true
+				freq[w]++
+			}
+		}
+	}
+	idx := make(map[string]int)
+	for i, f := range features {
+		idx[f] = i
+	}
+	sort.Slice(features, func(i, j int) bool {
+		if freq[features[i]] != freq[features[j]] {
+			return freq[features[i]] > freq[features[j]]
+		}
+		return idx[features[i]] < idx[features[j]]
+	})
+	return features
+}
+```
+
 ## Link
 
 [LeetCode 1772 Sort Features by Popularity](https://leetcode.com/problems/sort-features-by-popularity/)

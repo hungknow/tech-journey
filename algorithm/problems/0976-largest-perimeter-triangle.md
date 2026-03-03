@@ -39,6 +39,20 @@ After sorting in descending order, if three consecutive elements (a, b, c) don't
 - **Time**: O(n log n) - dominated by the sorting step
 - **Space**: O(1) - we can sort in-place (or O(n) if using extra space for sorting)
 
+## Solution Code
+
+```go
+func largestPerimeter(nums []int) int {
+	sort.Slice(nums, func(i, j int) bool { return nums[i] > nums[j] })
+	for i := 0; i+2 < len(nums); i++ {
+		if nums[i+1]+nums[i+2] > nums[i] {
+			return nums[i] + nums[i+1] + nums[i+2]
+		}
+	}
+	return 0
+}
+```
+
 ## Link
 
 [LeetCode 0976 Largest Perimeter Triangle](https://leetcode.com/problems/largest-perimeter-triangle/)

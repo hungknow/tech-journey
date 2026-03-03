@@ -44,6 +44,20 @@ By always choosing the largest available number, both players play optimally, wh
 - **Time**: O(n²) - in the worst case, each turn removes one element
 - **Space**: O(1) - constant extra space
 
+## Solution Code
+
+```go
+func numberGame(nums []int) []int {
+	sort.Ints(nums)
+	result := make([]int, len(nums))
+	for i := 0; i < len(nums); i += 2 {
+		result[i] = nums[i+1]
+		result[i+1] = nums[i]
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 2974 Minimum Number Game](https://leetcode.com/problems/minimum-number-game/)

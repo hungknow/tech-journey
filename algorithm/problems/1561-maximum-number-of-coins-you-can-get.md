@@ -52,6 +52,20 @@ After sorting in descending order, the optimal strategy is to let your friends t
 - **Time**: O(n log n) - dominated by sorting
 - **Space**: O(1) - we can sort in-place (or O(n) if using extra space for sorting)
 
+## Solution Code
+
+```go
+func maxCoins(piles []int) int {
+	sort.Ints(piles)
+	sum := 0
+	n := len(piles)
+	for i := n / 3; i < n; i += 2 {
+		sum += piles[i]
+	}
+	return sum
+}
+```
+
 ## Link
 
 [LeetCode 1561 Maximum Number of Coins You Can Get](https://leetcode.com/problems/maximum-number-of-coins-you-can-get/)

@@ -46,6 +46,41 @@ By checking all possible coordinates within the bounding box, we ensure we find 
 - **Time**: O(n²) where n is the range of coordinates
 - **Space**: O(1) - constant extra space
 
+## Solution Code
+
+```go
+func bestCoordinate(towers [][]int, radius int) []int {
+	maxX, maxY := 0, 0
+	for _, t := range towers {
+		if t[0] > maxX {
+			maxX = t[0]
+		}
+		if t[1] > maxY {
+			maxY = t[1]
+		}
+	}
+	maxQuality := -1
+	var result []int
+	for x := 0; x <= maxX+radius; x++ {
+		for y := 0; y <= maxY+radius; y++ {
+			q := 0
+			for _, t := range towers {
+				dx, dy := float64(x-t[0]), float64(y-t[1])
+				d := math.Sqrt(dx*dx + dy*dy)
+				if d <= float64(radius) {
+					q += int(float64(t[2]) / (1 + d))
+				}
+			}
+			if q > maxQuality {
+				maxQuality = q
+				result = []int{x, y}
+			}
+		}
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 1620 Coordinate With Maximum Network Quality](https://leetcode.com/problems/coordinate-with-maximum-network-quality/)

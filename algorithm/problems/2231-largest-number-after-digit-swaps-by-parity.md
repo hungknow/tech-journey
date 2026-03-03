@@ -50,6 +50,38 @@ By examining all possible single swaps, we guarantee finding the optimal solutio
 - **Time**: O(d²) where d is the number of digits
 - **Space**: O(1) - constant extra space
 
+## Solution Code
+
+```go
+func largestInteger(num int) int {
+	s := strconv.Itoa(num)
+	digits := []byte(s)
+	var even, odd []byte
+	for _, c := range digits {
+		d := int(c - '0')
+		if d%2 == 0 {
+			even = append(even, c)
+		} else {
+			odd = append(odd, c)
+		}
+	}
+	sort.Slice(even, func(i, j int) bool { return even[i] > even[j] })
+	sort.Slice(odd, func(i, j int) bool { return odd[i] > odd[j] })
+	ei, oi := 0, 0
+	for i := range digits {
+		if int(digits[i]-'0')%2 == 0 {
+			digits[i] = even[ei]
+			ei++
+		} else {
+			digits[i] = odd[oi]
+			oi++
+		}
+	}
+	result, _ := strconv.Atoi(string(digits))
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 2231 Largest Number After Digit Swaps by Parity](https://leetcode.com/problems/largest-number-after-digit-swaps-by-parity/)

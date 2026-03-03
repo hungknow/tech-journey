@@ -47,6 +47,55 @@ We need to find the k most frequent words, with ties broken by alphabetical orde
 - **Time**: O(n log k) for heap approach, O(n log n) for sorting approach
 - **Space**: O(n) for both approaches (hash map and heap/sorted list)
 
+## Solution Code
+
+```go
+import "container/heap"
+
+type wordFreq struct {
+	word string
+	freq int
+}
+type minHeap []wordFreq
+
+func (h minHeap) Len() int { return len(h) }
+func (h minHeap) Less(i, j int) bool {
+	if h[i].freq != h[j].freq {
+		return h[i].freq < h[j].freq
+	}
+	return h[i].word > h[j].word
+}
+func (h minHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *minHeap) Push(x interface{}) { *h = append(*h, x.(wordFreq)) }
+func (h *minHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[:n-1]
+	return x
+}
+
+func topKFrequent(words []string, k int) []string {
+	freq := make(map[string]int)
+	for _, w := range words {
+		freq[w]++
+	}
+	h := &minHeap{}
+	heap.Init(h)
+	for w, f := range freq {
+		heap.Push(h, wordFreq{w, f})
+		if h.Len() > k {
+			heap.Pop(h)
+		}
+	}
+	result := make([]string, k)
+	for i := k - 1; i >= 0; i-- {
+		result[i] = heap.Pop(h).(wordFreq).word
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 0692 Top K Frequent Words](https://leetcode.com/problems/top-k-frequent-words/)

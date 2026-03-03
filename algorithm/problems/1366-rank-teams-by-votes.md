@@ -65,6 +65,36 @@ We need to count the votes for each team at each position and then sort the team
 - **Time**: O(n × m × log m) where n is the number of votes and m is the number of teams
 - **Space**: O(m²) for storing vote counts for each team at each position
 
+## Solution Code
+
+```go
+func rankTeams(votes []string) string {
+	if len(votes) == 0 {
+		return ""
+	}
+	m := len(votes[0])
+	rank := make(map[byte][]int)
+	for _, c := range votes[0] {
+		rank[c] = make([]int, m)
+	}
+	for _, v := range votes {
+		for i, c := range v {
+			rank[c][i]++
+		}
+	}
+	teams := []byte(votes[0])
+	sort.Slice(teams, func(i, j int) bool {
+		for k := 0; k < m; k++ {
+			if rank[teams[i]][k] != rank[teams[j]][k] {
+				return rank[teams[i]][k] > rank[teams[j]][k]
+			}
+		}
+		return teams[i] < teams[j]
+	})
+	return string(teams)
+}
+```
+
 ## Link
 
 [LeetCode 1366 Rank Teams by Votes](https://leetcode.com/problems/rank-teams-by-votes/)

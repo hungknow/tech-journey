@@ -34,6 +34,25 @@ The key insight is that if we can attend all meetings, then no two meetings shou
 - **Time**: O(n log n) - dominated by the sorting step
 - **Space**: O(1) - we can sort in-place (or O(n) if using extra space for sorting)
 
+## Solution Code
+
+```go
+func canAttendMeetings(intervals [][]int) bool {
+	if len(intervals) <= 1 {
+		return true
+	}
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	for i := 1; i < len(intervals); i++ {
+		if intervals[i][0] < intervals[i-1][1] {
+			return false
+		}
+	}
+	return true
+}
+```
+
 ## Link
 
 [LeetCode 0252 Meeting Rooms](https://leetcode.com/problems/meeting-rooms/)

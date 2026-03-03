@@ -51,6 +51,34 @@ By separating vowels and consonants and sorting them independently, we achieve t
 - **Time**: O(n log n) - sorting
 - **Space**: O(n) - for storing the separated lists
 
+## Solution Code
+
+```go
+func sortVowels(s string) string {
+	vowels := "aeiouAEIOU"
+	isVowel := make(map[byte]bool)
+	for i := range vowels {
+		isVowel[vowels[i]] = true
+	}
+	var vow []byte
+	for i := range s {
+		if isVowel[s[i]] {
+			vow = append(vow, s[i])
+		}
+	}
+	sort.Slice(vow, func(i, j int) bool { return vow[i] < vow[j] })
+	j := 0
+	result := []byte(s)
+	for i := range result {
+		if isVowel[result[i]] {
+			result[i] = vow[j]
+			j++
+		}
+	}
+	return string(result)
+}
+```
+
 ## Link
 
 [LeetCode 2785 Sort Vowels in a String](https://leetcode.com/problems/sort-vowels-in-a-string/)

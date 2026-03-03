@@ -51,6 +51,31 @@ Both approaches efficiently find the intersection of multiple sorted arrays with
 - **Time**: O(n × m) where n is the total number of elements across all arrays and m is the number of arrays
 - **Space**: O(n) - for the hash map or result list
 
+## Solution Code
+
+```go
+func intersection(nums [][]int) []int {
+	count := make(map[int]int)
+	for _, arr := range nums {
+		seen := make(map[int]bool)
+		for _, v := range arr {
+			if !seen[v] {
+				seen[v] = true
+				count[v]++
+			}
+		}
+	}
+	var result []int
+	for v, c := range count {
+		if c == len(nums) {
+			result = append(result, v)
+		}
+	}
+	sort.Ints(result)
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 2248 Intersection of Multiple Arrays](https://leetcode.com/problems/intersection-of-multiple-arrays/)

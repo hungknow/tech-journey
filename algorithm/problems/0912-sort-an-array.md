@@ -43,6 +43,33 @@ This is a classic sorting problem. We can implement various sorting algorithms s
 - **Time**: O(n log n) for Merge Sort, Quick Sort (average), and Heap Sort
 - **Space**: O(n) for Merge Sort (due to the temporary array), O(log n) for Quick Sort (due to recursion), O(1) for Heap Sort
 
+## Solution Code
+
+```go
+func sortArray(nums []int) []int {
+	if len(nums) <= 1 {
+		return nums
+	}
+	mid := len(nums) / 2
+	left := sortArray(nums[:mid])
+	right := sortArray(nums[mid:])
+	result := make([]int, 0, len(nums))
+	i, j := 0, 0
+	for i < len(left) && j < len(right) {
+		if left[i] < right[j] {
+			result = append(result, left[i])
+			i++
+		} else {
+			result = append(result, right[j])
+			j++
+		}
+	}
+	result = append(result, left[i:]...)
+	result = append(result, right[j:]...)
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 0912 Sort an Array](https://leetcode.com/problems/sort-an-array/)

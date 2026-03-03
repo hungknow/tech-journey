@@ -43,6 +43,29 @@ The key insight is to work from the end of the arrays backward. This way, we can
 - **Time**: O(m + n) - single pass through both arrays
 - **Space**: O(1) - in-place merging with constant extra space
 
+## Solution Code
+
+```go
+func merge(nums1 []int, m int, nums2 []int, n int) {
+	p1, p2, p := m-1, n-1, m+n-1
+	for p1 >= 0 && p2 >= 0 {
+		if nums1[p1] > nums2[p2] {
+			nums1[p] = nums1[p1]
+			p1--
+		} else {
+			nums1[p] = nums2[p2]
+			p2--
+		}
+		p--
+	}
+	for p2 >= 0 {
+		nums1[p] = nums2[p2]
+		p2--
+		p--
+	}
+}
+```
+
 ## Link
 
 [LeetCode 0088 Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/)

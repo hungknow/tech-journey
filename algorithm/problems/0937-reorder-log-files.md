@@ -46,6 +46,31 @@ We need to separate the letter-logs from the digit-logs and sort the letter-logs
 - **Time**: O(n log n) - dominated by sorting the letter-logs
 - **Space**: O(n) - for storing the separated logs
 
+## Solution Code
+
+```go
+func reorderLogFiles(logs []string) []string {
+	var letterLogs, digitLogs []string
+	for _, log := range logs {
+		parts := strings.SplitN(log, " ", 2)
+		if len(parts[1]) > 0 && parts[1][0] >= '0' && parts[1][0] <= '9' {
+			digitLogs = append(digitLogs, log)
+		} else {
+			letterLogs = append(letterLogs, log)
+		}
+	}
+	sort.Slice(letterLogs, func(i, j int) bool {
+		a := strings.SplitN(letterLogs[i], " ", 2)
+		b := strings.SplitN(letterLogs[j], " ", 2)
+		if a[1] != b[1] {
+			return a[1] < b[1]
+		}
+		return a[0] < b[0]
+	})
+	return append(letterLogs, digitLogs...)
+}
+```
+
 ## Link
 
 [LeetCode 0937 Reorder Log Files](https://leetcode.com/problems/reorder-log-files/)

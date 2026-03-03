@@ -55,6 +55,17 @@ Both approaches efficiently find the kth largest scores in O(n) average time.
 - **Time**: O(n) on average for quickselect, O(n log k) for heap approach
 - **Space**: O(k) for the heap
 
+## Solution Code
+
+```go
+func sortTheStudents(score [][]int, k int) [][]int {
+	sort.Slice(score, func(i, j int) bool {
+		return score[i][k] > score[j][k]
+	})
+	return score
+}
+```
+
 ## Link
 
 [LeetCode 2545 Sort the Students by Their Kth Score](https://leetcode.com/problems/sort-the-students-by-their-kth-score/)

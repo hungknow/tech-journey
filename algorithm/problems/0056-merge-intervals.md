@@ -36,6 +36,31 @@ The key insight is to sort the intervals by their start time. Once sorted, we ca
 - **Time**: O(n log n) - dominated by the sorting step
 - **Space**: O(n) - for the result list (can be O(1) if we modify in-place)
 
+## Solution Code
+
+```go
+func merge(intervals [][]int) [][]int {
+	if len(intervals) == 0 {
+		return nil
+	}
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	result := [][]int{intervals[0]}
+	for i := 1; i < len(intervals); i++ {
+		last := result[len(result)-1]
+		if intervals[i][0] <= last[1] {
+			if intervals[i][1] > last[1] {
+				result[len(result)-1][1] = intervals[i][1]
+			}
+		} else {
+			result = append(result, intervals[i])
+		}
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 0056 Merge Intervals](https://leetcode.com/problems/merge-intervals/)

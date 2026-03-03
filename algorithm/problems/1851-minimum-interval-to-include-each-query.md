@@ -52,6 +52,56 @@ By sorting intervals and using binary search, we efficiently find the smallest i
 - **Time**: O(n log n + q log n) for sorting and binary search
 - **Space**: O(n) - for the sorted intervals
 
+## Solution Code
+
+```go
+import "container/heap"
+
+type interval struct{ left, right, size int }
+type minHeap []interval
+func (h minHeap) Len() int            { return len(h) }
+func (h minHeap) Less(i, j int) bool { return h[i].size < h[j].size || (h[i].size == h[j].size && h[i].left < h[j].left) }
+func (h minHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+func (h *minHeap) Push(x interface{}) { *h = append(*h, x.(interval)) }
+func (h *minHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[:n-1]
+	return x
+}
+
+func minInterval(intervals [][]int, queries []int) []int {
+	sort.Slice(intervals, func(i, j int) bool { return intervals[i][0] < intervals[j][0] })
+	type query struct{ q, i int }
+	qs := make([]query, len(queries))
+	for i, q := range queries {
+		qs[i] = query{q, i}
+	}
+	sort.Slice(qs, func(i, j int) bool { return qs[i].q < qs[j].q })
+	h := &minHeap{}
+	heap.Init(h)
+	result := make([]int, len(queries))
+	j := 0
+	for _, q := range qs {
+		for j < len(intervals) && intervals[j][0] <= q.q {
+			size := intervals[j][1] - intervals[j][0] + 1
+			heap.Push(h, interval{intervals[j][0], intervals[j][1], size})
+			j++
+		}
+		for h.Len() > 0 && (*h)[0].right < q.q {
+			heap.Pop(h)
+		}
+		if h.Len() > 0 {
+			result[q.i] = (*h)[0].size
+		} else {
+			result[q.i] = 0
+		}
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 1851 Minimum Interval to Include Each Query](https://leetcode.com/problems/minimum-interval-to-include-each-query/)

@@ -44,6 +44,26 @@ After sorting, the optimal strategy will always involve changing either the larg
 - **Time**: O(n log n) - dominated by sorting
 - **Space**: O(1) - we can sort in-place (or O(n) if using extra space for sorting)
 
+## Solution Code
+
+```go
+func minDifference(nums []int) int {
+	if len(nums) <= 4 {
+		return 0
+	}
+	sort.Ints(nums)
+	n := len(nums)
+	ans := nums[n-1] - nums[0]
+	for i := 0; i <= 3; i++ {
+		diff := nums[n-1-3+i] - nums[i]
+		if diff < ans {
+			ans = diff
+		}
+	}
+	return ans
+}
+```
+
 ## Link
 
 [LeetCode 1509 Minimum Difference Between Largest and Smallest Value in Three Moves](https://leetcode.com/problems/minimum-difference-between-largest-and-smallest-value-in-three-moves/)

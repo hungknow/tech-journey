@@ -54,6 +54,31 @@ By separating even and odd indexed elements and sorting them independently, we a
 - **Time**: O(n log n) - sorting the two subarrays
 - **Space**: O(n) - for storing the two subarrays
 
+## Solution Code
+
+```go
+func sortEvenOdd(nums []int) []int {
+	var even, odd []int
+	for i, v := range nums {
+		if i%2 == 0 {
+			even = append(even, v)
+		} else {
+			odd = append(odd, v)
+		}
+	}
+	sort.Ints(even)
+	sort.Slice(odd, func(i, j int) bool { return odd[i] > odd[j] })
+	for i := range nums {
+		if i%2 == 0 {
+			nums[i] = even[i/2]
+		} else {
+			nums[i] = odd[i/2]
+		}
+	}
+	return nums
+}
+```
+
 ## Link
 
 [LeetCode 2164 Sort Even and Odd Indices Independently](https://leetcode.com/problems/sort-even-and-odd-indices-independently/)

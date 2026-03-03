@@ -52,6 +52,33 @@ By sorting by price in descending order, we can efficiently find the most beauti
 - **Time**: O(n log n + q log n) for sorting and binary search
 - **Space**: O(n) - for the sorted array
 
+## Solution Code
+
+```go
+func maximumBeauty(items [][]int, queries []int) []int {
+	sort.Slice(items, func(i, j int) bool {
+		return items[i][0] < items[j][0]
+	})
+	maxBeauty := 0
+	for i := range items {
+		if items[i][1] > maxBeauty {
+			maxBeauty = items[i][1]
+		}
+		items[i][1] = maxBeauty
+	}
+	result := make([]int, len(queries))
+	for i, q := range queries {
+		idx := sort.Search(len(items), func(j int) bool {
+			return items[j][0] > q
+		})
+		if idx > 0 {
+			result[i] = items[idx-1][1]
+		}
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 2070 Most Beautiful Item for Each Query](https://leetcode.com/problems/most-beautiful-item-for-each-query/)

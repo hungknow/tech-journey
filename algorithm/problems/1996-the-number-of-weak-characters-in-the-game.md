@@ -53,6 +53,29 @@ By sorting by attack in descending order, we can stop checking early once we fin
 - **Time**: O(n²) - comparing each character with every other character
 - **Space**: O(1) - constant extra space
 
+## Solution Code
+
+```go
+func numberOfWeakCharacters(properties [][]int) int {
+	sort.Slice(properties, func(i, j int) bool {
+		if properties[i][0] != properties[j][0] {
+			return properties[i][0] > properties[j][0]
+		}
+		return properties[i][1] < properties[j][1]
+	})
+	count := 0
+	maxDef := 0
+	for _, p := range properties {
+		if p[1] < maxDef {
+			count++
+		} else {
+			maxDef = p[1]
+		}
+	}
+	return count
+}
+```
+
 ## Link
 
 [LeetCode 1996 The Number of Weak Characters in the Game](https://leetcode.com/problems/the-number-of-weak-characters-in-the-game/)

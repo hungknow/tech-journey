@@ -56,6 +56,21 @@ We need to sort the words in the sentence by their length while maintaining the 
 - **Time**: O(n log n) where n is the number of words
 - **Space**: O(n) for storing the word-index pairs
 
+## Solution Code
+
+```go
+func arrangeWords(text string) string {
+	words := strings.Split(strings.ToLower(text), " ")
+	sort.SliceStable(words, func(i, j int) bool {
+		return len(words[i]) < len(words[j])
+	})
+	if len(words[0]) > 0 {
+		words[0] = strings.ToUpper(words[0][:1]) + words[0][1:]
+	}
+	return strings.Join(words, " ")
+}
+```
+
 ## Link
 
 [LeetCode 1451 Rearrange Words in a Sentence](https://leetcode.com/problems/rearrange-words-in-a-sentence/)

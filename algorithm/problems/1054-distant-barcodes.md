@@ -49,6 +49,58 @@ By always picking the most frequent barcode that's different from the last place
 - **Time**: O(n log k) where k is the number of unique barcodes
 - **Space**: O(k) for the heap and frequency map
 
+## Solution Code
+
+```go
+import "container/heap"
+
+type barcodeFreq struct{ code, freq int }
+type maxHeap []barcodeFreq
+func (h maxHeap) Len() int            { return len(h) }
+func (h maxHeap) Less(i, j int) bool  { return h[i].freq > h[j].freq }
+func (h maxHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *maxHeap) Push(x interface{})  { *h = append(*h, x.(barcodeFreq)) }
+func (h *maxHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[:n-1]
+	return x
+}
+
+func rearrangeBarcodes(barcodes []int) []int {
+	freq := make(map[int]int)
+	for _, b := range barcodes {
+		freq[b]++
+	}
+	h := &maxHeap{}
+	heap.Init(h)
+	for code, f := range freq {
+		heap.Push(h, barcodeFreq{code, f})
+	}
+	result := make([]int, 0, len(barcodes))
+	var last *barcodeFreq
+	for h.Len() > 0 {
+		cur := heap.Pop(h).(barcodeFreq)
+		if last != nil && last.code == cur.code {
+			heap.Push(h, cur)
+			cur = heap.Pop(h).(barcodeFreq)
+		}
+		result = append(result, cur.code)
+		cur.freq--
+		if last != nil && last.freq > 0 {
+			heap.Push(h, *last)
+		}
+		if cur.freq > 0 {
+			last = &cur
+		} else {
+			last = nil
+		}
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 1054 Distant Barcodes](https://leetcode.com/problems/distant-barcodes/)

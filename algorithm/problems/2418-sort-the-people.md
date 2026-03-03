@@ -43,6 +43,28 @@ By pairing heights with names and sorting, we achieve the desired ordering based
 - **Time**: O(n log n) - dominated by sorting
 - **Space**: O(n) - for storing the pairs
 
+## Solution Code
+
+```go
+func sortPeople(names []string, heights []int) []string {
+	type person struct {
+		name   string
+		height int
+	}
+	people := make([]person, len(names))
+	for i := range names {
+		people[i] = person{names[i], heights[i]}
+	}
+	sort.Slice(people, func(i, j int) bool {
+		return people[i].height > people[j].height
+	})
+	for i := range people {
+		names[i] = people[i].name
+	}
+	return names
+}
+```
+
 ## Link
 
 [LeetCode 2418 Sort the People](https://leetcode.com/problems/sort-the-people/)

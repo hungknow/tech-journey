@@ -48,6 +48,21 @@ By sorting and counting elements less than or equal to each partition point, we 
 - **Time**: O(n log n) - sorting and counting
 - **Space**: O(1) - constant extra space
 
+## Solution Code
+
+```go
+func findValueOfPartition(nums []int) int {
+	sort.Ints(nums)
+	minDiff := nums[1] - nums[0]
+	for i := 2; i < len(nums); i++ {
+		if nums[i]-nums[i-1] < minDiff {
+			minDiff = nums[i] - nums[i-1]
+		}
+	}
+	return minDiff
+}
+```
+
 ## Link
 
 [LeetCode 2740 Find the Value of the Partition](https://leetcode.com/problems/find-the-value-of-the-partition/)

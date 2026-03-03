@@ -41,6 +41,27 @@ This is a classic Dutch National Flag problem. We can solve it in a single pass 
 - **Time**: O(n) - single pass through the array
 - **Space**: O(1) - in-place sorting with constant extra space
 
+## Solution Code
+
+```go
+func sortColors(nums []int) {
+	low, mid, high := 0, 0, len(nums)-1
+	for mid <= high {
+		switch nums[mid] {
+		case 0:
+			nums[low], nums[mid] = nums[mid], nums[low]
+			low++
+			mid++
+		case 1:
+			mid++
+		case 2:
+			nums[mid], nums[high] = nums[high], nums[mid]
+			high--
+		}
+	}
+}
+```
+
 ## Link
 
 [LeetCode 0075 Sort Colors](https://leetcode.com/problems/sort-colors/)

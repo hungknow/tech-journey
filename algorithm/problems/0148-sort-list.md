@@ -43,6 +43,40 @@ To achieve O(n log n) time complexity, we can use merge sort on the linked list.
 - **Time**: O(n log n) - we divide the list in half at each step (log n steps) and merge takes O(n) time
 - **Space**: O(log n) - due to the recursion stack (not O(1) as required, but this is the standard approach)
 
+## Solution Code
+
+```go
+func sortList(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	slow, fast := head, head.Next
+	for fast != nil && fast.Next != nil {
+		slow, fast = slow.Next, fast.Next.Next
+	}
+	mid := slow.Next
+	slow.Next = nil
+	left := sortList(head)
+	right := sortList(mid)
+	dummy := &ListNode{}
+	tail := dummy
+	for left != nil && right != nil {
+		if left.Val < right.Val {
+			tail.Next, left = left, left.Next
+		} else {
+			tail.Next, right = right, right.Next
+		}
+		tail = tail.Next
+	}
+	if left != nil {
+		tail.Next = left
+	} else {
+		tail.Next = right
+	}
+	return dummy.Next
+}
+```
+
 ## Link
 
 [LeetCode 0148 Sort List](https://leetcode.com/problems/sort-list/)

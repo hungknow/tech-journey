@@ -43,6 +43,39 @@ We need to find the maximum number of overlapping meetings at any point in time.
 - **Time**: O(n log n) - sorting the start and end time arrays
 - **Space**: O(n) - for storing the start and end time arrays
 
+## Solution Code
+
+```go
+func minMeetingRooms(intervals [][]int) int {
+	if len(intervals) == 0 {
+		return 0
+	}
+	starts := make([]int, len(intervals))
+	ends := make([]int, len(intervals))
+	for i, in := range intervals {
+		starts[i] = in[0]
+		ends[i] = in[1]
+	}
+	sort.Ints(starts)
+	sort.Ints(ends)
+	rooms, maxRooms := 0, 0
+	s, e := 0, 0
+	for s < len(starts) {
+		if starts[s] < ends[e] {
+			rooms++
+			s++
+			if rooms > maxRooms {
+				maxRooms = rooms
+			}
+		} else {
+			rooms--
+			e++
+		}
+	}
+	return maxRooms
+}
+```
+
 ## Link
 
 [LeetCode 0253 Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/)

@@ -42,6 +42,27 @@ Since the matrix is already sorted row-wise, we can simply iterate through all e
 - **Time**: O(n²) - visiting each element once
 - **Space**: O(1) - constant extra space
 
+## Solution Code
+
+```go
+func matrixSum(nums [][]int) int {
+	for i := range nums {
+		sort.Ints(nums[i])
+	}
+	sum := 0
+	for j := 0; j < len(nums[0]); j++ {
+		max := 0
+		for i := range nums {
+			if nums[i][j] > max {
+				max = nums[i][j]
+			}
+		}
+		sum += max
+	}
+	return sum
+}
+```
+
 ## Link
 
 [LeetCode 2679 Sum in a Matrix](https://leetcode.com/problems/sum-in-a-matrix/)

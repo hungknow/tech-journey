@@ -61,6 +61,28 @@ Since the array is sorted, for each element `nums[i]`, all previous elements are
 - **Time**: O(n) - single pass through the array
 - **Space**: O(1) - constant extra space
 
+## Solution Code
+
+```go
+func getSumAbsoluteDifferences(nums []int) []int {
+	n := len(nums)
+	prefix := 0
+	suffix := 0
+	for _, v := range nums {
+		suffix += v
+	}
+	result := make([]int, n)
+	for i, v := range nums {
+		suffix -= v
+		left := v*i - prefix
+		right := suffix - v*(n-1-i)
+		result[i] = left + right
+		prefix += v
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 1685 Sum of Absolute Differences in a Sorted Array](https://leetcode.com/problems/sum-of-absolute-differences-in-a-sorted-array/)

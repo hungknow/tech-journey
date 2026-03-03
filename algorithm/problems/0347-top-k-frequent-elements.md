@@ -46,6 +46,31 @@ We need to find the k most frequent elements. There are several approaches:
 - **Time**: O(n) for bucket sort, O(n log k) for heap approach
 - **Space**: O(n) for both approaches (hash map and buckets/heap)
 
+## Solution Code
+
+```go
+func topKFrequent(nums []int, k int) []int {
+	freq := make(map[int]int)
+	for _, n := range nums {
+		freq[n]++
+	}
+	buckets := make([][]int, len(nums)+1)
+	for num, count := range freq {
+		buckets[count] = append(buckets[count], num)
+	}
+	result := make([]int, 0, k)
+	for i := len(buckets) - 1; i >= 0 && len(result) < k; i-- {
+		for _, num := range buckets[i] {
+			result = append(result, num)
+			if len(result) == k {
+				break
+			}
+		}
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 0347 Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/)

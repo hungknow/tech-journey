@@ -48,6 +48,34 @@ We need to count the frequency of each character and then sort the characters ba
 - **Time**: O(n log n) for the sorting approach, O(n) for the bucket sort approach
 - **Space**: O(n) for both approaches (hash map and buckets/sorted list)
 
+## Solution Code
+
+```go
+func frequencySort(s string) string {
+	freq := make(map[byte]int)
+	maxFreq := 0
+	for i := range s {
+		freq[s[i]]++
+		if freq[s[i]] > maxFreq {
+			maxFreq = freq[s[i]]
+		}
+	}
+	buckets := make([][]byte, maxFreq+1)
+	for c, f := range freq {
+		buckets[f] = append(buckets[f], c)
+	}
+	var result []byte
+	for f := maxFreq; f > 0; f-- {
+		for _, c := range buckets[f] {
+			for i := 0; i < f; i++ {
+				result = append(result, c)
+			}
+		}
+	}
+	return string(result)
+}
+```
+
 ## Link
 
 [LeetCode 0451 Sort Characters By Frequency](https://leetcode.com/problems/sort-characters-by-frequency/)

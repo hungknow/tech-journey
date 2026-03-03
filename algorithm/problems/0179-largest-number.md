@@ -37,6 +37,24 @@ The key insight is to define a custom comparator for sorting. For two numbers a 
 - **Time**: O(n log n) - dominated by the sorting step
 - **Space**: O(n) - for storing the string representations
 
+## Solution Code
+
+```go
+func largestNumber(nums []int) string {
+	strs := make([]string, len(nums))
+	for i, n := range nums {
+		strs[i] = strconv.Itoa(n)
+	}
+	sort.Slice(strs, func(i, j int) bool {
+		return strs[i]+strs[j] > strs[j]+strs[i]
+	})
+	if strs[0] == "0" {
+		return "0"
+	}
+	return strings.Join(strs, "")
+}
+```
+
 ## Link
 
 [LeetCode 0179 Largest Number](https://leetcode.com/problems/largest-number/)

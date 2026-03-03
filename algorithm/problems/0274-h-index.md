@@ -49,6 +49,30 @@ Since the h-index can't exceed the number of papers, we can use counting sort fo
 - **Time**: O(n log n) for the sorting approach, O(n) for the counting sort approach
 - **Space**: O(1) for the sorting approach, O(n) for the counting sort approach
 
+## Solution Code
+
+```go
+func hIndex(citations []int) int {
+	n := len(citations)
+	count := make([]int, n+1)
+	for _, c := range citations {
+		if c >= n {
+			count[n]++
+		} else {
+			count[c]++
+		}
+	}
+	acc := 0
+	for h := n; h >= 0; h-- {
+		acc += count[h]
+		if acc >= h {
+			return h
+		}
+	}
+	return 0
+}
+```
+
 ## Link
 
 [LeetCode 0274 H-Index](https://leetcode.com/problems/h-index/)

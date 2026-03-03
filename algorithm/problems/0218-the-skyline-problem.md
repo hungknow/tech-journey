@@ -40,6 +40,67 @@ This is a classic line sweep algorithm problem. We'll process all the critical p
 - **Time**: O(n log n) - sorting the critical points and heap operations
 - **Space**: O(n) - for storing critical points and the heap
 
+## Solution Code
+
+```go
+import "container/heap"
+
+type maxHeap []int
+func (h maxHeap) Len() int            { return len(h) }
+func (h maxHeap) Less(i, j int) bool  { return h[i] > h[j] }
+func (h maxHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *maxHeap) Push(x interface{}) { *h = append(*h, x.(int)) }
+func (h *maxHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[:n-1]
+	return x
+}
+
+func getSkyline(buildings [][]int) [][]int {
+	var points [][]int
+	for _, b := range buildings {
+		points = append(points, []int{b[0], -b[2]}, []int{b[1], b[2]})
+	}
+	sort.Slice(points, func(i, j int) bool {
+		if points[i][0] != points[j][0] {
+			return points[i][0] < points[j][0]
+		}
+		return points[i][1] < points[j][1]
+	})
+	h := &maxHeap{}
+	heap.Init(h)
+	heap.Push(h, 0)
+	removed := make(map[int]int)
+	prev := 0
+	var result [][]int
+	for _, p := range points {
+		x, height := p[0], p[1]
+		if height < 0 {
+			heap.Push(h, -height)
+		} else {
+			removed[height]++
+		}
+		for h.Len() > 0 {
+			top := (*h)[0]
+			if removed[top] > 0 {
+				removed[top]--
+				heap.Pop(h)
+			} else {
+				break
+			}
+		}
+		cur := (*h)[0]
+		if cur != prev {
+			result = append(result, []int{x, cur})
+			prev = cur
+		}
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 0218 The Skyline Problem](https://leetcode.com/problems/the-skyline-problem/)

@@ -44,6 +44,32 @@ By removing integers with lower frequencies first, we maximize the number of dis
 - **Time**: O(n log n) - counting frequencies is O(n), sorting is O(n log n)
 - **Space**: O(n) - for the frequency map and sorted list
 
+## Solution Code
+
+```go
+func findLeastNumOfUniqueInts(arr []int, k int) int {
+	freq := make(map[int]int)
+	for _, v := range arr {
+		freq[v]++
+	}
+	var counts []int
+	for _, c := range freq {
+		counts = append(counts, c)
+	}
+	sort.Ints(counts)
+	distinct := len(counts)
+	for _, c := range counts {
+		if k >= c {
+			k -= c
+			distinct--
+		} else {
+			break
+		}
+	}
+	return distinct
+}
+```
+
 ## Link
 
 [LeetCode 1481 Least Number of Unique Integers after K Removals](https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/)

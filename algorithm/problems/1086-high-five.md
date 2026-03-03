@@ -47,6 +47,35 @@ We need to group scores by student ID, find the top five scores for each student
 - **Time**: O(n log n) for sorting approach, O(n log k) where k=5 for heap approach
 - **Space**: O(n) for both approaches
 
+## Solution Code
+
+```go
+func highFive(items [][]int) [][]int {
+	scores := make(map[int][]int)
+	for _, item := range items {
+		id, score := item[0], item[1]
+		scores[id] = append(scores[id], score)
+	}
+	var result [][]int
+	for id, scs := range scores {
+		sort.Ints(scs)
+		sum := 0
+		k := 5
+		if len(scs) < k {
+			k = len(scs)
+		}
+		for i := len(scs) - k; i < len(scs); i++ {
+			sum += scs[i]
+		}
+		result = append(result, []int{id, sum / k})
+	}
+	sort.Slice(result, func(i, j int) bool {
+		return result[i][0] < result[j][0]
+	})
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 1086 High Five](https://leetcode.com/problems/high-five/)

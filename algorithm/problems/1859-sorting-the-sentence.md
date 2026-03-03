@@ -46,6 +46,21 @@ By splitting and sorting the words, we get the desired lexicographical order.
 - **Time**: O(n log n) where n is the number of words
 - **Space**: O(n) - for storing the words
 
+## Solution Code
+
+```go
+func sortSentence(s string) string {
+	words := strings.Split(strings.TrimSpace(s), " ")
+	sort.Slice(words, func(i, j int) bool {
+		return words[i][len(words[i])-1] < words[j][len(words[j])-1]
+	})
+	for i := range words {
+		words[i] = words[i][:len(words[i])-1]
+	}
+	return strings.Join(words, " ")
+}
+```
+
 ## Link
 
 [LeetCode 1859 Sorting the Sentence](https://leetcode.com/problems/sorting-the-sentence/)

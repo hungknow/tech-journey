@@ -59,6 +59,61 @@ By using the median as a pivot and placing larger elements at odd indices and sm
 - **Time**: O(n) on average - quickselect to find median and single pass for partitioning
 - **Space**: O(1) - in-place rearrangement with constant extra space
 
+## Solution Code
+
+```go
+func rearrangeArray(nums []int) []int {
+	n := len(nums)
+	if n <= 2 {
+		return nums
+	}
+	mid := quickSelectKth(nums, 0, n-1, (n+1)/2)
+	idx := func(i int) int { return (1 + 2*i) % (n | 1) }
+	i, j, k := 0, 0, n-1
+	for j <= k {
+		if nums[idx(j)] > mid {
+			nums[idx(i)], nums[idx(j)] = nums[idx(j)], nums[idx(i)]
+			i++
+			j++
+		} else if nums[idx(j)] < mid {
+			nums[idx(j)], nums[idx(k)] = nums[idx(k)], nums[idx(j)]
+			k--
+		} else {
+			j++
+		}
+	}
+	return nums
+}
+
+func quickSelectKth(arr []int, left, right, k int) int {
+	if left == right {
+		return arr[left]
+	}
+	pivot := arr[(left+right)/2]
+	i, j := left, right
+	for i <= j {
+		for i <= j && arr[i] < pivot {
+			i++
+		}
+		for i <= j && arr[j] > pivot {
+			j--
+		}
+		if i <= j {
+			arr[i], arr[j] = arr[j], arr[i]
+			i++
+			j--
+		}
+	}
+	if left+k-1 <= j {
+		return quickSelectKth(arr, left, j, k)
+	}
+	if left+k-1 >= i {
+		return quickSelectKth(arr, i, right, k-(i-left))
+	}
+	return pivot
+}
+```
+
 ## Link
 
 [LeetCode 1968 Array With Elements Not Equal to Average of Neighbors](https://leetcode.com/problems/array-with-elements-not-equal-to-average-of-neighbors/)

@@ -40,6 +40,18 @@ This approach leverages the pattern of odd and even numbers in a sequence. By us
 - **Time**: O(1) - constant time regardless of input size
 - **Space**: O(1) - constant extra space
 
+## Solution Code
+
+```go
+func countOdds(low int, high int) int {
+	count := high - low + 1
+	if low%2 == 1 {
+		return (count + 1) / 2
+	}
+	return count / 2
+}
+```
+
 ## Link
 
 [LeetCode 1523 Count Odd Numbers in an Interval Range](https://leetcode.com/problems/count-odd-numbers-in-an-interval-range/)

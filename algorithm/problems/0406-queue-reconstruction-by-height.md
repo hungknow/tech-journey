@@ -43,6 +43,25 @@ By sorting by height in descending order, we ensure that when we place a person 
 - **Time**: O(n²) - sorting takes O(n log n), but each insertion can take O(n) in the worst case
 - **Space**: O(n) - for the result list
 
+## Solution Code
+
+```go
+func reconstructQueue(people [][]int) [][]int {
+	sort.Slice(people, func(i, j int) bool {
+		if people[i][0] != people[j][0] {
+			return people[i][0] > people[j][0]
+		}
+		return people[i][1] < people[j][1]
+	})
+	var result [][]int
+	for _, p := range people {
+		idx := p[1]
+		result = append(result[:idx], append([][]int{p}, result[idx:]...)...)
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 0406 Queue Reconstruction by Height](https://leetcode.com/problems/queue-reconstruction-by-height/)

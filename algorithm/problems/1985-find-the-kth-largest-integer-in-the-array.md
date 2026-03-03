@@ -49,6 +49,20 @@ Quickselect efficiently finds the kth largest element in average O(n) time. The 
 - **Time**: O(n) on average for quickselect, O(n log k) for heap approach
 - **Space**: O(1) for quickselect (in-place), O(k) for heap approach
 
+## Solution Code
+
+```go
+func kthLargestNumber(nums []string, k int) string {
+	sort.Slice(nums, func(i, j int) bool {
+		if len(nums[i]) != len(nums[j]) {
+			return len(nums[i]) > len(nums[j])
+		}
+		return nums[i] > nums[j]
+	})
+	return nums[k-1]
+}
+```
+
 ## Link
 
 [LeetCode 1985 Find the Kth Largest Integer in the Array](https://leetcode.com/problems/find-the-kth-largest-integer-in-the-array/)

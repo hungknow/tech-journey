@@ -48,6 +48,58 @@ By always swapping the smallest element to the front, we ensure the array become
 - **Time**: O(n × k) - finding and swapping k times
 - **Space**: O(n) - for the pairs
 
+## Solution Code
+
+```go
+func lexicographicallySmallestArray(nums []int, limit int) []int {
+	n := len(nums)
+	idx := make([]int, n)
+	for i := range idx {
+		idx[i] = i
+	}
+	sort.Slice(idx, func(i, j int) bool {
+		return nums[idx[i]] < nums[idx[j]]
+	})
+	parent := make([]int, n)
+	for i := range parent {
+		parent[i] = i
+	}
+	var find func(int) int
+	find = func(x int) int {
+		if parent[x] != x {
+			parent[x] = find(parent[x])
+		}
+		return parent[x]
+	}
+	union := func(a, b int) {
+		parent[find(a)] = find(b)
+	}
+	for i := 1; i < n; i++ {
+		if nums[idx[i]]-nums[idx[i-1]] <= limit {
+			union(idx[i], idx[i-1])
+		}
+	}
+	groups := make(map[int][]int)
+	for i := 0; i < n; i++ {
+		r := find(i)
+		groups[r] = append(groups[r], i)
+	}
+	result := make([]int, n)
+	for _, indices := range groups {
+		vals := make([]int, len(indices))
+		for i, pos := range indices {
+			vals[i] = nums[pos]
+		}
+		sort.Ints(vals)
+		sort.Ints(indices)
+		for i, pos := range indices {
+			result[pos] = vals[i]
+		}
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 2948 Make Lexicographically Smallest Array by Swapping Elements](https://leetcode.com/problems/make-lexicographically-smallest-array-by-swapping-elements/)

@@ -53,6 +53,41 @@ By always incrementing the smallest element, we ensure that each increment has t
 - **Time**: O((n + k) log n) - heap operations
 - **Space**: O(n) - for the heap
 
+## Solution Code
+
+```go
+import "container/heap"
+
+type intHeap []int
+func (h intHeap) Len() int            { return len(h) }
+func (h intHeap) Less(i, j int) bool  { return h[i] < h[j] }
+func (h intHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *intHeap) Push(x interface{})  { *h = append(*h, x.(int)) }
+func (h *intHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[:n-1]
+	return x
+}
+
+func maximumProduct(nums []int, k int) int {
+	h := make(intHeap, len(nums))
+	copy(h, nums)
+	heap.Init(&h)
+	for i := 0; i < k; i++ {
+		x := heap.Pop(&h).(int)
+		heap.Push(&h, x+1)
+	}
+	const mod = 1e9 + 7
+	product := 1
+	for _, v := range h {
+		product = (product * v) % mod
+	}
+	return product % mod
+}
+```
+
 ## Link
 
 [LeetCode 2233 Maximum Product After K Increments](https://leetcode.com/problems/maximum-product-after-k-increments/)

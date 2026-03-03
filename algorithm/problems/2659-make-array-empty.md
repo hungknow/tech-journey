@@ -47,6 +47,54 @@ By always removing the most frequent element, we ensure we minimize the number o
 - **Time**: O(n + k log n) - counting frequencies is O(n), each removal is O(log n) for heap operations
 - **Space**: O(n) - for the frequency map
 
+## Solution Code
+
+```go
+func countOperationsToEmptyArray(nums []int) int64 {
+	pos := make(map[int]int)
+	for i, v := range nums {
+		pos[v] = i
+	}
+	sorted := make([]int, len(nums))
+	copy(sorted, nums)
+	sort.Ints(sorted)
+	n := len(nums)
+	bit := make([]int, n+1)
+	add := func(i, delta int) {
+		for i <= n {
+			bit[i] += delta
+			i += i & -i
+		}
+	}
+	query := func(i int) int {
+		s := 0
+		for i > 0 {
+			s += bit[i]
+			i -= i & -i
+		}
+		return s
+	}
+	for i := 1; i <= n; i++ {
+		add(i, 1)
+	}
+	var ans int64
+	prev := 0
+	for _, v := range sorted {
+		cur := pos[v]
+		cur1 := cur + 1
+		prev1 := prev + 1
+		dist := query(cur1) - query(prev1)
+		if dist < 0 {
+			dist += query(n)
+		}
+		ans += int64(dist + 1)
+		add(cur1, -1)
+		prev = cur
+	}
+	return ans
+}
+```
+
 ## Link
 
 [LeetCode 2659 Make Array Empty](https://leetcode.com/problems/make-array-empty/)

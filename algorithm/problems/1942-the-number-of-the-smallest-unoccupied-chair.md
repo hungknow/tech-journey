@@ -56,6 +56,68 @@ By sorting by arrival time and using a min-heap for available chairs, we efficie
 - **Time**: O(n log n) - sorting and heap operations
 - **Space**: O(n) - for the heap and tracking structures
 
+## Solution Code
+
+```go
+import "container/heap"
+
+type intHeap []int
+func (h intHeap) Len() int            { return len(h) }
+func (h intHeap) Less(i, j int) bool { return h[i] < h[j] }
+func (h intHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+func (h *intHeap) Push(x interface{}) { *h = append(*h, x.(int)) }
+func (h *intHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[:n-1]
+	return x
+}
+type leaveEvent struct{ time, chair int }
+type leaveHeap []leaveEvent
+func (h leaveHeap) Len() int            { return len(h) }
+func (h leaveHeap) Less(i, j int) bool  { return h[i].time < h[j].time }
+func (h leaveHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *leaveHeap) Push(x interface{}) { *h = append(*h, x.(leaveEvent)) }
+func (h *leaveHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[:n-1]
+	return x
+}
+
+func smallestChair(times [][]int, targetFriend int) int {
+	n := len(times)
+	indices := make([]int, n)
+	for i := range indices {
+		indices[i] = i
+	}
+	sort.Slice(indices, func(i, j int) bool {
+		return times[indices[i]][0] < times[indices[j]][0]
+	})
+	available := &intHeap{}
+	for i := 0; i < n; i++ {
+		heap.Push(available, i)
+	}
+	leaves := &leaveHeap{}
+	heap.Init(leaves)
+	for _, idx := range indices {
+		arrival, leave := times[idx][0], times[idx][1]
+		for leaves.Len() > 0 && (*leaves)[0].time <= arrival {
+			e := heap.Pop(leaves).(leaveEvent)
+			heap.Push(available, e.chair)
+		}
+		chair := heap.Pop(available).(int)
+		if idx == targetFriend {
+			return chair
+		}
+		heap.Push(leaves, leaveEvent{leave, chair})
+	}
+	return -1
+}
+```
+
 ## Link
 
 [LeetCode 1942 The Number of the Smallest Unoccupied Chair](https://leetcode.com/problems/the-number-of-the-smallest-unoccupied-chair/)

@@ -53,6 +53,49 @@ By counting feedback words and comparing with thresholds, we efficiently identif
 - **Time**: O(n × m) where n is the number of students and m is the average number of words per report
 - **Space**: O(p) - for the feedback sets
 
+## Solution Code
+
+```go
+func topStudents(positiveFeedback []string, negativeFeedback []string, report []string, studentId []int, k int) []int {
+	posSet := make(map[string]bool)
+	for _, w := range positiveFeedback {
+		posSet[w] = true
+	}
+	negSet := make(map[string]bool)
+	for _, w := range negativeFeedback {
+		negSet[w] = true
+	}
+	type student struct {
+		id    int
+		score int
+	}
+	students := make([]student, len(report))
+	for i, r := range report {
+		score := 0
+		for _, word := range strings.Fields(r) {
+			if posSet[word] {
+				score += 3
+			}
+			if negSet[word] {
+				score--
+			}
+		}
+		students[i] = student{studentId[i], score}
+	}
+	sort.Slice(students, func(i, j int) bool {
+		if students[i].score != students[j].score {
+			return students[i].score > students[j].score
+		}
+		return students[i].id < students[j].id
+	})
+	result := make([]int, k)
+	for i := 0; i < k; i++ {
+		result[i] = students[i].id
+	}
+	return result
+}
+```
+
 ## Link
 
 [LeetCode 2512 Reward Top K Students](https://leetcode.com/problems/reward-top-k-students/)

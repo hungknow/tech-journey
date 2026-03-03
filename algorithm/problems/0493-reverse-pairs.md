@@ -43,6 +43,50 @@ By sorting the halves before counting, we can efficiently find the number of val
 - **Time**: O(n log n) - same as merge sort
 - **Space**: O(n) - for the temporary array used in merge sort
 
+## Solution Code
+
+```go
+func reversePairs(nums []int) int {
+	return mergeCount(&nums, 0, len(nums)-1)
+}
+
+func mergeCount(nums *[]int, left, right int) int {
+	if left >= right {
+		return 0
+	}
+	mid := (left + right) / 2
+	count := mergeCount(nums, left, mid) + mergeCount(nums, mid+1, right)
+	j := mid + 1
+	for i := left; i <= mid; i++ {
+		for j <= right && (*nums)[j]*2 < (*nums)[i] {
+			j++
+		}
+		count += j - (mid + 1)
+	}
+	merge(nums, left, mid, right)
+	return count
+}
+
+func merge(nums *[]int, left, mid, right int) {
+	tmp := make([]int, right-left+1)
+	i, j, k := left, mid+1, 0
+	for i <= mid && j <= right {
+		if (*nums)[i] <= (*nums)[j] {
+			tmp[k] = (*nums)[i]
+			i++
+		} else {
+			tmp[k] = (*nums)[j]
+			j++
+		}
+		k++
+	}
+	copy(tmp[k:], (*nums)[i:mid+1])
+	k += mid - i + 1
+	copy(tmp[k:], (*nums)[j:right+1])
+	copy((*nums)[left:right+1], tmp)
+}
+```
+
 ## Link
 
 [LeetCode 0493 Reverse Pairs](https://leetcode.com/problems/reverse-pairs/)

@@ -54,6 +54,34 @@ By using post-order traversal, we check each node against all its descendants to
 - **Time**: O(n) - visiting each node once
 - **Space**: O(h) - for the recursion stack
 
+## Solution Code
+
+```go
+func countGreatEnoughNodes(root *TreeNode, k int) int {
+	count := 0
+	var dfs func(*TreeNode, []int) []int
+	dfs = func(node *TreeNode, path []int) []int {
+		if node == nil {
+			return path
+		}
+		path = append(path, node.Val)
+		if len(path) >= k {
+			window := make([]int, k)
+			copy(window, path[len(path)-k:])
+			sort.Ints(window)
+			if window[0] == node.Val {
+				count++
+			}
+		}
+		path = dfs(node.Left, path)
+		path = dfs(node.Right, path)
+		return path[:len(path)-1]
+	}
+	dfs(root, nil)
+	return count
+}
+```
+
 ## Link
 
 [LeetCode 2792 Count Nodes That Are Great Enough](https://leetcode.com/problems/count-nodes-that-great-enough/)

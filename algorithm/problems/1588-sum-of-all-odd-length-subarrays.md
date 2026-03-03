@@ -53,6 +53,20 @@ Each element at index i appears in (i+1) * (n-i) subarrays total. The number of 
 - **Time**: O(n) - one pass through the array
 - **Space**: O(1) - constant extra space
 
+## Solution Code
+
+```go
+func sumOddLengthSubarrays(arr []int) int {
+	sum := 0
+	n := len(arr)
+	for i, v := range arr {
+		count := ((i+1)*(n-i) + 1) / 2
+		sum += v * count
+	}
+	return sum
+}
+```
+
 ## Link
 
 [LeetCode 1588 Sum of All Odd Length Subarrays](https://leetcode.com/problems/sum-of-all-odd-length-subarrays/)
