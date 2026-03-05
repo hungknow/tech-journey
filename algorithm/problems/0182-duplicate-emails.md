@@ -29,9 +29,9 @@ Person table:
 | 2  | c@d.com |
 | 3  | a@b.com |
 +----+---------+
-Output: 
+Output:
 +---------+
-| Email   |
+| email   |
 +---------+
 | a@b.com |
 +---------+
@@ -56,42 +56,42 @@ This problem requires finding duplicate values in a table. The key is to use GRO
 ## Solution Code
 
 ```sql
-SELECT 
-    Email
-FROM 
+SELECT
+    email
+FROM
     Person
-GROUP BY 
-    Email
-HAVING 
+GROUP BY
+    email
+HAVING
     COUNT(*) > 1;
 ```
 
 ## Alternative Solution (using subquery)
 
 ```sql
-SELECT DISTINCT 
-    p1.Email
-FROM 
+SELECT DISTINCT
+    p1.email
+FROM
     Person p1
-JOIN 
-    Person p2 ON p1.Email = p2.Email AND p1.id != p2.id;
+JOIN
+    Person p2 ON p1.email = p2.email AND p1.id != p2.id;
 ```
 
 ## Alternative Solution (using window functions)
 
 ```sql
 WITH EmailCounts AS (
-    SELECT 
-        Email,
-        COUNT(*) OVER (PARTITION BY Email) as email_count
-    FROM 
+    SELECT
+        email,
+        COUNT(*) OVER (PARTITION BY email) as email_count
+    FROM
         Person
 )
-SELECT DISTINCT 
-    Email
-FROM 
+SELECT DISTINCT
+    email
+FROM
     EmailCounts
-WHERE 
+WHERE
     email_count > 1;
 ```
 

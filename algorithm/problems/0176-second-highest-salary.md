@@ -89,6 +89,18 @@ FROM Employee
 WHERE Salary < (SELECT MAX(Salary) FROM Employee);
 ```
 
+## COALESCE Solution
+
+```sql
+SELECT 
+    COALESCE(
+        (SELECT DISTINCT Salary
+         FROM Employee
+         ORDER BY Salary DESC
+         LIMIT 1 OFFSET 1), 
+    NULL) AS SecondHighestSalary;
+```
+
 ## Link
 
 [LeetCode 176 Second Highest Salary](https://leetcode.com/problems/second-highest-salary/)
