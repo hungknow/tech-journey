@@ -209,6 +209,25 @@
   
 
       
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spacedrive
+
+      </a>
+    </li>
+  
+
+      
     </ul>
   </div>
 </nav>
@@ -665,6 +684,33 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spacedrive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -977,11 +1023,13 @@
 <h1 id="operation-registry">Operation Registry</h1>
 <h2 id="purpose">Purpose</h2>
 <p>The operation registry (<code>core/src/ops/registry.rs</code>) provides a compile-time registration system for all actions and queries in Spacedrive. It uses the <code>inventory</code> crate to collect operations across the codebase into global hashmaps, enabling type-safe dispatch from incoming RPC calls to their handlers.</p>
-<p><strong>Key goals:</strong>
-- Action-centric API with minimal boilerplate
-- Automatic method string generation (<code>query:network.status</code>, <code>action:files.copy.input</code>)
-- No manual trait implementation—use registration macros instead
-- Single point of dispatch for <code>library_id</code> resolution and execution</p>
+<p><strong>Key goals:</strong></p>
+<ul>
+<li>Action-centric API with minimal boilerplate</li>
+<li>Automatic method string generation (<code>query:network.status</code>, <code>action:files.copy.input</code>)</li>
+<li>No manual trait implementation—use registration macros instead</li>
+<li>Single point of dispatch for <code>library_id</code> resolution and execution</li>
+</ul>
 <h2 id="architecture">Architecture</h2>
 <h3 id="four-operation-categories">Four Operation Categories</h3>
 <ol>
@@ -1037,16 +1085,18 @@
 <p><strong>Usage</strong>: Bound to registry entries, called by RPC layer when method matches.</p>
 <h3 id="global-hashmaps">Global Hashmaps</h3>
 <p><strong>Registry Maps</strong>: Lazily-initialized collections of all registered operations.</p>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">static</span><span class="w"> </span><span class="n">LIBRARY_QUERIES</span><span class="p">:</span><span class="w"> </span><span class="nc">Lazy</span><span class="o">&lt;</span><span class="n">HashMap</span><span class="o">&lt;&amp;&#39;</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">LibraryQueryHandlerFn</span><span class="o">&gt;&gt;</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">static</span><span class="w"> </span><span class="n">CORE_QUERIES</span><span class="p">:</span><span class="w">    </span><span class="nc">Lazy</span><span class="o">&lt;</span><span class="n">HashMap</span><span class="o">&lt;&amp;&#39;</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">CoreQueryHandlerFn</span><span class="o">&gt;&gt;</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">static</span><span class="w"> </span><span class="n">LIBRARY_ACTIONS</span><span class="p">:</span><span class="w"> </span><span class="nc">Lazy</span><span class="o">&lt;</span><span class="n">HashMap</span><span class="o">&lt;&amp;&#39;</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">LibraryActionHandlerFn</span><span class="o">&gt;&gt;</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">static</span><span class="w"> </span><span class="n">CORE_ACTIONS</span><span class="p">:</span><span class="w">    </span><span class="nc">Lazy</span><span class="o">&lt;</span><span class="n">HashMap</span><span class="o">&lt;&amp;&#39;</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">CoreActionHandlerFn</span><span class="o">&gt;&gt;</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">static</span><span class="w"> </span><span class="n">LIBRARY_QUERIES</span><span class="p">:</span><span class="w"> </span><span class="nc">Lazy</span><span class="o">&lt;</span><span class="n">HashMap</span><span class="o">&lt;&amp;&#39;</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">LibraryQueryHandlerFn</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">static</span><span class="w"> </span><span class="n">CORE_QUERIES</span><span class="p">:</span><span class="w">    </span><span class="nc">Lazy</span><span class="o">&lt;</span><span class="n">HashMap</span><span class="o">&lt;&amp;&#39;</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">CoreQueryHandlerFn</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">static</span><span class="w"> </span><span class="n">LIBRARY_ACTIONS</span><span class="p">:</span><span class="w"> </span><span class="nc">Lazy</span><span class="o">&lt;</span><span class="n">HashMap</span><span class="o">&lt;&amp;&#39;</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">LibraryActionHandlerFn</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">static</span><span class="w"> </span><span class="n">CORE_ACTIONS</span><span class="p">:</span><span class="w">    </span><span class="nc">Lazy</span><span class="o">&lt;</span><span class="n">HashMap</span><span class="o">&lt;&amp;&#39;</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">CoreActionHandlerFn</span><span class="o">&gt;&gt;</span><span class="p">;</span>
 </span></code></pre></div>
-<p><strong>Usage Sequence</strong>:
-1. <code>inventory::collect!()</code> runs at compile-time to gather entries
-2. <code>Lazy::new(||)</code> builds hashmaps on first access by iterating entries
-3. RPC handlers look up method strings to get handler function pointers
-4. Hashmaps remain in memory for daemon lifetime</p>
+<p><strong>Usage Sequence</strong>:</p>
+<ol>
+<li><code>inventory::collect!()</code> runs at compile-time to gather entries</li>
+<li><code>Lazy::new(||)</code> builds hashmaps on first access by iterating entries</li>
+<li>RPC handlers look up method strings to get handler function pointers</li>
+<li>Hashmaps remain in memory for daemon lifetime</li>
+</ol>
 <h2 id="registration-macros">Registration Macros</h2>
 <h3 id="helper-macros">Helper Macros</h3>
 <p><strong><code>action_method!($name)</code></strong>: Constructs action method string.</p>
@@ -1057,11 +1107,13 @@
 </span></code></pre></div>
 <h3 id="register_library_queryqueryty-nameliteral"><code>register_library_query!($query:ty, $name:literal)</code></h3>
 <p><strong>Purpose</strong>: Registers a library query with automatic type extraction.</p>
-<p><strong>What it does</strong>:
-1. Implements <code>Wire</code> trait for <code>Q::Input</code> with method <code>"query:$name"</code>
-2. Submits <code>LibraryQueryEntry</code> to inventory with <code>handle_library_query::&lt;Q&gt;</code> as handler
-3. Implements <code>QueryTypeInfo</code> for TypeScript type generation
-4. Submits <code>QueryExtractorEntry</code> to inventory for type extraction</p>
+<p><strong>What it does</strong>:</p>
+<ol>
+<li>Implements <code>Wire</code> trait for <code>Q::Input</code> with method <code>"query:$name"</code></li>
+<li>Submits <code>LibraryQueryEntry</code> to inventory with <code>handle_library_query::&lt;Q&gt;</code> as handler</li>
+<li>Implements <code>QueryTypeInfo</code> for TypeScript type generation</li>
+<li>Submits <code>QueryExtractorEntry</code> to inventory for type extraction</li>
+</ol>
 <p><strong>Usage</strong>:</p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">use</span><span class="w"> </span><span class="k">crate</span><span class="p">::</span><span class="n">cqrs</span><span class="p">::</span><span class="n">LibraryQuery</span><span class="p">;</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
@@ -1069,11 +1121,13 @@
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
 </span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">crate</span><span class="p">::</span><span class="n">register_library_query</span><span class="o">!</span><span class="p">(</span><span class="n">FileListQuery</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;files.list&quot;</span><span class="p">);</span>
 </span></code></pre></div>
-<p><strong>Resolves</strong>:
-- Method string: <code>"query:files.list"</code>
-- Wire trait for <code>FileListQuery::Input</code>
-- Type extraction for frontend type generation
-- Handler bound to <code>handle_library_query::&lt;FileListQuery&gt;</code></p>
+<p><strong>Resolves</strong>:</p>
+<ul>
+<li>Method string: <code>"query:files.list"</code></li>
+<li>Wire trait for <code>FileListQuery::Input</code></li>
+<li>Type extraction for frontend type generation</li>
+<li>Handler bound to <code>handle_library_query::&lt;FileListQuery&gt;</code></li>
+</ul>
 <h3 id="register_core_queryqueryty-nameliteral"><code>register_core_query!($query:ty, $name:literal)</code></h3>
 <p><strong>Purpose</strong>: Registers a core query without library context.</p>
 <p><strong>What it does</strong>: Same steps as <code>register_library_query!</code> but for core scope.</p>
@@ -1084,18 +1138,22 @@
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
 </span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">crate</span><span class="p">::</span><span class="n">register_core_query</span><span class="o">!</span><span class="p">(</span><span class="n">NetworkStatusQuery</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;network.status&quot;</span><span class="p">);</span>
 </span></code></pre></div>
-<p><strong>Resolves</strong>:
-- Method string: <code>"query:network.status"</code>
-- Wire trait for <code>NetworkStatusQuery::Input</code>
-- Core scope type extraction
-- Handler bound to <code>handle_core_query::&lt;NetworkStatusQuery&gt;</code></p>
+<p><strong>Resolves</strong>:</p>
+<ul>
+<li>Method string: <code>"query:network.status"</code></li>
+<li>Wire trait for <code>NetworkStatusQuery::Input</code></li>
+<li>Core scope type extraction</li>
+<li>Handler bound to <code>handle_core_query::&lt;NetworkStatusQuery&gt;</code></li>
+</ul>
 <h3 id="register_library_actionactionty-nameliteral"><code>register_library_action!($action:ty, $name:literal)</code></h3>
 <p><strong>Purpose</strong>: Registers a library action with automatic type extraction.</p>
-<p><strong>What it does</strong>:
-1. Implements <code>Wire</code> trait for <code>A::Input</code> with method <code>"action:$name.input"</code>
-2. Submits <code>LibraryActionEntry</code> to inventory with <code>handle_library_action::&lt;A&gt;</code> as handler
-3. Implements <code>OperationTypeInfo</code> for TypeScript type generation
-4. Submits <code>TypeExtractorEntry</code> to inventory for type extraction</p>
+<p><strong>What it does</strong>:</p>
+<ol>
+<li>Implements <code>Wire</code> trait for <code>A::Input</code> with method <code>"action:$name.input"</code></li>
+<li>Submits <code>LibraryActionEntry</code> to inventory with <code>handle_library_action::&lt;A&gt;</code> as handler</li>
+<li>Implements <code>OperationTypeInfo</code> for TypeScript type generation</li>
+<li>Submits <code>TypeExtractorEntry</code> to inventory for type extraction</li>
+</ol>
 <p><strong>Usage</strong>:</p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">use</span><span class="w"> </span><span class="k">crate</span><span class="p">::</span><span class="n">infra</span><span class="p">::</span><span class="n">action</span><span class="p">::</span><span class="n">LibraryAction</span><span class="p">;</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
@@ -1103,11 +1161,13 @@
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
 </span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="k">crate</span><span class="p">::</span><span class="n">register_library_action</span><span class="o">!</span><span class="p">(</span><span class="n">FileCopyAction</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;files.copy&quot;</span><span class="p">);</span>
 </span></code></pre></div>
-<p><strong>Resolves</strong>:
-- Method string: <code>"action:files.copy.input"</code>
-- Wire trait for <code>FileCopyAction::Input</code>
-- Library scope type extraction
-- Handler bound to <code>handle_library_action::&lt;FileCopyAction&gt;</code></p>
+<p><strong>Resolves</strong>:</p>
+<ul>
+<li>Method string: <code>"action:files.copy.input"</code></li>
+<li>Wire trait for <code>FileCopyAction::Input</code></li>
+<li>Library scope type extraction</li>
+<li>Handler bound to <code>handle_library_action::&lt;FileCopyAction&gt;</code></li>
+</ul>
 <h3 id="register_core_actionactionty-nameliteral"><code>register_core_action!($action:ty, $name:literal)</code></h3>
 <p><strong>Purpose</strong>: Registers a core action without library context.</p>
 <p><strong>What it does</strong>: Same steps as <code>register_library_action!</code> but for core scope.</p>
@@ -1118,59 +1178,77 @@
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
 </span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="k">crate</span><span class="p">::</span><span class="n">register_core_action</span><span class="o">!</span><span class="p">(</span><span class="n">LibraryCreateAction</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;libraries.create&quot;</span><span class="p">);</span>
 </span></code></pre></div>
-<p><strong>Resolves</strong>:
-- Method string: <code>"action:libraries.create.input"</code>
-- Wire trait for <code>LibraryCreateAction::Input</code>
-- Core scope type extraction
-- Handler bound to <code>handle_core_action::&lt;LibraryCreateAction&gt;</code></p>
+<p><strong>Resolves</strong>:</p>
+<ul>
+<li>Method string: <code>"action:libraries.create.input"</code></li>
+<li>Wire trait for <code>LibraryCreateAction::Input</code></li>
+<li>Core scope type extraction</li>
+<li>Handler bound to <code>handle_core_action::&lt;LibraryCreateAction&gt;</code></li>
+</ul>
 <h2 id="handler-functions">Handler Functions</h2>
 <h3 id="handle_library_queryqcontext-session-payload"><code>handle_library_query&lt;Q&gt;(context, session, payload)</code></h3>
 <p><strong>Purpose</strong>: Thin wrapper that deserializes input, executes library query, serializes output.</p>
-<p><strong>Core Steps</strong>:
-1. Create <code>ApiDispatcher</code> from <code>CoreContext</code>
-2. Deserialize <code>payload</code> into <code>Q::Input</code>
-3. Call <code>dispatcher.execute_library_query::&lt;Q&gt;(input, session)</code>
-4. Serialize <code>Q::Output</code> to JSON
-5. Return result or error as String</p>
-<p><strong>Resolves</strong>:
-- JSON-RPC payload to strongly-typed Rust types
-- Library context from session for database access
-- Business logic dispatch via ApiDispatcher</p>
+<p><strong>Core Steps</strong>:</p>
+<ol>
+<li>Create <code>ApiDispatcher</code> from <code>CoreContext</code></li>
+<li>Deserialize <code>payload</code> into <code>Q::Input</code></li>
+<li>Call <code>dispatcher.execute_library_query::&lt;Q&gt;(input, session)</code></li>
+<li>Serialize <code>Q::Output</code> to JSON</li>
+<li>Return result or error as String</li>
+</ol>
+<p><strong>Resolves</strong>:</p>
+<ul>
+<li>JSON-RPC payload to strongly-typed Rust types</li>
+<li>Library context from session for database access</li>
+<li>Business logic dispatch via ApiDispatcher</li>
+</ul>
 <h3 id="handle_core_queryqcontext-session-payload"><code>handle_core_query&lt;Q&gt;(context, session, payload)</code></h3>
 <p><strong>Purpose</strong>: Executes core query without library context.</p>
-<p><strong>Core Steps</strong>:
-1. Create <code>ApiDispatcher</code> from <code>CoreContext</code>
-2. Deserialize <code>payload</code> into <code>Q::Input</code>
-3. Call <code>dispatcher.execute_core_query::&lt;Q&gt;(input, session)</code>
-4. Serialize <code>Q::Output</code> to JSON
-5. Return result or error as String</p>
-<p><strong>Resolves</strong>:
-- Core queries that don't require library context
-- Session context for authentication but not library scoping</p>
+<p><strong>Core Steps</strong>:</p>
+<ol>
+<li>Create <code>ApiDispatcher</code> from <code>CoreContext</code></li>
+<li>Deserialize <code>payload</code> into <code>Q::Input</code></li>
+<li>Call <code>dispatcher.execute_core_query::&lt;Q&gt;(input, session)</code></li>
+<li>Serialize <code>Q::Output</code> to JSON</li>
+<li>Return result or error as String</li>
+</ol>
+<p><strong>Resolves</strong>:</p>
+<ul>
+<li>Core queries that don't require library context</li>
+<li>Session context for authentication but not library scoping</li>
+</ul>
 <h3 id="handle_library_actionacontext-session-payload"><code>handle_library_action&lt;A&gt;(context, session, payload)</code></h3>
 <p><strong>Purpose</strong>: Executes library action with library context.</p>
-<p><strong>Core Steps</strong>:
-1. Create <code>ApiDispatcher</code> from <code>CoreContext</code>
-2. Deserialize <code>payload</code> into <code>A::Input</code>
-3. Call <code>dispatcher.execute_library_action::&lt;A&gt;(input, session)</code>
-4. Serialize <code>A::Output</code> to JSON
-5. Return result or error as String</p>
-<p><strong>Resolves</strong>:
-- Actions that modify library-scoped state
-- Transaction handling via dispatcher
-- Library context for database operations</p>
+<p><strong>Core Steps</strong>:</p>
+<ol>
+<li>Create <code>ApiDispatcher</code> from <code>CoreContext</code></li>
+<li>Deserialize <code>payload</code> into <code>A::Input</code></li>
+<li>Call <code>dispatcher.execute_library_action::&lt;A&gt;(input, session)</code></li>
+<li>Serialize <code>A::Output</code> to JSON</li>
+<li>Return result or error as String</li>
+</ol>
+<p><strong>Resolves</strong>:</p>
+<ul>
+<li>Actions that modify library-scoped state</li>
+<li>Transaction handling via dispatcher</li>
+<li>Library context for database operations</li>
+</ul>
 <h3 id="handle_core_actionacontext-payload"><code>handle_core_action&lt;A&gt;(context, payload)</code></h3>
 <p><strong>Purpose</strong>: Executes core action without library context.</p>
-<p><strong>Core Steps</strong>:
-1. Create <code>ApiDispatcher</code> from <code>CoreContext</code>
-2. Call <code>dispatcher.create_base_session()</code> to get default session
-3. Deserialize <code>payload</code> into <code>A::Input</code>
-4. Call <code>dispatcher.execute_core_action::&lt;A&gt;(input, session)</code>
-5. Serialize <code>A::Output</code> to JSON
-6. Return result or error as String</p>
-<p><strong>Resolves</strong>:
-- Core actions like library creation that don't require library context
-- Base session creation for authentication without library scoping</p>
+<p><strong>Core Steps</strong>:</p>
+<ol>
+<li>Create <code>ApiDispatcher</code> from <code>CoreContext</code></li>
+<li>Call <code>dispatcher.create_base_session()</code> to get default session</li>
+<li>Deserialize <code>payload</code> into <code>A::Input</code></li>
+<li>Call <code>dispatcher.execute_core_action::&lt;A&gt;(input, session)</code></li>
+<li>Serialize <code>A::Output</code> to JSON</li>
+<li>Return result or error as String</li>
+</ol>
+<p><strong>Resolves</strong>:</p>
+<ul>
+<li>Core actions like library creation that don't require library context</li>
+<li>Base session creation for authentication without library scoping</li>
+</ul>
 <h2 id="type-extraction">Type Extraction</h2>
 <p>The registry integrates with TypeScript type generation via <code>QueryTypeInfo</code> and <code>OperationTypeInfo</code> traits. Registration macros automatically implement these traits and submit extractor entries to inventory.</p>
 <p><strong>Query Type Extraction</strong>:
