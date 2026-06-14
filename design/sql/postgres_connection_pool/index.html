@@ -1205,92 +1205,44 @@
 <ul>
 <li><code>max_connections</code> (integer, default: 100)</li>
 <li>Maximum concurrent connections to the database server</li>
-<li>
-<p>Can only be set at server start</p>
-</li>
-<li>
-<p><code>reserved_connections</code> (integer, default: 0)</p>
-</li>
+<li>Can only be set at server start</li>
+<li><code>reserved_connections</code> (integer, default: 0)</li>
 <li>Connection slots reserved for roles with <code>pg_use_reserved_connections</code> privileges</li>
-<li>
-<p>Can only be set at server start</p>
-</li>
-<li>
-<p><code>superuser_reserved_connections</code> (integer, default: 3)</p>
-</li>
+<li>Can only be set at server start</li>
+<li><code>superuser_reserved_connections</code> (integer, default: 3)</li>
 <li>Connection slots reserved for superusers (emergency use)</li>
-<li>
-<p>Can only be set at server start</p>
-</li>
-<li>
-<p><code>listen_addresses</code> (string, default: localhost)</p>
-</li>
+<li>Can only be set at server start</li>
+<li><code>listen_addresses</code> (string, default: localhost)</li>
 <li>IP addresses to listen on (<code>*</code> for all, <code>0.0.0.0</code> for IPv4 all)</li>
-<li>
-<p>Can only be set at server start</p>
-</li>
-<li>
-<p><code>port</code> (integer, default: 5432)</p>
-</li>
+<li>Can only be set at server start</li>
+<li><code>port</code> (integer, default: 5432)</li>
 <li>TCP port for connections</li>
-<li>
-<p>Can only be set at server start</p>
-</li>
-<li>
-<p><code>unix_socket_directories</code> (string, default: /tmp)</p>
-</li>
+<li>Can only be set at server start</li>
+<li><code>unix_socket_directories</code> (string, default: /tmp)</li>
 <li>Directories for Unix-domain sockets</li>
-<li>
-<p>Can only be set at server start</p>
-</li>
-<li>
-<p><code>unix_socket_group</code> (string, default: empty)</p>
-</li>
+<li>Can only be set at server start</li>
+<li><code>unix_socket_group</code> (string, default: empty)</li>
 <li>Owning group for Unix-domain sockets</li>
-<li>
-<p>Can only be set at server start</p>
-</li>
-<li>
-<p><code>unix_socket_permissions</code> (integer, default: 0777)</p>
-</li>
+<li>Can only be set at server start</li>
+<li><code>unix_socket_permissions</code> (integer, default: 0777)</li>
 <li>Permissions for Unix-domain sockets</li>
-<li>
-<p>Can only be set at server start</p>
-</li>
-<li>
-<p><code>authentication_timeout</code> (integer, default: 1m)</p>
-</li>
+<li>Can only be set at server start</li>
+<li><code>authentication_timeout</code> (integer, default: 1m)</li>
 <li>Maximum time to complete client authentication</li>
-<li>
-<p>Can be set in postgresql.conf</p>
-</li>
-<li>
-<p><code>client_connection_check_interval</code> (integer, default: 0)</p>
-</li>
+<li>Can be set in postgresql.conf</li>
+<li><code>client_connection_check_interval</code> (integer, default: 0)</li>
 <li>Time interval (ms) for checking client connectivity during queries</li>
 <li>Can be set in postgresql.conf</li>
 </ul>
 <h3 id="tcpnetwork-configuration">TCP/Network Configuration</h3>
 <ul>
 <li><code>tcp_keepalives_idle</code> (integer, default: OS default)</li>
-<li>
-<p>Seconds of inactivity before sending TCP keepalive</p>
-</li>
-<li>
-<p><code>tcp_keepalives_interval</code> (integer, default: OS default)</p>
-</li>
-<li>
-<p>Seconds between unacknowledged keepalive retransmissions</p>
-</li>
-<li>
-<p><code>tcp_keepalives_count</code> (integer, default: OS default)</p>
-</li>
-<li>
-<p>Number of lost keepalives before considering connection dead</p>
-</li>
-<li>
-<p><code>tcp_user_timeout</code> (integer, default: OS default)</p>
-</li>
+<li>Seconds of inactivity before sending TCP keepalive</li>
+<li><code>tcp_keepalives_interval</code> (integer, default: OS default)</li>
+<li>Seconds between unacknowledged keepalive retransmissions</li>
+<li><code>tcp_keepalives_count</code> (integer, default: OS default)</li>
+<li>Number of lost keepalives before considering connection dead</li>
+<li><code>tcp_user_timeout</code> (integer, default: OS default)</li>
 <li>Milliseconds data can remain unacknowledged before closing</li>
 </ul>
 <h2 id="connection-pooler-configuration-pgbouncer">Connection Pooler Configuration (PgBouncer)</h2>
@@ -1315,19 +1267,11 @@
 <ul>
 <li><code>session</code> mode</li>
 <li>Behavior: One connection per client (no pooling)</li>
-<li>
-<p>Use Case: Limited use, testing</p>
-</li>
-<li>
-<p><code>transaction</code> mode</p>
-</li>
+<li>Use Case: Limited use, testing</li>
+<li><code>transaction</code> mode</li>
 <li>Behavior: Return connection after each transaction</li>
-<li>
-<p>Use Case: Recommended for most workloads</p>
-</li>
-<li>
-<p><code>statement</code> mode</p>
-</li>
+<li>Use Case: Recommended for most workloads</li>
+<li><code>statement</code> mode</li>
 <li>Behavior: Return connection after each statement</li>
 <li>Use Case: Specific isolation requirements</li>
 </ul>
@@ -1559,40 +1503,20 @@
 <ul>
 <li>Connection Utilization</li>
 <li>Description: % of <code>max_connections</code> in use</li>
-<li>
-<p>Target Range: 60-80% during peak</p>
-</li>
-<li>
-<p>Pool Wait Time</p>
-</li>
+<li>Target Range: 60-80% during peak</li>
+<li>Pool Wait Time</li>
 <li>Description: Time clients wait for connections</li>
-<li>
-<p>Target Range: &lt; 100ms (P99)</p>
-</li>
-<li>
-<p>Query Duration</p>
-</li>
+<li>Target Range: &lt; 100ms (P99)</li>
+<li>Query Duration</li>
 <li>Description: Average query execution time</li>
-<li>
-<p>Target Range: Depends on workload</p>
-</li>
-<li>
-<p>Lock Contention</p>
-</li>
+<li>Target Range: Depends on workload</li>
+<li>Lock Contention</li>
 <li>Description: % time spent waiting on locks</li>
-<li>
-<p>Target Range: &lt; 5%</p>
-</li>
-<li>
-<p>Cache Hit Ratio</p>
-</li>
+<li>Target Range: &lt; 5%</li>
+<li>Cache Hit Ratio</li>
 <li>Description: % queries served from cache</li>
-<li>
-<p>Target Range: &gt; 99% for OLTP</p>
-</li>
-<li>
-<p>Context Switches</p>
-</li>
+<li>Target Range: &gt; 99% for OLTP</li>
+<li>Context Switches</li>
 <li>Description: OS context switches per second</li>
 <li>Target Range: Monitor trends</li>
 </ul>
