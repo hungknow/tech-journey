@@ -91,6 +91,8 @@ name = cur.fetchone()[0]
 
 # Query field with ->> operator
 
+The `->>` operator returns the value as **text**, which is often more convenient for string operations and comparisons, while `->` returns a **JSON value** that may need additional casting.
+
 ## Golang
 ```go
 var name string
