@@ -1,0 +1,1315 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Candlestick scaling: model and math - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#candlestick-scaling-model-and-math" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Candlestick scaling: model and math
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-variables-what-to-track" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Main variables (what to track)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#derived-variables-from-main-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Derived variables (from main variables)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Derived variables (from main variables)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#x-axis-time-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        X-axis (time → screen)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#y-axis-price-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Y-axis (price → screen)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-candle-draw-variables-all-derived" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-candle draw variables (all derived)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volume-bar-height-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volume bar height (optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#log-scale-why-use-it-and-a-numeric-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Log scale: why use it and a numeric example
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Log scale: why use it and a numeric example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-use-log-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why use log scale?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-in-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example in numbers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-what-to-track-vs-what-to-derive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary: what to track vs what to derive
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="candlestick-scaling-model-and-math">Candlestick scaling: model and math</h1>
+<p>This document describes how the chart scales candlestick <strong>width</strong> (time axis) and <strong>height</strong> (price axis) from data space to screen pixels. It focuses on the <strong>model and derived variables</strong> so you can reimplement the same behavior in any framework or language.</p>
+<hr />
+<h2 id="context">Context</h2>
+<ul>
+<li><strong>Data</strong>: Each candlestick is one OHLCV point: <code>[t, o, h, l, c, v]</code> — time, open, high, low, close, volume. Time and prices are in your data units (e.g. ms and dollars).</li>
+<li><strong>Goal</strong>: Map the <strong>visible window</strong> of data onto a <strong>pixel rectangle</strong> (chart area), and compute for each candle:</li>
+<li><strong>Horizontal</strong>: center x, width in pixels.</li>
+<li><strong>Vertical</strong>: pixel y for open, high, low, close (and optionally volume bar height).</li>
+</ul>
+<p>So we need:</p>
+<ul>
+<li><strong>Time → x</strong>: map timestamp <code>t</code> to screen x (and derive candle width from “pixels per bar”).</li>
+<li><strong>Price → y</strong>: map price (or log(price)) to screen y.</li>
+</ul>
+<p>Everything below is in terms of <strong>tracked (main) variables</strong> and <strong>derived variables</strong> used to draw.</p>
+<hr />
+<h2 id="main-variables-what-to-track">Main variables (what to track)</h2>
+<p>These are the inputs / state your chart keeps. All scaling is expressed from them.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+<th>Units / notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>time_range</strong></td>
+<td>Visible time window</td>
+<td><code>[t_min, t_max]</code> in same units as <code>t</code> (e.g. ms)</td>
+</tr>
+<tr>
+<td><strong>bar_interval</strong></td>
+<td>Time step between consecutive candles in the main series</td>
+<td>Same units as <code>t</code> (e.g. 60000 for 1‑minute bars)</td>
+</tr>
+<tr>
+<td><strong>chart_width</strong></td>
+<td>Chart drawing width</td>
+<td>Pixels (often “total width − sidebar”)</td>
+</tr>
+<tr>
+<td><strong>chart_height</strong></td>
+<td>Chart drawing height (for the price axis)</td>
+<td>Pixels</td>
+</tr>
+<tr>
+<td><strong>price_high</strong></td>
+<td>Upper bound of visible price range</td>
+<td>Data price units</td>
+</tr>
+<tr>
+<td><strong>price_low</strong></td>
+<td>Lower bound of visible price range</td>
+<td>Data price units</td>
+</tr>
+<tr>
+<td><strong>use_log_scale</strong></td>
+<td>Use log(price) for Y axis</td>
+<td>Boolean</td>
+</tr>
+</tbody>
+</table>
+<p>Optional config (tunable constants):</p>
+<ul>
+<li><strong>candle_width_ratio</strong> — candle width as fraction of the “step” (e.g. <code>0.6</code> ⇒ 60% of <code>pixels_per_bar</code>).</li>
+<li><strong>price_range_expand</strong> — fractional padding of the price range (e.g. <code>0.15</code> ⇒ 15% above high and below low).</li>
+<li><strong>volume_height_ratio</strong> — target fraction of height used for volume (e.g. <code>0.15</code>).</li>
+</ul>
+<p><strong>price_high</strong> and <strong>price_low</strong> are either:</p>
+<ul>
+<li><strong>Auto</strong>: from data in view — e.g. <code>data_high = max(high)</code>, <code>data_low = min(low)</code> over visible subset, then optionally:</li>
+<li><strong>Linear</strong>: <code>price_high = data_high + (data_high - data_low) * price_range_expand</code>, <code>price_low = data_low - (data_high - data_low) * price_range_expand</code>.</li>
+<li><strong>Log</strong>: keep <code>price_high = data_high</code>, <code>price_low = data_low</code> then apply a log-scale expand (see Log scale section).</li>
+<li><strong>Fixed</strong>: user-defined or from a fixed y-axis range.</li>
+</ul>
+<p>So the <strong>main variables</strong> you must keep track of are: <strong>time_range</strong>, <strong>bar_interval</strong>, <strong>chart_width</strong>, <strong>chart_height</strong>, <strong>price_high</strong>, <strong>price_low</strong>, and <strong>use_log_scale</strong> (plus optional config). The <strong>subset of data</strong> in view is implied by <strong>time_range</strong> (and your data source).</p>
+<hr />
+<h2 id="derived-variables-from-main-variables">Derived variables (from main variables)</h2>
+<p>All of these can be computed from the main variables above. They are what you actually use to convert data → pixels and to choose candle dimensions.</p>
+<h3 id="x-axis-time-screen">X-axis (time → screen)</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Formula</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>time_span</strong></td>
+<td><code>time_range[1] - time_range[0]</code></td>
+<td>Time span currently visible</td>
+</tr>
+<tr>
+<td><strong>draw_width</strong></td>
+<td><code>chart_width - sidebar</code> (or just <code>chart_width</code>)</td>
+<td>Drawable horizontal pixels</td>
+</tr>
+<tr>
+<td><strong>bar_capacity</strong></td>
+<td><code>time_span / bar_interval</code></td>
+<td>Number of “candle slots” in the visible window</td>
+</tr>
+<tr>
+<td><strong>pixels_per_bar</strong></td>
+<td><code>draw_width / bar_capacity</code></td>
+<td>Pixels per candle slot (one bar step)</td>
+</tr>
+<tr>
+<td><strong>px_per_time</strong></td>
+<td><code>draw_width / time_span</code></td>
+<td>Pixels per unit of time</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Time → x:</strong></p>
+<ul>
+<li><strong>time_to_screen(t)</strong> = <code>(t - time_range[0]) * px_per_time</code><br />
+  So <code>time_range[0]</code> → 0, <code>time_range[1]</code> → <code>draw_width</code>.<br />
+  In the codebase this is often stored as a function and then used as <code>floor(time_to_screen(t)) ± 0.5</code> for pixel alignment.</li>
+</ul>
+<p><strong>Candle width (horizontal):</strong></p>
+<ul>
+<li><strong>candle_width_px</strong> = <code>pixels_per_bar * candle_width_ratio</code><br />
+  So candle width is a fixed fraction of the step. When you have overlays with a different bar interval (e.g. higher timeframe), use <strong>interval_ratio</strong> = overlay_interval / main_interval and set <strong>candle_width_px</strong> = <code>pixels_per_bar * candle_width_ratio * interval_ratio</code>.</li>
+</ul>
+<p>So for <strong>width</strong> you only need: <strong>pixels_per_bar</strong> (from <strong>time_range</strong>, <strong>bar_interval</strong>, <strong>draw_width</strong>) and <strong>candle_width_ratio</strong> (and optional <strong>interval_ratio</strong>). Candle <strong>center x</strong> is <strong>time_to_screen(t)</strong> (with whatever rounding you use).</p>
+<h3 id="y-axis-price-screen">Y-axis (price → screen)</h3>
+<p>We want: price at <strong>price_high</strong> at the <strong>top</strong> of the chart (small y) and <strong>price_low</strong> at the <strong>bottom</strong> (large y). So we use a linear map <strong>y = price × price_scale + price_offset</strong> with <strong>price_scale</strong> negative.</p>
+<p><strong>Linear scale:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Formula</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>price_scale</strong></td>
+<td><code>- chart_height / (price_high - price_low)</code></td>
+<td>Pixels per price unit (negative so high → top)</td>
+</tr>
+<tr>
+<td><strong>price_offset</strong></td>
+<td><code>- price_high * price_scale</code></td>
+<td>Shift so that <code>price_high</code> → 0</td>
+</tr>
+</tbody>
+</table>
+<p>Then:</p>
+<ul>
+<li><strong>price → y</strong>: <code>y = price * price_scale + price_offset</code>.<br />
+  So <code>price_high</code> → 0, <code>price_low</code> → <code>chart_height</code>.</li>
+<li>When drawing, use integer pixel: e.g. <code>y_px = floor(price * price_scale + price_offset)</code> for o, h, l, c.</li>
+</ul>
+<p><strong>Log scale:</strong></p>
+<p>Use the same idea in <strong>log(price)</strong> space:</p>
+<ul>
+<li><strong>price_scale</strong> = <code>- chart_height / (log(price_high) - log(price_low))</code></li>
+<li><strong>price_offset</strong> = <code>- log(price_high) * price_scale</code></li>
+<li><strong>price → y</strong>: <code>y = log(price) * price_scale + price_offset</code></li>
+<li>For <strong>screen → price</strong>: <code>price = exp((y - price_offset) / price_scale)</code>.</li>
+</ul>
+<p>So the <strong>derived</strong> Y variables are <strong>price_scale</strong> and <strong>price_offset</strong>; all candle o, h, l, c in pixels come from applying this transform to the raw prices (or their logs).</p>
+<h3 id="per-candle-draw-variables-all-derived">Per-candle draw variables (all derived)</h3>
+<p>For each OHLCV point <strong>p</strong> = <code>[t, o, h, l, c, v]</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Formula (linear)</th>
+<th>Formula (log)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>x</strong></td>
+<td><code>time_to_screen(p[0])</code> (+ optional 0.5 for centering)</td>
+<td>same</td>
+</tr>
+<tr>
+<td><strong>candle_width_px</strong></td>
+<td><code>pixels_per_bar * candle_width_ratio</code> (× interval_ratio if different interval)</td>
+<td>same</td>
+</tr>
+<tr>
+<td><strong>o</strong></td>
+<td><code>floor(p[1] * price_scale + price_offset)</code></td>
+<td><code>floor(log(p[1]) * price_scale + price_offset)</code></td>
+</tr>
+<tr>
+<td><strong>h</strong></td>
+<td><code>floor(p[2] * price_scale + price_offset)</code></td>
+<td><code>floor(log(p[2]) * price_scale + price_offset)</code></td>
+</tr>
+<tr>
+<td><strong>l</strong></td>
+<td><code>floor(p[3] * price_scale + price_offset)</code></td>
+<td><code>floor(log(p[3]) * price_scale + price_offset)</code></td>
+</tr>
+<tr>
+<td><strong>c</strong></td>
+<td><code>floor(p[4] * price_scale + price_offset)</code></td>
+<td><code>floor(log(p[4]) * price_scale + price_offset)</code></td>
+</tr>
+</tbody>
+</table>
+<p>From these you draw:</p>
+<ul>
+<li><strong>Wick</strong>: vertical line from <strong>(x, h)</strong> to <strong>(x, l)</strong>.</li>
+<li><strong>Body</strong>: rectangle from <strong>(x - candle_width_px/2, min(o,c))</strong> to <strong>(x + candle_width_px/2, max(o,c))</strong> (with your convention for up/down and minimum body height for dojis).</li>
+</ul>
+<p>So <strong>candle height</strong> on screen is not a single “scale” number: it comes from the <strong>Y transform (price_scale, price_offset)</strong> applied to <strong>o, h, l, c</strong>. The “scale” of the candle in the vertical direction is <strong>price_scale</strong> (pixels per price unit, or per log(price) in log mode).</p>
+<h3 id="volume-bar-height-optional">Volume bar height (optional)</h3>
+<p>If you draw volume bars:</p>
+<ul>
+<li><strong>max_volume</strong> = max of <code>p[5]</code> over the visible subset.</li>
+<li><strong>volume_scale</strong> = <code>volume_height_ratio * chart_height / max_volume</code> (pixels per volume unit).</li>
+<li><strong>Bar height</strong> for volume at <strong>p</strong> = <code>p[5] * volume_scale</code> (pixels).</li>
+</ul>
+<p>So volume height is derived from <strong>chart_height</strong>, <strong>volume_height_ratio</strong>, and the max volume in view.</p>
+<hr />
+<h2 id="log-scale-why-use-it-and-a-numeric-example">Log scale: why use it and a numeric example</h2>
+<h3 id="why-use-log-scale">Why use log scale?</h3>
+<p>On a <strong>linear</strong> Y-axis, a move of +10 dollars always uses the same vertical distance, whether the price is 100 or 10,000. So a +10 move from 100 to 110 looks much larger than a +10 move from 10,000 to 10,010, even though the first is +10% and the second is +0.1%. For many assets, <strong>percentage (relative) moves</strong> are what matter: a 5% move is similar in meaning whether the price is 50 or 500.</p>
+<p>A <strong>log scale</strong> maps <strong>log(price)</strong> to y. Equal <em>percentage</em> changes in price become equal <em>distances</em> on the screen. For example:</p>
+<ul>
+<li>Doubling from 100 → 200 is the same percentage change as 500 → 1000.</li>
+<li>In log space: log(200) − log(100) = ln(2) ≈ 0.693, and log(1000) − log(500) = ln(2) ≈ 0.693.</li>
+<li>So both “doublings” get the same vertical pixel distance.</li>
+</ul>
+<p>That makes log scale better when:</p>
+<ul>
+<li>You care about relative (percent) moves rather than absolute moves.</li>
+<li>Price spans several orders of magnitude (e.g. 10 to 10,000).</li>
+<li>You want to compare shape of moves at different price levels.</li>
+</ul>
+<h3 id="example-in-numbers">Example in numbers</h3>
+<p>Suppose <strong>price_high</strong> = 1000, <strong>price_low</strong> = 100, <strong>chart_height</strong> = 300 px.</p>
+<p><strong>Linear scale:</strong></p>
+<ul>
+<li><strong>price_scale</strong> = −300 / (1000 − 100) = −1/3.</li>
+<li><strong>price_offset</strong> = −1000 × (−1/3) = 1000/3 ≈ 333.33.</li>
+<li>Move 100 → 200: Δprice = 100 → Δy = 100 × (−1/3) = −33.33 px (about 11% of chart height).</li>
+<li>Move 900 → 1000: Δprice = 100 → Δy = 100 × (−1/3) = −33.33 px (same 11% of chart height).</li>
+</ul>
+<p>So in linear scale, the same <em>absolute</em> move (100) always gets the same pixels; the <em>percentage</em> move 100→200 (+100%) is drawn much bigger than 900→1000 (+11%).</p>
+<p><strong>Log scale:</strong></p>
+<ul>
+<li>log(100) ≈ 4.605, log(1000) ≈ 6.908.</li>
+<li><strong>price_scale</strong> = −300 / (6.908 − 4.605) ≈ −130.2 (in “per log(price)”).</li>
+<li><strong>price_offset</strong> = −6.908 × (−130.2) ≈ 900.2.</li>
+</ul>
+<p>Now equal <em>percentage</em> moves get equal pixel distance:</p>
+<ul>
+<li>100 → 200 (+100%): Δlog = log(200) − log(100) = ln(2) ≈ 0.693 → Δy = 0.693 × (−130.2) ≈ −90.2 px.</li>
+<li>500 → 1000 (+100%): Δlog = log(1000) − log(500) = ln(2) ≈ 0.693 → Δy ≈ −90.2 px.</li>
+</ul>
+<p>So both “double from X to 2X” moves use the same vertical space. A +10% move (e.g. 100 → 110) always uses the same pixel height as any other +10% move (e.g. 500 → 550), because log(1.1) is constant.</p>
+<hr />
+<h2 id="summary-what-to-track-vs-what-to-derive">Summary: what to track vs what to derive</h2>
+<p><strong>Track (main state):</strong></p>
+<ul>
+<li><strong>time_range</strong> = [t_min, t_max]</li>
+<li><strong>bar_interval</strong> (main series bar interval)</li>
+<li><strong>chart_width</strong>, <strong>chart_height</strong> (drawable pixels)</li>
+<li><strong>price_high</strong>, <strong>price_low</strong> (visible price range, possibly expanded)</li>
+<li><strong>use_log_scale</strong> (and config: candle_width_ratio, price_range_expand, volume_height_ratio)</li>
+</ul>
+<p><strong>Derive for drawing:</strong></p>
+<ul>
+<li><strong>px_per_time</strong> = draw_width / time_span; <strong>time_to_screen(t)</strong> = (t − time_range[0]) × px_per_time</li>
+<li><strong>pixels_per_bar</strong> = draw_width / (time_span / bar_interval); <strong>candle_width_px</strong> = pixels_per_bar × candle_width_ratio (× interval_ratio if needed)</li>
+<li><strong>price_scale</strong> = −chart_height / (price_high − price_low), <strong>price_offset</strong> = −price_high × price_scale (linear); or same with log(price) for log scale</li>
+<li>Per candle: <strong>x</strong> = time_to_screen(t), <strong>o,h,l,c</strong> = floor(price × price_scale + price_offset) (or log(price) × price_scale + price_offset)</li>
+<li>Volume: <strong>volume_scale</strong> = volume_height_ratio × chart_height / max_volume; bar height = v × volume_scale</li>
+</ul>
+<p>With this, you can reimplement the same scaling and drawing logic in any language or UI framework: keep the main variables updated when the user changes range, interval, or size, then recompute the derived values and redraw.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

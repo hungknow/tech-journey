@@ -1,0 +1,1152 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Data Fetched on First Run or First Render - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#data-fetched-on-first-run-or-first-render" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Data Fetched on First Run or First Render
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-app-bootstrap-root-every-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. App bootstrap (Root, every load)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-config-and-me-when-logged-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Config and “me” (when logged in)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-after-config-and-me-onconfigloaded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. After config and me (onConfigLoaded)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-redirect-when-user-is-at" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Redirect when user is at “/”
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-loggedin-component-first-time-the-main-app-is-shown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. LoggedIn component (first time the main app is shown)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-team-controller-first-time-a-team-context-is-shown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Team controller (first time a team context is shown)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-sidebar-and-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Sidebar and categories
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-dataprefetch-when-sidebar-is-loaded-and-a-channel-is-selected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. DataPrefetch (when sidebar is “loaded” and a channel is selected)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-channel-selection-click-or-url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Channel selection (click or URL)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-post-list-first-time-a-channels-posts-are-shown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Post list (first time a channel’s posts are shown)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-order-logged-in-first-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary order (logged-in first run)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="data-fetched-on-first-run-or-first-render">Data Fetched on First Run or First Render</h1>
+<p>This document describes what the Mattermost web app fetches when it first loads or when the user first sees the main app (first render after login). The flow is split into: app bootstrap (Root), config-and-me, post-config, logged-in setup, team load, sidebar load, channel selection, and post list.</p>
+<p>For each frontend action, the <strong>Backend</strong> API (HTTP method and path under <code>/api/v4</code> unless noted) is included so you can map client calls to server endpoints.</p>
+<hr />
+<h2 id="1-app-bootstrap-root-every-load">1. App bootstrap (Root, every load)</h2>
+<p>When the Root component mounts it calls <strong>loadConfigAndMe</strong> (from <code>components/root/actions</code>). That runs first for every load.</p>
+<p><strong>Always (no login required):</strong></p>
+<ul>
+<li><strong>Client config</strong> — <code>getClientConfig()</code> → <strong>Backend:</strong> <code>GET /api/v4/config/client?format=old</code>. Public client-safe config (e.g. feature flags, site URL).</li>
+<li><strong>License config</strong> — <code>getLicenseConfig()</code> (uses <code>Client4.getClientLicenseOld</code>) → <strong>Backend:</strong> <code>GET /api/v4/license/client?format=old</code>. License flags used by the client.</li>
+</ul>
+<p>If the user is not logged in (no Mattermost user ID in the cookie), the flow stops here. No user, team, or channel data is requested.</p>
+<hr />
+<h2 id="2-config-and-me-when-logged-in">2. Config and “me” (when logged in)</h2>
+<p>When the cookie indicates a logged-in user, <strong>loadConfigAndMe</strong> continues and runs in parallel:</p>
+<ul>
+<li><strong>Current user</strong> — <code>getMe()</code> → <strong>Backend:</strong> <code>GET /api/v4/users/me</code>. Fetches the current user profile.</li>
+<li><strong>My preferences</strong> — <code>getMyPreferences()</code> → <strong>Backend:</strong> <code>GET /api/v4/users/me/preferences</code>. User preferences (theme, sidebar, notifications, etc.).</li>
+<li><strong>My teams</strong> — <code>getMyTeams()</code> → <strong>Backend:</strong> <code>GET /api/v4/users/me/teams</code>. List of teams the user belongs to.</li>
+<li><strong>My team members</strong> — <code>getMyTeamMembers()</code> → <strong>Backend:</strong> <code>GET /api/v4/users/me/teams/members</code>. Current user’s membership in each team.</li>
+</ul>
+<p>Then it runs (not in the same parallel batch):</p>
+<ul>
+<li><strong>My team unreads</strong> — <code>getMyTeamUnreads(collapsedThreads)</code> → <strong>Backend:</strong> <code>GET /api/v4/users/me/teams/unread?include_collapsed_threads=true|false</code>. Unread counts and related data per team.</li>
+<li><strong>Server limits</strong> — <code>getServerLimits()</code> → <strong>Backend:</strong> <code>GET /api/v4/limits/server</code>. Product/usage limits.</li>
+</ul>
+<p>So on first run when logged in, the app has: config, license, current user, preferences, team list, team memberships, team unreads, and server limits.</p>
+<hr />
+<h2 id="3-after-config-and-me-onconfigloaded">3. After config and me (onConfigLoaded)</h2>
+<p>After <strong>loadConfigAndMe</strong> finishes successfully, Root runs <strong>onConfigLoaded</strong>:</p>
+<ul>
+<li><strong>Products</strong> — <code>initializeProducts()</code> → loads product/plugin modules and related setup.</li>
+<li><strong>Plugins</strong> — <code>initializePlugins()</code> → initializes the plugin system and registered plugins.</li>
+<li><strong>Emojis</strong> — <code>migrateRecentEmojis()</code> and <code>loadRecentlyUsedCustomEmojis()</code> → migrates recent emoji data and loads recently used custom emojis.</li>
+<li><strong>Landing</strong> — <code>showLandingPageIfNecessary()</code> → may show desktop/landing logic (no extra API by itself).</li>
+</ul>
+<p>When the “products + plugins” promise resolves, Root sets <strong>shouldMountAppRoutes</strong> to true, so the main app routes (including LoggedIn and team/channel UI) mount.</p>
+<hr />
+<h2 id="4-redirect-when-user-is-at">4. Redirect when user is at “/”</h2>
+<p>If the user is at the root path “/” after config and me:</p>
+<ul>
+<li><strong>redirectToOnboardingOrDefaultTeam</strong> may run. It can call:</li>
+<li><strong>First admin setup</strong> — <code>getFirstAdminSetupComplete()</code> → <strong>Backend:</strong> <code>GET /api/v4/system/onboarding/complete</code>. Whether the first admin has completed setup (for onboarding vs redirect).</li>
+<li><strong>Admin profiles</strong> — <code>getProfiles(0, PROFILE_CHUNK_SIZE, { roles: SYSTEM_ADMIN_ROLE })</code> → <strong>Backend:</strong> <code>GET /api/v4/users?page=0&amp;per_page=60&amp;roles=system_admin</code>. Used to decide if the current user is the first admin and whether to send them to the preparing-workspace flow.</li>
+<li>Otherwise it redirects to the default team (e.g. <code>/{teamName}/channels/...</code>).</li>
+</ul>
+<p>So the “first run” may include one or two of these before the user lands on a team URL.</p>
+<hr />
+<h2 id="5-loggedin-component-first-time-the-main-app-is-shown">5. LoggedIn component (first time the main app is shown)</h2>
+<p>When the LoggedIn route mounts (user is logged in and app routes are mounted):</p>
+<ul>
+<li><strong>WebSocket</strong> — <code>WebSocketActions.initialize()</code> → opens the WebSocket connection for real-time events (no REST “fetch” of a data set, but part of first-run setup).</li>
+<li><strong>Timezone</strong> — <code>updateTimeZone()</code> → syncs device timezone with the server (may use existing session or a timezone API).</li>
+<li><strong>Custom profile attributes</strong> — If the config enables them, <code>getCustomProfileAttributeFields()</code> → <strong>Backend:</strong> <code>GET /api/v4/custom_profile_attributes/fields</code>. So the client knows which custom profile fields exist.</li>
+</ul>
+<p>No other bulk data is fetched here; team/channel data comes in the next steps.</p>
+<hr />
+<h2 id="6-team-controller-first-time-a-team-context-is-shown">6. Team controller (first time a team context is shown)</h2>
+<p>When the TeamController mounts (user has been redirected to a team or navigated to one), it runs once:</p>
+<ul>
+<li><strong>All teams’ channels</strong> — <code>fetchAllMyTeamsChannels()</code> → <strong>Backend:</strong> <code>GET /api/v4/users/me/channels</code>. Fetches channels for all of the user’s teams in one go.</li>
+<li><strong>All my channel members</strong> — <code>fetchAllMyChannelMembers()</code> → <strong>Backend:</strong> <code>GET /api/v4/users/{userId}/channel_members?page=-1</code> (streaming). The current user’s channel memberships across all teams.</li>
+</ul>
+<p>So on first render of the team UI, the app already has channels and channel memberships for every team, not only the current team.</p>
+<p>When the URL specifies a team by name, the app resolves the team and may call <strong>joinTeam</strong> (e.g. first time opening that team). Then:</p>
+<ul>
+<li><strong>Team by name</strong> — <code>getTeamByName(teamname)</code> → <strong>Backend:</strong> <code>GET /api/v4/teams/name/{teamName}</code>.</li>
+<li><strong>Add user to team</strong> — <code>addUserToTeam(team.id, currentUser.id)</code> → <strong>Backend:</strong> <code>POST /api/v4/teams/{teamId}/members</code> (or equivalent) if the user is not already in the team.</li>
+<li><strong>initializeTeam(team)</strong> — selects the team in Redux; if licensed and LDAP/custom groups are enabled, it may also call:</li>
+<li><strong>Groups for user</strong> — <code>getGroupsByUserIdPaginated(...)</code> → <strong>Backend:</strong> <code>GET /api/v4/users/{userId}/groups</code> (with pagination/filter params).</li>
+<li><strong>Groups for channels in team</strong> — <code>getAllGroupsAssociatedToChannelsInTeam(team.id)</code> → <strong>Backend:</strong> <code>GET /api/v4/teams/{teamId}/groups_by_channels?...</code> (if LDAP groups).</li>
+<li><strong>Groups for team</strong> — <code>getAllGroupsAssociatedToTeam(team.id)</code> or <code>getGroups(...)</code> → <strong>Backend:</strong> <code>GET /api/v4/teams/{teamId}/groups?...</code> or <code>GET /api/v4/groups?...</code> depending on team type.</li>
+<li><strong>Channels and members for this team</strong> — <code>fetchChannelsAndMembers(team.id)</code> → <strong>Backend:</strong> <code>GET /api/v4/users/me/teams/{teamId}/channels</code> and <code>GET /api/v4/users/me/teams/{teamId}/channels/members</code>. Current team’s channel list and members (redundant with “all teams” if fetchAllMyTeamsChannels already ran, but joinTeam explicitly loads this team’s data).</li>
+</ul>
+<p>When the current team is set, TeamController also runs (when content flagging is enabled):</p>
+<ul>
+<li><strong>Team content flagging status</strong> — <code>getTeamContentFlaggingStatus(currentTeamId)</code> → <strong>Backend:</strong> <code>GET /api/v4/content_flagging/team/{teamId}/status</code>.</li>
+</ul>
+<p>So “first run” for the team layer is: all channels + all my channel members, then (if navigating to a team by name) team-by-name, optional add to team, initializeTeam (and optional groups), and optionally fetchChannelsAndMembers for that team and content flagging status.</p>
+<hr />
+<h2 id="7-sidebar-and-categories">7. Sidebar and categories</h2>
+<p>When the Sidebar component mounts or when <strong>teamId</strong> becomes available, it fetches:</p>
+<ul>
+<li><strong>My categories</strong> — <code>fetchMyCategories(teamId)</code> → <strong>Backend:</strong> <code>GET /api/v4/users/{userId}/teams/{teamId}/channels/categories</code>. Channel categories and order for the current team (sidebar grouping).</li>
+</ul>
+<p>So the first time the sidebar is shown for a team, it loads categories for that team.</p>
+<hr />
+<h2 id="8-dataprefetch-when-sidebar-is-loaded-and-a-channel-is-selected">8. DataPrefetch (when sidebar is “loaded” and a channel is selected)</h2>
+<p>When <strong>sidebarLoaded</strong> becomes true and there is a <strong>currentChannelId</strong>, the DataPrefetch component:</p>
+<ul>
+<li><strong>Profiles for sidebar</strong> — <code>loadProfilesForSidebar()</code> runs <code>loadProfilesForDM()</code> and <code>loadProfilesForGM()</code>. For GMs with no profiles loaded it calls <strong>Backend:</strong> <code>POST /api/v4/users/group_channels</code> (body: array of channel IDs) → returns profiles per group channel. DMs may use <code>getChannelAndMyMember</code> and preferences; user list uses <strong>Backend:</strong> <code>GET /api/v4/users?in_channel=...</code> or similar. So DMs and GMs in the sidebar get user profiles where needed.</li>
+<li><strong>Current channel posts</strong> — queues <code>prefetchChannelPosts(currentChannelId)</code> → <strong>Backend:</strong> <code>GET /api/v4/channels/{channelId}/posts?since=...</code> (via <code>getPostsSince</code>) so the current channel’s posts are requested early (may add a short jitter for large public/private channels).</li>
+<li><strong>Other unread channels</strong> — builds a queue from unread channels (mentions first, then unreads) and prefetches posts (two at a time) → same posts APIs as below (e.g. <code>GET /api/v4/channels/{channelId}/posts</code> or unread endpoint).</li>
+</ul>
+<p>So on first run, once the sidebar is considered loaded and a channel is selected, the app prefetches profiles for sidebar DMs/GMs and posts for the current channel and then for other unread channels.</p>
+<hr />
+<h2 id="9-channel-selection-click-or-url">9. Channel selection (click or URL)</h2>
+<p>When the user opens a channel (by URL or click), <strong>ChannelIdentifierRouter</strong> runs <strong>onChannelByIdentifierEnter</strong>, which resolves the identifier (channel name, id, DM, GM) and then calls <strong>emitChannelClickEvent(channel)</strong>. That:</p>
+<ul>
+<li><strong>Channel stats</strong> — <code>getChannelStats(channel.id)</code> → <strong>Backend:</strong> <code>GET /api/v4/channels/{channelId}/stats</code> (or with <code>?exclude_files_count=true</code>). Member count, etc., for the channel.</li>
+<li><strong>Profiles for sidebar</strong> — <code>loadProfilesForSidebar()</code> again when switching (same APIs as in section 8).</li>
+<li><strong>Redux</strong> — <code>SELECT_CHANNEL</code> and <code>SELECT_CHANNEL_WITH_MEMBER</code> so the UI and Redux know the current channel (no API).</li>
+<li><strong>App bindings</strong> — If apps are enabled, <code>fetchAppBindings(channel.id)</code> → <strong>Backend:</strong> <code>GET /plugins/com.mattermost.apps/api/v1/bindings?channel_id=...&amp;team_id=...&amp;user_agent=webapp</code>. App commands/bindings for that channel.</li>
+</ul>
+<p>If the channel was not in the store yet (e.g. resolved by name or by ID), the router may have called <strong>getChannelByNameAndTeamName</strong> → <strong>Backend:</strong> <code>GET /api/v4/teams/name/{teamName}/channels/name/{channelName}</code>, <strong>getChannelMember</strong> → <strong>Backend:</strong> <code>GET /api/v4/channels/{channelId}/members/{userId}</code>, <strong>joinChannel</strong> → <strong>Backend:</strong> <code>POST /api/v4/channels/members</code>, <strong>getUser</strong> / <strong>getUserByUsername</strong> → <strong>Backend:</strong> <code>GET /api/v4/users/{userId}</code> or <code>GET /api/v4/users/username/{username}</code>, <strong>openDirectChannelToUserId</strong> (creates/gets DM), or <strong>fetchChannelsAndMembers(teamId)</strong> (APIs above). So the “first fetch” for a given channel can include channel metadata, membership, and optionally user profile(s) for DMs/GMs.</p>
+<hr />
+<h2 id="10-post-list-first-time-a-channels-posts-are-shown">10. Post list (first time a channel’s posts are shown)</h2>
+<p>When the PostList component loads posts for the selected channel it runs <strong>postsOnLoad</strong> (or equivalent), which:</p>
+<ul>
+<li>If there is a <strong>focused post</strong> (e.g. permalink): <strong>loadPostsAround(channelId, focusedPostId)</strong> → <strong>Backend:</strong> <code>GET /api/v4/channels/{channelId}/posts?before=...</code> and/or <code>?after=...</code> (via <code>getPostsBefore</code> / <code>getPostsAfter</code>). Posts around that id.</li>
+<li>Else if <strong>first load</strong> and not already prefetching: <strong>loadUnreads(channelId)</strong> → <strong>Backend:</strong> <code>GET /api/v4/users/me/channels/{channelId}/posts/unread?limit_after=...&amp;limit_before=...&amp;...</code>. Unread-related posts.</li>
+<li>Else if there is a <strong>latestPostTimeStamp</strong> (e.g. after reconnect): <strong>syncPostsInChannel(channelId, since)</strong> → <strong>Backend:</strong> <code>GET /api/v4/channels/{channelId}/posts?since=...</code>.</li>
+<li>Otherwise: <strong>loadLatestPosts(channelId)</strong> → <strong>Backend:</strong> <code>GET /api/v4/channels/{channelId}/posts?page=0&amp;per_page=...</code>. Latest chunk of posts (<code>getPosts</code>).</li>
+</ul>
+<p>After loading, it calls <strong>markChannelAsRead(channelId)</strong> → <strong>Backend:</strong> <code>POST /api/v4/channels/members/me/view</code> with body <code>{ channel_id, collapsed_threads_supported: true }</code> (updates last viewed and read state).</p>
+<p>So on first render of a channel’s thread view, the app fetches either unread posts or the latest posts (or around a permalink), then marks the channel as read.</p>
+<hr />
+<h2 id="summary-order-logged-in-first-run">Summary order (logged-in first run)</h2>
+<p>Rough order of what gets fetched:</p>
+<ol>
+<li><strong>Config and license</strong> (always).</li>
+<li><strong>Me, preferences, my teams, my team members</strong> (parallel).</li>
+<li><strong>My team unreads, server limits</strong> (after that).</li>
+<li><strong>Products, plugins, recent emojis</strong> (onConfigLoaded); then app routes mount.</li>
+<li><strong>Optional:</strong> first-admin check and admin profiles if at “/”.</li>
+<li><strong>WebSocket, timezone, custom profile attributes</strong> (LoggedIn).</li>
+<li><strong>All teams’ channels and all my channel members</strong> (TeamController).</li>
+<li><strong>Optional:</strong> team by name, add to team, initializeTeam (and groups), fetchChannelsAndMembers for that team, team content flagging.</li>
+<li><strong>My categories</strong> for current team (Sidebar).</li>
+<li><strong>Profiles for sidebar</strong> (DMs/GMs) and <strong>prefetch current channel + unread channels’ posts</strong> (DataPrefetch).</li>
+<li><strong>Channel stats, app bindings</strong> when a channel is selected; <strong>posts</strong> (latest or unread or around permalink) and <strong>markChannelAsRead</strong> when the post list loads.</li>
+</ol>
+<p>This is the set of data the frontend fetches on the first run or first render for a logged-in user.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

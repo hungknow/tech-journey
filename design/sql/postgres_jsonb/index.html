@@ -1,0 +1,1209 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../../../algorithm/sql/">
+      
+      
+        <link rel="next" href="../postgres_connection_pool/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Postgres JSONB - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#create-json" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Postgres JSONB
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p>PostgreSQL JSON/JSONB operations in Go.</p>
+<ul>
+<li><a href="#create-json">Create JSON</a></li>
+<li><a href="#query-field-with---operator">Query field with -&gt; operator</a></li>
+<li><a href="#query-field-with--&gt;-operator">Query field with -&gt;&gt; operator</a></li>
+<li><a href="#query-nested-field">Query nested field</a></li>
+<li><a href="#query-array-element">Query array element</a></li>
+<li><a href="#contains-key-with--operator">Contains key with ? operator</a></li>
+<li><a href="#contains-value-with--operator">Contains value with @&gt; operator</a></li>
+<li><a href="#query-where-json-contains-key">Query where JSON contains key</a></li>
+<li><a href="#query-where-json-contains-value">Query where JSON contains value</a></li>
+<li><a href="#query-where-array-contains-element">Query where array contains element</a></li>
+<li><a href="#update-json-field-with-jsonb_set">Update JSON field with jsonb_set</a></li>
+<li><a href="#add-new-field-with-jsonb_set">Add new field with jsonb_set</a></li>
+<li><a href="#delete-field-with---operator">Delete field with - operator</a></li>
+<li><a href="#delete-multiple-fields-with---operator">Delete multiple fields with - operator</a></li>
+<li><a href="#delete-nested-field-with-#--operator">Delete nested field with #- operator</a></li>
+<li><a href="#append-to-array-with-jsonb_set">Append to array with jsonb_set</a></li>
+<li><a href="#concatenate-json-with---operator">Concatenate JSON with || operator</a></li>
+<li><a href="#get-json-keys-with-jsonb_object_keys">Get JSON keys with jsonb_object_keys</a></li>
+<li><a href="#get-all-keys-with-jsonb_keys">Get all keys with jsonb_keys</a></li>
+<li><a href="#check-if-any-key-exists-with-|-operator">Check if any key exists with ?| operator</a></li>
+<li><a href="#check-if-all-keys-exist-with-&amp;-operator">Check if all keys exist with ?&amp; operator</a></li>
+<li><a href="#aggregate-json-array-with-jsonb_agg">Aggregate JSON array with jsonb_agg</a></li>
+<li><a href="#merge-jsonb-with-jsonb_merge_patch">Merge JSONB with jsonb_merge_patch</a></li>
+<li><a href="#search-text-in-json-with--operator">Search text in JSON with @? operator</a></li>
+<li><a href="#extract-all-matching-values-with-jsonb_path_query">Extract all matching values with jsonb_path_query</a></li>
+<li><a href="#query-nested-array-with-jsonb_path_query">Query nested array with jsonb_path_query</a></li>
+<li><a href="#get-path-to-value-with-jsonb_path_query_first">Get path to value with jsonb_path_query_first</a></li>
+</ul>
+<h1 id="create-json">Create JSON</h1>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;encoding/json&quot;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">data</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="s">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Alice&quot;</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="s">&quot;age&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="s">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;engineer&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;golang&quot;</span><span class="p">},</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nx">jsonBytes</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">Marshal</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nx">db</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;INSERT INTO users (data) VALUES ($1)&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">jsonBytes</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/jackc/pgx/v5/pgtype&quot;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nx">data</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pgtype</span><span class="p">.</span><span class="nx">JSONB</span><span class="p">{</span><span class="nx">Bytes</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">`{&quot;name&quot;:&quot;Alice&quot;,&quot;age&quot;:30}`</span><span class="p">),</span><span class="w"> </span><span class="nx">Valid</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;INSERT INTO users (data) VALUES ($1)&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="query-field-with-operator">Query field with -&gt; operator</h1>
+<p>Returns JSON value at specified key. Use -&gt; when you need the result as JSON.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">type</span><span class="w"> </span><span class="nx">Result</span><span class="w"> </span><span class="kd">struct</span><span class="p">{</span><span class="w"> </span><span class="nx">Name</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">var</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="nx">Result</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT data-&gt;&#39;name&#39; FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">r</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT data-&gt;&#39;name&#39; FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">r</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="query-field-with-operator_1">Query field with -&gt;&gt; operator</h1>
+<p>Returns text value at specified key. Use -&gt;&gt; for string comparisons, filtering, or when you need text output.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT data-&gt;&gt;&#39;name&#39; FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">name</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT data-&gt;&gt;&#39;name&#39; FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">name</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="query-nested-field">Query nested field</h1>
+<p>Chain -&gt; and -&gt;&gt; operators to navigate nested objects. Returns text at the final key.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">city</span><span class="w"> </span><span class="kt">string</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT data-&gt;&#39;address&#39;-&gt;&gt;&#39;city&#39; FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">city</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT data-&gt;&#39;address&#39;-&gt;&gt;&#39;city&#39; FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">city</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="query-array-element">Query array element</h1>
+<p>Access array elements using -&gt; with zero-based index. Returns JSON value at index.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">firstTag</span><span class="w"> </span><span class="kt">string</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT data-&gt;&#39;tags&#39;-&gt;0 FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">firstTag</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT data-&gt;&#39;tags&#39;-&gt;0 FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">firstTag</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="contains-key-with-operator">Contains key with ? operator</h1>
+<p>Check if JSON contains a specific top-level key. Returns boolean.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">hasName</span><span class="w"> </span><span class="kt">bool</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT data ? &#39;name&#39; FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">hasName</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT data ? &#39;name&#39; FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">hasName</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="contains-value-with-operator">Contains value with @&gt; operator</h1>
+<p>Check if JSON contains a specific key-value pair. Returns boolean.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">contains</span><span class="w"> </span><span class="kt">bool</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT data @&gt; &#39;{\&quot;name\&quot;:\&quot;Alice\&quot;}&#39; FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">contains</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT data @&gt; &#39;{\&quot;name\&quot;:\&quot;Alice\&quot;}&#39; FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">contains</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="query-where-json-contains-key">Query where JSON contains key</h1>
+<p>Filter rows where JSON contains a specific top-level key.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nx">id</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nx">db</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s">&quot;SELECT id FROM users WHERE data ? &#39;name&#39;&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT id FROM users WHERE data ? &#39;name&#39;&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="query-where-json-contains-value">Query where JSON contains value</h1>
+<p>Filter rows where JSON contains a specific key-value pair.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nx">db</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s">&quot;SELECT id FROM users WHERE data @&gt; &#39;{\&quot;name\&quot;:\&quot;Alice\&quot;}&#39;&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT id FROM users WHERE data @&gt; &#39;{\&quot;name\&quot;:\&quot;Alice\&quot;}&#39;&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="query-where-array-contains-element">Query where array contains element</h1>
+<p>Filter rows where a JSON array contains a specific element.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nx">db</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s">&quot;SELECT id FROM users WHERE data-&gt;&#39;tags&#39; ? &#39;engineer&#39;&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT id FROM users WHERE data-&gt;&#39;tags&#39; ? &#39;engineer&#39;&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="update-json-field-with-jsonb_set">Update JSON field with jsonb_set</h1>
+<p>Updates an existing field value. Does NOT create the field if it doesn't exist (use <code>true</code> as 4th param to create).</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Begin</span><span class="p">()</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;UPDATE users SET data = jsonb_set(data, &#39;{name}&#39;, &#39;\&quot;Bob\&quot;&#39;) WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">()</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Begin</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;UPDATE users SET data = jsonb_set(data, &#39;{name}&#39;, &#39;\&quot;Bob\&quot;&#39;) WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="add-new-field-with-jsonb_set">Add new field with jsonb_set</h1>
+<p>Adds a new field to JSON. Uses <code>true</code> as the 4th parameter to create the field if it doesn't exist. If field exists, updates it.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Begin</span><span class="p">()</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;UPDATE users SET data = jsonb_set(data, &#39;{email}&#39;, &#39;\&quot;alice@example.com\&quot;&#39;, true) WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">()</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Begin</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;UPDATE users SET data = jsonb_set(data, &#39;{email}&#39;, &#39;\&quot;alice@example.com\&quot;&#39;, true) WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="delete-field-with-operator">Delete field with - operator</h1>
+<p>Removes a top-level key from JSON. Ignores if key doesn't exist.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Begin</span><span class="p">()</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;UPDATE users SET data = data - &#39;age&#39; WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">()</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Begin</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;UPDATE users SET data = data - &#39;age&#39; WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="delete-multiple-fields-with-operator">Delete multiple fields with - operator</h1>
+<p>Removes multiple top-level keys at once. Ignores non-existent keys.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Begin</span><span class="p">()</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;UPDATE users SET data = data - &#39;{age,email}&#39; WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">()</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Begin</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;UPDATE users SET data = data - &#39;{age,email}&#39; WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="delete-nested-field-with-operator">Delete nested field with #- operator</h1>
+<p>Removes a nested key using path notation. Ignores if path doesn't exist.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Begin</span><span class="p">()</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;UPDATE users SET data = data #- &#39;{address,city}&#39; WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">()</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Begin</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;UPDATE users SET data = data #- &#39;{address,city}&#39; WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="append-to-array-with-jsonb_set">Append to array with jsonb_set</h1>
+<p>Adds element to array at specified index. Creates new element if index doesn't exist, pads array with nulls.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Begin</span><span class="p">()</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;UPDATE users SET data = jsonb_set(data, &#39;{tags,999}&#39;, &#39;\&quot;newtag\&quot;&#39;) WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">()</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Begin</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;UPDATE users SET data = jsonb_set(data, &#39;{tags,999}&#39;, &#39;\&quot;newtag\&quot;&#39;) WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="concatenate-json-with-operator">Concatenate JSON with || operator</h1>
+<p>Merges two JSON objects. Right side values override left side for matching keys. Adds new keys from right side.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Begin</span><span class="p">()</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;UPDATE users SET data = data || &#39;{\&quot;email\&quot;:\&quot;alice@example.com\&quot;}&#39; WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">()</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Begin</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;UPDATE users SET data = data || &#39;{\&quot;email\&quot;:\&quot;alice@example.com\&quot;}&#39; WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="get-json-keys-with-jsonb_object_keys">Get JSON keys with jsonb_object_keys</h1>
+<p>Returns set of all top-level keys. Use for iterating over object properties.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">key</span><span class="w"> </span><span class="kt">string</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s">&quot;SELECT jsonb_object_keys(data) FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="k">defer</span><span class="w"> </span><span class="nx">rows</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="kd">var</span><span class="w"> </span><span class="nx">keys</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="k">for</span><span class="w"> </span><span class="nx">rows</span><span class="p">.</span><span class="nx">Next</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a><span class="w">    </span><span class="nx">rows</span><span class="p">.</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">key</span><span class="p">)</span>
+</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a><span class="w">    </span><span class="nx">keys</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">keys</span><span class="p">,</span><span class="w"> </span><span class="nx">key</span><span class="p">)</span>
+</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT jsonb_object_keys(data) FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="nx">keys</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pgx</span><span class="p">.</span><span class="nx">CollectRows</span><span class="p">(</span><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">pgx</span><span class="p">.</span><span class="nx">RowTo</span><span class="p">[</span><span class="kt">string</span><span class="p">])</span>
+</span></code></pre></div>
+<h1 id="get-all-keys-with-jsonb_keys">Get all keys with jsonb_keys</h1>
+<p>Collects all top-level keys into an array for batch processing.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">keys</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT jsonb_object_keys(data) FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">((</span><span class="o">*</span><span class="nx">pq</span><span class="p">.</span><span class="nx">StringArray</span><span class="p">)(</span><span class="o">&amp;</span><span class="nx">keys</span><span class="p">))</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="kd">var</span><span class="w"> </span><span class="nx">keys</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT array_agg(jsonb_object_keys(data)) FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">keys</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="check-if-any-key-exists-with-operator">Check if any key exists with ?| operator</h1>
+<p>Returns true if JSON contains ANY of the specified keys.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">exists</span><span class="w"> </span><span class="kt">bool</span>
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT data ?| ARRAY[&#39;name&#39;,&#39;email&#39;] FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">exists</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT data ?| ARRAY[&#39;name&#39;,&#39;email&#39;] FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">exists</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="check-if-all-keys-exist-with-operator">Check if all keys exist with ?&amp; operator</h1>
+<p>Returns true only if JSON contains ALL of the specified keys.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">exists</span><span class="w"> </span><span class="kt">bool</span>
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT data ?&amp; ARRAY[&#39;name&#39;,&#39;age&#39;] FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">exists</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT data ?&amp; ARRAY[&#39;name&#39;,&#39;age&#39;] FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">exists</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="aggregate-json-array-with-jsonb_agg">Aggregate JSON array with jsonb_agg</h1>
+<p>Combines multiple JSON values into a single JSON array.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="kt">string</span>
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT jsonb_agg(data) FROM users WHERE id IN ($1, $2, $3)&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">result</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="kd">var</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="kt">string</span>
+</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT jsonb_agg(data) FROM users WHERE id IN ($1, $2, $3)&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">result</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="merge-jsonb-with-jsonb_merge_patch">Merge JSONB with jsonb_merge_patch</h1>
+<p>Deep merges two JSON objects. null values in patch remove keys. Works recursively for nested objects.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Begin</span><span class="p">()</span>
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="s">&quot;UPDATE users SET data = jsonb_merge_patch(data, &#39;{\&quot;age\&quot;:31}&#39;) WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">()</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="nx">tx</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Begin</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Exec</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;UPDATE users SET data = jsonb_merge_patch(data, &#39;{\&quot;age\&quot;:31}&#39;) WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="nx">tx</span><span class="p">.</span><span class="nx">Commit</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="search-text-in-json-with-operator">Search text in JSON with @? operator</h1>
+<p>JSONPath query to search for text patterns anywhere in JSON. Returns boolean.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">found</span><span class="w"> </span><span class="kt">bool</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT data @? &#39;$.name ? (@ == \&quot;Alice\&quot;)&#39; FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">found</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT data @? &#39;$.name ? (@ == \&quot;Alice\&quot;)&#39; FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">found</span><span class="p">)</span>
+</span></code></pre></div>
+<h1 id="extract-all-matching-values-with-jsonb_path_query">Extract all matching values with jsonb_path_query</h1>
+<p>JSONPath query to extract all values matching a condition. Returns set of matching values.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">values</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s">&quot;SELECT jsonb_path_query(data, &#39;$.tags[*] ? (@ == \&quot;engineer\&quot;)&#39;) FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="k">defer</span><span class="w"> </span><span class="nx">rows</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="k">for</span><span class="w"> </span><span class="nx">rows</span><span class="p">.</span><span class="nx">Next</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="kt">string</span>
+</span><span id="__span-48-6"><a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a><span class="w">    </span><span class="nx">rows</span><span class="p">.</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">value</span><span class="p">)</span>
+</span><span id="__span-48-7"><a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a><span class="w">    </span><span class="nx">values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">values</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">)</span>
+</span><span id="__span-48-8"><a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT jsonb_path_query(data, &#39;$.tags[*] ? (@ == \&quot;engineer\&quot;)&#39;) FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a><span class="nx">values</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pgx</span><span class="p">.</span><span class="nx">CollectRows</span><span class="p">(</span><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">pgx</span><span class="p">.</span><span class="nx">RowTo</span><span class="p">[</span><span class="kt">string</span><span class="p">])</span>
+</span></code></pre></div>
+<h1 id="query-nested-array-with-jsonb_path_query">Query nested array with jsonb_path_query</h1>
+<p>JSONPath query to extract values from nested arrays using path notation.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">values</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
+</span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s">&quot;SELECT jsonb_path_query(data, &#39;$.items[*].name&#39;) FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-50-3"><a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a><span class="k">defer</span><span class="w"> </span><span class="nx">rows</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+</span><span id="__span-50-4"><a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="k">for</span><span class="w"> </span><span class="nx">rows</span><span class="p">.</span><span class="nx">Next</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-50-5"><a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="kt">string</span>
+</span><span id="__span-50-6"><a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a><span class="w">    </span><span class="nx">rows</span><span class="p">.</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">value</span><span class="p">)</span>
+</span><span id="__span-50-7"><a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a><span class="w">    </span><span class="nx">values</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">values</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">)</span>
+</span><span id="__span-50-8"><a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT jsonb_path_query(data, &#39;$.items[*].name&#39;) FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a><span class="nx">values</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pgx</span><span class="p">.</span><span class="nx">CollectRows</span><span class="p">(</span><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">pgx</span><span class="p">.</span><span class="nx">RowTo</span><span class="p">[</span><span class="kt">string</span><span class="p">])</span>
+</span></code></pre></div>
+<h1 id="get-path-to-value-with-jsonb_path_query_first">Get path to value with jsonb_path_query_first</h1>
+<p>JSONPath query to extract the first matching value. Returns single value or null.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="kt">string</span>
+</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a><span class="nx">db</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="s">&quot;SELECT jsonb_path_query_first(data, &#39;$.name&#39;) FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">value</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="c1">// pgx reference</span>
+</span><span id="__span-53-2"><a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a><span class="nx">pool</span><span class="p">.</span><span class="nx">QueryRow</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SELECT jsonb_path_query_first(data, &#39;$.name&#39;) FROM users WHERE id = $1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="nx">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">value</span><span class="p">)</span>
+</span></code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

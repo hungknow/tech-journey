@@ -1,0 +1,1984 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../greedy/">
+      
+      
+        <link rel="next" href="../backtracking/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Hash Table - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hash-table" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hash Table
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hash-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hash Table
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hash Table">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-classic-two-sum-complements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Classic Two-Sum &amp; Complements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-prefix-sums-contiguous-arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Prefix Sums &amp; Contiguous Arrays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-sliding-window-character-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Sliding Window &amp; Character Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-grouping-fingerprinting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Grouping &amp; Fingerprinting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-string-validation-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. String Validation &amp; Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-cycle-detection-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Cycle Detection &amp; States
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-coordinates-geometry-graphs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Coordinates, Geometry &amp; Graphs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-counting-uniqueness-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Counting &amp; Uniqueness Filters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-structural-pathing-assistance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Structural &amp; Pathing Assistance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-assisting-advanced-data-structures-union-find-sieve-trees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Assisting Advanced Data Structures (Union-Find / Sieve / Trees)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hash-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hash Table
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hash Table">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-classic-two-sum-complements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Classic Two-Sum &amp; Complements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-prefix-sums-contiguous-arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Prefix Sums &amp; Contiguous Arrays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-sliding-window-character-frequencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Sliding Window &amp; Character Frequencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-grouping-fingerprinting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Grouping &amp; Fingerprinting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-string-validation-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. String Validation &amp; Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-cycle-detection-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Cycle Detection &amp; States
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-coordinates-geometry-graphs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Coordinates, Geometry &amp; Graphs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-counting-uniqueness-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Counting &amp; Uniqueness Filters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-structural-pathing-assistance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Structural &amp; Pathing Assistance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-assisting-advanced-data-structures-union-find-sieve-trees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Assisting Advanced Data Structures (Union-Find / Sieve / Trees)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Hash Table</h1>
+
+<h2 id="hash-table">Hash Table</h2>
+<h3 id="1-classic-two-sum-complements">1. Classic Two-Sum &amp; Complements</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0001</td>
+<td><a href="../problems/0001-two-sum/">Two Sum</a></td>
+<td><a href="./golang/0001_two_sum.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>The map stores <code>number -&gt; index</code> to check if <code>target - current_number</code> exists</td>
+</tr>
+<tr>
+<td>0170</td>
+<td><a href="../problems/0170-two-sum-iii/">Two Sum III - Data structure design</a></td>
+<td><a href="./golang/0170_two_sum_iii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td>Numbers are streamed dynamically; map stores <code>number -&gt; frequency</code></td>
+</tr>
+<tr>
+<td>0454</td>
+<td><a href="../problems/0454-4sum-ii/">4Sum II</a></td>
+<td><a href="./golang/0454_4sum_ii.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Map stores <code>sum(A[i] + B[j]) -&gt; frequency</code>; look up <code>-(C[k] + D[l])</code></td>
+</tr>
+<tr>
+<td>0532</td>
+<td><a href="../problems/0532-k-diff-pairs/">K-diff Pairs in an Array</a></td>
+<td><a href="./golang/0532_k_diff_pairs.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Looking for specific differences; map stores <code>number -&gt; frequency</code></td>
+</tr>
+<tr>
+<td>0825</td>
+<td><a href="../problems/0825-friends-appropriate-ages/">Friends Of Appropriate Ages</a></td>
+<td><a href="./golang/0825_friends_appropriate_ages.go">Go</a></td>
+<td><em>O(a^2 + n)</em></td>
+<td><em>O(a)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Validating age rules; map/array tracks <code>age -&gt; frequency</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="2-prefix-sums-contiguous-arrays">2. Prefix Sums &amp; Contiguous Arrays</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0325</td>
+<td><a href="../problems/0325-maximum-size-subarray-sum/">Maximum Size Subarray Sum Equals k</a></td>
+<td><a href="./golang/0325_maximum_size_subarray_sum.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Map stores <code>prefix_sum -&gt; first_seen_index</code>; find longest subarray</td>
+</tr>
+<tr>
+<td>0523</td>
+<td><a href="../problems/0523-continuous-subarray-sum/">Continuous Subarray Sum</a></td>
+<td><a href="./golang/0523_continuous_subarray_sum.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(k)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Map stores <code>(prefix_sum % k) -&gt; first_seen_index</code>; find multiples of k</td>
+</tr>
+<tr>
+<td>0560</td>
+<td><a href="../problems/0560-subarray-sum-equals-k/">Subarray Sum Equals K</a></td>
+<td><a href="./golang/0560_subarray_sum_equals_k.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Map stores <code>prefix_sum -&gt; frequency</code>; count total subarrays</td>
+</tr>
+<tr>
+<td>0974</td>
+<td><a href="../problems/0974-subarray-sums-divisible-by-k/">Subarray Sums Divisible by K</a></td>
+<td><a href="./golang/0974_subarray_sums_divisible_by_k.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(k)</em></td>
+<td>Medium</td>
+<td>variant of <a href="https://leetcode.com/problems/subarray-sum-equals-k/">Subarray Sum Equals K</a></td>
+<td>Map stores <code>(prefix_sum % K) -&gt; frequency</code>; counting occurrences</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="3-sliding-window-character-frequencies">3. Sliding Window &amp; Character Frequencies</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0003</td>
+<td><a href="../problems/0003-longest-substring-without-repeating/">Longest Substring Without Repeating Characters</a></td>
+<td><a href="./golang/0003_longest_substring_without_repeating.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Map stores <code>character -&gt; last_seen_index</code>; dynamic window without duplicates</td>
+</tr>
+<tr>
+<td>0030</td>
+<td><a href="../problems/0030-substring-concatenation-words/">Substring with Concatenation of All Words</a></td>
+<td><a href="./golang/0030_substring_concatenation_words.go">Go</a></td>
+<td><em>O((m + n) * k)</em></td>
+<td><em>O(n * k)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Two frequency maps: target words and current sliding window</td>
+</tr>
+<tr>
+<td>0076</td>
+<td><a href="../problems/0076-minimum-window-substring/">Minimum Window Substring</a></td>
+<td><a href="./golang/0076_minimum_window_substring.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(k)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Map stores <code>character -&gt; required_count</code>; smallest window containing all targets</td>
+</tr>
+<tr>
+<td>0159</td>
+<td><a href="../problems/0159-longest-substring-two-distinct/">Longest Substring with At Most Two Distinct Characters</a></td>
+<td><a href="./golang/0159_longest_substring_two_distinct.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>Map stores <code>character -&gt; frequency</code>; constrained to exactly two character types</td>
+</tr>
+<tr>
+<td>0340</td>
+<td><a href="../problems/0340-longest-substring-k-distinct/">Longest Substring with At Most K Distinct Characters</a></td>
+<td><a href="./golang/0340_longest_substring_k_distinct.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>Same as 0159, but map size limit is <code>K</code></td>
+</tr>
+<tr>
+<td>0438</td>
+<td><a href="../problems/0438-find-all-anagrams/">Find All Anagrams in a String</a></td>
+<td><a href="./golang/0438_find_all_anagrams.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Fixed-size sliding window; map tracks current window's character frequencies</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="4-grouping-fingerprinting">4. Grouping &amp; Fingerprinting</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0049</td>
+<td><a href="../problems/0049-group-anagrams/">Group Anagrams</a></td>
+<td><a href="./golang/0049_group_anagrams.go">Go</a></td>
+<td><em>O(n * glogg)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Map stores signature key (sorted string or char count tuple) <code>-&gt; [list_of_words]</code></td>
+</tr>
+<tr>
+<td>0249</td>
+<td><a href="../problems/0249-group-shifted-strings/">Group Shifted Strings</a></td>
+<td><a href="./golang/0249_group_shifted_strings.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td>Map key is relative distance between characters <code>-&gt; [list_of_strings]</code></td>
+</tr>
+<tr>
+<td>0609</td>
+<td><a href="../problems/0609-find-duplicate-file-system/">Find Duplicate File in System</a></td>
+<td><a href="./golang/0609_find_duplicate_file_system.go">Go</a></td>
+<td><em>O(n * l)</em></td>
+<td><em>O(n * l)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Map stores <code>file_content -&gt; [list_of_file_paths]</code></td>
+</tr>
+<tr>
+<td>0869</td>
+<td><a href="../problems/0869-reordered-power-of-2/">Reordered Power of 2</a></td>
+<td><a href="./golang/0869_reordered_power_of_2.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Map/set stores sorted character counts of all valid powers of 2</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="5-string-validation-mapping">5. String Validation &amp; Mapping</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0205</td>
+<td><a href="../problems/0205-isomorphic-strings/">Isomorphic Strings</a></td>
+<td><a href="./golang/0205_isomorphic_strings.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Two maps track <code>char_from_S -&gt; char_from_T</code> and prevent mapping collisions</td>
+</tr>
+<tr>
+<td>0290</td>
+<td><a href="../problems/0290-word-pattern/">Word Pattern</a></td>
+<td><a href="./golang/0290_word_pattern.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(c)</em></td>
+<td>Easy</td>
+<td>variant of <a href="https://leetcode.com/problems/isomorphic-strings/">Isomorphic Strings</a></td>
+<td>Mapping <code>pattern_character -&gt; whole_word</code></td>
+</tr>
+<tr>
+<td>0734</td>
+<td><a href="../problems/0734-sentence-similarity/">Sentence Similarity</a></td>
+<td><a href="./golang/0734_sentence_similarity.go">Go</a></td>
+<td><em>O(n + p)</em></td>
+<td><em>O(p)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Map stores <code>word -&gt; Set(similar_words)</code> to validate translations</td>
+</tr>
+<tr>
+<td>0760</td>
+<td><a href="../problems/0760-find-anagram-mappings/">Find Anagram Mappings</a></td>
+<td><a href="./golang/0760_find_anagram_mappings.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Map stores <code>value -&gt; [list_of_indices_in_array_B]</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="6-cycle-detection-states">6. Cycle Detection &amp; States</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0187</td>
+<td><a href="../problems/0187-repeated-dna-sequences/">Repeated DNA Sequences</a></td>
+<td><a href="./golang/0187_repeated_dna_sequences.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Hash Set stores every 10-char slice seen so far (or bitmasks)</td>
+</tr>
+<tr>
+<td>0202</td>
+<td><a href="../problems/0202-happy-number/">Happy Number</a></td>
+<td><a href="./golang/0202_happy_number.go">Go</a></td>
+<td><em>O(k)</em></td>
+<td><em>O(k)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Hash Set stores every sum-of-squares result; detect cycles</td>
+</tr>
+<tr>
+<td>0957</td>
+<td><a href="../problems/0957-prison-cells-after-n-days/">Prison Cells After N Days</a></td>
+<td><a href="./golang/0957_prison_cells_after_n_days.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Map stores <code>prison_state -&gt; day_seen</code>; use modulo math to skip cycles</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="7-coordinates-geometry-graphs">7. Coordinates, Geometry &amp; Graphs</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0036</td>
+<td><a href="../problems/0036-valid-sudoku/">Valid Sudoku</a></td>
+<td><a href="./golang/0036_valid_sudoku.go">Go</a></td>
+<td><em>O(9^2)</em></td>
+<td><em>O(9)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Hash Set stores formatted strings like <code>"5 in row 3"</code>, <code>"5 in col 4"</code>, <code>"5 in block 1-1"</code></td>
+</tr>
+<tr>
+<td>0149</td>
+<td><a href="../problems/0149-max-points-on-a-line/">Max Points on a Line</a></td>
+<td><a href="./golang/0149_max_points_on_a_line.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Map stores strictly reduced fraction of slope <code>dy/dx -&gt; count_of_points</code></td>
+</tr>
+<tr>
+<td>0356</td>
+<td><a href="../problems/0356-line-reflection/">Line Reflection</a></td>
+<td><a href="./golang/0356_line_reflection.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Hash Set stores all points; check mirrored counterparts</td>
+</tr>
+<tr>
+<td>0447</td>
+<td><a href="../problems/0447-number-of-boomerangs/">Number of Boomerangs</a></td>
+<td><a href="./golang/0447_number_of_boomerangs.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Map stores <code>squared_distance_to_other_points -&gt; count</code></td>
+</tr>
+<tr>
+<td>0554</td>
+<td><a href="../problems/0554-brick-wall/">Brick Wall</a></td>
+<td><a href="./golang/0554_brick_wall.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(m)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Map stores <code>gap_distance_from_left_edge -&gt; count_of_gaps</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="8-counting-uniqueness-filters">8. Counting &amp; Uniqueness Filters</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0217</td>
+<td><a href="../problems/0217-contains-duplicate/">Contains Duplicate</a></td>
+<td><a href="./golang/0217_contains_duplicate.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Hash Set stores numbers; duplicate if already in set</td>
+</tr>
+<tr>
+<td>0219</td>
+<td><a href="../problems/0219-contains-duplicate-ii/">Contains Duplicate II</a></td>
+<td><a href="./golang/0219_contains_duplicate_ii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Map stores <code>number -&gt; last_seen_index</code>; check within distance k</td>
+</tr>
+<tr>
+<td>0266</td>
+<td><a href="../problems/0266-palindrome-permutation/">Palindrome Permutation</a></td>
+<td><a href="./golang/0266_palindrome_permutation.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td>Map/set tracks character frequencies; verify at most one odd count</td>
+</tr>
+<tr>
+<td>0288</td>
+<td><a href="../problems/0288-unique-word-abbreviation/">Unique Word Abbreviation</a></td>
+<td><a href="./golang/0288_unique_word_abbreviation.go">Go</a></td>
+<td>ctor: <em>O(n)</em>, lookup: <em>O(1)</em></td>
+<td><em>O(k)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td>Map stores <code>abbreviation -&gt; Set(original_words)</code></td>
+</tr>
+<tr>
+<td>0387</td>
+<td><a href="../problems/0387-first-unique-character/">First Unique Character in a String</a></td>
+<td><a href="./golang/0387_first_unique_character.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Map tracks <code>character -&gt; frequency</code>; find first with count of 1</td>
+</tr>
+<tr>
+<td>0409</td>
+<td><a href="../problems/0409-longest-palindrome/">Longest Palindrome</a></td>
+<td><a href="./golang/0409_longest_palindrome.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Map tracks <code>character -&gt; frequency</code>; even counts fully added, one odd allowed</td>
+</tr>
+<tr>
+<td>0575</td>
+<td><a href="../problems/0575-distribute-candies/">Distribute Candies</a></td>
+<td><a href="./golang/0575_distribute_candies.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Hash Set stores all candy types for instant unique count</td>
+</tr>
+<tr>
+<td>0594</td>
+<td><a href="../problems/0594-longest-harmonious-subsequence/">Longest Harmonious Subsequence</a></td>
+<td><a href="./golang/0594_longest_harmonious_subsequence.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Map stores <code>number -&gt; frequency</code>; if <code>num + 1</code> exists, length is <code>freq[num] + freq[num+1]</code></td>
+</tr>
+<tr>
+<td>0748</td>
+<td><a href="../problems/0748-shortest-completing-word/">Shortest Completing Word</a></td>
+<td><a href="./golang/0748_shortest_completing_word.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Map stores frequency of alphabetical characters in target license plate</td>
+</tr>
+<tr>
+<td>0771</td>
+<td><a href="../problems/0771-jewels-and-stones/">Jewels and Stones</a></td>
+<td><a href="./golang/0771_jewels_and_stones.go">Go</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Hash Set stores "Jewels" characters for O(1) lookups</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="9-structural-pathing-assistance">9. Structural &amp; Pathing Assistance</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0244</td>
+<td><a href="../problems/0244-shortest-word-distance-ii/">Shortest Word Distance II</a></td>
+<td><a href="./golang/0244_shortest_word_distance_ii.go">Go</a></td>
+<td>ctor: <em>O(n)</em>, lookup: <em>O(a + b)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Map stores <code>word -&gt; [list_of_indices]</code>; use two pointers</td>
+</tr>
+<tr>
+<td>0246</td>
+<td><a href="../problems/0246-strobogrammatic-number/">Strobogrammatic Number</a></td>
+<td><a href="./golang/0246_strobogrammatic_number.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td>Map stores valid pairs: <code>{'0':'0', '1':'1', '6':'9', '8':'8', '9':'6'}</code></td>
+</tr>
+<tr>
+<td>0299</td>
+<td><a href="../problems/0299-bulls-and-cows/">Bulls and Cows</a></td>
+<td><a href="./golang/0299_bulls_and_cows.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Map tracks frequencies of unmatched characters for partial matches</td>
+</tr>
+<tr>
+<td>0314</td>
+<td><a href="../problems/0314-binary-tree-vertical-order/">Binary Tree Vertical Order Traversal</a></td>
+<td><a href="./golang/0314_binary_tree_vertical_order.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒 BFS</td>
+<td>Map stores <code>column_index -&gt; [list_of_nodes]</code>; left gets <code>col-1</code>, right gets <code>col+1</code></td>
+</tr>
+<tr>
+<td>0336</td>
+<td><a href="../problems/0336-palindrome-pairs/">Palindrome Pairs</a></td>
+<td><a href="./golang/0336_palindrome_pairs.go">Go</a></td>
+<td><em>O(n * k^2)</em></td>
+<td><em>O(n * k)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Map stores <code>reversed_word -&gt; index</code>; check prefixes/suffixes</td>
+</tr>
+<tr>
+<td>0388</td>
+<td><a href="../problems/0388-longest-absolute-file-path/">Longest Absolute File Path</a></td>
+<td><a href="./golang/0388_longest_absolute_file_path.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(d)</em></td>
+<td>Medium</td>
+<td>Stack</td>
+<td>Map stores <code>directory_depth -&gt; total_string_length</code></td>
+</tr>
+<tr>
+<td>0561</td>
+<td><a href="../problems/0561-array-partition-i/">Array Partition I</a></td>
+<td><a href="./golang/0561_array_partition_i.go">Go</a></td>
+<td><em>O(r)</em></td>
+<td><em>O(r)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Bucket-sort style frequency map <code>number -&gt; frequency</code></td>
+</tr>
+<tr>
+<td>0599</td>
+<td><a href="../problems/0599-minimum-index-sum-two-lists/">Minimum Index Sum of Two Lists</a></td>
+<td><a href="./golang/0599_minimum_index_sum_two_lists.go">Go</a></td>
+<td><em>O((m + n) * l)</em></td>
+<td><em>O(m * l)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Map stores <code>restaurant_name -&gt; list_1_index</code></td>
+</tr>
+<tr>
+<td>0811</td>
+<td><a href="../problems/0811-subdomain-visit-count/">Subdomain Visit Count</a></td>
+<td><a href="./golang/0811_subdomain_visit_count.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Map stores <code>domain_fragment -&gt; total_visits</code></td>
+</tr>
+<tr>
+<td>0822</td>
+<td><a href="../problems/0822-card-flipping-game/">Card Flipping Game</a></td>
+<td><a href="./golang/0822_card_flipping_game.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Hash Set records numbers appearing on front AND back of same card</td>
+</tr>
+<tr>
+<td>0873</td>
+<td><a href="../problems/0873-longest-fibonacci-subsequence/">Length of Longest Fibonacci Subsequence</a></td>
+<td><a href="./golang/0873_longest_fibonacci_subsequence.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Hash Set stores all numbers; check if <code>arr[i] + arr[j]</code> exists</td>
+</tr>
+<tr>
+<td>0966</td>
+<td><a href="../problems/0966-vowel-spellchecker/">Vowel Spellchecker</a></td>
+<td><a href="./golang/0966_vowel_spellchecker.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(w)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Two maps: <code>lowercase_word -&gt; original</code> and <code>devoweled_word -&gt; original</code></td>
+</tr>
+<tr>
+<td>0982</td>
+<td><a href="../problems/0982-triples-bitwise-and-zero/">Triples with Bitwise AND Equal To Zero</a></td>
+<td><a href="./golang/0982_triples_bitwise_and_zero.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>Math, <code>Fast Wavelet Transform (FWT)</code></td>
+<td>Map stores frequency of all <code>A[i] &amp; A[j]</code> combinations</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="10-assisting-advanced-data-structures-union-find-sieve-trees">10. Assisting Advanced Data Structures (Union-Find / Sieve / Trees)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0204</td>
+<td><a href="../problems/0204-count-primes/">Count Primes</a></td>
+<td><a href="./golang/0204_count_primes.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td><code>Linear Sieve of Eratosthenes</code></td>
+<td>Array as boolean map to mark composite numbers</td>
+</tr>
+<tr>
+<td>0305</td>
+<td><a href="../problems/0305-number-of-islands-ii/">Number of Islands II</a></td>
+<td><a href="./golang/0305_number_of_islands_ii.go">Go</a></td>
+<td><em>O(k)</em></td>
+<td><em>O(k)</em></td>
+<td>Hard</td>
+<td>LintCode, 🔒 Union Find</td>
+<td>Map stores parent sets for Union-Find as islands are added</td>
+</tr>
+<tr>
+<td>0323</td>
+<td><a href="../problems/0323-number-connected-components/">Number of Connected Components in an Undirected Graph</a></td>
+<td><a href="./golang/0323_number_connected_components.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒 Union Find</td>
+<td>Map tracks parent nodes for Union-Find</td>
+</tr>
+<tr>
+<td>0473</td>
+<td><a href="../problems/0473-matchsticks-to-square/">Matchsticks to Square</a></td>
+<td><a href="./golang/0473_matchsticks_to_square.go">Go</a></td>
+<td><em>O(n * s * 2^n)</em></td>
+<td><em>O(n * (2^n + s))</em></td>
+<td>Medium</td>
+<td></td>
+<td>Hash Map as memoization cache for visited states (bitmasks)</td>
+</tr>
+<tr>
+<td>0721</td>
+<td><a href="../problems/0721-accounts-merge/">Accounts Merge</a></td>
+<td><a href="./golang/0721_accounts_merge.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>Union Find</td>
+<td>Map <code>email -&gt; account_name</code> and <code>email -&gt; unique_ID</code> to unify disjoint sets</td>
+</tr>
+<tr>
+<td>0737</td>
+<td><a href="../problems/0737-sentence-similarity-ii/">Sentence Similarity II</a></td>
+<td><a href="./golang/0737_sentence_similarity_ii.go">Go</a></td>
+<td><em>O(n + p)</em></td>
+<td><em>O(p)</em></td>
+<td>Medium</td>
+<td>Union Find</td>
+<td>Map <code>word -&gt; integer_ID</code> to build Union-Find graph of transitive similarities</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

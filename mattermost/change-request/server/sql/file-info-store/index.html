@@ -1,0 +1,1407 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>File Info Store — SQL Reference - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#file-info-store-sql-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              File Info Store — SQL Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initialization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Initialization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#newsqlfileinfostore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        newSqlFileInfoStore
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crud-and-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CRUD and lifecycle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CRUD and lifecycle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#save" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Save
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getbyids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetByIds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upsert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upsert
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-get-getfrommaster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get / Get / GetFromMaster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getwithoptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetWithOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getbypath" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetByPath
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getforpost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetForPost
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getforuser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetForUser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attachtopost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AttachToPost
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setcontent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetContent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deleteforpost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteForPost
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deleteforpostbyids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteForPostByIds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanentdeleteforpost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PermanentDeleteForPost
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanentdelete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PermanentDelete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanentdeletebatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PermanentDeleteBatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanentdeletebyuser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PermanentDeleteByUser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restoreforpostbyids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RestoreForPostByIds
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#search-and-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search and analytics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Search and analytics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#countall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CountAll
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getfilesbatchforindexing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetFilesBatchForIndexing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getstorageusage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetStorageUsage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getuptonsizefiletime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetUptoNSizeFileTime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refreshfilestats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RefreshFileStats
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no-op-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No-op / cache
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="No-op / cache">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clearcaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ClearCaches
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invalidatefileinfosforpostcache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        InvalidateFileInfosForPostCache
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="file-info-store-sql-reference">File Info Store — SQL Reference</h1>
+<p>This document lists each store function in
+<code>server/channels/store/sqlstore/file_info_store.go</code> and the real SQL executed by that
+function. Lines are under 120 characters. SELECTs use queryFields (see Initialization).</p>
+<hr />
+<h2 id="initialization">Initialization</h2>
+<h3 id="newsqlfileinfostore">newSqlFileInfoStore</h3>
+<p>queryFields (used in SELECTs):</p>
+<ul>
+<li>FileInfo.Id, FileInfo.CreatorId, FileInfo.PostId,</li>
+<li>COALESCE(FileInfo.ChannelId, '') AS ChannelId, FileInfo.CreateAt, FileInfo.UpdateAt,
+  FileInfo.DeleteAt,</li>
+<li>FileInfo.Path, FileInfo.ThumbnailPath, FileInfo.PreviewPath, FileInfo.Name, FileInfo.Extension,</li>
+<li>FileInfo.Size, FileInfo.MimeType, FileInfo.Width, FileInfo.Height, FileInfo.HasPreviewImage,</li>
+<li>FileInfo.MiniPreview, Coalesce(FileInfo.Content, '') AS Content,
+  Coalesce(FileInfo.RemoteId, '') AS RemoteId,</li>
+<li>FileInfo.Archived</li>
+</ul>
+<hr />
+<h2 id="crud-and-lifecycle">CRUD and lifecycle</h2>
+<h3 id="save">Save</h3>
+<p>Placeholders are named (<code>:Id</code>, <code>:CreatorId</code>, etc.).</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">FileInfo</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">(</span><span class="n">Id</span><span class="p">,</span><span class="w"> </span><span class="n">CreatorId</span><span class="p">,</span><span class="w"> </span><span class="n">PostId</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="n">CreateAt</span><span class="p">,</span><span class="w"> </span><span class="n">UpdateAt</span><span class="p">,</span><span class="w"> </span><span class="n">DeleteAt</span><span class="p">,</span><span class="w"> </span><span class="n">Path</span><span class="p">,</span><span class="w"> </span><span class="n">ThumbnailPath</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w"> </span><span class="n">PreviewPath</span><span class="p">,</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">Extension</span><span class="p">,</span><span class="w"> </span><span class="k">Size</span><span class="p">,</span><span class="w"> </span><span class="n">MimeType</span><span class="p">,</span><span class="w"> </span><span class="n">Width</span><span class="p">,</span><span class="w"> </span><span class="n">Height</span><span class="p">,</span><span class="w"> </span><span class="n">HasPreviewImage</span><span class="p">,</span><span class="w"> </span><span class="n">MiniPreview</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w"> </span><span class="n">Content</span><span class="p">,</span><span class="w"> </span><span class="n">RemoteId</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">VALUES</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">(:</span><span class="n">Id</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">CreatorId</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">PostId</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">CreateAt</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">UpdateAt</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">DeleteAt</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">Path</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">ThumbnailPath</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w"> </span><span class="p">:</span><span class="n">PreviewPath</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">Extension</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="k">Size</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">MimeType</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">Width</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">Height</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">HasPreviewImage</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w"> </span><span class="p">:</span><span class="n">MiniPreview</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">Content</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">RemoteId</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="getbyids">GetByIds</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">queryFields</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="c1">-- optional: AND FileInfo.DeleteAt = 0</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">CreateAt</span><span class="w"> </span><span class="k">DESC</span>
+</span></code></pre></div>
+<h3 id="upsert">Upsert</h3>
+<p>If 0 rows affected, code calls Save.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">FileInfo</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">UpdateAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">Path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">ThumbnailPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">PreviewPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">Extension</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="k">Size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">MimeType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">Width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">Height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">HasPreviewImage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">MiniPreview</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">Content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">RemoteId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="get-get-getfrommaster">get / Get / GetFromMaster</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">queryFields</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span></code></pre></div>
+<h3 id="getwithoptions">GetWithOptions</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">queryFields</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1">-- optional: AND FileInfo.ChannelId IN (?), FileInfo.CreatorId IN (?),</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">--           FileInfo.CreateAt &gt;= ?, FileInfo.DeleteAt = 0</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">CreateAt</span><span class="w"> </span><span class="k">ASC</span><span class="p">,</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">ASC</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">LIMIT</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">OFFSET</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="getbypath">GetByPath</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">queryFields</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">Path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span>
+</span></code></pre></div>
+<h3 id="getforpost">GetForPost</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">queryFields</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">PostId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="c1">-- optional: AND FileInfo.DeleteAt = 0</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">CreateAt</span>
+</span></code></pre></div>
+<h3 id="getforuser">GetForUser</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">queryFields</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">CreatorId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">CreateAt</span>
+</span></code></pre></div>
+<h3 id="attachtopost">AttachToPost</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">FileInfo</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">PostId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">PostId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="p">(</span><span class="n">FileInfo</span><span class="p">.</span><span class="n">CreatorId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">CreatorId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;nouser&#39;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="setcontent">SetContent</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">FileInfo</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">Content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="deleteforpost">DeleteForPost</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">FileInfo</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">PostId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="deleteforpostbyids">DeleteForPostByIds</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">FileInfo</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">PostId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="permanentdeleteforpost">PermanentDeleteForPost</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">PostId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="permanentdelete">PermanentDelete</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="permanentdeletebatch">PermanentDeleteBatch</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">ANY</span><span class="p">(</span><span class="nb">ARRAY</span><span class="p">(</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">CreateAt</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">CreatorId</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="k">LIMIT</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="p">))</span>
+</span></code></pre></div>
+<h3 id="permanentdeletebyuser">PermanentDeleteByUser</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">CreatorId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="restoreforpostbyids">RestoreForPostByIds</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">FileInfo</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">PostId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="search-and-analytics">Search and analytics</h2>
+<h3 id="search">Search</h3>
+<p>Simplified shape; full query adds optional filters (team, channels, users, dates,
+full-text on Name/Content).</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">queryFields</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">C</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">C</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">ChannelId</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">CM</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">C</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CM</span><span class="p">.</span><span class="n">ChannelId</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="p">(</span><span class="n">FileInfo</span><span class="p">.</span><span class="n">CreatorId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;bookmarkfileowner&#39;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">PostId</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">TemporaryPosts</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">TemporaryPosts</span><span class="p">.</span><span class="n">PostId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">PostId</span><span class="p">)</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">CreateAt</span><span class="w"> </span><span class="k">DESC</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="k">LIMIT</span><span class="w"> </span><span class="mi">100</span>
+</span></code></pre></div>
+<h3 id="countall">CountAll</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">file_stats</span>
+</span></code></pre></div>
+<h3 id="getfilesbatchforindexing">GetFilesBatchForIndexing</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">queryFields</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">FileInfo</span><span class="p">.</span><span class="n">CreateAt</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="p">(</span><span class="n">FileInfo</span><span class="p">.</span><span class="n">CreateAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">?</span><span class="p">))</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span><span class="c1">-- optional: AND FileInfo.DeleteAt = 0</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">CreateAt</span><span class="w"> </span><span class="k">ASC</span><span class="p">,</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">ASC</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="k">LIMIT</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="getstorageusage">GetStorageUsage</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1">-- when includeDeleted = false (default)</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">usage</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">file_stats</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1">-- when includeDeleted = true</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COALESCE</span><span class="p">(</span><span class="k">SUM</span><span class="p">(</span><span class="k">Size</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span>
+</span></code></pre></div>
+<h3 id="getuptonsizefiletime">GetUptoNSizeFileTime</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">fi2</span><span class="p">.</span><span class="n">CreateAt</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">fi</span><span class="p">.</span><span class="k">Size</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">CreateAt</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">fi</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span><span class="w"> </span><span class="n">RunningTotal</span><span class="p">,</span><span class="w"> </span><span class="n">fi</span><span class="p">.</span><span class="n">CreateAt</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span><span class="w"> </span><span class="n">fi</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">fi</span><span class="p">.</span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="p">)</span><span class="w"> </span><span class="n">fi2</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">fi2</span><span class="p">.</span><span class="n">RunningTotal</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">fi2</span><span class="p">.</span><span class="n">CreateAt</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span>
+</span></code></pre></div>
+<h3 id="refreshfilestats">RefreshFileStats</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">REFRESH</span><span class="w"> </span><span class="n">MATERIALIZED</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">file_stats</span>
+</span></code></pre></div>
+<hr />
+<h2 id="no-op-cache">No-op / cache</h2>
+<h3 id="clearcaches">ClearCaches</h3>
+<p>No SQL.</p>
+<h3 id="invalidatefileinfosforpostcache">InvalidateFileInfosForPostCache</h3>
+<p>No SQL. Cache invalidation only.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

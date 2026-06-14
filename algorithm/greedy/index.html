@@ -1,0 +1,4154 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../graph/">
+      
+      
+        <link rel="next" href="../hash-table/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Greedy - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#greedy" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Greedy
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#greedy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Greedy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Greedy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-intervals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Intervals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-jump-reach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Jump / Reach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-two-pointers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Two Pointers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. String
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-array" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Array
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-heap-priority-queue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Heap / Priority Queue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-stack-monotonic-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Stack / Monotonic Stack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-math" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Math
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-two-pointers-additional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Two Pointers (Additional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-sorting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Sorting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Other
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#greedy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Greedy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Greedy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-intervals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Intervals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-jump-reach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Jump / Reach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-two-pointers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Two Pointers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. String
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-array" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Array
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-heap-priority-queue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Heap / Priority Queue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-stack-monotonic-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Stack / Monotonic Stack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-math" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Math
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-two-pointers-additional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Two Pointers (Additional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-sorting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Sorting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Other
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Greedy</h1>
+
+<h2 id="greedy">Greedy</h2>
+<h3 id="1-intervals">1. Intervals</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0435</td>
+<td><a href="./problems/0435-non-overlapping-intervals.md">Non-overlapping Intervals</a></td>
+<td><a href="./golang/0435_non_overlapping_intervals.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Line Sweep</td>
+</tr>
+<tr>
+<td>0452</td>
+<td><a href="./problems/0452-minimum-number-of-arrows-to-burst-balloons.md">Minimum Number of Arrows to Burst Balloons</a></td>
+<td><a href="./golang/0452_minimum_number_of_arrows_to_burst_balloons.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0646</td>
+<td><a href="./problems/0646-maximum-length-of-pair-chain.md">Maximum Length of Pair Chain</a></td>
+<td><a href="./golang/0646_maximum_length_of_pair_chain.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>variant of <a href="https://leetcode.com/problems/non-overlapping-intervals/">Non-overlapping Intervals</a></td>
+<td>Line Sweep</td>
+</tr>
+<tr>
+<td>0763</td>
+<td><a href="./problems/0763-partition-labels.md">Partition Labels</a></td>
+<td><a href="./golang/0763_partition_labels.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1272</td>
+<td><a href="./problems/1272-remove-interval.md">Remove Interval</a></td>
+<td><a href="./golang/1272_remove_interval.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Line Sweep</td>
+</tr>
+<tr>
+<td>1288</td>
+<td><a href="./problems/1288-remove-covered-intervals.md">Remove Covered Intervals</a></td>
+<td><a href="./golang/1288_remove_covered_intervals.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Line Sweep</td>
+</tr>
+<tr>
+<td>1520</td>
+<td><a href="./problems/1520-maximum-number-of-non-overlapping-substrings.md">Maximum Number of Non-Overlapping Substrings</a></td>
+<td><a href="./golang/1520_maximum_number_of_non_overlapping_substrings.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1546</td>
+<td><a href="./problems/1546-maximum-number-of-non-overlapping-subarrays-with-sum-equals-target.md">Maximum Number of Non-Overlapping Subarrays With Sum Equals Target</a></td>
+<td><a href="./golang/1546_maximum_number_of_non_overlapping_subarrays_with_sum_equals_target.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2472</td>
+<td><a href="./problems/2472-maximum-number-of-non-overlapping-palindrome-substrings.md">Maximum Number of Non-overlapping Palindrome Substrings</a></td>
+<td><a href="./golang/2472_maximum_number_of_non_overlapping_palindrome_substrings.go">Go</a></td>
+<td><em>O(n * k)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Two Pointers, Greedy</td>
+</tr>
+<tr>
+<td>2479</td>
+<td><a href="./problems/2479-maximum-xor-of-two-non-overlapping-subtrees.md">Maximum XOR of Two Non-Overlapping Subtrees</a></td>
+<td><a href="./golang/2479_maximum_xor_of_two_non_overlapping_subtrees.go">Go</a></td>
+<td><em>O(nlogr)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒, variant of <a href="https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/">Maximum XOR of Two Numbers in an Array</a></td>
+<td>DFS, Trie, Greedy</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="2-jump-reach">2. Jump / Reach</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0045</td>
+<td><a href="./problems/0045-jump-game-ii.md">Jump Game II</a></td>
+<td><a href="./golang/0045_jump_game_ii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0055</td>
+<td><a href="./problems/0055-jump-game.md">Jump Game</a></td>
+<td><a href="./golang/0055_jump_game.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0134</td>
+<td><a href="./problems/0134-gas-station.md">Gas Station</a></td>
+<td><a href="./golang/0134_gas_station.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1024</td>
+<td><a href="./problems/1024-video-stitching.md">Video Stitching</a></td>
+<td><a href="./golang/1024_video_stitching.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>variant of <a href="https://leetcode.com/problems/jump-game-ii/">Jump Game II</a></td>
+<td></td>
+</tr>
+<tr>
+<td>1326</td>
+<td><a href="./problems/1326-minimum-number-of-taps-to-open-to-water-a-garden.md">Minimum Number of Taps to Open to Water a Garden</a></td>
+<td><a href="./golang/1326_minimum_number_of_taps_to_open_to_water_a_garden.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/jump-game-ii/">Jump Game II</a></td>
+<td></td>
+</tr>
+<tr>
+<td>1824</td>
+<td><a href="./problems/1824-minimum-sideway-jumps.md">Minimum Sideway Jumps</a></td>
+<td><a href="./golang/1824_minimum_sideway_jumps.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, DP</td>
+</tr>
+<tr>
+<td>1850</td>
+<td><a href="./problems/1850-minimum-adjacent-swaps-to-reach-the-kth-smallest-number.md">Minimum Adjacent Swaps to Reach the Kth Smallest Number</a></td>
+<td><a href="./golang/1850_minimum_adjacent_swaps_to_reach_the_kth_smallest_number.go">Go</a></td>
+<td><em>O((k + n) * n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2139</td>
+<td><a href="./problems/2139-minimum-moves-to-reach-target-score.md">Minimum Moves to Reach Target Score</a></td>
+<td><a href="./golang/2139_minimum_moves_to_reach_target_score.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2498</td>
+<td><a href="./problems/2498-frog-jump-ii.md">Frog Jump II</a></td>
+<td><a href="./golang/2498_frog_jump_ii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="3-two-pointers">3. Two Pointers</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0011</td>
+<td><a href="./problems/0011-container-with-most-water.md">Container With Most Water</a></td>
+<td><a href="./golang/0011_container_with_most_water.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0042</td>
+<td><a href="./problems/0042-trapping-rain-water.md">Trapping Rain Water</a></td>
+<td><a href="./golang/0042_trapping_rain_water.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Tricky</td>
+</tr>
+<tr>
+<td>0455</td>
+<td><a href="./problems/0455-assign-cookies.md">Assign Cookies</a></td>
+<td><a href="./golang/0455_assign_cookies.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="4-string">4. String</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0316</td>
+<td><a href="./problems/0316-remove-duplicate-letters.md">Remove Duplicate Letters</a></td>
+<td><a href="./golang/0316_remove_duplicate_letters.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>0402</td>
+<td><a href="./problems/0402-remove-k-digits.md">Remove K Digits</a></td>
+<td><a href="./golang/0402_remove_k_digits.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>LintCode</td>
+<td></td>
+</tr>
+<tr>
+<td>0484</td>
+<td><a href="./problems/0484-find-permutation.md">Find Permutation</a></td>
+<td><a href="./golang/0484_find_permutation.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0767</td>
+<td><a href="./problems/0767-reorganize-string.md">Reorganize String</a></td>
+<td><a href="./golang/0767_reorganize_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0984</td>
+<td><a href="./problems/0984-string-without-aaa-or-bbb.md">String Without AAA or BBB</a></td>
+<td><a href="./golang/0984_string_without_aaa_or_bbb.go">Go</a></td>
+<td><em>O(a + b)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1081</td>
+<td><a href="./problems/1081-smallest-subsequence-of-distinct-characters.md">Smallest Subsequence of Distinct Characters</a></td>
+<td><a href="./golang/1081_smallest_subsequence_of_distinct_characters.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>same as <a href="https://leetcode.com/problems/remove-duplicate-letters/">Remove Duplicate Letters</a></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>1163</td>
+<td><a href="./problems/1163-last-substring-in-lexicographical-order.md">Last Substring in Lexicographical Order</a></td>
+<td><a href="./golang/1163_last_substring_in_lexicographical_order.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1578</td>
+<td><a href="./problems/1578-minimum-deletion-cost-to-avoid-repeating-letters.md">Minimum Deletion Cost to Avoid Repeating Letters</a></td>
+<td><a href="./golang/1578_minimum_deletion_cost_to_avoid_repeating_letters.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1663</td>
+<td><a href="./problems/1663-smallest-string-with-a-given-numeric-value.md">Smallest String With A Given Numeric Value</a></td>
+<td><a href="./golang/1663_smallest_string_with_a_given_numeric_value.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1708</td>
+<td><a href="./problems/1708-largest-subarray-length-k.md">Largest Subarray Length K</a></td>
+<td><a href="./golang/1708_largest_subarray_length_k.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>🔒, variant of <a href="https://leetcode.com/problems/last-substring-in-lexicographical-order/">Last Substring in Lexicographical Order</a></td>
+<td></td>
+</tr>
+<tr>
+<td>1754</td>
+<td><a href="./problems/1754-largest-merge-of-two-strings.md">Largest Merge Of Two Strings</a></td>
+<td><a href="./golang/1754_largest_merge_of_two_strings.go">Go</a></td>
+<td><em>O(m * n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2182</td>
+<td><a href="./problems/2182-construct-string-with-repeat-limit.md">Construct String With Repeat Limit</a></td>
+<td><a href="./golang/2182_construct_string_with_repeat_limit.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2384</td>
+<td><a href="./problems/2384-largest-palindromic-number.md">Largest Palindromic Number</a></td>
+<td><a href="./golang/2384_largest_palindromic_number.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Freq Table, Greedy</td>
+</tr>
+<tr>
+<td>2405</td>
+<td><a href="./problems/2405-optimal-partition-of-string.md">Optimal Partition of String</a></td>
+<td><a href="./golang/2405_optimal_partition_of_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, Hash Table</td>
+</tr>
+<tr>
+<td>2434</td>
+<td><a href="./problems/2434-using-a-robot-to-print-the-lexicographically-smallest-string.md">Using a Robot to Print the Lexicographically Smallest String</a></td>
+<td><a href="./golang/2434_using_a_robot_to_print_the_lexicographically_smallest_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Freq Table, Greedy</td>
+</tr>
+<tr>
+<td>2645</td>
+<td><a href="./problems/2645-minimum-additions-to-make-valid-string.md">Minimum Additions to Make Valid String</a></td>
+<td><a href="./golang/2645_minimum_additions_to_make_valid_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2663</td>
+<td><a href="./problems/2663-lexicographically-smallest-beautiful-string.md">Lexicographically Smallest Beautiful String</a></td>
+<td><a href="./golang/2663_lexicographically_smallest_beautiful_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2697</td>
+<td><a href="./problems/2697-lexicographically-smallest-palindrome.md">Lexicographically Smallest Palindrome</a></td>
+<td><a href="./golang/2697_lexicographically_smallest_palindrome.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2734</td>
+<td><a href="./problems/2734-lexicographically-smallest-string-after-substring-operation.md">Lexicographically Smallest String After Substring Operation</a></td>
+<td><a href="./golang/2734_lexicographically_smallest_string_after_substring_operation.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2825</td>
+<td><a href="./problems/2825-make-string-a-subsequence-using-cyclic-increments.md">Make String a Subsequence Using Cyclic Increments</a></td>
+<td><a href="./golang/2825_make_string_a_subsequence_using_cyclic_increments.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, Two Pointers</td>
+</tr>
+<tr>
+<td>2864</td>
+<td><a href="./problems/2864-maximum-odd-binary-number.md">Maximum Odd Binary Number</a></td>
+<td><a href="./golang/2864_maximum_odd_binary_number.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy, Partition</td>
+</tr>
+<tr>
+<td>2914</td>
+<td><a href="./problems/2914-minimum-number-of-changes-to-make-binary-string-beautiful.md">Minimum Number of Changes to Make Binary String Beautiful</a></td>
+<td><a href="./golang/2914_minimum_number_of_changes_to_make_binary_string_beautiful.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2957</td>
+<td><a href="./problems/2957-remove-adjacent-almost-equal-characters.md">Remove Adjacent Almost-Equal Characters</a></td>
+<td><a href="./golang/2957_remove_adjacent_almost_equal_characters.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="5-array">5. Array</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0122</td>
+<td><a href="./problems/0122-best-time-to-buy-and-sell-stock-ii.md">Best Time to Buy and Sell Stock II</a></td>
+<td><a href="./golang/0122_best_time_to_buy_and_sell_stock_ii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0135</td>
+<td><a href="./problems/0135-candy.md">Candy</a></td>
+<td><a href="./golang/0135_candy.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0376</td>
+<td><a href="./problems/0376-wiggle-subsequence.md">Wiggle Subsequence</a></td>
+<td><a href="./golang/0376_wiggle_subsequence.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0621</td>
+<td><a href="./problems/0621-task-scheduler.md">Task Scheduler</a></td>
+<td><a href="./golang/0621_task_scheduler.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0649</td>
+<td><a href="./problems/0649-dota2-senate.md">Dota2 Senate</a></td>
+<td><a href="./golang/0649_dota2_senate.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0659</td>
+<td><a href="./problems/0659-split-array-into-consecutive-subsequences.md">Split Array into Consecutive Subsequences</a></td>
+<td><a href="./golang/0659_split_array_into_consecutive_subsequences.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0870</td>
+<td><a href="./problems/0870-advantage-shuffle.md">Advantage Shuffle</a></td>
+<td><a href="./golang/0870_advantage_shuffle.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0881</td>
+<td><a href="./problems/0881-boats-to-save-people.md">Boats to Save People</a></td>
+<td><a href="./golang/0881_boats_to_save_people.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1090</td>
+<td><a href="./problems/1090-largest-values-from-labels.md">Largest Values From Labels</a></td>
+<td><a href="./golang/1090_largest_values_from_labels.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1282</td>
+<td><a href="./problems/1282-group-the-people-given-the-group-size-they-belong-to.md">Group the People Given the Group Size They Belong To</a></td>
+<td><a href="./golang/1282_group_the_people_given_the_group_size_they_belong_to.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1296</td>
+<td><a href="./problems/1296-divide-array-in-sets-of-k-consecutive-numbers.md">Divide Array in Sets of K Consecutive Numbers</a></td>
+<td><a href="./golang/1296_divide_array_in_sets_of_k_consecutive_numbers.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1338</td>
+<td><a href="./problems/1338-reduce-array-size-to-the-half.md">Reduce Array Size to The Half</a></td>
+<td><a href="./golang/1338_reduce_array_size_to_the_half.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Counting Sort</td>
+</tr>
+<tr>
+<td>1400</td>
+<td><a href="./problems/1400-construct-k-palindrome-strings.md">Construct K Palindrome Strings</a></td>
+<td><a href="./golang/1400_construct_k_palindrome_strings.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1403</td>
+<td><a href="./problems/1403-minimum-subsequence-in-non-increasing-order.md">Minimum Subsequence in Non-Increasing Order</a></td>
+<td><a href="./golang/1403_minimum_subsequence_in_non_increasing_order.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1405</td>
+<td><a href="./problems/1405-longest-happy-string.md">Longest Happy String</a></td>
+<td><a href="./golang/1405_longest_happy_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1526</td>
+<td><a href="./problems/1526-minimum-number-of-increments-on-subarrays-to-form-a-target-array.md">Minimum Number of Increments on Subarrays to Form a Target Array</a></td>
+<td><a href="./golang/1526_minimum_number_of_increments_on_subarrays_to_form_a_target_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1536</td>
+<td><a href="./problems/1536-minimum-swaps-to-arrange-a-binary-grid.md">Minimum Swaps to Arrange a Binary Grid</a></td>
+<td><a href="./golang/1536_minimum_swaps_to_arrange_a_binary_grid.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1564</td>
+<td><a href="./problems/1564-put-boxes-into-the-warehouse-i.md">Put Boxes Into the Warehouse I</a></td>
+<td><a href="./golang/1564_put_boxes_into_the_warehouse_i.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1567</td>
+<td><a href="./problems/1567-maximum-length-of-subarray-with-positive-product.md">Maximum Length of Subarray With Positive Product</a></td>
+<td><a href="./golang/1567_maximum_length_of_subarray_with_positive_product.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1580</td>
+<td><a href="./problems/1580-put-boxes-into-the-warehouse-ii.md">Put Boxes Into the Warehouse II</a></td>
+<td><a href="./golang/1580_put_boxes_into_the_warehouse_ii.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1589</td>
+<td><a href="./problems/1589-maximum-sum-obtained-of-any-permutation.md">Maximum Sum Obtained of Any Permutation</a></td>
+<td><a href="./golang/1589_maximum_sum_obtained_of_any_permutation.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1599</td>
+<td><a href="./problems/1599-maximum-profit-of-operating-a-centennial-wheel.md">Maximum Profit of Operating a Centennial Wheel</a></td>
+<td><a href="./golang/1599_maximum_profit_of_operating_a_centennial_wheel.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1605</td>
+<td><a href="./problems/1605-find-valid-matrix-given-row-and-column-sums.md">Find Valid Matrix Given Row and Column Sums</a></td>
+<td><a href="./golang/1605_find_valid_matrix_given_row_and_column_sums.go">Go</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1647</td>
+<td><a href="./problems/1647-minimum-deletions-to-make-character-frequencies-unique.md">Minimum Deletions to Make Character Frequencies Unique</a></td>
+<td><a href="./golang/1647_minimum_deletions_to_make_character_frequencies_unique.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1653</td>
+<td><a href="./problems/1653-minimum-deletions-to-make-string-balanced.md">Minimum Deletions to Make String Balanced</a></td>
+<td><a href="./golang/1653_minimum_deletions_to_make_string_balanced.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1674</td>
+<td><a href="./problems/1674-minimum-moves-to-make-array-complementary.md">Minimum Moves to Make Array Complementary</a></td>
+<td><a href="./golang/1674_minimum_moves_to_make_array_complementary.go">Go</a></td>
+<td><em>O(n + k)</em></td>
+<td><em>O(k)</em></td>
+<td>Meidum</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1686</td>
+<td><a href="./problems/1686-stone-game-vi.md">Stone Game VI</a></td>
+<td><a href="./golang/1686_stone_game_vi.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1689</td>
+<td><a href="./problems/1689-partitioning-into-minimum-number-of-deci-binary-numbers.md">Partitioning Into Minimum Number Of Deci-Binary Numbers</a></td>
+<td><a href="./golang/1689_partitioning_into_minimum_number_of_deci_binary_numbers.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1702</td>
+<td><a href="./problems/1702-maximum-binary-string-after-change.md">Maximum Binary String After Change</a></td>
+<td><a href="./golang/1702_maximum_binary_string_after_change.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1725</td>
+<td><a href="./problems/1725-number-of-rectangles-that-can-form-the-largest-square.md">Number Of Rectangles That Can Form The Largest Square</a></td>
+<td><a href="./golang/1725_number_of_rectangles_that_can_form_the_largest_square.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1727</td>
+<td><a href="./problems/1727-largest-submatrix-with-rearrangements.md">Largest Submatrix With Rearrangements</a></td>
+<td><a href="./golang/1727_largest_submatrix_with_rearrangements.go">Go</a></td>
+<td><em>O(m * nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort</td>
+</tr>
+<tr>
+<td>1733</td>
+<td><a href="./problems/1733-minimum-number-of-people-to-teach.md">Minimum Number of People to Teach</a></td>
+<td><a href="./golang/1733_minimum_number_of_people_to_teach.go">Go</a></td>
+<td><em>O(n * m^2)</em></td>
+<td><em>O(n * m)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1749</td>
+<td><a href="./problems/1749-maximum-absolute-sum-of-any-subarray.md">Maximum Absolute Sum of Any Subarray</a></td>
+<td><a href="./golang/1749_maximum_absolute_sum_of_any_subarray.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>variant of <a href="https://leetcode.com/problems/maximum-subarray/">Maximum Subarray</a></td>
+<td>Prefix Sum</td>
+</tr>
+<tr>
+<td>1758</td>
+<td><a href="./problems/1758-minimum-changes-to-make-alternating-binary-string.md">Minimum Changes To Make Alternating Binary String</a></td>
+<td><a href="./golang/1758_minimum_changes_to_make_alternating_binary_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1759</td>
+<td><a href="./problems/1759-count-number-of-homogenous-substrings.md">Count Number of Homogenous Substrings</a></td>
+<td><a href="./golang/1759_count_number_of_homogenous_substrings.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1762</td>
+<td><a href="./problems/1762-buildings-with-an-ocean-view.md">Buildings With an Ocean View</a></td>
+<td><a href="./golang/1762_buildings_with_an_ocean_view.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1764</td>
+<td><a href="./problems/1764-form-array-by-concatenating-subarrays-of-another-array.md">Form Array by Concatenating Subarrays of Another Array</a></td>
+<td><a href="./golang/1764_form_array_by_concatenating_subarrays_of_another_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td><code>KMP Algorithm</code></td>
+</tr>
+<tr>
+<td>1769</td>
+<td><a href="./problems/1769-minimum-number-of-operations-to-move-all-balls-to-each-box.md">Minimum Number of Operations to Move All Balls to Each Box</a></td>
+<td><a href="./golang/1769_minimum_number_of_operations_to_move_all_balls_to_each_box.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1775</td>
+<td><a href="./problems/1775-equal-sum-arrays-with-minimum-number-of-operations.md">Equal Sum Arrays With Minimum Number of Operations</a></td>
+<td><a href="./golang/1775_equal_sum_arrays_with_minimum_number_of_operations.go">Go</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1785</td>
+<td><a href="./problems/1785-minimum-elements-to-add-to-form-a-given-sum.md">Minimum Elements to Add to Form a Given Sum</a></td>
+<td><a href="./golang/1785_minimum_elements_to_add_to_form_a_given_sum.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1793</td>
+<td><a href="./problems/1793-maximum-score-of-a-good-subarray.md">Maximum Score of a Good Subarray</a></td>
+<td><a href="./golang/1793_maximum_score_of_a_good_subarray.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, Prefix Sum. Binary Search</td>
+</tr>
+<tr>
+<td>1794</td>
+<td><a href="./problems/1794-count-pairs-of-equal-substrings-with-minimum-difference.md">Count Pairs of Equal Substrings With Minimum Difference</a></td>
+<td><a href="./golang/1794_count_pairs_of_equal_substrings_with_minimum_difference.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1798</td>
+<td><a href="./problems/1798-maximum-number-of-consecutive-values-you-can-make.md">Maximum Number of Consecutive Values You Can Make</a></td>
+<td><a href="./golang/1798_maximum_number_of_consecutive_values_you_can_make.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1827</td>
+<td><a href="./problems/1827-minimum-operations-to-make-the-array-increasing.md">Minimum Operations to Make the Array Increasing</a></td>
+<td><a href="./golang/1827_minimum_operations_to_make_the_array_increasing.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1833</td>
+<td><a href="./problems/1833-minimum-operations-to-make-the-array-increasing.md">Maximum Ice Cream Bars</a></td>
+<td><a href="./golang/1833_minimum_operations_to_make_the_array_increasing.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1840</td>
+<td><a href="./problems/1840-maximum-building-height.md">Maximum Building Height</a></td>
+<td><a href="./golang/1840_maximum_building_height.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1842</td>
+<td><a href="./problems/1842-next-palindrome-using-same-digits.md">Next Palindrome Using Same Digits</a></td>
+<td><a href="./golang/1842_next_palindrome_using_same_digits.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1846</td>
+<td><a href="./problems/1846-maximum-element-after-decreasing-and-rearranging.md">Maximum Element After Decreasing and Rearranging</a></td>
+<td><a href="./golang/1846_maximum_element_after_decreasing_and_rearranging.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1864</td>
+<td><a href="./problems/1864-minimum-number-of-swaps-to-make-the-binary-string-alternating.md">Minimum Number of Swaps to Make the Binary String Alternating</a></td>
+<td><a href="./golang/1864_minimum_number_of_swaps_to_make_the_binary_string_alternating.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1874</td>
+<td><a href="./problems/1874-minimize-product-sum-of-two-arrays.md">Minimize Product Sum of Two Arrays</a></td>
+<td><a href="./golang/1874_minimize_product_sum_of_two_arrays.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td><a href="https://codingcompetitions.withgoogle.com/codejam/round/00000000004330f6/0000000000432f33">GCJ2008 - Round 1A</a>, 🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1877</td>
+<td><a href="./problems/1877-minimize-maximum-pair-sum-in-array.md">Minimize Maximum Pair Sum in Array</a></td>
+<td><a href="./golang/1877_minimize_maximum_pair_sum_in_array.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1881</td>
+<td><a href="./problems/1881-maximum-value-after-insertion.md">Maximum Value after Insertion</a></td>
+<td><a href="./golang/1881_maximum_value_after_insertion.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1887</td>
+<td><a href="./problems/1887-reduction-operations-to-make-the-array-elements-equal.md">Reduction Operations to Make the Array Elements Equal</a></td>
+<td><a href="./golang/1887_reduction_operations_to_make_the_array_elements_equal.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort</td>
+</tr>
+<tr>
+<td>1894</td>
+<td><a href="./problems/1894-find-the-student-that-will-replace-the-chalk.md">Find the Student that Will Replace the Chalk</a></td>
+<td><a href="./golang/1894_find_the_student_that_will_replace_the_chalk.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1897</td>
+<td><a href="./problems/1897-redistribute-characters-to-make-all-strings-equal.md">Redistribute Characters to Make All Strings Equal</a></td>
+<td><a href="./golang/1897_redistribute_characters_to_make_all_strings_equal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1899</td>
+<td><a href="./problems/1899-merge-triplets-to-form-target-triplet.md">Merge Triplets to Form Target Triplet</a></td>
+<td><a href="./golang/1899_merge_triplets_to_form_target_triplet.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1913</td>
+<td><a href="./problems/1913-maximum-product-difference-between-two-pairs.md">Maximum Product Difference Between Two Pairs</a></td>
+<td><a href="./golang/1913_maximum_product_difference_between_two_pairs.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1921</td>
+<td><a href="./problems/1921-eliminate-maximum-number-of-monsters.md">Eliminate Maximum Number of Monsters</a></td>
+<td><a href="./golang/1921_eliminate_maximum_number_of_monsters.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1936</td>
+<td><a href="./problems/1936-add-minimum-number-of-rungs.md">Add Minimum Number of Rungs</a></td>
+<td><a href="./golang/1936_add_minimum_number_of_rungs.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1946</td>
+<td><a href="./problems/1946-largest-number-after-mutating-substring.md">Largest Number After Mutating Substring</a></td>
+<td><a href="./golang/1946_largest_number_after_mutating_substring.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1953</td>
+<td><a href="./problems/1953-maximum-number-of-weeks-for-which-you-can-work.md">Maximum Number of Weeks for Which You Can Work</a></td>
+<td><a href="./golang/1953_maximum_number_of_weeks_for_which_you_can_work.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1975</td>
+<td><a href="./problems/1975-maximum-matrix-sum.md">Maximum Matrix Sum</a></td>
+<td><a href="./golang/1975_maximum_matrix_sum.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2027</td>
+<td><a href="./problems/2027-minimum-moves-to-convert-string.md">Minimum Moves to Convert String</a></td>
+<td><a href="./golang/2027_minimum_moves_to_convert_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2037</td>
+<td><a href="./problems/2037-minimum-number-of-moves-to-seat-everyone.md">Minimum Number of Moves to Seat Everyone</a></td>
+<td><a href="./golang/2037_minimum_number_of_moves_to_seat_everyone.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2412</td>
+<td><a href="./problems/2412-minimum-money-required-before-transactions.md">Minimum Money Required Before Transactions</a></td>
+<td><a href="./golang/2412_minimum_money_required_before_transactions.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, Constructive Algorithms</td>
+</tr>
+<tr>
+<td>2439</td>
+<td><a href="./problems/2439-minimize-maximum-of-array.md">Minimize Maximum of Array</a></td>
+<td><a href="./golang/2439_minimize_maximum_of_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2440</td>
+<td><a href="./problems/2440-create-components-with-same-value.md">Create Components With Same Value</a></td>
+<td><a href="./golang/2440_create_components_with_same_value.go">Go</a></td>
+<td><em>O(n * sqrt(n))</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>BFS, DFS, Greedy</td>
+</tr>
+<tr>
+<td>2449</td>
+<td><a href="./problems/2449-minimum-number-of-operations-to-make-arrays-similar.md">Minimum Number of Operations to Make Arrays Similar</a></td>
+<td><a href="./golang/2449_minimum_number_of_operations_to_make_arrays_similar.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, Sort</td>
+</tr>
+<tr>
+<td>2459</td>
+<td><a href="./problems/2459-sort-array-by-moving-items-to-empty-space.md">Sort Array by Moving Items to Empty Space</a></td>
+<td><a href="./golang/2459_sort_array_by_moving_items_to_empty_space.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>Greedy, Sort</td>
+</tr>
+<tr>
+<td>2499</td>
+<td><a href="./problems/2499-minimum-total-cost-to-make-arrays-unequal.md">Minimum Total Cost to Make Arrays Unequal</a></td>
+<td><a href="./golang/2499_minimum_total_cost_to_make_arrays_unequal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2522</td>
+<td><a href="./problems/2522-minimum-total-cost-to-make-arrays-unequal.md">Partition String Into Substrings With Values at Most K</a></td>
+<td><a href="./golang/2522_minimum_total_cost_to_make_arrays_unequal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2541</td>
+<td><a href="./problems/2541-minimum-operations-to-make-array-equal-ii.md">Minimum Operations to Make Array Equal II</a></td>
+<td><a href="./golang/2541_minimum_operations_to_make_array_equal_ii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2566</td>
+<td><a href="./problems/2566-maximum-difference-by-remapping-a-digit.md">Maximum Difference by Remapping a Digit</a></td>
+<td><a href="./golang/2566_maximum_difference_by_remapping_a_digit.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2587</td>
+<td><a href="./problems/2587-rearrange-array-to-maximize-prefix-score.md">Rearrange Array to Maximize Prefix Score</a></td>
+<td><a href="./golang/2587_rearrange_array_to_maximize_prefix_score.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort, Greedy</td>
+</tr>
+<tr>
+<td>2591</td>
+<td><a href="./problems/2591-distribute-money-to-maximum-children.md">Distribute Money to Maximum Children</a></td>
+<td><a href="./golang/2591_distribute_money_to_maximum_children.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy, Math</td>
+</tr>
+<tr>
+<td>2599</td>
+<td><a href="./problems/2599-make-the-prefix-sum-non-negative.md">Make the Prefix Sum Non-negative</a></td>
+<td><a href="./golang/2599_make_the_prefix_sum_non_negative.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Prefix Sum, Greedy, Heap</td>
+</tr>
+<tr>
+<td>2600</td>
+<td><a href="./problems/2600-k-items-with-the-maximum-sum.md">K Items With the Maximum Sum</a></td>
+<td><a href="./golang/2600_k_items_with_the_maximum_sum.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy, Math</td>
+</tr>
+<tr>
+<td>2606</td>
+<td><a href="./problems/2606-find-the-substring-with-maximum-cost.md">Find the Substring With Maximum Cost</a></td>
+<td><a href="./golang/2606_find_the_substring_with_maximum_cost.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, <code>Kadane's Algorithm</code></td>
+</tr>
+<tr>
+<td>2607</td>
+<td><a href="./problems/2607-make-k-subarray-sums-equal.md">Make K-Subarray Sums Equal</a></td>
+<td><a href="./golang/2607_make_k_subarray_sums_equal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math, Greedy, Quick Select</td>
+</tr>
+<tr>
+<td>2611</td>
+<td><a href="./problems/2611-mice-and-cheese.md">Mice and Cheese</a></td>
+<td><a href="./golang/2611_mice_and_cheese.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, Quick Select</td>
+</tr>
+<tr>
+<td>2673</td>
+<td><a href="./problems/2673-make-costs-of-paths-equal-in-a-binary-tree.md">Make Costs of Paths Equal in a Binary Tree</a></td>
+<td><a href="./golang/2673_make_costs_of_paths_equal_in_a_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Tree, Greedy</td>
+</tr>
+<tr>
+<td>2680</td>
+<td><a href="./problems/2680-maximum-or.md">Maximum OR</a></td>
+<td><a href="./golang/2680_maximum_or.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Prefix Sum, Greedy</td>
+</tr>
+<tr>
+<td>2706</td>
+<td><a href="./problems/2706-buy-two-chocolates.md">Buy Two Chocolates</a></td>
+<td><a href="./golang/2706_buy_two_chocolates.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2708</td>
+<td><a href="./problems/2708-maximum-strength-of-a-group.md">Maximum Strength of a Group</a></td>
+<td><a href="./golang/2708_maximum_strength_of_a_group.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2712</td>
+<td><a href="./problems/2712-minimum-cost-to-make-all-characters-equal.md">Minimum Cost to Make All Characters Equal</a></td>
+<td><a href="./golang/2712_minimum_cost_to_make_all_characters_equal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2772</td>
+<td><a href="./problems/2772-apply-operations-to-make-all-array-elements-equal-to-zero.md">Apply Operations to Make All Array Elements Equal to Zero</a></td>
+<td><a href="./golang/2772_apply_operations_to_make_all_array_elements_equal_to_zero.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, Sliding Window</td>
+</tr>
+<tr>
+<td>2789</td>
+<td><a href="./problems/2789-largest-element-in-an-array-after-merge-operations.md">Largest Element in an Array after Merge Operations</a></td>
+<td><a href="./golang/2789_largest_element_in_an_array_after_merge_operations.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2790</td>
+<td><a href="./problems/2790-maximum-number-of-groups-with-increasing-length.md">Maximum Number of Groups With Increasing Length</a></td>
+<td><a href="./golang/2790_maximum_number_of_groups_with_increasing_length.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Constructive Algorithms, Counting Sort, Greedy, Binary Search, Prefix Sum</td>
+</tr>
+<tr>
+<td>2870</td>
+<td><a href="./problems/2870-minimum-number-of-operations-to-make-array-empty.md">Minimum Number of Operations to Make Array Empty</a></td>
+<td><a href="./golang/2870_minimum_number_of_operations_to_make_array_empty.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Freq Table, Greedy</td>
+</tr>
+<tr>
+<td>2871</td>
+<td><a href="./problems/2871-split-array-into-maximum-number-of-subarrays.md">Split Array Into Maximum Number of Subarrays</a></td>
+<td><a href="./golang/2871_split_array_into_maximum_number_of_subarrays.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2872</td>
+<td><a href="./problems/2872-maximum-number-of-k-divisible-components.md">Maximum Number of K-Divisible Components</a></td>
+<td><a href="./golang/2872_maximum_number_of_k_divisible_components.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/create-components-with-same-value/">Create Components With Same Value</a></td>
+<td>BFS, Greedy</td>
+</tr>
+<tr>
+<td>2892</td>
+<td><a href="./problems/2892-minimizing-array-after-replacing-pairs-with-their-product.md">Minimizing Array After Replacing Pairs With Their Product</a></td>
+<td><a href="./golang/2892_minimizing_array_after_replacing_pairs_with_their_product.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2895</td>
+<td><a href="./problems/2895-minimum-processing-time.md">Minimum Processing Time</a></td>
+<td><a href="./golang/2895_minimum_processing_time.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort, Greedy</td>
+</tr>
+<tr>
+<td>2897</td>
+<td><a href="./problems/2897-apply-operations-on-array-to-maximize-sum-of-squares.md">Apply Operations on Array to Maximize Sum of Squares</a></td>
+<td><a href="./golang/2897_apply_operations_on_array_to_maximize_sum_of_squares.go">Go</a></td>
+<td><em>O(nlogr)</em></td>
+<td><em>O(logr)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Bit Manipulation, Greedy, Freq Table</td>
+</tr>
+<tr>
+<td>2900</td>
+<td><a href="./problems/2900-longest-unequal-adjacent-groups-subsequence-i.md">Longest Unequal Adjacent Groups Subsequence I</a></td>
+<td><a href="./golang/2900_longest_unequal_adjacent_groups_subsequence_i.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2910</td>
+<td><a href="./problems/2910-minimum-number-of-groups-to-create-a-valid-assignment.md">Minimum Number of Groups to Create a Valid Assignment</a></td>
+<td><a href="./golang/2910_minimum_number_of_groups_to_create_a_valid_assignment.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Linear Search, Greedy, Math</td>
+</tr>
+<tr>
+<td>2918</td>
+<td><a href="./problems/2918-minimum-equal-sum-of-two-arrays-after-replacing-zeros.md">Minimum Equal Sum of Two Arrays After Replacing Zeros</a></td>
+<td><a href="./golang/2918_minimum_equal_sum_of_two_arrays_after_replacing_zeros.go">Go</a></td>
+<td><em>O(n + m)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2931</td>
+<td><a href="./problems/2931-maximum-spending-after-buying-items.md">Maximum Spending After Buying Items</a></td>
+<td><a href="./golang/2931_maximum_spending_after_buying_items.go">Go</a></td>
+<td><em>O(m * n * logm)</em></td>
+<td><em>O(m)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, Heap</td>
+</tr>
+<tr>
+<td>2939</td>
+<td><a href="./problems/2939-maximum-xor-product.md">Maximum Xor Product</a></td>
+<td><a href="./golang/2939_maximum_xor_product.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2971</td>
+<td><a href="./problems/2971-find-polygon-with-the-largest-perimeter.md">Find Polygon With the Largest Perimeter</a></td>
+<td><a href="./golang/2971_find_polygon_with_the_largest_perimeter.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort, Prefix Sum, Greedy</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="6-heap-priority-queue">6. Heap / Priority Queue</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0630</td>
+<td><a href="./problems/0630-course-schedule-iii.md">Course Schedule III</a></td>
+<td><a href="./golang/0630_course_schedule_iii.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(k)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0659</td>
+<td><a href="./problems/0659-split-array-into-consecutive-subsequences.md">Split Array into Consecutive Subsequences</a></td>
+<td><a href="./golang/0659_split_array_into_consecutive_subsequences.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1167</td>
+<td><a href="./problems/1167-minimum-cost-to-connect-sticks.md">Minimum Cost to Connect Sticks</a></td>
+<td><a href="./golang/1167_minimum_cost_to_connect_sticks.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1353</td>
+<td><a href="./problems/1353-maximum-number-of-events-that-can-be-attended.md">Maximum Number of Events That Can Be Attended</a></td>
+<td><a href="./golang/1353_maximum_number_of_events_that_can_be_attended.go">Go</a></td>
+<td><em>O(r + nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Heap, Sort</td>
+</tr>
+<tr>
+<td>1354</td>
+<td><a href="./problems/1354-construct-target-array-with-multiple-sums.md">Construct Target Array With Multiple Sums</a></td>
+<td><a href="./golang/1354_construct_target_array_with_multiple_sums.go">Go</a></td>
+<td><em>O(log(max(t)) * logn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Heap</td>
+</tr>
+<tr>
+<td>1383</td>
+<td><a href="./problems/1383-maximum-performance-of-a-team.md">Maximum Performance of a Team</a></td>
+<td><a href="./golang/1383_maximum_performance_of_a_team.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/minimum-cost-to-hire-k-workers/">Minimum Cost to Hire K Workers</a></td>
+<td>Greedy, Heap</td>
+</tr>
+<tr>
+<td>1705</td>
+<td><a href="./problems/1705-maximum-number-of-eaten-apples.md">Maximum Number of Eaten Apples</a></td>
+<td><a href="./golang/1705_maximum_number_of_eaten_apples.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Heap</td>
+</tr>
+<tr>
+<td>1801</td>
+<td><a href="./problems/1801-number-of-orders-in-the-backlog.md">Number of Orders in the Backlog</a></td>
+<td><a href="./golang/1801_number_of_orders_in_the_backlog.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, Heap</td>
+</tr>
+<tr>
+<td>2542</td>
+<td><a href="./problems/2542-maximum-subsequence-score.md">Maximum Subsequence Score</a></td>
+<td><a href="./golang/2542_maximum_subsequence_score.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>variant of <a href="https://leetcode.com/problems/maximum-performance-of-a-team/">Maximum Performance of a Team</a></td>
+<td>Greedy, Heap</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="7-stack-monotonic-stack">7. Stack / Monotonic Stack</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0316</td>
+<td><a href="./problems/0316-remove-duplicate-letters.md">Remove Duplicate Letters</a></td>
+<td><a href="./golang/0316_remove_duplicate_letters.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>0962</td>
+<td><a href="./problems/0962-maximum-width-ramp.md">Maximum Width Ramp</a></td>
+<td><a href="./golang/0962_maximum_width_ramp.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>1081</td>
+<td><a href="./problems/1081-smallest-subsequence-of-distinct-characters.md">Smallest Subsequence of Distinct Characters</a></td>
+<td><a href="./golang/1081_smallest_subsequence_of_distinct_characters.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>same as <a href="https://leetcode.com/problems/remove-duplicate-letters/">Remove Duplicate Letters</a></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>1249</td>
+<td><a href="./problems/1249-minimum-remove-to-make-valid-parentheses.md">Minimum Remove to Make Valid Parentheses</a></td>
+<td><a href="./golang/1249_minimum_remove_to_make_valid_parentheses.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Stack</td>
+</tr>
+<tr>
+<td>1673</td>
+<td><a href="./problems/1673-find-the-most-competitive-subsequence.md">Find the Most Competitive Subsequence</a></td>
+<td><a href="./golang/1673_find_the_most_competitive_subsequence.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(k)</em></td>
+<td>Meidum</td>
+<td></td>
+<td>Stack, Greedy</td>
+</tr>
+<tr>
+<td>2030</td>
+<td><a href="./problems/2030-smallest-k-length-subsequence-with-occurrences-of-a-letter.md">Smallest K-Length Subsequence With Occurrences of a Letter</a></td>
+<td><a href="./golang/2030_smallest_k_length_subsequence_with_occurrences_of_a_letter.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Mono Stack, Greedy</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="8-math">8. Math</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0397</td>
+<td><a href="./problems/0397-integer-replacement.md">Integer Replacement</a></td>
+<td><a href="./golang/0397_integer_replacement.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>0991</td>
+<td><a href="./problems/0991-broken-calculator.md">Broken Calculator</a></td>
+<td><a href="./golang/0991_broken_calculator.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0995</td>
+<td><a href="./problems/0995-minimum-number-of-k-consecutive-bit-flips.md">Minimum Number of K Consecutive Bit Flips</a></td>
+<td><a href="./golang/0995_minimum_number_of_k_consecutive_bit_flips.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1414</td>
+<td><a href="./problems/1414-find-the-minimum-number-of-fibonacci-numbers-whose-sum-is-k.md">Find the Minimum Number of Fibonacci Numbers Whose Sum Is K</a></td>
+<td><a href="./golang/1414_find_the_minimum_number_of_fibonacci_numbers_whose_sum_is_k.go">Go</a></td>
+<td><em>O(logk)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1432</td>
+<td><a href="./problems/1432-max-difference-you-can-get-from-changing-an-integer.md">Max Difference You Can Get From Changing an Integer</a></td>
+<td><a href="./golang/1432_max_difference_you_can_get_from_changing_an_integer.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>1518</td>
+<td><a href="./problems/1518-water-bottles.md">Water Bottles</a></td>
+<td><a href="./golang/1518_water_bottles.go">Go</a></td>
+<td><em>O(logn/logm)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2366</td>
+<td><a href="./problems/2366-minimum-replacements-to-sort-the-array.md">Minimum Replacements to Sort the Array</a></td>
+<td><a href="./golang/2366_minimum_replacements_to_sort_the_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, Math</td>
+</tr>
+<tr>
+<td>2457</td>
+<td><a href="./problems/2457-minimum-addition-to-make-integer-beautiful.md">Minimum Addition to Make Integer Beautiful</a></td>
+<td><a href="./golang/2457_minimum_addition_to_make_integer_beautiful.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2571</td>
+<td><a href="./problems/2571-minimum-operations-to-reduce-an-integer-to-0.md">Minimum Operations to Reduce an Integer to 0</a></td>
+<td><a href="./golang/2571_minimum_operations_to_reduce_an_integer_to_0.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, Trick</td>
+</tr>
+<tr>
+<td>2601</td>
+<td><a href="./problems/2601-prime-subtraction-operation.md">Prime Subtraction Operation</a></td>
+<td><a href="./golang/2601_prime_subtraction_operation.go">Go</a></td>
+<td><em>O(p + nlogp)</em></td>
+<td><em>O(p)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Number Theory, Greedy, Binary Search</td>
+</tr>
+<tr>
+<td>2769</td>
+<td><a href="./problems/2769-find-the-maximum-achievable-number.md">Find the Maximum Achievable Number</a></td>
+<td><a href="./golang/2769_find_the_maximum_achievable_number.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy, Math</td>
+</tr>
+<tr>
+<td>2847</td>
+<td><a href="./problems/2847-smallest-number-with-given-digit-product.md">Smallest Number With Given Digit Product</a></td>
+<td><a href="./golang/2847_smallest_number_with_given_digit_product.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(logn)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Greedy</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="9-two-pointers-additional">9. Two Pointers (Additional)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0948</td>
+<td><a href="./problems/0948-bag-of-tokens.md">Bag of Tokens</a></td>
+<td><a href="./golang/0948_bag_of_tokens.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Two Pointers</td>
+</tr>
+<tr>
+<td>1616</td>
+<td><a href="./problems/1616-split-two-strings-to-make-palindrome.md">Split Two Strings to Make Palindrome</a></td>
+<td><a href="./golang/1616_split_two_strings_to_make_palindrome.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Two Pointers</td>
+</tr>
+<tr>
+<td>2486</td>
+<td><a href="./problems/2486-append-characters-to-string-to-make-subsequence.md">Append Characters to String to Make Subsequence</a></td>
+<td><a href="./golang/2486_append_characters_to_string_to_make_subsequence.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Two Pointers, Greedy</td>
+</tr>
+<tr>
+<td>2576</td>
+<td><a href="./problems/2576-find-the-maximum-number-of-marked-indices.md">Find the Maximum Number of Marked Indices</a></td>
+<td><a href="./golang/2576_find_the_maximum_number_of_marked_indices.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort, Greedy, Two Pointers</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="10-sorting">10. Sorting</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1029</td>
+<td><a href="./problems/1029-two-city-scheduling.md">Two City Scheduling</a></td>
+<td><a href="./golang/1029_two_city_scheduling.go">Go</a></td>
+<td><em>O(n)</em> on average</td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Quick Select</td>
+</tr>
+<tr>
+<td>1053</td>
+<td><a href="./problems/1053-previous-permutation-with-one-swap.md">Previous Permutation With One Swap</a></td>
+<td><a href="./golang/1053_previous_permutation_with_one_swap.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1058</td>
+<td><a href="./problems/1058-minimize-rounding-error-to-meet-target.md">Minimize Rounding Error to Meet Target</a></td>
+<td><a href="./golang/1058_minimize_rounding_error_to_meet_target.go">Go</a></td>
+<td><em>O(n)</em> on average</td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Quick Select</td>
+</tr>
+<tr>
+<td>1196</td>
+<td><a href="./problems/1196-how-many-apples-can-you-put-into-the-basket.md">How Many Apples Can You Put into the Basket</a></td>
+<td><a href="./golang/1196_how_many_apples_can_you_put_into_the_basket.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1386</td>
+<td><a href="./problems/1386-cinema-seat-allocation.md">Cinema Seat Allocation</a></td>
+<td><a href="./golang/1386_cinema_seat_allocation.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1402</td>
+<td><a href="./problems/1402-reducing-dishes.md">Reducing Dishes</a></td>
+<td><a href="./golang/1402_reducing_dishes.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1727</td>
+<td><a href="./problems/1727-largest-submatrix-with-rearrangements.md">Largest Submatrix With Rearrangements</a></td>
+<td><a href="./golang/1727_largest_submatrix_with_rearrangements.go">Go</a></td>
+<td><em>O(m * nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort</td>
+</tr>
+<tr>
+<td>1737</td>
+<td><a href="./problems/1737-change-minimum-characters-to-satisfy-one-of-three-conditions.md">Change Minimum Characters to Satisfy One of Three Conditions</a></td>
+<td><a href="./golang/1737_change_minimum_characters_to_satisfy_one_of_three_conditions.go">Go</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Prefix Sum</td>
+</tr>
+<tr>
+<td>1887</td>
+<td><a href="./problems/1887-reduction-operations-to-make-the-array-elements-equal.md">Reduction Operations to Make the Array Elements Equal</a></td>
+<td><a href="./golang/1887_reduction_operations_to_make_the_array_elements_equal.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort</td>
+</tr>
+<tr>
+<td>2144</td>
+<td><a href="./problems/2144-minimum-cost-of-buying-candies-with-discount.md">Minimum Cost of Buying Candies With Discount</a></td>
+<td><a href="./golang/2144_minimum_cost_of_buying_candies_with_discount.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy, Sort</td>
+</tr>
+<tr>
+<td>2165</td>
+<td><a href="./problems/2165-smallest-value-of-the-rearranged-number.md">Smallest Value of the Rearranged Number</a></td>
+<td><a href="./golang/2165_smallest_value_of_the_rearranged_number.go">Go</a></td>
+<td><em>O(d)</em></td>
+<td><em>O(d)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, Counting Sort</td>
+</tr>
+<tr>
+<td>2268</td>
+<td><a href="./problems/2268-minimum-number-of-keypresses.md">Minimum Number of Keypresses</a></td>
+<td><a href="./golang/2268_minimum_number_of_keypresses.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Greedy, Sort</td>
+</tr>
+<tr>
+<td>2410</td>
+<td><a href="./problems/2410-maximum-matching-of-players-with-trainers.md">Maximum Matching of Players With Trainers</a></td>
+<td><a href="./golang/2410_maximum_matching_of_players_with_trainers.go">Go</a></td>
+<td><em>O(nlogn + mlogm)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, Sort</td>
+</tr>
+<tr>
+<td>2449</td>
+<td><a href="./problems/2449-minimum-number-of-operations-to-make-arrays-similar.md">Minimum Number of Operations to Make Arrays Similar</a></td>
+<td><a href="./golang/2449_minimum_number_of_operations_to_make_arrays_similar.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, Sort</td>
+</tr>
+<tr>
+<td>2567</td>
+<td><a href="./problems/2567-minimum-score-by-changing-two-elements.md">Minimum Score by Changing Two Elements</a></td>
+<td><a href="./golang/2567_minimum_score_by_changing_two_elements.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort, Greedy</td>
+</tr>
+<tr>
+<td>2578</td>
+<td><a href="./problems/2578-split-with-minimum-sum.md">Split With Minimum Sum</a></td>
+<td><a href="./golang/2578_split_with_minimum_sum.go">Go</a></td>
+<td><em>O(mlogm)</em></td>
+<td><em>O(m)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Sort, Greedy</td>
+</tr>
+<tr>
+<td>2587</td>
+<td><a href="./problems/2587-rearrange-array-to-maximize-prefix-score.md">Rearrange Array to Maximize Prefix Score</a></td>
+<td><a href="./golang/2587_rearrange_array_to_maximize_prefix_score.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort, Greedy</td>
+</tr>
+<tr>
+<td>2860</td>
+<td><a href="./problems/2860-happy-students.md">Happy Students</a></td>
+<td><a href="./golang/2860_happy_students.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td><a href="https://codeforces.com/contest/1782/problem/B">Codeforces Round #844 B</a></td>
+<td>Sort, Greedy, Freq Table</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="11-other">11. Other</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0321</td>
+<td><a href="./problems/0321-create-maximum-number.md">Create Maximum Number</a></td>
+<td><a href="./golang/0321_create_maximum_number.go">Go</a></td>
+<td><em>O(k * (m + n + k))</em> ~ <em>O(k * (m + n + k^2))</em></td>
+<td><em>O(m + n + k^2)</em></td>
+<td>Hard</td>
+<td>variant of <a href="http://www.lintcode.com/en/problem/delete-digits/">Delete Digits</a></td>
+<td>Greedy, DP</td>
+</tr>
+<tr>
+<td>0330</td>
+<td><a href="./problems/0330-patching-array.md">Patching Array</a></td>
+<td><a href="./golang/0330_patching_array.go">Go</a></td>
+<td><em>O(s + logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0392</td>
+<td><a href="./problems/0392-is-subsequence.md">Is Subsequence</a></td>
+<td><a href="./golang/0392_is_subsequence.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0738</td>
+<td><a href="./problems/0738-monotone-increasing-digits.md">Monotone Increasing Digits</a></td>
+<td><a href="./golang/0738_monotone_increasing_digits.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0757</td>
+<td><a href="./problems/0757-set-intersection-size-at-least-two.md">Set Intersection Size At Least Two</a></td>
+<td><a href="./golang/0757_set_intersection_size_at_least_two.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0759</td>
+<td><a href="./problems/0759-employee-free-time.md">Employee Free Time</a></td>
+<td><a href="./golang/0759_employee_free_time.go">Go</a></td>
+<td><em>O(m * logn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0798</td>
+<td><a href="./problems/0798-smallest-rotation-with-highest-score.md">Smallest Rotation with Highest Score</a></td>
+<td><a href="./golang/0798_smallest_rotation_with_highest_score.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0843</td>
+<td><a href="./problems/0843-guess-the-word.md">Guess the Word</a></td>
+<td><a href="./golang/0843_guess_the_word.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>MinMax, Math</td>
+</tr>
+<tr>
+<td>0861</td>
+<td><a href="./problems/0861-score-after-flipping-matrix.md">Score After Flipping Matrix</a></td>
+<td><a href="./golang/0861_score_after_flipping_matrix.go">Go</a></td>
+<td><em>O(r * c)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0936</td>
+<td><a href="./problems/0936-stamping-the-sequence.md">Stamping The Sequence</a></td>
+<td><a href="./golang/0936_stamping_the_sequence.go">Go</a></td>
+<td><em>O((n - m) * m)</em></td>
+<td><em>O((n - m) * m)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0968</td>
+<td><a href="./problems/0968-binary-tree-cameras.md">Binary Tree Cameras</a></td>
+<td><a href="./golang/0968_binary_tree_cameras.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Hard</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1005</td>
+<td><a href="./problems/1005-maximize-sum-of-array-after-k-negations.md">Maximize Sum Of Array After K Negations</a></td>
+<td><a href="./golang/1005_maximize_sum_of_array_after_k_negations.go">Go</a></td>
+<td><em>O(n)</em> on average</td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Quick Select</td>
+</tr>
+<tr>
+<td>1055</td>
+<td><a href="./problems/1055-shortest-way-to-form-string.md">Shortest Way to Form String</a></td>
+<td><a href="./golang/1055_shortest_way_to_form_string.go">Go</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m)</em></td>
+<td>Medium</td>
+<td>🔒, variant of <a href="https://leetcode.com/problems/minimum-window-subsequence/">Minimum Window Subsequence</a></td>
+<td></td>
+</tr>
+<tr>
+<td>1111</td>
+<td><a href="./problems/1111-maximum-nesting-depth-of-two-valid-parentheses-strings.md">Maximum Nesting Depth of Two Valid Parentheses Strings</a></td>
+<td><a href="./golang/1111_maximum_nesting_depth_of_two_valid_parentheses_strings.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1183</td>
+<td><a href="./problems/1183-maximum-number-of-ones.md">Maximum Number of Ones</a></td>
+<td><a href="./golang/1183_maximum_number_of_ones.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1199</td>
+<td><a href="./problems/1199-minimum-time-to-build-blocks.md">Minimum Time to Build Blocks</a></td>
+<td><a href="./golang/1199_minimum_time_to_build_blocks.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1221</td>
+<td><a href="./problems/1221-split-a-string-in-balanced-strings.md">Split a String in Balanced Strings</a></td>
+<td><a href="./golang/1221_split_a_string_in_balanced_strings.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1247</td>
+<td><a href="./problems/1247-minimum-swaps-to-make-strings-equal.md">Minimum Swaps to Make Strings Equal</a></td>
+<td><a href="./golang/1247_minimum_swaps_to_make_strings_equal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1253</td>
+<td><a href="./problems/1253-reconstruct-a-2-row-binary-matrix.md">Reconstruct a 2-Row Binary Matrix</a></td>
+<td><a href="./golang/1253_reconstruct_a_2_row_binary_matrix.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1419</td>
+<td><a href="./problems/1419-minimum-number-of-frogs-croaking.md">Minimum Number of Frogs Croaking</a></td>
+<td><a href="./golang/1419_minimum_number_of_frogs_croaking.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1433</td>
+<td><a href="./problems/1433-check-if-a-string-can-break-another-string.md">Check If a String Can Break Another String</a></td>
+<td><a href="./golang/1433_check_if_a_string_can_break_another_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1488</td>
+<td><a href="./problems/1488-avoid-flood-in-the-city.md">Avoid Flood in The City</a></td>
+<td><a href="./golang/1488_avoid_flood_in_the_city.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1585</td>
+<td><a href="./problems/1585-check-if-string-is-transformable-with-substring-sort-operations.md">Check If String Is Transformable With Substring Sort Operations</a></td>
+<td><a href="./golang/1585_check_if_string_is_transformable_with_substring_sort_operations.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1591</td>
+<td><a href="./problems/1591-strange-printer-ii.md">Strange Printer II</a></td>
+<td><a href="./golang/1591_strange_printer_ii.go">Go</a></td>
+<td><em>O(c * m * n + e)</em></td>
+<td><em>O(e)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1632</td>
+<td><a href="./problems/1632-rank-transform-of-a-matrix.md">Rank Transform of a Matrix</a></td>
+<td><a href="./golang/1632_rank_transform_of_a_matrix.go">Go</a></td>
+<td><em>O(m * n * log(m * n))</em></td>
+<td><em>O(m * n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Union Find</td>
+</tr>
+<tr>
+<td>1665</td>
+<td><a href="./problems/1665-minimum-initial-energy-to-finish-tasks.md">Minimum Initial Energy to Finish Tasks</a></td>
+<td><a href="./golang/1665_minimum_initial_energy_to_finish_tasks.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1710</td>
+<td><a href="./problems/1710-maximum-units-on-a-truck.md">Maximum Units on a Truck</a></td>
+<td><a href="./golang/1710_maximum_units_on_a_truck.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1717</td>
+<td><a href="./problems/1717-maximum-score-from-removing-substrings.md">Maximum Score From Removing Substrings</a></td>
+<td><a href="./golang/1717_maximum_score_from_removing_substrings.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1736</td>
+<td><a href="./problems/1736-latest-time-by-replacing-hidden-digits.md">Latest Time by Replacing Hidden Digits</a></td>
+<td><a href="./golang/1736_latest_time_by_replacing_hidden_digits.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1788</td>
+<td><a href="./problems/1788-maximize-the-beauty-of-the-garden.md">Maximize the Beauty of the Garden</a></td>
+<td><a href="./golang/1788_maximize_the_beauty_of_the_garden.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1815</td>
+<td><a href="./problems/1815-maximum-number-of-groups-getting-fresh-donuts.md">Maximum Number of Groups Getting Fresh Donuts</a></td>
+<td><a href="./golang/1815_maximum_number_of_groups_getting_fresh_donuts.go">Go</a></td>
+<td><em>O((b/2) * (n/(b/2)+1)^(b/2))</em></td>
+<td><em>O((n/(b/2)+1)^(b/2))</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, DP</td>
+</tr>
+<tr>
+<td>1893</td>
+<td><a href="./problems/1893-check-if-all-the-integers-in-a-range-are-covered.md">Check if All the Integers in a Range Are Covered</a></td>
+<td><a href="./golang/1893_check_if_all_the_integers_in_a_range_are_covered.go">Go</a></td>
+<td><em>O(n + r)</em></td>
+<td><em>O(r)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Line Sweep, Sort</td>
+</tr>
+<tr>
+<td>1911</td>
+<td><a href="./problems/1911-maximum-alternating-subsequence-sum.md">Maximum Alternating Subsequence Sum</a></td>
+<td><a href="./golang/1911_maximum_alternating_subsequence_sum.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>variant of <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/">Best Time to Buy and Sell Stock II</a></td>
+<td></td>
+</tr>
+<tr>
+<td>1927</td>
+<td><a href="./problems/1927-sum-game.md">Sum Game</a></td>
+<td><a href="./golang/1927_sum_game.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2036</td>
+<td><a href="./problems/2036-maximum-alternating-subarray-sum.md">Maximum Alternating Subarray Sum</a></td>
+<td><a href="./golang/2036_maximum_alternating_subarray_sum.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>variant of <a href="https://leetcode.com/problems/maximum-alternating-subsequence-sum/">Maximum Alternating Subsequence Sum</a>, 🔒</td>
+<td>Greedy, <code>Kadane's Algorithm</code></td>
+</tr>
+<tr>
+<td>2071</td>
+<td><a href="./problems/2071-maximum-number-of-tasks-you-can-assign.md">Maximum Number of Tasks You Can Assign</a></td>
+<td><a href="./golang/2071_maximum_number_of_tasks_you_can_assign.go">Go</a></td>
+<td><em>O(n * (logn)^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, Binary Search, Sorted List</td>
+</tr>
+<tr>
+<td>2086</td>
+<td><a href="./problems/2086-minimum-number-of-buckets-required-to-collect-rainwater-from-houses.md">Minimum Number of Buckets Required to Collect Rainwater from Houses</a></td>
+<td><a href="./golang/2086_minimum_number_of_buckets_required_to_collect_rainwater_from_houses.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2087</td>
+<td><a href="./problems/2087-minimum-cost-homecoming-of-a-robot-in-a-grid.md">Minimum Cost Homecoming of a Robot in a Grid</a></td>
+<td><a href="./golang/2087_minimum_cost_homecoming_of_a_robot_in_a_grid.go">Go</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2126</td>
+<td><a href="./problems/2126-destroying-asteroids.md">Destroying Asteroids</a></td>
+<td><a href="./golang/2126_destroying_asteroids.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2136</td>
+<td><a href="./problems/2136-earliest-possible-day-of-full-bloom.md">Earliest Possible Day of Full Bloom</a></td>
+<td><a href="./golang/2136_earliest_possible_day_of_full_bloom.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2141</td>
+<td><a href="./problems/2141-maximum-running-time-of-n-computers.md">Maximum Running Time of N Computers</a></td>
+<td><a href="./golang/2141_maximum_running_time_of_n_computers.go">Go</a></td>
+<td><em>O(nlogm)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, Binary Search</td>
+</tr>
+<tr>
+<td>2147</td>
+<td><a href="./problems/2147-number-of-ways-to-divide-a-long-corridor.md">Number of Ways to Divide a Long Corridor</a></td>
+<td><a href="./golang/2147_number_of_ways_to_divide_a_long_corridor.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, Combinatorics</td>
+</tr>
+<tr>
+<td>2160</td>
+<td><a href="./problems/2160-minimum-sum-of-four-digit-number-after-splitting-digits.md">Minimum Sum of Four Digit Number After Splitting Digits</a></td>
+<td><a href="./golang/2160_minimum_sum_of_four_digit_number_after_splitting_digits.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2178</td>
+<td><a href="./problems/2178-maximum-split-of-positive-even-integers.md">Maximum Split of Positive Even Integers</a></td>
+<td><a href="./golang/2178_maximum_split_of_positive_even_integers.go">Go</a></td>
+<td><em>O(sqrt(n))</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2193</td>
+<td><a href="./problems/2193-minimum-number-of-moves-to-make-palindrome.md">Minimum Number of Moves to Make Palindrome</a></td>
+<td><a href="./golang/2193_minimum_number_of_moves_to_make_palindrome.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, BIT, Fenwick Tree</td>
+</tr>
+<tr>
+<td>2195</td>
+<td><a href="./problems/2195-append-k-integers-with-minimal-sum.md">Append K Integers With Minimal Sum</a></td>
+<td><a href="./golang/2195_append_k_integers_with_minimal_sum.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2207</td>
+<td><a href="./problems/2207-maximize-number-of-subsequences-in-a-string.md">Maximize Number of Subsequences in a String</a></td>
+<td><a href="./golang/2207_maximize_number_of_subsequences_in_a_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Counting, Greedy</td>
+</tr>
+<tr>
+<td>2214</td>
+<td><a href="./problems/2214-minimum-health-to-beat-game.md">Minimum Health to Beat Game</a></td>
+<td><a href="./golang/2214_minimum_health_to_beat_game.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2216</td>
+<td><a href="./problems/2216-minimum-deletions-to-make-array-beautiful.md">Minimum Deletions to Make Array Beautiful</a></td>
+<td><a href="./golang/2216_minimum_deletions_to_make_array_beautiful.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2224</td>
+<td><a href="./problems/2224-minimum-number-of-operations-to-convert-time.md">Minimum Number of Operations to Convert Time</a></td>
+<td><a href="./golang/2224_minimum_number_of_operations_to_convert_time.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2259</td>
+<td><a href="./problems/2259-remove-digit-from-number-to-maximize-result.md">Remove Digit From Number to Maximize Result</a></td>
+<td><a href="./golang/2259_remove_digit_from_number_to_maximize_result.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2263</td>
+<td><a href="./problems/2263-make-array-non-decreasing-or-non-increasing.md">Make Array Non-decreasing or Non-increasing</a></td>
+<td><a href="./golang/2263_make_array_non_decreasing_or_non_increasing.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>DP, Greedy, Heap</td>
+</tr>
+<tr>
+<td>2279</td>
+<td><a href="./problems/2279-maximum-bags-with-full-capacity-of-rocks.md">Maximum Bags With Full Capacity of Rocks</a></td>
+<td><a href="./golang/2279_maximum_bags_with_full_capacity_of_rocks.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, Sort</td>
+</tr>
+<tr>
+<td>2285</td>
+<td><a href="./problems/2285-maximum-total-importance-of-roads.md">Maximum Total Importance of Roads</a></td>
+<td><a href="./golang/2285_maximum_total_importance_of_roads.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, Counting Sort</td>
+</tr>
+<tr>
+<td>2294</td>
+<td><a href="./problems/2294-partition-array-such-that-maximum-difference-is-k.md">Partition Array Such That Maximum Difference Is K</a></td>
+<td><a href="./golang/2294_partition_array_such_that_maximum_difference_is_k.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2311</td>
+<td><a href="./problems/2311-longest-binary-subsequence-less-than-or-equal-to-k.md">Longest Binary Subsequence Less Than or Equal to K</a></td>
+<td><a href="./golang/2311_longest_binary_subsequence_less_than_or_equal_to_k.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2321</td>
+<td><a href="./problems/2321-maximum-score-of-spliced-array.md">Maximum Score Of Spliced Array</a></td>
+<td><a href="./golang/2321_maximum_score_of_spliced_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, <code>Kadane's Algorithm</code></td>
+</tr>
+<tr>
+<td>2323</td>
+<td><a href="./problems/2323-find-minimum-time-to-finish-all-jobs-ii.md">Find Minimum Time to Finish All Jobs II</a></td>
+<td><a href="./golang/2323_find_minimum_time_to_finish_all_jobs_ii.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2340</td>
+<td><a href="./problems/2340-minimum-adjacent-swaps-to-make-a-valid-array.md">Minimum Adjacent Swaps to Make a Valid Array</a></td>
+<td><a href="./golang/2340_minimum_adjacent_swaps_to_make_a_valid_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Array, Greedy</td>
+</tr>
+<tr>
+<td>2371</td>
+<td><a href="./problems/2371-minimize-maximum-value-in-a-grid.md">Minimize Maximum Value in a Grid</a></td>
+<td><a href="./golang/2371_minimize_maximum_value_in_a_grid.go">Go</a></td>
+<td><em>O((m * n) * log(m * n))</em></td>
+<td><em>O(m * n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>Sort, Greedy</td>
+</tr>
+<tr>
+<td>2375</td>
+<td><a href="./problems/2375-construct-smallest-number-from-di-string.md">Construct Smallest Number From DI String</a></td>
+<td><a href="./golang/2375_construct_smallest_number_from_di_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Constructive Algorithms, Greedy</td>
+</tr>
+<tr>
+<td>2383</td>
+<td><a href="./problems/2383-minimum-hours-of-training-to-win-a-competition.md">Minimum Hours of Training to Win a Competition</a></td>
+<td><a href="./golang/2383_minimum_hours_of_training_to_win_a_competition.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2417</td>
+<td><a href="./problems/2417-closest-fair-integer.md">Closest Fair Integer</a></td>
+<td><a href="./golang/2417_closest_fair_integer.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(logn)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Constructive Algorithms, Greedy</td>
+</tr>
+<tr>
+<td>2422</td>
+<td><a href="./problems/2422-merge-operations-to-turn-array-into-a-palindrome.md">Merge Operations to Turn Array Into a Palindrome</a></td>
+<td><a href="./golang/2422_merge_operations_to_turn_array_into_a_palindrome.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Constructive Algorithms, Greedy, Two Pointers</td>
+</tr>
+<tr>
+<td>2436</td>
+<td><a href="./problems/2436-minimum-split-into-subarrays-with-gcd-greater-than-one.md">Minimum Split Into Subarrays With GCD Greater Than One</a></td>
+<td><a href="./golang/2436_minimum_split_into_subarrays_with_gcd_greater_than_one.go">Go</a></td>
+<td><em>O(nlogr)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2483</td>
+<td><a href="./problems/2483-minimum-penalty-for-a-shop.md">Minimum Penalty for a Shop</a></td>
+<td><a href="./golang/2483_minimum_penalty_for_a_shop.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>2548</td>
+<td><a href="./problems/2548-maximum-price-to-fill-a-bag.md">Maximum Price to Fill a Bag</a></td>
+<td><a href="./golang/2548_maximum_price_to_fill_a_bag.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Greedy, Sort</td>
+</tr>
+<tr>
+<td>2551</td>
+<td><a href="./problems/2551-put-marbles-in-bags.md">Put Marbles in Bags</a></td>
+<td><a href="./golang/2551_put_marbles_in_bags.go">Go</a></td>
+<td><em>O(n)</em> on average</td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, Quick Select</td>
+</tr>
+<tr>
+<td>2561</td>
+<td><a href="./problems/2561-rearranging-fruits.md">Rearranging Fruits</a></td>
+<td><a href="./golang/2561_rearranging_fruits.go">Go</a></td>
+<td><em>O(n)</em> on average</td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Freq Table, Greedy, Quick Select</td>
+</tr>
+<tr>
+<td>2573</td>
+<td><a href="./problems/2573-find-the-string-with-lcp.md">Find the String with LCP</a></td>
+<td><a href="./golang/2573_find_the_string_with_lcp.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Constructive Algorithms, Greedy, DP</td>
+</tr>
+<tr>
+<td>2589</td>
+<td><a href="./problems/2589-minimum-time-to-complete-all-tasks.md">Minimum Time to Complete All Tasks</a></td>
+<td><a href="./golang/2589_minimum_time_to_complete_all_tasks.go">Go</a></td>
+<td><em>O(nlogn + n * r)</em></td>
+<td><em>O(r)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Sort, Greedy</td>
+</tr>
+<tr>
+<td>2604</td>
+<td><a href="./problems/2604-minimum-time-to-eat-all-grains.md">Minimum Time to Eat All Grains</a></td>
+<td><a href="./golang/2604_minimum_time_to_eat_all_grains.go">Go</a></td>
+<td><em>O(mlogm + nlogn + (m + n) * logr)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>Binary Search, Greedy</td>
+</tr>
+<tr>
+<td>2813</td>
+<td><a href="./problems/2813-maximum-elegance-of-a-k-length-subsequence.md">Maximum Elegance of a K-Length Subsequence</a></td>
+<td><a href="./golang/2813_maximum_elegance_of_a_k_length_subsequence.go">Go</a></td>
+<td><em>O(nlogk)</em></td>
+<td><em>O(k)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Partial Sort, Heap, Quick Select, BST, Sorted List, Greedy</td>
+</tr>
+<tr>
+<td>2819</td>
+<td><a href="./problems/2819-minimum-relative-loss-after-buying-chocolates.md">Minimum Relative Loss After Buying Chocolates</a></td>
+<td><a href="./golang/2819_minimum_relative_loss_after_buying_chocolates.go">Go</a></td>
+<td><em>O((n + q) * logn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>Sort, Binary Search, Greedy, Prefix Sum</td>
+</tr>
+<tr>
+<td>2835</td>
+<td><a href="./problems/2835-minimum-operations-to-form-subsequence-with-target-sum.md">Minimum Operations to Form Subsequence With Target Sum</a></td>
+<td><a href="./golang/2835_minimum_operations_to_form_subsequence_with_target_sum.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(logn)</em></td>
+<td>Hard</td>
+<td><a href="https://codeforces.com/problemset/problem/1303/D">Educational Codeforces Round #82 D</a></td>
+<td>Counting Sort, Sort, Heap, Greedy, Bitmasks</td>
+</tr>
+<tr>
+<td>2842</td>
+<td><a href="./problems/2842-count-k-subsequences-of-a-string-with-maximum-beauty.md">Count K-Subsequences of a String With Maximum Beauty</a></td>
+<td><a href="./golang/2842_count_k_subsequences_of_a_string_with_maximum_beauty.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Greedy, Quick Select, Combinatorics</td>
+</tr>
+<tr>
+<td>2844</td>
+<td><a href="./problems/2844-minimum-operations-to-make-a-special-number.md">Minimum Operations to Make a Special Number</a></td>
+<td><a href="./golang/2844_minimum_operations_to_make_a_special_number.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math, Greedy</td>
+</tr>
+<tr>
+<td>2868</td>
+<td><a href="./problems/2868-the-wording-game.md">The Wording Game</a></td>
+<td><a href="./golang/2868_the_wording_game.go">Go</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>Game, Greedy</td>
+</tr>
+<tr>
+<td>2952</td>
+<td><a href="./problems/2952-minimum-number-of-coins-to-be-added.md">Minimum Number of Coins to be Added</a></td>
+<td><a href="./golang/2952_minimum_number_of_coins_to_be_added.go">Go</a></td>
+<td><em>O(nlogn + logt)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>variant of <a href="https://leetcode.com/problems/patching-array/">Patching Array</a></td>
+<td>Sort, Greedy</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

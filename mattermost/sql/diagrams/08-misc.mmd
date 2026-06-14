@@ -1,0 +1,95 @@
+erDiagram
+    users {
+        varchar id PK
+        varchar username
+    }
+
+    teams {
+        varchar id PK
+        varchar name
+    }
+
+    jobs {
+        varchar id PK
+        varchar type
+        varchar status
+    }
+
+    emoji {
+        varchar id PK
+        varchar creatorid FK
+        varchar name
+    }
+
+    compliances {
+        varchar id PK
+        varchar userid FK
+        varchar type
+    }
+
+    licenses {
+        varchar id PK
+    }
+
+    systems {
+        varchar name PK
+        varchar value
+    }
+
+    linkmetadata {
+        bigint hash PK
+        varchar url
+    }
+
+    contentflaggingteamsettings {
+        varchar teamid PK
+        boolean enabled
+    }
+
+    contentflaggingteamreviewers {
+        varchar teamid PK
+        varchar userid PK
+    }
+
+    contentflaggingcommonreviewers {
+        varchar userid PK
+    }
+
+    pluginkeyvaluestore {
+        varchar pluginid PK
+        varchar pkey PK
+    }
+
+    propertygroups {
+        varchar id PK
+        varchar name
+    }
+
+    translations {
+        varchar objectid PK
+        varchar dstlang PK
+        varchar objecttype
+    }
+
+    productnoticeviewstate {
+        varchar userid PK
+        varchar noticeid PK
+    }
+
+    recentsearches {
+        varchar userid PK
+        int searchpointer PK
+    }
+
+    clusterdiscovery {
+        varchar id PK
+        varchar hostname
+    }
+
+    users ||--o{ emoji : "created"
+    users ||--o{ compliances : "in"
+    users ||--o{ contentflaggingcommonreviewers : "reviewer"
+    users ||--o{ productnoticeviewstate : "viewed"
+    users ||--o{ recentsearches : "searched"
+    teams ||--o{ contentflaggingteamsettings : "settings"
+    teams ||--o{ contentflaggingteamreviewers : "reviewers"

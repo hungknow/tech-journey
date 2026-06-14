@@ -1,0 +1,1140 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Post Block (Frontend) - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#post-block-frontend" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Post Block (Frontend)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-is-a-post-block-and-how-is-it-stored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. What is a post block, and how is it stored?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-what-api-or-event-updates-a-post-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. What API or event updates a post block?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-when-blocks-are-created-and-updated-by-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. When blocks are created and updated (by scenario)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-how-the-merge-algorithm-works-detail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. How the merge algorithm works (detail)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-how-the-ui-uses-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. How the UI uses blocks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-thread-fetch-where-the-root-and-replies-live-blocks-vs-threads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Thread fetch: where the root and replies live (blocks vs threads)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-how-the-ui-knows-there-is-more-data-server-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. How the UI knows there is more data (server ↔ client)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="post-block-frontend">Post Block (Frontend)</h1>
+<p>This document explains what a <strong>post block</strong> is in the Mattermost frontend, how the channel timeline is stored in memory, and how blocks are created, merged, and used by the UI.</p>
+<p><strong>Key paths:</strong> <code>webapp/platform/types/src/posts.ts</code>, <code>webapp/channels/src/packages/mattermost-redux/src/reducers/entities/posts.ts</code>, <code>webapp/channels/src/packages/mattermost-redux/src/selectors/entities/posts.ts</code>, <code>webapp/channels/src/components/post_view/post_list/index.tsx</code>.</p>
+<hr />
+<h2 id="1-what-is-a-post-block-and-how-is-it-stored">1. What is a post block, and how is it stored?</h2>
+<p>A <strong>post block</strong> (type <code>PostOrderBlock</code>) is a chunk of the channel timeline held in memory: an ordered list of post IDs plus two optional flags.</p>
+<p><strong>Type definition</strong> (<code>webapp/platform/types/src/posts.ts</code>):</p>
+<div class="language-ts highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">export</span><span class="w"> </span><span class="kr">type</span><span class="w"> </span><span class="nx">PostOrderBlock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nx">order</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">[];</span><span class="w">   </span><span class="c1">// Post IDs, newest first</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nx">recent?</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span><span class="w">  </span><span class="c1">// This block is the &quot;most recent&quot; (bottom of channel)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nx">oldest?</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span><span class="w">  </span><span class="c1">// This block is the &quot;oldest loaded&quot; (top of channel)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">};</span>
+</span></code></pre></div>
+<ul>
+<li><strong><code>order</code></strong> — Post IDs in <strong>newest-first</strong> order (same as the API). This is the slice of the channel timeline that this block represents.</li>
+<li><strong><code>recent</code></strong> — When <code>true</code>, this block is the <strong>most recent</strong> segment (no newer posts loaded). The UI uses it for “at bottom” (e.g. “Load newer messages”, scroll position).</li>
+<li><strong><code>oldest</code></strong> — When <code>true</code>, this block is the <strong>oldest loaded</strong> segment (no older posts in memory). The UI uses it for “at top” (e.g. “Load older messages”).</li>
+</ul>
+<p>The client keeps a <strong>map: channel id → array of post blocks</strong>. So for each channel the full timeline in memory is that array of blocks. Each block usually corresponds to one API response (one "page" of posts). When two fetches overlap, the client merges blocks so the store stays deduplicated and sorted. Blocks are ordered by recency (newest block first). After merging, adjacent blocks do not overlap: each post id appears in at most one block. The block with <code>recent: true</code> holds the latest posts; the block with <code>oldest: true</code> holds the oldest loaded posts. A single block can have both flags (e.g. when only one page is loaded). A channel may have no blocks yet, or an empty array; the <strong>recent</strong> block is kept even when empty so the UI can show “at latest” and new posts can be attached to it.</p>
+<hr />
+<h2 id="2-what-api-or-event-updates-a-post-block">2. What API or event updates a post block?</h2>
+<p>This section maps each backend API and WebSocket event to how it changes the channel→blocks map (add/merge block, add to recent block only, remove post from blocks, remove channel, or clear all). Base URL for REST is <code>/api/v4</code>.</p>
+<p><strong>Add or merge block</strong></p>
+<ul>
+<li><strong>GET</strong> <code>/api/v4/channels/{channel_id}/posts</code> — New block added (or merged) for that channel with the returned order; <code>recent</code>/<code>oldest</code> set from page. Trigger: <code>getPosts</code>, <code>getPostsSince</code>, <code>getPostsBefore</code>, <code>getPostsAfter</code> (and <code>getPostsAround</code> uses before + after + thread).</li>
+<li><strong>GET</strong> <code>/api/v4/users/.../channels/{channel_id}/posts/unread</code> — Same as above: merge into <code>posts</code>, add/merge block(s) for that channel. Trigger: <code>getPostsUnread</code>.</li>
+<li><strong>GET</strong> <code>/api/v4/posts/{post_id}</code> (via <code>getPostsAround</code>) — Combined before+after+thread: add/merge block for channel.</li>
+<li><strong>GET</strong> with <code>before</code> → <code>getPostsBefore</code> — New block added (older posts); merged with existing blocks.</li>
+<li><strong>GET</strong> with <code>after</code> → <code>getPostsAfter</code> — New block added (newer posts); merged with existing blocks.</li>
+<li><strong>GET</strong> with <code>since</code> → <code>getPostsSince</code> — New posts appended to the existing <strong>recent</strong> block only (no new block).</li>
+</ul>
+<p><strong>Add to recent block only</strong></p>
+<ul>
+<li><strong>POST</strong> <code>/api/v4/posts</code> (create post) — Pending post id added to channel's recent block; on success, id replaced with server id in same block. Trigger: <code>createPost</code>.</li>
+<li>WebSocket <strong>posted</strong> / <strong>ephemeral_message</strong> — New post id added to channel's recent block (and pending replaced if applicable).</li>
+</ul>
+<p><strong>Remove post from blocks</strong></p>
+<ul>
+<li><strong>DELETE</strong> <code>/api/v4/posts/{post_id}</code> — Soft delete: post id (and reply ids for that root) removed from all blocks. Trigger: <code>deletePost</code> (model updated immediately; API runs in background).</li>
+<li>Current user deletes → <strong>POST_REMOVED</strong> — Hard remove: post id and its reply ids removed from all blocks.</li>
+<li>WebSocket <strong>post_deleted</strong> — Same as soft delete: id and reply ids removed from channel/thread order.</li>
+<li>WebSocket <strong>burn_on_read_post_burned</strong> — Hard remove: post id removed from blocks.</li>
+</ul>
+<p><strong>Remove channel entry</strong></p>
+<ul>
+<li>User leaves channel (<strong>LEAVE_CHANNEL</strong>) — That channel's key is removed from the map (all blocks for that channel dropped).</li>
+</ul>
+<p><strong>Clear all blocks</strong></p>
+<ul>
+<li>CRT toggle → <code>resetReloadPostsInChannel</code> (<strong>RESET_POSTS_IN_CHANNEL</strong>) — Map set to <code>{}</code>; channel is then refetched.</li>
+<li>Logout (<strong>LOGOUT_SUCCESS</strong>) — Map cleared.</li>
+</ul>
+<p><strong>Notes:</strong> <strong>Merge</strong> means a new block is pushed for that channel, then <code>mergePostBlocks</code> sorts by recency, merges overlapping adjacent blocks, dedupes and sorts by <code>create_at</code>. <strong>Add to recent block</strong> (create post, WebSocket new post, <code>getPostsSince</code>) only touches the block marked <code>recent</code>; it does not create a new block.</p>
+<hr />
+<h2 id="3-when-blocks-are-created-and-updated-by-scenario">3. When blocks are created and updated (by scenario)</h2>
+<p>Each scenario below is the single place that describes both the intent and the main behavior. Redux action names are in parentheses for reference.</p>
+<p><strong>Reset / clear</strong></p>
+<ul>
+<li><strong>Reset posts in channel</strong> (<code>RESET_POSTS_IN_CHANNEL</code>) — The entire channel→blocks map is cleared (e.g. toggling CRT).</li>
+<li><strong>Leave channel</strong> (<code>LEAVE_CHANNEL</code>) — The left channel's entry is removed from the map.</li>
+<li><strong>Logout</strong> (<code>LOGOUT_SUCCESS</code>) — The entire map is cleared.</li>
+</ul>
+<p><strong>Paginated fetches (new block + merge)</strong></p>
+<ul>
+<li><strong>Initial load / latest, unread, or permalink</strong> (<code>RECEIVED_POSTS_IN_CHANNEL</code>) — One ordered list of post IDs from the API is turned into one block with <code>order</code>, <code>recent</code>, <code>oldest</code> from the API's <code>next_post_id</code>/<code>prev_post_id</code>. For unread, the client may create one block or two (if "start from newest" is used); overlapping blocks are merged. If the new block has <code>recent: true</code>, the client first finds the current recent block and sets its <code>recent</code> to false (and skips adding a new block if the new <code>order</code> is identical to that block). Then it pushes the new block and runs <strong>mergePostBlocks</strong>. For permalink/focused post, one combined block is built and stored. Called from <code>getPosts</code>, <code>getPostsUnread</code>, <code>getPostsAround</code>.</li>
+<li><strong>Scroll down (newer)</strong> (<code>RECEIVED_POSTS_AFTER</code>) — New block with <code>order = [...order, afterPostId]</code> and <code>recent</code> from API; append then <strong>mergePostBlocks</strong>. Called from <code>getPostsAfter</code>.</li>
+<li><strong>Scroll up (older)</strong> (<code>RECEIVED_POSTS_BEFORE</code>) — New block with <code>order = [beforePostId, ...order]</code> and <code>oldest</code> from API; append then <strong>mergePostBlocks</strong>. Called from <code>getPostsBefore</code>.</li>
+</ul>
+<p><strong>Updates to existing blocks (no new block)</strong></p>
+<ul>
+<li><strong>New post</strong> (<code>RECEIVED_NEW_POST</code>) — WebSocket or create: add post id to the <strong>recent</strong> block (prepend). If CRT is enabled and the post is a reply, state is unchanged. If the channel has no blocks, do nothing. If there is no recent block, create one <code>{ order: [], recent: true }</code> and add the post. If the post has <code>pending_post_id</code> and it differs from <code>post.id</code>, remove the pending id and re-sort the block by <strong>comparePosts</strong> (pending/failed posts first, then by <code>create_at</code>). So only the recent block receives new posts at the “newest” end.</li>
+<li><strong>Single post (e.g. server confirmation)</strong> (<code>RECEIVED_POST</code>) — When a post replaces a pending one (<code>pending_post_id</code> set): if CRT is enabled and the post is a reply, or there is no <code>pending_post_id</code>, state is unchanged. Otherwise find the recent block and replace that entry in place. No new block, no re-sort.</li>
+<li><strong>Sync after reconnect</strong> (<code>RECEIVED_POSTS_SINCE</code>) — New posts since a timestamp are <strong>merged into the recent block</strong> only. The client iterates the API <code>order</code> in <strong>reverse</strong> (newest first) and prepends each id with <code>unshift</code> only if the post is in the post map, its <code>create_at</code> is strictly greater than the current oldest in the recent block, and it is not already in the block. If no ids were added, the block list is left unchanged. The recent block is then re-sorted by <strong>comparePosts</strong>. No new block and no <strong>mergePostBlocks</strong>.</li>
+</ul>
+<p><strong>Remove post ids</strong></p>
+<ul>
+<li><strong>Post deleted</strong> (<code>POST_DELETED</code>) — Remove the deleted post id from every block's <code>order</code>; unless the post is burn-on-read, also remove any reply whose <code>root_id</code> is the deleted post. Blocks are not split—only the id(s) are filtered out. Then drop empty blocks <strong>except</strong> the one marked <code>recent</code>. For burn-on-read, only the deleted post id is removed.</li>
+<li><strong>Post removed</strong> (<code>POST_REMOVED</code>) — Hard remove: same as deleted (remove post id and, for non–burn-on-read, replies with that <code>root_id</code>; for burn-on-read only the post id). Same cleanup (keep recent block when empty).</li>
+</ul>
+<p><strong>Helpers</strong></p>
+<ul>
+<li><strong>mergePostBlocks(blocks, posts)</strong> — (1) Remove empty blocks except recent. (2) Sort blocks by first post's <code>create_at</code> (newest first). (3) Merge adjacent overlapping blocks: if the last post in block <code>a</code> is older than or equal to the first post in block <code>b</code> (<code>aEndsAt &lt;= bStartsAt</code>), combine into one with <strong>mergePostOrder</strong>, set <code>recent = a.recent || b.recent</code>, <code>oldest = a.oldest || b.oldest</code>, remove the second block and re-check; else advance. (4) Return original array if no structural change. Used after RECEIVED_POSTS_IN_CHANNEL, RECEIVED_POSTS_AFTER, RECEIVED_POSTS_BEFORE.</li>
+<li><strong>removeNonRecentEmptyPostBlocks(blocks)</strong> — Drop any block with <code>order.length === 0</code> unless it has <code>recent: true</code>.</li>
+<li><strong>mergePostOrder(left, right, posts)</strong> — Concatenate ids, dedupe, sort by <code>create_at</code> newest first; used inside merge.</li>
+</ul>
+<hr />
+<h2 id="4-how-the-merge-algorithm-works-detail">4. How the merge algorithm works (detail)</h2>
+<p>When a new block is added, the client runs <strong>mergePostBlocks</strong>:</p>
+<ol>
+<li><strong>Clean empty blocks</strong> — Run <strong>removeNonRecentEmptyPostBlocks</strong>: drop blocks with empty <code>order</code> except the one with <code>recent: true</code>.</li>
+<li><strong>Early return</strong> — If no blocks remain, return the original <code>blocks</code> unchanged.</li>
+<li><strong>Sort</strong> — Blocks sorted by the <strong>first</strong> post's <code>create_at</code> in each block (newest first), so the list is in timeline order.</li>
+<li><strong>Merge adjacent overlapping</strong> — Walk adjacent pairs <code>(a, b)</code>. Overlap when last post in <code>a</code> (oldest in block) has <code>create_at &lt;=</code> first post in <code>b</code> (newest in block). When overlapping: combine with <strong>mergePostOrder</strong>, set <code>recent = a.recent || b.recent</code>, <code>oldest = a.oldest || b.oldest</code>, remove <code>b</code>, re-check same index. Otherwise advance.</li>
+<li><strong>mergePostOrder</strong> — Copy <code>left</code>, add ids from <code>right</code> not in <code>left</code>, dedupe; if no new ids return <code>left</code>, else sort by <code>create_at</code> descending and return.</li>
+<li><strong>Return</strong> — If result has same length as original and no merge happened, return original <code>blocks</code>; else return the new list.</li>
+</ol>
+<p><strong>Received posts in channel</strong> (<code>recent: true</code>): if the new <code>order</code> is identical to the current recent block (same length, first id, last id), the client does not push a new block or run merge, so duplicate “latest page” responses do not create extra blocks.</p>
+<hr />
+<h2 id="5-how-the-ui-uses-blocks">5. How the UI uses blocks</h2>
+<p><strong>Choosing which chunk to display</strong></p>
+<p>The post list picks <strong>one</strong> block and renders that block's <code>order</code> as the list of post IDs:</p>
+<ul>
+<li><strong>Permalink / focused post</strong> — Use the block whose <code>order</code> contains the focused post id.</li>
+<li><strong>Unread (first load)</strong> — Use the block that contains the unread boundary (or recent/oldest block if all read or all unread), but only when unread chunk timestamp is set and not "start from bottom when unread"; otherwise use the recent block. When the user's last-viewed time falls inside a block's time range, that block is used.</li>
+<li><strong>Default (latest)</strong> — Use the block with <code>recent: true</code>.</li>
+</ul>
+<p>From the chosen chunk the UI uses: <code>chunk.order</code> (post IDs to render, newest first), <code>chunk.recent</code> (at latest post), <code>chunk.oldest</code> (at oldest loaded post).</p>
+<p><strong>Other reads</strong></p>
+<ul>
+<li><strong>Recent block</strong> — First block with <code>recent === true</code> for the channel.</li>
+<li><strong>Oldest block</strong> — First block with <code>oldest === true</code>.</li>
+<li><strong>Post IDs at bottom</strong> — The recent block's <code>order</code> (does not include older posts from other blocks).</li>
+<li><strong>Full post objects for current channel</strong> — Resolve post IDs from the recent block's <code>order</code> and map them to full post objects from the in-memory post map.</li>
+<li><strong>Oldest post time in channel</strong> — For each block with non-empty <code>order</code>, take the last id (oldest in block) and its <code>create_at</code>; return the minimum of those times (or 0 if none).</li>
+<li><strong>Block around a timestamp</strong> — First block whose first post has <code>create_at &gt;= timeStamp</code> and last post has <code>create_at &lt;= timeStamp</code> (used for unread).</li>
+<li><strong>Block for unread view</strong> — (1) If recent chunk has empty <code>order</code>, use it. (2) If recent chunk's oldest post has <code>create_at &lt;= timeStamp</code>, use recent. (3) If an oldest chunk exists and its oldest post has <code>create_at &gt;= timeStamp</code>, use oldest. (4) Else use block around <code>timeStamp</code> if found. (5) Else use recent chunk.</li>
+<li><strong>Block containing a post id</strong> — First block whose <code>order</code> contains that id (permalink).</li>
+<li><strong>Chunk includes unreads</strong> — True when the chunk has non-empty <code>order</code> and the oldest post in the chunk (last in <code>order</code>) has <code>create_at &lt;= timeStamp</code> (i.e. the chunk contains posts at or older than that time).</li>
+</ul>
+<hr />
+<h2 id="6-thread-fetch-where-the-root-and-replies-live-blocks-vs-threads">6. Thread fetch: where the root and replies live (blocks vs threads)</h2>
+<p><strong>When the user fetches a thread</strong> (e.g. opens the thread in the RHS via <code>getPostThread</code>):</p>
+<ul>
+<li><strong><code>posts</code></strong> — The root post and all reply posts are merged into the global post map (<code>state.entities.posts.posts</code>). Every post is stored once by id.</li>
+<li><strong><code>postsInThread</code></strong> — Only <strong>reply</strong> IDs are stored here, keyed by root id: <code>postsInThread[rootId]</code> = array of reply post IDs (not the root). The root post is not added to this array. Updated by <code>RECEIVED_POSTS_IN_THREAD</code> in <code>reducers/entities/posts.ts</code> (and by other actions that receive posts in channel/thread).</li>
+<li><strong><code>postsInChannel</code> (blocks)</strong> — <strong>Not updated</strong> by a thread fetch. The client does not dispatch <code>RECEIVED_POSTS_IN_CHANNEL</code> when loading a thread. The root post is already in a block from the initial channel load (when CRT is on, the channel timeline API returns only root posts). So after fetching a thread, the channel’s blocks still only contain whatever was there before (e.g. root post IDs in the “latest” block).</li>
+</ul>
+<p>So: the <strong>root</strong> is in both the block (from channel load) and the <code>posts</code> map; <strong>replies</strong> are only in the <code>posts</code> map and in <code>postsInThread[rootId]</code>. The channel timeline (blocks) is not extended with reply IDs when you open a thread.</p>
+<p><strong>What IDs can appear in a block’s <code>order</code>?</strong></p>
+<ul>
+<li><strong>CRT on, normal channel load</strong> — The server returns only root posts (<code>Posts.RootId = ''</code> in <code>getPostsCollapsedThreads</code>). So block <code>order</code> is root post IDs only.</li>
+<li><strong>CRT off</strong> — The channel API can return root and reply posts in timeline order, so block <code>order</code> may contain both root and reply IDs.</li>
+<li><strong>Permalink / focused post</strong> — <code>getPostsAround</code> builds one combined list from “after” + “thread” + “before” and dispatches <code>RECEIVED_POSTS_IN_CHANNEL</code>. The <code>order</code> includes the focused <code>postId</code>. If the user opened a permalink to a <strong>reply</strong>, that reply id is in the block, so the block can contain reply IDs in this case.</li>
+</ul>
+<p><strong>How does the channel know which post to render when the post is a reply?</strong></p>
+<p>The channel does <strong>not</strong> filter the list by <code>root_id</code>. It renders every id in the chosen chunk’s <code>order</code>. For each id it looks up the post in the <code>posts</code> map and renders it. The <strong>post object</strong> has a <code>root_id</code> field (empty for root posts, set to the thread root for replies). The <strong>post component</strong> (<code>post_component.tsx</code>, etc.) uses <code>post.root_id</code> to decide how to display the row (e.g. show “Commented on” for replies, show <code>ThreadFooter</code> only when <code>!post.root_id</code>). So “is this a reply?” is determined per post from the stored entity when rendering, not by excluding replies from the block’s <code>order</code>. If a reply id is in the block (e.g. permalink to a reply or CRT-off timeline), it is rendered in the channel list like any other post, with reply-specific layout.</p>
+<p><strong>Thread view (RHS)</strong> uses <code>postsInThread[rootId]</code> plus the root post (from <code>posts</code>) to build the ordered list of posts in the thread; it does not use the channel blocks.</p>
+<hr />
+<h2 id="7-how-the-ui-knows-there-is-more-data-server-client">7. How the UI knows there is more data (server ↔ client)</h2>
+<p>The UI does not ask the server on every scroll. It uses the block flags <code>recent</code> and <code>oldest</code>, which were set when data was last fetched from the server's pagination cursors.</p>
+<p><strong>Server</strong> — Each post list response has <code>next_post_id</code> and <code>prev_post_id</code> (or empty string if none). Set in <code>server/channels/app/post.go</code> (<code>GetNextPostIdFromPostList</code>, <code>GetPrevPostIdFromPostList</code>, <code>AddCursorIdsForPostList</code>).</p>
+<p><strong>Client</strong> — When storing posts, the client sets: <code>recent</code> when <code>next_post_id === ''</code>, <code>oldest</code> when <code>prev_post_id === ''</code>. Done in <code>receivedPostsInChannel</code>, <code>receivedPostsBefore</code>, <code>receivedPostsAfter</code> in <code>mattermost-redux/src/actions/posts.ts</code>.</p>
+<p><strong>UI</strong> — The post list derives <code>atLatestPost = Boolean(chunk.recent)</code> and <code>atOldestPost = Boolean(chunk.oldest)</code> (<code>post_list/index.tsx</code>). If <code>!atOldestPost</code> it can show “Load older messages”; if <code>!atLatestPost</code> it can show “Load newer messages”. Scroll handlers in <code>post_list.tsx</code> and <code>post_list_virtualized.tsx</code> use these props to trigger loading.</p>
+<hr />
+<h2 id="8-summary">8. Summary</h2>
+<ul>
+<li><strong>Storage</strong> — Per channel: array of blocks in memory; one block = one (possibly merged) contiguous slice of the timeline.</li>
+<li><strong>Pagination</strong> — Each “get posts” (latest, before, after, unread, around) adds or updates blocks; <code>recent</code> and <code>oldest</code> come from API <code>next_post_id</code> / <code>prev_post_id</code>.</li>
+<li><strong>New posts</strong> — Only the block with <code>recent: true</code> receives new posts (WebSocket or create).</li>
+<li><strong>Deletes/removes</strong> — Post ids are removed from every block's <code>order</code>; empty blocks are dropped except the recent block.</li>
+<li><strong>UI</strong> — Picks one block (recent, around post, or around unread time), renders its <code>order</code>, and uses <code>recent</code> / <code>oldest</code> for “at top” / “at bottom”.</li>
+<li><strong>Maintenance</strong> — Merging keeps blocks non-overlapping; cleanup keeps the recent block even when empty.</li>
+</ul>
+<p>In short: a <strong>post block</strong> is the frontend's representation of a contiguous, ordered slice of the channel timeline and whether that slice is at the latest messages (<code>recent</code>), at the oldest loaded messages (<code>oldest</code>), or in between.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

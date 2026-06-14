@@ -1,0 +1,3974 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../backtracking/">
+      
+      
+        <link rel="next" href="../string/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Math - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#math" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Math
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#math" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Math
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Math">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-integer-digit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Integer / Digit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-roman-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Roman / Conversion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-power-sqrt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Power / Sqrt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-number-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Number Theory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-geometry-rectangle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Geometry / Rectangle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-random-probability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Random / Probability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Other
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#math" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Math
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Math">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-integer-digit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Integer / Digit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-roman-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Roman / Conversion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-power-sqrt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Power / Sqrt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-number-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Number Theory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-geometry-rectangle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Geometry / Rectangle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-random-probability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Random / Probability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Other
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Math</h1>
+
+<h2 id="math">Math</h2>
+<h3 id="1-integer-digit">1. Integer / Digit</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0007</td>
+<td><a href="./problems/0007-reverse-integer.md">Reverse Integer</a></td>
+<td><a href="./golang/0007_reverse_integer.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0009</td>
+<td><a href="./problems/0009-palindrome-number.md">Palindrome Number</a></td>
+<td><a href="./golang/0009_palindrome_number.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0258</td>
+<td><a href="./problems/0258-add-digits.md">Add Digits</a></td>
+<td><a href="./golang/0258_add_digits.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0400</td>
+<td><a href="./problems/0400-nth-digit.md">Nth Digit</a></td>
+<td><a href="./golang/0400_nth_digit.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="2-roman-conversion">2. Roman / Conversion</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0012</td>
+<td><a href="./problems/0012-integer-to-roman.md">Integer to Roman</a></td>
+<td><a href="./golang/0012_integer_to_roman.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0013</td>
+<td><a href="./problems/0013-roman-to-integer.md">Roman to Integer</a></td>
+<td><a href="./golang/0013_roman_to_integer.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0168</td>
+<td><a href="./problems/0168-excel-sheet-column-title.md">Excel Sheet Column Title</a></td>
+<td><a href="./golang/0168_excel_sheet_column_title.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0171</td>
+<td><a href="./problems/0171-excel-sheet-column-number.md">Excel Sheet Column Number</a></td>
+<td><a href="./golang/0171_excel_sheet_column_number.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0504</td>
+<td><a href="./problems/0504-base-7.md">Base 7</a></td>
+<td><a href="./golang/0504_base_7.go">Go</a></td>
+<td><em>O(n1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>1317</td>
+<td><a href="./problems/1317-convert-integer-to-the-sum-of-two-no-zero-integers.md">Convert Integer to the Sum of Two No-Zero Integers</a></td>
+<td><a href="./golang/1317_convert_integer_to_the_sum_of_two_no_zero_integers.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="3-power-sqrt">3. Power / Sqrt</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0050</td>
+<td><a href="./problems/0050-powx-n.md">Pow(x, n)</a></td>
+<td><a href="./golang/0050_powx_n.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0326</td>
+<td><a href="./problems/0326-power-of-three.md">Power of Three</a></td>
+<td><a href="./golang/0326_power_of_three.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0372</td>
+<td><a href="./problems/0372-super-pow.md">Super Pow</a></td>
+<td><a href="./golang/0372_super_pow.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="4-number-theory">4. Number Theory</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0507</td>
+<td><a href="./problems/0507-perfect-number.md">Perfect Number</a></td>
+<td><a href="./golang/0507_perfect_number.go">Go</a></td>
+<td><em>O(sqrt(n))</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>0633</td>
+<td><a href="./problems/0633-sum-of-square-numbers.md">Sum of Square Numbers</a></td>
+<td><a href="./golang/0633_sum_of_square_numbers.go">Go</a></td>
+<td><em>O(sqrt(c) * logc)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0829</td>
+<td><a href="./problems/0829-consecutive-numbers-sum.md">Consecutive Numbers Sum</a></td>
+<td><a href="./golang/0829_consecutive_numbers_sum.go">Go</a></td>
+<td><em>O(sqrt(n))</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Factorization</td>
+</tr>
+<tr>
+<td>0970</td>
+<td><a href="./problems/0970-powerful-integers.md">Powerful Integers</a></td>
+<td><a href="./golang/0970_powerful_integers.go">Go</a></td>
+<td><em>O((logn)^2)</em></td>
+<td><em>O(r)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1362</td>
+<td><a href="./problems/1362-closest-divisors.md">Closest Divisors</a></td>
+<td><a href="./golang/1362_closest_divisors.go">Go</a></td>
+<td><em>O(sqrt(n))</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1390</td>
+<td><a href="./problems/1390-four-divisors.md">Four Divisors</a></td>
+<td><a href="./golang/1390_four_divisors.go">Go</a></td>
+<td><em>O(n * sqrt(n))</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1492</td>
+<td><a href="./problems/1492-the-kth-factor-of-n.md">The kth Factor of n</a></td>
+<td><a href="./golang/1492_the_kth_factor_of_n.go">Go</a></td>
+<td><em>O(sqrt(n))</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1735</td>
+<td><a href="./problems/1735-count-ways-to-make-array-with-product.md">Count Ways to Make Array With Product</a></td>
+<td><a href="./golang/1735_count_ways_to_make_array_with_product.go">Go</a></td>
+<td><em>O(sqrt(m) + n + q * (logm + sqrt(m)/log(sqrt(m))))</em></td>
+<td><em>O(sqrt(m) + n + logm)</em></td>
+<td>Hard</td>
+<td></td>
+<td><code>Linear Sieve of Eratosthenes</code>, Factorization, Combinatorics</td>
+</tr>
+<tr>
+<td>1780</td>
+<td><a href="./problems/1780-check-if-number-is-a-sum-of-powers-of-three.md">Check if Number is a Sum of Powers of Three</a></td>
+<td><a href="./golang/1780_check_if_number_is_a_sum_of_powers_of_three.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1806</td>
+<td><a href="./problems/1806-minimum-number-of-operations-to-reinitialize-a-permutation.md">Minimum Number of Operations to Reinitialize a Permutation</a></td>
+<td><a href="./golang/1806_minimum_number_of_operations_to_reinitialize_a_permutation.go">Go</a></td>
+<td><em>O(sqrt(n))</em></td>
+<td><em>O(sqrt(n))</em></td>
+<td>Medium</td>
+<td></td>
+<td>Discrete Logarithm, Multiplicative Order</td>
+</tr>
+<tr>
+<td>1952</td>
+<td><a href="./problems/1952-three-divisors.md">Three Divisors</a></td>
+<td><a href="./golang/1952_three_divisors.go">Go</a></td>
+<td><em>O(sqrt(n))</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2176</td>
+<td><a href="./problems/2176-count-equal-and-divisible-pairs-in-an-array.md">Count Equal and Divisible Pairs in an Array</a></td>
+<td><a href="./golang/2176_count_equal_and_divisible_pairs_in_an_array.go">Go</a></td>
+<td><em>O(nlogk + n * sqrt(k))</em></td>
+<td><em>O(n + sqrt(k))</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2183</td>
+<td><a href="./problems/2183-count-array-pairs-divisible-by-k.md">Count Array Pairs Divisible by K</a></td>
+<td><a href="./golang/2183_count_array_pairs_divisible_by_k.go">Go</a></td>
+<td><em>O(nlogk + k)</em></td>
+<td><em>O(sqrt(k))</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/count-equal-and-divisible-pairs-in-an-array/">Count Equal and Divisible Pairs in an Array</a></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2240</td>
+<td><a href="./problems/2240-number-of-ways-to-buy-pens-and-pencils.md">Number of Ways to Buy Pens and Pencils</a></td>
+<td><a href="./golang/2240_number_of_ways_to_buy_pens_and_pencils.go">Go</a></td>
+<td><em>O(sqrt(t))</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2338</td>
+<td><a href="./problems/2338-count-the-number-of-ideal-arrays.md">Count the Number of Ideal Arrays</a></td>
+<td><a href="./golang/2338_count_the_number_of_ideal_arrays.go">Go</a></td>
+<td><em>O(sqrt(m) + n + m * (logm + sqrt(m)/log(sqrt(m))))</em></td>
+<td><em>O(sqrt(m) + n + logm)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/count-ways-to-make-array-with-product/">Count Ways to Make Array With Product</a></td>
+<td>DP, <code>Linear Sieve of Eratosthenes</code>, Factorization, Combinatorics</td>
+</tr>
+<tr>
+<td>2427</td>
+<td><a href="./problems/2427-number-of-common-factors.md">Number of Common Factors</a></td>
+<td><a href="./golang/2427_number_of_common_factors.go">Go</a></td>
+<td><em>O(log(min(a, b)) + sqrt(gcd))</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2521</td>
+<td><a href="./problems/2521-distinct-prime-factors-of-product-of-array.md">Distinct Prime Factors of Product of Array</a></td>
+<td><a href="./golang/2521_distinct_prime_factors_of_product_of_array.go">Go</a></td>
+<td>precompute: <em>O(sqrt(MAX_N))</em><br>runtime: <em>O(m + nlog(logn))</em></td>
+<td><em>O(sqrt(MAX_N))</em></td>
+<td>Medium</td>
+<td></td>
+<td>Number Theory, <code>Linear Sieve of Eratosthenes</code></td>
+</tr>
+<tr>
+<td>2584</td>
+<td><a href="./problems/2584-split-the-array-to-make-coprime-products.md">Split the Array to Make Coprime Products</a></td>
+<td><a href="./golang/2584_split_the_array_to_make_coprime_products.go">Go</a></td>
+<td><em>O(n * sqrt(r))</em></td>
+<td><em>O(sqrt(r))</em></td>
+<td>Hard</td>
+<td></td>
+<td>Math, Number Theory</td>
+</tr>
+<tr>
+<td>2778</td>
+<td><a href="./problems/2778-sum-of-squares-of-special-elements.md">Sum of Squares of Special Elements</a></td>
+<td><a href="./golang/2778_sum_of_squares_of_special_elements.go">Go</a></td>
+<td><em>O(sqrt(n))</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Number Theory</td>
+</tr>
+<tr>
+<td>2999</td>
+<td><a href="./problems/2999-count-the-number-of-powerful-integers.md">Count the Number of Powerful Integers</a></td>
+<td><a href="./golang/2999_count_the_number_of_powerful_integers.go">Go</a></td>
+<td><em>O(logf)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Math, Combinatorics</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="5-geometry-rectangle">5. Geometry / Rectangle</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0223</td>
+<td><a href="./problems/0223-rectangle-area.md">Rectangle Area</a></td>
+<td><a href="./golang/0223_rectangle_area.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0391</td>
+<td><a href="./problems/0391-perfect-rectangle.md">Perfect Rectangle</a></td>
+<td><a href="./golang/0391_perfect_rectangle.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0492</td>
+<td><a href="./problems/0492-construct-the-rectangle.md">Construct the Rectangle</a></td>
+<td><a href="./golang/0492_construct_the_rectangle.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>0497</td>
+<td><a href="./problems/0497-random-point-in-non-overlapping-rectangles.md">Random Point in Non-overlapping Rectangles</a></td>
+<td><a href="./golang/0497_random_point_in_non_overlapping_rectangles.go">Go</a></td>
+<td>ctor: <em>O(n)</em> <br> pick: <em>O(logn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0812</td>
+<td><a href="./problems/0812-largest-triangle-area.md">Largest Triangle Area</a></td>
+<td><a href="./golang/0812_largest_triangle_area.go">Go</a></td>
+<td><em>O(n^3)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0836</td>
+<td><a href="./problems/0836-rectangle-overlap.md">Rectangle Overlap</a></td>
+<td><a href="./golang/0836_rectangle_overlap.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0883</td>
+<td><a href="./problems/0883-projection-area-of-3d-shapes.md">Projection Area of 3D Shapes</a></td>
+<td><a href="./golang/0883_projection_area_of_3d_shapes.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0963</td>
+<td><a href="./problems/0963-minimum-area-rectangle-ii.md">Minimum Area Rectangle II</a></td>
+<td><a href="./golang/0963_minimum_area_rectangle_ii.go">Go</a></td>
+<td><em>O(n^2)</em> ~ <em>O(n^3)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1401</td>
+<td><a href="./problems/1401-circle-and-rectangle-overlapping.md">Circle and Rectangle Overlapping</a></td>
+<td><a href="./golang/1401_circle_and_rectangle_overlapping.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2001</td>
+<td><a href="./problems/2001-number-of-pairs-of-interchangeable-rectangles.md">Number of Pairs of Interchangeable Rectangles</a></td>
+<td><a href="./golang/2001_number_of_pairs_of_interchangeable_rectangles.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="6-random-probability">6. Random / Probability</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0382</td>
+<td><a href="./problems/0382-linked-list-random-node.md">Linked List Random Node</a></td>
+<td><a href="./golang/0382_linked_list_random_node.go">Go</a></td>
+<td>ctor: <em>O(n)</em><br>getRandom: <em>O(1)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td><code>Reservoir Sampling</code></td>
+</tr>
+<tr>
+<td>0398</td>
+<td><a href="./problems/0398-random-pick-index.md">Random Pick Index</a></td>
+<td><a href="./golang/0398_random_pick_index.go">Go</a></td>
+<td>ctor: <em>O(n)</em><br>pick: <em>O(1)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td><code>Reservoir Sampling</code>, Hash Table</td>
+</tr>
+<tr>
+<td>0470</td>
+<td><a href="./problems/0470-implement-rand10-using-rand7.md">Implement Rand10() Using Rand7()</a></td>
+<td><a href="./golang/0470_implement_rand10_using_rand7.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0478</td>
+<td><a href="./problems/0478-generate-random-point-in-a-circle.md">Generate Random Point in a Circle</a></td>
+<td><a href="./golang/0478_generate_random_point_in_a_circle.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0519</td>
+<td><a href="./problems/0519-random-flip-matrix.md">Random Flip Matrix</a></td>
+<td><a href="./golang/0519_random_flip_matrix.go">Go</a></td>
+<td>ctor: <em>O(1)</em> <br> pick: <em>O(1)</em> reset: <em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0528</td>
+<td><a href="./problems/0528-random-pick-with-weight.md">Random Pick with Weight</a></td>
+<td><a href="./golang/0528_random_pick_with_weight.go">Go</a></td>
+<td>ctor: <em>O(n)</em> <br> pick: <em>O(logn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1227</td>
+<td><a href="./problems/1227-airplane-seat-assignment-probability.md">Airplane Seat Assignment Probability</a></td>
+<td><a href="./golang/1227_airplane_seat_assignment_probability.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="6-other">6. Other</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0029</td>
+<td><a href="./problems/0029-divide-two-integers.md">Divide Two Integers</a></td>
+<td><a href="./golang/0029_divide_two_integers.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0060</td>
+<td><a href="./problems/0060-permutation-sequence.md">Permutation Sequence</a></td>
+<td><a href="./golang/0060_permutation_sequence.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td><code>Cantor Ordering</code></td>
+</tr>
+<tr>
+<td>0065</td>
+<td><a href="./problems/0065-valid-number.md">Valid Number</a></td>
+<td><a href="./golang/0065_valid_number.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td><code>Automata</code></td>
+</tr>
+<tr>
+<td>0089</td>
+<td><a href="./problems/0089-gray-code.md">Gray Code</a></td>
+<td><a href="./golang/0089_gray_code.go">Go</a></td>
+<td><em>O(2^n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0166</td>
+<td><a href="./problems/0166-fraction-to-recurring-decimal.md">Fraction to Recurring Decimal</a></td>
+<td><a href="./golang/0166_fraction_to_recurring_decimal.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0172</td>
+<td><a href="./problems/0172-factorial-trailing-zeroes.md">Factorial Trailing Zeroes</a></td>
+<td><a href="./golang/0172_factorial_trailing_zeroes.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0233</td>
+<td><a href="./problems/0233-number-of-digit-one.md">Number of Digit One</a></td>
+<td><a href="./golang/0233_number_of_digit_one.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>CTCI, LintCode</td>
+<td></td>
+</tr>
+<tr>
+<td>0248</td>
+<td><a href="./problems/0248-strobogrammatic-number-iii.md">Strobogrammatic Number III</a></td>
+<td><a href="./golang/0248_strobogrammatic_number_iii.go">Go</a></td>
+<td><em>O(5^(n/2))</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0263</td>
+<td><a href="./problems/0263-ugly-number.md">Ugly Number</a></td>
+<td><a href="./golang/0263_ugly_number.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0292</td>
+<td><a href="./problems/0292-nim-game.md">Nim Game</a></td>
+<td><a href="./golang/0292_nim_game.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>LintCode</td>
+<td></td>
+</tr>
+<tr>
+<td>0319</td>
+<td><a href="./problems/0319-bulb-switcher.md">Bulb Switcher</a></td>
+<td><a href="./golang/0319_bulb_switcher.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0335</td>
+<td><a href="./problems/0335-self-crossing.md">Self Crossing</a></td>
+<td><a href="./golang/0335_self_crossing.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0338</td>
+<td><a href="./problems/0338-counting-bits.md">Counting Bits</a></td>
+<td><a href="./golang/0338_counting_bits.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0343</td>
+<td><a href="./problems/0343-integer-break.md">Integer Break</a></td>
+<td><a href="./golang/0343_integer_break.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Tricky, DP</td>
+</tr>
+<tr>
+<td>0365</td>
+<td><a href="./problems/0365-water-and-jug-problem.md">Water and Jug Problem</a></td>
+<td><a href="./golang/0365_water_and_jug_problem.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td><code>Bézout's identity</code></td>
+</tr>
+<tr>
+<td>0386</td>
+<td><a href="./problems/0386-lexicographical-numbers.md">Lexicographical Numbers</a></td>
+<td><a href="./golang/0386_lexicographical_numbers.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0390</td>
+<td><a href="./problems/0390-elimination-game.md">Elimination Game</a></td>
+<td><a href="./golang/0390_elimination_game.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0413</td>
+<td><a href="./problems/0413-arithmetic-slices.md">Arithmetic Slices</a></td>
+<td><a href="./golang/0413_arithmetic_slices.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0423</td>
+<td><a href="./problems/0423-reconstruct-original-digits-from-english.md">Reconstruct Original Digits from English</a></td>
+<td><a href="./golang/0423_reconstruct_original_digits_from_english.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td><a href="https://code.google.com/codejam/contest/11254486/dashboard#s=p0">GCJ2016 - Round 1B</a></td>
+<td></td>
+</tr>
+<tr>
+<td>0441</td>
+<td><a href="./problems/0441-arranging-coins.md">Arranging Coins</a></td>
+<td><a href="./golang/0441_arranging_coins.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Binary Search</td>
+</tr>
+<tr>
+<td>0453</td>
+<td><a href="./problems/0453-minimum-moves-to-equal-array-elements.md">Minimum Moves to Equal Array Elements</a></td>
+<td><a href="./golang/0453_minimum_moves_to_equal_array_elements.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0458</td>
+<td><a href="./problems/0458-poor-pigs.md">Poor Pigs</a></td>
+<td><a href="./golang/0458_poor_pigs.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0469</td>
+<td><a href="./problems/0469-convex-polygon.md">Convex Polygon</a></td>
+<td><a href="./golang/0469_convex_polygon.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0479</td>
+<td><a href="./problems/0479-largest-palindrome-product.md">Largest Palindrome Product</a></td>
+<td><a href="./golang/0479_largest_palindrome_product.go">Go</a></td>
+<td><em>O(n * 10^N)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>0483</td>
+<td><a href="./problems/0483-smallest-good-base.md">Smallest Good Base</a></td>
+<td><a href="./golang/0483_smallest_good_base.go">Go</a></td>
+<td><em>O(logn * log(logn))</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>0517</td>
+<td><a href="./problems/0517-super-washing-machines.md">Super Washing Machines</a></td>
+<td><a href="./golang/0517_super_washing_machines.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0537</td>
+<td><a href="./problems/0537-complex-number-multiplication.md">Complex Number Multiplication</a></td>
+<td><a href="./golang/0537_complex_number_multiplication.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0553</td>
+<td><a href="./problems/0553-optimal-division.md">Optimal Division</a></td>
+<td><a href="./golang/0553_optimal_division.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0573</td>
+<td><a href="./problems/0573-squirrel-simulation.md">Squirrel Simulation</a></td>
+<td><a href="./golang/0573_squirrel_simulation.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0592</td>
+<td><a href="./problems/0592-fraction-addition-and-subtraction.md">Fraction Addition and Subtraction</a></td>
+<td><a href="./golang/0592_fraction_addition_and_subtraction.go">Go</a></td>
+<td><em>O(nlogx)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0593</td>
+<td><a href="./problems/0593-valid-square.md">Valid Square</a></td>
+<td><a href="./golang/0593_valid_square.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0598</td>
+<td><a href="./problems/0598-range-addition-ii.md">Range Addition II</a></td>
+<td><a href="./golang/0598_range_addition_ii.go">Go</a></td>
+<td><em>O(p)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0625</td>
+<td><a href="./problems/0625-minimum-factorization.md">Minimum Factorization</a></td>
+<td><a href="./golang/0625_minimum_factorization.go">Go</a></td>
+<td><em>O(loga)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0628</td>
+<td><a href="./problems/0628-maximum-product-of-three-numbers.md">Maximum Product of Three Numbers</a></td>
+<td><a href="./golang/0628_maximum_product_of_three_numbers.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0634</td>
+<td><a href="./problems/0634-find-the-derangement-of-an-array.md">Find the Derangement of An Array</a></td>
+<td><a href="./golang/0634_find_the_derangement_of_an_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0640</td>
+<td><a href="./problems/0640-solve-the-equation.md">Solve the Equation</a></td>
+<td><a href="./golang/0640_solve_the_equation.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0651</td>
+<td><a href="./problems/0651-4-keys-keyboard.md">4 Keys Keyboard</a></td>
+<td><a href="./golang/0651_4_keys_keyboard.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Math, DP</td>
+</tr>
+<tr>
+<td>0660</td>
+<td><a href="./problems/0660-remove-9.md">Remove 9</a></td>
+<td><a href="./golang/0660_remove_9.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0672</td>
+<td><a href="./problems/0672-bulb-switcher-ii.md">Bulb Switcher II</a></td>
+<td><a href="./golang/0672_bulb_switcher_ii.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0728</td>
+<td><a href="./problems/0728-self-dividing-numbers.md">Self Dividing Numbers</a></td>
+<td><a href="./golang/0728_self_dividing_numbers.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0754</td>
+<td><a href="./problems/0754-reach-a-number.md">Reach a Number</a></td>
+<td><a href="./golang/0754_reach_a_number.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0775</td>
+<td><a href="./problems/0775-global-and-local-inversions.md">Global and Local Inversions</a></td>
+<td><a href="./golang/0775_global_and_local_inversions.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0779</td>
+<td><a href="./problems/0779-k-th-symbol-in-grammar.md">K-th Symbol in Grammar</a></td>
+<td><a href="./golang/0779_k_th_symbol_in_grammar.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0780</td>
+<td><a href="./problems/0780-reaching-points.md">Reaching Points</a></td>
+<td><a href="./golang/0780_reaching_points.go">Go</a></td>
+<td><em>O(log(max(m, n)))</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0781</td>
+<td><a href="./problems/0781-rabbits-in-forest.md">Rabbits in Forest</a></td>
+<td><a href="./golang/0781_rabbits_in_forest.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0782</td>
+<td><a href="./problems/0782-transform-to-chessboard.md">Transform to Chessboard</a></td>
+<td><a href="./golang/0782_transform_to_chessboard.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0789</td>
+<td><a href="./problems/0789-escape-the-ghosts.md">Escape The Ghosts</a></td>
+<td><a href="./golang/0789_escape_the_ghosts.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0800</td>
+<td><a href="./problems/0800-similar-rgb-color.md">Similar RGB Color</a></td>
+<td><a href="./golang/0800_similar_rgb_color.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0810</td>
+<td><a href="./problems/0810-chalkboard-xor-game.md">Chalkboard XOR Game</a></td>
+<td><a href="./golang/0810_chalkboard_xor_game.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0858</td>
+<td><a href="./problems/0858-mirror-reflection.md">Mirror Reflection</a></td>
+<td><a href="./golang/0858_mirror_reflection.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0866</td>
+<td><a href="./problems/0866-prime-palindrome.md">Prime Palindrome</a></td>
+<td><a href="./golang/0866_prime_palindrome.go">Go</a></td>
+<td><em>O(n^(1/2) * (logn + n^(1/2)))</em></td>
+<td><em>O(logn)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0887</td>
+<td><a href="./problems/0887-super-egg-drop.md">Super Egg Drop</a></td>
+<td><a href="./golang/0887_super_egg_drop.go">Go</a></td>
+<td><em>O(klogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0891</td>
+<td><a href="./problems/0891-sum-of-subsequence-widths.md">Sum of Subsequence Widths</a></td>
+<td><a href="./golang/0891_sum_of_subsequence_widths.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0899</td>
+<td><a href="./problems/0899-orderly-queues.md">Orderly Queue</a></td>
+<td><a href="./golang/0899_orderly_queues.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0902</td>
+<td><a href="./problems/0902-numbers-at-most-n-given-digit-set.md">Numbers At Most N Given Digit Set</a></td>
+<td><a href="./golang/0902_numbers_at_most_n_given_digit_set.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(logn)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0906</td>
+<td><a href="./problems/0906-super-palindromes.md">Super Palindromes</a></td>
+<td><a href="./golang/0906_super_palindromes.go">Go</a></td>
+<td><em>O(n^0.25 * logn)</em></td>
+<td><em>O(logn)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0907</td>
+<td><a href="./problems/0907-sum-of-subarray-minimums.md">Sum of Subarray Minimums</a></td>
+<td><a href="./golang/0907_sum_of_subarray_minimums.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>0908</td>
+<td><a href="./problems/0908-smallest-range-i.md">Smallest Range I</a></td>
+<td><a href="./golang/0908_smallest_range_i.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0910</td>
+<td><a href="./problems/0910-smallest-range-ii.md">Smallest Range II</a></td>
+<td><a href="./golang/0910_smallest_range_ii.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0914</td>
+<td><a href="./problems/0914-x-of-a-kind-in-a-deck-of-cards.md">X of a Kind in a Deck of Cards</a></td>
+<td><a href="./golang/0914_x_of_a_kind_in_a_deck_of_cards.go">Go</a></td>
+<td><em>O(n * (logn)^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0972</td>
+<td><a href="./problems/0972-equal-rational-numbers.md">Equal Rational Numbers</a></td>
+<td><a href="./golang/0972_equal_rational_numbers.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1006</td>
+<td><a href="./problems/1006-clumsy-factorial.md">Clumsy Factorial</a></td>
+<td><a href="./golang/1006_clumsy_factorial.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1009</td>
+<td><a href="./problems/1009-complement-of-base-10-integer.md">Complement of Base 10 Integer</a></td>
+<td><a href="./golang/1009_complement_of_base_10_integer.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1012</td>
+<td><a href="./problems/1012-numbers-with-repeated-digits.md">Numbers With Repeated Digits</a></td>
+<td><a href="./golang/1012_numbers_with_repeated_digits.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(logn)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1015</td>
+<td><a href="./problems/1015-smallest-integer-divisible-by-k.md">Smallest Integer Divisible by K</a></td>
+<td><a href="./golang/1015_smallest_integer_divisible_by_k.go">Go</a></td>
+<td><em>O(k)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1017</td>
+<td><a href="./problems/1017-convert-to-base-2.md">Convert to Base -2</a></td>
+<td><a href="./golang/1017_convert_to_base_2.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1025</td>
+<td><a href="./problems/1025-divisor-game.md">Divisor Game</a></td>
+<td><a href="./golang/1025_divisor_game.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>DP</td>
+</tr>
+<tr>
+<td>1037</td>
+<td><a href="./problems/1037-valid-boomerang.md">Valid Boomerang</a></td>
+<td><a href="./golang/1037_valid_boomerang.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1041</td>
+<td><a href="./problems/1041-robot-bounded-in-circle.md">Robot Bounded In Circle</a></td>
+<td><a href="./golang/1041_robot_bounded_in_circle.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1067</td>
+<td><a href="./problems/1067-digit-count-in-range.md">Digit Count in Range</a></td>
+<td><a href="./golang/1067_digit_count_in_range.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>🔒, variant of <a href="https://leetcode.com/problems/number-of-digit-one/">Number of Digit One</a></td>
+<td></td>
+</tr>
+<tr>
+<td>1073</td>
+<td><a href="./problems/1073-adding-two-negabinary-numbers.md">Adding Two Negabinary Numbers</a></td>
+<td><a href="./golang/1073_adding_two_negabinary_numbers.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1079</td>
+<td><a href="./problems/1079-letter-tile-possibilities.md">Letter Tile Possibilities</a></td>
+<td><a href="./golang/1079_letter_tile_possibilities.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Generating Function, Backtracking</td>
+</tr>
+<tr>
+<td>1088</td>
+<td><a href="./problems/1088-confusing-number-ii.md">Confusing Number II</a></td>
+<td><a href="./golang/1088_confusing_number_ii.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(logn)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1103</td>
+<td><a href="./problems/1103-distribute-candies-to-people.md">Distribute Candies to People</a></td>
+<td><a href="./golang/1103_distribute_candies_to_people.go">Go</a></td>
+<td><em>O(n + logc)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Binary Search</td>
+</tr>
+<tr>
+<td>1118</td>
+<td><a href="./problems/1118-number-of-days-in-a-month.md">Number of Days in a Month</a></td>
+<td><a href="./golang/1118_number_of_days_in_a_month.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1121</td>
+<td><a href="./problems/1121-divide-array-into-increasing-sequences.md">Divide Array Into Increasing Sequences</a></td>
+<td><a href="./golang/1121_divide_array_into_increasing_sequences.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1128</td>
+<td><a href="./problems/1128-number-of-equivalent-domino-pairs.md">Number of Equivalent Domino Pairs</a></td>
+<td><a href="./golang/1128_number_of_equivalent_domino_pairs.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1131</td>
+<td><a href="./problems/1131-maximum-of-absolute-value-expression.md">Maximum of Absolute Value Expression</a></td>
+<td><a href="./golang/1131_maximum_of_absolute_value_expression.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1134</td>
+<td><a href="./problems/1134-armstrong-number.md">Armstrong Number</a></td>
+<td><a href="./golang/1134_armstrong_number.go">Go</a></td>
+<td><em>O(klogk)</em></td>
+<td><em>O(k)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1150</td>
+<td><a href="./problems/1150-check-if-a-number-is-majority-element-in-a-sorted-array.md">Check If a Number Is Majority Element in a Sorted Array</a></td>
+<td><a href="./golang/1150_check_if_a_number_is_majority_element_in_a_sorted_array.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td>Binary Search</td>
+</tr>
+<tr>
+<td>1154</td>
+<td><a href="./problems/1154-day-of-the-year.md">Day of the Year</a></td>
+<td><a href="./golang/1154_day_of_the_year.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1157</td>
+<td><a href="./problems/1157-online-majority-element-in-subarray.md">Online Majority Element In Subarray</a></td>
+<td><a href="./golang/1157_online_majority_element_in_subarray.go">Go</a></td>
+<td>ctor: <em>O(n)</em><br>query: <em>O(klogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Binary Search, Segment Tree, <code>Boyer–Moore Majority Vote Algorithm</code></td>
+</tr>
+<tr>
+<td>1175</td>
+<td><a href="./problems/1175-prime-arrangements.md">Prime Arrangements</a></td>
+<td><a href="./golang/1175_prime_arrangements.go">Go</a></td>
+<td><em>O(nlog(logn))</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td><code>Sieve of Eratosthenes</code></td>
+</tr>
+<tr>
+<td>1185</td>
+<td><a href="./problems/1185-day-of-the-week.md">Day of the Week</a></td>
+<td><a href="./golang/1185_day_of_the_week.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td><code>Zeller Formula</code></td>
+</tr>
+<tr>
+<td>1197</td>
+<td><a href="./problems/1197-minimum-knight-moves.md">Minimum Knight Moves</a></td>
+<td><a href="./golang/1197_minimum_knight_moves.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>DP, Math</td>
+</tr>
+<tr>
+<td>1217</td>
+<td><a href="./problems/1217-play-with-chips.md">Play with Chips</a></td>
+<td><a href="./golang/1217_play_with_chips.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1232</td>
+<td><a href="./problems/1232-check-if-it-is-a-straight-line.md">Check If It Is a Straight Line</a></td>
+<td><a href="./golang/1232_check_if_it_is_a_straight_line.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1237</td>
+<td><a href="./problems/1237-find-positive-integer-solution-for-a-given-equation.md">Find Positive Integer Solution for a Given Equation</a></td>
+<td><a href="./golang/1237_find_positive_integer_solution_for_a_given_equation.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1238</td>
+<td><a href="./problems/1238-circular-permutation-in-binary-representation.md">Circular Permutation in Binary Representation</a></td>
+<td><a href="./golang/1238_circular_permutation_in_binary_representation.go">Go</a></td>
+<td><em>O(2^n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>variant of <a href="https://leetcode.com/problems/gray-code/">Gray Code</a></td>
+<td></td>
+</tr>
+<tr>
+<td>1250</td>
+<td><a href="./problems/1250-check-if-it-is-a-good-array.md">Check If It Is a Good Array</a></td>
+<td><a href="./golang/1250_check_if_it_is_a_good_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td><code>Bézout's identity</code></td>
+</tr>
+<tr>
+<td>1256</td>
+<td><a href="./problems/1256-encode-number.md">Encode Number</a></td>
+<td><a href="./golang/1256_encode_number.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1259</td>
+<td><a href="./problems/1259-handshakes-that-dont-cross.md">Handshakes That Don't Cross</a></td>
+<td><a href="./golang/1259_handshakes_that_dont_cross.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td><code>Catalan Number</code>, DP</td>
+</tr>
+<tr>
+<td>1266</td>
+<td><a href="./problems/1266-minimum-time-visiting-all-points.md">Minimum Time Visiting All Points</a></td>
+<td><a href="./golang/1266_minimum_time_visiting_all_points.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1276</td>
+<td><a href="./problems/1276-number-of-burgers-with-no-waste-of-ingredients.md">Number of Burgers with No Waste of Ingredients</a></td>
+<td><a href="./golang/1276_number_of_burgers_with_no_waste_of_ingredients.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1281</td>
+<td><a href="./problems/1281-subtract-the-product-and-sum-of-digits-of-an-integer.md">Subtract the Product and Sum of Digits of an Integer</a></td>
+<td><a href="./golang/1281_subtract_the_product_and_sum_of_digits_of_an_integer.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1300</td>
+<td><a href="./problems/1300-sum-of-mutated-array-closest-to-target.md">Sum of Mutated Array Closest to Target</a></td>
+<td><a href="./golang/1300_sum_of_mutated_array_closest_to_target.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Binary Search</td>
+</tr>
+<tr>
+<td>1323</td>
+<td><a href="./problems/1323-maximum-69-number.md">Maximum 69 Number</a></td>
+<td><a href="./golang/1323_maximum_69_number.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1330</td>
+<td><a href="./problems/1330-reverse-subarray-to-maximize-array-value.md">Reverse Subarray To Maximize Array Value</a></td>
+<td><a href="./golang/1330_reverse_subarray_to_maximize_array_value.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1344</td>
+<td><a href="./problems/1344-angle-between-hands-of-a-clock.md">Angle Between Hands of a Clock</a></td>
+<td><a href="./golang/1344_angle_between_hands_of_a_clock.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1359</td>
+<td><a href="./problems/1359-count-all-valid-pickup-and-delivery-options.md">Count All Valid Pickup and Delivery Options</a></td>
+<td><a href="./golang/1359_count_all_valid_pickup_and_delivery_options.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1360</td>
+<td><a href="./problems/1360-number-of-days-between-two-dates.md">Number of Days Between Two Dates</a></td>
+<td><a href="./golang/1360_number_of_days_between_two_dates.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>variant of <a href="https://leetcode.com/problems/day-of-the-year/">Day of the Year</a></td>
+<td></td>
+</tr>
+<tr>
+<td>1363</td>
+<td><a href="./problems/1363-largest-multiple-of-three.md">Largest Multiple of Three</a></td>
+<td><a href="./golang/1363_largest_multiple_of_three.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1415</td>
+<td><a href="./problems/1415-the-k-th-lexicographical-string-of-all-happy-strings-of-length-n.md">The k-th Lexicographical String of All Happy Strings of Length n</a></td>
+<td><a href="./golang/1415_the_k_th_lexicographical_string_of_all_happy_strings_of_length_n.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1442</td>
+<td><a href="./problems/1442-count-triplets-that-can-form-two-arrays-of-equal-xor.md">Count Triplets That Can Form Two Arrays of Equal XOR</a></td>
+<td><a href="./golang/1442_count_triplets_that_can_form_two_arrays_of_equal_xor.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1447</td>
+<td><a href="./problems/1447-simplified-fractions.md">Simplified Fractions</a></td>
+<td><a href="./golang/1447_simplified_fractions.go">Go</a></td>
+<td><em>O(n^2 * logn)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1486</td>
+<td><a href="./problems/1486-xor-operation-in-an-array.md">XOR Operation in an Array</a></td>
+<td><a href="./golang/1486_xor_operation_in_an_array.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1497</td>
+<td><a href="./problems/1497-check-if-array-pairs-are-divisible-by-k.md">Check If Array Pairs Are Divisible by k</a></td>
+<td><a href="./golang/1497_check_if_array_pairs_are_divisible_by_k.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(k)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1512</td>
+<td><a href="./problems/1512-number-of-good-pairs.md">Number of Good Pairs</a></td>
+<td><a href="./golang/1512_number_of_good_pairs.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1513</td>
+<td><a href="./problems/1513-number-of-substrings-with-only-1s.md">Number of Substrings With Only 1s</a></td>
+<td><a href="./golang/1513_number_of_substrings_with_only_1s.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1525</td>
+<td><a href="./problems/1525-number-of-good-ways-to-split-a-string.md">Number of Good Ways to Split a String</a></td>
+<td><a href="./golang/1525_number_of_good_ways_to_split_a_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1537</td>
+<td><a href="./problems/1537-get-the-maximum-score.md">Get the Maximum Score</a></td>
+<td><a href="./golang/1537_get_the_maximum_score.go">Go</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1551</td>
+<td><a href="./problems/1551-minimum-operations-to-make-array-equal.md">Minimum Operations to Make Array Equal</a></td>
+<td><a href="./golang/1551_minimum_operations_to_make_array_equal.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1611</td>
+<td><a href="./problems/1611-minimum-one-bit-operations-to-make-integers-zero.md">Minimum One Bit Operations to Make Integers Zero</a></td>
+<td><a href="./golang/1611_minimum_one_bit_operations_to_make_integers_zero.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/gray-code/">Gray Code</a></td>
+<td></td>
+</tr>
+<tr>
+<td>1641</td>
+<td><a href="./problems/1641-count-sorted-vowel-strings.md">Count Sorted Vowel Strings</a></td>
+<td><a href="./golang/1641_count_sorted_vowel_strings.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Binomial Coefficients</td>
+</tr>
+<tr>
+<td>1643</td>
+<td><a href="./problems/1643-kth-smallest-instructions.md">Kth Smallest Instructions</a></td>
+<td><a href="./golang/1643_kth_smallest_instructions.go">Go</a></td>
+<td><em>O((m + n)^2)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Binomial Coefficients</td>
+</tr>
+<tr>
+<td>1739</td>
+<td><a href="./problems/1739-building-boxes.md">Building Boxes</a></td>
+<td><a href="./golang/1739_building_boxes.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1744</td>
+<td><a href="./problems/1744-can-you-eat-your-favorite-candy-on-your-favorite-day.md">Can You Eat Your Favorite Candy on Your Favorite Day?</a></td>
+<td><a href="./golang/1744_can_you_eat_your_favorite_candy_on_your_favorite_day.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Prefix Sum</td>
+</tr>
+<tr>
+<td>1753</td>
+<td><a href="./problems/1753-maximum-score-from-removing-stones.md">Maximum Score From Removing Stones</a></td>
+<td><a href="./golang/1753_maximum_score_from_removing_stones.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1776</td>
+<td><a href="./problems/1776-car-fleet-ii.md">Car Fleet II</a></td>
+<td><a href="./golang/1776_car_fleet_ii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>1808</td>
+<td><a href="./problems/1808-maximize-number-of-nice-divisors.md">Maximize Number of Nice Divisors</a></td>
+<td><a href="./golang/1808_maximize_number_of_nice_divisors.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>variant of <a href="https://leetcode.com/problems/integer-break/">Integer Break</a></td>
+<td></td>
+</tr>
+<tr>
+<td>1812</td>
+<td><a href="./problems/1812-determine-color-of-a-chessboard-square.md">Determine Color of a Chessboard Square</a></td>
+<td><a href="./golang/1812_determine_color_of_a_chessboard_square.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1819</td>
+<td><a href="./problems/1819-number-of-different-subsequences-gcds.md">Number of Different Subsequences GCDs</a></td>
+<td><a href="./golang/1819_number_of_different_subsequences_gcds.go">Go</a></td>
+<td><em>O(n + mlogm)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1822</td>
+<td><a href="./problems/1822-sign-of-the-product-of-an-array.md">Sign of the Product of an Array</a></td>
+<td><a href="./golang/1822_sign_of_the_product_of_an_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1823</td>
+<td><a href="./problems/1823-find-the-winner-of-the-circular-game.md">Find the Winner of the Circular Game</a></td>
+<td><a href="./golang/1823_find_the_winner_of_the_circular_game.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1828</td>
+<td><a href="./problems/1828-queries-on-number-of-points-inside-a-circle.md">Queries on Number of Points Inside a Circle</a></td>
+<td><a href="./golang/1828_queries_on_number_of_points_inside_a_circle.go">Go</a></td>
+<td><em>O(q * n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1830</td>
+<td><a href="./problems/1830-minimum-number-of-operations-to-make-string-sorted.md">Minimum Number of Operations to Make String Sorted</a></td>
+<td><a href="./golang/1830_minimum_number_of_operations_to_make_string_sorted.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(max_n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Modular Inverse</td>
+</tr>
+<tr>
+<td>1835</td>
+<td><a href="./problems/1835-find-xor-sum-of-all-pairs-bitwise-and.md">Find XOR Sum of All Pairs Bitwise AND</a></td>
+<td><a href="./golang/1835_find_xor_sum_of_all_pairs_bitwise_and.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1837</td>
+<td><a href="./problems/1837-sum-of-digits-in-base-k.md">Sum of Digits in Base K</a></td>
+<td><a href="./golang/1837_sum_of_digits_in_base_k.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1860</td>
+<td><a href="./problems/1860-incremental-memory-leak.md">Incremental Memory Leak</a></td>
+<td><a href="./golang/1860_incremental_memory_leak.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td><a href="https://codingcompetitions.withgoogle.com/codejam/round/000000000019ffb9/00000000003384ea">GCJ2020 - Round 2</a></td>
+<td></td>
+</tr>
+<tr>
+<td>1862</td>
+<td><a href="./problems/1862-sum-of-floored-pairs.md">Sum of Floored Pairs</a></td>
+<td><a href="./golang/1862_sum_of_floored_pairs.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1863</td>
+<td><a href="./problems/1863-sum-of-all-subset-xor-totals.md">Sum of All Subset XOR Totals</a></td>
+<td><a href="./golang/1863_sum_of_all_subset_xor_totals.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1884</td>
+<td><a href="./problems/1884-egg-drop-with-2-eggs-and-n-floors.md">Egg Drop With 2 Eggs and N Floors</a></td>
+<td><a href="./golang/1884_egg_drop_with_2_eggs_and_n_floors.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DP</td>
+</tr>
+<tr>
+<td>1904</td>
+<td><a href="./problems/1904-the-number-of-full-rounds-you-have-played.md">The Number of Full Rounds You Have Played</a></td>
+<td><a href="./golang/1904_the_number_of_full_rounds_you_have_played.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1916</td>
+<td><a href="./problems/1916-count-ways-to-build-rooms-in-an-ant-colony.md">Count Ways to Build Rooms in an Ant Colony</a></td>
+<td><a href="./golang/1916_count_ways_to_build_rooms_in_an_ant_colony.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>DFS, Tree</td>
+</tr>
+<tr>
+<td>1922</td>
+<td><a href="./problems/1922-count-good-numbers.md">Count Good Numbers</a></td>
+<td><a href="./golang/1922_count_good_numbers.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1945</td>
+<td><a href="./problems/1945-sum-of-digits-of-string-after-convert.md">Sum of Digits of String After Convert</a></td>
+<td><a href="./golang/1945_sum_of_digits_of_string_after_convert.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1954</td>
+<td><a href="./problems/1954-minimum-garden-perimeter-to-collect-enough-apples.md">Minimum Garden Perimeter to Collect Enough Apples</a></td>
+<td><a href="./golang/1954_minimum_garden_perimeter_to_collect_enough_apples.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Binary Search, <code>Cardano's Formula</code></td>
+</tr>
+<tr>
+<td>1969</td>
+<td><a href="./problems/1969-minimum-non-zero-product-of-the-array-elements.md">Minimum Non-Zero Product of the Array Elements</a></td>
+<td><a href="./golang/1969_minimum_non_zero_product_of_the_array_elements.go">Go</a></td>
+<td><em>O(min(p, logM))</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1979</td>
+<td><a href="./problems/1979-find-greatest-common-divisor-of-array.md">Find Greatest Common Divisor of Array</a></td>
+<td><a href="./golang/1979_find_greatest_common_divisor_of_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1980</td>
+<td><a href="./problems/1980-find-unique-binary-string.md">Find Unique Binary String</a></td>
+<td><a href="./golang/1980_find_unique_binary_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td><code>Cantor Diagonalization</code></td>
+</tr>
+<tr>
+<td>1982</td>
+<td><a href="./problems/1982-find-array-given-subset-sums.md">Find Array Given Subset Sums</a></td>
+<td><a href="./golang/1982_find_array_given_subset_sums.go">Go</a></td>
+<td><em>O(n * 2^n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Math, DP, OrderedDict</td>
+</tr>
+<tr>
+<td>2005</td>
+<td><a href="./problems/2005-subtree-removal-game-with-fibonacci-tree.md">Subtree Removal Game with Fibonacci Tree</a></td>
+<td><a href="./golang/2005_subtree_removal_game_with_fibonacci_tree.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>Math, <code>Sprague-Grundy Theorem</code>, <code>Colon Principle</code></td>
+</tr>
+<tr>
+<td>2028</td>
+<td><a href="./problems/2028-find-missing-observations.md">Find Missing Observations</a></td>
+<td><a href="./golang/2028_find_missing_observations.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2029</td>
+<td><a href="./problems/2029-stone-game-ix.md">Stone Game IX</a></td>
+<td><a href="./golang/2029_stone_game_ix.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2063</td>
+<td><a href="./problems/2063-vowels-of-all-substrings.md">Vowels of All Substrings</a></td>
+<td><a href="./golang/2063_vowels_of_all_substrings.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Combinatorics</td>
+</tr>
+<tr>
+<td>2073</td>
+<td><a href="./problems/2073-time-needed-to-buy-tickets.md">Time Needed to Buy Tickets</a></td>
+<td><a href="./golang/2073_time_needed_to_buy_tickets.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Simulation, Math</td>
+</tr>
+<tr>
+<td>2083</td>
+<td><a href="./problems/2083-substrings-that-begin-and-end-with-the-same-letter.md">Substrings That Begin and End With the Same Letter</a></td>
+<td><a href="./golang/2083_substrings_that_begin_and_end_with_the_same_letter.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Combinatorics</td>
+</tr>
+<tr>
+<td>2091</td>
+<td><a href="./problems/2091-removing-minimum-and-maximum-from-array.md">Removing Minimum and Maximum From Array</a></td>
+<td><a href="./golang/2091_removing_minimum_and_maximum_from_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2110</td>
+<td><a href="./problems/2110-number-of-smooth-descent-periods-of-a-stock.md">Number of Smooth Descent Periods of a Stock</a></td>
+<td><a href="./golang/2110_number_of_smooth_descent_periods_of_a_stock.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math, Combinatorics</td>
+</tr>
+<tr>
+<td>2117</td>
+<td><a href="./problems/2117-abbreviating-the-product-of-a-range.md">Abbreviating the Product of a Range</a></td>
+<td><a href="./golang/2117_abbreviating_the_product_of_a_range.go">Go</a></td>
+<td><em>O(r - l)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2119</td>
+<td><a href="./problems/2119-a-number-after-a-double-reversal.md">A Number After a Double Reversal</a></td>
+<td><a href="./golang/2119_a_number_after_a_double_reversal.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2125</td>
+<td><a href="./problems/2125-number-of-laser-beams-in-a-bank.md">Number of Laser Beams in a Bank</a></td>
+<td><a href="./golang/2125_number_of_laser_beams_in_a_bank.go">Go</a></td>
+<td><em>O(m * n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2133</td>
+<td><a href="./problems/2133-check-if-every-row-and-column-contains-all-numbers.md">Check if Every Row and Column Contains All Numbers</a></td>
+<td><a href="./golang/2133_check_if_every_row_and_column_contains_all_numbers.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2145</td>
+<td><a href="./problems/2145-count-the-hidden-sequences.md">Count the Hidden Sequences</a></td>
+<td><a href="./golang/2145_count_the_hidden_sequences.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2148</td>
+<td><a href="./problems/2148-count-elements-with-strictly-smaller-and-greater-elements.md">Count Elements With Strictly Smaller and Greater Elements</a></td>
+<td><a href="./golang/2148_count_elements_with_strictly_smaller_and_greater_elements.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2152</td>
+<td><a href="./problems/2152-minimum-number-of-lines-to-cover-points.md">Minimum Number of Lines to Cover Points</a></td>
+<td><a href="./golang/2152_minimum_number_of_lines_to_cover_points.go">Go</a></td>
+<td><em>O(n * 2^n)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Math, Hash Table, Bitmasks</td>
+</tr>
+<tr>
+<td>2169</td>
+<td><a href="./problems/2169-count-operations-to-obtain-zero.md">Count Operations to Obtain Zero</a></td>
+<td><a href="./golang/2169_count_operations_to_obtain_zero.go">Go</a></td>
+<td><em>O(log(min(m, n)))</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math, <code>Euclidean Algorithm</code></td>
+</tr>
+<tr>
+<td>2171</td>
+<td><a href="./problems/2171-removing-minimum-number-of-magic-beans.md">Removing Minimum Number of Magic Beans</a></td>
+<td><a href="./golang/2171_removing_minimum_number_of_magic_beans.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math, Sort</td>
+</tr>
+<tr>
+<td>2177</td>
+<td><a href="./problems/2177-find-three-consecutive-integers-that-sum-to-a-given-number.md">Find Three Consecutive Integers That Sum to a Given Number</a></td>
+<td><a href="./golang/2177_find_three_consecutive_integers_that_sum_to_a_given_number.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2180</td>
+<td><a href="./problems/2180-count-integers-with-even-digit-sum.md">Count Integers With Even Digit Sum</a></td>
+<td><a href="./golang/2180_count_integers_with_even_digit_sum.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2198</td>
+<td><a href="./problems/2198-number-of-single-divisor-triplets.md">Number of Single Divisor Triplets</a></td>
+<td><a href="./golang/2198_number_of_single_divisor_triplets.go">Go</a></td>
+<td><em>O(d^3)</em></td>
+<td><em>O(d)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Math, Combinatorics</td>
+</tr>
+<tr>
+<td>2217</td>
+<td><a href="./problems/2217-find-palindrome-with-fixed-length.md">Find Palindrome With Fixed Length</a></td>
+<td><a href="./golang/2217_find_palindrome_with_fixed_length.go">Go</a></td>
+<td><em>O(n * l)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2221</td>
+<td><a href="./problems/2221-find-triangular-sum-of-an-array.md">Find Triangular Sum of an Array</a></td>
+<td><a href="./golang/2221_find_triangular_sum_of_an_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Simulation, Combinatorics, Number Thoery</td>
+</tr>
+<tr>
+<td>2235</td>
+<td><a href="./problems/2235-add-two-integers.md">Add Two Integers</a></td>
+<td><a href="./golang/2235_add_two_integers.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2244</td>
+<td><a href="./problems/2244-minimum-rounds-to-complete-all-tasks.md">Minimum Rounds to Complete All Tasks</a></td>
+<td><a href="./golang/2244_minimum_rounds_to_complete_all_tasks.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math, Freq Table</td>
+</tr>
+<tr>
+<td>2249</td>
+<td><a href="./problems/2249-count-lattice-points-inside-a-circle.md">Count Lattice Points Inside a Circle</a></td>
+<td><a href="./golang/2249_count_lattice_points_inside_a_circle.go">Go</a></td>
+<td><em>O(n * r^2)</em></td>
+<td><em>O(min(n * r^2, max_x * max_y))</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math, Hash Table</td>
+</tr>
+<tr>
+<td>2262</td>
+<td><a href="./problems/2262-total-appeal-of-a-string.md">Total Appeal of A String</a></td>
+<td><a href="./golang/2262_total_appeal_of_a_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(26)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/count-unique-characters-of-all-substrings-of-a-given-string/">Count Unique Characters of All Substrings of a Given String</a></td>
+<td>Combinatorics</td>
+</tr>
+<tr>
+<td>2280</td>
+<td><a href="./problems/2280-minimum-lines-to-represent-a-line-chart.md">Minimum Lines to Represent a Line Chart</a></td>
+<td><a href="./golang/2280_minimum_lines_to_represent_a_line_chart.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort, Math, GCD</td>
+</tr>
+<tr>
+<td>2310</td>
+<td><a href="./problems/2310-sum-of-numbers-with-units-digit-k.md">Sum of Numbers With Units Digit K</a></td>
+<td><a href="./golang/2310_sum_of_numbers_with_units_digit_k.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2344</td>
+<td><a href="./problems/2344-minimum-deletions-to-make-array-divisible.md">Minimum Deletions to Make Array Divisible</a></td>
+<td><a href="./golang/2344_minimum_deletions_to_make_array_divisible.go">Go</a></td>
+<td><em>O(n + m + logr)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Math, GCD</td>
+</tr>
+<tr>
+<td>2345</td>
+<td><a href="./problems/2345-finding-the-number-of-visible-mountains.md">Finding the Number of Visible Mountains</a></td>
+<td><a href="./golang/2345_finding_the_number_of_visible_mountains.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Math, Sort, Mono Stack</td>
+</tr>
+<tr>
+<td>2376</td>
+<td><a href="./problems/2376-count-special-integers.md">Count Special Integers</a></td>
+<td><a href="./golang/2376_count_special_integers.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(logn)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/numbers-with-repeated-digits/">Numbers With Repeated Digits</a></td>
+<td>Combinatorics</td>
+</tr>
+<tr>
+<td>2396</td>
+<td><a href="./problems/2396-strictly-palindromic-number.md">Strictly Palindromic Number</a></td>
+<td><a href="./golang/2396_strictly_palindromic_number.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2400</td>
+<td><a href="./problems/2400-number-of-ways-to-reach-a-position-after-exactly-k-steps.md">Number of Ways to Reach a Position After Exactly k Steps</a></td>
+<td><a href="./golang/2400_number_of_ways_to_reach_a_position_after_exactly_k_steps.go">Go</a></td>
+<td><em>O(k)</em></td>
+<td><em>O(k)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Combinatorics</td>
+</tr>
+<tr>
+<td>2409</td>
+<td><a href="./problems/2409-count-days-spent-together.md">Count Days Spent Together</a></td>
+<td><a href="./golang/2409_count_days_spent_together.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>String, Math, Prefix Sum</td>
+</tr>
+<tr>
+<td>2413</td>
+<td><a href="./problems/2413-smallest-even-multiple.md">Smallest Even Multiple</a></td>
+<td><a href="./golang/2413_smallest_even_multiple.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math, Bit Manipulation</td>
+</tr>
+<tr>
+<td>2437</td>
+<td><a href="./problems/2437-number-of-valid-clock-times.md">Number of Valid Clock Times</a></td>
+<td><a href="./golang/2437_number_of_valid_clock_times.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Combinatorics</td>
+</tr>
+<tr>
+<td>2450</td>
+<td><a href="./problems/2450-number-of-distinct-binary-strings-after-applying-operations.md">Number of Distinct Binary Strings After Applying Operations</a></td>
+<td><a href="./golang/2450_number_of_distinct_binary_strings_after_applying_operations.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Combinatorics</td>
+</tr>
+<tr>
+<td>2455</td>
+<td><a href="./problems/2455-average-value-of-even-numbers-that-are-divisible-by-three.md">Average Value of Even Numbers That Are Divisible by Three</a></td>
+<td><a href="./golang/2455_average_value_of_even_numbers_that_are_divisible_by_three.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2468</td>
+<td><a href="./problems/2468-split-message-based-on-limit.md">Split Message Based on Limit</a></td>
+<td><a href="./golang/2468_split_message_based_on_limit.go">Go</a></td>
+<td><em>O(n + rlogr)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Brute Force, Math</td>
+</tr>
+<tr>
+<td>2469</td>
+<td><a href="./problems/2469-convert-the-temperature.md">Convert the Temperature</a></td>
+<td><a href="./golang/2469_convert_the_temperature.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2481</td>
+<td><a href="./problems/2481-minimum-cuts-to-divide-a-circle.md">Minimum Cuts to Divide a Circle</a></td>
+<td><a href="./golang/2481_minimum_cuts_to_divide_a_circle.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2485</td>
+<td><a href="./problems/2485-find-the-pivot-integer.md">Find the Pivot Integer</a></td>
+<td><a href="./golang/2485_find_the_pivot_integer.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2514</td>
+<td><a href="./problems/2514-count-anagrams.md">Count Anagrams</a></td>
+<td><a href="./golang/2514_count_anagrams.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Math, Combinatorics</td>
+</tr>
+<tr>
+<td>2520</td>
+<td><a href="./problems/2520-count-the-digits-that-divide-a-number.md">Count the Digits That Divide a Number</a></td>
+<td><a href="./golang/2520_count_the_digits_that_divide_a_number.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2523</td>
+<td><a href="./problems/2523-closest-prime-numbers-in-range.md">Closest Prime Numbers in Range</a></td>
+<td><a href="./golang/2523_closest_prime_numbers_in_range.go">Go</a></td>
+<td>precompute: <em>O(MAX_N * log(MAX_N))</em><br>runtime: <em>O(log(MAX_N))</em></td>
+<td><em>O(MAX_N)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Number Theory, <code>Linear Sieve of Eratosthenes</code>, Segment Tree</td>
+</tr>
+<tr>
+<td>2525</td>
+<td><a href="./problems/2525-categorize-box-according-to-criteria.md">Categorize Box According to Criteria</a></td>
+<td><a href="./golang/2525_categorize_box_according_to_criteria.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2539</td>
+<td><a href="./problems/2539-count-the-number-of-good-subsequences.md">Count the Number of Good Subsequences</a></td>
+<td><a href="./golang/2539_count_the_number_of_good_subsequences.go">Go</a></td>
+<td><em>O(26 * n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Combinatorics</td>
+</tr>
+<tr>
+<td>2543</td>
+<td><a href="./problems/2543-check-if-point-is-reachable.md">Check if Point Is Reachable</a></td>
+<td><a href="./golang/2543_check_if_point_is_reachable.go">Go</a></td>
+<td><em>O(log(min(a, b)))</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Number Theory</td>
+</tr>
+<tr>
+<td>2544</td>
+<td><a href="./problems/2544-alternating-digit-sum.md">Alternating Digit Sum</a></td>
+<td><a href="./golang/2544_alternating_digit_sum.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2549</td>
+<td><a href="./problems/2549-count-distinct-numbers-on-board.md">Count Distinct Numbers on Board</a></td>
+<td><a href="./golang/2549_count_distinct_numbers_on_board.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2550</td>
+<td><a href="./problems/2550-count-collisions-of-monkeys-on-a-polygon.md">Count Collisions of Monkeys on a Polygon</a></td>
+<td><a href="./golang/2550_count_collisions_of_monkeys_on_a_polygon.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Combinatorics, Fast Exponentiation</td>
+</tr>
+<tr>
+<td>2562</td>
+<td><a href="./problems/2562-find-the-array-concatenation-value.md">Find the Array Concatenation Value</a></td>
+<td><a href="./golang/2562_find_the_array_concatenation_value.go">Go</a></td>
+<td><em>O(nlogr)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2568</td>
+<td><a href="./problems/2568-minimum-impossible-or.md">Minimum Impossible OR</a></td>
+<td><a href="./golang/2568_minimum_impossible_or.go">Go</a></td>
+<td><em>O(logr)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math, Hash Table, Bit Manipulations</td>
+</tr>
+<tr>
+<td>2579</td>
+<td><a href="./problems/2579-count-total-number-of-colored-cells.md">Count Total Number of Colored Cells</a></td>
+<td><a href="./golang/2579_count_total_number_of_colored_cells.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2582</td>
+<td><a href="./problems/2582-pass-the-pillow.md">Pass the Pillow</a></td>
+<td><a href="./golang/2582_pass_the_pillow.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2614</td>
+<td><a href="./problems/2614-prime-in-diagonal.md">Prime In Diagonal</a></td>
+<td><a href="./golang/2614_prime_in_diagonal.go">Go</a></td>
+<td>precompute: <em>O(MAX_N)</em><br>runtime: <em>O(n)</em></td>
+<td><em>O(MAX_N)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Number Theory, <code>Linear Sieve of Eratosthenes</code></td>
+</tr>
+<tr>
+<td>2651</td>
+<td><a href="./problems/2651-calculate-delayed-arrival-time.md">Calculate Delayed Arrival Time</a></td>
+<td><a href="./golang/2651_calculate_delayed_arrival_time.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2652</td>
+<td><a href="./problems/2652-sum-multiples.md">Sum Multiples</a></td>
+<td><a href="./golang/2652_sum_multiples.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math, Principle of Inclusion and Exclusion</td>
+</tr>
+<tr>
+<td>2656</td>
+<td><a href="./problems/2656-maximum-sum-with-exactly-k-elements.md">Maximum Sum With Exactly K Elements</a></td>
+<td><a href="./golang/2656_maximum_sum_with_exactly_k_elements.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2731</td>
+<td><a href="./problems/2731-movement-of-robots.md">Movement of Robots</a></td>
+<td><a href="./golang/2731_movement_of_robots.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort, Math</td>
+</tr>
+<tr>
+<td>2739</td>
+<td><a href="./problems/2739-total-distance-traveled.md">Total Distance Traveled</a></td>
+<td><a href="./golang/2739_total_distance_traveled.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2749</td>
+<td><a href="./problems/2749-minimum-operations-to-make-the-integer-zero.md">Minimum Operations to Make the Integer Zero</a></td>
+<td><a href="./golang/2749_minimum_operations_to_make_the_integer_zero.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Linear Search, Bit Manipulations, Math</td>
+</tr>
+<tr>
+<td>2750</td>
+<td><a href="./problems/2750-ways-to-split-array-into-good-subarrays.md">Ways to Split Array Into Good Subarrays</a></td>
+<td><a href="./golang/2750_ways_to_split_array_into_good_subarrays.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Combinatorics</td>
+</tr>
+<tr>
+<td>2761</td>
+<td><a href="./problems/2761-prime-pairs-with-target-sum.md">Prime Pairs With Target Sum</a></td>
+<td><a href="./golang/2761_prime_pairs_with_target_sum.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Number Theory, <code>Linear Sieve of Eratosthenes</code></td>
+</tr>
+<tr>
+<td>2780</td>
+<td><a href="./problems/2780-minimum-index-of-a-valid-split.md">Minimum Index of a Valid Split</a></td>
+<td><a href="./golang/2780_minimum_index_of_a_valid_split.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td><code>Boyer–Moore Majority Vote Algorithm</code>, Linear Search</td>
+</tr>
+<tr>
+<td>2802</td>
+<td><a href="./problems/2802-find-the-k-th-lucky-number.md">Find The K-th Lucky Number</a></td>
+<td><a href="./golang/2802_find_the_k_th_lucky_number.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Math, Bitmasks</td>
+</tr>
+<tr>
+<td>2806</td>
+<td><a href="./problems/2806-account-balance-after-rounded-purchase.md">Account Balance After Rounded Purchase</a></td>
+<td><a href="./golang/2806_account_balance_after_rounded_purchase.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2833</td>
+<td><a href="./problems/2833-furthest-point-from-origin.md">Furthest Point From Origin</a></td>
+<td><a href="./golang/2833_furthest_point_from_origin.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2861</td>
+<td><a href="./problems/2861-maximum-number-of-alloys.md">Maximum Number of Alloys</a></td>
+<td><a href="./golang/2861_maximum_number_of_alloys.go">Go</a></td>
+<td><em>O(k * nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Binary Search, Sort, Math</td>
+</tr>
+<tr>
+<td>2862</td>
+<td><a href="./problems/2862-maximum-element-sum-of-a-complete-subset-of-indices.md">Maximum Element-Sum of a Complete Subset of Indices</a></td>
+<td><a href="./golang/2862_maximum_element_sum_of_a_complete_subset_of_indices.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Number Theory, <code>Basel Problem</code></td>
+</tr>
+<tr>
+<td>2894</td>
+<td><a href="./problems/2894-divisible-and-non-divisible-sums-difference.md">Divisible and Non-divisible Sums Difference</a></td>
+<td><a href="./golang/2894_divisible_and_non_divisible_sums_difference.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>2898</td>
+<td><a href="./problems/2898-maximum-linear-stock-score.md">Maximum Linear Stock Score</a></td>
+<td><a href="./golang/2898_maximum_linear_stock_score.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Math, Freq Table</td>
+</tr>
+<tr>
+<td>2927</td>
+<td><a href="./problems/2927-distribute-candies-among-children-iii.md">Distribute Candies Among Children III</a></td>
+<td><a href="./golang/2927_distribute_candies_among_children_iii.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>Stars and Bars, Combinatorics, Principle of Inclusion and Exclusion</td>
+</tr>
+<tr>
+<td>2928</td>
+<td><a href="./problems/2928-distribute-candies-among-children-i.md">Distribute Candies Among Children I</a></td>
+<td><a href="./golang/2928_distribute_candies_among_children_i.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Stars and Bars, Combinatorics, Principle of Inclusion and Exclusion, Brute Force</td>
+</tr>
+<tr>
+<td>2929</td>
+<td><a href="./problems/2929-distribute-candies-among-children-ii.md">Distribute Candies Among Children II</a></td>
+<td><a href="./golang/2929_distribute_candies_among_children_ii.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Stars and Bars, Combinatorics, Principle of Inclusion and Exclusion, Brute Force</td>
+</tr>
+<tr>
+<td>2930</td>
+<td><a href="./problems/2930-number-of-strings-which-can-be-rearranged-to-contain-substring.md">Number of Strings Which Can Be Rearranged to Contain Substring</a></td>
+<td><a href="./golang/2930_number_of_strings_which_can_be_rearranged_to_contain_substring.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Combinatorics, Principle of Inclusion and Exclusion, Bitmasks, DP</td>
+</tr>
+<tr>
+<td>2954</td>
+<td><a href="./problems/2954-count-the-number-of-infection-sequences.md">Count the Number of Infection Sequences</a></td>
+<td><a href="./golang/2954_count_the_number_of_infection_sequences.go">Go</a></td>
+<td>precompute: <em>O(max_n)</em><br>runtime: <em>O(s + logn)</em></td>
+<td><em>O(max_n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Combinatorics</td>
+</tr>
+<tr>
+<td>2961</td>
+<td><a href="./problems/2961-double-modular-exponentiation.md">Double Modular Exponentiation</a></td>
+<td><a href="./golang/2961_double_modular_exponentiation.go">Go</a></td>
+<td><em>O(n * (logb + logc))</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Fast Exponentiation</td>
+</tr>
+<tr>
+<td>2963</td>
+<td><a href="./problems/2963-count-the-number-of-good-partitions.md">Count the Number of Good Partitions</a></td>
+<td><a href="./golang/2963_count_the_number_of_good_partitions.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Hash Table, Combinatorics</td>
+</tr>
+<tr>
+<td>2979</td>
+<td><a href="./problems/2979-most-expensive-item-that-can-not-be-bought.md">Most Expensive Item That Can Not Be Bought</a></td>
+<td><a href="./golang/2979_most_expensive_item_that_can_not_be_bought.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td><code>Frobenius Coin Problem</code>, <code>Chicken McNugget Theorem</code>, DP</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

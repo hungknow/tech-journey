@@ -1,0 +1,1567 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>LLM Prompts in picoclaw - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#llm-prompts-in-picoclaw" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              LLM Prompts in picoclaw
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#messages-sent-to-the-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Messages sent to the LLM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Messages sent to the LLM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normal-chat-user-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normal chat (user message)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heartbeat-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Heartbeat run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conversation-summarization-summarizebatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conversation summarization (summarizeBatch)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merge-summaries-summarizesession" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merge summaries (summarizeSession)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subagent-async-spawn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subagent (async spawn)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync-subagent-subagenttool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync subagent (SubagentTool)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-agent-system-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Main agent system prompt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Main agent system prompt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-prompt-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full prompt (template)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conversation-summarization-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conversation summarization prompt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conversation summarization prompt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full prompt
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#merge-summaries-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merge summaries prompt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Merge summaries prompt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-prompt-template_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full prompt (template)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subagent-system-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subagent system prompt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subagent system prompt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-prompt-system-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full prompt (system message)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sync-subagent-system-prompt-subagenttool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync subagent system prompt (SubagentTool)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sync subagent system prompt (SubagentTool)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-prompt-system-message_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full prompt (system message)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heartbeat-prompt-user-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Heartbeat prompt (user message)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Heartbeat prompt (user message)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-prompt-template_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full prompt (template)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="llm-prompts-in-picoclaw">LLM Prompts in picoclaw</h1>
+<p>This document lists every LLM prompt used in the codebase: the literal or templated text sent to the model, the function that builds or uses it, and the context where it is used.</p>
+<hr />
+<h2 id="messages-sent-to-the-llm">Messages sent to the LLM</h2>
+<p>This section describes the <strong>message list</strong> actually passed to the LLM in each scenario: who builds each part and what the combined input looks like. The sections below give the full content of each prompt; here we only summarize the structure and responsibility.</p>
+<h3 id="normal-chat-user-message">Normal chat (user message)</h3>
+<p><strong>Built by:</strong> <code>ContextBuilder.BuildMessages()</code> in <code>pkg/agent/context.go</code>, called from <code>runAgentLoop()</code> in <code>pkg/agent/loop.go</code> with <code>history</code> and <code>summary</code> from the session, and the current user message.</p>
+<p><strong>Message list:</strong> <code>[ system, ...history, user ]</code></p>
+<ul>
+<li><strong>System:</strong> Full main agent system prompt from <code>BuildSystemPrompt()</code> (identity, Available Tools, bootstrap files, skills, memory, optional Current Session, optional Summary of Previous Conversation).</li>
+<li><strong>History:</strong> Previous turns from <code>sessions.GetHistory(sessionKey)</code> — alternating user/assistant (and possibly tool) messages.</li>
+<li><strong>User:</strong> The current user message for this turn.</li>
+</ul>
+<p>After the first LLM call, if tool calls are present in the response, the loop appends an assistant message (with tool calls) and a tool result message for each call, then calls the LLM again with this updated message list. With each iteration, the list always starts with the same full system prompt—covering identity, tools, bootstrap, skills, memory, etc.—followed by history, user input, assistant/tool messages.</p>
+<p>This system prompt is resent on every LLM request: only new assistant and tool messages are appended, the system message itself is unchanged. If multiple tool calls occur, the LLM is called multiple times per turn (e.g., 6 calls means 6 identical copies of the system prompt sent).</p>
+<p>As a result, the system prompt dominates repeated token usage since it is never shortened or omitted between tool iterations.</p>
+<p><strong>Tool definitions:</strong> From <code>ToolRegistry.ToProviderDefs()</code>, passed to the provider together with the message list.</p>
+<h3 id="heartbeat-run">Heartbeat run</h3>
+<p><strong>Built by:</strong> Same <code>BuildMessages()</code>, but with <strong>no history</strong> (<code>NoHistory: true</code>) and the <strong>user</strong> slot set to the heartbeat prompt from <code>buildPrompt()</code> in <code>pkg/heartbeat/service.go</code>.</p>
+<p><strong>Message list:</strong> <code>[ system, user ]</code></p>
+<ul>
+<li><strong>System:</strong> Same full main agent system prompt from <code>BuildSystemPrompt()</code> (so the model still sees identity, Available Tools, bootstrap, skills, memory, etc.).</li>
+<li><strong>User:</strong> Single message = output of <code>buildPrompt()</code> (Heartbeat Check heading, current time, instructions, raw contents of <code>HEARTBEAT.md</code>).</li>
+</ul>
+<p>No conversation history; tool definitions are the same as normal chat.</p>
+<h3 id="conversation-summarization-summarizebatch">Conversation summarization (<code>summarizeBatch</code>)</h3>
+<p><strong>Built by:</strong> <code>summarizeBatch()</code> in <code>pkg/agent/loop.go</code> — builds a single user message string and calls <code>provider.Chat()</code> with no system message and no tools.</p>
+<p><strong>Message list:</strong> <code>[ user ]</code></p>
+<ul>
+<li><strong>User:</strong> One message containing the summarization instruction, optional "Existing context: …", and "CONVERSATION:" plus the batch of messages as text.</li>
+</ul>
+<p>No system message, no tool definitions. Used only to get a summary string; the response is not part of a conversation.</p>
+<h3 id="merge-summaries-summarizesession">Merge summaries (<code>summarizeSession</code>)</h3>
+<p><strong>Built by:</strong> Inline in <code>summarizeSession()</code> in <code>pkg/agent/loop.go</code> — builds one user message and calls <code>provider.Chat()</code> with no system message and no tools.</p>
+<p><strong>Message list:</strong> <code>[ user ]</code></p>
+<ul>
+<li><strong>User:</strong> One message: "Merge these two conversation summaries into one cohesive summary:\n\n1: <s1>\n\n2: <s2>".</li>
+</ul>
+<p>No system message, no tool definitions. Used only to merge two summary strings into one.</p>
+<h3 id="subagent-async-spawn">Subagent (async spawn)</h3>
+<p><strong>Built by:</strong> <code>runTask()</code> in <code>pkg/tools/subagent.go</code> — builds a fixed system string and uses the task as the user message, then calls <code>RunToolLoop()</code>.</p>
+<p><strong>Message list:</strong> <code>[ system, user ]</code></p>
+<ul>
+<li><strong>System:</strong> Short subagent system prompt ("You are a subagent. Complete the given task independently…"). It does <strong>not</strong> include the main agent’s "Available Tools" text block or the skills section; the subagent does not use <code>BuildSystemPrompt()</code>.</li>
+<li><strong>User:</strong> The task string from the spawn tool arguments.</li>
+</ul>
+<p>Tool definitions are passed to the provider from the same registry (<code>ToProviderDefs()</code>), so the model can call tools, but the system message does not list tool names/descriptions or skills.</p>
+<h3 id="sync-subagent-subagenttool">Sync subagent (SubagentTool)</h3>
+<p><strong>Built by:</strong> <code>SubagentTool.Execute()</code> in <code>pkg/tools/subagent.go</code> — builds a fixed system string and the task as user message, then calls <code>RunToolLoop()</code>.</p>
+<p><strong>Message list:</strong> <code>[ system, user ]</code></p>
+<ul>
+<li><strong>System:</strong> Short sync subagent prompt ("You are a subagent. Complete the given task independently and provide a clear, concise result."). It does <strong>not</strong> include the tool section or skills section (same as async subagent).</li>
+<li><strong>User:</strong> The task string from the tool arguments.</li>
+</ul>
+<p>Same tool registry as the main agent; tools are available via API definitions only, not via text in the system prompt.</p>
+<hr />
+<h2 id="main-agent-system-prompt">Main agent system prompt</h2>
+<h3 id="function">Function</h3>
+<p><code>BuildSystemPrompt()</code> in <code>pkg/agent/context.go</code>. It is built from: <code>getIdentity()</code>, <code>LoadBootstrapFiles()</code>, a skills block (via <code>BuildSkillsSummary()</code>), and <code>GetMemoryContext()</code> from the memory store. The tools section comes from <code>buildToolsSection()</code> (which calls <code>cb.tools.GetSummaries()</code>).</p>
+<h3 id="context">Context</h3>
+<p>Used for every normal chat turn and for heartbeat runs. <code>ContextBuilder.BuildMessages()</code> calls <code>BuildSystemPrompt()</code> to form the system message. That message list is then passed to <code>runLLMIteration()</code> in the agent loop, which calls the LLM provider’s <code>Chat()</code> with it. For heartbeat, the same agent (and same context builder) is used; the only difference is the user message (the heartbeat prompt from <code>buildPrompt()</code>). Optionally, <code>BuildMessages()</code> appends "Current Session" (channel/chatID) and "Summary of Previous Conversation" when those are provided.</p>
+<h3 id="full-prompt-template">Full prompt (template)</h3>
+<p><strong>Short placeholder template (what parts are available):</strong><br />
+Parts are joined by <code>\n\n---\n\n</code>. Part 1 is always present; Parts 2–4 and the suffix are included only when applicable.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>[Part 1 – always]  &lt;now&gt;  &lt;runtime&gt;  &lt;workspacePath&gt;  &lt;toolsSection&gt;  + Important Rules
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>---
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>[Part 2 – optional]  Bootstrap: for each existing file (AGENTS.md, SOUL.md, USER.md, IDENTITY.md) → ## &lt;filename&gt; + &lt;contents&gt;
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>---
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>[Part 3 – optional]  Skills: # Skills + &lt;skills&gt; XML block (one &lt;skill&gt; per skill)
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>---
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>[Part 4 – optional]  Memory: # Memory + ## Long-term Memory + ## Recent Daily Notes
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>---
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>[Optional suffix]  ## Current Session (&lt;channel&gt;, &lt;chatID&gt;)  and/or  ## Summary of Previous Conversation (&lt;summary&gt;)
+</span></code></pre></div>
+<p>The system prompt is the concatenation of the following parts, joined by <code>\n\n---\n\n</code>. Below, each part is shown with <strong>example full content</strong> as filled by the code (from the actual implementations).</p>
+<p><strong>Part 1 – Identity (from <code>getIdentity()</code>):</strong></p>
+<p>Time uses format <code>2006-01-02 15:04 (Monday)</code>. Runtime is <code>GOOS GOARCH, Go version</code>. Workspace is the absolute path. The tools section is built by <code>buildToolsSection()</code> from <code>ToolRegistry.GetSummaries()</code>: each tool is one line <code>- `name` - description</code>.</p>
+<p>Example with all built-in tools registered:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a># picoclaw 🦞
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>You are picoclaw, a helpful AI assistant.
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>## Current Time
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>2026-02-17 14:30 (Monday)
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>## Runtime
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>darwin arm64, Go 1.22.0
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>## Workspace
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>Your workspace is at: &lt;workspacePath&gt;/picoclaw
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>- Memory: &lt;workspacePath&gt;/picoclaw/memory/MEMORY.md
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>- Daily Notes: &lt;workspacePath&gt;/picoclaw/memory/YYYYMM/YYYYMMDD.md
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>- Skills: &lt;workspacePath&gt;/picoclaw/skills/{skill-name}/SKILL.md
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>## Available Tools &lt;toolsSection&gt;
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>**CRITICAL**: You MUST use tools to perform actions. Do NOT pretend to execute commands or schedule tasks.
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>You have access to the following tools:
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>- `read_file` - Read the contents of a file
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>- `write_file` - Write content to a file
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>- `list_dir` - List files and directories in a path
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>- `edit_file` - Edit a file by replacing old_text with new_text. The old_text must exist exactly in the file.
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>- `append_file` - Append content to the end of a file
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>- `message` - Send a message to user on a chat channel. Use this when you want to communicate something.
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>- `exec` - Execute a shell command and return its output. Use with caution.
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>- `cron` - Schedule reminders, tasks, or system commands. IMPORTANT: When user asks to be reminded or scheduled, you MUST call this tool. Use &#39;at_seconds&#39; for one-time reminders (e.g., &#39;remind me in 10 minutes&#39; → at_seconds=600). Use &#39;every_seconds&#39; ONLY for recurring tasks (e.g., &#39;every 2 hours&#39; → every_seconds=7200). Use &#39;cron_expr&#39; for complex recurring schedules. Use &#39;command&#39; to execute shell commands directly.
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>- `spawn` - Spawn a subagent to handle a task in the background. Use this for complex or time-consuming tasks that can run independently. The subagent will complete the task and report back when done.
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>- `subagent` - Execute a subagent task synchronously and return the result. Use this for delegating specific tasks to an independent agent instance. Returns execution summary to user and full details to LLM.
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>- `web_search` - Search the web for current information. Returns titles, URLs, and snippets from search results.
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>- `web_fetch` - Fetch a URL and extract readable content (HTML to text). Use this to get weather info, news, articles, or any web content.
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>- `i2c` - Interact with I2C bus devices for reading sensors and controlling peripherals. Actions: detect (list buses), scan (find devices on a bus), read (read bytes from device), write (send bytes to device). Linux only.
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>- `spi` - Interact with SPI bus devices for high-speed peripheral communication. Actions: list (find SPI devices), transfer (full-duplex send/receive), read (receive bytes). Linux only.
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>## Important Rules
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>1. **ALWAYS use tools** - When you need to perform an action (schedule reminders, send messages, execute commands, etc.), you MUST call the appropriate tool. Do NOT just say you&#39;ll do it or pretend to do it.
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>2. **Be helpful and accurate** - When using tools, briefly explain what you&#39;re doing.
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>3. **Memory** - When remembering something, write to &lt;workspacePath&gt;/picoclaw/memory/MEMORY.md
+</span></code></pre></div>
+<p><strong>Part 2 – Bootstrap files (from <code>LoadBootstrapFiles()</code>):</strong><br />
+For each of <code>AGENTS.md</code>, <code>SOUL.md</code>, <code>USER.md</code>, <code>IDENTITY.md</code> present under the workspace, a block is appended. Example when <code>IDENTITY.md</code> exists:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>## IDENTITY.md
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>I prefer to be called Alex. Keep responses concise.
+</span></code></pre></div>
+<p><strong>Part 3 – Skills (from <code>BuildSkillsSummary()</code>):</strong><br />
+If any skills exist, the block is XML from <code>SkillsLoader.BuildSkillsSummary()</code>: <code>&lt;skills&gt;</code> with one <code>&lt;skill&gt;</code> per skill; each has <code>&lt;name&gt;</code>, <code>&lt;description&gt;</code>, <code>&lt;location&gt;</code> (path to SKILL.md), and <code>&lt;source&gt;</code> (<code>workspace</code>, <code>global</code>, or <code>builtin</code>). Example with two skills:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># Skills
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>The following skills extend your capabilities. To use a skill, read its SKILL.md file using the read_file tool.
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>&lt;skills&gt;
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  &lt;skill&gt;
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    &lt;name&gt;my-skill&lt;/name&gt;
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    &lt;description&gt;Custom workspace skill for project helpers.&lt;/description&gt;
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    &lt;location&gt;&lt;workspacePath&gt;/picoclaw/skills/my-skill/SKILL.md&lt;/location&gt;
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    &lt;source&gt;workspace&lt;/source&gt;
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>  &lt;/skill&gt;
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>  &lt;skill&gt;
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    &lt;name&gt;calendar&lt;/name&gt;
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    &lt;description&gt;Read and create calendar events.&lt;/description&gt;
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>    &lt;location&gt;&lt;workspacePath&gt;/picoclaw/skills/calendar/SKILL.md&lt;/location&gt;
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>    &lt;source&gt;builtin&lt;/source&gt;
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>  &lt;/skill&gt;
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>&lt;/skills&gt;
+</span></code></pre></div>
+<p><strong>Part 4 – Memory (from <code>cb.memory.GetMemoryContext()</code>):</strong><br />
+Included only when there is long-term memory or recent daily notes. Long-term is raw contents of <code>memory/MEMORY.md</code>. Recent daily notes are the last 3 days’ files from <code>memory/YYYYMM/YYYYMMDD.md</code>, joined with <code>---</code>. Example:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># Memory
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>## Long-term Memory
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>User&#39;s name is Alex. Prefers dark mode. Has a cat named Nala.
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>---
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>## Recent Daily Notes
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a># 2026-02-17
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>Checked mailbox. No urgent items.
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>---
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a># 2026-02-16
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>Meeting with team at 3pm. Reminder set.
+</span></code></pre></div>
+<p><strong>Optional suffix in <code>BuildMessages()</code>:</strong><br />
+When <code>channel</code> and <code>chatID</code> are non-empty:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>## Current Session
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Channel: telegram &lt;channel&gt;
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Chat ID: 123456789 &lt;chatID&gt;
+</span></code></pre></div>
+<p>When a conversation summary exists (from previous summarization):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>## Summary of Previous Conversation
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>User asked about setting a reminder. Assistant used the cron tool to schedule it. User confirmed.
+</span></code></pre></div>
+<p>So the <strong>full</strong> system prompt at send time is: the four parts above (identity + bootstrap + skills + memory), optionally followed by Current Session and Summary of Previous Conversation.</p>
+<hr />
+<h2 id="conversation-summarization-prompt">Conversation summarization prompt</h2>
+<h3 id="function_1">Function</h3>
+<p><code>summarizeBatch()</code> in <code>pkg/agent/loop.go</code>.</p>
+<h3 id="context_1">Context</h3>
+<p>When a session’s history exceeds the configured threshold, <code>maybeSummarize()</code> triggers <code>summarizeSession()</code>. <code>summarizeSession()</code> takes the older part of the history (all but the last 4 messages), optionally splits it into two batches, and calls <code>summarizeBatch()</code> for each. The result is stored as the session summary and the history is truncated. This prompt is the only user message sent for that LLM call (no system message from the main agent; it’s a dedicated summarization call).</p>
+<h3 id="full-prompt">Full prompt</h3>
+<p>The prompt is built in code as: a fixed instruction line, then optionally "Existing context: " + existingSummary, then "CONVERSATION:" and one line per message in the batch (<code>role: content</code>). Example with existing summary and a short conversation:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Provide a concise summary of this conversation segment, preserving core context and key points.
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Existing context: User previously asked about the weather.
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>CONVERSATION:
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>user: Can you set a reminder for my meeting at 3pm tomorrow?
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>assistant: I&#39;ll schedule that for you.
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>user: Thanks!
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>assistant: Done. I&#39;ve set a reminder for 3pm tomorrow using the cron tool.
+</span></code></pre></div>
+<hr />
+<h2 id="merge-summaries-prompt">Merge summaries prompt</h2>
+<h3 id="function_2">Function</h3>
+<p>Inline in <code>summarizeSession()</code> in <code>pkg/agent/loop.go</code>, built with <code>fmt.Sprintf</code> and sent as a single user message to <code>provider.Chat()</code>.</p>
+<h3 id="context_2">Context</h3>
+<p>When the history to summarize is long (&gt;10 messages), it is split into two halves. Each half is summarized with <code>summarizeBatch()</code>. This merge prompt is then used in a separate LLM call to combine the two summaries into one. The response becomes the final summary for the session.</p>
+<h3 id="full-prompt-template_1">Full prompt (template)</h3>
+<p>The prompt is built with <code>fmt.Sprintf("Merge these two conversation summaries into one cohesive summary:\n\n1: %s\n\n2: %s", s1, s2)</code> where <code>s1</code> and <code>s2</code> are the strings returned by <code>summarizeBatch()</code> for the first and second half. Example with real-looking summaries:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Merge these two conversation summaries into one cohesive summary:
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>1: &lt;s1&gt; User asked about setting reminders. Assistant explained the cron tool and set a one-time reminder for 3pm. User confirmed.
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>2: &lt;s2&gt; User requested a recurring daily reminder at 9am. Assistant used cron with every_seconds=86400 and command. User thanked.
+</span></code></pre></div>
+<p>The LLM response becomes the final session summary.</p>
+<hr />
+<h2 id="subagent-system-prompt">Subagent system prompt</h2>
+<h3 id="function_3">Function</h3>
+<p><code>runTask()</code> in <code>pkg/tools/subagent.go</code>. The literal system prompt is assigned to <code>systemPrompt</code>; the user message is <code>task.Task</code>.</p>
+<h3 id="context_3">Context</h3>
+<p>When the user (or main agent) invokes the spawn/subagent tool, <code>SubagentManager.runTask()</code> runs. It builds a two-message list (system + user), then calls <code>RunToolLoop()</code> with the same tool registry and provider. The subagent therefore sees this short system prompt and the task text, and can use tools until completion. The result is sent back to the main agent via the system channel.</p>
+<h3 id="full-prompt-system-message">Full prompt (system message)</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>You are a subagent. Complete the given task independently and report the result.
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>You have access to tools - use them as needed to complete your task.
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>After completing the task, provide a clear summary of what was done.
+</span></code></pre></div>
+<p><strong>User message:</strong> The task string passed to the subagent (from the tool arguments).</p>
+<p><strong>Tool section and skills section:</strong> No. The subagent system prompt is only the short text above. It does <strong>not</strong> include the main agent’s "Available Tools" block (the CRITICAL instruction and the list of tool names/descriptions) or the "# Skills" block. The subagent can still use tools because <code>RunToolLoop()</code> passes <code>ToolRegistry.ToProviderDefs()</code> to the provider, so the model receives tool definitions in the API call and can invoke them; the system message itself does not list tools or skills.</p>
+<hr />
+<h2 id="sync-subagent-system-prompt-subagenttool">Sync subagent system prompt (SubagentTool)</h2>
+<h3 id="function_4">Function</h3>
+<p><code>Execute()</code> of <code>SubagentTool</code> in <code>pkg/tools/subagent.go</code>. The system message is a literal string; the user message is <code>task</code> from the tool arguments.</p>
+<h3 id="context_4">Context</h3>
+<p>When the user (or main agent) calls the synchronous subagent tool (not the async spawn tool), this prompt is used. <code>SubagentTool.Execute()</code> builds a two-message list and calls <code>RunToolLoop()</code> with the same registry and provider. The run is blocking; the result is returned in the tool result to the main agent.</p>
+<h3 id="full-prompt-system-message_1">Full prompt (system message)</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>You are a subagent. Complete the given task independently and provide a clear, concise result.
+</span></code></pre></div>
+<p><strong>User message:</strong> The task string from the tool’s <code>task</code> argument.</p>
+<p><strong>Tool section and skills section:</strong> No. Same as the async subagent: the system prompt is only the one line above; no "Available Tools" text and no skills section. Tools are available via the API tool definitions from the same registry.</p>
+<hr />
+<h2 id="heartbeat-prompt-user-message">Heartbeat prompt (user message)</h2>
+<h3 id="function_5">Function</h3>
+<p><code>buildPrompt()</code> in <code>pkg/heartbeat/service.go</code>.</p>
+<h3 id="context_5">Context</h3>
+<p>The heartbeat service runs on a timer. On each run, it reads the <code>HEARTBEAT.md</code> file from the workspace.</p>
+<p>If the file is missing, the service creates the default template by calling <code>createDefaultHeartbeatTemplate()</code> and returns an empty prompt. This causes the current heartbeat run to do nothing.</p>
+<p>If <code>HEARTBEAT.md</code> exists and is non-empty, the service constructs the heartbeat prompt using its contents and passes this prompt to the configured handler. The handler (in <code>cmd/picoclaw/main.go</code>) then calls the agent’s <code>ProcessHeartbeat(ctx, prompt, channel, chatID)</code> method.</p>
+<p>When processing a heartbeat, the agent uses the <strong>same</strong> system prompt as in normal chat (built from <code>BuildSystemPrompt()</code>). The only difference is that, for heartbeat runs, the user message passed to the LLM is this heartbeat prompt, whereas in normal operation it is a user chat message.</p>
+<h3 id="full-prompt-template_2">Full prompt (template)</h3>
+<p>The prompt is built with <code>fmt.Sprintf(...)</code> using the current time in format <code>2006-01-02 15:04:05</code> and the raw contents of <code>HEARTBEAT.md</code>. Example with real time and example file content:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a># Heartbeat Check
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Current time: 2026-02-17 14:30:00
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>You are a proactive AI assistant. This is a scheduled heartbeat check.
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>Review the following tasks and execute any necessary actions using available skills.
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>If there is nothing that requires attention, respond ONLY with: HEARTBEAT_OK
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a># Heartbeat Check List
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>This file contains tasks for the heartbeat service to check periodically.
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>## Examples
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>- Check for unread messages
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>- Review upcoming calendar events
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>- Check device status (e.g., MaixCam)
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>## Instructions
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>- Execute ALL tasks listed below. Do NOT skip any task.
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>- For simple tasks (e.g., report current time), respond directly.
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>- For complex tasks that may take time, use the spawn tool to create a subagent.
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>- The spawn tool is async - subagent results will be sent to the user automatically.
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>- After spawning a subagent, CONTINUE to process remaining tasks.
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>- Only respond with HEARTBEAT_OK when ALL tasks are done AND nothing needs attention.
+</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>
+</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a>---
+</span><span id="__span-11-29"><a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a>
+</span><span id="__span-11-30"><a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a>Add your heartbeat tasks below this line:
+</span><span id="__span-11-31"><a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a>
+</span><span id="__span-11-32"><a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a>- Report current time
+</span><span id="__span-11-33"><a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a>- Check if there are any reminders due in the next hour
+</span></code></pre></div>
+<p>So the <strong>full</strong> LLM input for a heartbeat run is: the main agent system prompt (see <strong>Main agent system prompt</strong> above) as the system message, and the above string as the single user message.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

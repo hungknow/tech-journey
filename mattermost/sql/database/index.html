@@ -1,0 +1,1557 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Mattermost Channels Database Schema - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mattermost-channels-database-schema" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Mattermost Channels Database Schema
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schema Objects
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema Objects">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#custom-types-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom types (ENUMs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#materialized-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Materialized view
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables-alphabetical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables (alphabetical)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key relationships
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#users-and-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Users and auth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oauth-and-integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OAuth and integrations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groups-and-schemes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups and schemes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#files-and-uploads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files and uploads
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-channels-and-remotes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared channels and remotes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retention-and-compliance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retention and compliance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-feature-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other feature tables
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indexes-and-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indexes and performance
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="mattermost-channels-database-schema">Mattermost Channels Database Schema</h1>
+<p>This document describes the PostgreSQL schema produced by applying all migrations in order. The unified script is <strong>final.sql</strong>.</p>
+<h2 id="overview">Overview</h2>
+<p>The Mattermost Channels database stores:</p>
+<ul>
+<li><strong>Core entities</strong>: users, teams, channels, posts, and their memberships</li>
+<li><strong>Collaboration</strong>: threads, reactions, drafts, acknowledgements, bookmarks</li>
+<li><strong>Integrations</strong>: webhooks, commands, OAuth, bots, shared channels</li>
+<li><strong>Compliance &amp; governance</strong>: audits, retention policies, schemes, roles</li>
+<li><strong>Plugins &amp; extensibility</strong>: plugin key-value store, jobs</li>
+<li><strong>Feature-specific</strong>: recaps, translations, content flagging, access control, properties</li>
+</ul>
+<hr />
+<h2 id="schema-objects">Schema Objects</h2>
+<h3 id="custom-types-enums">Custom types (ENUMs)</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Values</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>channel_type</code></td>
+<td><code>'P'</code>, <code>'G'</code>, <code>'O'</code>, <code>'D'</code></td>
+<td><code>channels.type</code></td>
+</tr>
+<tr>
+<td><code>team_type</code></td>
+<td><code>'I'</code>, <code>'O'</code></td>
+<td><code>teams.type</code></td>
+</tr>
+<tr>
+<td><code>upload_session_type</code></td>
+<td><code>'attachment'</code>, <code>'import'</code></td>
+<td><code>uploadsessions.type</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="materialized-view">Materialized view</h3>
+<ul>
+<li><strong>AttributeView</strong> – Built from <code>PropertyValues</code> and <code>PropertyFields</code>; exposes target attributes as JSON. Created/refreshed via procedure in migration 000137.</li>
+</ul>
+<hr />
+<h2 id="tables-alphabetical">Tables (alphabetical)</h2>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AccessControlPolicies</strong></td>
+<td>Access control policy definitions</td>
+</tr>
+<tr>
+<td><strong>AccessControlPolicyHistory</strong></td>
+<td>History of policy changes</td>
+</tr>
+<tr>
+<td><strong>audits</strong></td>
+<td>Audit log entries</td>
+</tr>
+<tr>
+<td><strong>bots</strong></td>
+<td>Bot users</td>
+</tr>
+<tr>
+<td><strong>channelbookmarks</strong></td>
+<td>Per-channel bookmarks</td>
+</tr>
+<tr>
+<td><strong>channelmemberhistory</strong></td>
+<td>History of channel membership (join/leave)</td>
+</tr>
+<tr>
+<td><strong>channelmembers</strong></td>
+<td>User membership in channels (with roles, notify props, etc.)</td>
+</tr>
+<tr>
+<td><strong>channels</strong></td>
+<td>Channels (public, private, DM, etc.); references <code>teams</code></td>
+</tr>
+<tr>
+<td><strong>clusterdiscovery</strong></td>
+<td>Cluster discovery for high availability</td>
+</tr>
+<tr>
+<td><strong>commandwebhooks</strong></td>
+<td>Webhooks for slash commands</td>
+</tr>
+<tr>
+<td><strong>commands</strong></td>
+<td>Slash command definitions</td>
+</tr>
+<tr>
+<td><strong>compliances</strong></td>
+<td>Compliance export/job metadata</td>
+</tr>
+<tr>
+<td><strong>ContentFlaggingCommonReviewers</strong></td>
+<td>Common reviewers for content flagging</td>
+</tr>
+<tr>
+<td><strong>ContentFlaggingTeamSettings</strong></td>
+<td>Team-level content flagging settings</td>
+</tr>
+<tr>
+<td><strong>ContentFlaggingTeamReviewers</strong></td>
+<td>Team reviewers for content flagging</td>
+</tr>
+<tr>
+<td><strong>desktoptokens</strong></td>
+<td>Desktop app tokens</td>
+</tr>
+<tr>
+<td><strong>drafts</strong></td>
+<td>Message drafts (with optional priority)</td>
+</tr>
+<tr>
+<td><strong>emoji</strong></td>
+<td>Custom emoji</td>
+</tr>
+<tr>
+<td><strong>fileinfo</strong></td>
+<td>File upload metadata (references posts, channels)</td>
+</tr>
+<tr>
+<td><strong>groupchannels</strong></td>
+<td>Link between user groups and channels</td>
+</tr>
+<tr>
+<td><strong>groupmembers</strong></td>
+<td>User membership in groups</td>
+</tr>
+<tr>
+<td><strong>groupteams</strong></td>
+<td>Link between user groups and teams</td>
+</tr>
+<tr>
+<td><strong>incomingwebhooks</strong></td>
+<td>Incoming webhook definitions</td>
+</tr>
+<tr>
+<td><strong>jobs</strong></td>
+<td>Background job queue</td>
+</tr>
+<tr>
+<td><strong>licenses</strong></td>
+<td>License data</td>
+</tr>
+<tr>
+<td><strong>linkmetadata</strong></td>
+<td>Metadata for linked URLs</td>
+</tr>
+<tr>
+<td><strong>NotifyAdmin</strong></td>
+<td>Notify admin (e.g. upgrade) notifications</td>
+</tr>
+<tr>
+<td><strong>oauthaccessdata</strong></td>
+<td>OAuth access tokens</td>
+</tr>
+<tr>
+<td><strong>oauthapps</strong></td>
+<td>OAuth application definitions (including DCR)</td>
+</tr>
+<tr>
+<td><strong>oauthauthdata</strong></td>
+<td>OAuth authorization flow state (including PKCE)</td>
+</tr>
+<tr>
+<td><strong>outgoingoauthconnections</strong></td>
+<td>Outgoing OAuth connections</td>
+</tr>
+<tr>
+<td><strong>outgoingwebhooks</strong></td>
+<td>Outgoing webhook definitions</td>
+</tr>
+<tr>
+<td><strong>persistentnotifications</strong></td>
+<td>Persistent notification state</td>
+</tr>
+<tr>
+<td><strong>pluginkeyvaluestore</strong></td>
+<td>Plugin key-value storage</td>
+</tr>
+<tr>
+<td><strong>postacknowledgements</strong></td>
+<td>Post read/acknowledgement state (optional remoteid/channelid)</td>
+</tr>
+<tr>
+<td><strong>posts</strong></td>
+<td>Messages in channels (root and replies; optional originalid, priority)</td>
+</tr>
+<tr>
+<td><strong>postspriority</strong></td>
+<td>Post priority metadata</td>
+</tr>
+<tr>
+<td><strong>postreminders</strong></td>
+<td>Reminders for posts</td>
+</tr>
+<tr>
+<td><strong>preferences</strong></td>
+<td>User preferences (category, name, value)</td>
+</tr>
+<tr>
+<td><strong>productnoticeviewstate</strong></td>
+<td>Product notice view state per user</td>
+</tr>
+<tr>
+<td><strong>PropertyFields</strong></td>
+<td>Attribute field definitions (for property system)</td>
+</tr>
+<tr>
+<td><strong>PropertyGroups</strong></td>
+<td>Property group definitions</td>
+</tr>
+<tr>
+<td><strong>PropertyValues</strong></td>
+<td>Attribute values per target (user/team/channel, etc.)</td>
+</tr>
+<tr>
+<td><strong>publicchannels</strong></td>
+<td>Materialized/list of public channels (derived)</td>
+</tr>
+<tr>
+<td><strong>ReadReceipts</strong></td>
+<td>Read receipts for burn-on-read / ephemeral posts</td>
+</tr>
+<tr>
+<td><strong>reactions</strong></td>
+<td>Emoji reactions on posts (with channelid)</td>
+</tr>
+<tr>
+<td><strong>recentsearches</strong></td>
+<td>Recent search queries per user</td>
+</tr>
+<tr>
+<td><strong>RecapChannels</strong></td>
+<td>Per-channel recap summaries (FK to Recaps)</td>
+</tr>
+<tr>
+<td><strong>Recaps</strong></td>
+<td>Recap metadata (user, title, status, message count, etc.)</td>
+</tr>
+<tr>
+<td><strong>remoteclusters</strong></td>
+<td>Remote cluster config (with defaultteamid, lastglobalusersyncat)</td>
+</tr>
+<tr>
+<td><strong>retentionidsfordeletion</strong></td>
+<td>IDs queued for retention-based deletion</td>
+</tr>
+<tr>
+<td><strong>retentionpolicies</strong></td>
+<td>Retention policy definitions</td>
+</tr>
+<tr>
+<td><strong>retentionpolicieschannels</strong></td>
+<td>Channel–retention policy association</td>
+</tr>
+<tr>
+<td><strong>retentionpoliciesteams</strong></td>
+<td>Team–retention policy association</td>
+</tr>
+<tr>
+<td><strong>roles</strong></td>
+<td>Role definitions</td>
+</tr>
+<tr>
+<td><strong>schemes</strong></td>
+<td>Permission schemes (team/channel)</td>
+</tr>
+<tr>
+<td><strong>scheduledposts</strong></td>
+<td>Scheduled post definitions (with type for burn-on-read etc.)</td>
+</tr>
+<tr>
+<td><strong>sessions</strong></td>
+<td>User sessions</td>
+</tr>
+<tr>
+<td><strong>sharedchannelattachments</strong></td>
+<td>Shared channel file attachments</td>
+</tr>
+<tr>
+<td><strong>sharedchannelremotes</strong></td>
+<td>Remote endpoints for shared channels (with deleteat, lastmemberssyncat)</td>
+</tr>
+<tr>
+<td><strong>sharedchannels</strong></td>
+<td>Shared channel metadata</td>
+</tr>
+<tr>
+<td><strong>sharedchannelusers</strong></td>
+<td>User sync state for shared channels</td>
+</tr>
+<tr>
+<td><strong>sidebarcategories</strong></td>
+<td>Sidebar category definitions</td>
+</tr>
+<tr>
+<td><strong>sidebarchannels</strong></td>
+<td>Sidebar channel ordering (with categoryid)</td>
+</tr>
+<tr>
+<td><strong>status</strong></td>
+<td>User online/away/DND status</td>
+</tr>
+<tr>
+<td><strong>systems</strong></td>
+<td>Key-value system store (e.g. Version, console stats)</td>
+</tr>
+<tr>
+<td><strong>teammembers</strong></td>
+<td>User membership in teams (with roles, scheme flags, createat)</td>
+</tr>
+<tr>
+<td><strong>teams</strong></td>
+<td>Teams (name, displayname, schemeid, type, etc.)</td>
+</tr>
+<tr>
+<td><strong>termsofservice</strong></td>
+<td>Terms of service content</td>
+</tr>
+<tr>
+<td><strong>threads</strong></td>
+<td>Thread root metadata (channelid, reply count, lastreplyat, teamid, deleteat, etc.)</td>
+</tr>
+<tr>
+<td><strong>threadmemberships</strong></td>
+<td>User membership in threads (unread, following)</td>
+</tr>
+<tr>
+<td><strong>TemporaryPosts</strong></td>
+<td>Ephemeral/burn-on-read post metadata (postid, type, expireat)</td>
+</tr>
+<tr>
+<td><strong>translations</strong></td>
+<td>Cached translations (objectId, objectType, dstLang, state, etc.)</td>
+</tr>
+<tr>
+<td><strong>uploadsessions</strong></td>
+<td>Resumable upload sessions</td>
+</tr>
+<tr>
+<td><strong>useraccesstokens</strong></td>
+<td>User-level access tokens</td>
+</tr>
+<tr>
+<td><strong>usertermsofservice</strong></td>
+<td>User acceptance of terms of service</td>
+</tr>
+<tr>
+<td><strong>usergroups</strong></td>
+<td>User groups (with displayname index)</td>
+</tr>
+<tr>
+<td><strong>users</strong></td>
+<td>User accounts (auth, profile, roles, locale, MFA, remoteid, etc.)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> The <code>tokens</code> table and <code>trueupreviewhistory</code> table were removed in later migrations (000105, 000121).</p>
+<hr />
+<h2 id="key-relationships">Key relationships</h2>
+<h3 id="core-hierarchy">Core hierarchy</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>teams
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  └── teammembers (userid, teamid)
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  └── channels (teamid)  [teamid can be null for DM/GM]
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        └── channelmembers (channelid, userid)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        └── posts (channelid, userid; rootid/parentid for threads)
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        └── threads (channelid, etc.)
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>              └── threadmemberships (postid, userid)
+</span></code></pre></div>
+<ul>
+<li><strong>teams</strong> – Top-level workspace.</li>
+<li><strong>teammembers</strong> – Links <strong>users</strong> to <strong>teams</strong> (roles, schemeuser/schemeadmin/schemeguest).</li>
+<li><strong>channels</strong> – Belong to a <strong>team</strong> (or none for DMs); have <strong>creatorid</strong> (user).</li>
+<li><strong>channelmembers</strong> – Links <strong>users</strong> to <strong>channels</strong> (roles, notify props, autotranslation flags).</li>
+<li><strong>posts</strong> – Belong to a <strong>channel</strong> and <strong>user</strong>; <strong>rootid</strong>/<strong>parentid</strong> (and <strong>originalid</strong>) for threading/edits.</li>
+<li><strong>threads</strong> – One row per thread root (post); <strong>channelid</strong>, <strong>teamid</strong>, <strong>rootid</strong>, etc.</li>
+<li><strong>threadmemberships</strong> – Per-user thread state (e.g. following, last read).</li>
+</ul>
+<h3 id="users-and-auth">Users and auth</h3>
+<ul>
+<li><strong>users</strong> – Central user table; referenced by teammembers, channelmembers, posts, sessions, preferences, audits, etc.</li>
+<li><strong>sessions</strong> – userid.</li>
+<li><strong>useraccesstokens</strong> – userid.</li>
+<li><strong>preferences</strong> – userid, (category, name, value).</li>
+<li><strong>status</strong> – userid.</li>
+<li><strong>bots</strong> – bot users (linked to users).</li>
+<li><strong>usertermsofservice</strong> – userid, termsofserviceid.</li>
+</ul>
+<h3 id="oauth-and-integrations">OAuth and integrations</h3>
+<ul>
+<li><strong>oauthapps</strong> – OAuth apps (creator, client id/secret, DCR, etc.).</li>
+<li><strong>oauthauthdata</strong> – OAuth auth flow (code, redirect, PKCE, resource).</li>
+<li><strong>oauthaccessdata</strong> – OAuth access tokens (userid, client id, token, audience).</li>
+<li><strong>outgoingoauthconnections</strong> – Outgoing OAuth connections.</li>
+<li><strong>incomingwebhooks</strong> – channelid, userid.</li>
+<li><strong>outgoingwebhooks</strong> – teamid, channelid, creatorid.</li>
+<li><strong>commands</strong> – teamid (optional).</li>
+<li><strong>commandwebhooks</strong> – commandid, userid, channelid.</li>
+</ul>
+<h3 id="groups-and-schemes">Groups and schemes</h3>
+<ul>
+<li><strong>usergroups</strong> – Group definition.</li>
+<li><strong>groupmembers</strong> – userid, groupid.</li>
+<li><strong>groupteams</strong> – groupid, teamid.</li>
+<li><strong>groupchannels</strong> – groupid, channelid.</li>
+<li><strong>schemes</strong> – Permission schemes.</li>
+<li><strong>roles</strong> – Role definitions; <strong>teams</strong> and <strong>channels</strong> reference <strong>schemes</strong> (schemeid).</li>
+</ul>
+<h3 id="files-and-uploads">Files and uploads</h3>
+<ul>
+<li><strong>fileinfo</strong> – postid, channelid, creatorid; optional archived, channelid.</li>
+<li><strong>uploadsessions</strong> – userid, channelid, type (enum).</li>
+</ul>
+<h3 id="shared-channels-and-remotes">Shared channels and remotes</h3>
+<ul>
+<li><strong>remoteclusters</strong> – Remote cluster config.</li>
+<li><strong>sharedchannels</strong> – Shared channel header.</li>
+<li><strong>sharedchannelremotes</strong> – Remote for a shared channel (deleteat, lastmemberssyncat).</li>
+<li><strong>sharedchannelusers</strong> – User sync for shared channels.</li>
+<li><strong>sharedchannelattachments</strong> – File sync for shared channels.</li>
+</ul>
+<h3 id="retention-and-compliance">Retention and compliance</h3>
+<ul>
+<li><strong>retentionpolicies</strong> – Retention policy.</li>
+<li><strong>retentionpoliciesteams</strong> – policyid, teamid.</li>
+<li><strong>retentionpolicieschannels</strong> – policyid, channelid.</li>
+<li><strong>retentionidsfordeletion</strong> – IDs to delete by retention.</li>
+<li><strong>compliances</strong> – Compliance job metadata.</li>
+<li><strong>audits</strong> – Audit log (userid, etc.).</li>
+</ul>
+<h3 id="other-feature-tables">Other feature tables</h3>
+<ul>
+<li><strong>reactions</strong> – postid, userid, emoji; channelid for indexing.</li>
+<li><strong>postacknowledgements</strong> – postid, userid; optional remoteid, channelid.</li>
+<li><strong>postspriority</strong> – Post priority.</li>
+<li><strong>postreminders</strong> – userid, postid.</li>
+<li><strong>drafts</strong> – userid, channelid, rootid; optional priority, type.</li>
+<li><strong>scheduledposts</strong> – userid, channelid; optional type.</li>
+<li><strong>channelbookmarks</strong> – channelid, ownerid, etc.</li>
+<li><strong>translations</strong> – objectId, objectType, dstLang (cached translations).</li>
+<li><strong>Recaps</strong> – userid, botid; <strong>RecapChannels</strong> – recapid (FK to Recaps), channelid.</li>
+<li><strong>ReadReceipts</strong> – postid, userid, expireat.</li>
+<li><strong>TemporaryPosts</strong> – postid, type, expireat.</li>
+<li><strong>NotifyAdmin</strong> – user/team data, sentat.</li>
+<li><strong>ContentFlaggingTeamSettings</strong> – teamid; <strong>ContentFlaggingTeamReviewers</strong> – userid; <strong>ContentFlaggingCommonReviewers</strong> – userid.</li>
+<li><strong>AccessControlPolicies</strong> / <strong>AccessControlPolicyHistory</strong> – Policy and history.</li>
+<li><strong>PropertyGroups</strong> – <strong>PropertyFields</strong> – <strong>PropertyValues</strong> – Attribute system; <strong>AttributeView</strong> materialized view built from these.</li>
+<li><strong>persistentnotifications</strong> – Persistent notification state.</li>
+<li><strong>desktoptokens</strong> – Desktop tokens.</li>
+<li><strong>recentsearches</strong> – userid.</li>
+<li><strong>productnoticeviewstate</strong> – userid.</li>
+<li><strong>linkmetadata</strong> – URL metadata.</li>
+<li><strong>emoji</strong> – Custom emoji.</li>
+<li><strong>termsofservice</strong> – ToS content.</li>
+<li><strong>licenses</strong> – License data.</li>
+<li><strong>systems</strong> – System key-value (Version, etc.).</li>
+<li><strong>jobs</strong> – Background jobs.</li>
+<li><strong>pluginkeyvaluestore</strong> – Plugin storage.</li>
+</ul>
+<hr />
+<h2 id="indexes-and-performance">Indexes and performance</h2>
+<p>Migrations add many indexes on:</p>
+<ul>
+<li>Foreign keys (teamid, channelid, userid, postid, rootid, etc.)</li>
+<li>Timestamps (createat, updateat, deleteat, lastpostat) for listing and cleanup</li>
+<li>Full-text search (posts message/hashtags, channels name/displayname/purpose, users name/email)</li>
+<li>Partial indexes (e.g. unread threads, autotranslation enabled, non-terminal translation state)</li>
+<li>Composite indexes for common queries (e.g. channelid + updateat, userid + deleteat)</li>
+</ul>
+<p>Some migrations use <code>CREATE INDEX CONCURRENTLY</code> (e.g. content flagging) and are marked <code>-- morph:nontransactional</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

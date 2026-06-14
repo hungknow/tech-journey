@@ -1,0 +1,988 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Gossip protocol - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gossip-protocol" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Gossip protocol
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="gossip-protocol">Gossip protocol</h1>
+<p>Consul implements the Serf gossip protocol for managing cluster membership and broadcasting messages. The protocol operates through two gossip pools:</p>
+<ol>
+<li>
+<p><strong>LAN gossip pool</strong> (port 8301, required): Communicates with all nodes in a single datacenter to share membership information. It automatically discovers servers, distributes failure detection throughout the cluster, and supports fast and reliable event broadcasts.</p>
+</li>
+<li>
+<p><strong>WAN gossip pool</strong> (port 8302, optional): Extends agent gossip to operate between a primary datacenter and one or more secondary datacenters in WAN-federated environments. Membership information enables servers to perform cross-datacenter requests.</p>
+</li>
+</ol>
+<p><strong>How models interact</strong>: Nodes in the gossip pool exchange state information periodically. Each node randomly selects a few other nodes to exchange membership data, ensuring information propagates through the cluster. The protocol uses the SWIM (Scalable Weakly-consistent Infection-style Process Group Membership) algorithm with Lifeguard enhancements.</p>
+<p><strong>Final state</strong>: All nodes converge to a consistent view of cluster membership, with failure detection ensuring that failed or partitioned nodes are marked as unhealthy and removed from the cluster. The gossip protocol achieves eventual consistency across all nodes in the pool.</p>
+<p><strong>Limitations</strong>:
+- <strong>Eventual consistency</strong>: Gossip provides eventual consistency, not strong consistency. There may be temporary inconsistencies between nodes.
+- <strong>Network overhead</strong>: Periodic gossip exchanges consume bandwidth and CPU resources, especially in large clusters.
+- <strong>False positives</strong>: The failure detection mechanism may temporarily mark healthy nodes as failed during network partitions or high latency.
+- <strong>No ordering guarantees</strong>: Gossip messages are not guaranteed to be delivered in the same order across all nodes.
+- <strong>Limited payload size</strong>: Not suitable for large data transfers; primarily designed for small control messages.
+- <strong>Security overhead</strong>: Requires encryption key management and rotation for secure operation.</p>
+<h1 id="swim-protocol">Swim protocol</h1>
+<p><strong>Models</strong>:
+- <strong>Member</strong>: Each node in the gossip pool maintains information about all other members, including their health status, last known state, and metadata. Members track the failure detector state for each peer.
+- <strong>Failure detector</strong>: Implements the core SWIM algorithm to detect node failures. Uses indirect probes and randomized suspicion timers to balance between detecting failures quickly and avoiding false positives.
+- <strong>Suspicion state</strong>: Intermediate state between alive and failed. When a node is suspected to have failed, it enters suspicion with an associated timeout. Suspicion allows time for the node to respond or for confirmation from other nodes.
+- <strong>Ping probe</strong>: Direct health check sent to a specific member to verify its status. Pings are sent at random intervals to random members, spreading failure detection load across the cluster.
+- <strong>Indirect probe (ping-req)</strong>: When a direct ping fails, the probing node requests other members to ping the suspected node on its behalf. This improves detection reliability and reduces false positives.
+- <strong>Ack</strong>: Response to a ping probe, confirming the node is alive and healthy. Contains current member state and metadata.
+- <strong>Suspect</strong>: State indicating a node is potentially failed. Other nodes mark a node as suspect when they receive suspicion messages or fail to confirm its health.
+- <strong>Confirm</strong>: Message indicating that a node is definitively failed. When enough evidence accumulates (failed pings, suspicion timeouts), a node is marked as failed and removed from the cluster.
+- <strong>Alive message</strong>: Notification from a node confirming it is operational. Can be used to clear suspicion status and restore a node to the alive state.
+- <strong>Lifeguard extensions</strong>: Enhancements to SWIM that use health scores and adaptive ping intervals to optimize failure detection sensitivity and reduce false positives in dynamic network conditions.</p>
+<p><strong>How models interact</strong>: Each node periodically selects random members to ping directly. If a ping succeeds, the member remains alive. If a ping fails, the probing node sends indirect ping requests to other members to verify the suspected node's health. Simultaneously, the suspect timer starts, and suspicion messages are gossiped to the cluster. Other nodes independently verify the suspected node and share results. When sufficient evidence confirms failure (multiple ping failures, expired suspicion), a confirm message is generated and gossiped, removing the failed member. Lifeguard extensions adjust ping frequency and suspicion timeouts based on network conditions and failure rates, balancing detection speed with reliability.</p>
+<p><strong>Final state</strong>: The SWIM protocol provides a consistent view of cluster membership across all nodes, with failure detection ensuring that failed or partitioned nodes are identified and removed within bounded time. The protocol achieves eventual consistency, with all nodes converging to the same membership view as gossip disseminates state changes. Alive members communicate their status, while failed members are removed and must rejoin to participate.</p>
+<p><strong>Limitations</strong>:
+- <strong>Eventual consistency</strong>: Like gossip, SWIM provides eventual consistency. There may be temporary divergence in membership views between nodes during failure detection.
+- <strong>False positives</strong>: Network partitions or temporary unavailability can cause healthy nodes to be temporarily marked as failed, though suspicion timers and indirect probes mitigate this.
+- <strong>Detection latency</strong>: Time to detect failures depends on ping intervals and suspicion timeouts, introducing a bounded but non-zero delay between failure and removal.
+- <strong>Network sensitivity</strong>: Performance and accuracy depend on network reliability. High latency or packet loss can increase false positive rates or slow failure detection.
+- <strong>Scalability tradeoffs</strong>: Direct pings and indirect probes create O(N) network operations, requiring careful tuning for large clusters. Randomization helps distribute load but cannot eliminate overhead.
+- <strong>Resource overhead</strong>: Maintaining failure detector state and sending periodic probes consumes memory, CPU, and network resources proportional to cluster size.
+- <strong>Quiescent nodes</strong>: Nodes that are alive but unresponsive (e.g., due to resource exhaustion) may be incorrectly detected as failed, as SWIM primarily tests reachability not application health.
+- <strong>Recovery complexity</strong>: Failed nodes cannot simply resume operation; they must rejoin the cluster and regain membership state, which may involve data resynchronization.</p>
+<h1 id="raft-protocol">Raft protocol</h1>
+<p><strong>Models</strong>:
+- <strong>Follower</strong>: All nodes start as followers. They accept log entries from the leader and cast votes in elections.
+- <strong>Candidate</strong>: When followers don't receive entries for some time, they self-promote to candidate and request votes from peer set members.
+- <strong>Leader</strong>: The elected node that records the authoritative Raft log and replicates it to followers. The leader must accept new log entries and replicate to all followers.
+- <strong>Log entries</strong>: Fundamental units of work representing cluster changes (adding nodes, registering services, updating key-value pairs). Entries have an ordered Raft index.
+- <strong>Peer set</strong>: All members participating in log replication. In Consul, server nodes in a datacenter form the peer set.
+- <strong>Quorum</strong>: Majority of peer set members (at least <code>(N/2)+1</code> for set size <code>N</code>). Required to commit log entries and form a cluster.</p>
+<p><strong>How models interact</strong>: Followers receive log entries from the leader and cast votes. When no entries arrive, followers become candidates and request votes. Candidates receiving quorum become leaders. Leaders write entries to durable storage, replicate to quorum of followers, and once committed (stored on quorum), apply entries to the state machine. Consul blocks writes until entries are committed and applied.</p>
+<p><strong>Final state</strong>: The Raft protocol achieves strong consistency across the cluster. All members agree on log entries and their order when entries are committed to a quorum.</p>
+<p><strong>Limitations</strong>:
+- <strong>Availability tradeoff</strong>: Cluster becomes unavailable when quorum is lost. Writes cannot process and manual intervention may be needed to re-establish a leader.
+- <strong>Write latency</strong>: Leader must write to durable storage and replicate to quorum followers before writes complete, adding latency.
+- <strong>Single leader</strong>: Only the leader can process writes and (in consistent mode) reads, limiting throughput.
+- <strong>Limited fault tolerance</strong>: Tolerates at most <code>(N-1)/2</code> node failures for cluster size N (e.g., 1 failure for 3 servers, 2 for 5).
+- <strong>Network dependency</strong>: Requires reliable network communication between leader and followers for log replication.
+- <strong>Storage growth</strong>: Logs grow unbounded without snapshots; Consul uses MemDB snapshots to compact logs.
+- <strong>Bootstrap complexity</strong>: New datacenters require initial bootstrap mode and careful server joining to preserve consistency.</p>
+<h1 id="consul">Consul</h1>
+<p><strong>What Consul is solving</strong>:
+Consul addresses service discovery, service mesh, and configuration management challenges in distributed systems. It provides:
+- <strong>Service discovery</strong>: Automatically registering services and enabling clients to discover available service instances through DNS or HTTP APIs
+- <strong>Health checking</strong>: Monitoring service health and routing traffic only to healthy instances
+- <strong>Key-value storage</strong>: Hierarchical configuration data stored with strong consistency via Raft
+- <strong>Multi-datacenter support</strong>: Federation across datacenters with cross-DC service discovery and queries
+- <strong>Service mesh</strong>: Zero-trust networking with automatic TLS, service-to-service authorization, and observability</p>
+<p>Consul's architecture enables these features by combining gossip protocols for membership and event dissemination with Raft for consistent state management.</p>
+<p><strong>Models</strong>:
+- <strong>Agent</strong>: Lightweight process running on each node that manages service registration, health checks, and gossip pool participation. Agents can run in client or server mode.
+- <strong>Client agent</strong>: Lightweight agent that forwards RPC requests to server agents, performs health checks, and participates in LAN gossip. Clients store minimal local state.
+- <strong>Server agent</strong>: Full-featured agent that participates in Raft consensus, stores service catalog data, handles RPC requests, and participates in both LAN and WAN gossip pools.
+- <strong>Service</strong>: Logical definition of an application or microservice, including name, port, tags, and metadata. Services are registered with agents and discovered by other services.
+- <strong>Health check</strong>: Periodic verification of service or node health (HTTP, TCP, Script, Docker, TTL, gRPC, and Alias check types). Health results influence routing and service availability.
+- <strong>Service catalog</strong>: Centralized directory of all registered services, nodes, and health checks maintained by server agents with strong consistency via Raft.
+- <strong>Session</strong>: Temporary binding between a node and service behavior, used for leader election, distributed locking, and coordination. Sessions are tied to node health.
+- <strong>KV store</strong>: Hierarchical key-value data store with strong consistency. Supports ACID transactions, watch queries, and TTL on keys.
+- <strong>ACL (Access Control List)</strong>: Fine-grained permission system controlling access to services, KV entries, and Consul APIs. Supports role-based policies and token management.
+- <strong>Connect</strong>: Service mesh implementation providing automatic mTLS encryption, service identity via certificates, intention-based authorization, and sidecar proxy management.
+- <strong>Prepared query</strong>: Query template with optional failover, nearness sorting, and service filtering. Enables intelligent routing strategies.
+- <strong>Intention</strong>: Policy defining which services may communicate (allow or deny). Enforced by Connect proxies to implement zero-trust networking.
+- <strong>Datacenter</strong>: Logical grouping of Consul agents sharing the same LAN gossip pool and Raft consensus domain. Datacenters federate via WAN gossip for cross-DC queries.
+- <strong>WAN federation</strong>: Mechanism linking multiple datacenters through WAN gossip pools, enabling cross-DC service discovery, replication of ACLs and prepared queries, and multi-DC failover.</p>
+<p><strong>How models interact</strong>:
+Agents start and join the gossip pool, discovering peers and establishing cluster membership. Client agents register services and health checks locally, then forward read/write RPCs to server agents. Server agents participate in Raft consensus, maintaining the authoritative service catalog and KV store with strong consistency. Health check results from all agents converge at servers, updating service health status. Sessions are created on server agents and tied to node health; if a node fails, associated sessions expire, releasing locks and triggering coordination events. Connect agents generate TLS certificates, create sidecar proxies, and enforce intentions between services. Prepared queries are configured and stored in the catalog; clients execute queries with optional datacenter failover. ACL tokens and policies govern all API operations, with servers validating permissions. Datacenters federate via WAN gossip, enabling cross-DC queries and configuration replication while maintaining independent Raft consensus domains.</p>
+<p><strong>Final state</strong>:
+Consul provides a unified platform for service discovery, configuration, and service mesh. The service catalog converges to a consistent view across all server nodes via Raft, while gossip ensures rapid membership dissemination and event propagation. Clients discover services with configurable consistency modes (default, stale, or consistent). Health checking ensures only healthy services receive traffic, and Connect enforces secure service-to-service communication. Multi-datacenter deployment enables geographic distribution with coordinated service discovery and configuration.</p>
+<p><strong>Why Consul beats or complements other protocols</strong>:
+Consul doesn't compete with individual protocols but integrates them into a comprehensive service platform:
+- <strong>vs. Gossip alone</strong>: Gossip provides membership and event dissemination but lacks strong consistency, query capabilities, and service-specific features. Consul adds Raft for consistent state, rich APIs, DNS/HTTP interfaces, and service mesh.
+- <strong>vs. SWIM alone</strong>: SWIM excels at failure detection but doesn't solve service registration, discovery, or configuration. Consul builds SWIM-based failure detection into a full service platform with health checks, KV storage, and ACLs.
+- <strong>vs. Raft alone</strong>: Raft provides strong consistency but has high write latency and no built-in membership or event dissemination. Consul uses Raft for critical state while using gossip for low-latency membership events, balancing consistency and performance.
+- <strong>vs. etcd</strong>: Both use Raft for strong consistency and offer KV storage, but Consul adds service discovery, health checking, DNS interface, service mesh, and multi-datacenter federation. etcd is more focused on configuration storage.
+- <strong>vs. ZooKeeper</strong>: ZooKeeper provides coordination primitives but requires client-side implementations and has complex deployment. Consul offers simpler APIs (DNS/HTTP), built-in health checking, and automatic TLS service mesh.
+- <strong>vs. Kubernetes service discovery</strong>: Kubernetes has built-in service discovery but is cluster-bound. Consul works across any infrastructure, supports multi-cloud and multi-datacenter deployment, and provides additional features like service mesh and KV store.
+- <strong>vs. static configuration</strong>: Consul eliminates manual service endpoint management with automatic registration, health-based filtering, and dynamic updates, reducing operational overhead and improving reliability.</p>
+<p>Consul's innovation lies in combining gossip (for low-latency membership and events), SWIM (for failure detection), and Raft (for strong consistency) into a cohesive service platform that addresses real-world distributed systems challenges: service discovery, configuration management, health checking, and secure service-to-service communication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

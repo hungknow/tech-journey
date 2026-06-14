@@ -1,0 +1,1162 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Incremental Update: How CocoIndex Stores, Detects, and Updates Results - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#incremental-update-how-cocoindex-stores-detects-and-updates-results" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Incremental Update: How CocoIndex Stores, Detects, and Updates Results
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-example-source-key-vs-target-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Example: source key vs target key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Storage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tracking-table-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tracking table (PostgreSQL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memoization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memoization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-data-lives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where data lives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Detection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Detection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-we-skip-ordinal-and-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When we skip (ordinal and logic)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-fingerprint-and-no-content-change-shortcut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Content fingerprint and “no content change” shortcut
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trivial-changes-eg-one-file-per-row-whitespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trivial changes (e.g. one file per row, whitespace)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Update
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Update">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps-for-one-source-row" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Steps for one source row
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-a-source-row-is-removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When a source row is removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="incremental-update-how-cocoindex-stores-detects-and-updates-results">Incremental Update: How CocoIndex Stores, Detects, and Updates Results</h1>
+<p>How the engine stores derived state, detects what is already processed, and updates only what changed.</p>
+<hr />
+<h2 id="1-example-source-key-vs-target-key">1. Example: source key vs target key</h2>
+<p>Consider a flow that indexes files: the <strong>source</strong> is a file list (e.g. LocalFile), the <strong>target</strong> is a vector store (e.g. Qdrant). Each input file is one <strong>source row</strong>, identified by a <strong>source key</strong> (e.g. file path). The flow can output many records per file (e.g. one per page); each output record has a <strong>target key</strong> that uniquely identifies it in the target (e.g. a UUID or the pair filename and page).</p>
+<p>The engine records which target keys each source key produced so it can update or remove only what changed:</p>
+<ul>
+<li><strong>First run:</strong> For file report.pdf we process all pages, write records K1, K2, K3, and store that report.pdf produced K1, K2, K3.</li>
+<li><strong>No change:</strong> The file appears again with the same data; we already have that version, so we skip.</li>
+<li><strong>Updated:</strong> report.pdf now has only 2 pages; we output K1, K2, compare with stored K1, K2, K3, delete K3 in the target, and update the stored list to K1, K2.</li>
+<li><strong>Removed:</strong> The file is gone; we delete K1 and K2 in the target and remove the tracking row for that source key.</li>
+</ul>
+<p>So a <strong>source key</strong> identifies one input row; a <strong>target key</strong> identifies one output row. Storing “which target keys came from which source key” lets the engine upsert new or changed rows and delete ones that are no longer produced.</p>
+<hr />
+<h2 id="2-storage">2. Storage</h2>
+<h3 id="tracking-table-postgresql">Tracking table (PostgreSQL)</h3>
+<p>Each flow has a <strong>tracking table</strong> in Postgres: one row per source entity, keyed by source id and source key.</p>
+<p>That row has two groups of fields:</p>
+<ul>
+<li><strong>Precommit</strong> (updated when we stage work, before writing to targets): a monotonic counter for this source row, the list of target keys we have staged but not yet committed, and the memoization cache (see below).</li>
+<li><strong>Commit</strong> (updated after we have applied changes to targets): the source ordinal we last committed, an optional content fingerprint for a fast “no content change” check, the fingerprint of the flow logic (to detect logic changes), the process ordinal and time we last committed, and the final list of target keys this source row produced (used to compute deletes on the next run).</li>
+</ul>
+<p>The “existing result” for a source row is: which source version we last committed and which target keys we wrote. Staging fields hold in-progress state between precommit and commit.</p>
+<h3 id="memoization">Memoization</h3>
+<p>The tracking table also stores a <strong>memoization</strong> blob (JSON): a cache that maps input fingerprints to previously computed results (and related UUIDs). When we evaluate a source row, we load this cache so that repeated work (e.g. LLM calls or expensive functions) can reuse results. After evaluation we keep only entries that were used in this run and write the updated cache in the precommit phase.</p>
+<h3 id="where-data-lives">Where data lives</h3>
+<ul>
+<li><strong>At run start:</strong> We load all tracked source keys from the tracking table into memory and attach the last processed version (ordinal and, if the flow uses the fast-fingerprint feature, content fingerprint) to each. That lets us skip rows as soon as we see them in the stream if we have already processed that version. The component that applies updates to a single source row does not keep long-lived state; it reads and writes the tracking table and builds the list of upserts and deletes to send to each target.</li>
+<li><strong>Derived data:</strong> Actual derived data (index rows, vectors, etc.) lives only in the <strong>target backends</strong> (Postgres, Qdrant, Neo4j, etc.). The engine does not store a copy; it only stores “for this source row we last processed this version and produced these target keys.” When a source row is updated or removed, we use that stored list to know which target rows to delete.</li>
+</ul>
+<hr />
+<h2 id="3-detection">3. Detection</h2>
+<h3 id="when-we-skip-ordinal-and-logic">When we skip (ordinal and logic)</h3>
+<p>Each source row has an <strong>ordinal</strong> (e.g. timestamp or sequence number) and optionally a <strong>content fingerprint</strong>. We compare the incoming row’s ordinal and <strong>flow-logic fingerprint</strong> with what we have stored for that source key.</p>
+<ul>
+<li>If the <strong>stored ordinal is strictly greater</strong> than the incoming one, we skip (we never reprocess an older source version).</li>
+<li>If <strong>ordinals are equal</strong> and the logic is the same or newer, we also skip.</li>
+</ul>
+<p>This check happens in two places: when we stream source rows we skip scheduling work for rows we have already processed; and when we are about to process a row we read the tracking row, build the stored version, and if it is not older than the incoming row we skip evaluation and any target writes. The content fingerprint is <strong>not</strong> used in this step. So if the source gives the same ordinal for two different contents (e.g. same file mtime but content changed), we might skip when we shouldn’t — unless the source provides a content fingerprint and the “no content change” shortcut below applies.</p>
+<h3 id="content-fingerprint-and-no-content-change-shortcut">Content fingerprint and “no content change” shortcut</h3>
+<p><strong>Where the fingerprint comes from.</strong><br />
+For each source row we need a value to compare against what we last committed. That value can come from the source (e.g. a hash or ETag when listing or fetching). If the source does <strong>not</strong> return one, the engine computes it by hashing the full row content (all field values, as stored). So the fingerprint is either “what the source said” or “a hash of the raw bytes we have.” Any change to a single byte produces a different hash (e.g. one whitespace or line-ending change in a file changes the fingerprint when the engine is hashing).</p>
+<p><strong>How we use it.</strong><br />
+When we are not doing a full re-export, we compare the current content fingerprint with the one we stored for that row. The stored one lives either in a dedicated column (if the flow uses the fast-fingerprint feature) or inside the memoization blob. If they match and the logic matches, we do not re-run the flow or write to targets; we only update the stored ordinal so we remember we have seen this version.</p>
+<p><strong>What we load at run start.</strong><br />
+We load the last committed ordinal and logic fingerprint per row. If the flow uses the fast-fingerprint feature, we also load the last committed content fingerprint; otherwise we do not load a content fingerprint there, but we can still use the “no content change” shortcut later by comparing against the content hash stored inside the memoization blob when we look up that row.</p>
+<p><strong>Built-in file source.</strong><br />
+The built-in local-file source never returns a content fingerprint (only path, ordinal, and contents). So the engine always computes the fingerprint by hashing the file contents; one whitespace or line-ending change changes the hash, the shortcut does not apply, and we do a full reprocess and re-export for that file.</p>
+<h3 id="trivial-changes-eg-one-file-per-row-whitespace">Trivial changes (e.g. one file per row, whitespace)</h3>
+<p>When each source row is coarse-grained (e.g. one file per row) and the content fingerprint is the <strong>engine-computed</strong> hash of the raw content (as with the built-in file source), a single trivial change — a space, a newline, or different line endings — changes the hash and thus the content fingerprint. The engine then treats the row as changed and does a full reprocess and re-export even when the derived result would be the same.</p>
+<p><strong>Ways to improve:</strong></p>
+<ol>
+<li><strong>Normalized content fingerprint</strong><br />
+   Compute the fingerprint over <strong>normalized</strong> content so trivial edits do not change it (e.g. strip trailing whitespace, normalize line endings, collapse repeated spaces).  </li>
+<li><strong>From the source:</strong> The source can return a fingerprint based on normalized content. The engine uses whatever fingerprint the source provides; so a source that hashes normalized content gets the “no content change” shortcut even when only whitespace or line endings changed.  </li>
+<li>
+<p><strong>In the engine (future):</strong> When the source does not provide a fingerprint, the engine could optionally normalize the content before hashing (e.g. per flow or per field), so built-in sources like the file source could benefit without every source implementing its own normalization.</p>
+</li>
+<li>
+<p><strong>Pluggable fingerprint strategy</strong><br />
+   Allow the flow or source to choose how the content fingerprint is derived (e.g. raw bytes vs normalized). File-based sources could then opt into a normalized strategy.</p>
+</li>
+<li>
+<p><strong>Chunk-level granularity (optional)</strong><br />
+   If one source row is one file but the flow logically chunks it (e.g. by page), we could store fingerprints per chunk and only reprocess chunks whose fingerprint changed (would require tracking at chunk level).</p>
+</li>
+</ol>
+<p><strong>Recommendation:</strong> Document that for one-file-per-row (or similar coarse rows), sources should supply a <strong>normalized</strong> content fingerprint when trivial changes should not trigger reprocessing. Optionally add engine-side normalization when the engine auto-computes the fingerprint.</p>
+<hr />
+<h2 id="4-update">4. Update</h2>
+<h3 id="steps-for-one-source-row">Steps for one source row</h3>
+<p>For each source row we do the following in spirit:</p>
+<ol>
+<li><strong>Read</strong> the existing tracking row for this source key.</li>
+<li><strong>Decide whether to skip:</strong> Compare stored version with the incoming row. If we already have this version or newer and logic matches, skip (no database or target writes).</li>
+<li><strong>Optional shortcut:</strong> If we are not doing a full reprocess and the content fingerprint matches the stored one, skip evaluation and only update the stored ordinal in the tracking row; then we are done.</li>
+<li><strong>Evaluate:</strong> Load the memoization cache for this row, run the flow (with that cache), and get the new output and updated cache.</li>
+<li><strong>Precommit:</strong> In a transaction we read the tracking row again and re-check skip (if another process has already committed a newer version we do not apply our mutation). We compute the new target keys and the diff with existing keys: keys we are keeping unchanged we carry over; keys we are changing or adding we upsert; any key we had before but are not producing now we add to the delete list. We write to the tracking row only the precommit fields (staging keys and memoization) and commit the transaction.</li>
+<li><strong>Apply to targets:</strong> For each target we send the upserts and deletes so they are applied to the real index or storage.</li>
+<li><strong>Commit tracking:</strong> In a new transaction we read the tracking row again. If someone else already committed with a process ordinal at least as high as ours we do not overwrite. Otherwise we finalize the tracking row: write the committed source ordinal, content fingerprint, logic fingerprint, process ordinal and time, and the final list of target keys. If the source row is gone and there are no staged keys we delete the tracking row instead.</li>
+</ol>
+<p>So updating an existing result means: update the tracking row (precommit then commit) and apply the mutation (upserts and deletes) to target backends. The tracking row always reflects the latest committed source version and the set of target keys we produced.</p>
+<h3 id="modes">Modes</h3>
+<p><strong>Normal</strong> uses ordinal and content-fingerprint skipping and carries over unchanged target keys. <strong>Full reprocess</strong> ignores those optimizations and reprocesses everything; the memoization cache for a row can be cleared before evaluation. <strong>Reexport targets</strong> re-sends data to targets even when we would otherwise skip. The Python Flow update and the CLI <code>cocoindex update</code> command can request full reprocess or reexport, which turns off or relaxes the detection and update behavior above.</p>
+<h3 id="when-a-source-row-is-removed">When a source row is removed</h3>
+<p>When we list the source we note which source keys were seen in this scan. Keys that were in memory from a previous run but were not seen this time are treated as deleted. For each such key we run the same pipeline with “non-existence”: we produce a mutation that deletes all target keys we had for that source row, then we commit (or delete the tracking row if there is nothing left to stage).</p>
+<hr />
+<h2 id="5-summary">5. Summary</h2>
+<p><strong>Store.</strong> The tracking table holds per source row the last processed ordinal and fingerprint, logic fingerprint, target keys, and memoization. Actual derived data lives in target backends; the engine only tracks which keys we wrote.</p>
+<p><strong>Detect.</strong> We skip when the stored ordinal is at least as large as the incoming one and the logic is the same or newer. When the content fingerprint is unchanged we can also skip evaluation and target writes and only advance the stored ordinal.</p>
+<p><strong>Update.</strong> We read tracking, then maybe skip or use the content shortcut, then evaluate (with memoization), then precommit (stage keys and memo, compute upserts/deletes), then apply to targets, then commit the tracking row. New or changed keys are upserted; keys no longer produced are deleted.</p>
+<p>The design ensures we never apply an older source version than what we committed, we only re-evaluate and re-export when the source version or content actually changed (or when a mode forces it), and we always fix the set of target keys by deleting ones the source row no longer produces.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

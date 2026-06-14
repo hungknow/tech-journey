@@ -1,0 +1,3584 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../design/">
+      
+      
+        <link rel="next" href="../../design/sql/postgres_jsonb/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>SQL - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sql" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SQL
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-join-aggregate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Join / Aggregate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-window-rank" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Window / Rank
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Other
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-join-aggregate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Join / Aggregate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-window-rank" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Window / Rank
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Other
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>SQL</h1>
+
+<h2 id="sql">SQL</h2>
+<h3 id="1-join-aggregate">1. Join / Aggregate</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0175</td>
+<td><a href="../problems/0175-combine-two-tables/">Combine Two Tables</a></td>
+<td><a href="./MySQL/combine-two-tables.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0176</td>
+<td><a href="../problems/0176-second-highest-salary/">Second Highest Salary</a></td>
+<td><a href="./MySQL/second-highest-salary.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0177</td>
+<td><a href="../problems/0177-nth-highest-salary/">Nth Highest Salary</a></td>
+<td><a href="./MySQL/nth-highest-salary.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0181</td>
+<td><a href="../problems/0181-employees-earning-more-than-their-managers/">Employees Earning More Than Their Managers</a></td>
+<td><a href="./MySQL/employees-earning-more-than-their-managers.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0182</td>
+<td><a href="../problems/0182-duplicate-emails/">Duplicate Emails</a></td>
+<td><a href="./MySQL/duplicate-emails.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0183</td>
+<td><a href="../problems/0183-customers-who-never-order/">Customers Who Never Order</a></td>
+<td><a href="./MySQL/customers-who-never-order.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0184</td>
+<td><a href="../problems/0184-department-highest-salary/">Department Highest Salary</a></td>
+<td><a href="./MySQL/department-highest-salary.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0511</td>
+<td><a href="../problems/0511-game-play-analysis-i/">Game Play Analysis I</a></td>
+<td><a href="./MySQL/game-play-analysis-i.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0570</td>
+<td><a href="../problems/0570-managers-with-at-least-5-direct-reports/">Managers with at Least 5 Direct Reports</a></td>
+<td><a href="./MySQL/managers-with-at-least-5-direct-reports.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0574</td>
+<td><a href="../problems/0574-winning-candidate/">Winning Candidate</a></td>
+<td><a href="./MySQL/winning-candidate.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0577</td>
+<td><a href="../problems/0577-employee-bonus/">Employee Bonus</a></td>
+<td><a href="./MySQL/employee-bonus.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0578</td>
+<td><a href="../problems/0578-get-highest-answer-rate-question/">Get Highest Answer Rate Question</a></td>
+<td><a href="./MySQL/get-highest-answer-rate-question.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0580</td>
+<td><a href="../problems/0580-count-student-number-in-departments/">Count Student Number in Departments</a></td>
+<td><a href="./MySQL/count-student-number-in-departments.sql">MySQL</a></td>
+<td><em>O(s + dlogd)</em></td>
+<td><em>O(s + d)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0584</td>
+<td><a href="../problems/0584-find-customer-referee/">Find Customer Referee</a></td>
+<td><a href="./MySQL/find-customer-referee.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0586</td>
+<td><a href="../problems/0586-customer-placing-the-largest-number-of-orders/">Customer Placing the Largest Number of Orders</a></td>
+<td><a href="./MySQL/customer-placing-the-largest-number-of-orders.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0595</td>
+<td><a href="../problems/0595-big-countries/">Big Countries</a></td>
+<td><a href="./MySQL/big-countries.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0596</td>
+<td><a href="../problems/0596-classes-more-than-5-students/">Classes More Than 5 Students</a></td>
+<td><a href="./MySQL/classes-more-than-5-students.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0597</td>
+<td><a href="./problems/0597-friend-requests-i-overall-acceptance-rate.md">Friend Requests I: Overall Acceptance Rate</a></td>
+<td><a href="./MySQL/friend-requests-i-overall-acceptance-rate.sql">MySQL</a></td>
+<td><em>O(rlogr + aloga)</em></td>
+<td><em>O(r + a)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0602</td>
+<td><a href="../problems/0602-friend-requests-ii-who-has-the-most-friends/">Friend Requests II: Who Has the Most Friends</a></td>
+<td><a href="./MySQL/friend-requests-ii-who-has-the-most-friends.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0607</td>
+<td><a href="./problems/0607-sales-person.md">Sales Person</a></td>
+<td><a href="./MySQL/sales-person.sql">MySQL</a></td>
+<td><em>O(s * o)</em></td>
+<td><em>O(s + o)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0615</td>
+<td><a href="./problems/0615-average-salary-departments-vs-company.md">Average Salary: Departments VS Company</a></td>
+<td><a href="./MySQL/average-salary-departments-vs-company.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0619</td>
+<td><a href="./problems/0619-biggest-single-number.md">Biggest Single Number</a></td>
+<td><a href="./MySQL/biggest-single-number.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1045</td>
+<td><a href="./problems/1045-customers-who-bought-all-products.md">Customers Who Bought All Products</a></td>
+<td><a href="./MySQL/customers-who-bought-all-products.sql">MySQL</a></td>
+<td><em>O(n + k)</em></td>
+<td><em>O(n + k)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1050</td>
+<td><a href="./problems/1050-actors-and-directors-who-cooperated-at-least-three-times.md">Actors and Directors Who Cooperated At Least Three Times</a></td>
+<td><a href="./MySQL/actors-and-directors-who-cooperated-at-least-three-times.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1068</td>
+<td><a href="./problems/1068-product-sales-analysis-i.md">Product Sales Analysis I</a></td>
+<td><a href="./MySQL/product-sales-analysis-i.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1069</td>
+<td><a href="./problems/1069-product-sales-analysis-ii.md">Product Sales Analysis II</a></td>
+<td><a href="./MySQL/product-sales-analysis-ii.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1070</td>
+<td><a href="./problems/1070-product-sales-analysis-iii.md">Product Sales Analysis III</a></td>
+<td><a href="./MySQL/product-sales-analysis-iii.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1075</td>
+<td><a href="./problems/1075-project-employees-i.md">Project Employees I</a></td>
+<td><a href="./MySQL/project-employees-i.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1076</td>
+<td><a href="./problems/1076-project-employees-ii.md">Project Employees II</a></td>
+<td><a href="./MySQL/project-employees-ii.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1077</td>
+<td><a href="./problems/1077-project-employees-iii.md">Project Employees III</a></td>
+<td><a href="./MySQL/project-employees-iii.sql">MySQL</a></td>
+<td><em>O((m + n)^2)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1082</td>
+<td><a href="./problems/1082-sales-analysis-i.md">Sales Analysis I</a></td>
+<td><a href="./MySQL/sales-analysis-i.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1083</td>
+<td><a href="./problems/1083-sales-analysis-ii.md">Sales Analysis II</a></td>
+<td><a href="./MySQL/sales-analysis-ii.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1084</td>
+<td><a href="./problems/1084-sales-analysis-iii.md">Sales Analysis III</a></td>
+<td><a href="./MySQL/sales-analysis-iii.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1098</td>
+<td><a href="./problems/1098-unpopular-books.md">Unpopular Books</a></td>
+<td><a href="./MySQL/unpopular-books.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1113</td>
+<td><a href="./problems/1113-reported-posts.md">Reported Posts</a></td>
+<td><a href="./MySQL/reported-posts.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1126</td>
+<td><a href="./problems/1126-active-businesses.md">Active Businesses</a></td>
+<td><a href="./MySQL/active-businesses.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1141</td>
+<td><a href="./problems/1141-user-activity-for-the-past-30-days-i.md">User Activity for the Past 30 Days I</a></td>
+<td><a href="./MySQL/user-activity-for-the-past-30-days-i.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1142</td>
+<td><a href="./problems/1142-user-activity-for-the-past-30-days-ii.md">User Activity for the Past 30 Days II</a></td>
+<td><a href="./MySQL/user-activity-for-the-past-30-days-ii.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1148</td>
+<td><a href="./problems/1148-article-views-i.md">Article Views I</a></td>
+<td><a href="./MySQL/article-views-i.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1149</td>
+<td><a href="./problems/1149-article-views-ii.md">Article Views II</a></td>
+<td><a href="./MySQL/article-views-ii.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1158</td>
+<td><a href="./problems/1158-market-analysis-i.md">Market Analysis I</a></td>
+<td><a href="./MySQL/market-analysis-i.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1159</td>
+<td><a href="./problems/1159-market-analysis-ii.md">Market Analysis II</a></td>
+<td><a href="./MySQL/market-analysis-ii.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1173</td>
+<td><a href="./problems/1173-immediate-food-delivery-i.md">Immediate Food Delivery I</a></td>
+<td><a href="./MySQL/immediate-food-delivery-i.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1174</td>
+<td><a href="./problems/1174-immediate-food-delivery-ii.md">Immediate Food Delivery II</a></td>
+<td><a href="./MySQL/immediate-food-delivery-ii.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(m)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1193</td>
+<td><a href="./problems/1193-monthly-transactions-i.md">Monthly Transactions I</a></td>
+<td><a href="./MySQL/monthly-transactions-i.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1211</td>
+<td><a href="./problems/1211-queries-quality-and-percentage.md">Queries Quality and Percentage</a></td>
+<td><a href="./MySQL/queries-quality-and-percentage.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1241</td>
+<td><a href="./problems/1241-number-of-comments-per-post.md">Number of Comments per Post</a></td>
+<td><a href="./MySQL/number-of-comments-per-post.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1251</td>
+<td><a href="./problems/1251-average-selling-price.md">Average Selling Price</a></td>
+<td><a href="./MySQL/average-selling-price.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1303</td>
+<td><a href="./problems/1303-find-the-team-size.md">Find the Team Size</a></td>
+<td><a href="./MySQL/find-the-team-size.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1322</td>
+<td><a href="./problems/1322-ads-performance.md">Ads Performance</a></td>
+<td><a href="./MySQL/ads-performance.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1327</td>
+<td><a href="./problems/1327-list-the-products-ordered-in-a-period.md">List the Products Ordered in a Period</a></td>
+<td><a href="./MySQL/list-the-products-ordered-in-a-period.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1350</td>
+<td><a href="./problems/1350-students-with-invalid-departments.md">Students With Invalid Departments</a></td>
+<td><a href="./MySQL/students-with-invalid-departments.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1355</td>
+<td><a href="./problems/1355-activity-participants.md">Activity Participants</a></td>
+<td><a href="./MySQL/activity-participants.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1378</td>
+<td><a href="./problems/1378-replace-employee-id-with-the-unique-identifier.md">Replace Employee ID With The Unique Identifier</a></td>
+<td><a href="./MySQL/replace-employee-id-with-the-unique-identifier.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1407</td>
+<td><a href="./problems/1407-top-travellers.md">Top Travellers</a></td>
+<td><a href="./MySQL/top-travellers.sql">MySQL</a></td>
+<td><em>O(m + nlogn)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1484</td>
+<td><a href="./problems/1484-group-sold-products-by-the-date.md">Group Sold Products By The Date</a></td>
+<td><a href="./MySQL/group-sold-products-by-the-date.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1565</td>
+<td><a href="./problems/1565-unique-orders-and-customers-per-month.md">Unique Orders and Customers Per Month</a></td>
+<td><a href="./MySQL/unique-orders-and-customers-per-month.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1581</td>
+<td><a href="./problems/1581-customer-who-visited-but-did-not-make-any-transactions.md">Customer Who Visited but Did Not Make Any Transactions</a></td>
+<td><a href="./MySQL/customer-who-visited-but-did-not-make-any-transactions.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1587</td>
+<td><a href="./problems/1587-bank-account-summary-ii.md">Bank Account Summary II</a></td>
+<td><a href="./MySQL/bank-account-summary-ii.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1633</td>
+<td><a href="./problems/1633-percentage-of-users-attended-a-contest.md">Percentage of Users Attended a Contest</a></td>
+<td><a href="./MySQL/percentage-of-users-attended-a-contest.sql">MySQL</a></td>
+<td><em>O(m + nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1661</td>
+<td><a href="./problems/1661-average-time-of-process-per-machine.md">Average Time of Process per Machine</a></td>
+<td><a href="./MySQL/average-time-of-process-per-machine.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1729</td>
+<td><a href="./problems/1729-find-followers-count.md">Find Followers Count</a></td>
+<td><a href="./MySQL/find-followers-count.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1731</td>
+<td><a href="./problems/1731-the-number-of-employees-which-report-to-each-employee.md">The Number of Employees Which Report to Each Employee</a></td>
+<td><a href="./MySQL/the-number-of-employees-which-report-to-each-employee.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1741</td>
+<td><a href="./problems/1741-find-total-time-spent-by-each-employee.md">Find Total Time Spent by Each Employee</a></td>
+<td><a href="./MySQL/find-total-time-spent-by-each-employee.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1757</td>
+<td><a href="./problems/1757-recyclable-and-low-fat-products.md">Recyclable and Low Fat Products</a></td>
+<td><a href="./MySQL/recyclable-and-low-fat-products.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1821</td>
+<td><a href="./problems/1821-find-customers-with-positive-revenue-this-year.md">Find Customers With Positive Revenue this Year</a></td>
+<td><a href="./MySQL/find-customers-with-positive-revenue-this-year.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1875</td>
+<td><a href="./problems/1875-group-employees-of-the-same-salary.md">Group Employees of the Same Salary</a></td>
+<td><a href="./MySQL/group-employees-of-the-same-salary.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1907</td>
+<td><a href="./problems/1907-count-salary-categories.md">Count Salary Categories</a></td>
+<td><a href="./MySQL/count-salary-categories.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1965</td>
+<td><a href="./problems/1965-employees-with-missing-information.md">Employees With Missing Information</a></td>
+<td><a href="./MySQL/employees-with-missing-information.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1978</td>
+<td><a href="./problems/1978-employees-whose-manager-left-the-company.md">Employees Whose Manager Left the Company</a></td>
+<td><a href="./MySQL/employees-whose-manager-left-the-company.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1990</td>
+<td><a href="./problems/1990-count-the-number-of-experiments.md">Count the Number of Experiments</a></td>
+<td><a href="./MySQL/count-the-number-of-experiments.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2072</td>
+<td><a href="./problems/2072-the-winner-university.md">The Winner University</a></td>
+<td><a href="./MySQL/the-winner-university.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2082</td>
+<td><a href="./problems/2082-the-number-of-rich-customers.md">The Number of Rich Customers</a></td>
+<td><a href="./MySQL/the-number-of-rich-customers.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2112</td>
+<td><a href="./problems/2112-the-airport-with-the-most-traffic.md">The Airport With the Most Traffic</a></td>
+<td><a href="./MySQL/the-airport-with-the-most-traffic.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2356</td>
+<td><a href="./problems/2356-number-of-unique-subjects-taught-by-each-teacher.md">Number of Unique Subjects Taught by Each Teacher</a></td>
+<td><a href="./MySQL/number-of-unique-subjects-taught-by-each-teacher.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2377</td>
+<td><a href="./problems/2377-sort-the-olympic-table.md">Sort the Olympic Table</a></td>
+<td><a href="./MySQL/sort-the-olympic-table.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2394</td>
+<td><a href="./problems/2394-employees-with-deductions.md">Employees With Deductions</a></td>
+<td><a href="./MySQL/employees-with-deductions.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2669</td>
+<td><a href="./problems/2669-count-artist-occurrences-on-spotify-ranking-list.md">Count Artist Occurrences On Spotify Ranking List</a></td>
+<td><a href="./MySQL/count-artist-occurrences-on-spotify-ranking-list.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2853</td>
+<td><a href="./problems/2853-highest-salaries-difference.md">Highest Salaries Difference</a></td>
+<td><a href="./MySQL/highest-salaries-difference.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2985</td>
+<td><a href="./problems/2985-calculate-compressed-mean.md">Calculate Compressed Mean</a></td>
+<td><a href="./MySQL/calculate-compressed-mean.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2987</td>
+<td><a href="./problems/2987-find-expensive-cities.md">Find Expensive Cities</a></td>
+<td><a href="./MySQL/find-expensive-cities.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2988</td>
+<td><a href="./problems/2988-manager-of-the-largest-department.md">Manager of the Largest Department</a></td>
+<td><a href="./MySQL/manager-of-the-largest-department.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2989</td>
+<td><a href="./problems/2989-class-performance.md">Class Performance</a></td>
+<td><a href="./MySQL/class-performance.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2990</td>
+<td><a href="./problems/2990-loan-types.md">Loan Types</a></td>
+<td><a href="./MySQL/loan-types.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="2-window-rank">2. Window / Rank</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0178</td>
+<td><a href="../problems/0178-rank-scores/">Rank Scores</a></td>
+<td><a href="./MySQL/rank-scores.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0185</td>
+<td><a href="../problems/0185-department-top-three-salaries/">Department Top Three Salaries</a></td>
+<td><a href="./MySQL/department-top-three-salaries.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0569</td>
+<td><a href="./problems/0569-median-employee-salary.md">Median Employee Salary</a></td>
+<td><a href="./MySQL/median-employee-salary.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0579</td>
+<td><a href="./problems/0579-find-cumulative-salary-of-an-employee.md">Find Cumulative Salary of an Employee</a></td>
+<td><a href="./MySQL/find-cumulative-salary-of-an-employee.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0603</td>
+<td><a href="../problems/0603-consecutive-available-seats/">Consecutive Available Seats</a></td>
+<td><a href="./MySQL/consecutive-available-seats.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td>Window Function</td>
+</tr>
+<tr>
+<td>0618</td>
+<td><a href="./problems/0618-students-report-by-geography.md">Students Report By Geography</a></td>
+<td><a href="./MySQL/students-report-by-geography.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0626</td>
+<td><a href="./problems/0626-exchange-seats.md">Exchange Seats</a></td>
+<td><a href="./MySQL/exchange-seats.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1097</td>
+<td><a href="./problems/1097-game-play-analysis-v.md">Game Play Analysis V</a></td>
+<td><a href="./MySQL/game-play-analysis-v.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1107</td>
+<td><a href="./problems/1107-new-users-daily-count.md">New Users Daily Count</a></td>
+<td><a href="./MySQL/new-users-daily-count.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1112</td>
+<td><a href="./problems/1112-highest-grade-for-each-student.md">Highest Grade For Each Student</a></td>
+<td><a href="./MySQL/highest-grade-for-each-student.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1132</td>
+<td><a href="./problems/1132-reported-posts-ii.md">Reported Posts II</a></td>
+<td><a href="./MySQL/reported-posts-ii.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1164</td>
+<td><a href="./problems/1164-product-price-at-a-given-date.md">Product Price at a Given Date</a></td>
+<td><a href="./MySQL/product-price-at-a-given-date.sql">MySQL</a></td>
+<td><em>O(mlogn)</em></td>
+<td><em>O(m)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1204</td>
+<td><a href="./problems/1204-last-person-to-fit-in-the-elevator.md">Last Person to Fit in the Elevator</a></td>
+<td><a href="./MySQL/last-person-to-fit-in-the-elevator.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1225</td>
+<td><a href="./problems/1225-report-contiguous-dates.md">Report Contiguous Dates</a></td>
+<td><a href="./MySQL/report-contiguous-dates.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1285</td>
+<td><a href="./problems/1285-find-the-start-and-end-number-of-continuous-ranges.md">Find the Start and End Number of Continuous Ranges</a></td>
+<td><a href="./MySQL/find-the-start-and-end-number-of-continuous-ranges.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1308</td>
+<td><a href="./problems/1308-running-total-for-different-genders.md">Running Total for Different Genders</a></td>
+<td><a href="./MySQL/running-total-for-different-genders.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1321</td>
+<td><a href="./problems/1321-restaurant-growth.md">Restaurant Growth</a></td>
+<td><a href="./MySQL/restaurant-growth.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1336</td>
+<td><a href="./problems/1336-number-of-transactions-per-visit.md">Number of Transactions per Visit</a></td>
+<td><a href="./MySQL/number-of-transactions-per-visit.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1341</td>
+<td><a href="./problems/1341-movie-rating.md">Movie Rating</a></td>
+<td><a href="./MySQL/movie-rating.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1369</td>
+<td><a href="./problems/1369-get-the-second-most-recent-activity.md">Get the Second Most Recent Activity</a></td>
+<td><a href="./MySQL/get-the-second-most-recent-activity.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1384</td>
+<td><a href="./problems/1384-total-sales-amount-by-year.md">Total Sales Amount by Year</a></td>
+<td><a href="./MySQL/total-sales-amount-by-year.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1393</td>
+<td><a href="./problems/1393-capital-gainloss.md">Capital Gain/Loss</a></td>
+<td><a href="./MySQL/capital-gainloss.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1412</td>
+<td><a href="./problems/1412-find-the-quiet-students-in-all-exams.md">Find the Quiet Students in All Exams</a></td>
+<td><a href="./MySQL/find-the-quiet-students-in-all-exams.sql">MySQL</a></td>
+<td><em>O(m + nlogn)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1454</td>
+<td><a href="./problems/1454-active-users.md">Active Users</a></td>
+<td><a href="./MySQL/active-users.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1532</td>
+<td><a href="./problems/1532-the-most-recent-three-orders.md">The Most Recent Three Orders</a></td>
+<td><a href="./MySQL/the-most-recent-three-orders.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1549</td>
+<td><a href="./problems/1549-the-most-recent-orders-for-each-product.md">The Most Recent Orders for Each Product</a></td>
+<td><a href="./MySQL/the-most-recent-orders-for-each-product.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1596</td>
+<td><a href="./problems/1596-the-most-frequently-ordered-products-for-each-customer.md">The Most Frequently Ordered Products for Each Customer</a></td>
+<td><a href="./MySQL/the-most-frequently-ordered-products-for-each-customer.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1709</td>
+<td><a href="./problems/1709-biggest-window-between-visits.md">Biggest Window Between Visits</a></td>
+<td><a href="./MySQL/biggest-window-between-visits.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1831</td>
+<td><a href="./problems/1831-maximum-transaction-each-day.md">Maximum Transaction Each Day</a></td>
+<td><a href="./MySQL/maximum-transaction-each-day.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1843</td>
+<td><a href="./problems/1843-suspicious-bank-accounts.md">Suspicious Bank Accounts</a></td>
+<td><a href="./MySQL/suspicious-bank-accounts.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1972</td>
+<td><a href="./problems/1972-first-and-last-call-on-the-same-day.md">First and Last Call On the Same Day</a></td>
+<td><a href="./MySQL/first-and-last-call-on-the-same-day.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2066</td>
+<td><a href="./problems/2066-account-balance.md">Account Balance</a></td>
+<td><a href="./MySQL/account-balance.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2173</td>
+<td><a href="./problems/2173-longest-winning-streak.md">Longest Winning Streak</a></td>
+<td><a href="./MySQL/longest-winning-streak.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2175</td>
+<td><a href="./problems/2175-the-change-in-global-rankings.md">The Change in Global Rankings</a></td>
+<td><a href="./MySQL/the-change-in-global-rankings.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2228</td>
+<td><a href="./problems/2228-users-with-two-purchases-within-seven-days.md">Users With Two Purchases Within Seven Days</a></td>
+<td><a href="./MySQL/users-with-two-purchases-within-seven-days.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2292</td>
+<td><a href="./problems/2292-products-with-three-or-more-orders-in-two-consecutive-years.md">Products With Three or More Orders in Two Consecutive Years</a></td>
+<td><a href="./MySQL/products-with-three-or-more-orders-in-two-consecutive-years.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2308</td>
+<td><a href="./problems/2308-arrange-table-by-gender.md">Arrange Table by Gender</a></td>
+<td><a href="./MySQL/arrange-table-by-gender.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2314</td>
+<td><a href="./problems/2314-the-first-day-of-the-maximum-recorded-degree-in-each-city.md">The First Day of the Maximum Recorded Degree in Each City</a></td>
+<td><a href="./MySQL/the-first-day-of-the-maximum-recorded-degree-in-each-city.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2324</td>
+<td><a href="./problems/2324-product-sales-analysis-iv.md">Product Sales Analysis IV</a></td>
+<td><a href="./MySQL/product-sales-analysis-iv.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2329</td>
+<td><a href="./problems/2329-product-sales-analysis-v.md">Product Sales Analysis V</a></td>
+<td><a href="./MySQL/product-sales-analysis-v.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2346</td>
+<td><a href="./problems/2346-compute-the-rank-as-a-percentage.md">Compute the Rank as a Percentage</a></td>
+<td><a href="./MySQL/compute-the-rank-as-a-percentage.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2388</td>
+<td><a href="./problems/2388-change-null-values-in-a-table-to-the-previous-value.md">Change Null Values in a Table to the Previous Value</a></td>
+<td><a href="./MySQL/change-null-values-in-a-table-to-the-previous-value.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2474</td>
+<td><a href="./problems/2474-customers-with-strictly-increasing-purchases.md">Customers With Strictly Increasing Purchases</a></td>
+<td><a href="./MySQL/customers-with-strictly-increasing-purchases.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2494</td>
+<td><a href="./problems/2494-merge-overlapping-events-in-the-same-hall.md">Merge Overlapping Events in the Same Hall</a></td>
+<td><a href="./MySQL/merge-overlapping-events-in-the-same-hall.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2668</td>
+<td><a href="./problems/2668-find-latest-salaries.md">Find Latest Salaries</a></td>
+<td><a href="./MySQL/find-latest-salaries.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2686</td>
+<td><a href="./problems/2686-immediate-food-delivery-iii.md">Immediate Food Delivery III</a></td>
+<td><a href="./MySQL/immediate-food-delivery-iii.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2687</td>
+<td><a href="./problems/2687-bikes-last-time-used.md">Bikes Last Time Used</a></td>
+<td><a href="./MySQL/bikes-last-time-used.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2688</td>
+<td><a href="./problems/2688-find-active-users.md">Find Active Users</a></td>
+<td><a href="./MySQL/find-active-users.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2701</td>
+<td><a href="./problems/2701-consecutive-transactions-with-increasing-amounts.md">Consecutive Transactions with Increasing Amounts</a></td>
+<td><a href="./MySQL/consecutive-transactions-with-increasing-amounts.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2752</td>
+<td><a href="./problems/2752-customers-with-maximum-number-of-transactions-on-consecutive-days.md">Customers with Maximum Number of Transactions on Consecutive Days</a></td>
+<td><a href="./MySQL/customers-with-maximum-number-of-transactions-on-consecutive-days.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2854</td>
+<td><a href="./problems/2854-rolling-average-steps.md">Rolling Average Steps</a></td>
+<td><a href="./MySQL/rolling-average-steps.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2893</td>
+<td><a href="./problems/2893-calculate-orders-within-each-interval.md">Calculate Orders Within Each Interval</a></td>
+<td><a href="./MySQL/calculate-orders-within-each-interval.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2922</td>
+<td><a href="./problems/2922-market-analysis-iii.md">Market Analysis III</a></td>
+<td><a href="./MySQL/market-analysis-iii.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2984</td>
+<td><a href="./problems/2984-find-peak-calling-hours-for-each-city.md">Find Peak Calling Hours for Each City</a></td>
+<td><a href="./MySQL/find-peak-calling-hours-for-each-city.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2986</td>
+<td><a href="./problems/2986-find-third-transaction.md">Find Third Transaction</a></td>
+<td><a href="./MySQL/find-third-transaction.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2991</td>
+<td><a href="./problems/2991-top-three-wineries.md">Top Three Wineries</a></td>
+<td><a href="./MySQL/top-three-wineries.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2993</td>
+<td><a href="./problems/2993-friday-purchases-i.md">Friday Purchases I</a></td>
+<td><a href="./MySQL/friday-purchases-i.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2994</td>
+<td><a href="./problems/2994-friday-purchases-ii.md">Friday Purchases II</a></td>
+<td><a href="./MySQL/friday-purchases-ii.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2995</td>
+<td><a href="./problems/2995-viewers-turned-streamers.md">Viewers Turned Streamers</a></td>
+<td><a href="./MySQL/viewers-turned-streamers.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="3-other">3. Other</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0180</td>
+<td><a href="../problems/0180-consecutive-numbers/">Consecutive Numbers</a></td>
+<td><a href="./MySQL/consecutive-numbers.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0196</td>
+<td><a href="../problems/0196-delete-duplicate-emails/">Delete Duplicate Emails</a></td>
+<td><a href="./MySQL/delete-duplicate-emails.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0197</td>
+<td><a href="../problems/0197-rising-temperature/">Rising Temperature</a></td>
+<td><a href="./MySQL/rising-temperature.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0262</td>
+<td><a href="../problems/0262-trips-and-users/">Trips and Users</a></td>
+<td><a href="./MySQL/trips-and-users.sql">MySQL</a></td>
+<td><em>O((t * u) + tlogt)</em></td>
+<td><em>O(t)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0512</td>
+<td><a href="./problems/0512-game-play-analysis-ii.md">Game Play Analysis II</a></td>
+<td><a href="./MySQL/game-play-analysis-ii.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0534</td>
+<td><a href="./problems/0534-game-play-analysis-iii.md">Game Play Analysis III</a></td>
+<td><a href="./MySQL/game-play-analysis-iii.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0550</td>
+<td><a href="./problems/0550-game-play-analysis-iv.md">Game Play Analysis IV</a></td>
+<td><a href="./MySQL/game-play-analysis-iv.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0571</td>
+<td><a href="./problems/0571-find-median-given-frequency-of-numbers.md">Find Median Given Frequency of Numbers</a></td>
+<td><a href="./MySQL/find-median-given-frequency-of-numbers.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0585</td>
+<td><a href="./problems/0585-investments-in-2016.md">Investments in 2016</a></td>
+<td><a href="./MySQL/investments-in-2016.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0601</td>
+<td><a href="./problems/0601-human-traffic-of-stadium.md">Human Traffic of Stadium</a></td>
+<td><a href="./MySQL/human-traffic-of-stadium.sql">MySQL</a></td>
+<td><em>O(n^3)</em></td>
+<td><em>O(n^3)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0608</td>
+<td><a href="./problems/0608-tree-node.md">Tree Node</a></td>
+<td><a href="./MySQL/tree-node.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0610</td>
+<td><a href="./problems/0610-triangle-judgement.md">Triangle Judgement</a></td>
+<td><a href="./MySQL/triangle-judgement.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0612</td>
+<td><a href="./problems/0612-shortest-distance-in-a-plane.md">Shortest Distance in a Plane</a></td>
+<td><a href="./MySQL/shortest-distance-in-a-plane.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0613</td>
+<td><a href="./problems/0613-shortest-distance-in-a-line.md">Shortest Distance in a Line</a></td>
+<td><a href="./MySQL/shortest-distance-in-a-line.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0614</td>
+<td><a href="./problems/0614-second-degree-follower.md">Second Degree Follower</a></td>
+<td><a href="./MySQL/second-degree-follower.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0620</td>
+<td><a href="./problems/0620-not-boring-movies.md">Not Boring Movies</a></td>
+<td><a href="./MySQL/not-boring-movies.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0627</td>
+<td><a href="./problems/0627-swap-salary.md">Swap Salary</a></td>
+<td><a href="./MySQL/swap-salary.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1179</td>
+<td><a href="./problems/1179-reformat-department-table.md">Reformat Department Table</a></td>
+<td><a href="./MySQL/reformat-department-table.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1194</td>
+<td><a href="./problems/1194-tournament-winners.md">Tournament Winners</a></td>
+<td><a href="./MySQL/tournament-winners.sql">MySQL</a></td>
+<td><em>O(m + n + nlogn)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1205</td>
+<td><a href="./problems/1205-monthly-transactions-ii.md">Monthly Transactions II</a></td>
+<td><a href="./MySQL/monthly-transactions-ii.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1212</td>
+<td><a href="./problems/1212-team-scores-in-football-tournament.md">Team Scores in Football Tournament</a></td>
+<td><a href="./MySQL/team-scores-in-football-tournament.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1264</td>
+<td><a href="./problems/1264-page-recommendations.md">Page Recommendations</a></td>
+<td><a href="./MySQL/page-recommendations.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1270</td>
+<td><a href="./problems/1270-all-people-report-to-the-given-manager.md">All People Report to the Given Manager</a></td>
+<td><a href="./MySQL/all-people-report-to-the-given-manager.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1280</td>
+<td><a href="./problems/1280-students-and-examinations.md">Students and Examinations</a></td>
+<td><a href="./MySQL/students-and-examinations.sql">MySQL</a></td>
+<td><em>O((m * n) * log(m * n))</em></td>
+<td><em>O(m * n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1294</td>
+<td><a href="./problems/1294-weather-type-in-each-country.md">Weather Type in Each Country</a></td>
+<td><a href="./MySQL/weather-type-in-each-country.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1364</td>
+<td><a href="./problems/1364-number-of-trusted-contacts-of-a-customer.md">Number of Trusted Contacts of a Customer</a></td>
+<td><a href="./MySQL/number-of-trusted-contacts-of-a-customer.sql">MySQL</a></td>
+<td><em>O(n + m + l + nlogn)</em></td>
+<td><em>O(n + m + l)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1398</td>
+<td><a href="./problems/1398-customers-who-bought-products-a-and-b-but-not-c.md">Customers Who Bought Products A and B but Not C</a></td>
+<td><a href="./MySQL/customers-who-bought-products-a-and-b-but-not-c.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1421</td>
+<td><a href="./problems/1421-npv-queries.md">NPV Queries</a></td>
+<td><a href="./MySQL/npv-queries.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1435</td>
+<td><a href="./problems/1435-create-a-session-bar-chart.md">Create a Session Bar Chart</a></td>
+<td><a href="./MySQL/create-a-session-bar-chart.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1440</td>
+<td><a href="./problems/1440-evaluate-boolean-expression.md">Evaluate Boolean Expression</a></td>
+<td><a href="./MySQL/evaluate-boolean-expression.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1445</td>
+<td><a href="./problems/1445-apples-oranges.md">Apples &amp; Oranges</a></td>
+<td><a href="./MySQL/apples-oranges.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1459</td>
+<td><a href="./problems/1459-rectangles-area.md">Rectangles Area</a></td>
+<td><a href="./MySQL/rectangles-area.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1468</td>
+<td><a href="./problems/1468-calculate-salaries.md">Calculate Salaries</a></td>
+<td><a href="./MySQL/calculate-salaries.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1479</td>
+<td><a href="./problems/1479-sales-by-day-of-the-week.md">Sales by Day of the Week</a></td>
+<td><a href="./MySQL/sales-by-day-of-the-week.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1495</td>
+<td><a href="./problems/1495-friendly-movies-streamed-last-month.md">Friendly Movies Streamed Last Month</a></td>
+<td><a href="./MySQL/friendly-movies-streamed-last-month.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1501</td>
+<td><a href="./problems/1501-countries-you-can-safely-invest-in.md">Countries You Can Safely Invest In</a></td>
+<td><a href="./MySQL/countries-you-can-safely-invest-in.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1511</td>
+<td><a href="./problems/1511-customer-order-frequency.md">Customer Order Frequency</a></td>
+<td><a href="./MySQL/customer-order-frequency.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1517</td>
+<td><a href="./problems/1517-find-users-with-valid-e-mails.md">Find Users With Valid E-Mails</a></td>
+<td><a href="./MySQL/find-users-with-valid-e-mails.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td>Regex</td>
+</tr>
+<tr>
+<td>1527</td>
+<td><a href="./problems/1527-patients-with-a-condition.md">Patients With a Condition</a></td>
+<td><a href="./MySQL/patients-with-a-condition.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td>Regex</td>
+</tr>
+<tr>
+<td>1543</td>
+<td><a href="./problems/1543-fix-product-name-format.md">Fix Product Name Format</a></td>
+<td><a href="./MySQL/fix-product-name-format.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1555</td>
+<td><a href="./problems/1555-bank-account-summary.md">Bank Account Summary</a></td>
+<td><a href="./MySQL/bank-account-summary.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1571</td>
+<td><a href="./problems/1571-warehouse-manager.md">Warehouse Manager</a></td>
+<td><a href="./MySQL/warehouse-manager.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1607</td>
+<td><a href="./problems/1607-sellers-with-no-sales.md">Sellers With No Sales</a></td>
+<td><a href="./MySQL/sellers-with-no-sales.sql">MySQL</a></td>
+<td><em>O(nlogm)</em></td>
+<td><em>O(n + m)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1613</td>
+<td><a href="./problems/1613-find-the-missing-ids.md">Find the Missing IDs</a></td>
+<td><a href="./MySQL/find-the-missing-ids.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1623</td>
+<td><a href="./problems/1623-all-valid-triplets-that-can-represent-a-country.md">All Valid Triplets That Can Represent a Country</a></td>
+<td><a href="./MySQL/all-valid-triplets-that-can-represent-a-country.sql">MySQL</a></td>
+<td><em>O(n^3)</em></td>
+<td><em>O(n^3)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1635</td>
+<td><a href="./problems/1635-hopper-company-queries-i.md">Hopper Company Queries I</a></td>
+<td><a href="./MySQL/hopper-company-queries-i.sql">MySQL</a></td>
+<td><em>O(d + r + tlogt)</em></td>
+<td><em>O(d + r + t)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1645</td>
+<td><a href="./problems/1645-hopper-company-queries-ii.md">Hopper Company Queries II</a></td>
+<td><a href="./MySQL/hopper-company-queries-ii.sql">MySQL</a></td>
+<td><em>O(d + r + tlogt)</em></td>
+<td><em>O(d + r + t)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1651</td>
+<td><a href="./problems/1651-hopper-company-queries-iii.md">Hopper Company Queries III</a></td>
+<td><a href="./MySQL/hopper-company-queries-iii.sql">MySQL</a></td>
+<td><em>O(d + r + tlogt)</em></td>
+<td><em>O(d + r + t)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1667</td>
+<td><a href="./problems/1667-fix-names-in-a-table.md">Fix Names in a Table</a></td>
+<td><a href="./MySQL/fix-names-in-a-table.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1677</td>
+<td><a href="./problems/1677-products-worth-over-invoices.md">Product's Worth Over Invoices</a></td>
+<td><a href="./MySQL/products-worth-over-invoices.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1683</td>
+<td><a href="./problems/1683-invalid-tweets.md">Invalid Tweets</a></td>
+<td><a href="./MySQL/invalid-tweets.sql">MySQL</a></td>
+<td><em>O(n * l)</em></td>
+<td><em>O(n * l)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1693</td>
+<td><a href="./problems/1693-daily-leads-and-partners.md">Daily Leads and Partners</a></td>
+<td><a href="./MySQL/daily-leads-and-partners.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1699</td>
+<td><a href="./problems/1699-number-of-calls-between-two-persons.md">Number of Calls Between Two Persons</a></td>
+<td><a href="./MySQL/number-of-calls-between-two-persons.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1715</td>
+<td><a href="./problems/1715-count-apples-and-oranges.md">Count Apples and Oranges</a></td>
+<td><a href="./MySQL/count-apples-and-oranges.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1747</td>
+<td><a href="./problems/1747-leetflex-banned-accounts.md">Leetflex Banned Accounts</a></td>
+<td><a href="./MySQL/leetflex-banned-accounts.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1767</td>
+<td><a href="./problems/1767-find-the-subtasks-that-did-not-execute.md">Find the Subtasks That Did Not Execute</a></td>
+<td><a href="./MySQL/find-the-subtasks-that-did-not-execute.sql">MySQL</a></td>
+<td><em>O(n * c)</em></td>
+<td><em>O(n * c)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1777</td>
+<td><a href="./problems/1777-products-price-for-each-store.md">Product's Price for Each Store</a></td>
+<td><a href="./MySQL/products-price-for-each-store.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1783</td>
+<td><a href="./problems/1783-grand-slam-titles.md">Grand Slam Titles</a></td>
+<td><a href="./MySQL/grand-slam-titles.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1789</td>
+<td><a href="./problems/1789-primary-department-for-each-employee.md">Primary Department for Each Employee</a></td>
+<td><a href="./MySQL/primary-department-for-each-employee.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1795</td>
+<td><a href="./problems/1795-rearrange-products-table.md">Rearrange Products Table</a></td>
+<td><a href="./MySQL/rearrange-products-table.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1809</td>
+<td><a href="./problems/1809-ad-free-sessions.md">Ad-Free Sessions</a></td>
+<td><a href="./MySQL/ad-free-sessions.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1811</td>
+<td><a href="./problems/1811-find-interview-candidates.md">Find Interview Candidates</a></td>
+<td><a href="./MySQL/find-interview-candidates.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1841</td>
+<td><a href="./problems/1841-league-statistics.md">League Statistics</a></td>
+<td><a href="./MySQL/league-statistics.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1853</td>
+<td><a href="./problems/1853-convert-date-format.md">Convert Date Format</a></td>
+<td><a href="./MySQL/convert-date-format.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1867</td>
+<td><a href="./problems/1867-orders-with-maximum-quantity-above-average.md">Orders With Maximum Quantity Above Average</a></td>
+<td><a href="./MySQL/orders-with-maximum-quantity-above-average.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1873</td>
+<td><a href="./problems/1873-calculate-special-bonus.md">Calculate Special Bonus</a></td>
+<td><a href="./MySQL/calculate-special-bonus.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1890</td>
+<td><a href="./problems/1890-the-latest-login-in-2020.md">The Latest Login in 2020</a></td>
+<td><a href="./MySQL/the-latest-login-in-2020.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1892</td>
+<td><a href="./problems/1892-page-recommendations-ii.md">Page Recommendations II</a></td>
+<td><a href="./MySQL/page-recommendations-ii.sql">MySQL</a></td>
+<td><em>O(n * m)</em></td>
+<td><em>O(n * m)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1917</td>
+<td><a href="./problems/1917-leetcodify-friends-recommendations.md">Leetcodify Friends Recommendations</a></td>
+<td><a href="./MySQL/leetcodify-friends-recommendations.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1919</td>
+<td><a href="./problems/1919-leetcodify-similar-friends.md">Leetcodify Similar Friends</a></td>
+<td><a href="./MySQL/leetcodify-similar-friends.sql">MySQL</a></td>
+<td><em>O(n * l)</em></td>
+<td><em>O(n * l)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1934</td>
+<td><a href="./problems/1934-confirmation-rate.md">Confirmation Rate</a></td>
+<td><a href="./MySQL/confirmation-rate.sql">MySQL</a></td>
+<td><em>O(n + m)</em></td>
+<td><em>O(n + m)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1939</td>
+<td><a href="./problems/1939-users-that-actively-request-confirmation-messages.md">Users That Actively Request Confirmation Messages</a></td>
+<td><a href="./MySQL/users-that-actively-request-confirmation-messages.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1949</td>
+<td><a href="./problems/1949-strong-friendship.md">Strong Friendship</a></td>
+<td><a href="./MySQL/strong-friendship.sql">MySQL</a></td>
+<td><em>O(n^3)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1951</td>
+<td><a href="./problems/1951-all-the-pairs-with-the-maximum-number-of-common-followers.md">All the Pairs With the Maximum Number of Common Followers</a></td>
+<td><a href="./MySQL/all-the-pairs-with-the-maximum-number-of-common-followers.sql">MySQL</a></td>
+<td><em>O(n^3)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1988</td>
+<td><a href="./problems/1988-find-cutoff-score-for-each-schooly.md">Find Cutoff Score for Each School</a></td>
+<td><a href="./MySQL/find-cutoff-score-for-each-school.sql">MySQL</a></td>
+<td><em>O(n * m)</em></td>
+<td><em>O(n * m)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2004</td>
+<td><a href="./problems/2004-the-number-of-seniors-and-juniors-to-join-the-company.md">The Number of Seniors and Juniors to Join the Company</a></td>
+<td><a href="./MySQL/the-number-of-seniors-and-juniors-to-join-the-company.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2010</td>
+<td><a href="./problems/2010-the-number-of-seniors-and-juniors-to-join-the-company-ii.md">The Number of Seniors and Juniors to Join the Company II</a></td>
+<td><a href="./MySQL/the-number-of-seniors-and-juniors-to-join-the-company.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2020</td>
+<td><a href="./problems/2020-number-of-accounts-that-did-not-stream.md">Number of Accounts That Did Not Stream</a></td>
+<td><a href="./MySQL/number-of-accounts-that-did-not-stream.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2026</td>
+<td><a href="./problems/2026-low-quality-problems.md">Low-Quality Problems</a></td>
+<td><a href="./MySQL/low-quality-problems.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2041</td>
+<td><a href="./problems/2041-accepted-candidates-from-the-interviews.md">Accepted Candidates From the Interviews</a></td>
+<td><a href="./MySQL/accepted-candidates-from-the-interviews.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2051</td>
+<td><a href="./problems/2051-the-category-of-each-member-in-the-store.md">The Category of Each Member in the Store</a></td>
+<td><a href="./MySQL/the-category-of-each-member-in-the-store.sql">MySQL</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2084</td>
+<td><a href="./problems/2084-drop-type-1-orders-for-customers-with-type-0-orders.md">Drop Type 1 Orders for Customers With Type 0 Orders</a></td>
+<td><a href="./MySQL/drop-type-1-orders-for-customers-with-type-0-orders.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2118</td>
+<td><a href="./problems/2118-build-the-equation.md">Build the Equation</a></td>
+<td><a href="./MySQL/build-the-equation.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2142</td>
+<td><a href="./problems/2142-the-number-of-passengers-in-each-bus-i.md">The Number of Passengers in Each Bus I</a></td>
+<td><a href="./MySQL/the-number-of-passengers-in-each-bus-i.sql">MySQL</a></td>
+<td><em>O(p * b + blogb)</em></td>
+<td><em>O(p * b)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2153</td>
+<td><a href="./problems/2153-the-number-of-passengers-in-each-bus-ii.md">The Number of Passengers in Each Bus II</a></td>
+<td><a href="./MySQL/the-number-of-passengers-in-each-bus-ii.sql">MySQL</a></td>
+<td><em>O(p * b + blogb)</em></td>
+<td><em>O(p * b)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2159</td>
+<td><a href="./problems/2159-order-two-columns-independently.md">Order Two Columns Independently</a></td>
+<td><a href="./MySQL/order-two-columns-independently.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2199</td>
+<td><a href="./problems/2199-finding-the-topic-of-each-post.md">Finding the Topic of Each Post</a></td>
+<td><a href="./MySQL/finding-the-topic-of-each-post.sql">MySQL</a></td>
+<td><em>O(n * mlogm)</em></td>
+<td><em>O(n * m)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2205</td>
+<td><a href="./problems/2205-the-number-of-users-that-are-eligible-for-discount.md">The Number of Users That Are Eligible for Discount</a></td>
+<td><a href="./MySQL/the-number-of-users-that-are-eligible-for-discount.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2230</td>
+<td><a href="./problems/2230-the-users-that-are-eligible-for-discount.md">The Users That Are Eligible for Discount</a></td>
+<td><a href="./MySQL/the-users-that-are-eligible-for-discount.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2238</td>
+<td><a href="./problems/2238-number-of-times-a-driver-was-a-passenger.md">Number of Times a Driver Was a Passenger</a></td>
+<td><a href="./MySQL/number-of-times-a-driver-was-a-passenger.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2252</td>
+<td><a href="./problems/2252-dynamic-pivoting-of-a-table.md">Dynamic Pivoting of a Table</a></td>
+<td><a href="./MySQL/dynamic-pivoting-of-a-table.sql">MySQL</a></td>
+<td><em>O(n * m)</em></td>
+<td><em>O(n * m)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2253</td>
+<td><a href="./problems/2253-dynamic-unpivoting-of-a-table.md">Dynamic Unpivoting of a Table</a></td>
+<td><a href="./MySQL/dynamic-unpivoting-of-a-table.sql">MySQL</a></td>
+<td><em>O(n * m)</em></td>
+<td><em>O(n * m)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2298</td>
+<td><a href="./problems/2298-tasks-count-in-the-weekend.md">Tasks Count in the Weekend</a></td>
+<td><a href="./MySQL/tasks-count-in-the-weekend.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2339</td>
+<td><a href="./problems/2339-all-the-matches-of-the-league.md">All the Matches of the League</a></td>
+<td><a href="./MySQL/all-the-matches-of-the-league.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2362</td>
+<td><a href="./problems/2362-generate-the-invoice.md">Generate the Invoice</a></td>
+<td><a href="./MySQL/generate-the-invoice.sql">MySQL</a></td>
+<td><em>O(m + nlogn)</em></td>
+<td><em>O(n + m)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2372</td>
+<td><a href="./problems/2372-calculate-the-influence-of-each-salesperson.md">Calculate the Influence of Each Salesperson</a></td>
+<td><a href="./MySQL/calculate-the-influence-of-each-salesperson.sql">MySQL</a></td>
+<td><em>O(sp + c + s)</em></td>
+<td><em>O(sp + c + s)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2480</td>
+<td><a href="./problems/2480-form-a-chemical-bond.md">Form a Chemical Bond</a></td>
+<td><a href="./MySQL/form-a-chemical-bond.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2504</td>
+<td><a href="./problems/2504-concatenate-the-name-and-the-profession.md">Concatenate the Name and the Profession</a></td>
+<td><a href="./MySQL/concatenate-the-name-and-the-profession.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2720</td>
+<td><a href="./problems/2720-popularity-percentage.md">Popularity Percentage</a></td>
+<td><a href="./MySQL/popularity-percentage.sql">MySQL</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2738</td>
+<td><a href="./problems/2738-count-occurrences-in-text.md">Count Occurrences in Text</a></td>
+<td><a href="./MySQL/count-occurrences-in-text.sql">MySQL</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2783</td>
+<td><a href="./problems/2783-flight-occupancy-and-waitlist-analysis.md">Flight Occupancy and Waitlist Analysis</a></td>
+<td><a href="./MySQL/flight-occupancy-and-waitlist-analysis.sql">MySQL</a></td>
+<td><em>O(n * m + nlogn)</em></td>
+<td><em>O(n * m)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2793</td>
+<td><a href="./problems/2793-status-of-flight-tickets.md">Status of Flight Tickets</a></td>
+<td><a href="./MySQL/status-of-flight-tickets.sql">MySQL</a></td>
+<td><em>O(nlogn + m)</em></td>
+<td><em>O(n + m)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2820</td>
+<td><a href="./problems/2820-election-results.md">Election Results</a></td>
+<td><a href="./MySQL/election-results.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2837</td>
+<td><a href="./problems/2837-election-results.md">Total Traveled Distance</a></td>
+<td><a href="./MySQL/total-traveled-distance.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2978</td>
+<td><a href="./problems/2978-symmetric-coordinates.md">Symmetric Coordinates</a></td>
+<td><a href="./MySQL/symmetric-coordinates.sql">MySQL</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

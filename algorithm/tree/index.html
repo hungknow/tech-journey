@@ -1,0 +1,2120 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Tree - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tree" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tree
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tree
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-traversal-inorderprepost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Traversal (Inorder/Pre/Post)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bst-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. BST &amp; Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-serialize-deserialize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Serialize / Deserialize
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-path-sum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Path &amp; Sum
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Construction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Other
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Tree</h1>
+
+<h2 id="tree">Tree</h2>
+<h3 id="1-traversal-inorderprepost">1. Traversal (Inorder/Pre/Post)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0094</td>
+<td><a href="../problems/0094-binary-tree-inorder-traversal/">Binary Tree Inorder Traversal</a></td>
+<td><a href="../golang/0094_binary_tree_inorder_traversal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td><code>Morris Traversal</code></td>
+</tr>
+<tr>
+<td>0099</td>
+<td><a href="../problems/0099-recover-binary-search-tree/">Recover Binary Search Tree</a></td>
+<td><a href="../golang/0099_recover_binary_search_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td><code>Morris Traversal</code></td>
+</tr>
+<tr>
+<td>0144</td>
+<td><a href="../problems/0144-binary-tree-preorder-traversal/">Binary Tree Preorder Traversal</a></td>
+<td><a href="./golang/0144_binary_tree_preorder_traversal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td><code>Morris Traversal</code></td>
+</tr>
+<tr>
+<td>0145</td>
+<td><a href="../problems/0145-binary-tree-postorder-traversal/">Binary Tree Postorder Traversal</a></td>
+<td><a href="../golang/0145_binary_tree_postorder_traversal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td><code>Morris Traversal</code></td>
+</tr>
+<tr>
+<td>0429</td>
+<td><a href="../problems/0429-n-ary-tree-level-order-traversal/">N-ary Tree Level Order Traversal</a></td>
+<td><a href="./golang/0429_n_ary_tree_level_order_traversal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(w)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0501</td>
+<td><a href="../problems/0501-find-mode-in-binary-search-tree/">Find Mode in Binary Search Tree</a></td>
+<td><a href="../golang/0501_find_mode_in_binary_search_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Tree, Inorder Traversal</td>
+</tr>
+<tr>
+<td>0589</td>
+<td><a href="../problems/0589-n-ary-tree-preorder-traversal/">N-ary Tree Preorder Traversal</a></td>
+<td><a href="../golang/0589_n_ary_tree_preorder_traversal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Tree, Preorder Traversal</td>
+</tr>
+<tr>
+<td>0590</td>
+<td><a href="../problems/0590-n-ary-tree-postorder-traversal/">N-ary Tree Postorder Traversal</a></td>
+<td><a href="./golang/0590_n_ary_tree_postorder_traversal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Tree, Preorder Traversal</td>
+</tr>
+<tr>
+<td>0889</td>
+<td><a href="../problems/0889-construct-binary-tree-from-preorder-and-postorder-traversal/">Construct Binary Tree from Preorder and Postorder Traversal</a></td>
+<td><a href="./golang/0889_construct_binary_tree_from_preorder_and_postorder_traversal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS, Stack</td>
+</tr>
+<tr>
+<td>0971</td>
+<td><a href="../problems/0971-flip-binary-tree-to-match-preorder-traversal/">Flip Binary Tree To Match Preorder Traversal</a></td>
+<td><a href="./golang/0971_flip_binary_tree_to_match_preorder_traversal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>0987</td>
+<td><a href="../problems/0987-vertical-order-traversal-of-a-binary-tree/">Vertical Order Traversal of a Binary Tree</a></td>
+<td><a href="./golang/0987_vertical_order_traversal_of_a_binary_tree.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1008</td>
+<td><a href="../problems/1008-construct-binary-search-tree-from-preorder-traversal/">Construct Binary Search Tree from Preorder Traversal</a></td>
+<td><a href="./golang/1008_construct_binary_search_tree_from_preorder_traversal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1028</td>
+<td><a href="../problems/1028-recover-a-tree-from-preorder-traversal/">Recover a Tree From Preorder Traversal</a></td>
+<td><a href="./golang/1028_recover_a_tree_from_preorder_traversal.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Hard</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>0559</td>
+<td><a href="../problems/0559-maximum-depth-of-n-ary-tree/">Maximum Depth of N-ary Tree</a></td>
+<td><a href="./golang/0559_maximum_depth_of_n_ary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Tree, DFS</td>
+</tr>
+<tr>
+<td>0652</td>
+<td><a href="../problems/0652-find-duplicate-subtrees/">Find Duplicate Subtrees</a></td>
+<td><a href="./golang/0652_find_duplicate_subtrees.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS, Hash</td>
+</tr>
+<tr>
+<td>0863</td>
+<td><a href="../problems/0863-all-nodes-distance-k-in-binary-tree/">All Nodes Distance K in Binary Tree</a></td>
+<td><a href="./golang/0863_all_nodes_distance_k_in_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS + BFS</td>
+</tr>
+<tr>
+<td>0958</td>
+<td><a href="./problems/0958-check-completeness-of-a-binary-tree.md">Check Completeness of a Binary Tree</a></td>
+<td><a href="./golang/0958_check_completeness_of_a_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(w)</em></td>
+<td>Medium</td>
+<td></td>
+<td>BFS</td>
+</tr>
+<tr>
+<td>0993</td>
+<td><a href="../problems/0993-cousins-in-binary-tree/">Cousins in Binary Tree</a></td>
+<td><a href="./golang/0993_cousins_in_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1430</td>
+<td><a href="../problems/1430-check-if-a-string-is-a-valid-sequence-from-root-to-leaves-path-in-a-binary-tree/">Check If a String Is a Valid Sequence from Root to Leaves Path in a Binary Tree</a></td>
+<td><a href="./golang/1430_check_if_a_string_is_a_valid_sequence_from_root_to_leaves_path_in_a_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>BFS, DFS, Stack</td>
+</tr>
+<tr>
+<td>1448</td>
+<td><a href="../problems/1448-count-good-nodes-in-binary-tree/">Count Good Nodes in Binary Tree</a></td>
+<td><a href="./golang/1448_count_good_nodes_in_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS, Stack</td>
+</tr>
+<tr>
+<td>1457</td>
+<td><a href="../problems/1457-pseudo-palindromic-paths-in-a-binary-tree/">Pseudo-Palindromic Paths in a Binary Tree</a></td>
+<td><a href="./golang/1457_pseudo_palindromic_paths_in_a_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS, Stack</td>
+</tr>
+<tr>
+<td>1469</td>
+<td><a href="../problems/1469-find-all-the-lonely-nodes/">Find All The Lonely Nodes</a></td>
+<td><a href="./golang/1469_find_all_the_lonely_nodes.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td>DFS, Stack</td>
+</tr>
+<tr>
+<td>1490</td>
+<td><a href="../problems/1490-clone-n-ary-tree/">Clone N-ary Tree</a></td>
+<td><a href="./golang/1490_clone_n_ary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>DFS, Stack</td>
+</tr>
+<tr>
+<td>1519</td>
+<td><a href="../problems/1519-number-of-nodes-in-the-sub-tree-with-the-same-label/">Number of Nodes in the Sub-Tree With the Same Label</a></td>
+<td><a href="./golang/1519_number_of_nodes_in_the_sub_tree_with_the_same_label.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS, Stack</td>
+</tr>
+<tr>
+<td>1530</td>
+<td><a href="../problems/1530-number-of-good-leaf-nodes-pairs/">Number of Good Leaf Nodes Pairs</a></td>
+<td><a href="./golang/1530_number_of_good_leaf_nodes_pairs.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS, Stack</td>
+</tr>
+<tr>
+<td>2003</td>
+<td><a href="../problems/2003-smallest-missing-genetic-value-in-each-subtree/">Smallest Missing Genetic Value in Each Subtree</a></td>
+<td><a href="./golang/2003_smallest_missing_genetic_value_in_each_subtree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>DFS, Stack</td>
+</tr>
+<tr>
+<td>2096</td>
+<td><a href="../problems/2096-step-by-step-directions-from-a-binary-tree-node-to-another/">Step-By-Step Directions From a Binary Tree Node to Another</a></td>
+<td><a href="./golang/2096_step_by_step_directions_from_a_binary_tree_node_to_another.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS, Stack</td>
+</tr>
+<tr>
+<td>2196</td>
+<td><a href="../problems/2196-create-binary-tree-from-descriptions/">Create Binary Tree From Descriptions</a></td>
+<td><a href="./golang/2196_create_binary_tree_from_descriptions.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1612</td>
+<td><a href="../problems/1612-check-if-two-expression-trees-are-equivalent/">Check If Two Expression Trees are Equivalent</a></td>
+<td><a href="./golang/1612_check_if_two_expression_trees_are_equivalent.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td><code>Morris Traversal</code>, Inorder Traversal, Stack, Hash Table</td>
+</tr>
+</tbody>
+</table>
+<p>| 0117 | <a href="./problems/0117-populating-next-right-pointers-in-each-node-ii.md">Populating Next Right Pointers in Each Node II</a> || <em>O(n)</em> | <em>O(1)</em> | Hard ||</p>
+<hr />
+<h3 id="2-bst-search">2. BST &amp; Search</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0315</td>
+<td><a href="../problems/0315-count-of-smaller-numbers-after-self/">Count of Smaller Numbers After Self</a></td>
+<td><a href="./golang/0315_count_of_smaller_numbers_after_self.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>LintCode</td>
+<td>BST, BIT, Fenwick Tree, Divide and Conquer, Merge Sort</td>
+</tr>
+<tr>
+<td>0426</td>
+<td><a href="../problems/0426-convert-binary-search-tree-to-sorted-doubly-linked-list/">Convert Binary Search Tree to Sorted Doubly Linked List</a></td>
+<td><a href="./golang/0426_convert_binary_search_tree_to_sorted_doubly_linked_list.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0538</td>
+<td><a href="../problems/0538-convert-bst-to-greater-tree/">Convert BST to Greater Tree</a></td>
+<td><a href="./golang/0538_convert_bst_to_greater_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0653</td>
+<td><a href="../problems/0653-two-sum-iv-input-is-a-bst/">Two Sum IV - Input is a BST</a></td>
+<td><a href="./golang/0653_two_sum_iv_input_is_a_bst.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Two Pointers</td>
+</tr>
+<tr>
+<td>0700</td>
+<td><a href="../problems/0700-search-in-a-binary-search-tree/">Search in a Binary Search Tree</a></td>
+<td><a href="./golang/0700_search_in_a_binary_search_tree.go">Go</a></td>
+<td><em>O(h)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Tree</td>
+</tr>
+<tr>
+<td>0701</td>
+<td><a href="../problems/0701-insert-into-a-binary-search-tree/">Insert into a Binary Search Tree</a></td>
+<td><a href="./golang/0701_insert_into_a_binary_search_tree.go">Go</a></td>
+<td><em>O(h)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Tree</td>
+</tr>
+<tr>
+<td>0897</td>
+<td><a href="../problems/0897-increasing-order-search-tree/">Increasing Order Search Tree</a></td>
+<td><a href="./golang/0897_increasing_order_search_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>0919</td>
+<td><a href="../problems/0919-complete-binary-tree-inserter/">Complete Binary Tree Inserter</a></td>
+<td><a href="./golang/0919_complete_binary_tree_inserter.go">Go</a></td>
+<td>ctor: <em>O(n)</em> <br> insert: <em>O(1)</em> <br> get_root: <em>O(1)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0938</td>
+<td><a href="../problems/0938-range-sum-of-bst/">Range Sum of BST</a></td>
+<td><a href="./golang/0938_range_sum_of_bst.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1038</td>
+<td><a href="../problems/1038-binary-search-tree-to-greater-sum-tree/">Binary Search Tree to Greater Sum Tree</a></td>
+<td><a href="./golang/1038_binary_search_tree_to_greater_sum_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1325</td>
+<td><a href="../problems/1325-delete-leaves-with-a-given-value/">Delete Leaves With a Given Value</a></td>
+<td><a href="./golang/1325_delete_leaves_with_a_given_value.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1948</td>
+<td><a href="../problems/1948-delete-duplicate-folders-in-system/">Delete Duplicate Folders in System</a></td>
+<td><a href="./golang/1948_delete_duplicate_folders_in_system.go">Go</a></td>
+<td><em>O(n * m * l + tlogt + l * t)</em></td>
+<td><em>O(l * t)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/find-duplicate-subtrees/">Find Duplicate Subtrees</a></td>
+<td>Trie, DFS, Hash</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="3-serialize-deserialize">3. Serialize / Deserialize</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0297</td>
+<td><a href="../problems/0297-serialize-and-deserialize-binary-tree/">Serialize and Deserialize Binary Tree</a></td>
+<td><a href="./golang/0297_serialize_and_deserialize_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Hard</td>
+<td>LintCode</td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>0428</td>
+<td><a href="../problems/0428-serialize-and-deserialize-n-ary-tree/">Serialize and Deserialize N-ary Tree</a></td>
+<td><a href="./golang/0428_serialize_and_deserialize_n_ary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0431</td>
+<td><a href="../problems/0431-encode-n-ary-tree-to-binary-tree/">Encode N-ary Tree to Binary Tree</a></td>
+<td><a href="./golang/0431_encode_n_ary_tree_to_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="4-path-sum">4. Path &amp; Sum</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0543</td>
+<td><a href="../problems/0543-diameter-of-binary-tree/">Diameter of Binary Tree</a></td>
+<td><a href="./golang/0543_diameter_of_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0563</td>
+<td><a href="../problems/0563-binary-tree-tilt/">Binary Tree Tilt</a></td>
+<td><a href="./golang/0563_binary_tree_tilt.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0508</td>
+<td><a href="../problems/0508-most-frequent-subtree-sum/">Most Frequent Subtree Sum</a></td>
+<td><a href="./golang/0508_most_frequent_subtree_sum.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Tree, DFS, Hash</td>
+</tr>
+<tr>
+<td>0687</td>
+<td><a href="../problems/0687-longest-univalue-path/">Longest Univalue Path</a></td>
+<td><a href="./golang/0687_longest_univalue_path.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1022</td>
+<td><a href="../problems/1022-sum-of-root-to-leaf-binary-numbers/">Sum of Root To Leaf Binary Numbers</a></td>
+<td><a href="./golang/1022_sum_of_root_to_leaf_binary_numbers.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1080</td>
+<td><a href="../problems/1080-insufficient-nodes-in-root-to-leaf-paths/">Insufficient Nodes in Root to Leaf Paths</a></td>
+<td><a href="./golang/1080_insufficient_nodes_in_root_to_leaf_paths.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1120</td>
+<td><a href="../problems/1120-maximum-average-subtree/">Maximum Average Subtree</a></td>
+<td><a href="./golang/1120_maximum_average_subtree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td>🔒</td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1339</td>
+<td><a href="../problems/1339-maximum-product-of-splitted-binary-tree/">Maximum Product of Splitted Binary Tree</a></td>
+<td><a href="./golang/1339_maximum_product_of_splitted_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1443</td>
+<td><a href="../problems/1443-minimum-time-to-collect-all-apples-in-a-tree/">Minimum Time to Collect All Apples in a Tree</a></td>
+<td><a href="./golang/1443_minimum_time_to_collect_all_apples_in_a_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS, Stack</td>
+</tr>
+<tr>
+<td>1522</td>
+<td><a href="../problems/1522-diameter-of-n-ary-tree/">Diameter of N-Ary Tree</a></td>
+<td><a href="./golang/1522_diameter_of_n_ary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td>🔒, variant of <a href="https://leetcode.com/problems/tree-diameter/">Tree Diameter</a></td>
+<td>DFS, Stack</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="5-construction">5. Construction</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0427</td>
+<td><a href="../problems/0427-construct-quad-tree/">Construct Quad Tree</a></td>
+<td><a href="./golang/0427_construct_quad_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0536</td>
+<td><a href="../problems/0536-construct-binary-tree-from-string/">Construct Binary Tree from String</a></td>
+<td><a href="./golang/0536_construct_binary_tree_from_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0606</td>
+<td><a href="../problems/0606-construct-string-from-binary-tree/">Construct String from Binary Tree</a></td>
+<td><a href="./golang/0606_construct_string_from_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0654</td>
+<td><a href="../problems/0654-maximum-binary-tree/">Maximum Binary Tree</a></td>
+<td><a href="./golang/0654_maximum_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>LintCode</td>
+<td>Mono Stack,  Cartesian Tree</td>
+</tr>
+<tr>
+<td>0998</td>
+<td><a href="../problems/0998-maximum-binary-tree-ii/">Maximum Binary Tree II</a></td>
+<td><a href="./golang/0998_maximum_binary_tree_ii.go">Go</a></td>
+<td><em>O(h)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Cartesian Tree</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="6-other">6. Other</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0226</td>
+<td><a href="../problems/0226-invert-binary-tree/">Invert Binary Tree</a></td>
+<td><a href="./golang/0226_invert_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em>, <em>O(w)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0513</td>
+<td><a href="../problems/0513-find-bottom-left-tree-value/">Find Bottom Left Tree Value</a></td>
+<td><a href="./golang/0513_find_bottom_left_tree_value.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Tree, DFS, BFS</td>
+</tr>
+<tr>
+<td>0545</td>
+<td><a href="../problems/0545-boundary-of-binary-tree/">Boundary of Binary Tree</a></td>
+<td><a href="./golang/0545_boundary_of_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0558</td>
+<td><a href="../problems/0558-logical-or-of-two-binary-grids-represented-as-quad-trees/">Logical OR of Two Binary Grids Represented as Quad-Trees</a></td>
+<td><a href="./golang/0558_logical_or_of_two_binary_grids_represented_as_quad_trees.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Tree, Divide and Conquer</td>
+</tr>
+<tr>
+<td>0572</td>
+<td><a href="../problems/0572-subtree-of-another-tree/">Subtree of Another Tree</a></td>
+<td></td>
+<td><em>O(m * n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0617</td>
+<td><a href="../problems/0617-merge-two-binary-trees/">Merge Two Binary Trees</a></td>
+<td><a href="./golang/0617_merge_two_binary_trees.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0623</td>
+<td><a href="../problems/0623-add-one-row-to-tree/">Add One Row to Tree</a></td>
+<td><a href="./golang/0623_add_one_row_to_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0637</td>
+<td><a href="../problems/0637-average-of-levels-in-binary-tree/">Average of Levels in Binary Tree</a></td>
+<td><a href="./golang/0637_average_of_levels_in_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0655</td>
+<td><a href="../problems/0655-print-binary-tree/">Print Binary Tree</a></td>
+<td><a href="./golang/0655_print_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0662</td>
+<td><a href="../problems/0662-maximum-width-of-binary-tree/">Maximum Width of Binary Tree</a></td>
+<td><a href="./golang/0662_maximum_width_of_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>0663</td>
+<td><a href="../problems/0663-equal-tree-partition/">Equal Tree Partition</a></td>
+<td></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Hash</td>
+</tr>
+<tr>
+<td>0814</td>
+<td><a href="../problems/0814-binary-tree-pruning/">Binary Tree Pruning</a></td>
+<td><a href="./golang/0814_binary_tree_pruning.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>0865</td>
+<td><a href="../problems/0865-smallest-subtree-with-all-the-deepest-nodes/">Smallest Subtree with all the Deepest Nodes</a></td>
+<td><a href="./golang/0865_smallest_subtree_with_all_the_deepest_nodes.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>0951</td>
+<td><a href="../problems/0951-flip-equivalent-binary-trees/">Flip Equivalent Binary Trees</a></td>
+<td><a href="./golang/0951_flip_equivalent_binary_trees.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>0965</td>
+<td><a href="../problems/0965-univalued-binary-tree/">Univalued Binary Tree</a></td>
+<td><a href="./golang/0965_univalued_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>0979</td>
+<td><a href="../problems/0979-distribute-coins-in-binary-tree/">Distribute Coins in Binary Tree</a></td>
+<td><a href="./golang/0979_distribute_coins_in_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>0988</td>
+<td><a href="../problems/0988-smallest-string-starting-from-leaf/">Smallest String Starting From Leaf</a></td>
+<td><a href="./golang/0988_smallest_string_starting_from_leaf.go">Go</a></td>
+<td><em>O(n + l * h)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1026</td>
+<td><a href="../problems/1026-maximum-difference-between-node-and-ancestor/">Maximum Difference Between Node and Ancestor</a></td>
+<td><a href="./golang/1026_maximum_difference_between_node_and_ancestor.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1104</td>
+<td><a href="../problems/1104-path-in-zigzag-labelled-binary-tree/">Path In Zigzag Labelled Binary Tree</a></td>
+<td><a href="./golang/1104_path_in_zigzag_labelled_binary_tree.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(logn)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Math</td>
+</tr>
+<tr>
+<td>1123</td>
+<td><a href="../problems/1123-lowest-common-ancestor-of-deepest-leaves/">Lowest Common Ancestor of Deepest Leaves</a></td>
+<td><a href="./golang/1123_lowest_common_ancestor_of_deepest_leaves.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1145</td>
+<td><a href="../problems/1145-binary-tree-coloring-game/">Binary Tree Coloring Game</a></td>
+<td><a href="./golang/1145_binary_tree_coloring_game.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1257</td>
+<td><a href="../problems/1257-smallest-common-region/">Smallest Common Region</a></td>
+<td><a href="./golang/1257_smallest_common_region.go">Go</a></td>
+<td><em>O(m * n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1261</td>
+<td><a href="../problems/1261-find-elements-in-a-contaminated-binary-tree/">Find Elements in a Contaminated Binary Tree</a></td>
+<td><a href="./golang/1261_find_elements_in_a_contaminated_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1506</td>
+<td><a href="../problems/1506-find-root-of-n-ary-tree/">Find Root of N-Ary Tree</a></td>
+<td><a href="./golang/1506_find_root_of_n_ary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Bit Manipulation</td>
+</tr>
+<tr>
+<td>1516</td>
+<td><a href="../problems/1516-move-sub-tree-of-n-ary-tree/">Move Sub-Tree of N-Ary Tree</a></td>
+<td><a href="./golang/1516_move_sub_tree_of_n_ary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>DFS, Stack</td>
+</tr>
+<tr>
+<td>1666</td>
+<td><a href="../problems/1666-change-the-root-of-a-binary-tree/">Change the Root of a Binary Tree</a></td>
+<td><a href="./golang/1666_change_the_root_of_a_binary_tree.go">Go</a></td>
+<td><em>O(h)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>2236</td>
+<td><a href="../problems/2236-root-equals-sum-of-children/">Root Equals Sum of Children</a></td>
+<td><a href="./golang/2236_root_equals_sum_of_children.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Tree</td>
+</tr>
+<tr>
+<td>2277</td>
+<td><a href="../problems/2277-closest-node-to-path-in-tree/">Closest Node to Path in Tree</a></td>
+<td><a href="./golang/2277_closest_node_to_path_in_tree.go">Go</a></td>
+<td><em>O(n + q)</em></td>
+<td><em>O(n + q)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>Tree, BFS, Binary Lifting, <code>Tarjan's Offline LCA Algorithm</code></td>
+</tr>
+<tr>
+<td>2509</td>
+<td><a href="../problems/2509-cycle-length-queries-in-a-tree/">Cycle Length Queries in a Tree</a></td>
+<td><a href="./golang/2509_cycle_length_queries_in_a_tree.go">Go</a></td>
+<td><em>O(q * n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Tree, LCA</td>
+</tr>
+<tr>
+<td>0310</td>
+<td><a href="./problems/0310-minimum-height-trees.md">Minimum Height Trees</a></td>
+<td><a href="./golang/0310_minimum_height_trees.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0666</td>
+<td><a href="./problems/0666-path-sum-iv.md">Path Sum IV</a></td>
+<td><a href="./golang/0666_path_sum_iv.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(w)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Topological Sort</td>
+</tr>
+<tr>
+<td>0742</td>
+<td><a href="./problems/0742-closest-leaf-in-a-binary-tree.md">Closest Leaf in a Binary Tree</a></td>
+<td><a href="./golang/0742_closest_leaf_in_a_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1161</td>
+<td><a href="./problems/1161-maximum-level-sum-of-a-binary-tree.md">Maximum Level Sum of a Binary Tree</a></td>
+<td><a href="./golang/1161_maximum_level_sum_of_a_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(w)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>1245</td>
+<td><a href="./problems/1245-tree-diameter.md">Tree Diameter</a></td>
+<td><a href="./golang/1245_tree_diameter.go">Go</a></td>
+<td><em>O(|V| + |E|)</em></td>
+<td><em>O(|E|)</em></td>
+<td>Medium</td>
+<td>variant of <a href="https://leetcode.com/problems/diameter-of-binary-tree/">Diameter of Binary Tree</a></td>
+<td></td>
+</tr>
+<tr>
+<td>1302</td>
+<td><a href="./problems/1302-deepest-leaves-sum.md">Deepest Leaves Sum</a></td>
+<td><a href="./golang/1302_deepest_leaves_sum.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(w)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1602</td>
+<td><a href="./problems/1602-find-nearest-right-node-in-binary-tree.md">Find Nearest Right Node in Binary Tree</a></td>
+<td><a href="./golang/1602_find_nearest_right_node_in_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(w)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1609</td>
+<td><a href="./problems/1609-even-odd-tree.md">Even Odd Tree</a></td>
+<td><a href="./golang/1609_even_odd_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(w)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1660</td>
+<td><a href="./problems/1660-correct-a-binary-tree.md">Correct a Binary Tree</a></td>
+<td><a href="./golang/1660_correct_a_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(w)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>BFS</td>
+</tr>
+<tr>
+<td>2415</td>
+<td><a href="./problems/2415-reverse-odd-levels-of-binary-tree.md">Reverse Odd Levels of Binary Tree</a></td>
+<td><a href="./golang/2415_reverse_odd_levels_of_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>BFS</td>
+</tr>
+<tr>
+<td>2471</td>
+<td><a href="./problems/2471-minimum-number-of-operations-to-sort-a-binary-tree-by-level.md">Minimum Number of Operations to Sort a Binary Tree by Level</a></td>
+<td><a href="./golang/2471_minimum_number_of_operations_to_sort_a_binary_tree_by_level.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(w)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Sort, BFS</td>
+</tr>
+<tr>
+<td>2583</td>
+<td><a href="./problems/2583-kth-largest-sum-in-a-binary-tree.md">Kth Largest Sum in a Binary Tree</a></td>
+<td><a href="./golang/2583_kth_largest_sum_in_a_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>BFS, Quick Select</td>
+</tr>
+<tr>
+<td>2603</td>
+<td><a href="./problems/2603-collect-coins-in-a-tree.md">Collect Coins in a Tree</a></td>
+<td><a href="./golang/2603_collect_coins_in_a_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Tree, BFS</td>
+</tr>
+<tr>
+<td>2641</td>
+<td><a href="./problems/2641-cousins-in-binary-tree-ii.md">Cousins in Binary Tree II</a></td>
+<td><a href="./golang/2641_cousins_in_binary_tree_ii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(w)</em></td>
+<td>Medium</td>
+<td></td>
+<td>BFS</td>
+</tr>
+<tr>
+<td>2846</td>
+<td><a href="../problems/2846-minimum-edge-weight-equilibrium-queries-in-a-tree/">Minimum Edge Weight Equilibrium Queries in a Tree</a></td>
+<td><a href="./golang/2846_minimum_edge_weight_equilibrium_queries_in_a_tree.go">Go</a></td>
+<td><em>O(r * (n + q))</em></td>
+<td><em>O(r * n + q)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Tree, Binary Lifting, <code>Tarjan's Offline LCA Algorithm</code></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

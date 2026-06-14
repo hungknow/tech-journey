@@ -1,0 +1,1694 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../hash-table/">
+      
+      
+        <link rel="next" href="../math/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Backtracking - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#backtracking" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Backtracking
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#backtracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backtracking
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Backtracking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-combination-subset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Combination / Subset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-word-search-break" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Word Search / Break
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-n-queens-sudoku" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. N-Queens / Sudoku
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Other
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#backtracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backtracking
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Backtracking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-combination-subset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Combination / Subset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-word-search-break" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Word Search / Break
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-n-queens-sudoku" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. N-Queens / Sudoku
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Other
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Backtracking</h1>
+
+<h2 id="backtracking">Backtracking</h2>
+<h3 id="1-combination-subset">1. Combination / Subset</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0017</td>
+<td><a href="./problems/0017-letter-combinations-of-a-phone-number.md">Letter Combinations of a Phone Number</a></td>
+<td><a href="./golang/0017_letter_combinations_of_a_phone_number.go">Go</a></td>
+<td><em>O(n * 4^n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0039</td>
+<td><a href="./problems/0039-combination-sum.md">Combination Sum</a></td>
+<td><a href="./golang/0039_combination_sum.go">Go</a></td>
+<td><em>O(k * n^k)</em></td>
+<td><em>O(k)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0040</td>
+<td><a href="./problems/0040-combination-sum-ii.md">Combination Sum II</a></td>
+<td><a href="./golang/0040_combination_sum_ii.go">Go</a></td>
+<td><em>O(k * C(n, k))</em></td>
+<td><em>O(k)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0046</td>
+<td><a href="./problems/0046-permutations.md">Permutations</a></td>
+<td><a href="./golang/0046_permutations.go">Go</a></td>
+<td><em>O(n * n!)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0047</td>
+<td><a href="./problems/0047-permutations-ii.md">Permutations II</a></td>
+<td><a href="./golang/0047_permutations_ii.go">Go</a></td>
+<td><em>O(n * n!)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0077</td>
+<td><a href="./problems/0077-combinations.md">Combinations</a></td>
+<td><a href="./golang/0077_combinations.go">Go</a></td>
+<td><em>O(O(k * C(n, k)))</em></td>
+<td><em>O(k)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0078</td>
+<td><a href="./problems/0078-subsets.md">Subsets</a></td>
+<td><a href="./golang/0078_subsets.go">Go</a></td>
+<td><em>O(n * 2^n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0090</td>
+<td><a href="./problems/0090-subsets-ii.md">Subsets II</a></td>
+<td><a href="./golang/0090_subsets_ii.go">Go</a></td>
+<td><em>O(n * 2^n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0216</td>
+<td><a href="./problems/0216-combination-sum-iii.md">Combination Sum III</a></td>
+<td><a href="./golang/0216_combination_sum_iii.go">Go</a></td>
+<td><em>O(k * C(n, k))</em></td>
+<td><em>O(k)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0254</td>
+<td><a href="./problems/0254-factor-combinations.md">Factor Combinations</a></td>
+<td><a href="./golang/0254_factor_combinations.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(logn)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0267</td>
+<td><a href="./problems/0267-palindrome-permutation-ii.md">Palindrome Permutation II</a></td>
+<td><a href="./golang/0267_palindrome_permutation_ii.go">Go</a></td>
+<td><em>O(n * n!)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0698</td>
+<td><a href="./problems/0698-partition-to-k-equal-sum-subsets.md">Partition to K Equal Sum Subsets</a></td>
+<td><a href="./golang/0698_partition_to_k_equal_sum_subsets.go">Go</a></td>
+<td><em>O(n * 2^n)</em></td>
+<td><em>O(2^n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>DFS, DP, Memoization</td>
+</tr>
+<tr>
+<td>0784</td>
+<td><a href="./problems/0784-letter-case-permutation.md">Letter Case Permutation</a></td>
+<td><a href="./golang/0784_letter_case_permutation.go">Go</a></td>
+<td><em>O(n * 2^n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2056</td>
+<td><a href="./problems/2056-number-of-valid-move-combinations-on-chessboard.md">Number of Valid Move Combinations On Chessboard</a></td>
+<td><a href="./golang/2056_number_of_valid_move_combinations_on_chessboard.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2741</td>
+<td><a href="./problems/2741-special-permutations.md">Special Permutations</a></td>
+<td><a href="./golang/2741_special_permutations.go">Go</a></td>
+<td><em>O(n^2 * 2^n)</em></td>
+<td><em>O(n * 2^n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Backtracking, Memoization</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="2-word-search-break">2. Word Search / Break</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0079</td>
+<td><a href="./problems/0079-word-search.md">Word Search</a></td>
+<td><a href="./golang/0079_word_search.go">Go</a></td>
+<td><em>O(m * n * 3^l)</em></td>
+<td><em>O(l)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0131</td>
+<td><a href="./problems/0131-palindrome-partitioning.md">Palindrome Partitioning</a></td>
+<td><a href="./golang/0131_palindrome_partitioning.go">Go</a></td>
+<td><em>O(n^2)</em> ~ <em>O(2^n)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0140</td>
+<td><a href="./problems/0140-word-break-ii.md">Word Break II</a></td>
+<td><a href="./golang/0140_word_break_ii.go">Go</a></td>
+<td><em>O(n * l^2 + n * r)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0212</td>
+<td><a href="./problems/0212-word-search-ii.md">Word Search II</a></td>
+<td><a href="./golang/0212_word_search_ii.go">Go</a></td>
+<td><em>O(m * n * 3^h)</em></td>
+<td><em>O(t)</em></td>
+<td>Hard</td>
+<td>LintCode</td>
+<td>Trie, DFS</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="3-n-queens-sudoku">3. N-Queens / Sudoku</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0037</td>
+<td><a href="./problems/0037-sudoku-solver.md">Sudoku Solver</a></td>
+<td><a href="./golang/0037_sudoku_solver.go">Go</a></td>
+<td><em>O((9!)^9)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0051</td>
+<td><a href="./problems/0051-n-queens.md">N-Queens</a></td>
+<td><a href="./golang/0051_n_queens.go">Go</a></td>
+<td><em>O(n^2 * n!)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0052</td>
+<td><a href="./problems/0052-n-queens-ii.md">N-Queens-II</a></td>
+<td><a href="./golang/0052_n_queens_ii.go">Go</a></td>
+<td><em>O(n!)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="4-other">4. Other</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0022</td>
+<td><a href="./problems/0022-generate-parentheses.md">Generate Parentheses</a></td>
+<td><a href="./golang/0022_generate_parentheses.go">Go</a></td>
+<td><em>O(4^n / n^(3/2))</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0093</td>
+<td><a href="./problems/0093-restore-ip-addresses.md">Restore IP Addresses</a></td>
+<td><a href="./golang/0093_restore_ip_addresses.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0126</td>
+<td><a href="./problems/0126-word-ladder-ii.md">Word Ladder II</a></td>
+<td><a href="./golang/0126_word_ladder_ii.go">Go</a></td>
+<td><em>O(b^(d/2))</em></td>
+<td><em>O(w * l)</em></td>
+<td>Hard</td>
+<td>CTCI</td>
+<td>Bi-BFS</td>
+</tr>
+<tr>
+<td>0291</td>
+<td><a href="./problems/0291-word-pattern-ii.md">Word Pattern II</a></td>
+<td><a href="./golang/0291_word_pattern_ii.go">Go</a></td>
+<td><em>O(n * C(n - 1, c - 1))</em></td>
+<td><em>O(n + c)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0294</td>
+<td><a href="./problems/0294-flip-game-ii.md">Flip Game II</a></td>
+<td><a href="./golang/0294_flip_game_ii.go">Go</a></td>
+<td><em>O(n + c^2)</em></td>
+<td><em>O(c)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>DP, Hash, <code>Sprague-Grundy Theorem</code></td>
+</tr>
+<tr>
+<td>0320</td>
+<td><a href="./problems/0320-generalized-abbreviation.md">Generalized Abbreviation</a></td>
+<td><a href="./golang/0320_generalized_abbreviation.go">Go</a></td>
+<td><em>O(n * 2^n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0425</td>
+<td><a href="./problems/0425-word-squares.md">Word Squares</a></td>
+<td><a href="./golang/0425_word_squares.go">Go</a></td>
+<td><em>O(n^2 * n!)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0488</td>
+<td><a href="./problems/0488-zuma-game.md">Zuma Game</a></td>
+<td><a href="./golang/0488_zuma_game.go">Go</a></td>
+<td><em>O((b+h) * h!*(b+h-1)!/(b-1)!)</em></td>
+<td><em>O((b+h) * h!*(b+h-1)!/(b-1)!)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Backtracking</td>
+</tr>
+<tr>
+<td>0491</td>
+<td><a href="./problems/0491-increasing-subsequences.md">Increasing Subsequences</a></td>
+<td><a href="./golang/0491_increasing_subsequences.go">Go</a></td>
+<td><em>O(n * 2^n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Backtracking</td>
+</tr>
+<tr>
+<td>0526</td>
+<td><a href="./problems/0526-beautiful-arrangement.md">Beautiful Arrangement</a></td>
+<td><a href="./golang/0526_beautiful_arrangement.go">Go</a></td>
+<td><em>O(n!)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0676</td>
+<td><a href="./problems/0676-implement-magic-dictionary.md">Implement Magic Dictionary</a></td>
+<td><a href="./golang/0676_implement_magic_dictionary.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(d)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Trie, DFS</td>
+</tr>
+<tr>
+<td>0679</td>
+<td><a href="./problems/0679-24-game.md">24 Game</a></td>
+<td><a href="./golang/0679_24_game.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>DFS</td>
+</tr>
+<tr>
+<td>0718</td>
+<td><a href="./problems/0718-maximum-length-of-repeated-subarray.md">Maximum Length of Repeated Subarray</a></td>
+<td><a href="./golang/0718_maximum_length_of_repeated_subarray.go">Go</a></td>
+<td><em>O(m * n)</em></td>
+<td><em>O(min(m, n))</em></td>
+<td>Medium</td>
+<td></td>
+<td>DP, Hash, Binary Search</td>
+</tr>
+<tr>
+<td>0996</td>
+<td><a href="./problems/0996-number-of-squareful-arrays.md">Number of Squareful Arrays</a></td>
+<td><a href="./golang/0996_number_of_squareful_arrays.go">Go</a></td>
+<td><em>O(n!)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1087</td>
+<td><a href="./problems/1087-brace-expansion.md">Brace Expansion</a></td>
+<td><a href="./golang/1087_brace_expansion.go">Go</a></td>
+<td><em>O(p * l * log(p * l))</em></td>
+<td><em>O(p * l)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>1096</td>
+<td><a href="./problems/1096-brace-expansion-ii.md">Brace Expansion II</a></td>
+<td><a href="./golang/1096_brace_expansion_ii.go">Go</a></td>
+<td><em>O(p * l * log(p * l))</em></td>
+<td><em>O(p * l)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1219</td>
+<td><a href="./problems/1219-path-with-maximum-gold.md">Path with Maximum Gold</a></td>
+<td><a href="./golang/1219_path_with_maximum_gold.go">Go</a></td>
+<td><em>O(m^2 * n^2)</em></td>
+<td><em>O(m * n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1240</td>
+<td><a href="./problems/1240-tiling-a-rectangle-with-the-fewest-squares.md">Tiling a Rectangle with the Fewest Squares</a></td>
+<td><a href="./golang/1240_tiling_a_rectangle_with_the_fewest_squares.go">Go</a></td>
+<td><em>O(n^2 * m^2 * m^(n * m))</em></td>
+<td><em>O(n * m)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1255</td>
+<td><a href="./problems/1255-maximum-score-words-formed-by-letters.md">Maximum Score Words Formed by Letters</a></td>
+<td><a href="./golang/1255_maximum_score_words_formed_by_letters.go">Go</a></td>
+<td><em>O(n * 2^n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1258</td>
+<td><a href="./problems/1258-synonymous-sentences.md">Synonymous Sentences</a></td>
+<td><a href="./golang/1258_synonymous_sentences.go">Go</a></td>
+<td><em>O(p * l * log(p * l))</em></td>
+<td><em>O(p * l)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Union Find</td>
+</tr>
+<tr>
+<td>1307</td>
+<td><a href="./problems/1307-verbal-arithmetic-puzzle.md">Verbal Arithmetic Puzzle</a></td>
+<td><a href="./golang/1307_verbal_arithmetic_puzzle.go">Go</a></td>
+<td><em>O(10! * n * l)</em></td>
+<td><em>O(n * l)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1379</td>
+<td><a href="./problems/1379-find-a-corresponding-node-of-a-binary-tree-in-a-clone-of-that-tree.md">Find a Corresponding Node of a Binary Tree in a Clone of That Tree</a></td>
+<td><a href="./golang/1379_find_a_corresponding_node_of_a_binary_tree_in_a_clone_of_that_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Stack</td>
+</tr>
+<tr>
+<td>1593</td>
+<td><a href="./problems/1593-split-a-string-into-the-max-number-of-unique-substrings.md">Split a String Into the Max Number of Unique Substrings</a></td>
+<td><a href="./golang/1593_split_a_string_into_the_max_number_of_unique_substrings.go">Go</a></td>
+<td><em>O(n * 2^(n - 1))</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1659</td>
+<td><a href="./problems/1659-maximize-grid-happiness.md">Maximize Grid Happiness</a></td>
+<td><a href="./golang/1659_maximize_grid_happiness.go">Go</a></td>
+<td><em>O(C(m * n, i) * C(m * n - i, e))</em></td>
+<td><em>O(min(m * n, i + e))</em></td>
+<td>Hard</td>
+<td></td>
+<td>Pruning</td>
+</tr>
+<tr>
+<td>1718</td>
+<td><a href="./problems/1718-construct-the-lexicographically-largest-valid-sequence.md">Construct the Lexicographically Largest Valid Sequence</a></td>
+<td><a href="./golang/1718_construct_the_lexicographically_largest_valid_sequence.go">Go</a></td>
+<td><em>O(n!)</em></td>
+<td><em>O(b)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Backtracking</td>
+</tr>
+<tr>
+<td>1723</td>
+<td><a href="./problems/1723-find-minimum-time-to-finish-all-jobs.md">Find Minimum Time to Finish All Jobs</a></td>
+<td><a href="./golang/1723_find_minimum_time_to_finish_all_jobs.go">Go</a></td>
+<td><em>O(k^n * logr)</em></td>
+<td><em>O(n + k)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Backtracking, Pruning, Binary Search</td>
+</tr>
+<tr>
+<td>1849</td>
+<td><a href="./problems/1849-splitting-a-string-into-descending-consecutive-values.md">Splitting a String Into Descending Consecutive Values</a></td>
+<td><a href="./golang/1849_splitting_a_string_into_descending_consecutive_values.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1999</td>
+<td><a href="./problems/1999-smallest-greater-multiple-made-of-two-digits.md">Smallest Greater Multiple Made of Two Digits</a></td>
+<td><a href="./golang/1999_smallest_greater_multiple_made_of_two_digits.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Backtracking, Bit Manipulation</td>
+</tr>
+<tr>
+<td>2014</td>
+<td><a href="./problems/2014-longest-subsequence-repeated-k-times.md">Longest Subsequence Repeated k Times</a></td>
+<td><a href="./golang/2014_longest_subsequence_repeated_k_times.go">Go</a></td>
+<td><em>O(n * (n/k)!)</em></td>
+<td><em>O(n/k)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2094</td>
+<td><a href="./problems/2094-finding-3-digit-even-numbers.md">Finding 3-Digit Even Numbers</a></td>
+<td><a href="./golang/2094_finding_3_digit_even_numbers.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2443</td>
+<td><a href="./problems/2443-sum-of-number-and-its-reverse.md">Sum of Number and Its Reverse</a></td>
+<td><a href="./golang/2443_sum_of_number_and_its_reverse.go">Go</a></td>
+<td><em>O(n^(1/(2*log2(10))))</em></td>
+<td><em>O(log10(n)/2)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Brute Force, Backtracking</td>
+</tr>
+<tr>
+<td>2664</td>
+<td><a href="./problems/2664-the-knights-tour.md">The Knight’s Tour</a></td>
+<td><a href="./golang/2664_the_knights_tour.go">Go</a></td>
+<td><em>O(m * n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Backtracking, Greedy, <code>Warnsdorff's Rule</code></td>
+</tr>
+<tr>
+<td>2698</td>
+<td><a href="./problems/2698-find-the-punishment-number-of-an-integer.md">Find the Punishment Number of an Integer</a></td>
+<td><a href="./golang/2698_find_the_punishment_number_of_an_integer.go">Go</a></td>
+<td><em>O(n * (logn)^(2*logn))</em></td>
+<td><em>O(logn)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Backtracking</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

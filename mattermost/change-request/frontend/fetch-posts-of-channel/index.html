@@ -1,0 +1,1200 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Fetch Posts of Channel - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fetch-posts-of-channel" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Fetch Posts of Channel
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases-and-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use cases and API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-api-for-channel-posts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. API for channel posts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-how-the-frontend-fetches-latest-posts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. How the frontend fetches “latest” posts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. How the frontend fetches “latest” posts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-load-unreads-vs-load-latest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Load unreads vs load latest
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-threads-replies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Threads (replies)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-pagination-on-scroll" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Pagination on scroll
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-frontend-file-tree-and-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Frontend file tree and flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Frontend file tree and flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-file-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 File tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-component-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Component flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="fetch-posts-of-channel">Fetch Posts of Channel</h1>
+<p>This document describes how the frontend fetches the latest posts for a specific channel: which API is used, how thread (reply) posts are handled, and how pagination works when the user scrolls. The description is based on the current web app and server code.</p>
+<p><strong>Abbreviations:</strong> <strong>CRT</strong> = Collapsed Reply Threads — replies are shown in a thread view (not inline in the channel); the channel shows root posts + thread metadata; when CRT is on, unread and mentions use root-post counts (<code>msg_count_root</code>, <code>mention_count_root</code>, <code>messageCount.root</code>).</p>
+<h2 id="use-cases-and-api">Use cases and API</h2>
+<p><strong>Entry point:</strong> <code>PostList</code> calls <code>postsOnLoad(channelId)</code> (in <code>post_list.tsx</code>). That function picks one of the actions below: first it checks for a focused/permalink post, then first-load unreads, then sync after reconnect, then falls back to loading the latest posts. Scroll (older/newer) and other actions run later, when the user scrolls or opens a thread.</p>
+<p><strong>Main post-loading (used by <code>postsOnLoad</code>), in priority order:</strong></p>
+<ol>
+<li>
+<p><strong>Permalink / focused post.</strong> (checked first)</p>
+<ul>
+<li>Function: <code>loadPostsAround(channelId, focusedPostId)</code> — three calls in parallel: <code>getPostThread(postId)</code>, <code>getPostsAfter</code>, <code>getPostsBefore</code>.</li>
+<li>API: <code>GET /api/v4/posts/{post_id}/thread</code> plus <code>GET /api/v4/channels/{channel_id}/posts?after=...</code> and <code>?before=...</code>. Results merged so the list is centered on that post.</li>
+</ul>
+</li>
+<li>
+<p><strong>First load with unreads.</strong></p>
+<ul>
+<li>Function: <code>loadUnreads</code> → <code>getPostsUnread</code>.</li>
+<li>API: <code>GET /api/v4/users/{user_id}/channels/{channel_id}/posts/unread?limit_after=30&amp;limit_before=30</code>.</li>
+<li>May also call <code>getPosts</code> when "start from newest".</li>
+</ul>
+</li>
+<li>
+<p><strong>Sync after reconnect.</strong></p>
+<ul>
+<li>Function: <code>syncPostsInChannel</code> → <code>getPostsSince(since)</code>.</li>
+<li>API: <code>GET /api/v4/channels/{channel_id}/posts?since={timestamp}</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Open channel (latest).</strong> (default fallback)</p>
+<ul>
+<li>Function: <code>loadLatestPosts</code> → <code>getPosts(channelId, 0, 30)</code>.</li>
+<li>API: <code>GET /api/v4/channels/{channel_id}/posts?page=0&amp;per_page=30</code>.</li>
+<li>Optional query: <code>skipFetchThreads</code>, <code>collapsedThreads</code>, <code>collapsedThreadsExtended</code>.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Other actions (scroll, permalink, thread, etc.):</strong></p>
+<ul>
+<li>
+<p><strong>Scroll up (older).</strong></p>
+<ul>
+<li>Function: <code>loadOlderPosts</code> → <code>getPostsBefore(channelId, oldestPostId, …)</code>.</li>
+<li>API: <code>GET /api/v4/channels/{channel_id}/posts?before={postId}&amp;page=0&amp;per_page=30</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Scroll down (newer).</strong></p>
+<ul>
+<li>Function: <code>loadNewerPosts</code> → <code>getPostsAfter(channelId, newestPostId, …)</code>.</li>
+<li>API: <code>GET /api/v4/channels/{channel_id}/posts?after={postId}&amp;page=0&amp;per_page=30</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Permalink / focused post.</strong></p>
+<ul>
+<li>Function: <code>loadPostsAround</code> — runs three calls in parallel: <code>getPostThread(postId)</code>, <code>getPostsAfter</code>, <code>getPostsBefore</code>.</li>
+<li>API: <code>GET /api/v4/posts/{post_id}/thread</code> plus channel posts with <code>after</code> / <code>before</code>. Results merged so the list is centered on that post.</li>
+</ul>
+</li>
+<li>
+<p><strong>Thread viewer (replies).</strong></p>
+<ul>
+<li>Function: <code>getPostThread(postId)</code>.</li>
+<li>API: <code>GET /api/v4/posts/{post_id}/thread</code>. Optional query: <code>skipFetchThreads</code>, <code>collapsedThreads</code>, <code>collapsedThreadsExtended</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Load specific posts by ID.</strong></p>
+<ul>
+<li>Function: <code>getPostsByIds(ids)</code>.</li>
+<li>API: <code>POST /api/v4/posts/ids</code> (body: JSON array of post IDs). For specific posts, not the channel timeline.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Notes:</strong> Thread behaviour: channel list uses <code>skipFetchThreads</code> and <code>collapsedThreads</code> on the channel posts endpoint; thread viewer uses the thread endpoint. Key paths: <code>webapp/channels/src/actions/views/channel.ts</code>; Redux/Client: <code>mattermost-redux/actions/posts.ts</code>, <code>client4.ts</code>. Server: <code>getPostsForChannel</code> in <code>api4/post.go</code>.</p>
+<hr />
+<h2 id="1-api-for-channel-posts">1. API for channel posts</h2>
+<p><strong>Endpoint:</strong> <code>GET /api/v4/channels/{channel_id}/posts</code> (handler: <code>getPostsForChannel</code>, <code>api4/post.go</code>).</p>
+<p><strong>Query params:</strong></p>
+<ul>
+<li><code>page</code>, <code>per_page</code> — Default pagination (no <code>since</code>/<code>before</code>/<code>after</code>).</li>
+<li><code>since</code> — Unix ms; posts modified after (sync). Mutually exclusive with before/after/page.</li>
+<li><code>before</code> — Post ID → page of <strong>older</strong> posts.</li>
+<li><code>after</code> — Post ID → page of <strong>newer</strong> posts.</li>
+<li><code>skipFetchThreads</code> — If true, no reply posts; only roots (and thread metadata when collapsed).</li>
+<li><code>collapsedThreads</code> — Only root posts + thread metadata (reply count, last reply, etc.).</li>
+<li><code>collapsedThreadsExtended</code> — Extended thread metadata.</li>
+<li><code>include_deleted</code> — Include deleted (system admin).</li>
+</ul>
+<p><strong>Response (PostList):</strong><br />
+- <code>order</code>: list of post IDs, newest first<br />
+- <code>posts</code>: map of id → post<br />
+- <code>next_post_id</code>: string, for pagination (empty if no more newer)<br />
+- <code>prev_post_id</code>: string, for pagination (empty if no more older)<br />
+- <code>first_inaccessible_post_time</code>: timestamp if earliest post is not visible to the user  </p>
+<hr />
+<h2 id="2-how-the-frontend-fetches-latest-posts">2. How the frontend fetches “latest” posts</h2>
+<p><strong>Entry:</strong> <code>PostList</code> → <code>postsOnLoad(channelId)</code> (in <code>post_list.tsx</code> / <code>post_list/index.tsx</code>).</p>
+<p><strong>Which call (order matches <code>postsOnLoad</code> logic):</strong></p>
+<ol>
+<li><strong>Permalink / focused post</strong> → <code>loadPostsAround(channelId, focusedPostId)</code>: 3 parallel calls — <code>getPostThread(postId)</code> → <code>GET .../posts/{id}/thread</code>, <code>getPostsAfter</code> → <code>GET .../channels/{id}/posts?after=...</code>, <code>getPostsBefore</code> → <code>GET .../channels/{id}/posts?before=...</code>; merged so list is centered on that post.</li>
+<li><strong>First load with unreads</strong> → <code>loadUnreads(channelId)</code> → <code>getPostsUnread</code> → <strong>API:</strong> <code>GET /api/v4/users/{user_id}/channels/{channel_id}/posts/unread?limit_after=30&amp;limit_before=30</code>; may also call <code>getPosts(channelId, 0, …)</code> when “start from newest”.</li>
+<li><strong>Re-sync (e.g. reconnect)</strong> → <code>syncPostsInChannel(channelId, latestPostTimeStamp)</code> → <code>getPostsSince(since)</code> → <strong>API:</strong> <code>GET /api/v4/channels/{channel_id}/posts?since={timestamp}</code>.</li>
+<li><strong>Default</strong> → <code>loadLatestPosts(channelId)</code> → <code>getPosts(channelId, 0, 30)</code> → <strong>API:</strong> <code>GET /api/v4/channels/{channel_id}/posts?page=0&amp;per_page=30</code>.</li>
+</ol>
+<p>Typical “open channel” = <strong>GET</strong> <code>.../posts</code> with <code>page=0</code>, <code>per_page=30</code>.</p>
+<h3 id="21-load-unreads-vs-load-latest">2.1 Load unreads vs load latest</h3>
+<ul>
+<li><strong>First open</strong> (no posts in channel yet): the app calls <strong>load unreads</strong> → <code>GET .../users/{user_id}/channels/{channel_id}/posts/unread?limit_after=30&amp;limit_before=30</code>. The server uses the user’s membership (<code>last_viewed_at</code>, <code>msg_count</code>) to return a window around the unread position. Whether the UI then shows that unread window or the newest posts is controlled by the “Scroll position when viewing an unread channel” setting (start from unread vs start from newest).</li>
+<li><strong>Later opens</strong> (channel already has posts in Redux): the app uses <strong>load latest</strong> or <strong>sync</strong> → <code>GET .../channels/{id}/posts?page=0&amp;per_page=30</code> (or <code>since=...</code>).</li>
+</ul>
+<p><strong>How “unread” is determined</strong> (for sidebar and behaviour):<br />
+- <strong><code>myMembers</code></strong> = <code>state.entities.channels.myMembers</code> — a map <strong>channelId → your membership</strong> in that channel. Each value is a <code>ChannelMembership</code>: your read position and mention counts for that channel (see types in <code>webapp/platform/types/src/channels.ts</code>).
+- <strong>Per channel you have:</strong> <code>msg_count</code> / <code>msg_count_root</code> = number of posts (or root posts) you’ve “read” (count at last view); <code>mention_count</code> / <code>mention_count_root</code> = unread @mentions for you. Channel totals live in <code>state.entities.channels.messageCounts[channelId]</code> as <code>total</code> and <code>root</code>.
+- <strong>Formulas:</strong> unread messages = <code>messageCount.total − member.msg_count</code> (or <code>root − msg_count_root</code> when CRT is on); unread mentions = <code>member.mention_count</code> (or <code>mention_count_root</code>). <strong>Show as unread</strong> = <code>mention_count &gt; 0</code> OR (channel not muted AND unread message count &gt; 0). See <code>calculateUnreadCount</code> in <code>mattermost-redux/utils/channel_utils.ts</code>.
+- <strong>Example (no CRT):</strong> Channel has 100 posts (<code>messageCount.total = 100</code>), you’ve read up to 93 (<code>member.msg_count = 93</code>), 2 unread @mentions (<code>member.mention_count = 2</code>). Unread messages = 100 − 93 = <strong>7</strong>; sidebar shows unread (mentions 2 &gt; 0 and 7 unread).</p>
+<hr />
+<h2 id="3-threads-replies">3. Threads (replies)</h2>
+<p><strong>Channel list:</strong> Root posts (no <code>root_id</code>); replies have <code>root_id</code>. Order is by root. Replies either inline (Collapsed Threads off) or collapsed (only root + metadata).</p>
+<p><strong>API:</strong><br />
+- <code>skipFetchThreads = false</code>: server includes reply posts.<br />
+- <code>skipFetchThreads = true</code>: only roots (and metadata); replies loaded when user opens thread.<br />
+- <code>collapsedThreads = true</code>: only roots + thread metadata; full replies when thread opens.</p>
+<p><strong>Thread viewer:</strong> <code>Client4.getPostThread(postId)</code> → <strong>API:</strong> <code>GET /api/v4/posts/{post_id}/thread</code>. Returns PostList for that thread (root + replies). Not the channel-posts endpoint.</p>
+<p><strong>loadPostsAround:</strong> Always calls thread API with focused post ID. Backend returns: single post (no thread), root+replies (root), or full thread (when focused post is a reply). Frontend merges with before/after channel posts and centers.</p>
+<hr />
+<h2 id="4-pagination-on-scroll">4. Pagination on scroll</h2>
+<p><strong>Trigger:</strong> Virtualized list (<code>post_list_virtualized.tsx</code>). Near top → <code>loadOlderPosts()</code>; near bottom → <code>loadNewerPosts()</code>. Threshold ~1000px.</p>
+<p><strong>Calls:</strong><br />
+- Older: <code>getPostsBefore(channelId, oldestVisiblePostId, …)</code> → <strong>API:</strong> <code>GET /api/v4/channels/{channel_id}/posts?before={postId}&amp;page=0&amp;per_page=30</code>.<br />
+- Newer: <code>getPostsAfter(channelId, newestVisiblePostId, …)</code> → <strong>API:</strong> <code>GET /api/v4/channels/{channel_id}/posts?after={postId}&amp;page=0&amp;per_page=30</code>.</p>
+<p><strong>Sizes:</strong> User scroll = 30/request; auto-load up to 200.<br />
+<strong>Boundaries:</strong> <code>atOldestPost</code> / <code>atLatestPost</code> from <code>prev_post_id === ''</code> / <code>next_post_id === ''</code>; then no more requests.<br />
+<strong>Limit:</strong> <code>MAX_EXTRA_PAGES_LOADED</code> (30) caps extra pages per session.</p>
+<hr />
+<h2 id="5-frontend-file-tree-and-flow">5. Frontend file tree and flow</h2>
+<h3 id="51-file-tree">5.1 File tree</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>webapp/channels/src/
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── actions/views/channel.ts           # loadLatestPosts→getPosts, loadUnreads→getPostsUnread, loadPostsAround→(3 APIs), syncPostsInChannel→getPostsSince
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── actions/websocket_actions.ts       # syncPostsInChannel on reconnect
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── components/channel_view/channel_view.tsx
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── components/data_prefetch/          # prefetchChannelPosts (current + unread)
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>├── components/post_view/
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   ├── post_view.tsx, post_list/      # postsOnLoad, getPostsBefore/After
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   └── post_list_virtualized/         # onScroll → loadOlder/Newer
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>└── packages/mattermost-redux/src/
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    ├── actions/posts.ts              # Defines functions that call the various post-related API endpoints, including:
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    │                                 #   - getPosts:               GET /channels/{id}/posts
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    │                                 #   - getPostsBefore:         GET /channels/{id}/posts?before={postId}
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    │                                 #   - getPostsAfter:          GET /channels/{id}/posts?after={postId}
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    │                                 #   - getPostsSince:          GET /channels/{id}/posts?since={timestamp}
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    │                                 #   - getPostsAround:         Runs thread+before+after calls and merges them
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    │                                 #   - getPostsUnread:         GET /users/{user_id}/channels/{channel_id}/posts/unread
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    ├── selectors/entities/posts.ts    # Selectors to extract post data from the Redux store.
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    ├── reducers/entities/posts.ts     # Redux reducers for managing post state.
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    └── utils/post_list.ts             # Post list utilities, sorting, merging, etc.
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>webapp/platform/client/src/client4.ts  # Contains low-level HTTP functions for all post-related endpoints used above:
+</span></code></pre></div>
+<p><strong>Server:</strong> <code>server/channels/api4/api.go</code> (route), <code>post.go</code> (<code>getPostsForChannel</code>); <code>app/post.go</code> (GetPostsPage, GetPostsBeforePost, GetPostsAfterPost, GetPostsSince).</p>
+<h3 id="52-component-flow">5.2 Component flow</h3>
+<p><strong>Hierarchy (top → bottom):</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ChannelView
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    └── PostView (deferred; handles loading vs content, passes unread state)
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>            └── PostList (Redux connect)
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>                    └── PostListVirtualized (virtualized list, scroll handlers)
+</span></code></pre></div>
+<p><strong>Responsibilities:</strong></p>
+<ul>
+<li><strong>ChannelView</strong> — Container; mounts PostView (deferred).</li>
+<li><strong>PostView</strong> — Shows a loading state (e.g. spinner/skeleton) while posts are fetched, then the post list once ready. Passes unread-related data (e.g. last read position) down to PostList so it can show the “New messages” divider and choose between <code>loadUnreads</code> and <code>loadLatestPosts</code> on first load.</li>
+<li><strong>PostList</strong> — On load: <code>postsOnLoad</code> runs one of <code>loadPostsAround</code>, <code>loadUnreads</code>, <code>syncPostsInChannel</code>, or <code>loadLatestPosts</code>. Passes <code>getPostsBefore</code> / <code>getPostsAfter</code> to the virtualized list.</li>
+<li><strong>PostListVirtualized</strong> — Renders posts; <code>onScroll</code> calls <code>loadOlderPosts</code> (near top) or <code>loadNewerPosts</code> (near bottom).</li>
+<li><strong>DataPrefetch</strong> (Sidebar) — Prefetches posts for current channel and unread channels; separate from the main post list.</li>
+</ul>
+<h3 id="53-hooks">5.3 Hooks</h3>
+<p>Post loading and scroll pagination are in <strong>class components</strong> + Redux <code>connect()</code>.<br />
+Hooks in this path: <strong>LatestPostReader</strong> (<code>useSelector</code>, <code>useMemo</code>, <code>usePostAriaLabel</code>) for accessibility only. Other post_view children use hooks for reactions/attachments/etc., not for fetching.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

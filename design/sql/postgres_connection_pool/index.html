@@ -1,0 +1,2404 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../postgres_jsonb/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Postgres Connection Pool - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#postgresql-connection-pool-design-and-configuration-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Postgres Connection Pool
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#server-side-connection-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server-Side Connection Settings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Server-Side Connection Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#postgresql-configuration-parameters-postgresqlconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL Configuration Parameters (postgresql.conf)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tcpnetwork-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TCP/Network Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-pooler-configuration-pgbouncer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Pooler Configuration (PgBouncer)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connection Pooler Configuration (PgBouncer)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pool-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pool Modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calculating-optimal-connection-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculating Optimal Connection Count
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calculating Optimal Connection Count">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-fundamental-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Fundamental Formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculation-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calculation Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-determine-cpu-capacity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Determine CPU Capacity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-analyze-workload-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Analyze Workload Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-calculate-working-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Calculate Working Memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-apply-buffers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Apply Buffers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Configurations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example Configurations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-small-application-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Small Application Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-medium-production-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Medium Production Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-large-analytics-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Large Analytics Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-more-connections-better-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why More Connections ≠ Better Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#queue-vs-oversubscribe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Queue vs Oversubscribe
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-pool-placement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Pool Placement
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connection Pool Placement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#placement-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placement Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring-and-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring and Tuning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitoring and Tuning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-monitoring-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Monitoring Queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pgbouncer-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PgBouncer Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-metrics-to-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Metrics to Monitor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-pitfalls-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Pitfalls and Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Pitfalls and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-1-oversubscribing-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfall 1: Oversubscribing Connections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-2-ignoring-reserved-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfall 2: Ignoring Reserved Connections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-3-choosing-wrong-pool-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfall 3: Choosing Wrong Pool Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-4-not-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfall 4: Not Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-5-confusing-connections-with-throughput" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfall 5: Confusing Connections with Throughput
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tuning-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tuning Workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Additional Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#official-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#best-practice-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practice Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#server-side-connection-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server-Side Connection Settings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Server-Side Connection Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#postgresql-configuration-parameters-postgresqlconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL Configuration Parameters (postgresql.conf)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tcpnetwork-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TCP/Network Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-pooler-configuration-pgbouncer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Pooler Configuration (PgBouncer)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connection Pooler Configuration (PgBouncer)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pool-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pool Modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calculating-optimal-connection-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculating Optimal Connection Count
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calculating Optimal Connection Count">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-fundamental-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Fundamental Formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculation-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calculation Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-determine-cpu-capacity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Determine CPU Capacity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-analyze-workload-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Analyze Workload Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-calculate-working-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Calculate Working Memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-apply-buffers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Apply Buffers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Configurations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example Configurations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-small-application-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Small Application Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-medium-production-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Medium Production Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-large-analytics-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Large Analytics Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-more-connections-better-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why More Connections ≠ Better Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#queue-vs-oversubscribe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Queue vs Oversubscribe
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-pool-placement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Pool Placement
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connection Pool Placement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#placement-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placement Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring-and-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring and Tuning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitoring and Tuning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-monitoring-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Monitoring Queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pgbouncer-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PgBouncer Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-metrics-to-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Metrics to Monitor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-pitfalls-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Pitfalls and Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Pitfalls and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-1-oversubscribing-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfall 1: Oversubscribing Connections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-2-ignoring-reserved-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfall 2: Ignoring Reserved Connections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-3-choosing-wrong-pool-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfall 3: Choosing Wrong Pool Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-4-not-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfall 4: Not Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfall-5-confusing-connections-with-throughput" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfall 5: Confusing Connections with Throughput
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tuning-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tuning Workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Additional Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#official-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#best-practice-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practice Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="postgresql-connection-pool-design-and-configuration-guide">PostgreSQL Connection Pool - Design and Configuration Guide</h1>
+<h2 id="overview">Overview</h2>
+<p>PostgreSQL connection pooling is essential for managing database resources efficiently and maximizing throughput. This guide covers the configuration parameters and methods for determining optimal connection counts.</p>
+<h2 id="server-side-connection-settings">Server-Side Connection Settings</h2>
+<h3 id="postgresql-configuration-parameters-postgresqlconf">PostgreSQL Configuration Parameters (postgresql.conf)</h3>
+<ul>
+<li><code>max_connections</code> (integer, default: 100)</li>
+<li>Maximum concurrent connections to the database server</li>
+<li>
+<p>Can only be set at server start</p>
+</li>
+<li>
+<p><code>reserved_connections</code> (integer, default: 0)</p>
+</li>
+<li>Connection slots reserved for roles with <code>pg_use_reserved_connections</code> privileges</li>
+<li>
+<p>Can only be set at server start</p>
+</li>
+<li>
+<p><code>superuser_reserved_connections</code> (integer, default: 3)</p>
+</li>
+<li>Connection slots reserved for superusers (emergency use)</li>
+<li>
+<p>Can only be set at server start</p>
+</li>
+<li>
+<p><code>listen_addresses</code> (string, default: localhost)</p>
+</li>
+<li>IP addresses to listen on (<code>*</code> for all, <code>0.0.0.0</code> for IPv4 all)</li>
+<li>
+<p>Can only be set at server start</p>
+</li>
+<li>
+<p><code>port</code> (integer, default: 5432)</p>
+</li>
+<li>TCP port for connections</li>
+<li>
+<p>Can only be set at server start</p>
+</li>
+<li>
+<p><code>unix_socket_directories</code> (string, default: /tmp)</p>
+</li>
+<li>Directories for Unix-domain sockets</li>
+<li>
+<p>Can only be set at server start</p>
+</li>
+<li>
+<p><code>unix_socket_group</code> (string, default: empty)</p>
+</li>
+<li>Owning group for Unix-domain sockets</li>
+<li>
+<p>Can only be set at server start</p>
+</li>
+<li>
+<p><code>unix_socket_permissions</code> (integer, default: 0777)</p>
+</li>
+<li>Permissions for Unix-domain sockets</li>
+<li>
+<p>Can only be set at server start</p>
+</li>
+<li>
+<p><code>authentication_timeout</code> (integer, default: 1m)</p>
+</li>
+<li>Maximum time to complete client authentication</li>
+<li>
+<p>Can be set in postgresql.conf</p>
+</li>
+<li>
+<p><code>client_connection_check_interval</code> (integer, default: 0)</p>
+</li>
+<li>Time interval (ms) for checking client connectivity during queries</li>
+<li>Can be set in postgresql.conf</li>
+</ul>
+<h3 id="tcpnetwork-configuration">TCP/Network Configuration</h3>
+<ul>
+<li><code>tcp_keepalives_idle</code> (integer, default: OS default)</li>
+<li>
+<p>Seconds of inactivity before sending TCP keepalive</p>
+</li>
+<li>
+<p><code>tcp_keepalives_interval</code> (integer, default: OS default)</p>
+</li>
+<li>
+<p>Seconds between unacknowledged keepalive retransmissions</p>
+</li>
+<li>
+<p><code>tcp_keepalives_count</code> (integer, default: OS default)</p>
+</li>
+<li>
+<p>Number of lost keepalives before considering connection dead</p>
+</li>
+<li>
+<p><code>tcp_user_timeout</code> (integer, default: OS default)</p>
+</li>
+<li>Milliseconds data can remain unacknowledged before closing</li>
+</ul>
+<h2 id="connection-pooler-configuration-pgbouncer">Connection Pooler Configuration (PgBouncer)</h2>
+<h3 id="core-parameters">Core Parameters</h3>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">[databases]</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="na">dbname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">host=127.0.0.1 port=5432</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">[pgbouncer]</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="na">pool_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">transaction</span><span class="w">           </span><span class="c1"># session | transaction | statement</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="na">max_client_conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1000</span><span class="w">           </span><span class="c1"># Maximum client connections</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="na">default_pool_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">25</span><span class="w">           </span><span class="c1"># Server connections per database</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="na">min_pool_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span><span class="w">                </span><span class="c1"># Minimum server connections to maintain</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="na">reserve_pool_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span><span class="w">            </span><span class="c1"># Additional connections during peak</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="na">reserve_pool_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3</span><span class="w">         </span><span class="c1"># Seconds to wait for reserve connection</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="na">server_lifetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3600</span><span class="w">           </span><span class="c1"># Maximum connection lifetime (seconds)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="na">server_idle_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">600</span><span class="w">        </span><span class="c1"># Close idle server connections after (seconds)</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="na">server_connect_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">15</span><span class="w">      </span><span class="c1"># Connection timeout (seconds)</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="na">query_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span><span class="w">                </span><span class="c1"># Query execution timeout (0 = disabled)</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="na">client_idle_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span><span class="w">          </span><span class="c1"># Close idle client connections after (seconds)</span>
+</span></code></pre></div>
+<h3 id="pool-modes">Pool Modes</h3>
+<ul>
+<li><code>session</code> mode</li>
+<li>Behavior: One connection per client (no pooling)</li>
+<li>
+<p>Use Case: Limited use, testing</p>
+</li>
+<li>
+<p><code>transaction</code> mode</p>
+</li>
+<li>Behavior: Return connection after each transaction</li>
+<li>
+<p>Use Case: Recommended for most workloads</p>
+</li>
+<li>
+<p><code>statement</code> mode</p>
+</li>
+<li>Behavior: Return connection after each statement</li>
+<li>Use Case: Specific isolation requirements</li>
+</ul>
+<h2 id="calculating-optimal-connection-count">Calculating Optimal Connection Count</h2>
+<h3 id="the-fundamental-formula">The Fundamental Formula</h3>
+<p>The PostgreSQL wiki establishes a well-validated formula for optimal throughput:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>optimal_connections = (core_count × 2) + effective_spindle_count
+</span></code></pre></div>
+<p><strong>Component Definitions:</strong></p>
+<ul>
+<li><code>core_count</code>: Physical CPU cores (exclude hyperthreading threads)</li>
+<li><code>effective_spindle_count</code>: Number of disk drives actively seeking data</li>
+<li><strong>0</strong> if active dataset is fully cached in RAM</li>
+<li>Approaches actual spindle count as cache hit rate decreases</li>
+<li>For SSD storage: typically <strong>0</strong> (negligible seek time overhead)</li>
+</ul>
+<h3 id="calculation-steps">Calculation Steps</h3>
+<h4 id="step-1-determine-cpu-capacity">Step 1: Determine CPU Capacity</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># macOS</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>sysctl<span class="w"> </span>-n<span class="w"> </span>hw.physicalcpu<span class="w">    </span><span class="c1"># Physical cores</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>sysctl<span class="w"> </span>-n<span class="w"> </span>hw.logicalcpu<span class="w">     </span><span class="c1"># Logical cores (includes hyperthreading)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Linux</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>nproc<span class="w">                      </span><span class="c1"># Logical cores</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>lscpu<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Core(s)&quot;</span><span class="w">     </span><span class="c1"># Physical cores</span>
+</span></code></pre></div>
+<h4 id="step-2-analyze-workload-type">Step 2: Analyze Workload Type</h4>
+<ul>
+<li>OLTP (transactional)</li>
+<li>Characteristics: Many short queries, high concurrency</li>
+<li>
+<p>Connection Strategy: Higher pool count (formula-based)</p>
+</li>
+<li>
+<p>OLAP (analytics)</p>
+</li>
+<li>Characteristics: Long-running queries, low concurrency</li>
+<li>
+<p>Connection Strategy: Lower pool count (formula-based ÷ 2)</p>
+</li>
+<li>
+<p>Mixed</p>
+</li>
+<li>Characteristics: Variable patterns</li>
+<li>Connection Strategy: Start with formula, monitor and adjust</li>
+</ul>
+<h4 id="step-3-calculate-working-memory">Step 3: Calculate Working Memory</h4>
+<p>Ensure sufficient memory per connection:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>work_mem × max_active_connections × operations_per_query ≤ Available RAM
+</span></code></pre></div>
+<p><strong>Example Calculation:</strong>
+- Hardware: 8 cores, 16GB RAM, SSD
+- Available RAM for queries: 12GB (4GB for OS + shared_buffers)
+- Target connections: (8 × 2) + 0 = 16
+- Estimated operations: 2 (sort/hash per query)
+- Maximum work_mem: 12GB / (16 × 2) = 384MB per connection</p>
+<h4 id="step-4-apply-buffers">Step 4: Apply Buffers</h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>max_connections = optimal_connections × 2 + 10
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>default_pool_size = optimal_connections + 4
+</span></code></pre></div>
+<h3 id="example-configurations">Example Configurations</h3>
+<h4 id="example-1-small-application-server">Example 1: Small Application Server</h4>
+<p><strong>Hardware:</strong> 4 cores, 8GB RAM, SSD storage</p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># postgresql.conf</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="na">max_connections</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">100</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="na">shared_buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">2GB</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="na">work_mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">32MB</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="na">effective_cache_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">6GB</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># pgbouncer.ini</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="na">max_client_conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">200</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="na">default_pool_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">12</span><span class="w">           </span><span class="c1"># (4 × 2) + 0 + 4</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="na">pool_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">transaction</span>
+</span></code></pre></div>
+<h4 id="example-2-medium-production-server">Example 2: Medium Production Server</h4>
+<p><strong>Hardware:</strong> 8 cores, 32GB RAM, SSD storage</p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># postgresql.conf</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="na">max_connections</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">200</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="na">shared_buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">8GB</span><span class="w">             </span><span class="c1"># 25% of RAM</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="na">work_mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">64MB</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="na">effective_cache_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">24GB</span><span class="w">       </span><span class="c1"># 75% of RAM</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="na">maintenance_work_mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1GB</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># pgbouncer.ini</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="na">max_client_conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1000</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="na">default_pool_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">20</span><span class="w">            </span><span class="c1"># (8 × 2) + 0 + 4</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="na">pool_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">transaction</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="na">reserve_pool_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">5</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="na">reserve_pool_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">3</span>
+</span></code></pre></div>
+<h4 id="example-3-large-analytics-server">Example 3: Large Analytics Server</h4>
+<p><strong>Hardware:</strong> 16 cores, 128GB RAM, HDD storage with 10 spindles</p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># postgresql.conf</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="na">max_connections</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">500</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="na">shared_buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">32GB</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="na">work_mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">256MB</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="na">effective_cache_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">96GB</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="na">maintenance_work_mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">2GB</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># pgbouncer.ini</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="na">max_client_conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">2000</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="na">default_pool_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">42</span><span class="w">            </span><span class="c1"># (16 × 2) + 10 + 4</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="na">pool_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">transaction</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="na">reserve_pool_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="na">reserve_pool_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">5</span>
+</span></code></pre></div>
+<h2 id="performance-principles">Performance Principles</h2>
+<h3 id="why-more-connections-better-performance">Why More Connections ≠ Better Performance</h3>
+<p>PostgreSQL performance typically shows a "knee" in throughput vs connections:</p>
+<ol>
+<li><strong>Initial Phase:</strong> Throughput increases with more connections as resources are utilized</li>
+<li><strong>Saturation:</strong> All resources (CPU, memory, I/O) are fully utilized</li>
+<li><strong>Degradation:</strong> Throughput declines beyond saturation due to resource contention</li>
+</ol>
+<p><strong>Causes of Performance Degradation:</strong></p>
+<ul>
+<li><strong>Lock Contention:</strong> Increased CPU time spent on spinlocks, LW locks, and heavyweight locks</li>
+<li><strong>Context Switching:</strong> Processor overhead switching between processes</li>
+<li><strong>Cache Line Contention:</strong> Frequent cache invalidation and reloading</li>
+<li><strong>Memory Pressure:</strong> Excessive <code>work_mem</code> allocation causes cache eviction or swapping</li>
+<li><strong>Disk Contention:</strong> Random I/O patterns cause thrashing on spinning disks</li>
+</ul>
+<h3 id="queue-vs-oversubscribe">Queue vs Oversubscribe</h3>
+<p>Contrary to intuition, queuing transactions often results in <strong>faster completion</strong> than oversubscribing connections:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>10,000 transactions:
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>  - 5-20 at a time: Faster overall completion
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>  - 500 at a time: Slower due to contention overhead
+</span></code></pre></div>
+<p><strong>Practical Implication:</strong>
+- Configure pool to match optimal connection count
+- Let the pooler queue excess requests
+- Execute transactions when resources become available</p>
+<h2 id="connection-pool-placement">Connection Pool Placement</h2>
+<h3 id="placement-options">Placement Options</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Application Server
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    ↓
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>┌─────────────────────────────┐
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>│ Connection Pool Location    │
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>├───────────────┬─────────────┤
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>│ Client-side   │ Server-side │
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>│ (in-app)      │ (separate)  │
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>└───────────────┴─────────────┘
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>          ↓                 ↓
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    PostgreSQL       PostgreSQL
+</span></code></pre></div>
+<h3 id="comparison">Comparison</h3>
+<p>Client-Side Pool:
+- Latency: Lower (no network hop)
+- Setup: Simpler
+- Management: Per-application
+- Resource Usage: Distributed
+- Connection Storms: Possible
+- Recommended: Small-scale applications</p>
+<p>Server-Side Pool:
+- Latency: Slightly higher
+- Setup: Requires additional infrastructure
+- Management: Centralized
+- Resource Usage: Concentrated
+- Connection Storms: Mitigated by centralized queuing
+- Recommended: Production environments</p>
+<h2 id="monitoring-and-tuning">Monitoring and Tuning</h2>
+<h3 id="connection-monitoring-queries">Connection Monitoring Queries</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">-- Current connections by database</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">SELECT</span><span class="w"> </span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="n">datname</span><span class="p">,</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="k">state</span><span class="p">,</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">connection_count</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="k">state</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="k">state</span><span class="p">;</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1">-- Active vs idle connections</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="k">SELECT</span><span class="w"> </span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="k">CASE</span><span class="w"> </span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;active&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Active&#39;</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;idle&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Idle&#39;</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;idle in transaction&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Idle in Transaction&#39;</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="k">state</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">connection_state</span><span class="p">,</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">    </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">count</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">datname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_database</span><span class="p">()</span>
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">connection_state</span><span class="p">;</span>
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>
+</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="c1">-- Long-running queries</span>
+</span><span id="__span-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="k">SELECT</span><span class="w"> </span>
+</span><span id="__span-10-25"><a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a><span class="w">    </span><span class="n">pid</span><span class="p">,</span>
+</span><span id="__span-10-26"><a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="w">    </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">query_start</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">duration</span><span class="p">,</span>
+</span><span id="__span-10-27"><a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="w">    </span><span class="n">query</span><span class="p">,</span>
+</span><span id="__span-10-28"><a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="w">    </span><span class="k">state</span>
+</span><span id="__span-10-29"><a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span>
+</span><span id="__span-10-30"><a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="k">WHERE</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;active&#39;</span>
+</span><span id="__span-10-31"><a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">query_start</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;5 minutes&#39;</span>
+</span><span id="__span-10-32"><a id="__codelineno-10-32" name="__codelineno-10-32" href="#__codelineno-10-32"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</span><span id="__span-10-33"><a id="__codelineno-10-33" name="__codelineno-10-33" href="#__codelineno-10-33"></a>
+</span><span id="__span-10-34"><a id="__codelineno-10-34" name="__codelineno-10-34" href="#__codelineno-10-34"></a><span class="c1">-- Connection utilization</span>
+</span><span id="__span-10-35"><a id="__codelineno-10-35" name="__codelineno-10-35" href="#__codelineno-10-35"></a><span class="k">SELECT</span><span class="w"> </span>
+</span><span id="__span-10-36"><a id="__codelineno-10-36" name="__codelineno-10-36" href="#__codelineno-10-36"></a><span class="w">    </span><span class="n">max_connections</span><span class="p">::</span><span class="nb">int</span><span class="p">,</span>
+</span><span id="__span-10-37"><a id="__codelineno-10-37" name="__codelineno-10-37" href="#__codelineno-10-37"></a><span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;active&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">active</span><span class="p">,</span>
+</span><span id="__span-10-38"><a id="__codelineno-10-38" name="__codelineno-10-38" href="#__codelineno-10-38"></a><span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;idle&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">idle</span><span class="p">,</span>
+</span><span id="__span-10-39"><a id="__codelineno-10-39" name="__codelineno-10-39" href="#__codelineno-10-39"></a><span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total</span><span class="p">,</span>
+</span><span id="__span-10-40"><a id="__codelineno-10-40" name="__codelineno-10-40" href="#__codelineno-10-40"></a><span class="w">    </span><span class="n">ROUND</span><span class="p">(</span>
+</span><span id="__span-10-41"><a id="__codelineno-10-41" name="__codelineno-10-41" href="#__codelineno-10-41"></a><span class="w">        </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)::</span><span class="nb">float</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">max_connections</span><span class="p">::</span><span class="nb">int</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span>
+</span><span id="__span-10-42"><a id="__codelineno-10-42" name="__codelineno-10-42" href="#__codelineno-10-42"></a><span class="w">        </span><span class="mi">2</span>
+</span><span id="__span-10-43"><a id="__codelineno-10-43" name="__codelineno-10-43" href="#__codelineno-10-43"></a><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">utilization_percent</span>
+</span><span id="__span-10-44"><a id="__codelineno-10-44" name="__codelineno-10-44" href="#__codelineno-10-44"></a><span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-10-45"><a id="__codelineno-10-45" name="__codelineno-10-45" href="#__codelineno-10-45"></a><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">setting</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">max_connections</span><span class="w"> </span>
+</span><span id="__span-10-46"><a id="__codelineno-10-46" name="__codelineno-10-46" href="#__codelineno-10-46"></a><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_settings</span><span class="w"> </span>
+</span><span id="__span-10-47"><a id="__codelineno-10-47" name="__codelineno-10-47" href="#__codelineno-10-47"></a><span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;max_connections&#39;</span>
+</span><span id="__span-10-48"><a id="__codelineno-10-48" name="__codelineno-10-48" href="#__codelineno-10-48"></a><span class="p">)</span><span class="w"> </span><span class="n">settings</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="pgbouncer-monitoring">PgBouncer Monitoring</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Show pool statistics</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>psql<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>-p<span class="w"> </span><span class="m">6432</span><span class="w"> </span>-U<span class="w"> </span>pgbouncer<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SHOW STATS;&quot;</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Show active pools</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>psql<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>-p<span class="w"> </span><span class="m">6432</span><span class="w"> </span>-U<span class="w"> </span>pgbouncer<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SHOW POOLS;&quot;</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Show server lists</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>psql<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>-p<span class="w"> </span><span class="m">6432</span><span class="w"> </span>-U<span class="w"> </span>pgbouncer<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SHOW SERVERS;&quot;</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1"># Show client connections</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>psql<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>-p<span class="w"> </span><span class="m">6432</span><span class="w"> </span>-U<span class="w"> </span>pgbouncer<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SHOW CLIENTS;&quot;</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="c1"># Real-time monitoring (watch mode)</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>watch<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="s1">&#39;psql -h localhost -p 6432 -U pgbouncer -c &quot;SHOW POOLS;&quot;&#39;</span>
+</span></code></pre></div>
+<h3 id="key-metrics-to-monitor">Key Metrics to Monitor</h3>
+<ul>
+<li>Connection Utilization</li>
+<li>Description: % of <code>max_connections</code> in use</li>
+<li>
+<p>Target Range: 60-80% during peak</p>
+</li>
+<li>
+<p>Pool Wait Time</p>
+</li>
+<li>Description: Time clients wait for connections</li>
+<li>
+<p>Target Range: &lt; 100ms (P99)</p>
+</li>
+<li>
+<p>Query Duration</p>
+</li>
+<li>Description: Average query execution time</li>
+<li>
+<p>Target Range: Depends on workload</p>
+</li>
+<li>
+<p>Lock Contention</p>
+</li>
+<li>Description: % time spent waiting on locks</li>
+<li>
+<p>Target Range: &lt; 5%</p>
+</li>
+<li>
+<p>Cache Hit Ratio</p>
+</li>
+<li>Description: % queries served from cache</li>
+<li>
+<p>Target Range: &gt; 99% for OLTP</p>
+</li>
+<li>
+<p>Context Switches</p>
+</li>
+<li>Description: OS context switches per second</li>
+<li>Target Range: Monitor trends</li>
+</ul>
+<h2 id="common-pitfalls-and-solutions">Common Pitfalls and Solutions</h2>
+<h3 id="pitfall-1-oversubscribing-connections">Pitfall 1: Oversubscribing Connections</h3>
+<p><strong>Problem:</strong> Setting <code>max_connections</code> or pool size too high causes resource contention and performance degradation.</p>
+<p><strong>Solution:</strong>
+- Use the formula as a starting point
+- Monitor performance metrics
+- Reduce connections if contention increases</p>
+<h3 id="pitfall-2-ignoring-reserved-connections">Pitfall 2: Ignoring Reserved Connections</h3>
+<p><strong>Problem:</strong> Setting <code>max_connections</code> equal to pool size leaves no room for maintenance or emergencies.</p>
+<p><strong>Solution:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>max_connections = pool_size × 2 + 10
+</span></code></pre></div></p>
+<h3 id="pitfall-3-choosing-wrong-pool-mode">Pitfall 3: Choosing Wrong Pool Mode</h3>
+<p><strong>Problem:</strong> Using <code>session</code> mode negates pooling benefits; <code>statement</code> mode breaks transaction semantics.</p>
+<p><strong>Solution:</strong>
+- Use <code>transaction</code> mode for most workloads
+- Use <code>session</code> only when you need persistent state
+- Avoid <code>statement</code> mode unless required</p>
+<h3 id="pitfall-4-not-monitoring">Pitfall 4: Not Monitoring</h3>
+<p><strong>Problem:</strong> Without metrics, you cannot detect configuration issues or performance regressions.</p>
+<p><strong>Solution:</strong>
+- Implement monitoring for all key metrics
+- Set up alerts for high utilization or wait times
+- Regularly review and adjust configuration</p>
+<h3 id="pitfall-5-confusing-connections-with-throughput">Pitfall 5: Confusing Connections with Throughput</h3>
+<p><strong>Problem:</strong> Assuming more connections automatically means higher throughput.</p>
+<p><strong>Solution:</strong>
+- Focus on optimizing queries and indexes first
+- Use connection pooling to manage contention
+- Remember: fewer optimized connections &gt; many contended connections</p>
+<h2 id="tuning-workflow">Tuning Workflow</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>graph TD
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    A[Start] --&gt; B[Analyze Hardware]
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    B --&gt; C[Calculate Optimal Connections]
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    C --&gt; D[Configure PostgreSQL]
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    D --&gt; E[Configure Pooler]
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    E --&gt; F[Deploy to Production]
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    F --&gt; G[Monitor Metrics]
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    G --&gt; H{Performance OK?}
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    H --&gt;|Yes| I[Continue Monitoring]
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>    H --&gt;|No| J[Identify Bottleneck]
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    J --&gt; K{Issue Type?}
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>    K --&gt;|High CPU| L[Reduce pool size]
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>    K --&gt;|High Memory| M[Reduce work_mem]
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>    K --&gt;|High Lock Contention| N[Reduce pool size]
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>    K --&gt;|Low Utilization| O[Increase pool size]
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>    L --&gt; F
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>    M --&gt; F
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>    N --&gt; F
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>    O --&gt; F
+</span></code></pre></div>
+<h2 id="additional-resources">Additional Resources</h2>
+<h3 id="official-documentation">Official Documentation</h3>
+<ul>
+<li><a href="https://www.postgresql.org/docs/16/runtime-config-connection.html">PostgreSQL Connection Settings</a></li>
+<li><a href="https://wiki.postgresql.org/wiki/Number_Of_Database_Connections">PostgreSQL Wiki: Number Of Database Connections</a></li>
+<li><a href="https://www.pgbouncer.org/usage.html">PgBouncer Documentation</a></li>
+</ul>
+<h3 id="tools">Tools</h3>
+<ul>
+<li><strong>pg_stat_statements:</strong> Query performance statistics</li>
+<li><strong>pgBadger:</strong> PostgreSQL log analyzer</li>
+<li><strong>pgbench:</strong> PostgreSQL benchmarking tool</li>
+<li><strong>PMM:</strong> Percona Monitoring and Management</li>
+</ul>
+<h3 id="best-practice-summary">Best Practice Summary</h3>
+<ol>
+<li>Start with the formula: <code>(core_count × 2) + effective_spindle_count</code></li>
+<li>Add buffer: <code>pool_size = optimal + 4</code>, <code>max_connections = pool_size × 2 + 10</code></li>
+<li>Use <code>transaction</code> pool mode for most workloads</li>
+<li>Monitor key metrics continuously</li>
+<li>Adjust based on actual performance data</li>
+<li>Always leave headroom for maintenance and emergencies</li>
+<li>Remember: Optimal connections are actively working, not idle ones</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

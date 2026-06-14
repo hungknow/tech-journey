@@ -1,0 +1,1350 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Sync Infrastructure - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sync-infrastructure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Sync Infrastructure
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#features-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hybrid-logical-clocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hybrid Logical Clocks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-peer-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-Peer Logs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syncable-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Syncable Registry
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transaction-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transaction Manager
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sync-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#watermark-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Watermark Tracking
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sync-event-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync Event Bus
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-transport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network Transport
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#foreign-key-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Foreign Key Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependency-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Graph
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deterministic-uuids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deterministic UUIDs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event Logging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backfill-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backfill Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="sync-infrastructure">Sync Infrastructure</h1>
+<p>The sync infrastructure provides leaderless peer-to-peer synchronization for Spacedrive libraries. It uses a hybrid architecture where device-owned resources (locations, entries) sync via state broadcast, while shared resources (tags, albums, collections) sync via per-peer logs ordered by Hybrid Logical Clocks (HLC).</p>
+<h2 id="features-overview">Features Overview</h2>
+<ul>
+<li><a href="#hybrid-logical-clocks">Hybrid Logical Clocks</a> - Distributed ordering for conflict resolution</li>
+<li><a href="#per-peer-logs">Per-Peer Logs</a> - Ordered append-only logs for shared resource changes</li>
+<li><a href="#syncable-registry">Syncable Registry</a> - Runtime registration of syncable models</li>
+<li><a href="#transaction-manager">Transaction Manager</a> - Atomic writes with sync event emission</li>
+<li><a href="#sync-configuration">Sync Configuration</a> - Tunable behavior for different network conditions</li>
+<li><a href="#watermark-tracking">Watermark Tracking</a> - Per-resource incremental sync tracking</li>
+<li><a href="#checkpoints">Checkpoints</a> - Resumable backfill with state persistence</li>
+<li><a href="#sync-event-bus">Sync Event Bus</a> - High-capacity event bus for sync coordination</li>
+<li><a href="#network-transport">Network Transport</a> - Abstraction layer for sync message delivery</li>
+<li><a href="#foreign-key-mapping">Foreign Key Mapping</a> - Batch FK resolution during sync</li>
+<li><a href="#dependency-graph">Dependency Graph</a> - Topological sort for constraint-safe ordering</li>
+<li><a href="#deterministic-uuids">Deterministic UUIDs</a> - Predictable IDs for system resources</li>
+<li><a href="#event-logging">Event Logging</a> - Persistent sync event logging and querying</li>
+<li><a href="#backfill-context">Backfill Context</a> - Context tracking during library backfill</li>
+</ul>
+<h2 id="hybrid-logical-clocks">Hybrid Logical Clocks</h2>
+<p>Hybrid Logical Clocks (HLC) provide a globally consistent ordering mechanism for distributed systems without requiring a centralized time service or clock synchronization.</p>
+<p><strong>Purpose:</strong> Enable conflict-free ordering of shared resource changes across devices with unsynchronized clocks.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>Clock drift:</strong> Devices can have different system clocks, making timestamp comparison unreliable</li>
+<li><strong>Concurrent edits:</strong> When two devices edit the same tag simultaneously, HLC provides deterministic ordering</li>
+<li><strong>Causality tracking:</strong> HLC encodes causal relationships between changes (A happened before B)</li>
+<li><strong>Offline scenarios:</strong> Devices generate valid HLC timestamps while offline, merge correctly when reconnected</li>
+</ul>
+<p>HLC combines physical wall clock time with logical counters. When a device receives a message with a higher HLC, it advances its own HLC to be greater than the received value, ensuring monotonic increase across the system.</p>
+<p>Each HLC encodes a 64-bit timestamp (milliseconds since epoch) and a 16-bit counter. The counter increments only for rapid successive events within the same millisecond. This allows unlimited events per millisecond while maintaining ordering.</p>
+<p>Implementation: <code>core/src/infra/sync/hlc.rs</code></p>
+<h2 id="per-peer-logs">Per-Peer Logs</h2>
+<p>Each device maintains a separate append-only log (<code>sync.db</code>) containing only its own changes to shared resources. Logs are ordered by HLC and pruned once all peers have acknowledged receiving the changes.</p>
+<p><strong>Purpose:</strong> Track shared resource changes from this device's perspective, enabling incremental sync and conflict resolution.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>Deterministic sync:</strong> Peers only send their own changes, avoiding duplication</li>
+<li><strong>Incremental transfer:</strong> Peers request "changes since HLC X" to get only new data</li>
+<li><strong>Conflict resolution:</strong> Per-record HLC comparison determines which change wins</li>
+<li><strong>Storage efficiency:</strong> Prunes entries once all peers acknowledge, preventing unbounded growth</li>
+</ul>
+<p>Each <code>sync.db</code> contains:
+- <code>shared_changes</code>: Log entries with HLC, model_type, record_uuid, change_type, data
+- <code>peer_acks</code>: Acknowledgments from peers (peer_device_id → last_acked_hlc)
+- <code>device_resource_watermarks</code>: Watermarks for device-owned resources
+- <code>peer_received_watermarks</code>: Watermarks for shared resources received from peers
+- <code>backfill_checkpoints</code>: Resumable backfill state
+- <code>sync_event_log</code>: Persistent event log for debugging</p>
+<p>The log supports range queries with limits for efficient batching during sync. Acknowledgments enable automatic pruning - entries with HLC ≤ min(all peer acks) are deleted.</p>
+<p>Implementation: <code>core/src/infra/sync/peer_log.rs</code></p>
+<h2 id="syncable-registry">Syncable Registry</h2>
+<p>The registry provides dynamic dispatch for sync operations, enabling the sync system to apply changes without compile-time knowledge of concrete model types. Models self-register using the <code>register_syncable!</code> macro.</p>
+<p><strong>Purpose:</strong> Enable generic sync apply logic that works for any model type without maintaining exhaustive match statements.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>Extensibility:</strong> New models can be added without modifying sync infrastructure</li>
+<li><strong>Type safety:</strong> Compile-time registration with inventory crate</li>
+<li><strong>Generic apply:</strong> Single code path handles all model types via registered functions</li>
+<li><strong>FK resolution:</strong> Batch foreign key mapping queries reduce N*M lookups to M</li>
+</ul>
+<p>Registry stores for each model:
+- Apply functions (state-based for device-owned, log-based for shared)
+- Query functions for backfill
+- Deletion handlers for device-owned models
+- FK lookup functions (UUID ↔ local ID)
+- FK mapping declarations (which FKs need resolution)
+- Sync dependencies (topological sort order)
+- Post-backfill rebuild hooks (e.g., closure table reconstruction)</p>
+<p>Two registration macros:
+- <code>register_syncable_device_owned!</code> for locations, entries, volumes
+- <code>register_syncable_shared!</code> for tags, albums, collections</p>
+<p>The registry supports runtime queries for model metadata, FK mapping, and dependency ordering computation.</p>
+<p>Implementation: <code>core/src/infra/sync/registry.rs</code></p>
+<h2 id="transaction-manager">Transaction Manager</h2>
+<p>The TransactionManager is the sole gatekeeper for all writes to sync-enabled models. It ensures atomicity, logging, and event emission for every state-changing operation.</p>
+<p><strong>Purpose:</strong> Coordinate database writes, sync log creation, and event emission in a single consistent operation.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>Atomicity:</strong> Writes either fully succeed with sync coordination or fully fail</li>
+<li><strong>Event ordering:</strong> Sync events are emitted immediately after successful commit</li>
+<li><strong>Separation of concerns:</strong> Models don't need to know about sync or event bus internals</li>
+<li><strong>Dual sync modes:</strong> Handles both device-owned (state broadcast) and shared (log-based) sync</li>
+</ul>
+<p>Two commit methods:
+- <code>commit_device_owned</code>: Emits <code>StateChange</code> event with current state
+- <code>commit_shared</code>: Generates HLC, appends to peer log, emits <code>SharedChange</code> event</p>
+<p>The manager holds references to both the sync event bus (for sync coordination) and general event bus (for resource events). It generates HLC timestamps for shared resources via the HLCGenerator.</p>
+<p>Implementation: <code>core/src/infra/sync/transaction.rs</code></p>
+<h2 id="sync-configuration">Sync Configuration</h2>
+<p>Unified configuration system controls all sync behavior with presets for different network conditions and device capabilities.</p>
+<p><strong>Purpose:</strong> Provide tunable sync parameters without code changes, with sensible defaults for common scenarios.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>Performance tuning:</strong> Adjust batch sizes and timeouts for LAN vs mobile networks</li>
+<li><strong>Storage management:</strong> Control retention periods and pruning strategies</li>
+<li><strong>Resource limits:</strong> Prevent battery drain on mobile with reduced sync frequency</li>
+<li><strong>Monitoring balance:</strong> Enable/disable metrics for production vs debugging</li>
+</ul>
+<p>Configuration sections:
+- <code>BatchingConfig</code>: Backfill batch size, broadcast batch sizes, snapshot limits, realtime batching
+- <code>RetentionConfig</code>: Pruning strategy, max retention days, full sync threshold
+- <code>NetworkConfig</code>: Message timeouts, backfill timeouts, sync loop interval, connection check interval
+- <code>MonitoringConfig</code>: Pruning interval, metrics enablement, metrics log interval</p>
+<p>Three presets:
+- <code>aggressive()</code>: Fast LAN, minimal storage overhead, 2-second sync loop
+- <code>conservative()</code>: Unreliable networks, extended retention, 10-second sync loop
+- <code>mobile()</code>: Battery/bandwidth conservation, 30-second sync loop, metrics disabled</p>
+<p>Configuration is serializable for persistence and can be customized per library or device profile.</p>
+<p>Implementation: <code>core/src/infra/sync/config.rs</code></p>
+<h2 id="watermark-tracking">Watermark Tracking</h2>
+<p>Watermark stores track per-resource incremental sync state to avoid transferring already-synced data.</p>
+<p><strong>Purpose:</strong> Enable incremental sync by tracking which resources each device has already received from each peer.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>Efficiency:</strong> Skip already-synced records during backfill</li>
+<li><strong>Resumability:</strong> Resume interrupted backfills from last watermark</li>
+<li><strong>Reduced bandwidth:</strong> Only transfer delta, not full library state</li>
+<li><strong>Per-resource tracking:</strong> Fine-grained sync state (not just global position)</li>
+</ul>
+<p>Two watermark stores:</p>
+<p><strong>ResourceWatermarkStore</strong> tracks device-owned resources per peer:
+- Key: (device_id, model_type, resource_uuid)
+- Value: HLC or timestamp of last synced version
+- Used during shared resource sync to resolve FK references</p>
+<p><strong>PeerWatermarkStore</strong> tracks shared resources received from each peer:
+- Key: (peer_device_id, model_type)
+- Value: Highest HLC received from that peer
+- Used during backfill to request "changes since this HLC"</p>
+<p>Watermarks persist in <code>sync.db</code> and are updated as changes are applied. They enable incremental sync even after full backfill completes.</p>
+<p>Implementation: <code>core/src/infra/sync/watermarks.rs</code>, <code>core/src/infra/sync/peer_watermarks.rs</code></p>
+<h2 id="checkpoints">Checkpoints</h2>
+<p>Checkpoints enable resumable backfill operations by storing the current position and state during full library sync.</p>
+<p><strong>Purpose:</strong> Allow backfill to resume from interruption without restarting from the beginning.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>Network resilience:</strong> Backfill interrupted by network drop or app crash resumes automatically</li>
+<li><strong>Large library sync:</strong> Millions of entries sync across multiple sessions</li>
+<li><strong>Battery preservation:</strong> Mobile devices can pause backfill when battery is low</li>
+<li><strong>Progress tracking:</strong> UI shows accurate progress during long backfills</li>
+</ul>
+<p>BackfillCheckpointStore tracks:
+- Device ID being backfilled
+- Current position (cursor) for each model type
+- Total record count and synced count
+- Started/completed timestamps
+- Status (in_progress, paused, completed, failed)</p>
+<p>Checkpoints persist in <code>sync.db</code> backfill_checkpoints table. During backfill, the sync system loads the existing checkpoint and resumes from the stored cursor position. On completion, the checkpoint is marked complete and eventually pruned.</p>
+<p>Implementation: <code>core/src/infra/sync/checkpoints.rs</code></p>
+<h2 id="sync-event-bus">Sync Event Bus</h2>
+<p>A dedicated high-capacity event bus for sync coordination events, separate from the general event bus to prevent sync traffic from overwhelming UI updates.</p>
+<p><strong>Purpose:</strong> Provide a broadcast mechanism for sync events with higher capacity and lower latency than the general event bus.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>High volume:</strong> State changes during indexing generate thousands of events per second</li>
+<li><strong>Prioritization:</strong> Sync coordination events don't compete with UI events</li>
+<li><strong>Subscribers:</strong> PeerSync subscribes to sync events, not UI events</li>
+<li><strong>Isolation:</strong> Sync event delivery failures don't affect UI responsiveness</li>
+</ul>
+<p>SyncEvent types:
+- <code>StateChange</code>: Device-owned resource changed (location, entry)
+- <code>SharedChange</code>: Shared resource changed (tag, album)
+- <code>BackfillProgress</code>: Backfill status updates
+- <code>PeerConnected/Disconnected</code>: Peer connectivity changes</p>
+<p>The bus uses <code>tokio::sync::broadcast</code> with configurable capacity. It's integrated into the TransactionManager so sync events are emitted atomically with database writes.</p>
+<p>Implementation: <code>core/src/infra/sync/event_bus.rs</code></p>
+<h2 id="network-transport">Network Transport</h2>
+<p>The NetworkTransport trait abstracts the networking layer from the sync system, breaking circular dependencies and enabling testability.</p>
+<p><strong>Purpose:</strong> Provide a clean interface for sending sync messages without coupling sync logic to networking implementation.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>Circular dependency:</strong> Sync depends on networking, networking depends on library, library depends on sync</li>
+<li><strong>Testability:</strong> Mock implementations enable unit testing without network</li>
+<li><strong>Protocol flexibility:</strong> Sync system doesn't care about transport (Iroh, WebRTC, etc.)</li>
+<li><strong>Error isolation:</strong> Network errors don't corrupt sync state</li>
+</ul>
+<p>NetworkTransport methods:
+- <code>send_sync_message</code>: Fire-and-forget broadcast to specific device
+- <code>send_sync_request</code>: Request-response pattern with timeout
+- <code>get_connected_sync_partners</code>: List reachable sync partners for this library
+- <code>is_device_reachable</code>: Quick check before attempting send</p>
+<p>MockNetworkTransport provides a test implementation that records sent messages without network I/O. The real implementation lives in the networking layer and maps device UUIDs to Iroh NodeIds.</p>
+<p>Implementation: <code>core/src/infra/sync/transport.rs</code></p>
+<h2 id="foreign-key-mapping">Foreign Key Mapping</h2>
+<p>Foreign key mapping resolves UUID references in synced data to local database IDs, ensuring referential integrity when applying changes.</p>
+<p><strong>Purpose:</strong> Translate foreign keys from UUIDs (sync representation) to local IDs (database representation) during sync apply.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>Referential integrity:</strong> FK constraints reference local IDs, not UUIDs</li>
+<li><strong>Batch efficiency:</strong> Reduce N*M database queries to M batch queries</li>
+<li><strong>Mapping discovery:</strong> Automatically resolve FKs without manual model-specific code</li>
+<li><strong>Insert order:</strong> Insert records with resolved FKs in correct order</li>
+</ul>
+<p>FKMapping declares which fields in a model reference other syncable models:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">FKMapping</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">field_name</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="o">&#39;</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">target_table</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="o">&#39;</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">is_array</span><span class="p">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Batch FK mapper:
+1. Collects all UUIDs referenced in incoming batch
+2. Queries target tables in batches (M queries instead of N*M)
+3. Builds UUID → local ID mapping
+4. Replaces UUID fields in JSON data with local IDs
+5. Returns ready-to-insert records</p>
+<p>Implementation: <code>core/src/infra/sync/fk_mapper.rs</code></p>
+<h2 id="dependency-graph">Dependency Graph</h2>
+<p>The dependency graph computes topological sort order for syncable models based on declared dependencies, ensuring foreign key constraints are never violated during sync.</p>
+<p><strong>Purpose:</strong> Determine safe ordering for inserting synced records so dependent records always exist before being referenced.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>Constraint safety:</strong> Sync never violates FK constraints</li>
+<li><strong>Deterministic ordering:</strong> All devices sync in same order for consistency</li>
+<li><strong>Automatic validation:</strong> Detect circular dependencies at registration time</li>
+<li><strong>Extensibility:</strong> New models declare dependencies, no manual ordering</li>
+</ul>
+<p>Models declare dependencies via <code>sync_depends_on</code> method returning array of model names:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">impl</span><span class="w"> </span><span class="n">Syncable</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Entry</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">sync_depends_on</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kp">&amp;</span><span class="o">&#39;</span><span class="nb">static</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;&#39;</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">        </span><span class="o">&amp;</span><span class="p">[</span><span class="s">&quot;location&quot;</span><span class="p">]</span><span class="w">  </span><span class="c1">// entries reference locations</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>The sync system runs topological sort at startup. If circular dependencies are detected, sync fails fast with error. The sorted order is used during backfill and conflict resolution.</p>
+<p>Implementation: <code>core/src/infra/sync/dependency_graph.rs</code></p>
+<h2 id="deterministic-uuids">Deterministic UUIDs</h2>
+<p>Deterministic UUID generation creates predictable IDs for system resources based on library UUID and resource type, enabling consistent identification across devices.</p>
+<p><strong>Purpose:</strong> Generate UUIDs that are the same across all devices for system resources without coordination.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>System resources:</strong> Default tags, albums, and spaces have consistent UUIDs</li>
+<li><strong>No coordination:</strong> Devices generate same UUIDs independently</li>
+<li><strong>Merge safety:</strong> System resources from different devices match automatically</li>
+<li><strong>Known IDs:</strong> Code can reference system resources by known UUID</li>
+</ul>
+<p>Functions:
+- <code>deterministic_system_tag_uuid(tag_name, library_uuid)</code>: Tags like "Favorites", "Imported"
+- <code>deterministic_system_album_uuid(album_name, library_uuid)</code>: Default albums
+- <code>deterministic_library_default_uuid(library_uuid)</code>: Library-specific default resources
+- <code>system_tags(library_uuid)</code>: Get list of system tag UUIDs</p>
+<p>Uses UUID v5 (SHA-1 namespace) with library UUID as namespace and resource type/name as input. This produces deterministic IDs that differ per library but are consistent across devices.</p>
+<p>Implementation: <code>core/src/infra/sync/deterministic.rs</code></p>
+<h2 id="event-logging">Event Logging</h2>
+<p>The sync event log provides persistent, queryable logging of sync events for debugging, monitoring, and audit trails.</p>
+<p><strong>Purpose:</strong> Record all sync events to disk for post-mortem analysis and real-time monitoring.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>Debugging:</strong> Reproduce and diagnose sync issues after they occur</li>
+<li><strong>Monitoring:</strong> Query sync health metrics and error rates</li>
+<li><strong>Audit trail:</strong> Track which devices synced what and when</li>
+<li><strong>Performance analysis:</strong> Identify bottlenecks in sync operations</li>
+</ul>
+<p>Event log stored in <code>sync.db</code> sync_event_log table:
+- timestamp, device_id, event_type, category, severity
+- summary (short description), details (structured data)
+- correlation_id (groups related events), peer_device_id
+- model_types (affected models), record_count, duration_ms</p>
+<p>Event types:
+- <code>BackfillStarted</code>, <code>BackfillProgress</code>, <code>BackfillCompleted</code>, <code>BackfillFailed</code>
+- <code>MessageReceived</code>, <code>MessageSent</code>, <code>MessageError</code>
+- <code>StateChangeReceived</code>, <code>SharedChangeReceived</code>
+- <code>ConnectionEstablished</code>, <code>ConnectionLost</code>
+- <code>ConflictDetected</code>, <code>ConflictResolved</code></p>
+<p>SyncEventLogger provides structured logging with automatic correlation ID generation. SyncEventQuery enables filtering by time range, severity, category, peer, and event type. BatchAggregator reduces log churn by aggregating high-frequency events.</p>
+<p>Implementation: <code>core/src/infra/sync/event_log/</code></p>
+<h2 id="backfill-context">Backfill Context</h2>
+<p>Backfill context tracks the state and progress of a full library sync operation, coordinating the backfill process across multiple model types and peers.</p>
+<p><strong>Purpose:</strong> Provide a central coordinator for backfill operations that tracks progress and manages state across the entire sync process.</p>
+<p><strong>What it solves:</strong></p>
+<ul>
+<li><strong>Orchestration:</strong> Coordinate backfill across all model types and all peers</li>
+<li><strong>Progress tracking:</strong> Report overall backfill progress to UI</li>
+<li><strong>State management:</strong> Track which peers are being backfilled, which models are synced</li>
+<li><strong>Cancellation:</strong> Handle graceful cancellation of in-progress backfill</li>
+</ul>
+<p>BackfillContext tracks:
+- Library ID and device ID
+- List of peers to backfill
+- Current peer and model type
+- Progress statistics (total records, synced records, errors)
+- Status (in_progress, completed, failed, cancelled)</p>
+<p>Helper functions:
+- <code>in_backfill()</code>: Check if backfill is currently active for a library
+- <code>is_in_backfill()</code>: Check if backfill is active for a specific device</p>
+<p>The context is persisted in checkpoints for resumability and updated as each model type completes backfill for each peer.</p>
+<p>Implementation: <code>core/src/infra/sync/backfill_context.rs</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

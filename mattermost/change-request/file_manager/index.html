@@ -1,0 +1,1199 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Mattermost File Manager: Flows, APIs, and Data Models - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mattermost-file-manager-flows-apis-and-data-models" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Mattermost File Manager: Flows, APIs, and Data Models
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-overview-of-file-flows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Overview of File Flows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-server-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Server API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-server-data-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Server Data Models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-frontend-data-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Frontend Data Model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-how-upload-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. How Upload Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-how-files-are-processed-after-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. How Files Are Processed After Upload
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-how-files-are-stored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. How Files Are Stored
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="mattermost-file-manager-flows-apis-and-data-models">Mattermost File Manager: Flows, APIs, and Data Models</h1>
+<p>This document describes all file-related flows (upload, fetch, file management), server APIs, and data models on both server and frontend. It also explains how large files are uploaded, how files are processed after upload, and how they are stored.</p>
+<hr />
+<h2 id="1-overview-of-file-flows">1. Overview of File Flows</h2>
+<p><strong>Upload:</strong> Files can be uploaded in two ways. The primary flow used by the web app is a single POST to <code>/api/v4/files</code> with either multipart form data (channel_id, client_ids, files) or a simple body (file in body, channel_id and filename in query). For large files or resumable uploads, the server supports a resumable flow: create an upload session with POST <code>/api/v4/uploads</code>, then send file data in chunks with POST <code>/api/v4/uploads/{upload_id}</code> until complete.</p>
+<p><strong>Fetch:</strong> Files are fetched by file ID. The server exposes: get file content (with optional download), thumbnail, preview, file metadata (info), and a public link (when enabled). File metadata for a post is returned by GET posts/{post_id}/files/info. File search is available per team or across all teams.</p>
+<p><strong>File management:</strong> Files are associated with a channel and optionally a post. Metadata is stored in the database (FileInfo); the binary is stored in the configured file backend (local filesystem or S3). There is no dedicated “file management” API (e.g. list/delete file by id); file lifecycle is tied to posts and channel context (e.g. attach to post, delete with post, search).</p>
+<hr />
+<h2 id="2-server-api">2. Server API</h2>
+<p>All routes below are relative to the API root (e.g. <code>/api/v4</code>). Session is required unless noted.</p>
+<p><strong>Upload (standard – used by web app)</strong></p>
+<ul>
+<li><strong>POST /files</strong><br />
+  Upload one or more files.<br />
+<strong>Request:</strong> Either <code>multipart/form-data</code> with <code>channel_id</code>, optional <code>client_ids</code>, and <code>files</code> (one or more files), or simple POST with file in body and query params <code>channel_id</code>, <code>filename</code>. Optional query <code>bookmark=true</code> for channel bookmark uploads.<br />
+<strong>Response:</strong> 201, JSON <code>FileUploadResponse</code> (<code>file_infos</code>, <code>client_ids</code>).</li>
+</ul>
+<p><strong>Resumable upload (large files)</strong></p>
+<ul>
+<li>
+<p><strong>POST /uploads</strong><br />
+  Create an upload session.<br />
+<strong>Request:</strong> JSON body <code>UploadSession</code>: <code>type</code> ("attachment" or "import"), <code>channel_id</code> (for attachment), <code>filename</code>, <code>file_size</code>.<br />
+<strong>Response:</strong> 201, JSON <code>UploadSession</code> (includes <code>id</code>, <code>file_offset</code>, etc.).</p>
+</li>
+<li>
+<p><strong>GET /uploads/{upload_id}</strong><br />
+  Get upload session status (e.g. current <code>file_offset</code> for resume).<br />
+<strong>Response:</strong> 200, JSON <code>UploadSession</code>.</p>
+</li>
+<li>
+<p><strong>POST /uploads/{upload_id}</strong><br />
+  Upload a chunk of file data.<br />
+<strong>Request:</strong> Either raw body (binary) or <code>multipart/form-data</code> with one part as file data. Content length must not exceed remaining bytes (<code>file_size - file_offset</code>).<br />
+<strong>Response:</strong> 204 if upload incomplete; 200 with JSON <code>FileInfo</code> when upload is complete and file is processed.</p>
+</li>
+</ul>
+<p><strong>Fetch file</strong></p>
+<ul>
+<li>
+<p><strong>GET /files/{file_id}</strong><br />
+  Get file content (stream).<br />
+<strong>Query:</strong> <code>download=1</code> to force download; <code>as_content_reviewer=1</code> and <code>flagged_post_id</code> for content reviewer; session or trust requester.<br />
+<strong>Response:</strong> 200, file stream with appropriate Content-Type/Content-Disposition.</p>
+</li>
+<li>
+<p><strong>GET /files/{file_id}/thumbnail</strong><br />
+  Get image thumbnail (120×100 JPEG).<br />
+<strong>Response:</strong> 200, image stream or 400 if no thumbnail.</p>
+</li>
+<li>
+<p><strong>GET /files/{file_id}/preview</strong><br />
+  Get image preview (resized, e.g. max 1920px).<br />
+<strong>Response:</strong> 200, image stream or 400 if no preview.</p>
+</li>
+<li>
+<p><strong>GET /files/{file_id}/info</strong><br />
+  Get file metadata only.<br />
+<strong>Response:</strong> 200, JSON <code>FileInfo</code> (no Path/ThumbnailPath/PreviewPath/Content).</p>
+</li>
+<li>
+<p><strong>GET /files/{file_id}/link</strong><br />
+  Get a public link (if enabled).<br />
+<strong>Response:</strong> 200, JSON <code>{ "link": "&lt;url&gt;" }</code>.</p>
+</li>
+</ul>
+<p><strong>Public file (no auth)</strong></p>
+<ul>
+<li><strong>GET /files/{file_id}/public?h={hash}</strong><br />
+  Get file by public link. Hash is generated server-side from file id and salt.<br />
+<strong>Response:</strong> 200, file stream, or 4xx if disabled/invalid.</li>
+</ul>
+<p><strong>File metadata by post</strong></p>
+<ul>
+<li><strong>GET /posts/{post_id}/files/info</strong><br />
+  Get file infos for a post.<br />
+<strong>Query:</strong> <code>include_deleted=true</code> to include deleted (admin).<br />
+<strong>Response:</strong> 200, JSON array of <code>FileInfo</code>.</li>
+</ul>
+<p><strong>Search</strong></p>
+<ul>
+<li>
+<p><strong>POST /teams/{team_id}/files/search</strong><br />
+  Search files in a team.<br />
+<strong>Request:</strong> JSON <code>SearchParameter</code> (e.g. <code>terms</code>, <code>is_or_search</code>, <code>page</code>, <code>per_page</code>, <code>time_zone_offset</code>, <code>include_deleted_channels</code>).<br />
+<strong>Response:</strong> 200, JSON <code>FileInfoSearchResults</code> (file list + matches).</p>
+</li>
+<li>
+<p><strong>POST /files/search</strong><br />
+  Search files across all teams. Same request/response shape.</p>
+</li>
+</ul>
+<hr />
+<h2 id="3-server-data-models">3. Server Data Models</h2>
+<p><strong>FileInfo (model.FileInfo)</strong><br />
+Core metadata for one file. Stored in DB; path fields and content not sent to client.</p>
+<ul>
+<li><strong>Id</strong> – unique file id  </li>
+<li><strong>CreatorId</strong> – user id (or "nouser", or bookmark constant)  </li>
+<li><strong>PostId</strong> – optional; set when attached to a post  </li>
+<li><strong>ChannelId</strong> – channel (denormalized from post/origin)  </li>
+<li><strong>CreateAt, UpdateAt, DeleteAt</strong> – timestamps  </li>
+<li><strong>Path</strong> – backend path to file (not in JSON to client)  </li>
+<li><strong>ThumbnailPath, PreviewPath</strong> – backend paths (not in JSON to client)  </li>
+<li><strong>Name, Extension, Size, MimeType</strong>  </li>
+<li><strong>Width, Height</strong> – for images  </li>
+<li><strong>HasPreviewImage</strong> – whether preview image exists  </li>
+<li><strong>MiniPreview</strong> – small inline preview bytes (optional)  </li>
+<li><strong>Content</strong> – extracted text for search (not in JSON to client)  </li>
+<li><strong>RemoteId</strong> – for shared channels  </li>
+<li><strong>Archived</strong> – e.g. content made inaccessible</li>
+</ul>
+<p><strong>UploadSession (model.UploadSession)</strong><br />
+Used only for resumable uploads.</p>
+<ul>
+<li><strong>Id</strong> – upload session id  </li>
+<li><strong>Type</strong> – "attachment" or "import"  </li>
+<li><strong>CreateAt, UserId, ChannelId</strong> (for attachment), <strong>Filename</strong>  </li>
+<li><strong>Path</strong> – backend path where data is written  </li>
+<li><strong>FileSize</strong> – total size; <strong>FileOffset</strong> – bytes received so far  </li>
+<li><strong>RemoteId, ReqFileId</strong> – for shared channels</li>
+</ul>
+<p><strong>FileUploadResponse (model.FileUploadResponse)</strong><br />
+Returned by standard upload API.</p>
+<ul>
+<li><strong>FileInfos</strong> – slice of created <code>FileInfo</code>  </li>
+<li><strong>ClientIds</strong> – client-provided ids, aligned with FileInfos</li>
+</ul>
+<p><strong>Storage path structure (backend)</strong><br />
+Backend (local or S3) uses a path prefix under the configured root:</p>
+<ul>
+<li>
+<p><strong>Standard upload (UploadFileX):</strong><br />
+<code>{YYYYMMDD}/teams/{teamId}/channels/{channelId}/users/{userId}/{fileInfoId}/{filename}</code><br />
+  For bookmarks: <code>bookmark/teams/.../channels/.../{fileInfoId}/{filename}</code><br />
+  Images add same-dir files: <code>{nameWithoutExt}_preview.{ext}</code>, <code>{nameWithoutExt}_thumb.{ext}</code>.</p>
+</li>
+<li>
+<p><strong>Resumable upload (CreateUploadSession):</strong><br />
+  Attachment: <code>{YYYYMMDD}/teams/noteam/channels/{channelId}/users/{userId}/{uploadSessionId}/{filename}</code><br />
+  Import: <code>{ImportSettings.Directory}/{uploadSessionId}_{filename}</code> (incomplete: same + <code>.tmp</code>).</p>
+</li>
+</ul>
+<hr />
+<h2 id="4-frontend-data-model">4. Frontend Data Model</h2>
+<p><strong>FileInfo (webapp/platform/types/src/files.ts)</strong><br />
+Matches server FileInfo for the fields exposed to the client (snake_case in JSON).</p>
+<ul>
+<li><strong>id, user_id, channel_id, create_at, update_at, delete_at</strong>  </li>
+<li><strong>name, extension, size, mime_type</strong>  </li>
+<li><strong>width, height, has_preview_image</strong>  </li>
+<li><strong>clientId</strong> – added on client after upload to match file to UI (not from server)  </li>
+<li><strong>post_id</strong> – when attached to a post  </li>
+<li><strong>mini_preview</strong> – optional  </li>
+<li><strong>archived, link</strong> – optional</li>
+</ul>
+<p><strong>File list by post</strong><br />
+Redux keeps <code>fileIdsByPostId</code> and <code>files</code> (id → FileInfo). File infos for a post come from GET <code>/posts/{post_id}/files/info</code> and are normalized into these structures.</p>
+<p><strong>URLs (mattermost-redux)</strong><br />
+- File content: <code>Client4.getFileRoute(fileId)</code> → <code>/api/v4/files/{file_id}</code><br />
+- Download: same + <code>?download=1</code><br />
+- Thumbnail: <code>.../files/{file_id}/thumbnail</code><br />
+- Preview: <code>.../files/{file_id}/preview</code><br />
+- File info: <code>.../files/{file_id}/info</code><br />
+- Public link: <code>.../files/{file_id}/link</code></p>
+<hr />
+<h2 id="5-how-upload-works">5. How Upload Works</h2>
+<p><strong>Standard upload (web app)</strong><br />
+- User selects files; frontend uses <code>uploadFile</code> in <code>file_actions.ts</code>.<br />
+- <strong>POST /files</strong> with FormData: <code>channel_id</code>, <code>client_ids</code> (one per file), <code>files</code> (file, name).<br />
+- Server: <code>uploadFileStream</code> → if multipart, <code>uploadFileMultipart</code>; else <code>uploadFileSimple</code>. Both end up calling <code>App.UploadFileX</code> with channel, filename, and reader.<br />
+- <strong>UploadFileX:</strong> Validates size vs <code>FileSettings.MaxFileSize</code>, builds FileInfo and path, optionally preprocesses image (dimensions, orientation, preview/thumb paths), streams to backend via <code>WriteFile</code>, runs plugin hook <code>FileWillBeUploaded</code>, then for images runs postprocess (write thumbnail and preview), saves FileInfo to DB, and optionally kicks off content extraction.<br />
+- Response: <code>FileUploadResponse</code> with <code>file_infos</code> and <code>client_ids</code>; frontend maps them and updates Redux (e.g. RECEIVED_UPLOAD_FILES, UPLOAD_FILES_SUCCESS).</p>
+<p><strong>Resumable upload (large files)</strong><br />
+- Client first <strong>POST /uploads</strong> with <code>UploadSession</code> (type, channel_id, filename, file_size). Server creates session, sets Path, stores session (FileOffset = 0).<br />
+- Client then <strong>POST /uploads/{upload_id}</strong> one or more times with body = next chunk. Server uses <code>UploadData</code>: same-session lock, LimitedReader to (FileSize - FileOffset), then either <code>WriteFile</code> (first chunk) or <code>AppendFile</code> (resume). First chunk must be at least 5MB unless file is smaller than that.<br />
+- After each chunk, server updates session’s FileOffset in DB. When FileOffset == FileSize: reads file, builds FileInfo, runs plugin hook, generates thumbnail/preview for images, saves FileInfo, optionally runs content extraction (async), deletes upload session, returns FileInfo.<br />
+- So: large file is split into chunks by the client; server appends to one path per session; file is processed only after the full file is received.</p>
+<hr />
+<h2 id="6-how-files-are-processed-after-upload">6. How Files Are Processed After Upload</h2>
+<p>Processing happens on the server after the file is fully written (standard upload after stream write; resumable after last chunk).</p>
+<p><strong>Images (non-SVG)</strong><br />
+- <strong>Preprocess (during stream):</strong> Decode config for dimensions, check max resolution, set PreviewPath/ThumbnailPath, detect orientation (EXIF), handle animated GIF (no preview, decode once).<br />
+- <strong>Postprocess (after write):</strong> Decode image, apply orientation, then generate and write: thumbnail (120×100), preview (max 1920px), and optionally mini preview. All written to the same path prefix as the main file.<br />
+- SVG: dimensions parsed if possible; no thumbnail/preview generation.</p>
+<p><strong>Plugins</strong><br />
+- Hook <code>FileWillBeUploaded</code> is run with file reader and a writer. Plugins can transform or reject the upload. If they write content, it is written to a temp path then moved to the final path (so plugin can modify the stored file).</p>
+<p><strong>Content extraction</strong><br />
+- If <code>FileSettings.ExtractContent</code> is true, after FileInfo is saved the server runs <code>ExtractContentFromFileInfo</code> asynchronously (in a goroutine). It uses a document extractor (e.g. for PDF, Office) to get text, truncates to 1MB, and stores it in <code>FileInfo.Content</code> in the DB. Used for search. Images are skipped. Content is not returned to the client in the normal FileInfo JSON.</p>
+<hr />
+<h2 id="7-how-files-are-stored">7. How Files Are Stored</h2>
+<p><strong>Backend</strong><br />
+- Configured by <code>FileSettings.DriverName</code>: <code>"local"</code> or <code>"amazons3"</code>.<br />
+- <strong>Local:</strong> <code>FileSettings.Directory</code>; all paths (above) are relative to this directory.<br />
+- <strong>S3:</strong> Same logical path structure; bucket and prefix from config (e.g. AmazonS3Bucket, AmazonS3PathPrefix).<br />
+- Interface: <code>filestore.FileBackend</code>: Reader, ReadFile, FileExists, FileSize, WriteFile, AppendFile, MoveFile, RemoveFile, ListDirectory, etc. Resumable upload uses WriteFile for first chunk and AppendFile for subsequent chunks.</p>
+<p><strong>Database</strong><br />
+- <strong>FileInfo:</strong> One row per file (id, path, creator, channel, post_id, name, size, mime_type, dimensions, preview/thumbnail paths, etc.). Path/content fields used only server-side.<br />
+- <strong>UploadSession:</strong> One row per resumable session; deleted when upload completes.</p>
+<p><strong>Path summary</strong><br />
+- Standard: <code>{date}/teams/{team}/channels/{channel}/users/{user}/{fileId}/{filename}</code> (and same dir for _preview and _thumb).<br />
+- Resumable attachment: <code>{date}/teams/noteam/channels/{channel}/users/{user}/{uploadSessionId}/{filename}</code> (no FileInfo id until completion).<br />
+- Files are identified by <strong>file_id</strong> (FileInfo.Id) in the API; path is an implementation detail of the backend.</p>
+<hr />
+<h2 id="8-summary">8. Summary</h2>
+<ul>
+<li><strong>Server API:</strong> Upload via POST /files (multipart or simple) or resumable POST /uploads + POST /uploads/{id}. Fetch via GET /files/{id}, /thumbnail, /preview, /info, /link; GET /posts/{id}/files/info; POST .../files/search.  </li>
+<li><strong>Server models:</strong> FileInfo (metadata + backend paths), UploadSession (resumable), FileUploadResponse.  </li>
+<li><strong>Frontend model:</strong> FileInfo (same fields as exposed by API) plus clientId; files and fileIdsByPostId in Redux.  </li>
+<li><strong>Large files:</strong> Resumable flow with upload session and chunked POST to /uploads/{id}; file is processed only after the full file is received.  </li>
+<li><strong>After upload:</strong> Images get thumbnail/preview and orientation fix; plugins can transform or reject; optional async content extraction for search.  </li>
+<li><strong>Storage:</strong> Local or S3 via FileBackend; path layout by date/team/channel/user/id; metadata in DB, content in backend.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

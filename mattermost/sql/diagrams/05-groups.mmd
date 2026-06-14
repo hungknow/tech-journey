@@ -1,0 +1,43 @@
+erDiagram
+    usergroups {
+        varchar id PK
+        varchar name
+        varchar displayname
+    }
+
+    users {
+        varchar id PK
+        varchar username
+    }
+
+    channels {
+        varchar id PK
+        varchar name
+    }
+
+    teams {
+        varchar id PK
+        varchar name
+    }
+
+    groupmembers {
+        varchar groupid PK
+        varchar userid PK
+    }
+
+    groupchannels {
+        varchar groupid PK
+        varchar channelid PK
+    }
+
+    groupteams {
+        varchar groupid PK
+        varchar teamid PK
+    }
+
+    usergroups ||--o{ groupmembers : "has"
+    usergroups ||--o{ groupchannels : "linked to"
+    usergroups ||--o{ groupteams : "linked to"
+    users ||--o{ groupmembers : "in group"
+    channels ||--o{ groupchannels : "in group"
+    teams ||--o{ groupteams : "in group"

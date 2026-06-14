@@ -1,0 +1,1292 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Database Infrastructure - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#database-infrastructure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Database Infrastructure
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connection Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Initialization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Initialization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sqlite-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQLite Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SQLite Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entity-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entity Definitions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Entity Definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="database-infrastructure">Database Infrastructure</h1>
+<p>The database infrastructure provides persistent storage for all Spacedrive data using SQLite with SeaORM. It handles connection pooling, schema migrations, and database performance optimization.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li><strong><a href="#connection-management">Connection Management</a></strong> - SQLite connection pool with configurable settings</li>
+<li><strong><a href="#database-initialization">Database Initialization</a></strong> - Create and open database files with proper error handling</li>
+<li><strong><a href="#sqlite-optimization">SQLite Optimization</a></strong> - PRAGMA configuration for performance and reliability</li>
+<li><strong><a href="#migration-system">Migration System</a></strong> - Schema versioning and automatic upgrades</li>
+<li><strong><a href="#entity-definitions">Entity Definitions</a></strong> - SeaORM entities for all database tables</li>
+</ul>
+<h2 id="connection-management">Connection Management</h2>
+<p>The database connection pool manages multiple concurrent SQLite connections efficiently.</p>
+<h3 id="purpose">Purpose</h3>
+<p>Provide a performant, reliable connection pool that handles concurrent database access from multiple threads and async tasks.</p>
+<h3 id="what-it-solves">What it solves</h3>
+<ul>
+<li><strong>Concurrency</strong>: Multiple queries can run simultaneously without blocking</li>
+<li><strong>Resource management</strong>: Automatic connection lifecycle prevents resource leaks</li>
+<li><strong>Performance tuning</strong>: Pool size can be adjusted based on workload</li>
+<li><strong>Timeout handling</strong>: Configurable timeouts for acquire, idle, and lifetime</li>
+<li><strong>Environment control</strong>: Pool size configurable via <code>SPACEDRIVE_DB_POOL_SIZE</code> env var</li>
+</ul>
+<h3 id="implementation">Implementation</h3>
+<p>Location: <code>core/src/infra/db/mod.rs</code></p>
+<ul>
+<li>Uses <code>sqlx::pool::PoolOptions</code> for connection pooling</li>
+<li>Default pool size: 30 connections</li>
+<li>Minimum connections: 5 (or 1 if pool size is smaller)</li>
+<li>Acquire timeout: 30 seconds</li>
+<li>Idle timeout: 30 seconds</li>
+<li>Max lifetime: 30 seconds</li>
+<li>Environment variable override: <code>SPACEDRIVE_DB_POOL_SIZE</code></li>
+<li>Converts sqlx pool to SeaORM <code>DatabaseConnection</code></li>
+</ul>
+<h2 id="database-initialization">Database Initialization</h2>
+<p>Provides methods to create new databases or open existing ones with proper validation.</p>
+<h3 id="purpose_1">Purpose</h3>
+<p>Simplify database file creation and opening with appropriate error handling and logging.</p>
+<h3 id="what-it-solves_1">What it solves</h3>
+<ul>
+<li><strong>New database creation</strong>: Automatically creates parent directories</li>
+<li><strong>Existing database validation</strong>: Fails fast if database doesn't exist</li>
+<li><strong>Memory database support</strong>: Handles <code>:memory:</code> in-memory databases</li>
+<li><strong>URI mode configuration</strong>: Uses <code>mode=rwc</code> for read-write-create with shared cache</li>
+<li><strong>Error messages</strong>: Clear, descriptive errors for common failure scenarios</li>
+</ul>
+<h3 id="implementation_1">Implementation</h3>
+<p>Location: <code>core/src/infra/db/mod.rs</code></p>
+<ul>
+<li><code>Database::create(path)</code> - Creates new database at specified path</li>
+<li><code>Database::open(path)</code> - Opens existing database with existence check</li>
+<li>Automatic parent directory creation</li>
+<li>In-memory database support via <code>:memory:</code> path</li>
+<li>SQLite URI mode configuration with shared cache</li>
+<li>Logging on successful creation/opening</li>
+</ul>
+<h2 id="sqlite-optimization">SQLite Optimization</h2>
+<p>Applies performance and reliability PRAGMAs to every database connection in the pool.</p>
+<h3 id="purpose_2">Purpose</h3>
+<p>Optimize SQLite for Spacedrive's workload while maintaining data integrity.</p>
+<h3 id="what-it-solves_2">What it solves</h3>
+<ul>
+<li><strong>Concurrency</strong>: WAL mode enables simultaneous readers and writers</li>
+<li><strong>Performance</strong>: Normal synchronous mode balances speed and safety</li>
+<li><strong>Memory usage</strong>: Memory-based temp store for temporary tables</li>
+<li><strong>Cache efficiency</strong>: 20MB cache reduces disk I/O</li>
+<li><strong>Large file support</strong>: 64MB mmap size for efficient file access</li>
+<li><strong>Busy handling</strong>: 5 second timeout prevents deadlocks</li>
+</ul>
+<h3 id="implementation_2">Implementation</h3>
+<p>Location: <code>core/src/infra/db/mod.rs:sqlite_connect_options</code></p>
+<ul>
+<li>WAL journal mode: <code>PRAGMA journal_mode=WAL</code></li>
+<li>Normal synchronous: <code>PRAGMA synchronous=NORMAL</code></li>
+<li>Memory temp store: <code>PRAGMA temp_store=MEMORY</code></li>
+<li>20MB cache: <code>PRAGMA cache_size=-20000</code></li>
+<li>64MB mmap: <code>PRAGMA mmap_size=67108864</code></li>
+<li>5 second busy timeout: <code>PRAGMA busy_timeout=5000</code></li>
+</ul>
+<h2 id="migration-system">Migration System</h2>
+<p>Automated schema versioning and upgrades using SeaORM migrations.</p>
+<h3 id="purpose_3">Purpose</h3>
+<p>Enable database schema evolution over time while maintaining backward compatibility and data integrity.</p>
+<h3 id="what-it-solves_3">What it solves</h3>
+<ul>
+<li><strong>Version control</strong>: Each migration has a timestamp and unique ID</li>
+<li><strong>Automatic application</strong>: Migrations run automatically on database startup</li>
+<li><strong>Idempotent operations</strong>: Migrations can be re-run safely</li>
+<li><strong>History tracking</strong>: Migration status tracked in database</li>
+<li><strong>Rollback capability</strong>: Down migrations available (though not currently used)</li>
+<li><strong>Feature development</strong>: Schema changes tracked in version control alongside code</li>
+</ul>
+<h3 id="implementation_3">Implementation</h3>
+<p>Location: <code>core/src/infra/db/migration/</code></p>
+<ul>
+<li>SeaORM migration framework (<code>sea_orm_migration::MigratorTrait</code>)</li>
+<li>Timestamp-based naming: <code>mYYYYMMDD_HHMMSS_description.rs</code></li>
+<li><code>Migrator::up()</code> applies all pending migrations</li>
+<li>Migration status tracked in internal migration table</li>
+<li>Migrations ordered by timestamp automatically</li>
+<li>Over 40 migrations covering all schema changes</li>
+</ul>
+<h2 id="entity-definitions">Entity Definitions</h2>
+<p>SeaORM entities provide type-safe database access for all tables.</p>
+<h3 id="purpose_4">Purpose</h3>
+<p>Enable compile-time type checking and automatic query generation for database operations.</p>
+<h3 id="what-it-solves_4">What it solves</h3>
+<ul>
+<li><strong>Type safety</strong>: Compile-time errors prevent invalid queries</li>
+<li><strong>Query builder</strong>: Fluent API for building complex queries</li>
+<li><strong>Relationships</strong>: Define foreign keys and associations at compile time</li>
+<li><strong>Active record pattern</strong>: Methods like <code>save()</code>, <code>delete()</code>, <code>update()</code> on entities</li>
+<li><strong>Validation</strong>: Derive macros enforce constraints</li>
+<li><strong>Code generation</strong>: Auto-generated from schema for consistency</li>
+</ul>
+<h3 id="implementation_4">Implementation</h3>
+<p>Location: <code>core/src/infra/db/entities/</code></p>
+<ul>
+<li>SeaORM entity derive macros</li>
+<li>Entity definitions for all domain objects:</li>
+<li>Files and directories: <code>entry</code>, <code>directory_paths</code>, <code>entry_closure</code></li>
+<li>Content management: <code>content_kind</code>, <code>content_identity</code></li>
+<li>Locations and volumes: <code>location</code>, <code>volume</code>, <code>device</code></li>
+<li>Collections and spaces: <code>collection</code>, <code>collection_entry</code>, <code>space</code>, <code>space_item</code>, <code>space_group</code></li>
+<li>Tagging: <code>tag</code>, <code>tag_relationship</code>, <code>tag_closure</code>, <code>tag_usage_pattern</code>, <code>user_metadata_tag</code></li>
+<li>Metadata: <code>user_metadata</code>, <code>metadata_label</code>, <code>label</code>, <code>mime_type</code></li>
+<li>Media data: <code>image_media_data</code>, <code>video_media_data</code>, <code>audio_media_data</code></li>
+<li>Sidecars: <code>sidecar</code>, <code>sidecar_availability</code></li>
+<li>Cloud: <code>cloud_credential</code></li>
+<li>Indexing: <code>indexer_rule</code></li>
+<li>Sync: <code>sync_conduit</code>, <code>sync_generation</code>, <code>device_state_tombstone</code></li>
+<li>Audit: <code>audit_log</code></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

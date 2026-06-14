@@ -1,0 +1,1266 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Agent Module Specification - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#agent-module-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Agent Module Specification
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#call-order-text-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Call order (text diagram)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-flow-text-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data flow (text diagram)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-items-short-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data items (short reference)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#purpose-and-order-of-function-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose and Order of Function Calls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Purpose and Order of Function Calls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-tree-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File tree (reference)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions-call-order-indented-called-by-above" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions (call order; indented = called by above)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="agent-module-specification">Agent Module Specification</h1>
+<p>This document describes the <code>pkg/agent</code> module: its data flow, call order, and the purpose of each primary function. Use it as a specification when reimplementing this module or building similar modules.</p>
+<hr />
+<h2 id="overview">Overview</h2>
+<p>The agent module implements the core AI loop: it consumes user messages, builds context (system prompt, history, memory, skills), calls the LLM, executes tools, and optionally summarizes conversation. It is the central orchestrator between the message bus, the LLM provider, the tool registry, session storage, and persistent memory.</p>
+<p><strong>Main types:</strong></p>
+<ul>
+<li><strong>AgentLoop</strong> — The main loop: consumes inbound messages, runs the LLM iteration with tools, persists session state, and publishes outbound responses.</li>
+<li><strong>ContextBuilder</strong> — Builds the system prompt and the full message list (system + history + current user message) for each request.</li>
+<li><strong>MemoryStore</strong> — Reads and writes long-term memory (MEMORY.md) and daily notes (memory/YYYYMM/YYYYMMDD.md). Used only by ContextBuilder for prompt context.</li>
+</ul>
+<p><strong>Files:</strong></p>
+<ul>
+<li><strong>loop.go</strong> — AgentLoop, process options, tool registry creation, Run/processMessage/runAgentLoop/runLLMIteration, summarization, and helpers.</li>
+<li><strong>context.go</strong> — ContextBuilder: identity, bootstrap files, skills summary, memory context, BuildSystemPrompt, BuildMessages.</li>
+<li><strong>memory.go</strong> — MemoryStore: long-term and daily-note paths, read/write/append, GetMemoryContext.</li>
+</ul>
+<hr />
+<h2 id="data-flow">Data Flow</h2>
+<h3 id="call-order-text-diagram">Call order (text diagram)</h3>
+<p><strong>Entry from bus (normal run):</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Run(ctx)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  └─ ConsumeInbound(ctx)  →  msg
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  └─ processMessage(ctx, msg)
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        ├─ [channel == &quot;system&quot;]  →  processSystemMessage(ctx, msg)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        │     →  return (no LLM, no outbound)
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        └─ [else]  →  runAgentLoop(ctx, opts)
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  └─ [response &amp;&amp; !messageToolSent]  →  PublishOutbound(response)
+</span></code></pre></div>
+<p><strong>Entry from CLI / direct / heartbeat:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ProcessDirect(ctx, content, sessionKey)
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  OR   ProcessHeartbeat(ctx, content, channel, chatID)
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  └─ builds msg or opts
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  └─ processMessage(ctx, msg)  OR  runAgentLoop(ctx, opts)
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        →  same core path below
+</span></code></pre></div>
+<p><strong>Core path (one user message → one reply):</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>runAgentLoop(ctx, opts)
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  ├─ RecordLastChannel(...)           [if external channel]
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  ├─ updateToolContexts(channel, chatID)
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  ├─ history, summary = GetHistory(opts.SessionKey), GetSummary(opts.SessionKey)
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  │     [unless NoHistory]
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  ├─ messages = BuildMessages(history, summary, UserMessage, ...)
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  │     └─ BuildSystemPrompt()
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  │           →  getIdentity + LoadBootstrapFiles + skills + GetMemoryContext
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>  ├─ AddMessage(sessionKey, &quot;user&quot;, UserMessage)
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>  ├─ runLLMIteration(ctx, messages, opts)
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>  │     └─ loop:
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>  │           ├─ provider.Chat(ctx, messages, toolDefs)  →  response
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>  │           ├─ [no tool calls]  →  finalContent = response.Content; break
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>  │           └─ [has tool calls]  →  append assistant msg; for each:
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>  │                 ExecuteWithContext(...); append tool msg; repeat
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>  ├─ [finalContent empty]  →  finalContent = DefaultResponse
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>  ├─ AddMessage(sessionKey, &quot;assistant&quot;, finalContent); Save(sessionKey)
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>  ├─ [EnableSummary]  →  maybeSummarize(sessionKey)
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>  │     [async: summarizeSession → summarizeBatch]
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>  ├─ [SendResponse]  →  PublishOutbound(finalContent)
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>  └─ return finalContent
+</span></code></pre></div>
+<h3 id="data-flow-text-diagram">Data flow (text diagram)</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>INPUTS
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  bus.InboundMessage (Channel, ChatID, Content, SessionKey)   ──┐
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  ctx (cancellation)                                          │
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  processOptions (SessionKey, Channel, ChatID, UserMessage,   │
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>                  EnableSummary, SendResponse, NoHistory)    │
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>                                                              ▼
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>  runAgentLoop ──► updateToolContexts ──► BuildMessages ──► runLLMIteration
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>       │                  │                    │                    │
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>       │                  │                    │   system + history + user
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>       │                  │                    │   (BuildSystemPrompt ←
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>       │                  │                    │    GetMemoryContext, skills, bootstrap)
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>       │                  │                    │                    │
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>       │                  │                    │                    ├─ provider.Chat(messages, toolDefs)
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>       │                  │                    │                    ├─ tool results → append to messages
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>       │                  │                    │                    └─ loop until no tool calls
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>       │                  │                    │
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>       │                  │                    └──► sessions.AddMessage / AddFullMessage / Save
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>       │                  └──► message, spawn, subagent tools get (channel, chatID)
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>       └──► RecordLastChannel; maybeSummarize (async); optional PublishOutbound
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>OUTPUTS
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>  OutboundMessage (Channel, ChatID, Content)  →  bus
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>      [from Run or runAgentLoop or message tool]
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>  return string (final reply)  →  caller
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>  state (last channel/chatID); session files (history, summary)
+</span></code></pre></div>
+<h3 id="data-items-short-reference">Data items (short reference)</h3>
+<ul>
+<li><strong>InboundMessage</strong>: Channel, ChatID, Content, SessionKey (and SenderID, Media, Metadata).
+  System channel = subagent result, no LLM.</li>
+<li><strong>processOptions</strong>: SessionKey, Channel, ChatID, UserMessage, DefaultResponse, EnableSummary,
+  SendResponse, NoHistory.</li>
+<li><strong>messages</strong>: system (from BuildSystemPrompt) + history + current user; then in runLLMIteration,
+  assistant + tool messages appended.</li>
+<li><strong>Session</strong>: GetHistory / GetSummary (read); AddMessage, AddFullMessage, SetSummary,
+  TruncateHistory, Save (write).</li>
+<li><strong>ToolResult</strong>: ForLLM → into messages; ForUser → optional PublishOutbound (or message tool).</li>
+<li><strong>OutboundMessage</strong>: Channel, ChatID, Content. Published by Run (if message tool did not send),
+  runAgentLoop (if SendResponse), or tools.</li>
+</ul>
+<hr />
+<h2 id="purpose-and-order-of-function-calls">Purpose and Order of Function Calls</h2>
+<p>This section merges call order with the purpose of each function. Functions are listed in the
+order they appear in the call flow. Indented items are helpers called by the function above
+them; the description explains how the helper serves that caller. Each line prefixes the
+<strong>file name</strong> so you can see where the function lives.</p>
+<h3 id="file-tree-reference">File tree (reference)</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pkg/agent/
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>├── loop.go      # AgentLoop: NewAgentLoop, Run, processMessage, processSystemMessage,
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>│                #   runAgentLoop, updateToolContexts, runLLMIteration, maybeSummarize,
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>│                #   estimateTokens, summarizeSession, summarizeBatch;
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>│                #   ProcessDirect, ProcessDirectWithChannel, ProcessHeartbeat;
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>│                #   GetStartupInfo, RecordLastChannel, RecordLastChatID, RegisterTool, Stop
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>├── context.go   # ContextBuilder: NewContextBuilder, SetToolsRegistry, BuildMessages,
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>│                #   BuildSystemPrompt, getIdentity, buildToolsSection, LoadBootstrapFiles,
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>│                #   AddToolResult, AddAssistantMessage, GetSkillsInfo
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>└── memory.go    # MemoryStore: NewMemoryStore, GetMemoryContext, ReadLongTerm,
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>                 #   GetRecentDailyNotes, ReadToday, AppendToday, getTodayFile, WriteLongTerm
+</span></code></pre></div>
+<h3 id="functions-call-order-indented-called-by-above">Functions (call order; indented = called by above)</h3>
+<ul>
+<li><strong>loop.go</strong> <strong>NewAgentLoop</strong> — Run at startup. Prepares the agent: registers all tools (files,
+  exec, web, hardware, message, spawn, subagent), sets up subagents with their own tools,
+  session storage, and state. Creates the context builder and gives it the tool registry.
+  Produces a fully wired AgentLoop ready to process messages.</li>
+<li><strong>context.go</strong> <strong>NewContextBuilder</strong> — Creates the object that
+    will build system prompts and message lists; binds workspace, skills, and memory.</li>
+<li><strong>context.go</strong> <strong>SetToolsRegistry</strong> — Connects the tool registry to the context builder
+    so the system prompt can include an "available tools" section.</li>
+<li>
+<p><strong>memory.go</strong> <strong>NewMemoryStore</strong> — Used by NewContextBuilder. Creates a store that
+    knows where long-term memory and daily notes live and ensures the memory directory
+    exists.</p>
+</li>
+<li>
+<p><strong>loop.go</strong> <strong>Run</strong> — Keeps the agent alive: listens for messages on the bus and, for each one, runs the
+  full process and sends the reply back unless a tool (e.g. the message tool) already sent this
+  round. Stops when the context is cancelled.</p>
+</li>
+<li><strong>loop.go</strong> <strong>processMessage</strong> — Decides how to handle the
+    message: system-channel messages go to processSystemMessage; all others are turned into a
+    "run options" bundle and passed to runAgentLoop so one full turn can be executed.</li>
+<li>
+<p><strong>loop.go</strong> <strong>processSystemMessage</strong> — When the message is on the system channel, interprets and logs subagent results; does not call the LLM or send to the user.
+    User-facing output from subagents is expected via the message tool.</p>
+</li>
+<li>
+<p><strong>loop.go</strong> <strong>runAgentLoop</strong> — Runs one full turn for a request: load or skip history, build the message
+  list, call the LLM (with tools) until a final answer, persist the turn, optionally
+  summarize and optionally send the reply. The single place where "one user message → one
+  agent turn" is completed.</p>
+</li>
+<li><strong>loop.go</strong> <strong>updateToolContexts</strong> — At the start of each turn, tells the
+    message, spawn, and subagent tools the current channel and chat ID so they can target
+    the right conversation when they run.</li>
+<li><strong>context.go</strong> <strong>BuildMessages</strong> — Produces the exact message
+    list for one LLM call: system prompt (including session and summary when relevant),
+    conversation history, and the current user message, so each turn sends a consistent
+    structure to the model.<ul>
+<li><strong>context.go</strong> <strong>BuildSystemPrompt</strong> — Assembles the full
+  system prompt so BuildMessages has a single system block at the head of the message
+  list. Gives the model identity, rules, skills, and memory in one place.</li>
+<li><strong>context.go</strong> <strong>getIdentity</strong> — Produces the fixed
+    "who you are" block (agent name, time, runtime, workspace, and the tools section)
+    so BuildSystemPrompt can place it first in the prompt.<ul>
+<li><strong>context.go</strong> <strong>buildToolsSection</strong> — Turns the tool
+  registry into a text block that describes available tools, so getIdentity can
+  tell the model what it can do without hardcoding the list.</li>
+</ul>
+</li>
+<li><strong>context.go</strong> <strong>LoadBootstrapFiles</strong> — Injects
+    project-defined files (e.g. AGENTS.md, SOUL.md, USER.md, IDENTITY.md) into the
+    prompt so BuildSystemPrompt can include per-workspace behavior without code
+    changes.</li>
+<li><strong>memory.go</strong> <strong>GetMemoryContext</strong> — Supplies the
+    "memory" block (long-term + recent daily notes) so the system prompt includes
+    persistent and recent context.<ul>
+<li><strong>memory.go</strong> <strong>ReadLongTerm</strong> — Supplies the
+  long-term memory content so GetMemoryContext can include it in the block and
+  the model can reason over persistent facts.</li>
+<li><strong>memory.go</strong> <strong>GetRecentDailyNotes</strong> — Supplies the
+  last N days of daily notes so GetMemoryContext can give the model a short
+  "recent past" window without loading full history.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>loop.go</strong> <strong>runLLMIteration</strong> — Does the back-and-forth with the model: sends
+    messages and tool definitions, gets a response, and either finishes (no tool calls) or
+    runs the requested tools, appends their results as messages, and repeats until the
+    model returns a plain answer or the iteration limit is hit.</li>
+<li>
+<p><strong>loop.go</strong> <strong>maybeSummarize</strong> — After saving the turn, decides whether the
+    session has grown too long; if so, kicks off background summarization once per session so
+    future turns do not overflow the context window.</p>
+<ul>
+<li><strong>loop.go</strong> <strong>estimateTokens</strong> — Provides a rough token count for the
+  session history so maybeSummarize can decide whether to trigger summarization without
+  using a real tokenizer.</li>
+<li><strong>loop.go</strong> <strong>summarizeSession</strong> — Shrinks the session history by replacing most of
+  it with an LLM-generated summary and keeping only the last few messages (runs in a
+  goroutine), so runAgentLoop can keep using a bounded context size.</li>
+<li><strong>loop.go</strong> <strong>summarizeBatch</strong> — Asks the LLM to produce a short
+    summary of a given slice of conversation (and optionally an existing summary), so
+    summarizeSession can build the final summary and then truncate history.</li>
+</ul>
+</li>
+<li>
+<p><strong>loop.go</strong> <strong>ProcessDirect</strong>, <strong>ProcessDirectWithChannel</strong>, <strong>ProcessHeartbeat</strong> — Entry
+  points from CLI, direct calls, or heartbeat. They build the appropriate options or
+  message and then call processMessage or runAgentLoop so the same core flow is used.</p>
+</li>
+<li>
+<p><strong>loop.go</strong> <strong>GetStartupInfo</strong> — Exposes tool and skill counts for startup or logging.</p>
+</li>
+<li>
+<p><strong>context.go</strong> <strong>GetSkillsInfo</strong> — Exposes which skills are
+    loaded and their names so the app can report the agent's capabilities.</p>
+</li>
+<li>
+<p><strong>context.go</strong> <strong>AddToolResult</strong>, <strong>AddAssistantMessage</strong> — Convenience helpers for code
+  that builds message lists by hand (e.g. tests). The main loop does not use them; it
+  appends messages itself.</p>
+</li>
+<li>
+<p><strong>memory.go</strong> <strong>ReadToday</strong> — Exposes today's daily note for the prompt or for tools when
+  the agent or a tool needs "what happened today."</p>
+</li>
+<li>
+<p><strong>memory.go</strong> <strong>getTodayFile</strong> — Resolves the
+    file path for today's daily note so both can read or write the correct file without
+    duplicating path logic.</p>
+</li>
+<li>
+<p><strong>memory.go</strong> <strong>AppendToday</strong> — Appends to today's daily note without overwriting, so the
+  agent or tools can add entries (e.g. completed tasks) over the day. Uses getTodayFile
+  to target the correct file.</p>
+</li>
+<li>
+<p><strong>memory.go</strong> <strong>WriteLongTerm</strong> — Lets the agent or tools update long-term memory so
+  important information persists across sessions. Not called by other agent functions;
+  used by tools or external callers.</p>
+</li>
+</ul>
+<hr />
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li><strong>bus</strong> — InboundMessage, OutboundMessage; ConsumeInbound, PublishOutbound.</li>
+<li><strong>config</strong> — Workspace path, agent defaults (model, max tokens, max tool iterations, restrict), tools config (e.g. Brave/DuckDuckGo).</li>
+<li><strong>providers</strong> — Message, ToolDefinition, ToolCall, LLMProvider.Chat.</li>
+<li><strong>tools</strong> — ToolRegistry, Tool, ContextualTool, ToolResult, ExecuteWithContext, ToProviderDefs, GetSummaries; concrete tools (read_file, message, spawn, subagent, etc.).</li>
+<li><strong>session</strong> — SessionManager: GetHistory, GetSummary, AddMessage, AddFullMessage, SetSummary, TruncateHistory, Save.</li>
+<li><strong>state</strong> — Manager: SetLastChannel, SetLastChatID.</li>
+<li><strong>skills</strong> — SkillsLoader: ListSkills, BuildSkillsSummary.</li>
+<li><strong>logger</strong> — DebugCF, InfoCF, WarnCF, ErrorCF.</li>
+<li><strong>constants</strong> — IsInternalChannel(channel).</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

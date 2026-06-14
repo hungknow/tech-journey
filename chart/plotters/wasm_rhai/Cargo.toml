@@ -1,0 +1,28 @@
+[package]
+name = "plotter-wasm"
+version = "0.1.0"
+edition = "2018"
+publish = false
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type=["cdylib"]
+
+[dependencies]
+plotters = {git = "https://github.com/plotters-rs/plotters"}
+wasm-bindgen = "0.2.87"
+wee_alloc = { version = "0.4.5", optional = true }
+web-sys = { version = "0.3.39", features = ["HtmlCanvasElement"] }
+rhai = { version = "1.14.0", features = ["only_i64","internals","wasm-bindgen"] }
+js-sys = "0.3"
+console_error_panic_hook = { version = "0.1.7", optional = true }
+
+[dependencies.plotters-offscreen-canvas]
+git = "https://github.com/hungknow/plotters-offscreen-canvas"
+
+[profile.release]
+lto = true
+
+[features]
+default = ["console_error_panic_hook"]

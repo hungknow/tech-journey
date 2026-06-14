@@ -1,0 +1,1463 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>API Infrastructure Module - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-infrastructure-module" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Infrastructure Module
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unified-api-dispatcher" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unified API Dispatcher
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Unified API Dispatcher">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#session-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Session Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Session Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session-context-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Session Context Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication Levels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permission-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permission System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Permission System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permission-checking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permission Checking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permission-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permission Sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Categories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-conversions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Conversions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#middleware-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Middleware Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Middleware Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#middleware-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Middleware Layers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#middleware-pipeline_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Middleware Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request Metadata
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Request Metadata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metadata Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-built-constructors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-built Constructors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Enhancements
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="api-infrastructure-module">API Infrastructure Module</h1>
+<p>The API infrastructure module (<code>core/src/infra/api/</code>) provides a unified, type-safe API layer for all Spacedrive operations. It replaces scattered handler functions with a clean, unified entry point that handles cross-cutting concerns like authentication, authorization, session management, and error handling.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li><strong>Unified API Dispatcher</strong>: Single entry point for all operations (actions and queries) with automatic session context propagation</li>
+<li><strong>Session Management</strong>: Rich session context that tracks authentication, library selection, device capabilities, and request metadata</li>
+<li><strong>Permission System</strong>: Fine-grained permission checking for library, core, network, and job operations</li>
+<li><strong>Error Handling</strong>: Comprehensive error types with automatic conversion from underlying system errors</li>
+<li><strong>Middleware Pipeline</strong>: Extensible middleware system for logging, metrics, rate limiting, and other cross-cutting concerns</li>
+<li><strong>Request Metadata</strong>: Audit trails with request IDs, timestamps, source tracking, and client information</li>
+</ul>
+<h2 id="unified-api-dispatcher">Unified API Dispatcher</h2>
+<h3 id="purpose">Purpose</h3>
+<p>The <code>ApiDispatcher</code> provides a single, clean entry point for all operations that replaces scattered handler functions throughout the codebase. It automatically handles session context propagation, permission checking, and error conversion before delegating to the appropriate action/query manager.</p>
+<h3 id="what-it-solves">What It Solves</h3>
+<p>Previously, each operation type (library action, core action, library query, core query) had its own handler with duplicated logic for permission checks, session validation, and error handling. The dispatcher centralizes this logic and provides a consistent interface for all applications (CLI, Swift, web) to interact with the core daemon.</p>
+<h3 id="key-functions">Key Functions</h3>
+<ul>
+<li><code>execute_library_action&lt;A&gt;</code>: Execute library-scoped state-changing operations</li>
+<li><code>execute_core_action&lt;A&gt;</code>: Execute daemon-level operations</li>
+<li><code>execute_library_query&lt;Q&gt;</code>: Execute library-scoped read operations</li>
+<li><code>execute_core_query&lt;Q&gt;</code>: Execute daemon-level read operations</li>
+<li><code>create_base_session</code>: Create a session context for the current device</li>
+</ul>
+<h2 id="session-management">Session Management</h2>
+<h3 id="purpose_1">Purpose</h3>
+<p>The session system replaces simple <code>library_id</code> parameters with rich <code>SessionContext</code> objects that carry comprehensive information about who is making the request, what device they're using, what permissions they have, and what library context they're operating within.</p>
+<h3 id="what-it-solves_1">What It Solves</h3>
+<p>Many operations need to know more than just which library they're operating on. They need to know which user/device is making the request, what permissions that session has, what device capabilities are available, and request metadata for audit trails. The session system provides all of this information in a single, type-safe object that gets passed to every operation.</p>
+<h3 id="session-context-components">Session Context Components</h3>
+<ul>
+<li><code>AuthenticationInfo</code>: User ID, device ID, authentication level, session timing</li>
+<li><code>PermissionSet</code>: Core, library, network, and job permissions for this session</li>
+<li><code>RequestMetadata</code>: Request ID, timestamp, source (CLI/Swift), client info</li>
+<li><code>DeviceContext</code>: Device ID, name, OS, hardware model, capabilities</li>
+<li><code>current_library_id</code>: Currently selected library for this session</li>
+</ul>
+<h3 id="authentication-levels">Authentication Levels</h3>
+<ul>
+<li><code>None</code>: No authentication - limited access</li>
+<li><code>Device</code>: Device-level authentication - normal operations</li>
+<li><code>User</code>: User-level authentication - personal operations (future)</li>
+<li><code>Admin</code>: Admin-level authentication - system operations (future)</li>
+</ul>
+<h2 id="permission-system">Permission System</h2>
+<h3 id="purpose_2">Purpose</h3>
+<p>The permission layer provides fine-grained authorization for all API operations. It ensures that each session can only execute operations that it has permissions for, preventing unauthorized access to libraries, settings, devices, and other resources.</p>
+<h3 id="what-it-solves_2">What It Solves</h3>
+<p>Without a permission system, any authenticated client could execute any operation. The permission layer enables:
+- Device-level vs user-level access control
+- Read-only access restrictions
+- Fine-grained library permissions (read, write, delete, manage locations/tags, search, index)
+- Core system permissions (read status, manage libraries, modify settings, manage devices)
+- Network operation permissions (start/stop, pair devices, spacedrop)
+- Job management permissions (list, pause/resume, cancel, view details)</p>
+<h3 id="permission-checking">Permission Checking</h3>
+<p>The <code>PermissionLayer</code> provides check methods for each operation type:
+- <code>check_library_action&lt;A&gt;</code>: Verify session can execute library-scoped actions
+- <code>check_core_action&lt;A&gt;</code>: Verify session can execute daemon-level actions
+- <code>check_library_query&lt;Q&gt;</code>: Verify session can execute library-scoped queries
+- <code>check_core_query&lt;Q&gt;</code>: Verify session can execute daemon-level queries</p>
+<h3 id="permission-sets">Permission Sets</h3>
+<ul>
+<li><code>admin_all()</code>: Full admin permissions</li>
+<li><code>device_default()</code>: Default device permissions (currently permissive)</li>
+<li><code>read_only()</code>: Read-only access for query-only sessions</li>
+</ul>
+<h2 id="error-handling">Error Handling</h2>
+<h3 id="purpose_3">Purpose</h3>
+<p>The <code>ApiError</code> type provides a comprehensive, unified error type for all API operations. It wraps errors from the underlying action, query, and job systems and converts them into a consistent format with context about what went wrong.</p>
+<h3 id="what-it-solves_3">What It Solves</h3>
+<p>Different subsystems (actions, queries, jobs) have different error types. The API layer needs a unified error type that can represent all possible failures while providing meaningful context to clients. The error system automatically converts from underlying errors and provides HTTP status code equivalents for REST API scenarios.</p>
+<h3 id="error-categories">Error Categories</h3>
+<ul>
+<li><strong>Authentication errors</strong>: Unauthenticated access</li>
+<li><strong>Authorization errors</strong>: Insufficient permissions</li>
+<li><strong>Session/context errors</strong>: No library selected, invalid session, library not found</li>
+<li><strong>Input validation errors</strong>: Invalid input, missing required fields</li>
+<li><strong>Operation execution errors</strong>: Action/query/job execution failures</li>
+<li><strong>Resource errors</strong>: Not found, conflicts</li>
+<li><strong>System errors</strong>: Database, network, file system errors</li>
+<li><strong>Rate limiting and quotas</strong>: Rate limit exceeded, quota exceeded</li>
+<li><strong>Generic errors</strong>: Internal errors, timeouts</li>
+</ul>
+<h3 id="error-conversions">Error Conversions</h3>
+<p>The error system implements automatic conversions from:
+- <code>ActionError</code>: Core action execution errors
+- <code>QueryError</code>: Query execution errors
+- <code>JobError</code>: Job dispatch errors
+- <code>anyhow::Error</code>: Generic application errors
+- <code>String</code>/<code>&amp;str</code>: Simple string errors</p>
+<h2 id="middleware-pipeline">Middleware Pipeline</h2>
+<h3 id="purpose_4">Purpose</h3>
+<p>The middleware system provides a composable way to handle cross-cutting concerns that apply to all operations. Instead of adding logging, metrics, or rate limiting code to every operation, middleware layers can be applied to the entire pipeline.</p>
+<h3 id="what-it-solves_4">What It Solves</h3>
+<p>Many concerns apply to all operations uniformly: logging every request, collecting metrics, enforcing rate limits, caching results, etc. The middleware system provides a clean, composable way to apply these concerns without duplicating code across operations.</p>
+<h3 id="middleware-layers">Middleware Layers</h3>
+<ul>
+<li><strong>LoggingMiddleware</strong>: Logs all API operations with request ID, operation name, device ID, library ID, duration, and success/failure</li>
+<li><strong>MetricsMiddleware</strong>: Tracks operation metrics for monitoring and performance analysis</li>
+<li><strong>RateLimitMiddleware</strong>: Prevents abuse by limiting request rates per device/user/operation</li>
+<li><strong>MiddlewarePipeline</strong>: Composes multiple middleware layers into a single pipeline</li>
+</ul>
+<h3 id="middleware-pipeline_1">Middleware Pipeline</h3>
+<p>The <code>MiddlewarePipeline</code> allows combining multiple middleware layers:
+- <code>with_logging()</code>: Add logging middleware
+- <code>with_metrics()</code>: Add metrics middleware
+- <code>with_rate_limiting()</code>: Add rate limiting middleware
+- <code>default_pipeline()</code>: Create a pipeline with all default middleware</p>
+<h2 id="request-metadata">Request Metadata</h2>
+<h3 id="purpose_5">Purpose</h3>
+<p>Request metadata provides comprehensive information about each API request for audit trails, debugging, and monitoring. It tracks when requests were made, where they came from, and provides a unique ID for tracing.</p>
+<h3 id="what-it-solves_5">What It Solves</h3>
+<p>For debugging and audit purposes, you need to track who made which request, when it was made, and from what source. Request metadata provides this information in a structured format that gets logged with each operation and can be used for analytics, troubleshooting, and compliance.</p>
+<h3 id="metadata-fields">Metadata Fields</h3>
+<ul>
+<li><code>request_id</code>: Unique UUID for this request (useful for tracing)</li>
+<li><code>timestamp</code>: When the request was made</li>
+<li><code>source</code>: Where the request came from (CLI, Swift, Internal, Other)</li>
+<li><code>client_ip</code>: Client IP address for network requests</li>
+<li><code>user_agent</code>: User agent string if applicable</li>
+<li><code>metadata</code>: Additional key-value pairs for custom metadata</li>
+</ul>
+<h3 id="pre-built-constructors">Pre-built Constructors</h3>
+<ul>
+<li><code>cli_request()</code>: Request from the CLI application</li>
+<li><code>swift_request()</code>: Request from the Swift/macOS application</li>
+<li><code>internal_request()</code>: Internal system operation</li>
+<li><code>with_metadata()</code>: Add custom metadata key-value pairs</li>
+</ul>
+<h2 id="architecture">Architecture</h2>
+<p>The API module follows a layered architecture:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Applications (CLI, Swift, Web)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>         ↓
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   ApiDispatcher
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>         ↓
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   PermissionLayer
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>         ↓
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>   ActionManager / QueryManager
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>         ↓
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>   Actions / Queries
+</span></code></pre></div>
+<p>Each layer has a specific responsibility:
+- <strong>Applications</strong>: Make requests with session context
+- <strong>ApiDispatcher</strong>: Unified entry point, session validation, permission checking
+- <strong>PermissionLayer</strong>: Authorization checks based on session permissions
+- <strong>ActionManager/QueryManager</strong>: Dispatch to specific operations
+- <strong>Actions/Queries</strong>: Execute business logic</p>
+<h2 id="integration">Integration</h2>
+<p>The API module integrates with:
+- <strong>Action system</strong>: <code>core/src/infra/action/</code> for state-changing operations
+- <strong>Query system</strong>: <code>core/src/infra/query/</code> for read operations
+- <strong>Job system</strong>: <code>core/src/infra/job/</code> for long-running operations
+- <strong>Device manager</strong>: For device ID and session creation
+- <strong>Core context</strong>: Shared business logic context</p>
+<h2 id="future-enhancements">Future Enhancements</h2>
+<ul>
+<li><strong>User authentication</strong>: Full user session support with JWT tokens</li>
+<li><strong>Role-based access control</strong>: Role definitions and role assignment</li>
+<li><strong>Advanced rate limiting</strong>: Per-device, per-operation, and tiered rate limits</li>
+<li><strong>Metrics collection</strong>: Integration with Prometheus/StatsD</li>
+<li><strong>Request caching</strong>: Middleware for caching query results</li>
+<li><strong>API versioning</strong>: Support for multiple API versions</li>
+<li><strong>CORS support</strong>: Cross-origin resource sharing configuration</li>
+<li><strong>Webhook support</strong>: Event notifications via webhooks</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1770 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>IndexedDB Data Structure - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#indexeddb-data-structure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              IndexedDB Data Structure
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#events-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Events Database
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Events Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#database-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table: events
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Table: events">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primary-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indexes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-structure-events-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Structure: Events Interface
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Structure: Events Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#field-descriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Field Descriptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-structure-log-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Structure: Log Interface
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Structure: Log Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#log-field-descriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Log Field Descriptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-events-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Events Entry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-key-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache Key Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blocks-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blocks Database
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Blocks Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#database-name_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-blocks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table: blocks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Table: blocks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primary-key_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indexes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-structure-block-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Structure: Block Interface
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Structure: Block Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#field-descriptions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Field Descriptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-block-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Block Entry
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Organization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Organization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#events-table-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Events Table Organization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-entries-per-chain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Entries Per Chain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incremental-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Incremental Updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#size-estimates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Size Estimates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#browser-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Browser Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-invalidation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache Invalidation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Versions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Versions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#events-database_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Events Database
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blocks-database_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blocks Database
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#querying-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Querying Events
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-new-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding New Events
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#block-timestamp-lookup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Block Timestamp Lookup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-of-this-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benefits of This Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-optimization-block-bucket-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Optimization: Block Bucket Processing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage Optimization: Block Bucket Processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-storage-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Storage Issue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solution-block-bucket-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solution: Block Bucket Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="indexeddb-data-structure">IndexedDB Data Structure</h1>
+<h2 id="overview">Overview</h2>
+<p>The application uses IndexedDB (via Dexie.js) to cache blockchain event logs and block timestamps in the browser. This enables efficient incremental updates and faster subsequent loads by avoiding redundant blockchain queries.</p>
+<h2 id="database-structure">Database Structure</h2>
+<p>The application uses two separate IndexedDB databases:</p>
+<ol>
+<li><strong>Events Database</strong> - Stores blockchain event logs</li>
+<li><strong>Blocks Database</strong> - Stores block number to timestamp mappings</li>
+</ol>
+<hr />
+<h2 id="events-database">Events Database</h2>
+<h3 id="database-name">Database Name</h3>
+<p><code>Events</code></p>
+<h3 id="table-events">Table: <code>events</code></h3>
+<p>The events table stores blockchain event logs grouped by chain, event type, and wallet address.</p>
+<h4 id="primary-key">Primary Key</h4>
+<ul>
+<li><strong>Composite Key</strong>: <code>[chainId + topicsKey]</code></li>
+<li><code>chainId</code>: The blockchain network ID (e.g., 1 for Ethereum, 137 for Polygon)</li>
+<li><code>topicsKey</code>: A string combining event topics and optional address filter</li>
+</ul>
+<h4 id="indexes">Indexes</h4>
+<ul>
+<li><code>chainId</code> - Indexed for filtering by chain</li>
+<li><code>topics</code> - Indexed for filtering by event topics</li>
+<li><code>toBlock</code> - Indexed for querying by block range</li>
+</ul>
+<h3 id="data-structure-events-interface">Data Structure: <code>Events</code> Interface</h3>
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">interface</span><span class="w"> </span><span class="nx">Events</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nx">chainId</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">              </span><span class="c1">// Blockchain network ID</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nx">address?</span><span class="o">:</span><span class="w"> </span><span class="kt">Address</span><span class="p">;</span><span class="w">            </span><span class="c1">// Optional wallet address filter</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nx">topicsKey</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w">            </span><span class="c1">// Composite key: topics + address</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nx">topics</span><span class="o">:</span><span class="w"> </span><span class="kt">Array</span><span class="o">&lt;</span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span><span class="c1">// Event topic selectors (filters)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nx">toBlock</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">              </span><span class="c1">// Highest block number queried</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nx">logs</span><span class="o">:</span><span class="w"> </span><span class="kt">Log</span><span class="p">[];</span><span class="w">                  </span><span class="c1">// Array of event logs</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="field-descriptions">Field Descriptions</h4>
+<p><strong><code>chainId</code></strong> (number)
+- The blockchain network identifier
+- Examples: <code>1</code> (Ethereum), <code>137</code> (Polygon), <code>56</code> (BSC)
+- Used to separate events from different chains</p>
+<p><strong><code>address</code></strong> (Address, optional)
+- The wallet address that events are filtered for
+- Only present when events are filtered by a specific address
+- Format: Ethereum address string (e.g., <code>"0x1234..."</code>)</p>
+<p><strong><code>topicsKey</code></strong> (string)
+- Composite key combining event topics and address
+- Format: <code>"topic0,topic1,topic2/address"</code> or <code>"topic0,topic1,topic2"</code> (if no address)
+- Examples:
+  - <code>"0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef,null,0x0000000000000000000000001234567890123456789012345678901234567890"</code> (Transfer events to address)
+  - <code>"0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925,0x0000000000000000000000001234567890123456789012345678901234567890"</code> (Approval events from address)</p>
+<p><strong><code>topics</code></strong> (Array<string | null>)
+- Event topic selectors used to filter events
+- First topic is the event signature hash
+- Subsequent topics are indexed parameters (can be null for wildcard)
+- Examples:
+  - <code>["0xddf252ad...", null, "0x1234..."]</code> - Transfer events where <code>to</code> address matches
+  - <code>["0x8c5be1e5...", "0x1234..."]</code> - Approval events where <code>owner</code> matches</p>
+<p><strong><code>toBlock</code></strong> (number)
+- The highest block number that was queried and cached
+- Used to determine the starting point for incremental updates
+- Example: <code>18500000</code> means events up to block 18,500,000 are cached</p>
+<p><strong><code>logs</code></strong> (Log[])
+- Array of raw blockchain event logs
+- Contains all events matching the filter criteria
+- Can contain thousands of events for active wallets</p>
+<h3 id="data-structure-log-interface">Data Structure: <code>Log</code> Interface</h3>
+<p>Each log entry in the <code>logs</code> array represents a single blockchain event:</p>
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">interface</span><span class="w"> </span><span class="nx">Log</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nx">address</span><span class="o">:</span><span class="w"> </span><span class="kt">Address</span><span class="p">;</span><span class="w">        </span><span class="c1">// Contract address that emitted the event</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nx">topics</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">topic0</span><span class="o">:</span><span class="w"> </span><span class="kt">Hex</span><span class="p">,</span><span class="w"> </span><span class="nx">...rest</span><span class="o">:</span><span class="w"> </span><span class="kt">Hex</span><span class="p">[]];</span><span class="w"> </span><span class="c1">// Event topics (indexed parameters)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="kt">Hex</span><span class="p">;</span><span class="w">               </span><span class="c1">// Event data (non-indexed parameters)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nx">transactionHash</span><span class="o">:</span><span class="w"> </span><span class="kt">Hash</span><span class="p">;</span><span class="w">   </span><span class="c1">// Transaction hash that included this event</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nx">blockNumber</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">     </span><span class="c1">// Block number where event occurred</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nx">transactionIndex</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w"> </span><span class="c1">// Index within the block</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nx">logIndex</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">         </span><span class="c1">// Index within the transaction</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="nx">timestamp?</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">       </span><span class="c1">// Optional block timestamp (added later)</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="log-field-descriptions">Log Field Descriptions</h4>
+<p><strong><code>address</code></strong> (Address)
+- The smart contract address that emitted the event
+- Example: <code>"0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"</code> (USDC contract)</p>
+<p><strong><code>topics</code></strong> (Array<Hex>)
+- Event topics (indexed parameters)
+- <code>topics[0]</code>: Event signature hash (e.g., Transfer, Approval)
+- <code>topics[1+]</code>: Indexed event parameters
+- Example for Transfer event:
+  - <code>topics[0]</code>: <code>"0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"</code> (Transfer signature)
+  - <code>topics[1]</code>: <code>"0x0000000000000000000000001234..."</code> (from address)
+  - <code>topics[2]</code>: <code>"0x0000000000000000000000005678..."</code> (to address)
+  - <code>topics[3]</code>: <code>"0x0000000000000000000000000000000000000000000000000000000000000123"</code> (tokenId for ERC721)</p>
+<p><strong><code>data</code></strong> (Hex)
+- Encoded non-indexed event parameters
+- Example: For ERC20 Transfer, contains the amount as a 32-byte hex string</p>
+<p><strong><code>transactionHash</code></strong> (Hash)
+- Hash of the transaction that included this event
+- Format: <code>"0xabc123..."</code></p>
+<p><strong><code>blockNumber</code></strong> (number)
+- Block number where the event was included
+- Example: <code>18500000</code></p>
+<p><strong><code>transactionIndex</code></strong> (number)
+- Position of the transaction within the block
+- Starts from 0
+- Example: <code>5</code> (6th transaction in the block)</p>
+<p><strong><code>logIndex</code></strong> (number)
+- Position of this event log within the transaction
+- Starts from 0
+- Example: <code>0</code> (first event in the transaction)</p>
+<p><strong><code>timestamp</code></strong> (number, optional)
+- Unix timestamp of the block (in seconds)
+- Added later via block timestamp lookup
+- Example: <code>1699123456</code></p>
+<h3 id="example-events-entry">Example: Events Entry</h3>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;chainId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x1234567890123456789012345678901234567890&quot;</span><span class="p">,</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">&quot;topicsKey&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925,0x0000000000000000000000001234567890123456789012345678901234567890/0x1234567890123456789012345678901234567890&quot;</span><span class="p">,</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">&quot;topics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="s2">&quot;0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925&quot;</span><span class="p">,</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="s2">&quot;0x0000000000000000000000001234567890123456789012345678901234567890&quot;</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="p">],</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="nt">&quot;toBlock&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">18500000</span><span class="p">,</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="nt">&quot;logs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">      </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48&quot;</span><span class="p">,</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">      </span><span class="nt">&quot;topics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">        </span><span class="s2">&quot;0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925&quot;</span><span class="p">,</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">        </span><span class="s2">&quot;0x0000000000000000000000001234567890123456789012345678901234567890&quot;</span><span class="p">,</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">        </span><span class="s2">&quot;0x0000000000000000000000005678901234567890123456789012345678905678&quot;</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">      </span><span class="p">],</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">      </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x0000000000000000000000000000000000000000000000000de0b6b3a7640000&quot;</span><span class="p">,</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">      </span><span class="nt">&quot;transactionHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0xabc123def456...&quot;</span><span class="p">,</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">      </span><span class="nt">&quot;blockNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15000000</span><span class="p">,</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">      </span><span class="nt">&quot;transactionIndex&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">      </span><span class="nt">&quot;logIndex&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">      </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1699123456</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="cache-key-generation">Cache Key Generation</h3>
+<p>The cache key is generated as follows:</p>
+<ol>
+<li><strong>Extract topics and address</strong> from the filter</li>
+<li><strong>Join topics</strong> with commas: <code>topics.join(',')</code></li>
+<li><strong>Append address</strong> if present: <code>topics.join(',') + '/' + address</code></li>
+<li><strong>Use composite key</strong>: <code>[chainId, topicsKey]</code></li>
+</ol>
+<p><strong>Example Cache Keys:</strong>
+- <code>[1, "0x8c5be1e5...,0x1234.../0x1234..."]</code> - Approval events for address on Ethereum
+- <code>[137, "0xddf252ad...,null,0x5678..."]</code> - Transfer events to address on Polygon
+- <code>[1, "0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31"]</code> - ApprovalForAll events (no address filter)</p>
+<hr />
+<h2 id="blocks-database">Blocks Database</h2>
+<h3 id="database-name_1">Database Name</h3>
+<p><code>Blocks</code></p>
+<h3 id="table-blocks">Table: <code>blocks</code></h3>
+<p>The blocks table stores block number to timestamp mappings for efficient timestamp lookups.</p>
+<h4 id="primary-key_1">Primary Key</h4>
+<ul>
+<li><strong>Composite Key</strong>: <code>[chainId + blockNumber]</code></li>
+<li><code>chainId</code>: The blockchain network ID</li>
+<li><code>blockNumber</code>: The block number</li>
+</ul>
+<h4 id="indexes_1">Indexes</h4>
+<ul>
+<li><code>timestamp</code> - Indexed for querying by time range</li>
+</ul>
+<h3 id="data-structure-block-interface">Data Structure: <code>Block</code> Interface</h3>
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">interface</span><span class="w"> </span><span class="nx">Block</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nx">chainId</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">    </span><span class="c1">// Blockchain network ID</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nx">blockNumber</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w"> </span><span class="c1">// Block number</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nx">timestamp</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">   </span><span class="c1">// Unix timestamp (seconds)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="field-descriptions_1">Field Descriptions</h4>
+<p><strong><code>chainId</code></strong> (number)
+- The blockchain network identifier
+- Same values as in Events database</p>
+<p><strong><code>blockNumber</code></strong> (number)
+- The block number
+- Example: <code>18500000</code></p>
+<p><strong><code>timestamp</code></strong> (number)
+- Unix timestamp when the block was mined (in seconds)
+- Example: <code>1699123456</code> (represents October 4, 2023)</p>
+<h3 id="example-block-entry">Example: Block Entry</h3>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;chainId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">&quot;blockNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">18500000</span><span class="p">,</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1699123456</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h2 id="data-organization">Data Organization</h2>
+<h3 id="events-table-organization">Events Table Organization</h3>
+<p>Events are organized by:
+1. <strong>Chain ID</strong> - Separates different blockchain networks
+2. <strong>Event Type</strong> - Different event types (Transfer, Approval, etc.) are stored in separate entries
+3. <strong>Address Filter</strong> - Events filtered by specific addresses are stored separately</p>
+<h3 id="multiple-entries-per-chain">Multiple Entries Per Chain</h3>
+<p>For a single wallet address on one chain, multiple entries may exist:</p>
+<ul>
+<li>One entry for Transfer events (to address)</li>
+<li>One entry for Transfer events (from address)</li>
+<li>One entry for Approval events (from address)</li>
+<li>One entry for ApprovalForAll events (from address)</li>
+<li>One entry for Permit2 Approval events</li>
+<li>One entry for Permit2 Permit events</li>
+<li>One entry for Permit2 Lockdown events</li>
+</ul>
+<p>Each entry has its own <code>topicsKey</code> and stores only events matching that specific filter.</p>
+<h3 id="incremental-updates">Incremental Updates</h3>
+<p>When new events are fetched:
+1. System retrieves existing entry using <code>[chainId, topicsKey]</code>
+2. Checks <code>toBlock</code> to determine starting point
+3. Fetches new events from <code>toBlock + 1</code> to current latest block
+4. Merges new events with existing <code>logs</code> array
+5. Updates <code>toBlock</code> to new latest block
+6. Saves updated entry back to IndexedDB</p>
+<hr />
+<h2 id="storage-considerations">Storage Considerations</h2>
+<h3 id="size-estimates">Size Estimates</h3>
+<p><strong>Per Event Log</strong>: Approximately 500-1000 bytes
+- Address: 42 bytes
+- Topics: ~130 bytes per topic (4 topics max)
+- Data: ~130 bytes
+- Transaction hash: 66 bytes
+- Block number, indices: ~20 bytes
+- Timestamp: 8 bytes</p>
+<p><strong>Example Storage:</strong>
+- 1,000 events: ~500 KB - 1 MB
+- 10,000 events: ~5 MB - 10 MB
+- 100,000 events: ~50 MB - 100 MB</p>
+<h3 id="browser-limits">Browser Limits</h3>
+<ul>
+<li><strong>IndexedDB Storage Limit</strong>: Typically 50-100 MB per origin (browser-dependent)</li>
+<li><strong>Practical Limit</strong>: For most users, 10,000-50,000 events per filter is manageable</li>
+<li><strong>Optimization</strong>: Events are filtered by address and event type, reducing storage per entry</li>
+</ul>
+<h3 id="cache-invalidation">Cache Invalidation</h3>
+<p>The cache is automatically updated when:
+- New blocks are queried (incremental updates)
+- Database schema changes (version upgrades clear the cache)</p>
+<p>Manual cache clearing can be done by:
+- Clearing browser data
+- Database version upgrade (automatically clears on schema change)</p>
+<hr />
+<h2 id="database-versions">Database Versions</h2>
+<h3 id="events-database_1">Events Database</h3>
+<p><strong>Version 2025_03_23</strong> (Current)
+- Primary key: <code>[chainId + topicsKey]</code>
+- Indexes: <code>chainId</code>, <code>topics</code>, <code>toBlock</code>
+- On upgrade: Clears all existing events (full re-index)</p>
+<h3 id="blocks-database_1">Blocks Database</h3>
+<p><strong>Version 2023_03_14</strong> (Current)
+- Primary key: <code>[chainId + blockNumber]</code>
+- Index: <code>timestamp</code></p>
+<hr />
+<h2 id="usage-examples">Usage Examples</h2>
+<h3 id="querying-events">Querying Events</h3>
+<p>To retrieve cached events:
+1. Generate <code>topicsKey</code> from filter
+2. Query with composite key: <code>[chainId, topicsKey]</code>
+3. Check <code>toBlock</code> to see how up-to-date the cache is
+4. Use <code>logs</code> array for event processing</p>
+<h3 id="adding-new-events">Adding New Events</h3>
+<p>When new events are fetched:
+1. Retrieve existing entry
+2. Append new logs to existing <code>logs</code> array
+3. Update <code>toBlock</code> to new latest block
+4. Save updated entry</p>
+<h3 id="block-timestamp-lookup">Block Timestamp Lookup</h3>
+<p>To get block timestamp:
+1. Query blocks table with <code>[chainId, blockNumber]</code>
+2. Retrieve <code>timestamp</code> field
+3. If not found, fetch from blockchain and cache it</p>
+<hr />
+<h2 id="benefits-of-this-structure">Benefits of This Structure</h2>
+<ol>
+<li><strong>Efficient Queries</strong>: Composite keys enable fast lookups by chain and event type</li>
+<li><strong>Incremental Updates</strong>: <code>toBlock</code> tracking allows fetching only new events</li>
+<li><strong>Separation of Concerns</strong>: Events and blocks stored separately for optimal indexing</li>
+<li><strong>Scalability</strong>: Multiple entries per chain prevent single large arrays</li>
+<li><strong>Flexibility</strong>: Address filtering allows wallet-specific caching</li>
+</ol>
+<hr />
+<h2 id="storage-optimization-block-bucket-processing">Storage Optimization: Block Bucket Processing</h2>
+<h3 id="current-storage-issue">Current Storage Issue</h3>
+<p>IndexedDB has storage limits (typically 50-100 MB per origin). When storage quota is exceeded, the system falls back to querying events directly from the blockchain, disabling caching benefits.</p>
+<h3 id="solution-block-bucket-processing">Solution: Block Bucket Processing</h3>
+<p>Instead of storing all raw events, process events in block ranges (buckets) and store only the final processed allowance state. This reduces storage by 90-98%.</p>
+<h3 id="how-it-works">How It Works</h3>
+<ol>
+<li><strong>Process Events in Buckets</strong>: Divide blockchain into block ranges (e.g., every 10,000 blocks)</li>
+<li><strong>Calculate Final State</strong>: Process all events in bucket and calculate final allowance state at end of bucket</li>
+<li><strong>Store Processed Results</strong>: Save only final allowance state, delete raw events</li>
+<li><strong>Incremental Updates</strong>: Only process new buckets as they're discovered</li>
+</ol>
+<p><strong>Data Structure:</strong>
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">interface</span><span class="w"> </span><span class="nx">ProcessedBlockBucket</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nx">chainId</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nx">address</span><span class="o">:</span><span class="w"> </span><span class="kt">Address</span><span class="p">;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nx">fromBlock</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nx">toBlock</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nx">processedAt</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span><span class="nx">allowances</span><span class="o">:</span><span class="w"> </span><span class="kt">TokenAllowanceData</span><span class="p">[];</span><span class="w"> </span><span class="c1">// Final state at toBlock</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>Processing Flow:</strong>
+1. Fetch events for bucket [fromBlock, toBlock]
+2. Process events chronologically
+3. Calculate allowances at end of bucket
+4. Query on-chain state for ERC20 (if needed)
+5. Store ProcessedBlockBucket, delete raw events
+6. Merge with previous bucket's final state for next bucket</p>
+<p><strong>Storage Comparison:</strong>
+- <strong>Current</strong>: 100,000 events × 1 KB = ~100 MB
+- <strong>Block Buckets</strong>: 100,000 events → ~1,000 allowances × 2 KB = ~2 MB (98% reduction)</p>
+<p><strong>Hybrid Approach (Recommended):</strong>
+- <strong>Old blocks</strong> (0-18M): Processed into buckets (final state only)
+- <strong>Recent blocks</strong> (last 100k): Raw events stored (for fast access)
+- <strong>New blocks</strong>: Processed incrementally</p>
+<p><strong>Benefits:</strong>
+- 90-98% storage reduction
+- Faster queries (load processed results vs processing all events)
+- Scalable to unlimited history
+- Avoids storage quota issues</p>
+<hr />
+<h2 id="current-limitations">Current Limitations</h2>
+<ol>
+<li><strong>Storage Size</strong>: Large event histories consume significant browser storage (50-100 MB limit)</li>
+<li><strong>No Cache Eviction</strong>: When storage limit is reached, cache fails silently and falls back to direct queries</li>
+<li><strong>Chain-Specific</strong>: Some chains (PulseChain, BitTorrent) don't use caching</li>
+<li><strong>Cache Staleness</strong>: Cache may be outdated if user hasn't visited in a while</li>
+</ol>
+<p><strong>Solution</strong>: Implement block bucket processing (see above) to reduce storage by 90-98%</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

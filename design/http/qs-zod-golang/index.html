@@ -1,0 +1,1465 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Query String Parsing with qs (Go) - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#query-string-parsing-with-qs-go" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Query String Parsing with qs (Go)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#types-helpers-search_typesgo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types &amp; helpers — search_types.go
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-with-go-playgroundvalidator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation with go-playground/validator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sort-use-the-official-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sort: use the official library
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#middleware-search_middlewarego" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Middleware — search_middleware.go
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-handler-with-gin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage — handler with Gin
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage — handler with Gin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-parse-in-the-handler-no-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Parse in the handler (no middleware)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-use-createsearchmiddleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Use CreateSearchMiddleware
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#query-string-formats-qs-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Query string formats (qs behavior)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="query-string-parsing-with-qs-go">Query String Parsing with qs (Go)</h1>
+<p>Parse complex URL query strings (filters, sort, pagination) into a typed structure in a Go backend using <a href="https://pkg.go.dev/github.com/zaytracom/qs@v1.0.2">github.com/zaytracom/qs</a>.</p>
+<hr />
+<h2 id="data-flow">Data flow</h2>
+<p><strong>URL:</strong><br />
+<code>GET /users?age[gte]=21&amp;role=admin&amp;name[like]=john&amp;sort=age:desc,name:asc</code></p>
+<p><strong>After qs:</strong><br />
+Parsed into nested maps/structs, e.g. <code>age: { gte: 21 }</code>, <code>role: "admin"</code>, <code>name: { like: "john" }</code>, <code>sort: "age:desc,name:asc"</code> or <code>sort[]=age:desc&amp;sort[]=name:asc</code> → <code>sort: ["age:desc", "name:asc"]</code>.</p>
+<p><strong>Handler / middleware:</strong> Coerce numbers and dates, validate enums, interpret <code>like</code> as substring match, parse <code>sort</code> as <code>column:direction</code> (default <code>asc</code>), apply defaults for <code>page</code>/<code>limit</code>.</p>
+<p><strong>Attached to request/context:</strong></p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nx">SearchQuery</span><span class="p">[</span><span class="nx">UserFilters</span><span class="p">]{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nx">Pagination</span><span class="p">:</span><span class="w"> </span><span class="nx">Pagination</span><span class="p">{</span><span class="nx">Page</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nx">Limit</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">},</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nx">Filters</span><span class="p">:</span><span class="w"> </span><span class="nx">UserFilters</span><span class="p">{</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="nx">Age</span><span class="p">:</span><span class="w">     </span><span class="o">&amp;</span><span class="nx">IntFilter</span><span class="p">{</span><span class="nx">Gte</span><span class="p">:</span><span class="w"> </span><span class="nx">ptr</span><span class="p">(</span><span class="mi">21</span><span class="p">)},</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="nx">Role</span><span class="p">:</span><span class="w">    </span><span class="o">&amp;</span><span class="nx">RoleFilter</span><span class="p">{</span><span class="nx">Eq</span><span class="p">:</span><span class="w"> </span><span class="nx">ptr</span><span class="p">(</span><span class="s">&quot;admin&quot;</span><span class="p">)},</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">        </span><span class="nx">Name</span><span class="p">:</span><span class="w">    </span><span class="o">&amp;</span><span class="nx">StringFilter</span><span class="p">{</span><span class="nx">Like</span><span class="p">:</span><span class="w"> </span><span class="nx">ptr</span><span class="p">(</span><span class="s">&quot;john&quot;</span><span class="p">)},</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nx">Sort</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="nx">SortSpec</span><span class="p">{</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="p">{</span><span class="nx">Field</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;age&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">Order</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;desc&quot;</span><span class="p">},</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="p">{</span><span class="nx">Field</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;name&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">Order</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;asc&quot;</span><span class="p">},</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Use <code>SearchQuery.Sort</code> for multi-column <code>ORDER BY</code> (e.g. <code>ORDER BY age DESC, name ASC</code>). The generic <code>SearchQuery[T]</code> lets you pass the concrete filter type to child methods without type assertions.</p>
+<hr />
+<h2 id="install">Install</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/zaytracom/qs/v1
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/go-playground/validator/v10
+</span></code></pre></div>
+<hr />
+<h2 id="types-helpers-search_typesgo">Types &amp; helpers — <code>search_types.go</code></h2>
+<p>Filter config is defined with <strong>structs</strong> and <strong>query tags</strong>. Operator structs (eq, gte, like, etc.) match the shape produced by qs so <code>qs.Unmarshal</code> can fill them. Add <strong><code>validate</code></strong> tags (<a href="https://github.com/go-playground/validator">go-playground/validator</a>) for rules like enum, min/max—the Go counterpart to Zod schemas.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">search</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;time&quot;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1">// SearchQuery is the typed search payload attached to the request.</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1">// Use a concrete type for T (e.g. UserFilters) so Filters is typed and can be passed to child methods without assertions.</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="kd">type</span><span class="w"> </span><span class="nx">SearchQuery</span><span class="p">[</span><span class="nx">T</span><span class="w"> </span><span class="kt">any</span><span class="p">]</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nx">Filters</span><span class="w">     </span><span class="nx">T</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="nx">Pagination</span><span class="w">  </span><span class="nx">Pagination</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="nx">Sort</span><span class="w">        </span><span class="p">[]</span><span class="nx">SortSpec</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">}</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="kd">type</span><span class="w"> </span><span class="nx">Pagination</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="nx">Page</span><span class="w">  </span><span class="kt">int</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="nx">Limit</span><span class="w"> </span><span class="kt">int</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">}</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="kd">type</span><span class="w"> </span><span class="nx">SortSpec</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span><span class="nx">Field</span><span class="w"> </span><span class="kt">string</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="nx">Order</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="c1">// &quot;asc&quot; | &quot;desc&quot;</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="p">}</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="c1">// String filters: eq, ne, like, in</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="kd">type</span><span class="w"> </span><span class="nx">StringFilter</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">    </span><span class="nx">Eq</span><span class="w">   </span><span class="o">*</span><span class="kt">string</span><span class="w">  </span><span class="s">`query:&quot;eq&quot;`</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">    </span><span class="nx">Ne</span><span class="w">   </span><span class="o">*</span><span class="kt">string</span><span class="w">  </span><span class="s">`query:&quot;ne&quot;`</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">    </span><span class="nx">Like</span><span class="w"> </span><span class="o">*</span><span class="kt">string</span><span class="w">  </span><span class="s">`query:&quot;like&quot;`</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">    </span><span class="nx">In</span><span class="w">   </span><span class="p">[]</span><span class="kt">string</span><span class="w"> </span><span class="s">`query:&quot;in&quot;`</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">}</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="c1">// Number filters: eq, ne, gt, lt, gte, lte, in</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="kd">type</span><span class="w"> </span><span class="nx">IntFilter</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">    </span><span class="nx">Eq</span><span class="w">  </span><span class="o">*</span><span class="kt">int</span><span class="w">  </span><span class="s">`query:&quot;eq&quot;`</span>
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">    </span><span class="nx">Ne</span><span class="w">  </span><span class="o">*</span><span class="kt">int</span><span class="w">  </span><span class="s">`query:&quot;ne&quot;`</span>
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="w">    </span><span class="nx">Gt</span><span class="w">  </span><span class="o">*</span><span class="kt">int</span><span class="w">  </span><span class="s">`query:&quot;gt&quot;`</span>
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="w">    </span><span class="nx">Lt</span><span class="w">  </span><span class="o">*</span><span class="kt">int</span><span class="w">  </span><span class="s">`query:&quot;lt&quot;`</span>
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="w">    </span><span class="nx">Gte</span><span class="w"> </span><span class="o">*</span><span class="kt">int</span><span class="w">  </span><span class="s">`query:&quot;gte&quot;`</span>
+</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a><span class="w">    </span><span class="nx">Lte</span><span class="w"> </span><span class="o">*</span><span class="kt">int</span><span class="w">  </span><span class="s">`query:&quot;lte&quot;`</span>
+</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a><span class="w">    </span><span class="nx">In</span><span class="w">  </span><span class="p">[]</span><span class="kt">int</span><span class="w"> </span><span class="s">`query:&quot;in&quot;`</span>
+</span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a><span class="p">}</span>
+</span><span id="__span-2-41"><a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a>
+</span><span id="__span-2-42"><a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a><span class="c1">// Float filters (same operators as IntFilter)</span>
+</span><span id="__span-2-43"><a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a><span class="kd">type</span><span class="w"> </span><span class="nx">FloatFilter</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-44"><a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a><span class="w">    </span><span class="nx">Eq</span><span class="w">  </span><span class="o">*</span><span class="kt">float64</span><span class="w">  </span><span class="s">`query:&quot;eq&quot;`</span>
+</span><span id="__span-2-45"><a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a><span class="w">    </span><span class="nx">Ne</span><span class="w">  </span><span class="o">*</span><span class="kt">float64</span><span class="w">  </span><span class="s">`query:&quot;ne&quot;`</span>
+</span><span id="__span-2-46"><a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a><span class="w">    </span><span class="nx">Gt</span><span class="w">  </span><span class="o">*</span><span class="kt">float64</span><span class="w">  </span><span class="s">`query:&quot;gt&quot;`</span>
+</span><span id="__span-2-47"><a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a><span class="w">    </span><span class="nx">Lt</span><span class="w">  </span><span class="o">*</span><span class="kt">float64</span><span class="w">  </span><span class="s">`query:&quot;lt&quot;`</span>
+</span><span id="__span-2-48"><a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a><span class="w">    </span><span class="nx">Gte</span><span class="w"> </span><span class="o">*</span><span class="kt">float64</span><span class="w">  </span><span class="s">`query:&quot;gte&quot;`</span>
+</span><span id="__span-2-49"><a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a><span class="w">    </span><span class="nx">Lte</span><span class="w"> </span><span class="o">*</span><span class="kt">float64</span><span class="w">  </span><span class="s">`query:&quot;lte&quot;`</span>
+</span><span id="__span-2-50"><a id="__codelineno-2-50" name="__codelineno-2-50" href="#__codelineno-2-50"></a><span class="w">    </span><span class="nx">In</span><span class="w">  </span><span class="p">[]</span><span class="kt">float64</span><span class="w"> </span><span class="s">`query:&quot;in&quot;`</span>
+</span><span id="__span-2-51"><a id="__codelineno-2-51" name="__codelineno-2-51" href="#__codelineno-2-51"></a><span class="p">}</span>
+</span><span id="__span-2-52"><a id="__codelineno-2-52" name="__codelineno-2-52" href="#__codelineno-2-52"></a>
+</span><span id="__span-2-53"><a id="__codelineno-2-53" name="__codelineno-2-53" href="#__codelineno-2-53"></a><span class="c1">// Date filters: eq, ne, gt, lt, gte, lte, in (RFC3339 or Unix)</span>
+</span><span id="__span-2-54"><a id="__codelineno-2-54" name="__codelineno-2-54" href="#__codelineno-2-54"></a><span class="kd">type</span><span class="w"> </span><span class="nx">DateFilter</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-55"><a id="__codelineno-2-55" name="__codelineno-2-55" href="#__codelineno-2-55"></a><span class="w">    </span><span class="nx">Eq</span><span class="w">  </span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="w">  </span><span class="s">`query:&quot;eq&quot;`</span>
+</span><span id="__span-2-56"><a id="__codelineno-2-56" name="__codelineno-2-56" href="#__codelineno-2-56"></a><span class="w">    </span><span class="nx">Ne</span><span class="w">  </span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="w">  </span><span class="s">`query:&quot;ne&quot;`</span>
+</span><span id="__span-2-57"><a id="__codelineno-2-57" name="__codelineno-2-57" href="#__codelineno-2-57"></a><span class="w">    </span><span class="nx">Gt</span><span class="w">  </span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="w">  </span><span class="s">`query:&quot;gt&quot;`</span>
+</span><span id="__span-2-58"><a id="__codelineno-2-58" name="__codelineno-2-58" href="#__codelineno-2-58"></a><span class="w">    </span><span class="nx">Lt</span><span class="w">  </span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="w">  </span><span class="s">`query:&quot;lt&quot;`</span>
+</span><span id="__span-2-59"><a id="__codelineno-2-59" name="__codelineno-2-59" href="#__codelineno-2-59"></a><span class="w">    </span><span class="nx">Gte</span><span class="w"> </span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="w">  </span><span class="s">`query:&quot;gte&quot;`</span>
+</span><span id="__span-2-60"><a id="__codelineno-2-60" name="__codelineno-2-60" href="#__codelineno-2-60"></a><span class="w">    </span><span class="nx">Lte</span><span class="w"> </span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="w">  </span><span class="s">`query:&quot;lte&quot;`</span>
+</span><span id="__span-2-61"><a id="__codelineno-2-61" name="__codelineno-2-61" href="#__codelineno-2-61"></a><span class="w">    </span><span class="nx">In</span><span class="w">  </span><span class="p">[]</span><span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="w"> </span><span class="s">`query:&quot;in&quot;`</span>
+</span><span id="__span-2-62"><a id="__codelineno-2-62" name="__codelineno-2-62" href="#__codelineno-2-62"></a><span class="p">}</span>
+</span><span id="__span-2-63"><a id="__codelineno-2-63" name="__codelineno-2-63" href="#__codelineno-2-63"></a>
+</span><span id="__span-2-64"><a id="__codelineno-2-64" name="__codelineno-2-64" href="#__codelineno-2-64"></a><span class="c1">// Boolean filter: eq only (&quot;true&quot; / &quot;false&quot;)</span>
+</span><span id="__span-2-65"><a id="__codelineno-2-65" name="__codelineno-2-65" href="#__codelineno-2-65"></a><span class="kd">type</span><span class="w"> </span><span class="nx">BoolFilter</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-66"><a id="__codelineno-2-66" name="__codelineno-2-66" href="#__codelineno-2-66"></a><span class="w">    </span><span class="nx">Eq</span><span class="w"> </span><span class="o">*</span><span class="kt">bool</span><span class="w"> </span><span class="s">`query:&quot;eq&quot;`</span>
+</span><span id="__span-2-67"><a id="__codelineno-2-67" name="__codelineno-2-67" href="#__codelineno-2-67"></a><span class="p">}</span>
+</span><span id="__span-2-68"><a id="__codelineno-2-68" name="__codelineno-2-68" href="#__codelineno-2-68"></a>
+</span><span id="__span-2-69"><a id="__codelineno-2-69" name="__codelineno-2-69" href="#__codelineno-2-69"></a><span class="c1">// Enum filter: use a dedicated struct with validate:&quot;oneof=...&quot; so validator enforces allowed values.</span>
+</span><span id="__span-2-70"><a id="__codelineno-2-70" name="__codelineno-2-70" href="#__codelineno-2-70"></a><span class="kd">type</span><span class="w"> </span><span class="nx">EnumFilter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">StringFilter</span>
+</span><span id="__span-2-71"><a id="__codelineno-2-71" name="__codelineno-2-71" href="#__codelineno-2-71"></a>
+</span><span id="__span-2-72"><a id="__codelineno-2-72" name="__codelineno-2-72" href="#__codelineno-2-72"></a><span class="kd">func</span><span class="w"> </span><span class="nx">ptr</span><span class="p">[</span><span class="nx">T</span><span class="w"> </span><span class="kt">any</span><span class="p">](</span><span class="nx">v</span><span class="w"> </span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">T</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">v</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<ul>
+<li><strong>Enum:</strong> Use a filter struct with the same <code>query</code> shape as <code>StringFilter</code> but add <code>validate:"omitempty,oneof=admin user guest"</code> on <code>Eq</code> and <code>validate:"omitempty,dive,oneof=..."</code> on <code>In</code> (see RoleFilter below).</li>
+<li><strong>Coercion:</strong> qs and <code>Unmarshal</code> coerce query strings into <code>int</code>, <code>float64</code>, <code>bool</code>, <code>time.Time</code>; add <code>validate</code> tags (e.g. <code>min</code>, <code>max</code>) for bounds.</li>
+</ul>
+<hr />
+<h2 id="validation-with-go-playgroundvalidator">Validation with go-playground/validator</h2>
+<p><a href="https://github.com/go-playground/validator">go-playground/validator</a> is the usual Go replacement for Zod: struct tags declare rules and <code>validate.Struct()</code> runs them after unmarshaling. Use it <strong>after</strong> <code>qs.Unmarshal</code> (and optionally after <code>ToSearchQuery</code>) to return 400 with field errors when invalid.</p>
+<p><strong>Typical flow:</strong> Unmarshal query → <code>validate.Struct(&amp;q)</code> → on error, translate <code>validator.ValidationErrors</code> to a JSON response.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">search</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="s">&quot;errors&quot;</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="s">&quot;net/http&quot;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="s">&quot;github.com/gin-gonic/gin&quot;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="nx">validator</span><span class="w"> </span><span class="s">&quot;github.com/go-playground/validator/v10&quot;</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1">// Validate is the shared validator instance (export so handlers can call Validate.Struct).</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="kd">var</span><span class="w"> </span><span class="nx">Validate</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">validator</span><span class="p">.</span><span class="nx">New</span><span class="p">()</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="c1">// ValidationErrorsToMap converts validator.ValidationErrors to a map suitable for 400 JSON.</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="kd">func</span><span class="w"> </span><span class="nx">ValidationErrorsToMap</span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span><span class="nx">out</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">)</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">valErr</span><span class="w"> </span><span class="nx">validator</span><span class="p">.</span><span class="nx">ValidationErrors</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">errors</span><span class="p">.</span><span class="nx">As</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">valErr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">        </span><span class="nx">out</span><span class="p">[</span><span class="s">&quot;_&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">()</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">out</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">valErr</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">        </span><span class="nx">out</span><span class="p">[</span><span class="nx">e</span><span class="p">.</span><span class="nx">Field</span><span class="p">()]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">Tag</span><span class="p">()</span><span class="w"> </span><span class="c1">// or e.Translate(translator) for messages</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">out</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="p">}</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="c1">// In a handler after qs.Unmarshal:</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="kd">func</span><span class="w"> </span><span class="nx">getUsers</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">gin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">q</span><span class="w"> </span><span class="nx">search</span><span class="p">.</span><span class="nx">UserQuery</span>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">qs</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">RawQuery</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">q</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nx">JSON</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusBadRequest</span><span class="p">,</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">H</span><span class="p">{</span><span class="s">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Invalid query&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">()})</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">        </span><span class="k">return</span>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">Validate</span><span class="p">.</span><span class="nx">Struct</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">q</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nx">JSON</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusBadRequest</span><span class="p">,</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">H</span><span class="p">{</span><span class="s">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Validation failed&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">ValidationErrorsToMap</span><span class="p">(</span><span class="nx">err</span><span class="p">)})</span>
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="w">        </span><span class="k">return</span>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a><span class="w">    </span><span class="c1">// ... ToSearchQuery(&amp;q), use filters</span>
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Useful tags:</strong> <code>oneof=admin user guest</code>, <code>min=1</code>, <code>max=100</code>, <code>dive</code> (for slices), <code>omitempty</code> (skip when zero). See <a href="https://github.com/go-playground/validator#baked-in-validations">baked-in validations</a> for the full list.</p>
+<hr />
+<h2 id="sort-use-the-official-library">Sort: use the official library</h2>
+<p>The qs library parses <code>sort</code> for you. Use <strong><code>Sort []string</code></strong> in your query struct with the <code>query:"sort"</code> tag:</p>
+<ul>
+<li><strong>Array form</strong> <code>sort[]=age:desc&amp;sort[]=name:asc</code> → qs fills <code>Sort</code> with <code>[]string{"age:desc", "name:asc"}</code>.</li>
+<li><strong>Single string</strong> <code>sort=age:desc,name:asc</code> → qs stores one value, and <code>Unmarshal</code> into <code>[]string</code> yields one element <code>"age:desc,name:asc"</code>.</li>
+</ul>
+<p>So you <strong>do not need a custom “ParseSort”</strong> for query parsing—only a small helper that turns <code>[]string</code> into <code>[]SortSpec</code> by splitting each element on <code>,</code> (for the single-string form) and then parsing <code>"field:order"</code> (default order <code>asc</code>).</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">search</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;strings&quot;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">// SortSpecsFromStrings converts qs-parsed sort strings to []SortSpec.</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1">// Handles both array form (one spec per element) and single comma-separated string.</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">// Each part is &quot;field&quot;, &quot;field:asc&quot;, or &quot;field:desc&quot;.</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="kd">func</span><span class="w"> </span><span class="nx">SortSpecsFromStrings</span><span class="p">(</span><span class="nx">parts</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="nx">SortSpec</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">expanded</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">parts</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;,&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">t</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">p</span><span class="p">);</span><span class="w"> </span><span class="nx">t</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">                </span><span class="nx">expanded</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">expanded</span><span class="p">,</span><span class="w"> </span><span class="nx">t</span><span class="p">)</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">expanded</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="nx">out</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="nx">SortSpec</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">expanded</span><span class="p">))</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">expanded</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">        </span><span class="nx">field</span><span class="p">,</span><span class="w"> </span><span class="nx">order</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;asc&quot;</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">idx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Index</span><span class="p">(</span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;:&quot;</span><span class="p">);</span><span class="w"> </span><span class="nx">idx</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">            </span><span class="nx">field</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">p</span><span class="p">[:</span><span class="nx">idx</span><span class="p">])</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">            </span><span class="nx">o</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">p</span><span class="p">[</span><span class="nx">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">o</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;desc&quot;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">                </span><span class="nx">order</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;desc&quot;</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">field</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">            </span><span class="nx">out</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">out</span><span class="p">,</span><span class="w"> </span><span class="nx">SortSpec</span><span class="p">{</span><span class="nx">Field</span><span class="p">:</span><span class="w"> </span><span class="nx">field</span><span class="p">,</span><span class="w"> </span><span class="nx">Order</span><span class="p">:</span><span class="w"> </span><span class="nx">order</span><span class="p">})</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">out</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Parsing the query string itself is done entirely by <strong>qs</strong>; this helper only interprets your application’s sort format (<code>field:order</code>).</p>
+<hr />
+<h2 id="middleware-search_middlewarego">Middleware — <code>search_middleware.go</code></h2>
+<p>Middleware parses the raw query with <strong>qs</strong>, unmarshals into a query struct that includes <strong>filters + page, limit, sort</strong>, then validates pagination (e.g. page ≥ 1, limit 1–100), optionally enums, and attaches a typed <strong>SearchQuery</strong> to the context (or request in Gin/Echo).</p>
+<p>Example using <strong>Gin</strong> and a generic “query struct” type:</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">search</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="s">&quot;net/http&quot;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="s">&quot;github.com/gin-gonic/gin&quot;</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nx">qs</span><span class="w"> </span><span class="s">&quot;github.com/zaytracom/qs/v1&quot;</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">)</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1">// QueryBinderFor is the shape of the raw query struct that includes pagination and sort.</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1">// T is the concrete filter type (e.g. UserFilters) so SearchQuery[T] is fully typed.</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="kd">type</span><span class="w"> </span><span class="nx">QueryBinderFor</span><span class="p">[</span><span class="nx">T</span><span class="w"> </span><span class="kt">any</span><span class="p">]</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="nx">GetPage</span><span class="p">()</span><span class="w"> </span><span class="kt">int</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">    </span><span class="nx">GetLimit</span><span class="p">()</span><span class="w"> </span><span class="kt">int</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span><span class="nx">GetSort</span><span class="p">()</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span><span class="nx">SetPagination</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span><span class="w"> </span><span class="nx">limit</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">    </span><span class="nx">SetSort</span><span class="p">(</span><span class="nx">sort</span><span class="w"> </span><span class="p">[]</span><span class="nx">SortSpec</span><span class="p">)</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">    </span><span class="nx">Filters</span><span class="p">()</span><span class="w"> </span><span class="nx">T</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="p">}</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="c1">// ToSearchQuery builds SearchQuery[T] from any QueryBinderFor[T]. Use this instead of</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="c1">// implementing ToSearchQuery on every query type. Applies default page/limit and parses sort.</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="kd">func</span><span class="w"> </span><span class="nx">ToSearchQuery</span><span class="p">[</span><span class="nx">T</span><span class="w"> </span><span class="kt">any</span><span class="p">](</span><span class="nx">q</span><span class="w"> </span><span class="nx">QueryBinderFor</span><span class="p">[</span><span class="nx">T</span><span class="p">])</span><span class="w"> </span><span class="nx">SearchQuery</span><span class="p">[</span><span class="nx">T</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">    </span><span class="nx">page</span><span class="p">,</span><span class="w"> </span><span class="nx">limit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">q</span><span class="p">.</span><span class="nx">GetPage</span><span class="p">(),</span><span class="w"> </span><span class="nx">q</span><span class="p">.</span><span class="nx">GetLimit</span><span class="p">()</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">page</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">        </span><span class="nx">page</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">limit</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">        </span><span class="nx">limit</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">limit</span><span class="w"> </span><span class="p">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="w">        </span><span class="nx">limit</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">100</span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">SearchQuery</span><span class="p">[</span><span class="nx">T</span><span class="p">]{</span>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="w">        </span><span class="nx">Filters</span><span class="p">:</span><span class="w">    </span><span class="nx">q</span><span class="p">.</span><span class="nx">Filters</span><span class="p">(),</span>
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="w">        </span><span class="nx">Pagination</span><span class="p">:</span><span class="w"> </span><span class="nx">Pagination</span><span class="p">{</span><span class="nx">Page</span><span class="p">:</span><span class="w"> </span><span class="nx">page</span><span class="p">,</span><span class="w"> </span><span class="nx">Limit</span><span class="p">:</span><span class="w"> </span><span class="nx">limit</span><span class="p">},</span>
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="w">        </span><span class="nx">Sort</span><span class="p">:</span><span class="w">       </span><span class="nx">SortSpecsFromStrings</span><span class="p">(</span><span class="nx">q</span><span class="p">.</span><span class="nx">GetSort</span><span class="p">()),</span>
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="p">}</span>
+</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a>
+</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="c1">// CreateSearchMiddleware returns a Gin handler that parses query with qs, optionally validates (when Validate is set),</span>
+</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a><span class="c1">// and sets SearchQuery[T] on context. newBinder is called once per request so each request gets its own struct—safe for concurrent use.</span>
+</span><span id="__span-5-43"><a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a><span class="c1">// key is the context key. Use the same T in the handler when reading (e.g. *SearchQuery[UserFilters]).</span>
+</span><span id="__span-5-44"><a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a><span class="kd">func</span><span class="w"> </span><span class="nx">CreateSearchMiddleware</span><span class="p">[</span><span class="nx">T</span><span class="w"> </span><span class="kt">any</span><span class="p">](</span><span class="nx">newBinder</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="nx">QueryBinderFor</span><span class="p">[</span><span class="nx">T</span><span class="p">],</span><span class="w"> </span><span class="nx">key</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">HandlerFunc</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-45"><a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">gin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-46"><a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a><span class="w">        </span><span class="nx">q</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">newBinder</span><span class="p">()</span><span class="w"> </span><span class="c1">// fresh binder per request</span>
+</span><span id="__span-5-47"><a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a><span class="w">        </span><span class="nx">rawQuery</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">RawQuery</span>
+</span><span id="__span-5-48"><a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">qs</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">(</span><span class="nx">rawQuery</span><span class="p">,</span><span class="w"> </span><span class="nx">q</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-49"><a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a><span class="w">            </span><span class="nx">c</span><span class="p">.</span><span class="nx">JSON</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusBadRequest</span><span class="p">,</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">H</span><span class="p">{</span><span class="s">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Invalid query&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">()})</span>
+</span><span id="__span-5-50"><a id="__codelineno-5-50" name="__codelineno-5-50" href="#__codelineno-5-50"></a><span class="w">            </span><span class="nx">c</span><span class="p">.</span><span class="nx">Abort</span><span class="p">()</span>
+</span><span id="__span-5-51"><a id="__codelineno-5-51" name="__codelineno-5-51" href="#__codelineno-5-51"></a><span class="w">            </span><span class="k">return</span>
+</span><span id="__span-5-52"><a id="__codelineno-5-52" name="__codelineno-5-52" href="#__codelineno-5-52"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-5-53"><a id="__codelineno-5-53" name="__codelineno-5-53" href="#__codelineno-5-53"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">Validate</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-54"><a id="__codelineno-5-54" name="__codelineno-5-54" href="#__codelineno-5-54"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">Validate</span><span class="p">.</span><span class="nx">Struct</span><span class="p">(</span><span class="nx">q</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-55"><a id="__codelineno-5-55" name="__codelineno-5-55" href="#__codelineno-5-55"></a><span class="w">                </span><span class="nx">c</span><span class="p">.</span><span class="nx">JSON</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusBadRequest</span><span class="p">,</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">H</span><span class="p">{</span><span class="s">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Validation failed&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">ValidationErrorsToMap</span><span class="p">(</span><span class="nx">err</span><span class="p">)})</span>
+</span><span id="__span-5-56"><a id="__codelineno-5-56" name="__codelineno-5-56" href="#__codelineno-5-56"></a><span class="w">                </span><span class="nx">c</span><span class="p">.</span><span class="nx">Abort</span><span class="p">()</span>
+</span><span id="__span-5-57"><a id="__codelineno-5-57" name="__codelineno-5-57" href="#__codelineno-5-57"></a><span class="w">                </span><span class="k">return</span>
+</span><span id="__span-5-58"><a id="__codelineno-5-58" name="__codelineno-5-58" href="#__codelineno-5-58"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-5-59"><a id="__codelineno-5-59" name="__codelineno-5-59" href="#__codelineno-5-59"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-5-60"><a id="__codelineno-5-60" name="__codelineno-5-60" href="#__codelineno-5-60"></a><span class="w">        </span><span class="nx">sq</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ToSearchQuery</span><span class="p">(</span><span class="nx">q</span><span class="p">)</span>
+</span><span id="__span-5-61"><a id="__codelineno-5-61" name="__codelineno-5-61" href="#__codelineno-5-61"></a><span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">sq</span><span class="p">)</span>
+</span><span id="__span-5-62"><a id="__codelineno-5-62" name="__codelineno-5-62" href="#__codelineno-5-62"></a><span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nx">Next</span><span class="p">()</span>
+</span><span id="__span-5-63"><a id="__codelineno-5-63" name="__codelineno-5-63" href="#__codelineno-5-63"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-64"><a id="__codelineno-5-64" name="__codelineno-5-64" href="#__codelineno-5-64"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>You only implement <strong>QueryBinderFor[T]</strong> (getters + <code>Filters()</code>); no per-type <code>ToSearchQuery</code> method. Add <strong><code>validate</code></strong> tags so <a href="https://github.com/go-playground/validator">go-playground/validator</a> enforces enums and bounds (Zod-style). Example:</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// RoleFilter is StringFilter with enum validation (oneof).</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kd">type</span><span class="w"> </span><span class="nx">RoleFilter</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nx">Eq</span><span class="w">   </span><span class="o">*</span><span class="kt">string</span><span class="w">  </span><span class="s">`query:&quot;eq&quot;  validate:&quot;omitempty,oneof=admin user guest&quot;`</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="nx">Ne</span><span class="w">   </span><span class="o">*</span><span class="kt">string</span><span class="w">  </span><span class="s">`query:&quot;ne&quot;  validate:&quot;omitempty,oneof=admin user guest&quot;`</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nx">Like</span><span class="w"> </span><span class="o">*</span><span class="kt">string</span><span class="w">  </span><span class="s">`query:&quot;like&quot;`</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="nx">In</span><span class="w">   </span><span class="p">[]</span><span class="kt">string</span><span class="w"> </span><span class="s">`query:&quot;in&quot;  validate:&quot;omitempty,dive,oneof=admin user guest&quot;`</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">}</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1">// UserQuery is the raw query struct for GET /users (matches qs shape).</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="kd">type</span><span class="w"> </span><span class="nx">UserQuery</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="c1">// Filters (nested objects from e.g. age[gte]=21&amp;name[like]=john)</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">    </span><span class="nx">Age</span><span class="w">      </span><span class="o">*</span><span class="nx">IntFilter</span><span class="w">    </span><span class="s">`query:&quot;age&quot;`</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">    </span><span class="nx">Role</span><span class="w">     </span><span class="o">*</span><span class="nx">RoleFilter</span><span class="w">   </span><span class="s">`query:&quot;role&quot;`</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">    </span><span class="nx">Name</span><span class="w">     </span><span class="o">*</span><span class="nx">StringFilter</span><span class="w"> </span><span class="s">`query:&quot;name&quot;`</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">    </span><span class="nx">IsActive</span><span class="w"> </span><span class="o">*</span><span class="nx">BoolFilter</span><span class="w">   </span><span class="s">`query:&quot;isActive&quot;`</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">    </span><span class="nx">JoinedAt</span><span class="w"> </span><span class="o">*</span><span class="nx">DateFilter</span><span class="w">   </span><span class="s">`query:&quot;joinedAt&quot;`</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">    </span><span class="c1">// Pagination &amp; sort; omitempty allows missing (ToSearchQuery defaults); when present, bounds enforced</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">    </span><span class="nx">Page</span><span class="w">  </span><span class="kt">int</span><span class="w">      </span><span class="s">`query:&quot;page&quot;  validate:&quot;omitempty,min=1&quot;`</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">    </span><span class="nx">Limit</span><span class="w"> </span><span class="kt">int</span><span class="w">      </span><span class="s">`query:&quot;limit&quot; validate:&quot;omitempty,min=1,max=100&quot;`</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">    </span><span class="nx">Sort</span><span class="w">  </span><span class="p">[]</span><span class="kt">string</span><span class="w"> </span><span class="s">`query:&quot;sort&quot;`</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="p">}</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="c1">// UserFilters groups filter fields for type-safe access in handlers.</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="kd">type</span><span class="w"> </span><span class="nx">UserFilters</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="w">    </span><span class="nx">Age</span><span class="w">      </span><span class="o">*</span><span class="nx">IntFilter</span>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="w">    </span><span class="nx">Role</span><span class="w">     </span><span class="o">*</span><span class="nx">RoleFilter</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="w">    </span><span class="nx">Name</span><span class="w">     </span><span class="o">*</span><span class="nx">StringFilter</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">    </span><span class="nx">IsActive</span><span class="w"> </span><span class="o">*</span><span class="nx">BoolFilter</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="w">    </span><span class="nx">JoinedAt</span><span class="w"> </span><span class="o">*</span><span class="nx">DateFilter</span>
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="p">}</span>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="c1">// Implement QueryBinderFor[UserFilters] so *UserQuery works with ToSearchQuery and CreateSearchMiddleware[UserFilters].</span>
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">q</span><span class="w"> </span><span class="o">*</span><span class="nx">UserQuery</span><span class="p">)</span><span class="w"> </span><span class="nx">GetPage</span><span class="p">()</span><span class="w"> </span><span class="kt">int</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">q</span><span class="p">.</span><span class="nx">Page</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">q</span><span class="w"> </span><span class="o">*</span><span class="nx">UserQuery</span><span class="p">)</span><span class="w"> </span><span class="nx">GetLimit</span><span class="p">()</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">q</span><span class="p">.</span><span class="nx">Limit</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">q</span><span class="w"> </span><span class="o">*</span><span class="nx">UserQuery</span><span class="p">)</span><span class="w"> </span><span class="nx">GetSort</span><span class="p">()</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">q</span><span class="p">.</span><span class="nx">Sort</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-6-36"><a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">q</span><span class="w"> </span><span class="o">*</span><span class="nx">UserQuery</span><span class="p">)</span><span class="w"> </span><span class="nx">SetPagination</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span><span class="w"> </span><span class="nx">limit</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">q</span><span class="p">.</span><span class="nx">Page</span><span class="p">,</span><span class="w"> </span><span class="nx">q</span><span class="p">.</span><span class="nx">Limit</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">page</span><span class="p">,</span><span class="w"> </span><span class="nx">limit</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-6-37"><a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">q</span><span class="w"> </span><span class="o">*</span><span class="nx">UserQuery</span><span class="p">)</span><span class="w"> </span><span class="nx">SetSort</span><span class="p">(</span><span class="nx">sort</span><span class="w"> </span><span class="p">[]</span><span class="nx">SortSpec</span><span class="p">)</span><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="cm">/* optional: store for reuse */</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-6-38"><a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">q</span><span class="w"> </span><span class="o">*</span><span class="nx">UserQuery</span><span class="p">)</span><span class="w"> </span><span class="nx">Filters</span><span class="p">()</span><span class="w"> </span><span class="nx">UserFilters</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-39"><a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">UserFilters</span><span class="p">{</span><span class="nx">Age</span><span class="p">:</span><span class="w"> </span><span class="nx">q</span><span class="p">.</span><span class="nx">Age</span><span class="p">,</span><span class="w"> </span><span class="nx">Role</span><span class="p">:</span><span class="w"> </span><span class="nx">q</span><span class="p">.</span><span class="nx">Role</span><span class="p">,</span><span class="w"> </span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="nx">q</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="nx">IsActive</span><span class="p">:</span><span class="w"> </span><span class="nx">q</span><span class="p">.</span><span class="nx">IsActive</span><span class="p">,</span><span class="w"> </span><span class="nx">JoinedAt</span><span class="p">:</span><span class="w"> </span><span class="nx">q</span><span class="p">.</span><span class="nx">JoinedAt</span><span class="p">}</span>
+</span><span id="__span-6-40"><a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h2 id="usage-handler-with-gin">Usage — handler with Gin</h2>
+<p>You can either <strong>parse in the handler</strong> (recommended for per-request structs and concurrency) or <strong>use CreateSearchMiddleware</strong> so the handler only reads from context.</p>
+<h3 id="option-a-parse-in-the-handler-no-middleware">Option A: Parse in the handler (no middleware)</h3>
+<ol>
+<li>Define the <strong>query struct</strong> with qs <code>query</code> tags (filters + page, limit, sort).</li>
+<li>In the handler, call <strong>qs.Unmarshal(c.Request.URL.RawQuery, &amp;query)</strong>, then <strong>search.ToSearchQuery(&amp;query)</strong>.</li>
+<li>Read <strong>SearchQuery</strong> (typed filters, pagination, sort) and build DB query (e.g. ORDER BY, WHERE).</li>
+</ol>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="s">&quot;net/http&quot;</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="s">&quot;github.com/gin-gonic/gin&quot;</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="nx">qs</span><span class="w"> </span><span class="s">&quot;github.com/zaytracom/qs/v1&quot;</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="s">&quot;yourmodule/search&quot;</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">)</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="kd">func</span><span class="w"> </span><span class="nx">getUsers</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">gin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">q</span><span class="w"> </span><span class="nx">search</span><span class="p">.</span><span class="nx">UserQuery</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">qs</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">RawQuery</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">q</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nx">JSON</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusBadRequest</span><span class="p">,</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">H</span><span class="p">{</span><span class="s">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Invalid query&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">()})</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">        </span><span class="k">return</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">search</span><span class="p">.</span><span class="nx">Validate</span><span class="p">.</span><span class="nx">Struct</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">q</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nx">JSON</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusBadRequest</span><span class="p">,</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">H</span><span class="p">{</span><span class="s">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Validation failed&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">search</span><span class="p">.</span><span class="nx">ValidationErrorsToMap</span><span class="p">(</span><span class="nx">err</span><span class="p">)})</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">        </span><span class="k">return</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">    </span><span class="nx">sq</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">search</span><span class="p">.</span><span class="nx">ToSearchQuery</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">q</span><span class="p">)</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">    </span><span class="nx">filters</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sq</span><span class="p">.</span><span class="nx">Filters</span><span class="w"> </span><span class="c1">// type search.UserFilters; role enum already validated</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">    </span><span class="c1">// Use sq.Pagination, sq.Sort, filters.* in DB layer. Pass typed filters to child:</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">    </span><span class="c1">// buildWhereClause(filters) or fetchUsers(c.Request.Context(), sq.Pagination, sq.Sort, filters)</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">    </span><span class="nx">c</span><span class="p">.</span><span class="nx">JSON</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusOK</span><span class="p">,</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">H</span><span class="p">{</span>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">        </span><span class="s">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">H</span><span class="p">{</span><span class="s">&quot;pagination&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">sq</span><span class="p">.</span><span class="nx">Pagination</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sort&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">sq</span><span class="p">.</span><span class="nx">Sort</span><span class="p">},</span>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">        </span><span class="s">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Mock data based on filters&quot;</span><span class="p">,</span>
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">    </span><span class="p">})</span>
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="p">}</span>
+</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a>
+</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="c1">// Child method receives concrete type; no interface{} or type assertion.</span>
+</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="kd">func</span><span class="w"> </span><span class="nx">buildWhereClause</span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="nx">search</span><span class="p">.</span><span class="nx">UserFilters</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a>
+</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a><span class="w">    </span><span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">Default</span><span class="p">()</span>
+</span><span id="__span-7-37"><a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a><span class="w">    </span><span class="c1">// GET /users?age[gte]=18&amp;name[like]=john&amp;role=admin&amp;sort=age:desc,name:asc</span>
+</span><span id="__span-7-38"><a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a><span class="w">    </span><span class="nx">r</span><span class="p">.</span><span class="nx">GET</span><span class="p">(</span><span class="s">&quot;/users&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">getUsers</span><span class="p">)</span>
+</span><span id="__span-7-39"><a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a><span class="w">    </span><span class="nx">r</span><span class="p">.</span><span class="nx">Run</span><span class="p">()</span>
+</span><span id="__span-7-40"><a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="option-b-use-createsearchmiddleware">Option B: Use CreateSearchMiddleware</h3>
+<p>Wire the middleware so the handler receives a ready-made <strong>SearchQuery[T]</strong> from context. Pass a <strong>factory</strong> that returns a new binder per request so the middleware is safe for concurrent use.</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">searchQueryKey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;searchQuery&quot;</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">Default</span><span class="p">()</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="c1">// New binder per request (concurrent-safe); middleware runs qs.Unmarshal, Validate.Struct, ToSearchQuery</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="nx">r</span><span class="p">.</span><span class="nx">GET</span><span class="p">(</span><span class="s">&quot;/users&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">search</span><span class="p">.</span><span class="nx">CreateSearchMiddleware</span><span class="p">[</span><span class="nx">search</span><span class="p">.</span><span class="nx">UserFilters</span><span class="p">](</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">        </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="nx">search</span><span class="p">.</span><span class="nx">QueryBinderFor</span><span class="p">[</span><span class="nx">search</span><span class="p">.</span><span class="nx">UserFilters</span><span class="p">]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">search</span><span class="p">.</span><span class="nx">UserQuery</span><span class="p">{}</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">        </span><span class="nx">searchQueryKey</span><span class="p">,</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="p">),</span><span class="w"> </span><span class="nx">getUsersWithSearch</span><span class="p">)</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="nx">r</span><span class="p">.</span><span class="nx">Run</span><span class="p">()</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="p">}</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="kd">func</span><span class="w"> </span><span class="nx">getUsersWithSearch</span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">gin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">    </span><span class="nx">sq</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Get</span><span class="p">(</span><span class="nx">searchQueryKey</span><span class="p">)</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="nx">searchQuery</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sq</span><span class="p">.(</span><span class="o">*</span><span class="nx">search</span><span class="p">.</span><span class="nx">SearchQuery</span><span class="p">[</span><span class="nx">search</span><span class="p">.</span><span class="nx">UserFilters</span><span class="p">])</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="nx">filters</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">searchQuery</span><span class="p">.</span><span class="nx">Filters</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">    </span><span class="c1">// Use searchQuery.Pagination, searchQuery.Sort, filters.* in DB layer</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">    </span><span class="nx">c</span><span class="p">.</span><span class="nx">JSON</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusOK</span><span class="p">,</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">H</span><span class="p">{</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">        </span><span class="s">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">gin</span><span class="p">.</span><span class="nx">H</span><span class="p">{</span><span class="s">&quot;pagination&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">searchQuery</span><span class="p">.</span><span class="nx">Pagination</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sort&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">searchQuery</span><span class="p">.</span><span class="nx">Sort</span><span class="p">},</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">        </span><span class="s">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Mock data based on filters&quot;</span><span class="p">,</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">    </span><span class="p">})</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h2 id="query-string-formats-qs-behavior">Query string formats (qs behavior)</h2>
+<ul>
+<li><strong>Nested:</strong> <code>age[gte]=21</code> → <code>age: { gte: 21 }</code> (struct field <code>Age.Gte</code>).</li>
+<li><strong>Array:</strong> <code>sort[]=age:desc&amp;sort[]=name:asc</code> or <code>sort=age:desc,name:asc</code>; use <strong>SortSpecsFromStrings</strong> to convert to <code>[]SortSpec</code>.</li>
+<li><strong>Ignore prefix:</strong> qs accepts a leading <code>?</code>; use <code>ParseOptions{IgnoreQueryPrefix: true}</code> if you pass the full URL query string.</li>
+</ul>
+<p>Example with options:</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nx">opts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">qs</span><span class="p">.</span><span class="nx">ParseOptions</span><span class="p">{</span><span class="nx">IgnoreQueryPrefix</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">qs</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">Request</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">RawQuery</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">q</span><span class="p">,</span><span class="w"> </span><span class="nx">opts</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="summary">Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>TypeScript (Zod)</th>
+<th>Go (qs)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parse query</td>
+<td>qs → object</td>
+<td><code>qs.Unmarshal(rawQuery, &amp;struct)</code></td>
+</tr>
+<tr>
+<td>Filter shape</td>
+<td>Zod schema</td>
+<td>Structs with <code>query:"..."</code> tags; <code>SearchQuery[T]</code> for typed filters</td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>Zod <code>.safeParse()</code></td>
+<td><code>validate.Struct()</code> + struct tags (<a href="https://github.com/go-playground/validator">go-playground/validator</a>)</td>
+</tr>
+<tr>
+<td>Attach to req</td>
+<td><code>req.searchQuery</code></td>
+<td>Context key or handler variable</td>
+</tr>
+<tr>
+<td>Sort parsing</td>
+<td>Zod transform</td>
+<td>qs fills <code>Sort []string</code>; <code>SortSpecsFromStrings(Sort)</code> → <code>[]SortSpec</code></td>
+</tr>
+</tbody>
+</table>
+<p>Using <a href="https://pkg.go.dev/github.com/zaytracom/qs@v1.0.2">github.com/zaytracom/qs</a> you get qs-compatible parsing (nested objects and arrays); combine it with the types and helpers above for a typed search API in Go similar to the qs + Zod flow in TypeScript.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

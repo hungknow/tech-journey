@@ -1,0 +1,1557 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Schema Terms in CocoIndex - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#schema-terms-in-cocoindex" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Schema Terms in CocoIndex
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#core-schema-types-rust-baseschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core schema types (Rust: base::schema)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core schema types (Rust: base::schema)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basicvaluetype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BasicValueType
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vectortypeschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VectorTypeSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uniontypeschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UnionTypeSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valuetype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ValueType
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enrichedvaluetype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EnrichedValueType
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fieldschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FieldSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StructSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tablekind" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TableKind
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ktableinfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KTableInfo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tableschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TableSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collectorschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CollectorSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opscopeschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpScopeSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flowschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FlowSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opargschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpArgSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json-schema-rust-basejson_schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON schema (Rust: base::json_schema)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JSON schema (Rust: base::json_schema)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tojsonschemaoptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ToJsonSchemaOptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build_json_schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build_json_schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-schema-related-terms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other schema-related terms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Other schema-related terms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data_schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        data_schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key_schema-keys_schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        key_schema / keys_schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema_version_id-max_schema_version_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        schema_version_id / max_schema_version_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        key_type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#db_schema_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        db_schema_name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tablecolumnsschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TableColumnsSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graphelementschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GraphElementSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key_fields_schema-value_fields_schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        key_fields_schema / value_fields_schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyopargschema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PyOpArgSchema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_schema-python-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_schema (Python Flow)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-exposure-engine_type-and-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python exposure (engine_type and engine)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Python exposure (engine_type and engine)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vectortypeschema-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VectorTypeSchema (Python)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uniontypeschema-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UnionTypeSchema (Python)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basicvaluetype-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BasicValueType (Python)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enrichedvaluetype-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EnrichedValueType (Python)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fieldschema-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FieldSchema (Python)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structschema-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StructSchema (Python)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structtype-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StructType (Python)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabletype-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TableType (Python)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valuetype-python-and-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ValueType (Python) and helpers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sample-schemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample schemas
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="schema-terms-in-cocoindex">Schema Terms in CocoIndex</h1>
+<p>This document describes schema-related types and terms used in the Python and Rust codebase, and where each is used.</p>
+<hr />
+<h2 id="core-schema-types-rust-baseschema">Core schema types (Rust: <code>base::schema</code>)</h2>
+<h3 id="basicvaluetype">BasicValueType</h3>
+<p>Primitive and composite scalar types. Variants: <code>Bytes</code>, <code>Str</code>, <code>Bool</code>, <code>Int64</code>, <code>Float32</code>, <code>Float64</code>, <code>Range</code>, <code>Uuid</code>, <code>Date</code>, <code>Time</code>, <code>LocalDateTime</code>, <code>OffsetDateTime</code>, <code>TimeDelta</code>, <code>Json</code>, <code>Vector(VectorTypeSchema)</code>, <code>Union(UnionTypeSchema)</code>.</p>
+<p><strong>Where used:</strong> Building and matching types everywhere (sources, targets, functions, flow builder, analyzer). PyArrow/JSON conversion in <code>py/convert.rs</code>. LLM JSON schema generation uses it to map to JSON Schema primitive types. Targets (Doris, Qdrant, etc.) use it to map to backend types (e.g. vector element type, SQL types).</p>
+<h3 id="vectortypeschema">VectorTypeSchema</h3>
+<p>Schema for vector (embedding) types: <code>element_type</code> (a <code>BasicValueType</code>) and optional <code>dimension</code> (fixed length).</p>
+<p><strong>Where used:</strong> Vector fields in table/struct schemas; Qdrant target parses it for collection config; Doris/LanceDB/ChromaDB Python targets use it for dimension and element type when creating vector columns or indexes.</p>
+<h3 id="uniontypeschema">UnionTypeSchema</h3>
+<p>Schema for union types: <code>types</code> is a list of <code>BasicValueType</code> variants.</p>
+<p><strong>Where used:</strong> Type system and value conversion; JSON schema builder emits <code>oneOf</code> for unions.</p>
+<h3 id="valuetype">ValueType</h3>
+<p>Top-level type for any value. One of: <code>Struct(StructSchema)</code>, <code>Basic(BasicValueType)</code>, or <code>Table(TableSchema)</code>. For tables, <code>key_schema()</code> returns the key fields (for KTable); for UTable/LTable it returns an empty slice.</p>
+<p><strong>Where used:</strong> Source setup state (<code>keys_schema</code> as <code>[ValueType]</code>), target setup state (<code>key_type</code>), exec context (output type and key type). Flow builder and analyzer work with ValueType (or ValueTypeBuilder) for outputs and keys. Value decoding/encoding and PyArrow conversion branch on ValueType.</p>
+<h3 id="enrichedvaluetype">EnrichedValueType</h3>
+<p>A <code>ValueType</code> plus <code>nullable</code> (bool) and <code>attrs</code> (map of string to JSON). Used for field and argument types. Serialized with key <code>"type"</code> for the inner type.</p>
+<p><strong>Where used:</strong> Every field in <code>FieldSchema</code>, op output types in <code>OpScopeSchema</code>, function/op argument types (<code>OpArgSchema</code>), flow builder <code>DataType</code> and <code>output_type</code>, export target <code>output_schema</code>, LLM extract output type. Python <code>encode_enriched_type</code> / <code>EnrichedValueType.decode</code> bridge Python types to the engine.</p>
+<h3 id="fieldschema">FieldSchema</h3>
+<p>A named field: <code>name</code> (FieldName), <code>value_type</code> (EnrichedValueType), and optional <code>description</code>. Identifies a field in a struct or table row.</p>
+<p><strong>Where used:</strong> Struct and table row definitions; <code>FlowSchema.schema.fields</code>; source connectors (Postgres <code>FieldSchemaInfo</code>, local_file/google_drive/azure_blob/s3 building struct output with <code>FieldSchema::new</code>); export targets’ <code>key_fields_schema</code> / <code>value_fields_schema</code> (Postgres, Qdrant, Neo4j, Kuzu, FalkorDB, property_graph); analyzer building collectors and data collections; evaluator/dumper resolving field indices; <code>value::FieldValues::from_json</code> and struct/table conversion in <code>py/convert.rs</code>. Python targets (Doris, LanceDB, ChromaDB) receive and use lists of <code>FieldSchema</code> for key/value columns.</p>
+<h3 id="structschema">StructSchema</h3>
+<p>A product type: <code>fields</code> (list of <code>FieldSchema</code>) and optional <code>description</code>. Used for structs and for the row shape of tables.</p>
+<p><strong>Where used:</strong> Root output of a flow (<code>FlowSchema.schema</code>); row shape of <code>TableSchema</code>; source connectors build StructSchema for blob/table output (local_file, S3, Azure, Google Drive, Postgres); functions (e.g. extract_by_llm) build StructSchema for output; analyzer’s <code>StructSchemaBuilder</code>; evaluator <code>ScopeEntry</code> and struct/table resolution; Kuzu target <code>struct_schema_to_kuzu</code>; JSON schema builder for object types.</p>
+<h3 id="tablekind">TableKind</h3>
+<p>Kind of table: <code>UTable</code> (unordered, no key), <code>KTable(KTableInfo)</code> (keyed; first N fields are the key), or <code>LTable</code> (list; order preserved). Serialized as <code>"kind"</code> with alias <code>"Table"</code> for KTable and <code>"List"</code> for LTable.</p>
+<p><strong>Where used:</strong> Inside <code>TableSchema</code>; flow builder maps Python KTable/LTable to TableKind; analyzer and execution treat KTable key vs value fields differently.</p>
+<h3 id="ktableinfo">KTableInfo</h3>
+<p>For KTable: <code>num_key_parts</code> (number of leading row fields that form the key; default 1).</p>
+<p><strong>Where used:</strong> Only in <code>TableSchema.kind</code> when kind is KTable; determines <code>key_schema()</code> slice; setup driver and row indexer use it for key encoding.</p>
+<h3 id="tableschema">TableSchema</h3>
+<p>A table type: <code>kind</code> (TableKind) and <code>row</code> (StructSchema). <code>key_schema()</code> returns the key fields for KTable, or empty for UTable/LTable.</p>
+<p><strong>Where used:</strong> Flow output fields that are tables (sources output KTable; functions can output LTable/KTable); analyzer infers table types for data collections; evaluator/dumper use it to build scope values and iterate rows; Python flow builder builds TableSchema from annotated types (KTable/LTable).</p>
+<h3 id="collectorschema">CollectorSchema</h3>
+<p>Schema for a collector: <code>fields</code> (list of FieldSchema) and optional <code>auto_uuid_field_idx</code> (index of an auto-generated UUID field).</p>
+<p><strong>Where used:</strong> Builder’s <code>OpScope.collectors</code> and <code>CollectorDef</code>; analyzer’s <code>OpScopeSchema.collectors</code> and collector merging; flow builder builds it from Python collector defs (<code>CollectorSchema::from_fields</code>); execution uses it when materializing collected values.</p>
+<h3 id="opscopeschema">OpScopeSchema</h3>
+<p>Per-scope schema for a flow: <code>op_output_types</code> (output field name → EnrichedValueType), <code>op_scopes</code> (nested scope name → OpScopeSchema), and <code>collectors</code> (named CollectorSchema). Used during flow analysis.</p>
+<p><strong>Where used:</strong> Built in analyzer from <code>OpScope</code> (<code>build_op_scope_schema</code>); stored in <code>FlowSchema.root_op_scope</code>; drives which outputs exist at each scope for resolution and execution.</p>
+<h3 id="flowschema">FlowSchema</h3>
+<p>Top-level schema for a flow instance. Contains <code>schema</code> (StructSchema: the root output struct) and <code>root_op_scope</code> (OpScopeSchema). The flow’s <code>data_schema</code> is a FlowSchema. API endpoint <code>GET /flows/{name}/schema</code> returns it.</p>
+<p><strong>Where used:</strong> Built in analyzer (<code>build_flow_schema</code>), stored on <code>AnalyzedFlow</code> and <code>AnalyzedTransientFlow</code> as <code>data_schema</code>. Passed into evaluator (<code>SourceRowEvaluationContext.schema</code>, <code>evaluate_transient_flow</code>), dumper (<code>Dumper.schema</code>), source indexer, and builder exec context. Returned by <code>get_flow_schema</code> API and used by run-flow and import handlers; Python flow exposes it for <code>get_schema()</code> and spec rendering.</p>
+<h3 id="opargschema">OpArgSchema</h3>
+<p>Schema for an operation argument: <code>name</code>, <code>value_type</code> (EnrichedValueType), and <code>analyzed_value</code> (AnalyzedValueMapping). Exposed in Python as <code>PyOpArgSchema</code>.</p>
+<p><strong>Where used:</strong> Built in analyzer when resolving op args (<code>build_op_arg_schemas</code>); <code>OpFactory::build</code> receives <code>input_schema: Vec&lt;OpArgSchema&gt;</code>; function executors and Py export/source factories use it to convert Python args to engine values. Python sees it as <code>PyOpArgSchema</code> for introspection.</p>
+<hr />
+<h2 id="json-schema-rust-basejson_schema">JSON schema (Rust: <code>base::json_schema</code>)</h2>
+<h3 id="tojsonschemaoptions">ToJsonSchemaOptions</h3>
+<p>Options when converting CocoIndex types to JSON Schema: <code>fields_always_required</code>, <code>supports_format</code>, <code>extract_descriptions</code>, <code>top_level_must_be_object</code>, <code>supports_additional_properties</code>.</p>
+<p><strong>Where used:</strong> Each LLM client implements <code>json_schema_options()</code> and returns a <code>ToJsonSchemaOptions</code> (OpenAI, Ollama, Gemini, Bedrock, Anthropic); options differ per provider (e.g. Gemini omits <code>additionalProperties</code>, some require top-level object or always-required fields). Passed into <code>build_json_schema</code>.</p>
+<h3 id="build_json_schema">build_json_schema</h3>
+<p>Builds a JSON Schema (and optional extra instructions, and a ValueExtractor) from an <code>EnrichedValueType</code> and options. Used for LLM and other consumers that need JSON Schema.</p>
+<p><strong>Where used:</strong> LLM extract/structured-output: <code>extract_by_llm</code> calls it with the spec’s output type and the client’s options to get a JSON Schema sent to the LLM API; the returned <code>ValueExtractor</code> is used to parse the LLM response back into engine values. Tests in <code>json_schema.rs</code> cover basic types, structs, tables, nullable, and options.</p>
+<hr />
+<h2 id="other-schema-related-terms">Other schema-related terms</h2>
+<h3 id="data_schema">data_schema</h3>
+<p>The flow’s schema; type <code>FlowSchema</code>. Stored on the flow/analyzed flow and passed to execution (evaluator, dumper, source indexer). Returned by the API as the flow schema.</p>
+<p><strong>Where used:</strong> Set in <code>AnalyzedFlow</code> / <code>AnalyzedTransientFlow</code> after analyzer builds it; read in <code>lib_context</code> for flow context; evaluator’s <code>SourceRowEvaluationContext.schema</code> and <code>evaluate_transient_flow(flow.data_schema.schema)</code>; dumper holds <code>schema</code> and passes it to <code>evaluate_source_entry_with_memory</code>; source indexer uses it to know output shape; service <code>get_flow_schema</code> and run/import handlers; Python flow’s <code>get_schema()</code> and spec rendering read <code>flow.data_schema</code>.</p>
+<h3 id="key_schema-keys_schema">key_schema / keys_schema</h3>
+<p>Source setup state: <code>keys_schema</code> is <code>Option&lt;Box&lt;[ValueType]&gt;&gt;</code> (one type per key part). Legacy <code>key_schema</code> is a single <code>ValueType</code>.</p>
+<p><strong>Where used:</strong> <code>SourceSetupState</code> in <code>setup/states.rs</code>; in setup driver / exec context, existing source state’s <code>keys_schema</code> is compared to the analyzed import output’s key types to decide if the source is compatible and whether to reuse or recreate tracking.</p>
+<h3 id="schema_version_id-max_schema_version_id">schema_version_id / max_schema_version_id</h3>
+<p>On target setup state: used to detect when the exported row shape or target schema changed so the runtime knows whether a row can be reused or must be re-exported.</p>
+<p><strong>Where used:</strong> <code>TargetSetupStateCommon</code> in <code>setup/states.rs</code>; computed in builder <code>exec_ctx</code> when building target setup (per-target <code>schema_version_id</code>, global <code>max_schema_version_id</code>); row indexer and indexing status use <code>export_op_exec_ctx.schema_version_id</code> when writing/reading tracking rows so unchanged rows can be skipped when the schema version matches.</p>
+<h3 id="key_type">key_type</h3>
+<p>On target setup state common: <code>Option&lt;Box&lt;[ValueType]&gt;&gt;</code> for the key types of the exported target.</p>
+<p><strong>Where used:</strong> Stored on <code>TargetSetupStateCommon</code>; set in exec context from analyzed target key types; setup driver uses it (with <code>key_field_schemas</code>) to build key encoding; compatibility checks compare <code>key_type</code> across existing target states when reusing schema version.</p>
+<h3 id="db_schema_name">db_schema_name</h3>
+<p>In settings: optional PostgreSQL (or DB) schema name for table creation and metadata (e.g. <code>CREATE SCHEMA IF NOT EXISTS</code>).</p>
+<p><strong>Where used:</strong> <code>Settings</code> in <code>settings.rs</code>; <code>db_metadata.rs</code> uses it to create the schema if missing and to qualify table names for metadata/tracking; <code>db_tracking_setup</code> uses it for tracking table placement; Python <code>setting.py</code> and env <code>COCOINDEX_DATABASE_SCHEMA_NAME</code> map to this field.</p>
+<h3 id="tablecolumnsschema">TableColumnsSchema</h3>
+<p>Used by table-like targets: <code>key_columns</code> and <code>value_columns</code> (each an ordered map of column name to column type/config). Serde aliases: <code>key_fields_schema</code>, <code>value_fields_schema</code>.</p>
+<p><strong>Where used:</strong> <code>table_columns.rs</code>; Postgres and Kuzu targets use it (e.g. <code>TableColumnsSchema&lt;ColumnType&gt;</code> or <code>TableColumnsSchema&lt;String&gt;</code>) to derive <code>TableMainSetupAction</code> and compare desired vs existing columns for create/update; <code>from_states</code> and compatibility helpers consume it.</p>
+<h3 id="graphelementschema">GraphElementSchema</h3>
+<p>For property-graph targets: <code>key_fields</code>, <code>value_fields</code> (key/value FieldSchema lists), and element type. Used for nodes and relationships.</p>
+<p><strong>Where used:</strong> <code>property_graph.rs</code>: built by <code>GraphElementSchemaBuilder</code> from data collection mappings; attached to node and relationship descriptors (<code>NodeDescriptor.schema</code>, <code>RelationshipDescriptor.schema</code>); Neo4j, Kuzu, FalkorDB targets take <code>schema: &amp;GraphElementSchema</code> when writing nodes/edges and mapping key/value fields to properties.</p>
+<h3 id="key_fields_schema-value_fields_schema">key_fields_schema / value_fields_schema</h3>
+<p>In Python targets (e.g. Doris, LanceDB, ChromaDB): lists of <code>FieldSchema</code> for key and value columns. Often come from the engine’s view of the exported table (key vs value columns).</p>
+<p><strong>Where used:</strong> Rust: <code>ExportDataCollection</code> and <code>TypedExportDataCollectionBuildOutput</code> in factory_bases/interface; analyzer fills them from table key_schema and remaining row fields; passed to Postgres/Qdrant/Neo4j/Kuzu/FalkorDB and property_graph; py_factory pythonizes them for Python export context. Python: <code>op.py</code> <code>ExportContext</code> and target build/setup receive <code>key_fields_schema</code> and <code>value_fields_schema</code> from the engine; Doris/LanceDB/ChromaDB use them for table/collection schema, compatibility, and column mapping; <code>engine_value</code> uses them for key extraction and value encoding.</p>
+<h3 id="pyopargschema">PyOpArgSchema</h3>
+<p>Python binding for OpArgSchema; exposes <code>value_type</code> and <code>analyzed_value</code> for operation arguments.</p>
+<p><strong>Where used:</strong> Registered in <code>py/mod.rs</code>; built in py_factory when preparing op input schema and passed to Python op factories so they can validate and convert arguments.</p>
+<h3 id="get_schema-python-flow">get_schema (Python Flow)</h3>
+<p>Returns a list of <code>(field_name, field_type_str, attrs_str)</code> by walking the flow’s <code>data_schema.schema.fields</code> recursively (including nested structs and table row fields). Used for introspection.</p>
+<p><strong>Where used:</strong> Implemented in <code>py/mod.rs</code> on the flow wrapper; calls into Rust <code>process_fields</code> over <code>flow.data_schema.schema.fields</code>; Python callers can use it to list all output fields and their types without parsing the full schema.</p>
+<hr />
+<h2 id="python-exposure-engine_type-and-engine">Python exposure (<code>engine_type</code> and engine)</h2>
+<p>Schema types are exposed in Python mainly as dataclasses that decode from the engine’s JSON.</p>
+<h3 id="vectortypeschema-python">VectorTypeSchema (Python)</h3>
+<p><code>element_type</code>, <code>dimension</code>; <code>decode</code>/<code>encode</code> from/to dict.</p>
+<p><strong>Where used:</strong> Doris/LanceDB tests and targets when building vector field schemas; engine_type encode/decode.</p>
+<h3 id="uniontypeschema-python">UnionTypeSchema (Python)</h3>
+<p><code>variants</code> (list of BasicValueType); <code>decode</code>/<code>encode</code>.</p>
+<p><strong>Where used:</strong> Type encoding and engine_value when handling union values.</p>
+<h3 id="basicvaluetype-python">BasicValueType (Python)</h3>
+<p><code>kind</code> (e.g. <code>"Str"</code>, <code>"Vector"</code>, <code>"Union"</code>), optional <code>vector</code> or <code>union</code>; <code>decode</code>/<code>encode</code>.</p>
+<p><strong>Where used:</strong> Everywhere a scalar or vector type is represented; targets map it to SQL/backend types; engine_value and engine_object use it for encoding/validation.</p>
+<h3 id="enrichedvaluetype-python">EnrichedValueType (Python)</h3>
+<p><code>type</code> (ValueType), <code>nullable</code>, <code>attrs</code>; <code>decode</code>/<code>encode</code>.</p>
+<p><strong>Where used:</strong> FieldSchema and op args; flow builder and op.py when decoding engine types; targets receive field value types as EnrichedValueType inside FieldSchema.</p>
+<h3 id="fieldschema-python">FieldSchema (Python)</h3>
+<p><code>name</code>, <code>value_type</code>, <code>description</code>; <code>decode</code>/<code>encode</code>.</p>
+<p><strong>Where used:</strong> Export context and all Python targets (Doris, LanceDB, ChromaDB) for key_fields_schema/value_fields_schema; op.py decodes raw key/value field lists via <code>decode_field_schemas</code>; engine_object can decode FieldSchema from engine output.</p>
+<h3 id="structschema-python">StructSchema (Python)</h3>
+<p><code>fields</code>, <code>description</code>; <code>decode</code>/<code>encode</code>.</p>
+<p><strong>Where used:</strong> StructType and TableType row; engine_type encoding of struct/table from Python types.</p>
+<h3 id="structtype-python">StructType (Python)</h3>
+<p>Subclass of StructSchema with <code>kind: "Struct"</code>.</p>
+<p><strong>Where used:</strong> decode_value_type when kind is Struct; flow/output type representation.</p>
+<h3 id="tabletype-python">TableType (Python)</h3>
+<p><code>kind</code> (<code>"KTable"</code> or <code>"LTable"</code>), <code>row</code> (StructSchema), optional <code>num_key_parts</code>; <code>decode</code>/<code>encode</code>.</p>
+<p><strong>Where used:</strong> decode_value_type for table output fields; op.py builds TableType for KTable/LTable from key/value type info and uses row.fields for key_fields_schema.</p>
+<h3 id="valuetype-python-and-helpers">ValueType (Python) and helpers</h3>
+<p><strong>ValueType</strong> in Python is <code>BasicValueType | StructType | TableType</code>. Helpers: <code>decode_field_schemas</code>, <code>decode_value_type</code>, <code>encode_value_type</code>, <code>encode_enriched_type</code> (from Python types/datatype info to engine dict).</p>
+<p><strong>Where used:</strong> Targets and engine_value use <code>FieldSchema</code>, <code>EnrichedValueType</code>, <code>BasicValueType</code>, and sometimes <code>ValueType</code> from <code>cocoindex.engine_type</code> (or <code>cocoindex._engine</code> where the Rust extension is used). Flow builder uses <code>encode_enriched_type</code> to send type specs to the engine; export targets receive key/value field schemas from the engine and use them for setup and row serialization (Doris DDL/upsert, LanceDB PyArrow schema, ChromaDB metadata). Tests (e.g. test_doris_unit, test_engine_type, test_engine_object) construct and assert on these types.</p>
+<hr />
+<h2 id="sample-schemas">Sample schemas</h2>
+<p><strong>Basic types (EnrichedValueType with Basic inner type):</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Str&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Int64&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nt">&quot;nullable&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Vector&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;element_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Float32&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nt">&quot;dimension&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">384</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Union&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;types&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Str&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Int64&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>StructSchema (two fields):</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Int64&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;title&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Str&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Document title&quot;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="p">],</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A document row&quot;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>KTable with one key part (id) and two value fields:</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;KTable&quot;</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">&quot;num_key_parts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">&quot;row&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Int64&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;title&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Str&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;embedding&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Vector&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;element_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Float32&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nt">&quot;dimension&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">768</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">]</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>LTable (ordered list of structs):</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;LTable&quot;</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;row&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;chunk_index&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Int64&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Str&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="p">]</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>FlowSchema (root struct + op scope):</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;doc_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Str&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;chunks&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;LTable&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;row&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Str&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">      </span><span class="p">]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="p">]</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="nt">&quot;root_op_scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nt">&quot;op_output_types&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="nt">&quot;op_scopes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="nt">&quot;collectors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>FieldSchema as used by targets (key_fields_schema / value_fields_schema):</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">[</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;id&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Int64&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">]</span>
+</span></code></pre></div>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">[</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;content&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Str&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;embedding&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Vector&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;element_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Float32&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nt">&quot;dimension&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">384</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">]</span>
+</span></code></pre></div>
+<p><strong>CollectorSchema with auto UUID:</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;_uuid&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Uuid&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payload&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Str&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="p">],</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nt">&quot;auto_uuid_field_idx&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>TableColumnsSchema-style (key/value columns for a table target):</strong></p>
+<p>Key columns and value columns are typically derived from the flow’s table type: key columns from <code>key_schema()</code> and value columns from the remaining row fields. Each column is often represented with a name and a type (or target-specific config); the exact shape is target-dependent (e.g. Doris, LanceDB, ChromaDB use <code>key_fields_schema</code> / <code>value_fields_schema</code> as lists of <code>FieldSchema</code>).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

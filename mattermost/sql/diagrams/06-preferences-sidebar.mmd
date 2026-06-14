@@ -1,0 +1,49 @@
+erDiagram
+    users {
+        varchar id PK
+        varchar username
+    }
+
+    teams {
+        varchar id PK
+        varchar name
+    }
+
+    channels {
+        varchar id PK
+        varchar name
+        varchar teamid FK
+    }
+
+    preferences {
+        varchar userid PK
+        varchar category PK
+        varchar name PK
+        varchar value
+    }
+
+    status {
+        varchar userid PK
+        varchar status
+    }
+
+    sidebarcategories {
+        varchar id PK
+        varchar userid FK
+        varchar teamid FK
+        varchar displayname
+    }
+
+    sidebarchannels {
+        varchar channelid PK
+        varchar userid PK
+        varchar categoryid PK
+    }
+
+    users ||--o{ preferences : "has"
+    users ||--o{ status : "has"
+    users ||--o{ sidebarcategories : "owns"
+    users ||--o{ sidebarchannels : "has"
+    teams ||--o{ sidebarcategories : "in"
+    channels ||--o{ sidebarchannels : "in sidebar"
+    sidebarcategories ||--o{ sidebarchannels : "contains"

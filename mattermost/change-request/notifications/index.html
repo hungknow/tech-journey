@@ -1,0 +1,1055 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Notifications: Server Storage and Frontend Consumption - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#notifications-server-storage-and-frontend-consumption" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Notifications: Server Storage and Frontend Consumption
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-server-stores-notification-data-in-the-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the server stores notification data in the database
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-kinds-of-notifications-exist-and-how-they-are-stored-or-sent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What kinds of notifications exist and how they are stored or sent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-frontend-consumes-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the frontend consumes notifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event-flow-server-to-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event flow: server to frontend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="notifications-server-storage-and-frontend-consumption">Notifications: Server Storage and Frontend Consumption</h1>
+<p>This document describes how the Mattermost server stores notification-related data, what kinds of notifications exist, and how the frontend consumes them. It is based on the current server and web app source code.</p>
+<hr />
+<h2 id="how-the-server-stores-notification-data-in-the-database">How the server stores notification data in the database</h2>
+<p>The server uses several database tables for notification-related state. Notification <em>content</em> (e.g. post text, channel name) is not stored as “notifications” per se; it lives in existing entities (posts, channels, users). What is stored is <strong>state</strong> that drives when and to whom notifications are sent, and what has been seen or requested.</p>
+<p><strong>PersistentNotifications (table: <code>persistentnotifications</code>)</strong></p>
+<p>The server stores one row per post that has “persistent notifications” enabled (e.g. urgent/important posts that re-notify until someone responds). Each row is keyed by post and holds scheduling/usage state.</p>
+<ul>
+<li><strong>postid</strong> (VARCHAR(26), primary key): Post that has persistent notifications enabled.</li>
+<li><strong>createat</strong> (bigint): When the record was created.</li>
+<li><strong>lastsentat</strong> (bigint): Last time a notification was sent for this post.</li>
+<li><strong>deleteat</strong> (bigint): Soft-delete timestamp; 0 means active.</li>
+<li><strong>sentcount</strong> (smallint): How many times a notification has been sent for this post.</li>
+</ul>
+<p>Rows are created when a post’s priority is saved with <code>persistent_notifications</code> enabled (in <code>PostPriorityStore.Save</code>). They are updated by the persistent-notification job (e.g. <code>UpdateLastActivity</code>), and soft-deleted when the post is resolved (e.g. reply/ack by a mentioned user), the post is deleted, the channel/team is deleted, or the send count reaches the configured maximum.</p>
+<p><strong>NotifyAdmin (table: <code>NotifyAdmin</code>)</strong></p>
+<p>Used when a non-admin user asks to “notify admin” (e.g. to request an upgrade or trial). The server stores one request per user/feature/plan combination.</p>
+<ul>
+<li><strong>UserId</strong> (varchar(26)): User who requested the notification.</li>
+<li><strong>CreateAt</strong> (bigint): When the request was created.</li>
+<li><strong>RequiredPlan</strong> (varchar(26)): e.g. professional, enterprise.</li>
+<li><strong>RequiredFeature</strong> (varchar(100)): Feature they need (e.g. guest accounts, custom groups).</li>
+<li><strong>Trial</strong> (boolean): Whether this is a trial notification.</li>
+<li><strong>SentAt</strong> (nullable bigint): When the notify-admin message was sent to admins; NULL until sent.</li>
+</ul>
+<p>The app layer uses this to avoid duplicate requests and to drive jobs that send actual “notify admin” messages (e.g. email or posts). The frontend does not read this table directly; it only calls the “notify admin” API, which writes to it.</p>
+<p><strong>ProductNoticeViewState (table: <code>productnoticeviewstate</code>)</strong></p>
+<p>Tracks which in-product notices each user has seen, so the server can filter which notices to return.</p>
+<ul>
+<li><strong>userid</strong> (VARCHAR(26)): User.</li>
+<li><strong>noticeid</strong> (VARCHAR(26)): Notice identifier from the product notices definition.</li>
+<li><strong>viewed</strong> (integer): View count or similar.</li>
+<li><strong>timestamp</strong> (bigint): When it was viewed.</li>
+</ul>
+<p>Product notice <em>definitions</em> (title, description, conditions) are not stored in the DB; they are loaded from an external source (e.g. URL). Only per-user view state is stored here.</p>
+<p><strong>PostsPriority (table: <code>PostsPriority</code>)</strong></p>
+<p>Stores priority and notification options per post (e.g. urgent, request ack, persistent notifications). This is what drives creation of <code>persistentnotifications</code> rows when <code>persistent_notifications</code> is true. The frontend does not “consume” this as a notification stream; it reads post priority with the post for display.</p>
+<p>Push notifications and real-time “posted” events are <strong>not</strong> stored as notification rows. The server decides at post time (and, for persistent, in a job) whether to send websocket or push, and sends them; there is no separate “notification” table for those.</p>
+<hr />
+<h2 id="what-kinds-of-notifications-exist-and-how-they-are-stored-or-sent">What kinds of notifications exist and how they are stored or sent</h2>
+<p><strong>1. Real-time post notifications (websocket “posted” and desktop)</strong></p>
+<p>When a new post is created, the server sends a <strong>websocket event</strong> <code>posted</code> to channel members, with the post and metadata. No notification row is stored; the event is simply broadcast.</p>
+<p>The frontend receives the event, updates the post list, and—based on user and channel notification preferences, mute state, and focus—may show a desktop notification with a title (e.g. channel name) and a preview of the post, and optionally play a sound.</p>
+<p><strong>2. Persistent (repeating) notifications</strong></p>
+<p>For posts with priority and “persistent notifications” enabled, the server stores a row in <strong>persistentnotifications</strong>. A scheduled job (<code>SendPersistentNotifications</code>) periodically selects eligible rows (e.g. not deleted, last sent at least N minutes ago, sent count below max), loads the post and channel/team/mentions, then:</p>
+<ul>
+<li>For <strong>desktop</strong>: sends a <strong>websocket event</strong> <code>persistent_notification_triggered</code> to each mentioned user (who has desktop notifications on and is not DND/OOO). The payload includes post (JSON), channel_type, channel_display_name, channel_name, sender_name, team_id, mentions, and optional image/otherFile flags.</li>
+<li>For <strong>push</strong>: sends push notifications to mentioned users (same as normal push path).</li>
+</ul>
+<p>After sending, the server updates <strong>persistentnotifications</strong> (lastsentat, sentcount) and may soft-delete rows that exceed max count or when the post/channel/team is deleted or the post is “resolved” (e.g. a mentioned user replies or acks).</p>
+<p>So: the <strong>stored</strong> part is only the scheduling state in <strong>persistentnotifications</strong>; the actual “notification” is delivered via websocket and/or push, not stored as a separate record.</p>
+<p><strong>3. Notify-admin (upgrade / trial request)</strong></p>
+<p>When a user clicks “Notify admin” (e.g. for a feature or trial), the frontend calls <code>POST /users/notify-admin</code> with <code>trial_notification</code>, <code>required_plan</code>, and <code>required_feature</code>. The server validates and writes (or finds) a row in <strong>NotifyAdmin</strong>. No real-time “notification” is sent from that request; background jobs (or admin-triggered APIs) use this table to send emails or create posts for admins. So the <strong>stored</strong> data is the request (user, plan, feature, trial, sent_at); the actual “notify admin” message is sent by other processes.</p>
+<p><strong>4. Product (in-product) notices</strong></p>
+<p>Notice <strong>content</strong> is not in the DB; it is fetched from the product notices endpoint (e.g. by team and client version). The server uses <strong>productnoticeviewstate</strong> to know what each user has already seen and filters the list of notices accordingly. When the user dismisses or views a notice, the frontend calls <code>PUT /notices/view</code> with the notice IDs, and the server updates <strong>productnoticeviewstate</strong>. So only <strong>view state</strong> is stored; the notices themselves are configuration/data from elsewhere.</p>
+<p><strong>5. Push notifications</strong></p>
+<p>Push is sent by the server when a post is created (or when the persistent job runs) to mobile/app clients. The server builds a <strong>PushNotification</strong> struct (post_id, channel_id, message, badge, etc.) and sends it to the push proxy; it is <strong>not</strong> stored in any notification table. Delivery and display are handled by the client and OS.</p>
+<hr />
+<h2 id="how-the-frontend-consumes-notifications">How the frontend consumes notifications</h2>
+<p><strong>Websocket as the main real-time path</strong></p>
+<p>The frontend subscribes to websocket events. Two events drive desktop (browser) notifications and in-app updates:</p>
+<ul>
+<li><strong>posted</strong> (and <strong>ephemeral_message</strong>): Handled by <code>handleNewPostEvent</code> (debounced). The handler parses the post from the event, dispatches <code>handleNewPost(post, msg)</code>, which calls <code>completePostReceive</code>. Inside <code>completePostReceive</code>, the frontend dispatches <code>sendDesktopNotification(post, websocketMessageProps)</code>. So the same “posted” event is used to add the post to the store and to optionally show a desktop notification (title, body, sound, click to open channel/thread). Whether a notification is shown depends on user/channel settings (e.g. desktop notify level, mute, focus), and <code>sendDesktopNotification</code> implements that (e.g. <code>shouldSkipNotification</code>).</li>
+<li><strong>persistent_notification_triggered</strong>: Handled by <code>handlePersistentNotification</code>. The handler parses the post from the event and dispatches <code>sendDesktopNotification(post, msg.data)</code>. So persistent notifications reuse the same desktop notification logic as “posted”; the only difference is the event name and that they are sent on a schedule by the server for mentioned users.</li>
+</ul>
+<p>In both cases, the “consumed” data is the websocket payload (post + channel/sender/team metadata). No separate REST call is needed to “fetch” the notification; the server pushes it.</p>
+<p><strong>Non-persistent WebSocket events: context when the server sends them</strong></p>
+<p>Besides <code>posted</code>, <code>ephemeral_message</code>, and <code>persistent_notification_triggered</code> (which drive desktop notifications), the server publishes other one-shot WebSocket events so the frontend stays in sync. Below is the <strong>context</strong> in which each event is sent (when the server publishes it). Events are not stored; they are sent once when the action happens.</p>
+<p><strong>Posts and messages.</strong> <code>posted</code> — when a new post or reply is created (or when the persistent-notification job re-sends for mentioned users, as <code>persistent_notification_triggered</code>). <code>ephemeral_message</code> — when an ephemeral post is created (e.g. slash command response to one user). <code>post_edited</code> — when a post is updated (including when acknowledgements change and shared-channel sync is needed). <code>post_deleted</code> — when a post is permanently deleted (sent to channel and/or to the acting user). <code>post_unread</code> — when the server marks a channel/post as unread for a user (e.g. when they are mentioned or the channel is marked unread). For burn-on-read: <code>post_revealed</code> when a user reveals a message, <code>post_burned</code> when it is burned, <code>burn_on_read_all_revealed</code> when all are revealed.</p>
+<p><strong>Reactions and acknowledgements.</strong> <code>reaction_added</code> — when a user adds an emoji reaction to a post. <code>reaction_removed</code> — when a reaction is removed. <code>post_acknowledgement_added</code> — when a user acknowledges a post (e.g. “read” or “got it”). <code>post_acknowledgement_removed</code> — when an acknowledgement is removed.</p>
+<p><strong>Threads.</strong> <code>thread_updated</code> — when a thread’s metadata or reply count changes. <code>thread_follow_changed</code> — when a user follows or unfollows a thread. <code>thread_read_changed</code> — when a user’s read state for a thread changes (e.g. they read replies).</p>
+<p><strong>Channels.</strong> <code>channel_created</code> — when a new channel is created. <code>channel_updated</code> — when channel props (name, purpose, header, etc.) or shared-channel sync change. <code>channel_deleted</code> — when a channel is deleted. <code>channel_restored</code> — when a deleted channel is restored. <code>channel_converted</code> — when a channel is converted (e.g. public to private). <code>channel_member_updated</code> — when a channel member’s props (e.g. notify, roles) change. <code>channel_scheme_updated</code> — when the channel’s scheme (permissions) is set or removed. <code>direct_added</code> — when a DM is created or the user is added to it. <code>group_added</code> — when a user is added to a group channel (GM). <code>user_added</code> — when a user is added to a channel. <code>user_removed</code> — when a user is removed from a channel (sent to channel and to the removed user). Channel bookmarks: <code>channel_bookmark_created</code>, <code>channel_bookmark_updated</code>, <code>channel_bookmark_deleted</code>, <code>channel_bookmark_sorted</code> — when bookmarks are created, updated, deleted, or reordered.</p>
+<p><strong>Teams.</strong> <code>added_to_team</code> — when a user is added to a team (invite, signup, or LDAP sync). <code>leave_team</code> — when a user leaves a team (sent to team and to that user). <code>update_team</code>, <code>delete_team</code>, <code>restore_team</code>, <code>update_team_scheme</code> — when team props or scheme are updated, or the team is deleted or restored. <code>memberrole_updated</code> — when a team member’s role (e.g. admin) changes.</p>
+<p><strong>Users and presence.</strong> <code>new_user</code> — when a new user account is created (broadcast to all). <code>user_updated</code> — when a user’s profile or props are updated (may be sent to all, to admins only, or to the user only depending on the change). <code>user_role_updated</code> — when a user’s system role changes. <code>status_change</code> — when a user’s status (online, away, DND, etc.) changes. <code>user_activation_status_change</code> — when a user is activated or deactivated. <code>guests_deactivated</code> — when guest accounts are deactivated (e.g. after license change). <code>typing</code> — when a user is typing in a channel (sent by server on behalf of the client that sent the typing request).</p>
+<p><strong>Preferences and sidebar.</strong> <code>preference_changed</code> — when a single preference is changed (e.g. expand/collapse slash command). <code>preferences_changed</code> — when the user’s preferences are updated (e.g. sidebar categories or other prefs). <code>preferences_deleted</code> — when preferences are deleted. <code>sidebar_category_created</code>, <code>sidebar_category_updated</code>, <code>sidebar_category_deleted</code>, <code>sidebar_category_order_updated</code> — when the user’s sidebar categories are created, updated, deleted, or reordered.</p>
+<p><strong>Drafts and scheduled posts.</strong> <code>draft_created</code>, <code>draft_updated</code>, <code>draft_deleted</code> — when a draft is created, updated, or removed for a channel (typically for the owning user/connection). Scheduled post events (<code>scheduled_post_created</code>, <code>scheduled_post_updated</code>, <code>scheduled_post_deleted</code>) — when a scheduled post is created, updated, or cancelled.</p>
+<p><strong>System, config, and plugins.</strong> <code>hello</code> — when the client first connects; server sends connection/session info. <code>config_changed</code> — when server config is updated (e.g. by sysadmin). <code>license_changed</code> — when the server license is updated. <code>role_updated</code> — when a system or channel role is updated. <code>emoji_added</code> — when a custom emoji is added. <code>plugin_enabled</code>, <code>plugin_disabled</code> — when a plugin is enabled or disabled. <code>plugin_statuses_changed</code> — when plugin health status changes (e.g. for sysadmin UI). <code>open_dialog</code> — when the server asks the client to open a dialog (e.g. from an integration action). <code>multiple_channels_viewed</code> — when the server records that the user viewed multiple channels (e.g. for “channel viewed” tracking).</p>
+<p><strong>Groups (LDAP/sync).</strong> Events like <code>received_group</code>, <code>received_group_associated_to_team</code>, <code>received_group_not_associated_to_team</code>, <code>received_group_associated_to_channel</code>, <code>received_group_not_associated_to_channel</code>, <code>group_member_deleted</code>, <code>group_member_add</code> — when LDAP or sync changes group membership or association with teams/channels.</p>
+<p><strong>Cloud and other.</strong> <code>cloud_subscription_changed</code>, <code>first_admin_visit_marketplace_status_received</code>, <code>hosted_customer_signup_progress_updated</code> — when cloud subscription, marketplace visit, or signup state changes. Custom profile attributes: <code>custom_profile_attributes_field_created</code>, <code>custom_profile_attributes_field_updated</code>, <code>custom_profile_attributes_field_deleted</code>, <code>custom_profile_attributes_values_updated</code> — when CPA fields or values change. <code>recap_updated</code> — when a recap is updated for a user. <code>post_translation_updated</code> — when a post’s translation is updated. <code>content_flagging_report_value_updated</code> — when a content-flagging report value changes. <code>presence</code> — presence updates. <code>posted_notify_ack</code> — server ack for posted/push notification flow.</p>
+<p>The only event that is “persistent” (re-sent on a schedule) is <code>persistent_notification_triggered</code>; all others above are published once when the corresponding action happens.</p>
+<p><strong>Desktop notification behavior (shared for “posted” and “persistent_notification_triggered”)</strong></p>
+<p><code>sendDesktopNotification</code> (in <code>notification_actions.tsx</code>) uses Redux state (channel, user, member, preferences) and the event payload to decide whether to show a notification. It computes title (e.g. channel name or “Direct Message”), body (e.g. sender and message preview), and whether to play a sound (from user/channel notify props). It can run plugin hooks to modify or suppress the notification, then calls <code>notifyMe(...)</code> to show the browser/OS notification and optionally play a sound. So the frontend “consumes” the notification by rendering it via the OS/browser API and by having already received the post in the websocket payload (and thus in the store).</p>
+<p><strong>Notify-admin</strong></p>
+<p>The frontend does not “receive” notify-admin as a push or websocket notification. It <strong>sends</strong> a request: when the user clicks “Notify admin”, the client calls <code>Client4.notifyAdmin(request)</code> (POST with trial_notification, required_plan, required_feature). The server writes to <strong>NotifyAdmin</strong> and returns. The frontend then shows local UI (e.g. “Admin notified!”). Admins are notified by separate flows (e.g. email or posts) that read from the <strong>NotifyAdmin</strong> table; the web app does not subscribe to a special “notify admin” event for that.</p>
+<p><strong>Product notices</strong></p>
+<p>The frontend <strong>fetches</strong> notices via <code>Client4.getInProductNotices(teamId, client, clientVersion)</code> (GET). The server returns a list of notices that apply to that team/client/version and that the user has not yet fully “viewed” according to <strong>productnoticeviewstate</strong>. When the user views or dismisses a notice, the frontend calls <code>Client4.updateNoticesAsViewed(noticeIds)</code> (PUT). So consumption is: fetch list from API, show in UI (e.g. modal), then mark viewed via API so the server can update <strong>productnoticeviewstate</strong> and filter future responses.</p>
+<p><strong>Push notifications</strong></p>
+<p>Mobile and desktop apps receive push payloads from the push proxy (triggered by the server). The web app does not “consume” push in the same way; it only consumes websocket “posted” and “persistent_notification_triggered” for in-session desktop notifications. Push is consumed by the native/client layer and the OS.</p>
+<hr />
+<h2 id="event-flow-server-to-frontend">Event flow: server to frontend</h2>
+<p><strong>Real-time post (“posted”).</strong> On the server, when a user creates a post, <code>handlePostEvents</code> runs and calls <code>SendNotifications</code>, which builds the payload (post, channel type and names, sender name, team id, mentions, etc.) and publishes a WebSocket event <code>posted</code> to the channel’s connections. On the frontend, the client receives the event and runs <code>handleNewPostEvent</code> (debounced), which calls <code>handleNewPost</code> and then <code>completePostReceive</code>. Inside <code>completePostReceive</code>, the post is added to the store via <code>receivedNewPost</code> and <code>sendDesktopNotification</code> is called with the event data. <code>sendDesktopNotification</code> checks whether to show a notification (e.g. channel muted, user focus, notify level); if not skipped, it calls <code>notifyMe</code> with title and body and optionally plays a sound, and the browser or OS shows the desktop notification.</p>
+<p><strong>Persistent notification.</strong> A scheduled job <code>SendPersistentNotifications</code> runs periodically. It reads eligible rows from the <code>persistentnotifications</code> table, loads the corresponding posts and channel/team/mentions, and for each mentioned user who has desktop notifications on and is not DND or OOO, publishes a WebSocket event <code>persistent_notification_triggered</code> with the post and metadata. The job then updates the table (e.g. <code>UpdateLastActivity</code> for lastsentat and sentcount). On the frontend, the client handles <code>persistent_notification_triggered</code> with <code>handlePersistentNotification</code>, which calls <code>sendDesktopNotification</code> with the event payload; from there the flow is the same as for a real-time post (optional desktop notification and sound).</p>
+<p><strong>Notify-admin.</strong> The user clicks “Notify admin” in the UI. The frontend calls <code>Client4.notifyAdmin</code> with the request body (trial_notification, required_plan, required_feature). The server receives <code>POST /users/notify-admin</code>, runs <code>handleNotifyAdmin</code>, and saves the request via <code>NotifyAdminStore.Save</code> into the <code>NotifyAdmin</code> table, then returns 200. The frontend shows feedback like “Admin notified!” or “Already notified”. The actual notification to admins (e.g. email or posts) is done later by a separate job or API that reads from <code>NotifyAdmin</code>.</p>
+<p><strong>Product notices.</strong> When the app loads or the user switches team, the frontend calls <code>Client4.getInProductNotices</code> with team id, client type, and version. The server loads the notice definitions (e.g. from URL or config), filters them using <code>ProductNoticeViewState</code> so the user only gets notices they haven’t fully viewed, and returns the list. The frontend shows the notices (e.g. in a modal). When the user views or dismisses a notice, the frontend calls <code>Client4.updateNoticesAsViewed</code> with the notice id(s). The server updates <code>ProductNoticeViewState</code> and returns 200. Subsequent calls to <code>getInProductNotices</code> will exclude or treat those notices as viewed.</p>
+<p><strong>Push (mobile/native).</strong> When a post is created (or when the persistent notification job runs), the server may call <code>sendPushNotification</code> and send a payload (post_id, channel_id, message, badge, etc.) to the push proxy over HTTPS. The push proxy delivers to the platform service (e.g. APNS, FCM). The device receives the push and the OS shows the notification; the user can tap to open the app. The web app does not receive push in this way; it only uses the WebSocket events <code>posted</code> and <code>persistent_notification_triggered</code> for in-session desktop notifications.</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<ul>
+<li><strong>Stored in DB</strong>: (1) <strong>persistentnotifications</strong> – which posts have repeating notifications and how often they’ve been sent; (2) <strong>NotifyAdmin</strong> – who asked to notify admin for which plan/feature and whether it was sent; (3) <strong>productnoticeviewstate</strong> – which product notices each user has viewed; (4) <strong>PostsPriority</strong> – post priority and options that can create <strong>persistentnotifications</strong> rows.</li>
+<li><strong>Not stored as notifications</strong>: Real-time “posted” events, push payloads, and the content of product notices (only view state is stored).</li>
+<li><strong>Frontend consumption</strong>: Real-time and persistent desktop notifications are <strong>consumed via websocket</strong> (“posted” and “persistent_notification_triggered”) and rendered with <code>sendDesktopNotification</code>. Notify-admin is <strong>sent</strong> via REST and only state/feedback is shown in the UI. Product notices are <strong>fetched</strong> via REST and <strong>marked viewed</strong> via REST; the server uses the view state to filter what to return next.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

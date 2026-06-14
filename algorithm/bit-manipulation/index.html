@@ -1,0 +1,1628 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Bit manipulation - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#bit-manipulation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Bit manipulation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bit-manipulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bit Manipulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bit Manipulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-single-number-xor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Single Number &amp; XOR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-power-of-24-bit-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Power of 2/4 &amp; Bit Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-count-bits-hamming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Count Bits &amp; Hamming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-range-andor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Range &amp; AND/OR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-reverse-manipulate-bits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Reverse &amp; Manipulate Bits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-missing-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Missing / Mismatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Other
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Bit manipulation</h1>
+
+<h2 id="bit-manipulation">Bit Manipulation</h2>
+<h3 id="1-single-number-xor">1. Single Number &amp; XOR</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0136</td>
+<td><a href="./problems/0136-single-number.md">Single Number</a></td>
+<td><a href="./golang/0136_single_number.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0137</td>
+<td><a href="./problems/0137-single-number-ii.md">Single Number II</a></td>
+<td><a href="./golang/0137_single_number_ii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0260</td>
+<td><a href="./problems/0260-single-number-iii.md">Single Number III</a></td>
+<td><a href="./golang/0260_single_number_iii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0371</td>
+<td><a href="./problems/0371-sum-of-two-integers.md">Sum of Two Integers</a></td>
+<td><a href="./golang/0371_sum_of_two_integers.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>LintCode</td>
+<td></td>
+</tr>
+<tr>
+<td>0389</td>
+<td><a href="./problems/0389-find-the-difference.md">Find the Difference</a></td>
+<td><a href="./golang/0389_find_the_difference.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="2-power-of-24-bit-check">2. Power of 2/4 &amp; Bit Check</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0231</td>
+<td><a href="./problems/0231-power-of-two.md">Power of Two</a></td>
+<td><a href="./golang/0231_power_of_two.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td>LintCode</td>
+<td></td>
+</tr>
+<tr>
+<td>0342</td>
+<td><a href="./problems/0342-power-of-four.md">Power of Four</a></td>
+<td><a href="./golang/0342_power_of_four.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0693</td>
+<td><a href="./problems/0693-binary-number-with-alternating-bits.md">Binary Number with Alternating Bits</a></td>
+<td><a href="./golang/0693_binary_number_with_alternating_bits.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="3-count-bits-hamming">3. Count Bits &amp; Hamming</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0191</td>
+<td><a href="./problems/0191-number-of-1-bits.md">Number of 1 Bits</a></td>
+<td><a href="./golang/0191_number_of_1_bits.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0461</td>
+<td><a href="./problems/0461-hamming-distance.md">Hamming Distance</a></td>
+<td><a href="./golang/0461_hamming_distance.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0476</td>
+<td><a href="./problems/0476-number-complement.md">Number Complement</a></td>
+<td><a href="./golang/0476_number_complement.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Bit Manipulation</td>
+</tr>
+<tr>
+<td>0477</td>
+<td><a href="./problems/0477-total-hamming-distance.md">Total Hamming Distance</a></td>
+<td><a href="./golang/0477_total_hamming_distance.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0762</td>
+<td><a href="./problems/0762-prime-number-of-set-bits-in-binary-representation.md">Prime Number of Set Bits in Binary Representation</a></td>
+<td><a href="./golang/0762_prime_number_of_set_bits_in_binary_representation.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="4-range-andor">4. Range &amp; AND/OR</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0201</td>
+<td><a href="./problems/0201-bitwise-and-of-numbers-range.md">Bitwise AND of Numbers Range</a></td>
+<td><a href="./golang/0201_bitwise_and_of_numbers_range.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0898</td>
+<td><a href="./problems/0898-bitwise-ors-of-subarrays.md">Bitwise ORs of Subarrays</a></td>
+<td><a href="./golang/0898_bitwise_ors_of_subarrays.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="5-reverse-manipulate-bits">5. Reverse &amp; Manipulate Bits</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0190</td>
+<td><a href="./problems/0190-reverse-bits.md">Reverse Bits</a></td>
+<td><a href="./golang/0190_reverse_bits.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="6-missing-mismatch">6. Missing / Mismatch</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0268</td>
+<td><a href="./problems/0268-missing-number.md">Missing Number</a></td>
+<td><a href="./golang/0268_missing_number.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>LintCode</td>
+<td></td>
+</tr>
+<tr>
+<td>0645</td>
+<td><a href="./problems/0645-set-mismatch.md">Set Mismatch</a></td>
+<td><a href="./golang/0645_set_mismatch.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="7-other">7. Other</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0318</td>
+<td><a href="./problems/0318-maximum-product-of-word-lengths.md">Maximum Product of Word Lengths</a></td>
+<td><a href="./golang/0318_maximum_product_of_word_lengths.go">Go</a></td>
+<td><em>O(n)</em> ~ <em>O(n^2)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Bit Manipulation, Counting Sort, Pruning</td>
+</tr>
+<tr>
+<td>0393</td>
+<td><a href="./problems/0393-utf-8-validation.md">UTF-8 Validation</a></td>
+<td><a href="./golang/0393_utf_8_validation.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0401</td>
+<td><a href="./problems/0401-binary-watch.md">Binary Watch</a></td>
+<td><a href="./golang/0401_binary_watch.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0411</td>
+<td><a href="./problems/0411-minimum-unique-word-abbreviation.md">Minimum Unique Word Abbreviation</a></td>
+<td><a href="./golang/0411_minimum_unique_word_abbreviation.go">Go</a></td>
+<td><em>O((d + n) * 2^n)</em></td>
+<td><em>O(d)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0421</td>
+<td><a href="./problems/0421-maximum-xor-of-two-numbers-in-an-array.md">Maximum XOR of Two Numbers in an Array</a></td>
+<td><a href="./golang/0421_maximum_xor_of_two_numbers_in_an_array.go">Go</a></td>
+<td><em>O(nlogr)</em></td>
+<td><em>O(t)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy, Trie</td>
+</tr>
+<tr>
+<td>0868</td>
+<td><a href="./problems/0868-binary-gap.md">Binary Gap</a></td>
+<td><a href="./golang/0868_binary_gap.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1310</td>
+<td><a href="./problems/1310-xor-queries-of-a-subarray.md">XOR Queries of a Subarray</a></td>
+<td><a href="./golang/1310_xor_queries_of_a_subarray.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1318</td>
+<td><a href="./problems/1318-minimum-flips-to-make-a-or-b-equal-to-c.md">Minimum Flips to Make a OR b Equal to c</a></td>
+<td><a href="./golang/1318_minimum_flips_to_make_a_or_b_equal_to_c.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1342</td>
+<td><a href="./problems/1342-number-of-steps-to-reduce-a-number-to-zero.md">Number of Steps to Reduce a Number to Zero</a></td>
+<td><a href="./golang/1342_number_of_steps_to_reduce_a_number_to_zero.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1558</td>
+<td><a href="./problems/1558-minimum-numbers-of-function-calls-to-make-target-array.md">Minimum Numbers of Function Calls to Make Target Array</a></td>
+<td><a href="./golang/1558_minimum_numbers_of_function_calls_to_make_target_array.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Greedy</td>
+</tr>
+<tr>
+<td>1707</td>
+<td><a href="./problems/1707-maximum-xor-with-an-element-from-array.md">Maximum XOR With an Element From Array</a></td>
+<td><a href="./golang/1707_maximum_xor_with_an_element_from_array.go">Go</a></td>
+<td><em>O(nlogn + mlogm + nlogk + mlogk)</em></td>
+<td><em>O(nlogk)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/">Maximum XOR of Two Numbers in an Array</a></td>
+<td>Greedy, Trie</td>
+</tr>
+<tr>
+<td>1720</td>
+<td><a href="./problems/1720-decode-xored-array.md">Decode XORed Array</a></td>
+<td><a href="./golang/1720_decode_xored_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1734</td>
+<td><a href="./problems/1734-decode-xored-permutation.md">Decode XORed Permutation</a></td>
+<td><a href="./golang/1734_decode_xored_permutation.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1829</td>
+<td><a href="./problems/1829-maximum-xor-for-each-query.md">Maximum XOR for Each Query</a></td>
+<td><a href="./golang/1829_maximum_xor_for_each_query.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2151</td>
+<td><a href="./problems/2151-maximum-good-people-based-on-statements.md">Maximum Good People Based on Statements</a></td>
+<td><a href="./golang/2151_maximum_good_people_based_on_statements.go">Go</a></td>
+<td><em>O(n^2 * 2^n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Bitmasks, Brute Force</td>
+</tr>
+<tr>
+<td>2212</td>
+<td><a href="./problems/2212-maximum-points-in-an-archery-competition.md">Maximum Points in an Archery Competition</a></td>
+<td><a href="./golang/2212_maximum_points_in_an_archery_competition.go">Go</a></td>
+<td><em>O(n * 2^n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Bitmasks, Brute Force</td>
+</tr>
+<tr>
+<td>2220</td>
+<td><a href="./problems/2220-minimum-bit-flips-to-convert-number.md">Minimum Bit Flips to Convert Number</a></td>
+<td><a href="./golang/2220_minimum_bit_flips_to_convert_number.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Bit Manipulation</td>
+</tr>
+<tr>
+<td>2275</td>
+<td><a href="./problems/2275-largest-combination-with-bitwise-and-greater-than-zero.md">Largest Combination With Bitwise AND Greater Than Zero</a></td>
+<td><a href="./golang/2275_largest_combination_with_bitwise_and_greater_than_zero.go">Go</a></td>
+<td><em>O(nlogr)</em></td>
+<td><em>O(logr)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Bit Manipulation, Freq Table</td>
+</tr>
+<tr>
+<td>2317</td>
+<td><a href="./problems/2317-maximum-xor-after-operations.md">Maximum XOR After Operations</a></td>
+<td><a href="./golang/2317_maximum_xor_after_operations.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Bit Manipulation, Greedy</td>
+</tr>
+<tr>
+<td>2397</td>
+<td><a href="./problems/2397-maximum-rows-covered-by-columns.md">Maximum Rows Covered by Columns</a></td>
+<td><a href="./golang/2397_maximum_rows_covered_by_columns.go">Go</a></td>
+<td><em>O(m * n + m * C(n, k))</em></td>
+<td><em>O(m)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Bitmasks, <code>Hakmem Item 175</code></td>
+</tr>
+<tr>
+<td>2411</td>
+<td><a href="./problems/2411-smallest-subarrays-with-maximum-bitwise-or.md">Smallest Subarrays With Maximum Bitwise OR</a></td>
+<td><a href="./golang/2411_smallest_subarrays_with_maximum_bitwise_or.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Bitmasks, Hash Table</td>
+</tr>
+<tr>
+<td>2419</td>
+<td><a href="./problems/2419-longest-subarray-with-maximum-bitwise-and.md">Longest Subarray With Maximum Bitwise AND</a></td>
+<td><a href="./golang/2419_longest_subarray_with_maximum_bitwise_and.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Bit Manipulation</td>
+</tr>
+<tr>
+<td>2425</td>
+<td><a href="./problems/2425-bitwise-xor-of-all-pairings.md">Bitwise XOR of All Pairings</a></td>
+<td><a href="./golang/2425_bitwise_xor_of_all_pairings.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Bit Manipulation</td>
+</tr>
+<tr>
+<td>2429</td>
+<td><a href="./problems/2429-minimize-xor.md">Minimize XOR</a></td>
+<td><a href="./golang/2429_minimize_xor.go">Go</a></td>
+<td><em>O(logn)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Bit Manipulation, Greedy</td>
+</tr>
+<tr>
+<td>2505</td>
+<td><a href="./problems/2505-bitwise-or-of-all-subsequence-sums.md">Bitwise OR of All Subsequence Sums</a></td>
+<td><a href="./golang/2505_bitwise_or_of_all_subsequence_sums.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Bit Manipulation</td>
+</tr>
+<tr>
+<td>2527</td>
+<td><a href="./problems/2527-find-xor-beauty-of-array.md">Find Xor-Beauty of Array</a></td>
+<td><a href="./golang/2527_find_xor_beauty_of_array.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Bit Manipulation, Math</td>
+</tr>
+<tr>
+<td>2595</td>
+<td><a href="./problems/2595-number-of-even-and-odd-bits.md">Number of Even and Odd Bits</a></td>
+<td><a href="./golang/2595_number_of_even_and_odd_bits.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Bit Manipulation</td>
+</tr>
+<tr>
+<td>2859</td>
+<td><a href="./problems/2859-sum-of-values-at-indices-with-k-set-bits.md">Sum of Values at Indices With K Set Bits</a></td>
+<td><a href="./golang/2859_sum_of_values_at_indices_with_k_set_bits.go">Go</a></td>
+<td><em>O(C(ceil(log2(n)), k))</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Bitmasks, <code>Hakmem Item 175</code></td>
+</tr>
+<tr>
+<td>2917</td>
+<td><a href="./problems/2917-find-the-k-or-of-an-array.md">Find the K-or of an Array</a></td>
+<td><a href="./golang/2917_find_the_k_or_of_an_array.go">Go</a></td>
+<td><em>O(nlogr)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Bit Manipulation</td>
+</tr>
+<tr>
+<td>2932</td>
+<td><a href="./problems/2932-maximum-strong-pair-xor-i.md">Maximum Strong Pair XOR I</a></td>
+<td><a href="./golang/2932_maximum_strong_pair_xor_i.go">Go</a></td>
+<td><em>O(nlogr)</em></td>
+<td><em>O(t)</em></td>
+<td>Easy</td>
+<td>variant of <a href="https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/">Maximum XOR of Two Numbers in an Array</a></td>
+<td>Bit Manipulation, Greedy, Trie, DP, Sort, Two Pointers, Brute Force</td>
+</tr>
+<tr>
+<td>2935</td>
+<td><a href="./problems/2935-maximum-strong-pair-xor-ii.md">Maximum Strong Pair XOR II</a></td>
+<td><a href="./golang/2935_maximum_strong_pair_xor_ii.go">Go</a></td>
+<td><em>O(nlogr)</em></td>
+<td><em>O(t)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/">Maximum XOR of Two Numbers in an Array</a></td>
+<td>Bit Manipulation, Greedy, Trie, DP, Sort, Two Pointers</td>
+</tr>
+<tr>
+<td>2980</td>
+<td><a href="./problems/2980-check-if-bitwise-or-has-trailing-zeros.md">Check if Bitwise OR Has Trailing Zeros</a></td>
+<td><a href="./golang/2980_check_if_bitwise_or_has_trailing_zeros.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Bit Manipulation</td>
+</tr>
+<tr>
+<td>2997</td>
+<td><a href="./problems/2997-minimum-number-of-operations-to-make-array-xor-equal-to-k.md">Minimum Number of Operations to Make Array XOR Equal to K</a></td>
+<td><a href="./golang/2997_minimum_number_of_operations_to_make_array_xor_equal_to_k.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Bit Manipulation</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1582 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Daemon Features - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#daemon-features" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Daemon Features
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#features-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rpc-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RPC Server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RPC Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event Streaming
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Event Streaming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#log-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Log Streaming
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Log Streaming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connection Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event-buffering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event Buffering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Event Buffering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#daemon-bootstrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Daemon Bootstrap
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Daemon Bootstrap">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operation-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operation Registry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Operation Registry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#graceful-shutdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Graceful Shutdown
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Graceful Shutdown">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#client-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Client Library
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Client Library">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="daemon-features">Daemon Features</h1>
+<p>This document outlines the features that the Spacedrive daemon needs to implement. The daemon provides a centralized, long-running process that manages core functionality while multiple clients (CLI, GraphQL server, desktop app) connect to it.</p>
+<h2 id="features-overview">Features Overview</h2>
+<ul>
+<li><strong>RPC Server</strong>: JSON-over-TCP server for client communication</li>
+<li><strong>Event Streaming</strong>: Real-time event broadcasting with filtering</li>
+<li><strong>Log Streaming</strong>: Real-time log message streaming with filtering</li>
+<li><strong>Connection Management</strong>: Multi-client support with connection limits</li>
+<li><strong>Event Buffering</strong>: Handling subscription race conditions</li>
+<li><strong>Daemon Bootstrap</strong>: Initialization and startup sequence</li>
+<li><strong>Operation Registry</strong>: Dynamic handler registration for actions/queries</li>
+<li><strong>Graceful Shutdown</strong>: Clean termination with resource cleanup</li>
+</ul>
+<h2 id="rpc-server">RPC Server</h2>
+<p>The RPC server provides the primary communication interface between clients and the daemon. It uses a simple JSON-over-TCP protocol with newline-delimited messages.</p>
+<h3 id="purpose">Purpose</h3>
+<p>Enables type-safe client-daemon communication without complex protocol overhead. JSON is chosen for broad language compatibility and ease of debugging.</p>
+<h3 id="what-it-solves">What it solves</h3>
+<ul>
+<li><strong>Protocol simplicity</strong>: No need for complex protocol buffers or gRPC infrastructure</li>
+<li><strong>Language agnostic</strong>: Any client can communicate via JSON over TCP</li>
+<li><strong>Connection management</strong>: Handles multiple concurrent connections with proper lifecycle</li>
+<li><strong>Request-response</strong>: Synchronous operations return results immediately</li>
+<li><strong>Streaming</strong>: Long-lived connections for real-time events and logs</li>
+</ul>
+<h3 id="implementation">Implementation</h3>
+<p>Location: <code>core/src/infra/daemon/rpc.rs</code></p>
+<ul>
+<li>TCP listener with configurable address</li>
+<li>Concurrent connection handling via <code>tokio::spawn</code></li>
+<li>Connection limits to prevent resource exhaustion (default: 100)</li>
+<li>JSON-RPC 2.0-like protocol with newline-delimited messages</li>
+<li>Support for both request-response and streaming modes</li>
+<li>Integration with operation registry for method dispatch</li>
+</ul>
+<h2 id="event-streaming">Event Streaming</h2>
+<p>The daemon broadcasts real-time events to subscribed clients, enabling UI updates and progress tracking across all connected clients.</p>
+<h3 id="purpose_1">Purpose</h3>
+<p>Provides a push-based notification system so clients can react to changes immediately without polling.</p>
+<h3 id="what-it-solves_1">What it solves</h3>
+<ul>
+<li><strong>Real-time UI updates</strong>: File operations, job progress, library state changes appear instantly</li>
+<li><strong>Multi-client consistency</strong>: All clients see the same state updates simultaneously</li>
+<li><strong>Efficient resource usage</strong>: No polling required, clients only receive relevant events</li>
+<li><strong>Filtering support</strong>: Clients subscribe to specific event types and scopes</li>
+</ul>
+<h3 id="implementation_1">Implementation</h3>
+<p>Location: <code>core/src/infra/daemon/rpc.rs</code> (event broadcaster), <code>event_buffer.rs</code></p>
+<ul>
+<li>Subscribes to core event bus on startup</li>
+<li>Broadcasts events to all matching connections</li>
+<li>Event filtering by:</li>
+<li>Event type (inclusion list)</li>
+<li>Library ID</li>
+<li>Job ID</li>
+<li>Device ID</li>
+<li>Resource type (file, location, etc.)</li>
+<li>Path scope with descendant inclusion</li>
+<li>Event buffer for handling race conditions (see below)</li>
+<li>Automatic cleanup of closed connections</li>
+</ul>
+<h2 id="log-streaming">Log Streaming</h2>
+<p>Separate streaming channel for real-time log messages, enabling clients to view debug output and job-specific logs without server-side log file access.</p>
+<h3 id="purpose_2">Purpose</h3>
+<p>Provides real-time access to daemon and job logs for debugging and monitoring without requiring file system access to the daemon's data directory.</p>
+<h3 id="what-it-solves_2">What it solves</h3>
+<ul>
+<li><strong>Remote debugging</strong>: Clients can view logs without daemon server access</li>
+<li><strong>Job-specific logs</strong>: Filter logs by job ID to track specific operations</li>
+<li><strong>Library-specific logs</strong>: Filter by library ID for per-library diagnostics</li>
+<li><strong>Level filtering</strong>: Show only INFO, WARN, or ERROR logs as needed</li>
+<li><strong>Component filtering</strong>: Target specific modules (e.g., <code>sd_core::ops</code>)</li>
+</ul>
+<h3 id="implementation_2">Implementation</h3>
+<p>Location: <code>core/src/infra/daemon/rpc.rs</code></p>
+<ul>
+<li>Subscribes to global <code>LogBus</code> via <code>LogEventLayer</code></li>
+<li>Separate from event bus (not broadcast as events)</li>
+<li>Log filtering by:</li>
+<li>Library ID</li>
+<li>Job ID</li>
+<li>Log level (INFO, WARN, ERROR, DEBUG)</li>
+<li>Target/component name</li>
+<li>Per-connection log streaming via background tasks</li>
+</ul>
+<h2 id="connection-management">Connection Management</h2>
+<p>The daemon manages multiple concurrent client connections with proper lifecycle handling and resource limits.</p>
+<h3 id="purpose_3">Purpose</h3>
+<p>Enables multiple clients to connect to the same daemon instance simultaneously while preventing resource exhaustion.</p>
+<h3 id="what-it-solves_3">What it solves</h3>
+<ul>
+<li><strong>Multi-client support</strong>: CLI, desktop app, and GraphQL server can all connect</li>
+<li><strong>Resource limits</strong>: Prevents denial of service via connection flooding</li>
+<li><strong>Graceful degradation</strong>: Rejects new connections when limits reached</li>
+<li><strong>Automatic cleanup</strong>: Removes dead connections from internal state</li>
+<li><strong>Connection tracking</strong>: Monitors active connection count for observability</li>
+</ul>
+<h3 id="implementation_3">Implementation</h3>
+<p>Location: <code>core/src/infra/daemon/rpc.rs</code></p>
+<ul>
+<li>Connection counter with atomic operations</li>
+<li>Configurable max connections (default: 100)</li>
+<li>HashMap tracking active connections by UUID</li>
+<li>Automatic removal of closed connections</li>
+<li>File descriptor limit checks and warnings</li>
+<li>Connection statistics for monitoring</li>
+</ul>
+<h2 id="event-buffering">Event Buffering</h2>
+<p>The daemon buffers recent events to handle subscription race conditions where events are emitted before clients subscribe.</p>
+<h3 id="purpose_4">Purpose</h3>
+<p>Ensures clients don't miss events that occur between connection and subscription.</p>
+<h3 id="what-it-solves_4">What it solves</h3>
+<ul>
+<li><strong>Race condition handling</strong>: Events emitted before subscription are replayed</li>
+<li><strong>No missed updates</strong>: Critical state changes are always delivered</li>
+<li><strong>Memory safety</strong>: Bounded buffer with time-based eviction</li>
+<li><strong>Performance</strong>: Uses <code>Arc&lt;Event&gt;</code> to avoid expensive clones during replay</li>
+</ul>
+<h3 id="implementation_4">Implementation</h3>
+<p>Location: <code>core/src/infra/daemon/event_buffer.rs</code></p>
+<ul>
+<li>Fixed-size buffer (default: 100 events)</li>
+<li>Time-based retention (default: 5 seconds)</li>
+<li>Periodic cleanup task prevents unbounded growth</li>
+<li>Events stored with <code>Arc</code> for efficient replay</li>
+<li>Subscription flow:</li>
+<li>Get matching buffered events</li>
+<li>Register connection for live streaming</li>
+<li>Send buffered events in chronological order</li>
+<li>Continue receiving live events</li>
+</ul>
+<h2 id="daemon-bootstrap">Daemon Bootstrap</h2>
+<p>The bootstrap process initializes all daemon components including core, networking, and logging infrastructure.</p>
+<h3 id="purpose_5">Purpose</h3>
+<p>Provides a single entry point for starting the daemon with all required subsystems initialized in the correct order.</p>
+<h3 id="what-it-solves_5">What it solves</h3>
+<ul>
+<li><strong>Initialization ordering</strong>: Core, networking, and RPC server start in correct sequence</li>
+<li><strong>Logging setup</strong>: Configures file-based logging with multiple streams</li>
+<li><strong>Configuration loading</strong>: Reads app config for logging filters</li>
+<li><strong>System checks</strong>: Validates file descriptor limits</li>
+<li><strong>Graceful failures</strong>: Provides clear error messages for common startup issues</li>
+</ul>
+<h3 id="implementation_5">Implementation</h3>
+<p>Location: <code>core/src/infra/daemon/bootstrap.rs</code></p>
+<ul>
+<li>Initializes <code>tracing</code> subscriber with file logging</li>
+<li>Creates and configures <code>Core</code> instance</li>
+<li>Optionally initializes networking</li>
+<li>Starts RPC server with event streaming</li>
+<li>Logs system information (data directory, socket address)</li>
+<li>Checks file descriptor limits on Unix systems</li>
+<li>Supports embedded mode (when daemon runs inside other processes)</li>
+</ul>
+<h2 id="operation-registry">Operation Registry</h2>
+<p>The operation registry provides dynamic handler registration for actions and queries without hard-coding method dispatch logic.</p>
+<h3 id="purpose_6">Purpose</h3>
+<p>Enables compile-time registration of operations that become available at runtime without manual registration code.</p>
+<h3 id="what-it-solves_6">What it solves</h3>
+<ul>
+<li><strong>No boilerplate</strong>: Operations self-register via macros</li>
+<li><strong>Type safety</strong>: Compile-time checks for input/output types</li>
+<li><strong>Extensibility</strong>: New operations don't require changes to dispatch logic</li>
+<li><strong>Decoupling</strong>: RPC server doesn't know about concrete operation types</li>
+<li><strong>Testability</strong>: Handlers can be unit-tested independently</li>
+</ul>
+<h3 id="implementation_6">Implementation</h3>
+<p>Location: <code>core/src/infra/daemon/dispatch.rs</code>, <code>core/src/ops/registry.rs</code></p>
+<ul>
+<li>Uses <code>inventory</code> crate for compile-time collection</li>
+<li>Generic handlers for actions and queries</li>
+<li>Bincode serialization for payload encoding</li>
+<li>JSON-over-TCP mode for external clients</li>
+<li>Registry lookup by method string</li>
+<li>Separate registries for:</li>
+<li>Core actions (library-scoped operations)</li>
+<li>Library actions (library-specific operations)</li>
+<li>Core queries (global data retrieval)</li>
+<li>Library queries (library-specific data retrieval)</li>
+</ul>
+<h2 id="graceful-shutdown">Graceful Shutdown</h2>
+<p>The daemon supports clean termination with proper resource cleanup and state persistence.</p>
+<h3 id="purpose_7">Purpose</h3>
+<p>Ensures data integrity and proper cleanup when the daemon is shut down, preventing data loss and resource leaks.</p>
+<h3 id="what-it-solves_7">What it solves</h3>
+<ul>
+<li><strong>Data persistence</strong>: Ensures in-memory state is flushed to disk</li>
+<li><strong>Connection cleanup</strong>: Closes all client connections gracefully</li>
+<li><strong>Job completion</strong>: Allows in-progress jobs to complete or be cancelled cleanly</li>
+<li><strong>Resource release</strong>: Frees file descriptors, network sockets, and other resources</li>
+<li><strong>Signal handling</strong>: Responds to shutdown signals (SIGTERM, SIGINT)</li>
+</ul>
+<h3 id="implementation_7">Implementation</h3>
+<p>Location: <code>core/src/infra/daemon/rpc.rs</code></p>
+<ul>
+<li>Shutdown channel for signaling termination</li>
+<li>RPC server exits accept loop on shutdown signal</li>
+<li>Core <code>shutdown()</code> method called for cleanup</li>
+<li>Connections close naturally (clients detect EOF)</li>
+<li>Log streams and event broadcasters stop</li>
+<li>Background tasks terminated when tokio runtime shuts down</li>
+</ul>
+<h2 id="client-library">Client Library</h2>
+<p>The client library provides a convenient API for connecting to the daemon from Rust applications.</p>
+<h3 id="purpose_8">Purpose</h3>
+<p>Abstracts TCP communication and protocol details from application code.</p>
+<h3 id="what-it-solves_8">What it solves</h3>
+<ul>
+<li><strong>Protocol hiding</strong>: Applications don't need to implement JSON-over-TCP manually</li>
+<li><strong>Connection pooling</strong>: Reuses connections when possible</li>
+<li><strong>Type safety</strong>: Serialization/deserialization handled automatically</li>
+<li><strong>Streaming support</strong>: Easy setup for event and log subscriptions</li>
+</ul>
+<h3 id="implementation_8">Implementation</h3>
+<p>Location: <code>core/src/infra/daemon/client.rs</code></p>
+<ul>
+<li><code>DaemonClient</code> struct with socket address</li>
+<li><code>send()</code> method for request-response operations</li>
+<li><code>stream()</code> method for event subscriptions</li>
+<li><code>stream_logs()</code> method for log subscriptions</li>
+<li>Automatic serialization/deserialization</li>
+<li>Error handling with descriptive messages</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

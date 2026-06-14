@@ -1,0 +1,130 @@
+version: '3.9'
+
+x-kong-config: &kong-env
+  KONG_DATABASE: postgres
+  KONG_PG_DATABASE: ${KONG_PG_DATABASE:-kong1}
+  KONG_PG_HOST: ${KONG_PG_HOST:-127.0.0.1}
+  KONG_PG_USER: ${KONG_PG_USER:-kong1}
+  KONG_PG_PASSWORD_FILE: /run/secrets/kong_postgres_password
+
+secrets:
+  kong_postgres_password:
+    file: ./kong_postgres_password
+
+volumes:
+  kong_data: {}
+  kong_prefix_vol:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  kong_tmp_vol:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+ 
+services:
+  hello:
+    build:
+      context: hello
+  world:
+    build:
+      context: world
+  
+  kong-migrations:
+    image: "kong:3.2.2-alpine"
+    command: kong migrations bootstrap
+    environment:
+      <<: *kong-env
+    secrets:
+      - kong_postgres_password
+    restart: on-failure
+
+  kong:
+    image: "kong:3.2.2-alpine" 
+    environment:
+      <<: *kong-env
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_PROXY_LISTEN: "${KONG_PROXY_LISTEN:-0.0.0.0:8000}"
+      KONG_ADMIN_LISTEN: "${KONG_ADMIN_LISTEN:-0.0.0.0:8001}"
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_PREFIX: ${KONG_PREFIX:-/var/run/kong}
+      KONG_DECLARATIVE_CONFIG: "/opt/kong/kong.yaml"
+    healthcheck:
+      test: ["CMD", "kong", "health"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    restart: on-failure:5
+    read_only: true
+    volumes:
+      - kong_prefix_vol:${KONG_PREFIX:-/var/run/kong}
+      - kong_tmp_vol:/tmp
+      - ./kongconfig:/opt/kong
+    ports:
+      # The following two environment variables default to an insecure value (0.0.0.0)
+      # according to the CIS Security test.
+      - "${KONG_INBOUND_PROXY_LISTEN:-0.0.0.0}:8000:8000/tcp"
+      - "${KONG_INBOUND_SSL_PROXY_LISTEN:-0.0.0.0}:8443:8443/tcp"
+      - "127.0.0.1:8001:8001/tcp"
+      - "127.0.0.1:8444:8444/tcp"
+    security_opt:
+      - no-new-privileges
+    secrets:
+      - kong_postgres_password
+  
+  kratos-migrate:
+    image: "oryd/kratos:v0.13.0"
+    environment:
+      DSN: ${KRATOS_DSN}
+    volumes:
+      - type: bind
+        source: ./kratos
+        target: /etc/config/kratos
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+  
+  kratos:
+    image: "oryd/kratos:v0.13.0"
+    environment:
+      DSN: ${KRATOS_DSN}
+    volumes:
+      - type: bind
+        source: ./kratos
+        target: /etc/config/kratos
+    # command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
+    command: serve -c /etc/config/kratos/kratos.custom-ui.yml --dev --watch-courier
+    ports:
+      - '4433:4433' # public
+      - '4434:4434' # admin
+    restart: unless-stopped
+
+  kratos-selfservice-ui-node:
+    image: "oryd/kratos-selfservice-ui-node:v0.12.7"
+    environment:
+      - KRATOS_PUBLIC_URL=http://kratos:4433/
+      - KRATOS_BROWSER_URL=${KRATOS_BROWSER_URL}
+    ports:
+      - "4455:3000"
+    restart: on-failure
+
+  mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    ports:
+      - '4436:4436'
+      - '4437:4437'
+  
+  oathkeeper:
+    image: oryd/oathkeeper:v0.38
+    depends_on:
+      - kratos
+    ports:
+      - 8080:4455
+      - 4456:4456
+    command:
+      serve proxy -c "/etc/config/oathkeeper/oathkeeper.yml"
+    environment:
+      - LOG_LEVEL=debug
+    restart: on-failure
+    volumes:
+      - ./oathkeeper:/etc/config/oathkeeper

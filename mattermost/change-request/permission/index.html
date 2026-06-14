@@ -1,0 +1,1141 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Permission: Server and Frontend - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#permission-server-and-frontend" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Permission: Server and Frontend
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-permission-is-checked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How permission is checked
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-error-is-returned-to-the-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What error is returned to the frontend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-memory-data-for-fast-permission-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In-memory data for fast permission checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frontend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Frontend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-permission-is-consumed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How permission is consumed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#displaying-or-hiding-features-by-permission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Displaying or hiding features by permission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handling-server-permission-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Handling server permission errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="permission-server-and-frontend">Permission: Server and Frontend</h1>
+<p>This document describes how permissions are enforced on the server, what the frontend receives on failure, and how the frontend consumes permissions to show or hide features.</p>
+<hr />
+<h2 id="server">Server</h2>
+<h3 id="how-permission-is-checked">How permission is checked</h3>
+<p>Permission is not enforced by a single middleware. Each API handler is responsible for checking permission after the request is authenticated. Handlers are registered with <code>APISessionRequired</code> (or similar) so that the session is loaded first; then inside the handler the code calls the app’s permission helpers and, on failure, sets the context error.</p>
+<p>The check always runs in the context of the current request: the session is taken from <code>c.AppContext.Session()</code>, and the handler has access to URL/body params (e.g. <code>userId</code>, <code>channelId</code>, <code>teamId</code>, <code>postId</code>). Permission is evaluated per request, per resource (user, team, channel, etc.) when relevant.</p>
+<p><strong>Helpers</strong> (in <code>server/channels/app/authorization.go</code>):</p>
+<ul>
+<li><strong>SessionHasPermissionTo(session, permission)</strong> — System-level: does the session’s user have this permission via their system roles? Unrestricted sessions (e.g. local) are allowed. Implemented by resolving the session’s roles and calling <strong>RolesGrantPermission(roleNames, permissionId)</strong>.</li>
+<li><strong>SessionHasPermissionToTeam(session, teamID, permission)</strong> — Team-level: system roles first; if not granted, then the user’s membership and roles in that team. System admin can still grant.</li>
+<li><strong>SessionHasPermissionToChannel(rctx, session, channelID, permission)</strong> — Channel-level: loads channel and channel membership; checks channel roles, then system admin, then team-level permission for that channel’s team. Returns (hasPermission, isMember) for auditing.</li>
+<li><strong>SessionHasPermissionToUser(session, userID)</strong> — Own user always; otherwise requires <strong>EditOtherUsers</strong> (and cannot act on system admins unless caller is system admin).</li>
+<li><strong>SessionHasPermissionToUserOrBot(rctx, session, userID)</strong> — Used for “act on this user/bot” (e.g. get/update user); combines bot management permission and user permission.</li>
+<li><strong>SessionHasPermissionToChannelByPost(session, postID, permission)</strong> — Resolves channel from post, then channel membership roles or team permission.</li>
+<li><strong>SessionHasPermissionToGroup(session, groupID, permission)</strong> — Custom group membership and system roles.</li>
+<li><strong>HasPermissionToChannel(rctx, askingUserId, channelID, permission)</strong> — Same logic as channel permission but by user id (used when the “actor” is not the current session, e.g. background jobs).</li>
+</ul>
+<p><strong>RolesGrantPermission(roleNames, permissionId)</strong> loads roles by name, skips deleted roles, and returns true if any role’s <code>Permissions</code> slice contains the given permission id. This is the core “do these roles grant this permission?” check used by all session/team/channel helpers.</p>
+<p>Example: <code>RolesGrantPermission(["team_user", "team_admin"], "manage_channel")</code> → loads roles by names; if <code>team_admin</code> has <code>Permissions: [..., "manage_channel", ...]</code>, returns <code>true</code>. Role from cache might look like <code>{ Name: "team_admin", Permissions: ["manage_channel", "delete_channel", "add_user_to_team", ...] }</code>.</p>
+<p><strong>Setting the error.</strong> When a handler decides the session lacks permission, it calls <strong>c.SetPermissionError(permission(s))</strong>. That is implemented in <code>server/channels/web/context.go</code> as <code>c.Err = model.MakePermissionError(c.AppContext.Session(), permissions)</code>.</p>
+<p><strong>MakePermissionError</strong> (in <code>server/public/model/permission.go</code>) builds an <strong>AppError</strong> with:</p>
+<ul>
+<li><strong>Id:</strong> <code>"api.context.permissions.app_error"</code></li>
+<li><strong>StatusCode:</strong> <code>http.StatusForbidden</code> (403)</li>
+<li><strong>DetailedError:</strong> string that includes <code>userId=</code> and <code>permission=</code> (or comma-separated list of permission ids)</li>
+</ul>
+<p>Example <strong>DetailedError</strong> when one permission was missing: <code>userId=8x7y6z5a4b3c2d1e0f permission=manage_channel</code>. When multiple: <code>userId=8x7y6z5a4b3c2d1e0f permission=manage_channel,delete_channel</code>.</p>
+<p>The detailed error and the specific permission(s) passed to <code>SetPermissionError</code> are what distinguish which permission was missing.</p>
+<h3 id="what-error-is-returned-to-the-frontend">What error is returned to the frontend</h3>
+<p>When <code>c.Err != nil</code>, the handler does not write a success body. The error is handled in <strong>handleContextError</strong> (in <code>server/channels/web/handlers.go</code>). For API calls (and webhook / mobile requests), the response is JSON and the status code is <code>c.Err.StatusCode</code>.</p>
+<p><strong>AppError JSON</strong> (from <code>AppError.ToJSON()</code> in <code>server/public/model/utils.go</code>) includes:</p>
+<ul>
+<li><strong>id</strong> — e.g. <code>"api.context.permissions.app_error"</code> for permission errors</li>
+<li><strong>message</strong> — translated user-facing message (e.g. “You do not have the appropriate permissions.” for <code>api.context.permissions.app_error</code> in <code>server/i18n/en.json</code>)</li>
+<li><strong>detailed_error</strong> — server-side details (e.g. <code>userId=... permission=...</code>); may be cleared in non-developer mode</li>
+<li><strong>request_id</strong></li>
+<li><strong>status_code</strong> — 403 for permission errors</li>
+</ul>
+<p>Example response body (permission error):</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;api.context.permissions.app_error&quot;</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;You do not have the appropriate permissions.&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">&quot;detailed_error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;userId=8x7y6z5a4b3c2d1e0f permission=manage_channel&quot;</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">&quot;request_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc1def2ghij3klm&quot;</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">&quot;status_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">403</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>The frontend can treat 403 as “forbidden” and use <code>id</code> or <code>status_code</code> to show a generic or specific message (e.g. permission vs. other forbidden cases).</p>
+<p><strong>Audit.</strong> When the context error is set and an audit record is logged, permission errors are recognized by <code>c.Err.Id == "api.context.permissions.app_error"</code> and logged at a dedicated “perms” level (<strong>LevelPerms</strong>) in <strong>LogAuditRecWithLevel</strong>.</p>
+<h3 id="in-memory-data-for-fast-permission-checks">In-memory data for fast permission checks</h3>
+<p>The server keeps permission-related data in memory so that the helper functions can resolve team, channel, and post permissions with minimal database access.</p>
+<p><strong>Session (request-scoped, with optional cache).</strong> When a request is authenticated, the handler gets a session. The session is either served from the <strong>platform session cache</strong> (keyed by token, TTL from <code>SessionCacheInMinutes</code>) or loaded from the store. In both cases the session object in memory already carries:</p>
+<ul>
+<li><strong>Roles</strong> — The user’s system role names (e.g. <code>system_user</code>, <code>system_admin</code>), stored on the session row and exposed as <code>session.GetUserRoles()</code>.</li>
+<li><strong>TeamMembers</strong> — A slice of <code>*model.TeamMember</code> for all non-deleted teams the user belongs to. This is filled when the session is loaded from the store: <code>SessionStore.Get()</code> calls <code>Team().GetTeamsForUser(userId)</code> and attaches the result to the session. So once the session is in hand, team membership and team-level roles are in memory.</li>
+</ul>
+<p>Example session data in memory:</p>
+<ul>
+<li><code>session.Roles</code> → <code>"system_user"</code> (or <code>"system_user system_admin"</code> for admin)</li>
+<li><code>session.GetUserRoles()</code> → <code>["system_user"]</code></li>
+<li><code>session.TeamMembers</code> → e.g. <code>[{ TeamId: "team_abc", Roles: "team_user team_admin" }, { TeamId: "team_xyz", Roles: "team_user" }]</code></li>
+<li><code>session.GetTeamByTeamId("team_abc")</code> → that team member; <code>GetTeamByTeamId("team_abc").GetRoles()</code> → <code>["team_user", "team_admin"]</code></li>
+</ul>
+<p><strong>SessionHasPermissionToTeam</strong> therefore does not hit the store for team data: it uses <code>session.GetTeamByTeamId(teamId)</code> (a scan over the in-memory <code>TeamMembers</code> slice) and then <code>RolesGrantPermission(teamMember.GetRoles(), permission.Id)</code>. The only possible store call in that path is <strong>RolesGrantPermission</strong>, which uses the role cache (see below).</p>
+<p><strong>Role cache (store layer).</strong> The <strong>local cache layer</strong> (<code>server/channels/store/localcachelayer</code>) wraps the store with in-memory caches:</p>
+<ul>
+<li><strong>roleCache</strong> — Key: role name. Value: <code>*model.Role</code> (includes <code>Permissions</code> slice). TTL 30 minutes. Used by <code>RoleStore.GetByName</code> and <code>GetByNames</code>. When <strong>RolesGrantPermission(roleNames, permissionId)</strong> calls <strong>GetRolesByNames</strong>, each role is read from this cache when present; only missing roles are loaded from the database and then stored in the cache.</li>
+</ul>
+<p>Example: key <code>"channel_user"</code> → value <code>{ Id: "role_id_1", Name: "channel_user", Permissions: ["read_channel", "add_reaction", "upload_file", "edit_post", ...] }</code>. Key <code>"team_admin"</code> → <code>{ Name: "team_admin", Permissions: ["manage_channel", "manage_team", "add_user_to_team", ...] }</code>.</p>
+<ul>
+<li><strong>rolePermissionsCache</strong> — Key: sorted role names joined (e.g. for “channel higher scoped permissions”). TTL 30 minutes. Used for scheme-related permission resolution.</li>
+</ul>
+<p>For <strong>system</strong> and <strong>team</strong> permission checks, the hot path is: session in memory (system roles + team members) → role names → role cache → permission id check. No DB hit if session was cached and roles are cached.</p>
+<p><strong>Channel: channel-by-id and all channel members for user.</strong> Channel permission needs the channel and the user’s channel memberships:</p>
+<ul>
+<li><strong>channelByIdCache</strong> — Key: channel id. Value: <code>*model.Channel</code>. TTL 15 minutes. Used by <code>ChannelStore.Get(id, allowFromCache)</code>. <strong>SessionHasPermissionToChannel</strong>’s <code>GetChannel(rctx, channelID)</code> can be satisfied from this cache.</li>
+</ul>
+<p>Example: key <code>"chan_abc123"</code> → value <code>{ Id: "chan_abc123", TeamId: "team_abc", Name: "general", Type: "O", ... }</code>.</p>
+<ul>
+<li><strong>channelMembersForUserCache</strong> — Key: <code>userId</code> (and <code>userId+"_deleted"</code> when including deleted). Value: <code>map[string]string</code> (channel id → roles string for that channel). Size derived from <code>SessionCacheSize</code>, TTL 15 minutes. Used by <code>ChannelStore.GetAllChannelMembersForUser(rctx, userId, true, includeDeleted)</code>. A single cache lookup returns the full map of channel id → roles for that user; the permission helper then picks the entry for the requested channel and calls <strong>RolesGrantPermission</strong> on those role names (again using the role cache).</li>
+</ul>
+<p>Example: key <code>"user_8x7y6z"</code> → value <code>{ "chan_abc123": "channel_user", "chan_def456": "channel_user channel_admin", "chan_ghi789": "channel_user" }</code>. For channel <code>chan_def456</code>, the helper gets role names <code>["channel_user", "channel_admin"]</code> and calls <strong>RolesGrantPermission</strong> with that and the requested permission id.</p>
+<p>For <strong>channel</strong> permission: one or two cache lookups (channel by id, all channel members for user) plus role cache for the channel’s role names. No DB if all are cached.</p>
+<p><strong>Post.</strong> <strong>SessionHasPermissionToChannelByPost</strong> and <strong>SessionHasPermissionToReadPost</strong> resolve the channel for the post and then check channel (or team) permission:</p>
+<ul>
+<li><strong>GetMemberForPost(postID, userId)</strong> — Returns the channel member for that post and user. There is <strong>no</strong> dedicated cache for this at the store layer; it hits the database (or underlying store). Example return: <code>{ ChannelId: "chan_abc123", UserId: "user_8x7y6z", Roles: "channel_user channel_admin", ... }</code> (or error if not a member).</li>
+<li><strong>GetForPost(postID)</strong> — Returns the channel for the post. Also <strong>not</strong> cached at the store layer. Example return: <code>{ Id: "chan_abc123", TeamId: "team_abc", ... }</code>.</li>
+</ul>
+<p>For <strong>post</strong> permission the server may do a DB query to get the channel and/or the channel member for that post. After that, channel permission uses the same channel and channel-members caches as above; if the member was found, <strong>RolesGrantPermission</strong> still benefits from the role cache. Team fallback uses the in-memory session team members.</p>
+<p><strong>Team list cache (for other code paths).</strong> The store also has <strong>teamAllTeamIdsForUserCache</strong> (key: userId, value: list of team ids). That is used by <code>TeamStore.GetUserTeamIds</code>, not by the session’s <code>TeamMembers</code>. Example: key <code>"user_8x7y6z"</code> → value <code>["team_abc", "team_xyz"]</code>. Session load uses <code>GetTeamsForUser</code> (full team members), which is not cached at the local cache layer; the session is then cached at the platform layer, so repeated requests with the same token reuse the same session with its in-memory <code>TeamMembers</code>.</p>
+<p><strong>Invalidation.</strong> When roles, channel membership, or team membership change, the relevant caches are invalidated (e.g. <strong>InvalidateAllChannelMembersForUser</strong>, <strong>InvalidateAllTeamIdsForUser</strong>, role/scheme cluster events, <strong>ClearSessionCacheForUser</strong>), so the next permission check loads fresh data and repopulates the cache.</p>
+<hr />
+<h2 id="frontend">Frontend</h2>
+<h3 id="how-permission-is-consumed">How permission is consumed</h3>
+<p>The frontend does not re-check permissions with the server on every click. It gets roles from the server and then derives permissions locally:</p>
+<ul>
+<li><strong>User and team memberships</strong> — Loaded at login / app load (e.g. <code>getMe</code>, <code>getMyTeams</code>, <code>getMyTeamMembers</code>). The current user’s <code>roles</code> string (system roles) and each team membership’s <code>roles</code> are stored in Redux.</li>
+<li><strong>Channel memberships</strong> — Loaded when switching team or loading channels (e.g. <code>fetchChannelsAndMembers</code>). Each channel member has a <code>roles</code> string; these are stored and used for channel-scoped permission.</li>
+<li><strong>Role definitions</strong> — Role names are collected from the user, team memberships, and channel memberships. <strong>loadRolesIfNeeded(roles)</strong> is called (e.g. after <code>getMe</code> and after <code>fetchChannelsAndMembers</code>) to fetch role details by name via <strong>Client4.getRolesByNames</strong>. The result is stored in <code>state.entities.roles.roles</code> (role name → role object with <code>permissions</code> array).</li>
+</ul>
+<p>The frontend’s permission state is: current user’s system roles, current team’s membership roles, current channel’s membership roles, and the set of role definitions (with their permission ids) fetched when those roles are first needed.</p>
+<p>Example Redux-style data:</p>
+<ul>
+<li>Current user: <code>users[currentUserId].roles</code> → <code>"system_user"</code> (or <code>"system_user team_user channel_user"</code> depending on product).</li>
+<li>Team membership: <code>teamMembers[teamId][currentUserId].roles</code> → <code>"team_user team_admin"</code>.</li>
+<li>Channel membership: <code>channelMembers[channelId][currentUserId].roles</code> → <code>"channel_user"</code> or <code>"channel_user channel_admin"</code>.</li>
+<li>Role definitions: <code>state.entities.roles.roles</code> → e.g. <code>{ channel_user: { id: "id1", name: "channel_user", permissions: ["read_channel", "add_reaction", "upload_file", ...] }, team_admin: { name: "team_admin", permissions: ["manage_channel", "manage_team", ...] }, ... }</code>.</li>
+</ul>
+<p><strong>Selectors</strong> (in <code>webapp/channels/src/packages/mattermost-redux/src/selectors/entities/roles.ts</code> and <code>roles_helpers.ts</code>):</p>
+<ul>
+<li><strong>haveISystemPermission(state, { permission })</strong> — True if the current user’s system roles (from <code>getMySystemRoles</code>) grant the given permission id.</li>
+<li><strong>haveITeamPermission(state, teamId, permission)</strong> — True if system roles grant it or the user’s roles in that team grant it.</li>
+<li><strong>haveIChannelPermission(state, teamId, channelId, permission)</strong> — True if system, team, or channel roles grant it.</li>
+<li><strong>haveICurrentTeamPermission(state, permission)</strong> — Convenience: <code>haveITeamPermission(state, getCurrentTeamId(state), permission)</code>.</li>
+<li><strong>haveICurrentChannelPermission(state, permission)</strong> — Convenience: <code>haveIChannelPermission(state, getCurrentTeamId(state), getCurrentChannelId(state), permission)</code>.</li>
+</ul>
+<p>These selectors use the stored roles and the role definitions’ <code>permissions</code> arrays; they do not call the API. Consuming permission on the frontend means reading Redux state through these selectors or through permission gates that use them.</p>
+<p>Example: <code>haveIChannelPermission(state, "team_abc", "chan_def456", "add_reaction")</code> → looks up system roles, then <code>state.entities.teams.membersInTeam.team_abc[currentUserId].roles</code>, then <code>state.entities.channels.roles[chan_def456]</code>; for each role set, checks whether the role definition’s <code>permissions</code> includes <code>"add_reaction"</code>; returns <code>true</code> if any scope grants it.</p>
+<h3 id="displaying-or-hiding-features-by-permission">Displaying or hiding features by permission</h3>
+<p><strong>Permission gates.</strong> The app uses wrapper components that conditionally render children based on a permission check. They all use the same <strong>Gate</strong> component: if the computed “hasPermission” (or its inverse when <code>invert</code> is true) is true, children are rendered; otherwise the gate renders nothing.</p>
+<ul>
+<li><strong>SystemPermissionGate</strong> — Uses <strong>haveISystemPermission</strong> for the given permission(s). If any of the permissions is granted, the gate passes. Used for system-wide actions (e.g. create team, manage system).</li>
+<li><strong>TeamPermissionGate</strong> — Uses <strong>haveITeamPermission</strong> for the given <code>teamId</code> and permission(s). Used for team-scoped actions (e.g. add user to team, invite guest).</li>
+<li><strong>ChannelPermissionGate</strong> — Uses <strong>haveIChannelPermission</strong> for the given <code>teamId</code>, <code>channelId</code>, and permission(s). Used for channel-scoped actions (e.g. add reaction, convert channel to public/private, delete post, manage channel bookmarks).</li>
+</ul>
+<p>So “display by permission” = wrap the UI in the right gate; “hide by permission” = the same gate: when the user lacks permission, the gate renders nothing, so the feature is hidden.</p>
+<p>Example: <code>&lt;ChannelPermissionGate channelId={currentChannel.id} teamId={currentTeam.id} permissions={[Permissions.ADD_REACTION]}&gt;&lt;AddReactionButton /&gt;&lt;/ChannelPermissionGate&gt;</code> — if the user has <code>add_reaction</code> in the current channel (via system, team, or channel roles), the button is rendered; otherwise the gate returns <code>null</code> and the button is not shown.</p>
+<p><strong>Examples of display/hide by permission:</strong></p>
+<ul>
+<li><strong>App bar / marketplace</strong> — “Open marketplace” in the app bar is shown only when marketplace is enabled and the user has <strong>SYSCONSOLE_WRITE_PLUGINS</strong> (via <code>haveICurrentTeamPermission</code>). The marketplace entry is hidden for users without that permission.</li>
+<li><strong>Sidebar</strong> — Create public/private channel and join public channel buttons use <code>haveICurrentChannelPermission</code> for <strong>CREATE_PUBLIC_CHANNEL</strong>, <strong>CREATE_PRIVATE_CHANNEL</strong>, <strong>JOIN_PUBLIC_CHANNELS</strong>. Custom groups creation uses <strong>CREATE_CUSTOM_GROUP</strong> with <strong>haveISystemPermission</strong>. Channel creation and join UI are shown only when the user has the right permission.</li>
+<li><strong>Team sidebar</strong> — “More teams” / create team is wrapped in <strong>SystemPermissionGate</strong> with <strong>CREATE_TEAM</strong>; users without it don’t see that option.</li>
+<li><strong>Select team / no open teams</strong> — Different messages and actions for users who have <strong>CREATE_TEAM</strong> vs. those who don’t (using <strong>SystemPermissionGate</strong> with and without <code>invert</code>). System console link is gated with <strong>MANAGE_SYSTEM</strong>.</li>
+<li><strong>Team members modal</strong> — Invite/add user is wrapped in <strong>TeamPermissionGate</strong> with <strong>ADD_USER_TO_TEAM</strong> and <strong>INVITE_GUEST</strong> so only users with at least one of these see the invite UI.</li>
+<li><strong>Channel header</strong> — Convert to public/private, manage channel access, and delete channel are wrapped in <strong>ChannelPermissionGate</strong> with the corresponding permissions so only users with the right channel (or team) permission see those menu items.</li>
+<li><strong>Post actions</strong> — Add reaction is behind <strong>ChannelPermissionGate</strong> with <strong>ADD_REACTION</strong>; burn-on-read delete and other post menu items are similarly gated so only users with the right channel permission see them.</li>
+<li><strong>Channel intro</strong> — “Add members” and “Create channel” CTAs are shown only when the user has <strong>MANAGE_PUBLIC_CHANNEL_MEMBERS</strong> / <strong>MANAGE_PRIVATE_CHANNEL_MEMBERS</strong> or <strong>CREATE_PUBLIC_CHANNEL</strong> etc., and invite is gated with <strong>INVITE_USER</strong> via <strong>TeamPermissionGate</strong>.</li>
+<li><strong>Dot menu / actions menu</strong> — Marketplace and plugin-related options are shown only when the user has <strong>SYSCONSOLE_WRITE_PLUGINS</strong> (and marketplace enabled); other options are gated by channel or system permission as appropriate.</li>
+</ul>
+<p>Features are displayed when the user has the corresponding permission (via gates or direct selector checks) and hidden when they don’t—without a separate “hide” component; hiding is the default when the gate does not pass.</p>
+<h3 id="handling-server-permission-errors">Handling server permission errors</h3>
+<p>If the frontend shows an action (e.g. user had permission at load time) and the user triggers it, the server can still return 403 (e.g. permission changed, or a bug). The frontend handles that like other API errors: it receives the JSON with <code>status_code: 403</code> and <code>id: "api.context.permissions.app_error"</code>. Some code paths branch on <code>status_code === 403</code> (e.g. to show a “forbidden” or “no permission” message, or to treat notify-admin as already complete). The frontend both prevents showing actions the user shouldn’t see (via gates) and handles the case when the server denies the request with the standard permission error.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

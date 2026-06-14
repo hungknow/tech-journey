@@ -1,0 +1,1462 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Server Audit System - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#server-audit-system" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Server Audit System
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-we-need-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why We Need Audit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#two-audit-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two Audit Mechanisms
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-audit-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Audit Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#auditrecord-structure-helpers-and-json-format-implementation-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AuditRecord structure, helpers, and JSON format (implementation guide)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-auditrecord-is-stored-and-how-to-review-audit-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How AuditRecord is stored and how to review audit data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-create-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Create User
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-logaudit-legacy-db-audit-row" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: LogAudit (legacy DB audit row)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#audit-levels-mlog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Audit Levels (mlog)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#all-audit-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All Audit Events
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="server-audit-system">Server Audit System</h1>
+<p>This document describes the Mattermost server audit system: why it exists, how it works, and a complete list of audit events.</p>
+<hr />
+<h2 id="why-we-need-audit">Why We Need Audit</h2>
+<p><strong>Compliance and accountability.</strong> Auditing creates a trace of who did what, when, and from where. That supports compliance (e.g. SOC2, GDPR), security reviews, and internal policies that require evidence of access and changes.</p>
+<p><strong>Security and forensics.</strong> Audit logs help detect abuse (e.g. privilege escalation, bulk exports, config changes), investigate incidents, and understand the sequence of actions (logins, permission changes, data access).</p>
+<p><strong>Operational visibility.</strong> Admins can see high-impact actions (user/team/channel lifecycle, config, plugins, integrations) and correlate them with support tickets or performance issues.</p>
+<p><strong>Permission and access tracking.</strong> Permission-related events (e.g. <code>audit-permissions</code> level) record authorization failures and who attempted which actions, supporting access control reviews and least-privilege tuning.</p>
+<p><strong>Debugging and support.</strong> Structured audit records (parameters, prior/result state, object type) make it easier to reproduce and diagnose issues reported by users or support.</p>
+<hr />
+<h2 id="two-audit-mechanisms">Two Audit Mechanisms</h2>
+<p>The server has two parallel audit mechanisms:</p>
+<p><strong>Legacy database audit.</strong> The <code>Audits</code> table stores simple rows: <code>UserId</code>, <code>Action</code> (API path), <code>ExtraInfo</code> (e.g. "success", "attempt", "fail"), <code>IpAddress</code>, <code>SessionId</code>, <code>CreateAt</code>. Handlers call <code>c.LogAudit(extraInfo)</code> or <code>c.LogAuditWithUserId(userId, extraInfo)</code> to write to the store. This is used for backward compatibility and for the "get audits" APIs (<code>GET /api/v4/audits</code>, <code>GET /api/v4/users/:user_id/audits</code>) that return paginated rows from the database.</p>
+<p><strong>Structured audit (AuditRecord).</strong> The preferred path is to build an <code>AuditRecord</code> with <code>c.MakeAuditRecord(eventName, initialStatus)</code>, attach parameters/prior state/result state via the model helpers, then call <code>defer c.LogAuditRec(auditRec)</code>. The record is sent to the audit logger (mlog) and can be routed to files, syslog, or other targets via <code>ExperimentalAuditSettings</code> (and optional advanced logging config). It is not stored in the <code>Audits</code> table. It includes event name, status (success/attempt/fail), actor (user, session, client, IP), event data (parameters, prior_state, resulting_state, object_type), meta (e.g. api_path, cluster_id), and error details on failure.</p>
+<p>Many handlers use both: they create an <code>AuditRecord</code> and also call <code>LogAudit</code> for the legacy DB so existing "get audits" behavior and UIs keep working.</p>
+<hr />
+<h2 id="how-audit-works">How Audit Works</h2>
+<p><strong>Creating a record.</strong> In API handlers, the context provides <code>MakeAuditRecord(eventName, initialStatus)</code>, which fills actor (user, session, client, IP, X-Forwarded-For) and meta (api_path, cluster_id). The handler then:</p>
+<ul>
+<li>Adds parameters: <code>model.AddEventParameterToAuditRec(rec, "key", value)</code> or <code>AddEventParameterAuditableToAuditRec</code> for types implementing <code>Auditable</code>.</li>
+<li>Optionally adds prior state: <code>rec.AddEventPriorState(oldObj)</code> and/or result state: <code>rec.AddEventResultState(newObj)</code>, and <code>rec.AddEventObjectType("user")</code> (or channel, post, etc.).</li>
+<li>On success: <code>rec.Success()</code> and optionally add result state/object type.</li>
+<li>On failure: the context’s <code>LogAuditRec</code> sees <code>c.Err</code>, calls <code>rec.Fail()</code> and attaches error code/description; if the error is the permissions error, the record is emitted at <code>LevelPerms</code> instead of the default level.</li>
+</ul>
+<p><strong>Logging.</strong> <code>c.LogAuditRec(auditRec)</code> uses the default level <code>LevelAPI</code>. <code>LogAuditRecWithLevel(rec, level)</code> allows <code>LevelAPI</code>, <code>LevelContent</code>, <code>LevelPerms</code>, or <code>LevelCLI</code>. The audit engine’s <code>LogRecord(level, rec)</code> writes to the mlog audit targets configured for the server (e.g. file, advanced logging). Queue-full and write errors are handled by configurable callbacks (e.g. drop record or log error).</p>
+<p><strong>Sensitive data.</strong> Types that go into audit (User, Channel, Post, etc.) are converted via <code>AuditModelTypeConv</code> / <code>Auditable</code> and audit-specific structs (e.g. <code>auditUser</code> with Id, Name, Roles only) so passwords and other sensitive fields are not written to audit logs.</p>
+<hr />
+<h2 id="auditrecord-structure-helpers-and-json-format-implementation-guide">AuditRecord structure, helpers, and JSON format (implementation guide)</h2>
+<p><strong>Go struct definitions</strong> (from <code>server/public/model/audit_record.go</code>)</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">type</span><span class="w"> </span><span class="nx">AuditRecord</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nx">EventName</span><span class="w"> </span><span class="kt">string</span><span class="w">          </span><span class="s">`json:&quot;event_name&quot;`</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nx">Status</span><span class="w">    </span><span class="kt">string</span><span class="w">          </span><span class="s">`json:&quot;status&quot;`</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nx">EventData</span><span class="w"> </span><span class="nx">AuditEventData</span><span class="w">  </span><span class="s">`json:&quot;event&quot;`</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nx">Actor</span><span class="w">     </span><span class="nx">AuditEventActor</span><span class="w"> </span><span class="s">`json:&quot;actor&quot;`</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nx">Meta</span><span class="w">      </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="w">  </span><span class="s">`json:&quot;meta&quot;`</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nx">Error</span><span class="w">     </span><span class="nx">AuditEventError</span><span class="w"> </span><span class="s">`json:&quot;error&quot;`</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="kd">type</span><span class="w"> </span><span class="nx">AuditEventData</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nx">Parameters</span><span class="w">  </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="w"> </span><span class="s">`json:&quot;parameters&quot;`</span><span class="w">       </span><span class="c1">// request payload / query params</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nx">PriorState</span><span class="w">  </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="w"> </span><span class="s">`json:&quot;prior_state&quot;`</span><span class="w">      </span><span class="c1">// state before change; nil for create</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nx">ResultState</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="w"> </span><span class="s">`json:&quot;resulting_state&quot;`</span><span class="w">   </span><span class="c1">// state after change</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="nx">ObjectType</span><span class="w">  </span><span class="kt">string</span><span class="w">         </span><span class="s">`json:&quot;object_type&quot;`</span><span class="w">      </span><span class="c1">// e.g. &quot;user&quot;, &quot;channel&quot;, &quot;post&quot;</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">}</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="kd">type</span><span class="w"> </span><span class="nx">AuditEventActor</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="nx">UserId</span><span class="w">        </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;user_id&quot;`</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="nx">SessionId</span><span class="w">     </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;session_id&quot;`</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="nx">Client</span><span class="w">        </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;client&quot;`</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="nx">IpAddress</span><span class="w">     </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;ip_address&quot;`</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">    </span><span class="nx">XForwardedFor</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;x_forwarded_for&quot;`</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="p">}</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="kd">type</span><span class="w"> </span><span class="nx">AuditEventError</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="nx">Description</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;description,omitempty&quot;`</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">    </span><span class="nx">Code</span><span class="w">        </span><span class="kt">int</span><span class="w">    </span><span class="s">`json:&quot;status_code,omitempty&quot;`</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Constants</strong></p>
+<ul>
+<li>Status: <code>AuditStatusSuccess</code>, <code>AuditStatusAttempt</code>, <code>AuditStatusFail</code> (values <code>"success"</code>, <code>"attempt"</code>, <code>"fail"</code>).</li>
+<li>Field keys used when mapping to mlog (and in JSON): <code>AuditKeyEventName</code> = <code>"event_name"</code>, <code>AuditKeyStatus</code> = <code>"status"</code>, <code>AuditKeyActor</code> = <code>"actor"</code>, <code>AuditKeyEvent</code> = <code>"event"</code>, <code>AuditKeyMeta</code> = <code>"meta"</code>, <code>AuditKeyError</code> = <code>"error"</code>.</li>
+</ul>
+<p><strong>How to build a record (helpers)</strong></p>
+<ul>
+<li>
+<p><strong>Create:</strong> Use <code>c.MakeAuditRecord(eventName, initialStatus)</code> so <code>Actor</code> and <code>Meta</code> (e.g. <code>api_path</code>, <code>cluster_id</code>) are filled from context. Then add event-specific data:</p>
+</li>
+<li>
+<p><strong>Parameters (input):</strong>  </p>
+<ul>
+<li><code>model.AddEventParameterToAuditRec(rec, key, val)</code> — <code>val</code> must be one of: <code>string</code>, <code>bool</code>, <code>int</code>, <code>int64</code>, <code>[]string</code>, <code>map[string]string</code>. Stored in <code>EventData.Parameters[key]</code>.  </li>
+<li><code>model.AddEventParameterAuditableToAuditRec(rec, key, val)</code> — <code>val</code> implements <code>Auditable</code>; stores <code>val.Auditable()</code> in <code>EventData.Parameters[key]</code>.  </li>
+<li><code>model.AddEventParameterAuditableArrayToAuditRec(rec, key, val)</code> — <code>val</code> is <code>[]T</code> with <code>T</code> implementing <code>Auditable</code>; stores a slice of <code>Auditable()</code> maps in <code>EventData.Parameters[key]</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Prior/result state and object type:</strong>  </p>
+<ul>
+<li><code>rec.AddEventPriorState(obj)</code> — sets <code>EventData.PriorState = obj.Auditable()</code> (use for updates/deletes).  </li>
+<li><code>rec.AddEventResultState(obj)</code> — sets <code>EventData.ResultState = obj.Auditable()</code> (use after create/update).  </li>
+<li><code>rec.AddEventObjectType(objectType)</code> — sets <code>EventData.ObjectType</code> (e.g. <code>"user"</code>).</li>
+</ul>
+</li>
+<li>
+<p><strong>Meta (extra context):</strong>  </p>
+<ul>
+<li><code>rec.AddMeta(name, val)</code> — sets <code>Meta[name] = val</code> (any type; e.g. <code>"admin"</code>, <code>true</code> or <code>"token_type"</code>, <code>"guest_invitation"</code>).</li>
+</ul>
+</li>
+<li>
+<p><strong>Status:</strong>  </p>
+<ul>
+<li><code>rec.Success()</code> — set <code>Status</code> to success.  </li>
+<li><code>rec.Fail()</code> — set <code>Status</code> to fail.</li>
+</ul>
+</li>
+<li>
+<p><strong>Error (on failure):</strong>  </p>
+<ul>
+<li><code>rec.AddErrorCode(code)</code> — set <code>Error.Code</code> (e.g. HTTP status).  </li>
+<li><code>rec.AddErrorDesc(description)</code> — set <code>Error.Description</code>.  </li>
+<li><code>rec.AddAppError(appErr)</code> — sets both from <code>*model.AppError</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auditable interface</strong></p>
+<p>Types that are safe to log (no secrets) implement:</p>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">type</span><span class="w"> </span><span class="nx">Auditable</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nx">Auditable</span><span class="p">()</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Use <code>AddEventParameterAuditableToAuditRec</code>, <code>AddEventPriorState</code>, or <code>AddEventResultState</code> with that type; the map returned by <code>Auditable()</code> is what gets stored and later serialized to JSON.</p>
+<p><strong>How it is formatted into JSON</strong></p>
+<p>The audit engine does <strong>not</strong> serialize <code>AuditRecord</code> to JSON itself. It passes the record to mlog as six fields:</p>
+<ul>
+<li><code>event_name</code> (string)  </li>
+<li><code>status</code> (string)  </li>
+<li><code>actor</code> (AuditEventActor → JSON object)  </li>
+<li><code>event</code> (AuditEventData → JSON object)  </li>
+<li><code>meta</code> (map[string]any → JSON object)  </li>
+<li><code>error</code> (AuditEventError → JSON object)</li>
+</ul>
+<p>So each log line is one JSON object. The file target uses format options that include <code>timestamp</code> and omit <code>msg</code>/level. The exact top-level keys in that JSON line are the mlog field keys above (e.g. <code>event_name</code>, <code>status</code>, <code>actor</code>, <code>event</code>, <code>meta</code>, <code>error</code>), plus any formatter-added keys like <code>timestamp</code>. Nested structures use the same <code>json</code> tags as the Go structs.</p>
+<p><strong>Example single-line JSON output</strong> (one AuditRecord as written to the audit file):</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="mi">1640000000123</span><span class="p">,</span><span class="nt">&quot;event_name&quot;</span><span class="p">:</span><span class="s2">&quot;createUser&quot;</span><span class="p">,</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;success&quot;</span><span class="p">,</span><span class="nt">&quot;actor&quot;</span><span class="p">:{</span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="s2">&quot;admin_uid&quot;</span><span class="p">,</span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="s2">&quot;sess_xyz&quot;</span><span class="p">,</span><span class="nt">&quot;client&quot;</span><span class="p">:</span><span class="s2">&quot;Mozilla/5.0 ...&quot;</span><span class="p">,</span><span class="nt">&quot;ip_address&quot;</span><span class="p">:</span><span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span><span class="nt">&quot;x_forwarded_for&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">},</span><span class="nt">&quot;event&quot;</span><span class="p">:{</span><span class="nt">&quot;parameters&quot;</span><span class="p">:{</span><span class="nt">&quot;invite_id&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="nt">&quot;redirect&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="nt">&quot;user&quot;</span><span class="p">:{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="s2">&quot;newuser&quot;</span><span class="p">,</span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="s2">&quot;newuser@example.com&quot;</span><span class="p">,</span><span class="nt">&quot;roles&quot;</span><span class="p">:</span><span class="s2">&quot;system_user&quot;</span><span class="p">}},</span><span class="nt">&quot;prior_state&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="nt">&quot;resulting_state&quot;</span><span class="p">:{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="s2">&quot;new_uid&quot;</span><span class="p">,</span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="s2">&quot;newuser&quot;</span><span class="p">,</span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="s2">&quot;newuser@example.com&quot;</span><span class="p">,</span><span class="nt">&quot;roles&quot;</span><span class="p">:</span><span class="s2">&quot;system_user&quot;</span><span class="p">},</span><span class="nt">&quot;object_type&quot;</span><span class="p">:</span><span class="s2">&quot;user&quot;</span><span class="p">},</span><span class="nt">&quot;meta&quot;</span><span class="p">:{</span><span class="nt">&quot;api_path&quot;</span><span class="p">:</span><span class="s2">&quot;/api/v4/users&quot;</span><span class="p">,</span><span class="nt">&quot;cluster_id&quot;</span><span class="p">:</span><span class="s2">&quot;cluster_abc&quot;</span><span class="p">,</span><span class="nt">&quot;admin&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">},</span><span class="nt">&quot;error&quot;</span><span class="p">:{</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="nt">&quot;status_code&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">}}</span>
+</span></code></pre></div>
+<p>So to implement a new audited action: create the record with <code>MakeAuditRecord</code>, add parameters/prior state/result state/object type and meta with the helpers above, call <code>Success()</code> or <code>Fail()</code> (and on failure set error code/description), then <code>defer c.LogAuditRec(auditRec)</code> so the record is emitted when the handler returns (with failure applied if <code>c.Err != nil</code>).</p>
+<hr />
+<h2 id="how-auditrecord-is-stored-and-how-to-review-audit-data">How AuditRecord is stored and how to review audit data</h2>
+<p><strong>How AuditRecord is stored</strong></p>
+<p>AuditRecord is <strong>not</strong> stored in the database. There is no table for it.</p>
+<p>When code calls <code>c.LogAuditRec(auditRec)</code> (or <code>LogAuditRecWithLevel</code>), the app calls <code>App.Srv().Audit.LogRecord(level, *rec)</code>. The audit engine (<code>server/channels/audit/audit.go</code>) converts the record into mlog fields (event_name, status, actor, event, meta, error) and calls <code>a.logger.Log(level, "", flds...)</code>. That logger is an mlog instance whose targets are configured at server startup from <strong>Config &gt; Experimental &gt; Audit</strong> (<code>ExperimentalAuditSettings</code>):</p>
+<ul>
+<li><strong>File target:</strong> If <code>FileEnabled</code> is true, a file target is added (e.g. <code>FileName</code> under the log root). AuditRecord entries are written as JSON lines to that file. Rotation and retention are controlled by <code>FileMaxSizeMB</code>, <code>FileMaxAgeDays</code>, <code>FileMaxBackups</code>, and <code>FileMaxQueueSize</code>.</li>
+<li><strong>Advanced logging:</strong> If <code>AdvancedLoggingJSON</code> (or the config source) defines additional targets, those can send the same audit log stream to syslog, a remote server, or other mlog-supported outputs.</li>
+</ul>
+<p>So <strong>AuditRecord is “stored” only as log output</strong> — in the audit log file and/or whatever external targets (syslog, SIEM, etc.) are configured. The server does not persist AuditRecord to any database or queryable store.</p>
+<p><strong>How users can review a list of audit data</strong></p>
+<p><strong>Legacy audits (listable in product):</strong> The APIs that return audit data to the client use the <strong>Audits</strong> table only (legacy <code>model.Audit</code> rows from <code>LogAudit</code> / <code>LogAuditWithUserId</code>):</p>
+<ul>
+<li><strong>GET /api/v4/audits</strong> — System admins (or users with <code>read_audits</code>). Returns paginated rows from <code>Audits</code> for all users (<code>App.GetAuditsPage(rctx, "", page, perPage)</code>). Query params: <code>page</code>, <code>per_page</code>.</li>
+<li><strong>GET /api/v4/users/:user_id/audits</strong> — Same permission; returns audits for that user only (<code>App.GetAuditsPage(rctx, userId, page, perPage)</code>).</li>
+</ul>
+<p>Each returned item has: <code>id</code>, <code>create_at</code>, <code>user_id</code>, <code>action</code>, <code>extra_info</code>, <code>ip_address</code>, <code>session_id</code>. This is the data that can be shown in the System Console or any UI that calls these APIs. It does <strong>not</strong> include the structured AuditRecord fields (event_name, parameters, prior_state, resulting_state, object_type, etc.).</p>
+<p><strong>AuditRecord (structured) — no list API:</strong> There is no REST API or UI in the server that returns a list of AuditRecords. To review AuditRecord content, users (or admins) must:</p>
+<ul>
+<li>Read the <strong>audit log file</strong> on the server (path from <code>ExperimentalAuditSettings.FileName</code> when file audit is enabled), or</li>
+<li>Use whatever <strong>external system</strong> ingests the audit stream (e.g. syslog, log aggregator, SIEM). Those systems can search, filter, and display the JSON audit lines.</li>
+</ul>
+<p>So in practice: <strong>listing “audit” in the product = legacy Audits table via the two GET APIs above.</strong> Reviewing the <strong>full AuditRecord</strong> (event name, parameters, prior/result state, etc.) is done outside the product via the audit log file or external log/audit tools.</p>
+<hr />
+<h2 id="example-create-user">Example: Create User</h2>
+<p>In <code>api4/user.go</code>, <code>createUser</code>:</p>
+<ol>
+<li>
+<p>Builds an audit record with event <code>AuditEventCreateUser</code> and initial status fail:<br />
+<code>auditRec := c.MakeAuditRecord(model.AuditEventCreateUser, model.AuditStatusFail)</code><br />
+<code>defer c.LogAuditRec(auditRec)</code> so it is logged when the handler returns.</p>
+</li>
+<li>
+<p>Adds request parameters (invite_id, redirect, and the new user payload via Auditable):<br />
+<code>model.AddEventParameterToAuditRec(auditRec, "invite_id", inviteId)</code><br />
+<code>model.AddEventParameterToAuditRec(auditRec, "redirect", redirect)</code><br />
+<code>model.AddEventParameterAuditableToAuditRec(auditRec, "user", &amp;user)</code>  </p>
+</li>
+<li>
+<p>Optionally adds meta (e.g. token type, admin):<br />
+<code>auditRec.AddMeta("token_type", token.Type)</code> or <code>auditRec.AddMeta("admin", true)</code>.</p>
+</li>
+<li>
+<p>After a successful create:<br />
+<code>auditRec.Success()</code><br />
+<code>auditRec.AddEventResultState(ruser)</code><br />
+<code>auditRec.AddEventObjectType("user")</code>  </p>
+</li>
+<li>
+<p>If the handler returns with <code>c.Err</code> set, <code>LogAuditRec</code> marks the record as failed and attaches the error code and description, and the record is still emitted.</p>
+</li>
+</ol>
+<p>So one audit entry for user creation includes: who (actor), what (createUser), which user (parameters + result state), success/fail, and optional meta (token type, admin). Legacy <code>LogAudit("attempt")</code> / <code>LogAudit("success")</code> may also be used elsewhere for the DB audit table.</p>
+<p><strong>Complete AuditRecord example (CreateUser, success, admin path)</strong></p>
+<p>Below is a full JSON-shaped example of the <code>AuditRecord</code> as emitted for a successful user creation by an admin. The request is <code>POST /api/v4/users</code> with body <code>{"username":"newuser","email":"newuser@example.com",...}</code> and no token/invite (admin flow). The <code>user</code> parameter comes from <code>User.Auditable()</code> (no password); <code>resulting_state</code> is the created user’s <code>Auditable()</code> snapshot. <code>prior_state</code> is left empty for create.</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">&quot;event_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;createUser&quot;</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">&quot;actor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin_user_id_abc123&quot;</span><span class="p">,</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;session_id_xyz789&quot;</span><span class="p">,</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="nt">&quot;client&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Mattermost/5.0.0&quot;</span><span class="p">,</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="nt">&quot;ip_address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="nt">&quot;x_forwarded_for&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="nt">&quot;event&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">      </span><span class="nt">&quot;invite_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">      </span><span class="nt">&quot;redirect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">      </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">        </span><span class="nt">&quot;create_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">        </span><span class="nt">&quot;update_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">        </span><span class="nt">&quot;delete_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">        </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;newuser&quot;</span><span class="p">,</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">        </span><span class="nt">&quot;auth_service&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">        </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;newuser@example.com&quot;</span><span class="p">,</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">        </span><span class="nt">&quot;email_verified&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">        </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">        </span><span class="nt">&quot;roles&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;system_user&quot;</span><span class="p">,</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">        </span><span class="nt">&quot;allow_marketing&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">        </span><span class="nt">&quot;props&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">        </span><span class="nt">&quot;notify_props&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">        </span><span class="nt">&quot;last_password_update&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">        </span><span class="nt">&quot;last_picture_update&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">        </span><span class="nt">&quot;failed_attempts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">        </span><span class="nt">&quot;locale&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;en&quot;</span><span class="p">,</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">        </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">        </span><span class="nt">&quot;mfa_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">        </span><span class="nt">&quot;remote_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">        </span><span class="nt">&quot;last_activity_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="w">        </span><span class="nt">&quot;is_bot&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">        </span><span class="nt">&quot;bot_description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="w">        </span><span class="nt">&quot;bot_last_icon_update&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="w">        </span><span class="nt">&quot;terms_of_service_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="w">        </span><span class="nt">&quot;terms_of_service_create_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a><span class="w">        </span><span class="nt">&quot;disable_welcome_email&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a><span class="w">    </span><span class="nt">&quot;prior_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a><span class="w">    </span><span class="nt">&quot;resulting_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;newly_created_user_id_123&quot;</span><span class="p">,</span>
+</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a><span class="w">      </span><span class="nt">&quot;create_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1640000000000</span><span class="p">,</span>
+</span><span id="__span-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a><span class="w">      </span><span class="nt">&quot;update_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1640000000000</span><span class="p">,</span>
+</span><span id="__span-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a><span class="w">      </span><span class="nt">&quot;delete_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a><span class="w">      </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;newuser&quot;</span><span class="p">,</span>
+</span><span id="__span-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a><span class="w">      </span><span class="nt">&quot;auth_service&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a><span class="w">      </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;newuser@example.com&quot;</span><span class="p">,</span>
+</span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="w">      </span><span class="nt">&quot;email_verified&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-3-55"><a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a><span class="w">      </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-56"><a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a><span class="w">      </span><span class="nt">&quot;roles&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;system_user&quot;</span><span class="p">,</span>
+</span><span id="__span-3-57"><a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a><span class="w">      </span><span class="nt">&quot;allow_marketing&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-3-58"><a id="__codelineno-3-58" name="__codelineno-3-58" href="#__codelineno-3-58"></a><span class="w">      </span><span class="nt">&quot;props&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+</span><span id="__span-3-59"><a id="__codelineno-3-59" name="__codelineno-3-59" href="#__codelineno-3-59"></a><span class="w">      </span><span class="nt">&quot;notify_props&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+</span><span id="__span-3-60"><a id="__codelineno-3-60" name="__codelineno-3-60" href="#__codelineno-3-60"></a><span class="w">      </span><span class="nt">&quot;last_password_update&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1640000000000</span><span class="p">,</span>
+</span><span id="__span-3-61"><a id="__codelineno-3-61" name="__codelineno-3-61" href="#__codelineno-3-61"></a><span class="w">      </span><span class="nt">&quot;last_picture_update&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-62"><a id="__codelineno-3-62" name="__codelineno-3-62" href="#__codelineno-3-62"></a><span class="w">      </span><span class="nt">&quot;failed_attempts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-63"><a id="__codelineno-3-63" name="__codelineno-3-63" href="#__codelineno-3-63"></a><span class="w">      </span><span class="nt">&quot;locale&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;en&quot;</span><span class="p">,</span>
+</span><span id="__span-3-64"><a id="__codelineno-3-64" name="__codelineno-3-64" href="#__codelineno-3-64"></a><span class="w">      </span><span class="nt">&quot;timezone&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+</span><span id="__span-3-65"><a id="__codelineno-3-65" name="__codelineno-3-65" href="#__codelineno-3-65"></a><span class="w">      </span><span class="nt">&quot;mfa_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-3-66"><a id="__codelineno-3-66" name="__codelineno-3-66" href="#__codelineno-3-66"></a><span class="w">      </span><span class="nt">&quot;remote_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-67"><a id="__codelineno-3-67" name="__codelineno-3-67" href="#__codelineno-3-67"></a><span class="w">      </span><span class="nt">&quot;last_activity_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-68"><a id="__codelineno-3-68" name="__codelineno-3-68" href="#__codelineno-3-68"></a><span class="w">      </span><span class="nt">&quot;is_bot&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-3-69"><a id="__codelineno-3-69" name="__codelineno-3-69" href="#__codelineno-3-69"></a><span class="w">      </span><span class="nt">&quot;bot_description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-70"><a id="__codelineno-3-70" name="__codelineno-3-70" href="#__codelineno-3-70"></a><span class="w">      </span><span class="nt">&quot;bot_last_icon_update&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-71"><a id="__codelineno-3-71" name="__codelineno-3-71" href="#__codelineno-3-71"></a><span class="w">      </span><span class="nt">&quot;terms_of_service_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-72"><a id="__codelineno-3-72" name="__codelineno-3-72" href="#__codelineno-3-72"></a><span class="w">      </span><span class="nt">&quot;terms_of_service_create_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-3-73"><a id="__codelineno-3-73" name="__codelineno-3-73" href="#__codelineno-3-73"></a><span class="w">      </span><span class="nt">&quot;disable_welcome_email&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+</span><span id="__span-3-74"><a id="__codelineno-3-74" name="__codelineno-3-74" href="#__codelineno-3-74"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-3-75"><a id="__codelineno-3-75" name="__codelineno-3-75" href="#__codelineno-3-75"></a><span class="w">    </span><span class="nt">&quot;object_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span>
+</span><span id="__span-3-76"><a id="__codelineno-3-76" name="__codelineno-3-76" href="#__codelineno-3-76"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-3-77"><a id="__codelineno-3-77" name="__codelineno-3-77" href="#__codelineno-3-77"></a><span class="w">  </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-78"><a id="__codelineno-3-78" name="__codelineno-3-78" href="#__codelineno-3-78"></a><span class="w">    </span><span class="nt">&quot;api_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/v4/users&quot;</span><span class="p">,</span>
+</span><span id="__span-3-79"><a id="__codelineno-3-79" name="__codelineno-3-79" href="#__codelineno-3-79"></a><span class="w">    </span><span class="nt">&quot;cluster_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cluster_abc&quot;</span><span class="p">,</span>
+</span><span id="__span-3-80"><a id="__codelineno-3-80" name="__codelineno-3-80" href="#__codelineno-3-80"></a><span class="w">    </span><span class="nt">&quot;admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__span-3-81"><a id="__codelineno-3-81" name="__codelineno-3-81" href="#__codelineno-3-81"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-3-82"><a id="__codelineno-3-82" name="__codelineno-3-82" href="#__codelineno-3-82"></a><span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-83"><a id="__codelineno-3-83" name="__codelineno-3-83" href="#__codelineno-3-83"></a><span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-3-84"><a id="__codelineno-3-84" name="__codelineno-3-84" href="#__codelineno-3-84"></a><span class="w">    </span><span class="nt">&quot;status_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-3-85"><a id="__codelineno-3-85" name="__codelineno-3-85" href="#__codelineno-3-85"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-3-86"><a id="__codelineno-3-86" name="__codelineno-3-86" href="#__codelineno-3-86"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>CreateUser failure example</strong></p>
+<p>When creation fails (e.g. duplicate username), the handler sets <code>c.Err</code> and returns. <code>LogAuditRec</code> runs in defer, sees <code>c.Err</code>, calls <code>rec.Fail()</code>, <code>rec.AddErrorCode(c.Err.StatusCode)</code>, <code>rec.AddErrorDesc(c.Err.Error())</code>. No result state or object type is set. Example:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">&quot;event_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;createUser&quot;</span><span class="p">,</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fail&quot;</span><span class="p">,</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">&quot;actor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin_user_id_abc123&quot;</span><span class="p">,</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;session_id_xyz789&quot;</span><span class="p">,</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="nt">&quot;client&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mozilla/5.0 ...&quot;</span><span class="p">,</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="nt">&quot;ip_address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="nt">&quot;x_forwarded_for&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="nt">&quot;event&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">      </span><span class="nt">&quot;invite_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">      </span><span class="nt">&quot;redirect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">      </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">        </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;newuser&quot;</span><span class="p">,</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">        </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;newuser@example.com&quot;</span><span class="p">,</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">        </span><span class="nt">&quot;roles&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;system_user&quot;</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="nt">&quot;prior_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="nt">&quot;resulting_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="nt">&quot;object_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">  </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">    </span><span class="nt">&quot;api_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/v4/users&quot;</span><span class="p">,</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">    </span><span class="nt">&quot;cluster_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cluster_abc&quot;</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A user with that username already exists.&quot;</span><span class="p">,</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">    </span><span class="nt">&quot;status_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Note: <code>User.Auditable()</code> never includes password or auth_data; the exact keys in <code>parameters.user</code> and <code>resulting_state</code> match the fields returned by <code>User.Auditable()</code> in <code>server/public/model/user.go</code>.</p>
+<hr />
+<h2 id="example-logaudit-legacy-db-audit-row">Example: LogAudit (legacy DB audit row)</h2>
+<p>The legacy audit writes a row to the <code>Audits</code> table via <code>c.LogAudit(extraInfo)</code> or <code>c.LogAuditWithUserId(userId, extraInfo)</code>. Each call produces one <code>model.Audit</code>; the store sets <code>Id</code> and <code>CreateAt</code> before INSERT.</p>
+<p><strong>Traced example: createIncomingHook</strong></p>
+<p>Handler: <code>createIncomingHook</code> in <code>server/channels/api4/webhook.go</code>. Route: <code>POST /api/v4/hooks/incoming</code>. It uses both the structured <code>AuditRecord</code> (with <code>LogAuditRec</code>) and the legacy <code>LogAudit</code> for the DB.</p>
+<p>Flow:</p>
+<ol>
+<li>Handler builds an audit record and calls <code>c.LogAudit("attempt")</code> at the start.</li>
+<li>If permission checks fail it may call <code>c.LogAudit("fail - bad channel permissions")</code> or <code>c.LogAudit("fail - inappropriate permissions")</code> and return.</li>
+<li>On success it calls <code>c.LogAudit("success")</code> before responding.</li>
+</ol>
+<p>So for a single successful request, two rows are written to <code>Audits</code>: one with ExtraInfo <code>"attempt"</code> and one with <code>"success"</code>.</p>
+<p><strong>Where each field comes from</strong></p>
+<ul>
+<li><strong>UserId:</strong> From <code>c.AppContext.Session().UserId</code> in <code>LogAudit</code>; from the <code>userId</code> argument in <code>LogAuditWithUserId</code> (and if session user is set, ExtraInfo gets <code>" session_user=" + session.UserId</code> appended).</li>
+<li><strong>Action:</strong> From <code>c.AppContext.Path()</code> — the request path (e.g. <code>/api/v4/hooks/incoming</code>).</li>
+<li><strong>ExtraInfo:</strong> The string passed to <code>LogAudit(extraInfo)</code> or <code>LogAuditWithUserId(userId, extraInfo)</code> (e.g. <code>"attempt"</code>, <code>"success"</code>, <code>"fail - bad channel permissions"</code>).</li>
+<li><strong>IpAddress:</strong> From <code>c.AppContext.IPAddress()</code>.</li>
+<li><strong>SessionId:</strong> From <code>c.AppContext.Session().Id</code>.</li>
+<li><strong>Id:</strong> Set in <code>AuditStore.Save()</code> with <code>model.NewId()</code> (26-char string).</li>
+<li><strong>CreateAt:</strong> Set in <code>AuditStore.Save()</code> with <code>model.GetMillis()</code> (Unix ms).</li>
+</ul>
+<p><strong>Concrete Audit row examples (createIncomingHook, success path)</strong></p>
+<p>First row — when <code>c.LogAudit("attempt")</code> runs:</p>
+<ul>
+<li><strong>Id:</strong> <code>"a1b2c3d4e5f6g7h8i9j0k1l2m3n4"</code> (example; from <code>model.NewId()</code>)</li>
+<li><strong>CreateAt:</strong> <code>1640000000123</code> (example; from <code>model.GetMillis()</code>)</li>
+<li><strong>UserId:</strong> <code>"user_id_creator_abc123"</code> (session user creating the webhook)</li>
+<li><strong>Action:</strong> <code>"/api/v4/hooks/incoming"</code></li>
+<li><strong>ExtraInfo:</strong> <code>"attempt"</code></li>
+<li><strong>IpAddress:</strong> <code>"192.168.1.100"</code></li>
+<li><strong>SessionId:</strong> <code>"session_id_xyz789"</code></li>
+</ul>
+<p>Second row — when <code>c.LogAudit("success")</code> runs a few ms later:</p>
+<ul>
+<li><strong>Id:</strong> <code>"o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9"</code></li>
+<li><strong>CreateAt:</strong> <code>1640000000156</code></li>
+<li><strong>UserId:</strong> <code>"user_id_creator_abc123"</code></li>
+<li><strong>Action:</strong> <code>"/api/v4/hooks/incoming"</code></li>
+<li><strong>ExtraInfo:</strong> <code>"success"</code></li>
+<li><strong>IpAddress:</strong> <code>"192.168.1.100"</code></li>
+<li><strong>SessionId:</strong> <code>"session_id_xyz789"</code></li>
+</ul>
+<p>If the handler had failed with bad channel permissions, only one row would be written (from <code>c.LogAudit("fail - bad channel permissions")</code>) with the same <strong>UserId</strong>, <strong>Action</strong>, <strong>IpAddress</strong>, <strong>SessionId</strong>, and <strong>ExtraInfo</strong> <code>"fail - bad channel permissions"</code>.</p>
+<p><strong>LogAuditWithUserId example</strong></p>
+<p>In <code>server/channels/web/oauth.go</code>, after a successful OAuth login the code calls <code>c.LogAuditWithUserId(user.Id, "authenticated")</code>. That builds an Audit with <strong>UserId</strong> = the logged-in user’s id and <strong>ExtraInfo</strong> = <code>"authenticated session_user=&lt;session_user_id&gt;"</code> (if the session user is set). So the DB row records the user who was authenticated and, in ExtraInfo, the session that performed the action.</p>
+<hr />
+<h2 id="audit-levels-mlog">Audit Levels (mlog)</h2>
+<ul>
+<li><strong>audit-api (LevelAPI):</strong> REST API access. Default for <code>LogAuditRec</code>.</li>
+<li><strong>audit-content:</strong> Content-generating operations (e.g. posts, reactions).</li>
+<li><strong>audit-permissions:</strong> Permission checks; used when the context has a permission error.</li>
+<li><strong>audit-cli:</strong> CLI operations (legacy; mostly unused).</li>
+</ul>
+<hr />
+<h2 id="all-audit-events">All Audit Events</h2>
+<p>Events are defined as constants in <code>server/public/model/audit_events.go</code>. Below they are grouped by area (no table; plain lists).</p>
+<p><strong>Access Control &amp; Security</strong><br />
+applyIPFilters, assignAccessPolicy, createAccessControlPolicy, deleteAccessControlPolicy, unassignAccessPolicy, updateActiveStatus, setActiveStatus.</p>
+<p><strong>Audit &amp; Certificates</strong><br />
+addAuditLogCertificate, getAudits, getUserAudits, removeAuditLogCertificate.</p>
+<p><strong>Bots</strong><br />
+assignBot, convertBotToUser, convertUserToBot, createBot, patchBot, updateBotActive.</p>
+<p><strong>Branding</strong><br />
+deleteBrandImage, uploadBrandImage.</p>
+<p><strong>Channel Bookmarks</strong><br />
+createChannelBookmark, deleteChannelBookmark, updateChannelBookmark, updateChannelBookmarkSortOrder, listChannelBookmarksForChannel.</p>
+<p><strong>Channel Categories</strong><br />
+createCategoryForTeamForUser, deleteCategoryForTeamForUser, updateCategoriesForTeamForUser, updateCategoryForTeamForUser, updateCategoryOrderForTeamForUser.</p>
+<p><strong>Channels</strong><br />
+addChannelMember, convertGroupMessageToChannel, createChannel, createDirectChannel, createGroupChannel, deleteChannel, getPinnedPosts, localAddChannelMember, localCreateChannel, localDeleteChannel, localMoveChannel, localPatchChannel, localRemoveChannelMember, localRestoreChannel, localUpdateChannelPrivacy, moveChannel, patchChannel, patchChannelModerations, removeChannelMember, restoreChannel, updateChannel, updateChannelMemberNotifyProps, updateChannelMemberAutotranslation, updateChannelMemberRoles, updateChannelMemberSchemeRoles, updateChannelPrivacy, updateChannelScheme.</p>
+<p><strong>Commands</strong><br />
+createCommand, deleteCommand, executeCommand, localCreateCommand, moveCommand, regenCommandToken, updateCommand.</p>
+<p><strong>Compliance</strong><br />
+createComplianceReport, downloadComplianceReport, getComplianceReport, getComplianceReports.</p>
+<p><strong>Configuration</strong><br />
+configReload, getConfig, localGetClientConfig, localGetConfig, localPatchConfig, localUpdateConfig, migrateConfig, patchConfig, updateConfig.</p>
+<p><strong>Custom Profile Attributes</strong><br />
+createCPAField, deleteCPAField, patchCPAField, patchCPAValues.</p>
+<p><strong>Data Retention Policies</strong><br />
+addChannelsToPolicy, addTeamsToPolicy, createPolicy, deletePolicy, patchPolicy, removeChannelsFromPolicy, removeTeamsFromPolicy.</p>
+<p><strong>Emojis</strong><br />
+createEmoji, deleteEmoji.</p>
+<p><strong>Exports</strong><br />
+bulkExport, deleteExport, generatePresignURLExport, scheduleExport.</p>
+<p><strong>Files</strong><br />
+getFile, getFileLink, uploadFileMultipart, uploadFileMultipartLegacy, uploadFileSimple, getFileThumbnail, getFileInfosForPost, getFileInfo, getFilePreview, searchFiles.</p>
+<p><strong>Groups</strong><br />
+addGroupMembers, addUserToGroupSyncables, createGroup, deleteGroup, deleteGroupMembers, linkGroupSyncable, patchGroup, patchGroupSyncable, restoreGroup, unlinkGroupSyncable.</p>
+<p><strong>Imports</strong><br />
+bulkImport, deleteImport, slackImport.</p>
+<p><strong>Jobs</strong><br />
+cancelJob, createJob, jobServer, updateJobStatus.</p>
+<p><strong>LDAP</strong><br />
+addLdapPrivateCertificate, addLdapPublicCertificate, idMigrateLdap, linkLdapGroup, removeLdapPrivateCertificate, removeLdapPublicCertificate, syncLdap, unlinkLdapGroup.</p>
+<p><strong>Licensing</strong><br />
+addLicense, localAddLicense, localRemoveLicense, removeLicense, requestTrialLicense.</p>
+<p><strong>OAuth</strong><br />
+authorizeOAuthApp, authorizeOAuthPage, completeOAuth, createOAuthApp, createOutgoingOauthConnection, deauthorizeOAuthApp, deleteOAuthApp, deleteOutgoingOAuthConnection, getAccessToken, loginWithOAuth, mobileLoginWithOAuth, regenerateOAuthAppSecret, registerOAuthClient, signupWithOAuth, updateOAuthApp, updateOutgoingOAuthConnection, validateOutgoingOAuthConnectionCredentials.</p>
+<p><strong>Plugins</strong><br />
+disablePlugin, enablePlugin, getFirstAdminVisitMarketplaceStatus, installMarketplacePlugin, installPluginFromURL, removePlugin, setFirstAdminVisitMarketplaceStatus, uploadPlugin.</p>
+<p><strong>Posts</strong><br />
+createEphemeralPost, createPost, deletePost, getEditHistoryForPost, getFlaggedPosts, getPostsForChannel, getPostsForChannelAroundLastUnread, getPost, getPostThread, getPostsByIds, getThreadForUser, localDeletePost, moveThread, notificationAck, patchPost, restorePostVersion, saveIsPinnedPost, searchPosts, updatePost, revealPost, burnPost, websocketPost.</p>
+<p><strong>Recaps</strong><br />
+createRecap, getRecap, getRecaps, markRecapAsRead, regenerateRecap, deleteRecap.</p>
+<p><strong>Preferences</strong><br />
+deletePreferences, updatePreferences.</p>
+<p><strong>Remote Clusters</strong><br />
+createRemoteCluster, deleteRemoteCluster, generateRemoteClusterInvite, inviteRemoteClusterToChannel, patchRemoteCluster, remoteClusterAcceptInvite, remoteClusterAcceptMessage, remoteUploadProfileImage, uninviteRemoteClusterToChannel, uploadRemoteData.</p>
+<p><strong>Roles</strong><br />
+patchRole.</p>
+<p><strong>SAML</strong><br />
+addSamlIdpCertificate, addSamlPrivateCertificate, addSamlPublicCertificate, completeSaml, removeSamlIdpCertificate, removeSamlPrivateCertificate, removeSamlPublicCertificate.</p>
+<p><strong>Scheduled Posts</strong><br />
+createSchedulePost, deleteScheduledPost, updateScheduledPost.</p>
+<p><strong>Schemes</strong><br />
+createScheme, deleteScheme, patchScheme.</p>
+<p><strong>Search Indexes</strong><br />
+purgeBleveIndexes, purgeElasticsearchIndexes.</p>
+<p><strong>Server Administration</strong><br />
+clearServerBusy, completeOnboarding, databaseRecycle, downloadLogs, generateSupportPacket, getAppliedSchemaMigrations, getLogs, getOnboarding, invalidateCaches, localCheckIntegrity, queryLogs, restartServer, setServerBusy, updateViewedProductNotices, upgradeToEnterprise.</p>
+<p><strong>Teams</strong><br />
+addTeamMember, addTeamMembers, addUserToTeamFromInvite, createTeam, deleteTeam, importTeam, invalidateAllEmailInvites, inviteGuestsToChannels, inviteUsersToTeam, localCreateTeam, localDeleteTeam, localInviteUsersToTeam, patchTeam, regenerateTeamInviteId, removeTeamIcon, removeTeamMember, restoreTeam, setTeamIcon, updateTeam, updateTeamMemberRoles, updateTeamMemberSchemeRoles, updateTeamPrivacy, updateTeamScheme.</p>
+<p><strong>Terms of Service</strong><br />
+createTermsOfService, saveUserTermsOfService.</p>
+<p><strong>Threads</strong><br />
+followThreadByUser, setUnreadThreadByPostId, unfollowThreadByUser, updateReadStateAllThreadsByUser, updateReadStateThreadByUser.</p>
+<p><strong>Uploads</strong><br />
+createUpload, uploadData.</p>
+<p><strong>Users</strong><br />
+attachDeviceId, createUser, createUserAccessToken, deleteUser, demoteUserToGuest, disableUserAccessToken, enableUserAccessToken, extendSessionExpiry, localDeleteUser, localPermanentDeleteAllUsers, login, loginWithDesktopToken, logout, migrateAuthToLdap, migrateAuthToSaml, patchUser, promoteGuestToUser, resetPassword, resetPasswordFailedAttempts, revokeAllSessionsAllUsers, revokeAllSessionsForUser, revokeSession, revokeUserAccessToken, sendPasswordReset, sendVerificationEmail, setDefaultProfileImage, setProfileImage, switchAccountType, updatePassword, updateUser, updateUserActive, updateUserAuth, updateUserMfa, updateUserRoles, verifyUserEmail, verifyUserEmailWithoutToken.</p>
+<p><strong>Webhooks</strong><br />
+createIncomingHook, createOutgoingHook, deleteIncomingHook, deleteOutgoingHook, getIncomingHook, getOutgoingHook, localCreateIncomingHook, regenOutgoingHookToken, updateIncomingHook, updateOutgoingHook.</p>
+<p><strong>Content Flagging</strong><br />
+flagPost, getFlaggedPost, permanentlyRemoveFlaggedPost, keepFlaggedPost, updateContentFlaggingConfig, setFlaggedPostReviewer.</p>
+<hr />
+<h2 id="key-files">Key Files</h2>
+<ul>
+<li><strong>Event constants:</strong> <code>server/public/model/audit_events.go</code></li>
+<li><strong>Record and helpers:</strong> <code>server/public/model/audit_record.go</code>, <code>server/public/model/auditconv.go</code></li>
+<li><strong>Legacy model and DB:</strong> <code>server/public/model/audit.go</code>, <code>server/channels/store/sqlstore/audit_store.go</code></li>
+<li><strong>Context helpers:</strong> <code>server/channels/web/context.go</code> (MakeAuditRecord, LogAuditRec, LogAudit, LogAuditWithUserId)</li>
+<li><strong>App audit:</strong> <code>server/channels/app/audit.go</code> (GetAudits, GetAuditsPage, LogAuditRecWithLevel, MakeAuditRecord for CLI, audit config, certificate)</li>
+<li><strong>Audit engine:</strong> <code>server/channels/audit/audit.go</code></li>
+<li><strong>Audit API:</strong> <code>server/channels/api4/audit_logging.go</code> (certificate), <code>server/channels/api4/system.go</code> (getAudits), <code>server/channels/api4/user.go</code> (getUserAudits)</li>
+<li><strong>Schema:</strong> <code>server/channels/db/migrations/postgres/000024_create_audits.up.sql</code></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

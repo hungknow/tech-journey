@@ -1,0 +1,2679 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Channel Store — SQL Reference - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#channel-store-sql-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Channel Store — SQL Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#initialization-shared-query-builders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initialization / Shared query builders
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Initialization / Shared query builders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initializequeries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        initializeQueries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="initializeQueries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tableselectquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tableSelectQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sidebarcategoryselectquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sidebarCategorySelectQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channelmembersforteamwithschemeselectquery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        channelMembersForTeamWithSchemeSelectQuery
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#channel-crud-and-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Channel CRUD and lifecycle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Channel CRUD and lifecycle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#save" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Save
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#createdirectchannel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateDirectChannel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#savedirectchannel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SaveDirectChannel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upsertpublicchannelt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        upsertPublicChannelT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#savechannelt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        saveChannelT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updatechannelt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        updateChannelT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getchannelunread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetChannelUnread
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getpinnedposts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetPinnedPosts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmany" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMany
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setdeleteat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetDeleteAt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setdeleteatt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        setDeleteAtT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanentdeletebyteam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PermanentDeleteByTeam
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanentdeletebyteamtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        permanentDeleteByTeamtT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanentdelete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PermanentDelete
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanentdeletet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        permanentDeleteT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanentdeletemembersbychannel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PermanentDeleteMembersByChannel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#channel-listing-and-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Channel listing and filtering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Channel listing and filtering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getchannels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetChannels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getchannelsbyuser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetChannelsByUser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getallchannelmemberidsbychannelid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllChannelMemberIdsByChannelId
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getallchannels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllChannels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getallchannelscount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllChannelsCount
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmorechannels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMoreChannels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getprivatechannelsforteam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetPrivateChannelsForTeam
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getpublicchannelsforteam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetPublicChannelsForTeam
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getpublicchannelsbyidsforteam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetPublicChannelsByIdsForTeam
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getchannelcounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetChannelCounts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getteamchannels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetTeamChannels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getbynamesincludedeleted-getbynames-getbynames" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetByNamesIncludeDeleted / GetByNames / getByNames
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getbynameincludedeleted-getbyname-getbyname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetByNameIncludeDeleted / GetByName / getByName
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getdeletedbyname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetDeletedByName
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getdeleted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetDeleted
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#channel-members-save-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Channel members — save / update
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Channel members — save / update">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#savemultiplemembers-savemember-savemembert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SaveMultipleMembers / SaveMember / saveMemberT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#savemultiplemembers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        saveMultipleMembers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updatemultiplemembers-updatemember" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UpdateMultipleMembers / UpdateMember
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updatemembernotifyprops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UpdateMemberNotifyProps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patchmultiplemembersnotifyprops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PatchMultipleMembersNotifyProps
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#channel-members-read" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Channel members — read
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Channel members — read">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getmembers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMembers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getchannelmemberstimezones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetChannelMembersTimezones
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getchannelswithunreadsandwithmentions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetChannelsWithUnreadsAndWithMentions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmember" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMember
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmemberlastviewedat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMemberLastViewedAt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmemberforpost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMemberForPost
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getallchannelmembersforuser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllChannelMembersForUser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getchannelsmembercount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetChannelsMemberCount
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getallchannelmembersnotifypropsforchannel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllChannelMembersNotifyPropsForChannel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getfilecount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetFileCount
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmembercount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMemberCount
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmembercountsbygroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMemberCountsByGroup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getpinnedpostcount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetPinnedPostCount
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getguestcount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetGuestCount
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#channel-members-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Channel members — remove
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Channel members — remove">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#removemembers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RemoveMembers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removemember" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RemoveMember
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removealldeactivatedmembers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RemoveAllDeactivatedMembers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanentdeletemembersbyuser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PermanentDeleteMembersByUser
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#last-viewed-and-mentions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Last viewed and mentions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Last viewed and mentions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#updatelastviewedat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UpdateLastViewedAt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#counturgentpostsafter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CountUrgentPostsAfter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#countpostsafter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CountPostsAfter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updatelastviewedatpost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UpdateLastViewedAtPost
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incrementmentioncount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IncrementMentionCount
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#channels-by-id-team-post" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Channels by id / team / post
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Channels by id / team / post">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAll
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getchannelsbyids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetChannelsByIds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getchannelswithteamdatabyids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetChannelsWithTeamDataByIds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getforpost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetForPost
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analytics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Analytics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analyticstypecount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AnalyticsTypeCount
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyticsdeletedtypecount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AnalyticsDeletedTypeCount
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyticscountall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AnalyticsCountAll
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#members-for-user-team" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Members for user / team
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Members for user / team">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getmembersforuser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMembersForUser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmembersforuserwithpagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMembersForUserWithPagination
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmembersforuserwithcursorpagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMembersForUserWithCursorPagination
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getteammembersforchannel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetTeamMembersForChannel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#search-and-autocomplete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search and autocomplete
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#members-by-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Members by id
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Members by id">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getmembersbyids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMembersByIds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmembersbychannelids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMembersByChannelIds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmembersinfobychannelids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMembersInfoByChannelIds
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schemes-and-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Schemes and migration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schemes and migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getchannelsbyscheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetChannelsByScheme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migratechannelmembers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MigrateChannelMembers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resetallchannelschemes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ResetAllChannelSchemes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resetallchannelschemest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resetAllChannelSchemesT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clearallcustomroleassignments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ClearAllCustomRoleAssignments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#export-and-indexing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export and indexing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#misc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Misc
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Misc">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#userbelongstochannels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UserBelongsToChannels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updatemembersrole" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UpdateMembersRole
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupsyncedchannelcount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupSyncedChannelCount
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setshared" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SetShared
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getteamforchannel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetTeamForChannel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isreadonlychannel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IsReadOnlyChannel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ischannelreadonlyscheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IsChannelReadOnlyScheme
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no-op-cache-only-no-sql-in-this-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No-op / cache-only (no SQL in this store)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="channel-store-sql-reference">Channel Store — SQL Reference</h1>
+<p>This document lists each store function in <code>server/channels/store/sqlstore/channel_store.go</code> and the <strong>actual SQL</strong> executed (from raw strings or squirrel builder). Query-builder–generated SQL is shown as the equivalent SQL shape.</p>
+<hr />
+<h2 id="initialization-shared-query-builders">Initialization / Shared query builders</h2>
+<h3 id="initializequeries">initializeQueries</h3>
+<p>Builds reusable select builders (not executed by this function; used by other methods).</p>
+<h4 id="tableselectquery">tableSelectQuery</h4>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">Id</span><span class="p">,</span><span class="w"> </span><span class="n">CreateAt</span><span class="p">,</span><span class="w"> </span><span class="n">UpdateAt</span><span class="p">,</span><span class="w"> </span><span class="n">DeleteAt</span><span class="p">,</span><span class="w"> </span><span class="n">TeamId</span><span class="p">,</span><span class="w"> </span><span class="k">Type</span><span class="p">,</span><span class="w"> </span><span class="n">DisplayName</span><span class="p">,</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">Header</span><span class="p">,</span><span class="w"> </span><span class="n">Purpose</span><span class="p">,</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">       </span><span class="n">LastPostAt</span><span class="p">,</span><span class="w"> </span><span class="n">TotalMsgCount</span><span class="p">,</span><span class="w"> </span><span class="n">ExtraUpdateAt</span><span class="p">,</span><span class="w"> </span><span class="n">CreatorId</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeId</span><span class="p">,</span><span class="w"> </span><span class="n">GroupConstrained</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">       </span><span class="n">AutoTranslation</span><span class="p">,</span><span class="w"> </span><span class="n">Shared</span><span class="p">,</span><span class="w"> </span><span class="n">TotalMsgCountRoot</span><span class="p">,</span><span class="w"> </span><span class="n">LastRootPostAt</span><span class="p">,</span><span class="w"> </span><span class="n">BannerInfo</span><span class="p">,</span><span class="w"> </span><span class="n">DefaultCategoryName</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">       </span><span class="k">EXISTS</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">AccessControlPolicies</span><span class="w"> </span><span class="n">acp</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">acp</span><span class="p">.</span><span class="n">ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PolicyEnforced</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">       </span><span class="k">COALESCE</span><span class="p">((</span><span class="k">SELECT</span><span class="w"> </span><span class="n">acp</span><span class="p">.</span><span class="n">Active</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">AccessControlPolicies</span><span class="w"> </span><span class="n">acp</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">                 </span><span class="k">WHERE</span><span class="w"> </span><span class="n">acp</span><span class="p">.</span><span class="n">ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">acp</span><span class="p">.</span><span class="n">Active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">TRUE</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">false</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PolicyIsActive</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span>
+</span></code></pre></div>
+<h4 id="sidebarcategoryselectquery">sidebarCategorySelectQuery</h4>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">SidebarCategories</span><span class="p">.</span><span class="n">Id</span><span class="p">,</span><span class="w"> </span><span class="n">SidebarCategories</span><span class="p">.</span><span class="n">UserId</span><span class="p">,</span><span class="w"> </span><span class="n">SidebarCategories</span><span class="p">.</span><span class="n">TeamId</span><span class="p">,</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">       </span><span class="n">SidebarCategories</span><span class="p">.</span><span class="n">SortOrder</span><span class="p">,</span><span class="w"> </span><span class="n">SidebarCategories</span><span class="p">.</span><span class="n">Sorting</span><span class="p">,</span><span class="w"> </span><span class="n">SidebarCategories</span><span class="p">.</span><span class="k">Type</span><span class="p">,</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">       </span><span class="n">SidebarCategories</span><span class="p">.</span><span class="n">DisplayName</span><span class="p">,</span><span class="w"> </span><span class="n">SidebarCategories</span><span class="p">.</span><span class="n">Muted</span><span class="p">,</span><span class="w"> </span><span class="n">SidebarCategories</span><span class="p">.</span><span class="n">Collapsed</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">SidebarCategories</span>
+</span></code></pre></div>
+<h4 id="channelmembersforteamwithschemeselectquery">channelMembersForTeamWithSchemeSelectQuery</h4>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">UserId</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">Roles</span><span class="p">,</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">       </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">LastViewedAt</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">MsgCount</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">MentionCount</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">       </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">MentionCountRoot</span><span class="p">,</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">       </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">UrgentMentionCount</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">UrgentMentionCount</span><span class="p">,</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">       </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">MsgCountRoot</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">NotifyProps</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">LastUpdateAt</span><span class="p">,</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">       </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">SchemeUser</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">SchemeAdmin</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">SchemeGuest</span><span class="p">,</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">       </span><span class="n">TeamScheme</span><span class="p">.</span><span class="n">DefaultChannelGuestRole</span><span class="w"> </span><span class="n">TeamSchemeDefaultGuestRole</span><span class="p">,</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">       </span><span class="n">TeamScheme</span><span class="p">.</span><span class="n">DefaultChannelUserRole</span><span class="w"> </span><span class="n">TeamSchemeDefaultUserRole</span><span class="p">,</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">       </span><span class="n">TeamScheme</span><span class="p">.</span><span class="n">DefaultChannelAdminRole</span><span class="w"> </span><span class="n">TeamSchemeDefaultAdminRole</span><span class="p">,</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">       </span><span class="n">ChannelScheme</span><span class="p">.</span><span class="n">DefaultChannelGuestRole</span><span class="w"> </span><span class="n">ChannelSchemeDefaultGuestRole</span><span class="p">,</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">       </span><span class="n">ChannelScheme</span><span class="p">.</span><span class="n">DefaultChannelUserRole</span><span class="w"> </span><span class="n">ChannelSchemeDefaultUserRole</span><span class="p">,</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">       </span><span class="n">ChannelScheme</span><span class="p">.</span><span class="n">DefaultChannelAdminRole</span><span class="w"> </span><span class="n">ChannelSchemeDefaultAdminRole</span><span class="p">,</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">       </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">AutoTranslationDisabled</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">Id</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Schemes</span><span class="w"> </span><span class="n">ChannelScheme</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">SchemeId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ChannelScheme</span><span class="p">.</span><span class="n">Id</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Teams</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">TeamId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Teams</span><span class="p">.</span><span class="n">Id</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Schemes</span><span class="w"> </span><span class="n">TeamScheme</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">Teams</span><span class="p">.</span><span class="n">SchemeId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TeamScheme</span><span class="p">.</span><span class="n">Id</span>
+</span></code></pre></div>
+<hr />
+<h2 id="channel-crud-and-lifecycle">Channel CRUD and lifecycle</h2>
+<h3 id="save">Save</h3>
+<p>Uses <strong>saveChannelT</strong> and <strong>upsertPublicChannelT</strong> inside a transaction. See those subsections for SQL.</p>
+<h3 id="createdirectchannel">CreateDirectChannel</h3>
+<p>Builds a direct channel and two members; calls <strong>SaveDirectChannel</strong>. No direct SQL in this function.</p>
+<h3 id="savedirectchannel">SaveDirectChannel</h3>
+<p>Uses <strong>saveChannelT</strong> for the channel, then <strong>saveMultipleMembers</strong> (or <strong>saveMemberT</strong>) for members. See those subsections for SQL.</p>
+<h3 id="upsertpublicchannelt">upsertPublicChannelT</h3>
+<p>For non-open channels:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">PublicChannels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="o">=?</span>
+</span></code></pre></div>
+<p>For open channels:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">PublicChannels</span><span class="p">(</span><span class="n">Id</span><span class="p">,</span><span class="w"> </span><span class="n">DeleteAt</span><span class="p">,</span><span class="w"> </span><span class="n">TeamId</span><span class="p">,</span><span class="w"> </span><span class="n">DisplayName</span><span class="p">,</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">Header</span><span class="p">,</span><span class="w"> </span><span class="n">Purpose</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">VALUES</span><span class="w"> </span><span class="p">(:</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">deleteat</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">teamid</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">displayname</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">header</span><span class="p">,</span><span class="w"> </span><span class="p">:</span><span class="n">purpose</span><span class="p">)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">ON</span><span class="w"> </span><span class="n">CONFLICT</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">DO</span><span class="w"> </span><span class="k">UPDATE</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">SET</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">deleteat</span><span class="p">,</span><span class="w"> </span><span class="n">TeamId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">teamid</span><span class="p">,</span><span class="w"> </span><span class="n">DisplayName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">displayname</span><span class="p">,</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">Header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">header</span><span class="p">,</span><span class="w"> </span><span class="n">Purpose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">purpose</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="savechannelt">saveChannelT</h3>
+<p>Count existing open/private channels for the team (when enforcing max channels per team):</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">TeamId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="p">(</span><span class="k">Type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">Type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Insert: squirrel <code>Insert("Channels").Columns(...).Values(...).SuffixExpr("ON CONFLICT (TeamId, Name) DO NOTHING")</code> — equivalent to:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="p">(</span><span class="n">Id</span><span class="p">,</span><span class="w"> </span><span class="n">CreateAt</span><span class="p">,</span><span class="w"> </span><span class="n">UpdateAt</span><span class="p">,</span><span class="w"> </span><span class="n">DeleteAt</span><span class="p">,</span><span class="w"> </span><span class="n">TeamId</span><span class="p">,</span><span class="w"> </span><span class="k">Type</span><span class="p">,</span><span class="w"> </span><span class="n">DisplayName</span><span class="p">,</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">Header</span><span class="p">,</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="n">Purpose</span><span class="p">,</span><span class="w"> </span><span class="n">LastPostAt</span><span class="p">,</span><span class="w"> </span><span class="n">TotalMsgCount</span><span class="p">,</span><span class="w"> </span><span class="n">ExtraUpdateAt</span><span class="p">,</span><span class="w"> </span><span class="n">CreatorId</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeId</span><span class="p">,</span><span class="w"> </span><span class="n">GroupConstrained</span><span class="p">,</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">AutoTranslation</span><span class="p">,</span><span class="w"> </span><span class="n">Shared</span><span class="p">,</span><span class="w"> </span><span class="n">TotalMsgCountRoot</span><span class="p">,</span><span class="w"> </span><span class="n">LastRootPostAt</span><span class="p">,</span><span class="w"> </span><span class="n">BannerInfo</span><span class="p">,</span><span class="w"> </span><span class="n">DefaultCategoryName</span><span class="p">)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">ON</span><span class="w"> </span><span class="n">CONFLICT</span><span class="w"> </span><span class="p">(</span><span class="n">TeamId</span><span class="p">,</span><span class="w"> </span><span class="n">Name</span><span class="p">)</span><span class="w"> </span><span class="k">DO</span><span class="w"> </span><span class="k">NOTHING</span>
+</span></code></pre></div>
+<p>If insert affected 0 rows: <strong>tableSelectQuery</strong> + <code>WHERE TeamId = ? AND Name = ?</code> to return the conflicting channel.</p>
+<h3 id="update">Update</h3>
+<p>Uses <strong>updateChannelT</strong> and <strong>upsertPublicChannelT</strong> inside a transaction.</p>
+<h3 id="updatechannelt">updateChannelT</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">Channels</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">CreateAt</span><span class="o">=</span><span class="p">:</span><span class="n">CreateAt</span><span class="p">,</span><span class="w"> </span><span class="n">UpdateAt</span><span class="o">=</span><span class="p">:</span><span class="n">UpdateAt</span><span class="p">,</span><span class="w"> </span><span class="n">DeleteAt</span><span class="o">=</span><span class="p">:</span><span class="n">DeleteAt</span><span class="p">,</span><span class="w"> </span><span class="n">TeamId</span><span class="o">=</span><span class="p">:</span><span class="n">TeamId</span><span class="p">,</span><span class="w"> </span><span class="k">Type</span><span class="o">=</span><span class="p">:</span><span class="k">Type</span><span class="p">,</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="n">DisplayName</span><span class="o">=</span><span class="p">:</span><span class="n">DisplayName</span><span class="p">,</span><span class="w"> </span><span class="n">Name</span><span class="o">=</span><span class="p">:</span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">Header</span><span class="o">=</span><span class="p">:</span><span class="n">Header</span><span class="p">,</span><span class="w"> </span><span class="n">Purpose</span><span class="o">=</span><span class="p">:</span><span class="n">Purpose</span><span class="p">,</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">LastPostAt</span><span class="o">=</span><span class="p">:</span><span class="n">LastPostAt</span><span class="p">,</span><span class="w"> </span><span class="n">TotalMsgCount</span><span class="o">=</span><span class="p">:</span><span class="n">TotalMsgCount</span><span class="p">,</span><span class="w"> </span><span class="n">ExtraUpdateAt</span><span class="o">=</span><span class="p">:</span><span class="n">ExtraUpdateAt</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="n">CreatorId</span><span class="o">=</span><span class="p">:</span><span class="n">CreatorId</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeId</span><span class="o">=</span><span class="p">:</span><span class="n">SchemeId</span><span class="p">,</span><span class="w"> </span><span class="n">GroupConstrained</span><span class="o">=</span><span class="p">:</span><span class="n">GroupConstrained</span><span class="p">,</span><span class="w"> </span><span class="n">Shared</span><span class="o">=</span><span class="p">:</span><span class="n">Shared</span><span class="p">,</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="n">TotalMsgCountRoot</span><span class="o">=</span><span class="p">:</span><span class="n">TotalMsgCountRoot</span><span class="p">,</span><span class="w"> </span><span class="n">LastRootPostAt</span><span class="o">=</span><span class="p">:</span><span class="n">LastRootPostAt</span><span class="p">,</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="n">BannerInfo</span><span class="o">=</span><span class="p">:</span><span class="n">BannerInfo</span><span class="p">,</span><span class="w"> </span><span class="n">DefaultCategoryName</span><span class="o">=</span><span class="p">:</span><span class="n">DefaultCategoryName</span><span class="p">,</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="n">AutoTranslation</span><span class="o">=</span><span class="p">:</span><span class="n">AutoTranslation</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="o">=</span><span class="p">:</span><span class="n">Id</span>
+</span></code></pre></div>
+<h3 id="getchannelunread">GetChannelUnread</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">TeamId</span><span class="w"> </span><span class="n">TeamId</span><span class="p">,</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="n">ChannelId</span><span class="p">,</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">       </span><span class="p">(</span><span class="n">Channels</span><span class="p">.</span><span class="n">TotalMsgCount</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">MsgCount</span><span class="p">)</span><span class="w"> </span><span class="n">MsgCount</span><span class="p">,</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">       </span><span class="p">(</span><span class="n">Channels</span><span class="p">.</span><span class="n">TotalMsgCountRoot</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">MsgCountRoot</span><span class="p">)</span><span class="w"> </span><span class="n">MsgCountRoot</span><span class="p">,</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">       </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">MentionCount</span><span class="w"> </span><span class="n">MentionCount</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">MentionCountRoot</span><span class="w"> </span><span class="n">MentionCountRoot</span><span class="p">,</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">       </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">UrgentMentionCount</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">UrgentMentionCount</span><span class="p">,</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">       </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">NotifyProps</span><span class="w"> </span><span class="n">NotifyProps</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span></code></pre></div>
+<h3 id="getpinnedposts">GetPinnedPosts</h3>
+<p>Squirrel: <code>Select(postSliceColumns()...).Column("(SELECT count(Posts.Id) FROM Posts WHERE ...) as ReplyCount").From("Posts p").Where(IsPinned=true, ChannelId, DeleteAt=0).OrderBy("CreateAt ASC")</code> — from <code>Posts p</code> with reply-count subquery, <code>IsPinned = true</code>, <code>ChannelId</code>, <code>DeleteAt = 0</code>, ordered by <code>CreateAt</code>.</p>
+<h3 id="get">Get</h3>
+<p><strong>tableSelectQuery</strong> + <code>WHERE Id = ?</code>.</p>
+<h3 id="getmany">GetMany</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="p">(</span><span class="n">channel</span><span class="w"> </span><span class="n">columns</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">channelSliceColumns</span><span class="p">(</span><span class="k">true</span><span class="p">))</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="delete">Delete</h3>
+<p>Delegates to <strong>SetDeleteAt</strong>. No additional SQL.</p>
+<h3 id="restore">Restore</h3>
+<p>Delegates to <strong>SetDeleteAt</strong>. No additional SQL.</p>
+<h3 id="setdeleteat">SetDeleteAt</h3>
+<p>Runs <strong>setDeleteAtT</strong> then syncs PublicChannels in a transaction.</p>
+<h3 id="setdeleteatt">setDeleteAtT</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">UpdateAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<p>Sync PublicChannels:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">PublicChannels</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="permanentdeletebyteam">PermanentDeleteByTeam</h3>
+<p>Runs <strong>permanentDeleteByTeamtT</strong> then deletes from PublicChannels in a transaction.</p>
+<h3 id="permanentdeletebyteamtt">permanentDeleteByTeamtT</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">TeamId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<p>Then:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">PublicChannels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">TeamId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="permanentdelete">PermanentDelete</h3>
+<p>Runs <strong>permanentDeleteT</strong> then deletes from PublicChannels in a transaction.</p>
+<h3 id="permanentdeletet">permanentDeleteT</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<p>Then:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">PublicChannels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="permanentdeletemembersbychannel">PermanentDeleteMembersByChannel</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<hr />
+<h2 id="channel-listing-and-filtering">Channel listing and filtering</h2>
+<h3 id="getchannels">GetChannels</h3>
+<p>Squirrel: from <code>Channels ch</code>, <code>ChannelMembers cm</code> where <code>ch.Id = cm.ChannelId</code>, <code>cm.UserId = ?</code>, optional TeamId/DeleteAt/LastUpdateAt, order by <code>ch.DisplayName</code>. Uses full channel select (channelSliceColumns with policy subqueries).</p>
+<h3 id="getchannelsbyuser">GetChannelsByUser</h3>
+<p>Squirrel: <code>Channels</code> INNER JOIN <code>ChannelMembers</code> LEFT JOIN <code>Teams</code>, <code>WHERE ChannelMembers.UserId = ?</code>, optional <code>Channels.Id &gt; fromChannelID</code>, pagination, DeleteAt/team filters, order by <code>Channels.Id</code>.</p>
+<h3 id="getallchannelmemberidsbychannelid">GetAllChannelMemberIdsByChannelId</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">UserId</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelId</span><span class="o">=?</span>
+</span></code></pre></div>
+<h3 id="getallchannels">GetAllChannels</h3>
+<p>Uses <strong>getAllChannelsQuery(opts, false)</strong>: select from <code>Channels AS c</code> (with team data, optional PolicyID), join Teams, filters (IncludeDeleted, NotAssociatedToGroup, GroupConstrained, ExcludeChannelNames, retention, access control). Order by <code>c.DisplayName, Teams.DisplayName</code>, limit/offset.</p>
+<h3 id="getallchannelscount">GetAllChannelsCount</h3>
+<p>Uses <strong>getAllChannelsQuery(opts, true)</strong> — same filters, <code>SELECT count(c.Id) FROM ...</code>.</p>
+<h3 id="getmorechannels">GetMoreChannels</h3>
+<p>Subquery: public channel ids from <code>PublicChannels</code> join <code>ChannelMembers</code> for team + user. Main: channels from <code>Channels</code> join <code>PublicChannels</code> for team, id not in subquery, order by display name, limit/offset.</p>
+<h3 id="getprivatechannelsforteam">GetPrivateChannelsForTeam</h3>
+<p>Squirrel: <code>Channels</code> where <code>Type = 'P'</code>, <code>TeamId = ?</code>, <code>DeleteAt = 0</code>, order by DisplayName, limit/offset.</p>
+<h3 id="getpublicchannelsforteam">GetPublicChannelsForTeam</h3>
+<p>Squirrel: <code>Channels</code> JOIN <code>PublicChannels pc ON (pc.Id = Channels.Id)</code> WHERE <code>pc.TeamId = ?</code>, <code>pc.DeleteAt = 0</code>, order by display name, limit/offset.</p>
+<h3 id="getpublicchannelsbyidsforteam">GetPublicChannelsByIdsForTeam</h3>
+<p>Same join as GetPublicChannelsForTeam + <code>PublicChannels.Id IN (channelIds)</code> for given team.</p>
+<h3 id="getchannelcounts">GetChannelCounts</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">Id</span><span class="p">,</span><span class="w"> </span><span class="n">TotalMsgCount</span><span class="p">,</span><span class="w"> </span><span class="n">TotalMsgCountRoot</span><span class="p">,</span><span class="w"> </span><span class="n">UpdateAt</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="p">)</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="p">(</span><span class="n">TeamId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">TeamId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DisplayName</span>
+</span></code></pre></div>
+<h3 id="getteamchannels">GetTeamChannels</h3>
+<p><strong>tableSelectQuery</strong> + <code>WHERE TeamId = ? AND Type != 'D'</code>, order by DisplayName.</p>
+<h3 id="getbynamesincludedeleted-getbynames-getbynames">GetByNamesIncludeDeleted / GetByNames / getByNames</h3>
+<p>Select channels by name list (and optional team, optional <code>DeleteAt = 0</code>) using <strong>tableSelectQuery</strong>-style select and WHERE on Name/TeamId.</p>
+<h3 id="getbynameincludedeleted-getbyname-getbyname">GetByNameIncludeDeleted / GetByName / getByName</h3>
+<p>Select one channel by name and team (or empty team), optional <code>DeleteAt = 0</code>.</p>
+<h3 id="getdeletedbyname">GetDeletedByName</h3>
+<p><strong>tableSelectQuery</strong> + <code>WHERE TeamId = ? AND Name = ? AND DeleteAt != 0</code>.</p>
+<h3 id="getdeleted">GetDeleted</h3>
+<p>Squirrel: deleted channels for team (optionally only those user is member of), order by DisplayName, limit/offset.</p>
+<hr />
+<h2 id="channel-members-save-update">Channel members — save / update</h2>
+<h3 id="savemultiplemembers-savemember-savemembert">SaveMultipleMembers / SaveMember / saveMemberT</h3>
+<p>See <strong>saveMultipleMembers</strong>.</p>
+<h3 id="savemultiplemembers">saveMultipleMembers</h3>
+<p>Two reads for scheme roles:</p>
+<p>Channel scheme roles:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Id</span><span class="p">,</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">       </span><span class="n">ChannelScheme</span><span class="p">.</span><span class="n">DefaultChannelGuestRole</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Guest</span><span class="p">,</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">       </span><span class="n">ChannelScheme</span><span class="p">.</span><span class="n">DefaultChannelUserRole</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">User</span><span class="p">,</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">       </span><span class="n">ChannelScheme</span><span class="p">.</span><span class="n">DefaultChannelAdminRole</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">Admin</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Schemes</span><span class="w"> </span><span class="n">ChannelScheme</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">SchemeId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ChannelScheme</span><span class="p">.</span><span class="n">Id</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Team scheme roles (same shape, from Channels LEFT JOIN Teams, LEFT JOIN Schemes TeamScheme, same channel ids):</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Id</span><span class="p">,</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">       </span><span class="n">TeamScheme</span><span class="p">.</span><span class="n">DefaultChannelGuestRole</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Guest</span><span class="p">,</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">       </span><span class="n">TeamScheme</span><span class="p">.</span><span class="n">DefaultChannelUserRole</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">User</span><span class="p">,</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">       </span><span class="n">TeamScheme</span><span class="p">.</span><span class="n">DefaultChannelAdminRole</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">Admin</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Teams</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">Teams</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">TeamId</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Schemes</span><span class="w"> </span><span class="n">TeamScheme</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">Teams</span><span class="p">.</span><span class="n">SchemeId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TeamScheme</span><span class="p">.</span><span class="n">Id</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Bulk insert:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="w"> </span><span class="p">(</span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="n">UserId</span><span class="p">,</span><span class="w"> </span><span class="n">Roles</span><span class="p">,</span><span class="w"> </span><span class="n">LastViewedAt</span><span class="p">,</span><span class="w"> </span><span class="n">MsgCount</span><span class="p">,</span><span class="w"> </span><span class="n">MsgCountRoot</span><span class="p">,</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="n">MentionCount</span><span class="p">,</span><span class="w"> </span><span class="n">MentionCountRoot</span><span class="p">,</span><span class="w"> </span><span class="n">UrgentMentionCount</span><span class="p">,</span><span class="w"> </span><span class="n">NotifyProps</span><span class="p">,</span><span class="w"> </span><span class="n">LastUpdateAt</span><span class="p">,</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="n">SchemeUser</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeAdmin</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeGuest</span><span class="p">,</span><span class="w"> </span><span class="n">AutoTranslationDisabled</span><span class="p">)</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="p">...),</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="p">...),</span><span class="w"> </span><span class="p">...</span>
+</span></code></pre></div>
+<h3 id="updatemultiplemembers-updatemember">UpdateMultipleMembers / UpdateMember</h3>
+<p>For each member:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">Roles</span><span class="o">=?</span><span class="p">,</span><span class="w"> </span><span class="n">LastViewedAt</span><span class="o">=?</span><span class="p">,</span><span class="w"> </span><span class="n">MsgCount</span><span class="o">=?</span><span class="p">,</span><span class="w"> </span><span class="n">MentionCount</span><span class="o">=?</span><span class="p">,</span><span class="w"> </span><span class="n">UrgentMentionCount</span><span class="o">=?</span><span class="p">,</span><span class="w"> </span><span class="n">NotifyProps</span><span class="o">=?</span><span class="p">,</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="n">LastUpdateAt</span><span class="o">=?</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeUser</span><span class="o">=?</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeAdmin</span><span class="o">=?</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeGuest</span><span class="o">=?</span><span class="p">,</span><span class="w"> </span><span class="n">MentionCountRoot</span><span class="o">=?</span><span class="p">,</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">    </span><span class="n">MsgCountRoot</span><span class="o">=?</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelId</span><span class="o">=?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">UserId</span><span class="o">=?</span>
+</span></code></pre></div>
+<p>Then select updated row using <strong>channelMembersForTeamWithSchemeSelectQuery</strong> + <code>WHERE ChannelMembers.ChannelId = ? AND ChannelMembers.UserId = ?</code>.</p>
+<h3 id="updatemembernotifyprops">UpdateMemberNotifyProps</h3>
+<p>Postgres (squirrel Set with Expr):</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">channelmembers</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">notifyprops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">notifyprops</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">?</span><span class="p">::</span><span class="n">jsonb</span><span class="p">,</span><span class="w"> </span><span class="n">LastUpdateAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">userid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">channelid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<p>Then select member with <strong>channelMembersForTeamWithSchemeSelectQuery</strong> by ChannelId and UserId.</p>
+<h3 id="patchmultiplemembersnotifyprops">PatchMultipleMembersNotifyProps</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">notifyprops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">notifyprops</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">?</span><span class="p">::</span><span class="n">jsonb</span><span class="p">,</span><span class="w"> </span><span class="n">LastUpdateAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="n">UserId</span><span class="p">)</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">((</span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="p">),</span><span class="w"> </span><span class="p">...)</span>
+</span></code></pre></div>
+<p>Then select all updated rows with <strong>channelMembersForTeamWithSchemeSelectQuery</strong> and same (ChannelId, UserId) list.</p>
+<hr />
+<h2 id="channel-members-read">Channel members — read</h2>
+<h3 id="getmembers">GetMembers</h3>
+<p><strong>channelMembersForTeamWithSchemeSelectQuery</strong> + <code>WHERE ChannelId = ?</code>, optional <code>LastUpdateAt &gt; ?</code>, limit/offset.</p>
+<h3 id="getchannelmemberstimezones">GetChannelMembersTimezones</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">Users</span><span class="p">.</span><span class="n">Timezone</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Users</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Id</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="getchannelswithunreadsandwithmentions">GetChannelsWithUnreadsAndWithMentions</h3>
+<p>Squirrel: ChannelMembers join Channels, select channel id, type, TotalMsgCount, LastPostAt, member MsgCount, MentionCount, NotifyProps, LastViewedAt where ChannelId IN list and UserId = ?.</p>
+<h3 id="getmember">GetMember</h3>
+<p><strong>channelMembersForTeamWithSchemeSelectQuery</strong> + <code>WHERE ChannelMembers.ChannelId = ? AND ChannelMembers.UserId = ?</code>.</p>
+<h3 id="getmemberlastviewedat">GetMemberLastViewedAt</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">LastViewedAt</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">LastViewedAt</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelId</span><span class="o">=?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">UserId</span><span class="o">=?</span>
+</span></code></pre></div>
+<h3 id="getmemberforpost">GetMemberForPost</h3>
+<p>Raw SQL:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">UserId</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">Roles</span><span class="p">,</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">       </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">LastViewedAt</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">MsgCount</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">MentionCount</span><span class="p">,</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="w">       </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">MentionCountRoot</span><span class="p">,</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="w">       </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">UrgentMentionCount</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">UrgentMentionCount</span><span class="p">,</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="w">       </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">MsgCountRoot</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">NotifyProps</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">LastUpdateAt</span><span class="p">,</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="w">       </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">SchemeUser</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">SchemeAdmin</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">SchemeGuest</span><span class="p">,</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="w">       </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">AutoTranslationDisabled</span><span class="p">,</span>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="w">       </span><span class="n">TeamScheme</span><span class="p">.</span><span class="n">DefaultChannelGuestRole</span><span class="w"> </span><span class="n">TeamSchemeDefaultGuestRole</span><span class="p">,</span>
+</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="w">       </span><span class="n">TeamScheme</span><span class="p">.</span><span class="n">DefaultChannelUserRole</span><span class="w"> </span><span class="n">TeamSchemeDefaultUserRole</span><span class="p">,</span>
+</span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="w">       </span><span class="n">TeamScheme</span><span class="p">.</span><span class="n">DefaultChannelAdminRole</span><span class="w"> </span><span class="n">TeamSchemeDefaultAdminRole</span><span class="p">,</span>
+</span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="w">       </span><span class="n">ChannelScheme</span><span class="p">.</span><span class="n">DefaultChannelGuestRole</span><span class="w"> </span><span class="n">ChannelSchemeDefaultGuestRole</span><span class="p">,</span>
+</span><span id="__span-27-12"><a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a><span class="w">       </span><span class="n">ChannelScheme</span><span class="p">.</span><span class="n">DefaultChannelUserRole</span><span class="w"> </span><span class="n">ChannelSchemeDefaultUserRole</span><span class="p">,</span>
+</span><span id="__span-27-13"><a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a><span class="w">       </span><span class="n">ChannelScheme</span><span class="p">.</span><span class="n">DefaultChannelAdminRole</span><span class="w"> </span><span class="n">ChannelSchemeDefaultAdminRole</span>
+</span><span id="__span-27-14"><a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-27-15"><a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Posts</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Posts</span><span class="p">.</span><span class="n">ChannelId</span>
+</span><span id="__span-27-16"><a id="__codelineno-27-16" name="__codelineno-27-16" href="#__codelineno-27-16"></a><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">Id</span>
+</span><span id="__span-27-17"><a id="__codelineno-27-17" name="__codelineno-27-17" href="#__codelineno-27-17"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Schemes</span><span class="w"> </span><span class="n">ChannelScheme</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">SchemeId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ChannelScheme</span><span class="p">.</span><span class="n">Id</span>
+</span><span id="__span-27-18"><a id="__codelineno-27-18" name="__codelineno-27-18" href="#__codelineno-27-18"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Teams</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">Channels</span><span class="p">.</span><span class="n">TeamId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Teams</span><span class="p">.</span><span class="n">Id</span>
+</span><span id="__span-27-19"><a id="__codelineno-27-19" name="__codelineno-27-19" href="#__codelineno-27-19"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Schemes</span><span class="w"> </span><span class="n">TeamScheme</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">Teams</span><span class="p">.</span><span class="n">SchemeId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TeamScheme</span><span class="p">.</span><span class="n">Id</span>
+</span><span id="__span-27-20"><a id="__codelineno-27-20" name="__codelineno-27-20" href="#__codelineno-27-20"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Posts</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="getallchannelmembersforuser">GetAllChannelMembersForUser</h3>
+<p>Squirrel: ChannelMembers JOIN Channels, LEFT JOIN Schemes (ChannelScheme, TeamScheme via Teams), WHERE <code>ChannelMembers.UserId = ?</code>, optional <code>Channels.DeleteAt = 0</code>. Returns ChannelId, Roles, scheme guest/user/admin and default roles.</p>
+<h3 id="getchannelsmembercount">GetChannelsMemberCount</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">Count</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Users</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Users</span><span class="p">.</span><span class="n">Id</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">ChannelId</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">)</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Users</span><span class="p">.</span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">ChannelId</span>
+</span></code></pre></div>
+<h3 id="getallchannelmembersnotifypropsforchannel">GetAllChannelMembersNotifyPropsForChannel</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">UserId</span><span class="p">,</span><span class="w"> </span><span class="n">NotifyProps</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="getfilecount">GetFileCount</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">FileInfo</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">PostId</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">FileInfo</span><span class="p">.</span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="getmembercount">GetMemberCount</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">,</span><span class="w"> </span><span class="n">Users</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Users</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">Users</span><span class="p">.</span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span></code></pre></div>
+<h3 id="getmembercountsbygroup">GetMemberCountsByGroup</h3>
+<p>Squirrel: ChannelMembers JOIN GroupMembers (and optionally Users for timezones), WHERE <code>ChannelMembers.ChannelId = ?</code>, GROUP BY GroupMembers.GroupId, with optional COUNT(DISTINCT timezone expression).</p>
+<h3 id="getpinnedpostcount">GetPinnedPostCount</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Posts</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">IsPinned</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span></code></pre></div>
+<h3 id="getguestcount">GetGuestCount</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">,</span><span class="w"> </span><span class="n">Users</span>
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Users</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">SchemeGuest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">TRUE</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Users</span><span class="p">.</span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span></code></pre></div>
+<hr />
+<h2 id="channel-members-remove">Channel members — remove</h2>
+<h3 id="removemembers">RemoveMembers</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">UserId</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Then:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">SidebarChannels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">UserId</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="removemember">RemoveMember</h3>
+<p>Calls <strong>RemoveMembers</strong> for a single user.</p>
+<h3 id="removealldeactivatedmembers">RemoveAllDeactivatedMembers</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">UserId</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Users</span><span class="p">.</span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="p">.</span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="permanentdeletemembersbyuser">PermanentDeleteMembersByUser</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<hr />
+<h2 id="last-viewed-and-mentions">Last viewed and mentions</h2>
+<h3 id="updatelastviewedat">UpdateLastViewedAt</h3>
+<p>CTE + update (squirrel with Prefix/Suffix); equivalent shape:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="k">WITH</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">Id</span><span class="p">,</span><span class="w"> </span><span class="n">LastPostAt</span><span class="p">,</span><span class="w"> </span><span class="n">TotalMsgCount</span><span class="p">,</span><span class="w"> </span><span class="n">TotalMsgCountRoot</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">)</span>
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="p">),</span>
+</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="n">updated</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="w">  </span><span class="k">UPDATE</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="w"> </span><span class="n">cm</span>
+</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a><span class="w">  </span><span class="k">SET</span><span class="w"> </span><span class="n">MentionCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MentionCountRoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">UrgentMentionCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-38-7"><a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a><span class="w">      </span><span class="n">MsgCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greatest</span><span class="p">(</span><span class="n">cm</span><span class="p">.</span><span class="n">MsgCount</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">TotalMsgCount</span><span class="p">),</span>
+</span><span id="__span-38-8"><a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a><span class="w">      </span><span class="n">MsgCountRoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greatest</span><span class="p">(</span><span class="n">cm</span><span class="p">.</span><span class="n">MsgCountRoot</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">TotalMsgCountRoot</span><span class="p">),</span>
+</span><span id="__span-38-9"><a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a><span class="w">      </span><span class="n">LastViewedAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greatest</span><span class="p">(</span><span class="n">cm</span><span class="p">.</span><span class="n">LastViewedAt</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">LastPostAt</span><span class="p">),</span>
+</span><span id="__span-38-10"><a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a><span class="w">      </span><span class="n">LastUpdateAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greatest</span><span class="p">(</span><span class="n">cm</span><span class="p">.</span><span class="n">LastViewedAt</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">LastPostAt</span><span class="p">)</span>
+</span><span id="__span-38-11"><a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="k">c</span>
+</span><span id="__span-38-12"><a id="__codelineno-38-12" name="__codelineno-38-12" href="#__codelineno-38-12"></a><span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">cm</span><span class="p">.</span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cm</span><span class="p">.</span><span class="n">ChannelId</span>
+</span><span id="__span-38-13"><a id="__codelineno-38-13" name="__codelineno-38-13" href="#__codelineno-38-13"></a><span class="p">)</span>
+</span><span id="__span-38-14"><a id="__codelineno-38-14" name="__codelineno-38-14" href="#__codelineno-38-14"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">Id</span><span class="p">,</span><span class="w"> </span><span class="n">LastPostAt</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">c</span>
+</span></code></pre></div>
+<h3 id="counturgentpostsafter">CountUrgentPostsAfter</h3>
+<p>Squirrel: <code>PostsPriority</code> JOIN <code>Posts</code>, WHERE priority = urgent, ChannelId, CreateAt &gt; timestamp, DeleteAt = 0, optional UserId != excludedUserID.</p>
+<h3 id="countpostsafter">CountPostsAfter</h3>
+<p>Squirrel: count from <code>Posts</code> WHERE ChannelId, CreateAt &gt; timestamp, Type NOT IN (join/leave types), DeleteAt = 0, optional UserId != excludedUserID. Second query adds <code>RootId = ''</code> for root-only count.</p>
+<h3 id="updatelastviewedatpost">UpdateLastViewedAtPost</h3>
+<p>Uses CountPostsAfter; then:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">MentionCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">mentions</span><span class="p">,</span><span class="w"> </span><span class="n">MentionCountRoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">mentionsroot</span><span class="p">,</span>
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="w">    </span><span class="n">UrgentMentionCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">urgentmentions</span><span class="p">,</span>
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="w">    </span><span class="n">MsgCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">TotalMsgCount</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">channelid</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">:</span><span class="n">unreadcount</span><span class="p">,</span>
+</span><span id="__span-39-5"><a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="w">    </span><span class="n">MsgCountRoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">TotalMsgCountRoot</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">channelid</span><span class="p">)</span>
+</span><span id="__span-39-6"><a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="w">        </span><span class="o">-</span><span class="w"> </span><span class="p">:</span><span class="n">unreadcountroot</span><span class="p">,</span>
+</span><span id="__span-39-7"><a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a><span class="w">    </span><span class="n">LastViewedAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">lastviewedat</span><span class="p">,</span><span class="w"> </span><span class="n">LastUpdateAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">updatedat</span>
+</span><span id="__span-39-8"><a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">userid</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">channelid</span>
+</span></code></pre></div>
+<p>Then:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">TeamId</span><span class="w"> </span><span class="n">TeamId</span><span class="p">,</span><span class="w"> </span><span class="n">cm</span><span class="p">.</span><span class="n">UserId</span><span class="w"> </span><span class="n">UserId</span><span class="p">,</span><span class="w"> </span><span class="n">cm</span><span class="p">.</span><span class="n">ChannelId</span><span class="w"> </span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="n">cm</span><span class="p">.</span><span class="n">MsgCount</span><span class="w"> </span><span class="n">MsgCount</span><span class="p">,</span>
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="w">       </span><span class="n">cm</span><span class="p">.</span><span class="n">MsgCountRoot</span><span class="w"> </span><span class="n">MsgCountRoot</span><span class="p">,</span><span class="w"> </span><span class="n">cm</span><span class="p">.</span><span class="n">MentionCount</span><span class="w"> </span><span class="n">MentionCount</span><span class="p">,</span>
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="w">       </span><span class="n">cm</span><span class="p">.</span><span class="n">MentionCountRoot</span><span class="w"> </span><span class="n">MentionCountRoot</span><span class="p">,</span>
+</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="w">       </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">cm</span><span class="p">.</span><span class="n">UrgentMentionCount</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">UrgentMentionCount</span><span class="p">,</span>
+</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a><span class="w">       </span><span class="n">cm</span><span class="p">.</span><span class="n">LastViewedAt</span><span class="w"> </span><span class="n">LastViewedAt</span><span class="p">,</span><span class="w"> </span><span class="n">cm</span><span class="p">.</span><span class="n">NotifyProps</span><span class="w"> </span><span class="n">NotifyProps</span>
+</span><span id="__span-40-6"><a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="w"> </span><span class="n">cm</span>
+</span><span id="__span-40-7"><a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cm</span><span class="p">.</span><span class="n">ChannelId</span>
+</span><span id="__span-40-8"><a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">cm</span><span class="p">.</span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">cm</span><span class="p">.</span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span></code></pre></div>
+<h3 id="incrementmentioncount">IncrementMentionCount</h3>
+<p>Squirrel generates:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">MentionCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MentionCount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MentionCountRoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MentionCountRoot</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="o">?</span><span class="p">,</span>
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a><span class="w">    </span><span class="n">UrgentMentionCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UrgentMentionCount</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="n">LastUpdateAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">UserId</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">)</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<hr />
+<h2 id="channels-by-id-team-post">Channels by id / team / post</h2>
+<h3 id="getall">GetAll</h3>
+<p><strong>tableSelectQuery</strong> + <code>WHERE TeamId = ? AND Type != 'D'</code>, order by Name.</p>
+<h3 id="getchannelsbyids">GetChannelsByIds</h3>
+<p>Squirrel: select from Channels WHERE Id IN (?), optional DeleteAt = 0, order by Name.</p>
+<h3 id="getchannelswithteamdatabyids">GetChannelsWithTeamDataByIds</h3>
+<p>Channels c LEFT JOIN Teams t, same ids, optional DeleteAt, order by c.Name.</p>
+<h3 id="getforpost">GetForPost</h3>
+<p>Channels JOIN Posts on channel id, WHERE <code>Posts.Id = ?</code>.</p>
+<hr />
+<h2 id="analytics">Analytics</h2>
+<h3 id="analyticstypecount">AnalyticsTypeCount</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Value</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span>
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="c1">-- optional: WHERE Type = ? AND TeamId = ?</span>
+</span></code></pre></div>
+<h3 id="analyticsdeletedtypecount">AnalyticsDeletedTypeCount</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">Id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Value</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">Type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="c1">-- optional: AND TeamId = ?</span>
+</span></code></pre></div>
+<h3 id="analyticscountall">AnalyticsCountAll</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">Type</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">Count</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span>
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="c1">-- optional: WHERE TeamId = ?</span>
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">Type</span>
+</span></code></pre></div>
+<hr />
+<h2 id="members-for-user-team">Members for user / team</h2>
+<h3 id="getmembersforuser">GetMembersForUser</h3>
+<p><strong>channelMembersForTeamWithSchemeSelectQuery</strong> + <code>WHERE ChannelMembers.UserId = ?</code> and (Teams.Id = teamID or Teams.Id empty/null).</p>
+<h3 id="getmembersforuserwithpagination">GetMembersForUserWithPagination</h3>
+<p>Static <strong>channelMembersWithSchemeSelectQuery</strong> (ChannelMembers + Channels + Schemes + Teams) + <code>WHERE ChannelMembers.UserId = ? ORDER BY ChannelId ASC LIMIT ? OFFSET ?</code>.</p>
+<h3 id="getmembersforuserwithcursorpagination">GetMembersForUserWithCursorPagination</h3>
+<p>Same base + <code>WHERE ChannelMembers.UserId = ? AND ChannelId &gt; ? ORDER BY ChannelId ASC LIMIT ?</code>.</p>
+<h3 id="getteammembersforchannel">GetTeamMembersForChannel</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">tm</span><span class="p">.</span><span class="n">UserId</span>
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">c</span><span class="p">,</span><span class="w"> </span><span class="n">Teams</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">TeamMembers</span><span class="w"> </span><span class="n">tm</span>
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">TeamId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tm</span><span class="p">.</span><span class="n">TeamId</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<hr />
+<h2 id="search-and-autocomplete">Search and autocomplete</h2>
+<p>(These use squirrel builders and optional full-text/LIKE; see function names in code. <strong>performSearch</strong> runs the built select on replica. <strong>channelSearchQuery</strong> builds select/count for SearchAllChannels. <strong>searchGroupChannelsQuery</strong> builds group-channel search. <strong>autocompleteInTeamForSearchDirectMessages</strong> builds DM/group channel search by other member’s username/nickname.)</p>
+<hr />
+<h2 id="members-by-id">Members by id</h2>
+<h3 id="getmembersbyids">GetMembersByIds</h3>
+<p><strong>channelMembersForTeamWithSchemeSelectQuery</strong> + <code>WHERE ChannelId = ? AND UserId IN (?)</code>.</p>
+<h3 id="getmembersbychannelids">GetMembersByChannelIds</h3>
+<p>Same query + <code>WHERE ChannelId IN (?) AND UserId = ?</code>.</p>
+<h3 id="getmembersinfobychannelids">GetMembersInfoByChannelIds</h3>
+<p>Squirrel: ChannelId, User id/name from ChannelMembers JOIN Channels and Users, WHERE ChannelId IN list, Channels.DeleteAt = 0.</p>
+<hr />
+<h2 id="schemes-and-migration">Schemes and migration</h2>
+<h3 id="getchannelsbyscheme">GetChannelsByScheme</h3>
+<p><strong>tableSelectQuery</strong> + <code>WHERE SchemeId = ?</code>, order by DisplayName, limit/offset.</p>
+<h3 id="migratechannelmembers">MigrateChannelMembers</h3>
+<p>Select batch:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="n">UserId</span><span class="p">,</span><span class="w"> </span><span class="n">Roles</span><span class="p">,</span><span class="w"> </span><span class="n">LastViewedAt</span><span class="p">,</span><span class="w"> </span><span class="n">MsgCount</span><span class="p">,</span><span class="w"> </span><span class="n">MentionCount</span><span class="p">,</span><span class="w"> </span><span class="n">MentionCountRoot</span><span class="p">,</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="w">       </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">UrgentMentionCount</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">UrgentMentionCount</span><span class="p">,</span><span class="w"> </span><span class="n">MsgCountRoot</span><span class="p">,</span><span class="w"> </span><span class="n">NotifyProps</span><span class="p">,</span>
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="w">       </span><span class="n">LastUpdateAt</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeUser</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeAdmin</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeGuest</span>
+</span><span id="__span-46-4"><a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-46-5"><a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="n">UserId</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="p">)</span>
+</span><span id="__span-46-6"><a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="n">UserId</span>
+</span><span id="__span-46-7"><a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a><span class="k">LIMIT</span><span class="w"> </span><span class="mi">100</span>
+</span></code></pre></div>
+<p>For each row:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">Roles</span><span class="o">=</span><span class="p">:</span><span class="n">Roles</span><span class="p">,</span><span class="w"> </span><span class="n">LastViewedAt</span><span class="o">=</span><span class="p">:</span><span class="n">LastViewedAt</span><span class="p">,</span><span class="w"> </span><span class="n">MsgCount</span><span class="o">=</span><span class="p">:</span><span class="n">MsgCount</span><span class="p">,</span><span class="w"> </span><span class="n">MentionCount</span><span class="o">=</span><span class="p">:</span><span class="n">MentionCount</span><span class="p">,</span>
+</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="w">    </span><span class="n">UrgentMentionCount</span><span class="o">=</span><span class="p">:</span><span class="n">UrgentMentionCount</span><span class="p">,</span><span class="w"> </span><span class="n">NotifyProps</span><span class="o">=</span><span class="p">:</span><span class="n">NotifyProps</span><span class="p">,</span>
+</span><span id="__span-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="w">    </span><span class="n">LastUpdateAt</span><span class="o">=</span><span class="p">:</span><span class="n">LastUpdateAt</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeUser</span><span class="o">=</span><span class="p">:</span><span class="n">SchemeUser</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeAdmin</span><span class="o">=</span><span class="p">:</span><span class="n">SchemeAdmin</span><span class="p">,</span>
+</span><span id="__span-47-5"><a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="w">    </span><span class="n">SchemeGuest</span><span class="o">=</span><span class="p">:</span><span class="n">SchemeGuest</span><span class="p">,</span><span class="w"> </span><span class="n">MentionCountRoot</span><span class="o">=</span><span class="p">:</span><span class="n">MentionCountRoot</span><span class="p">,</span><span class="w"> </span><span class="n">MsgCountRoot</span><span class="o">=</span><span class="p">:</span><span class="n">MsgCountRoot</span>
+</span><span id="__span-47-6"><a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">ChannelId</span><span class="o">=</span><span class="p">:</span><span class="n">ChannelId</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">UserId</span><span class="o">=</span><span class="p">:</span><span class="n">UserId</span>
+</span></code></pre></div>
+<h3 id="resetallchannelschemes">ResetAllChannelSchemes</h3>
+<p>Runs <strong>resetAllChannelSchemesT</strong> in a transaction.</p>
+<h3 id="resetallchannelschemest">resetAllChannelSchemesT</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">SchemeId</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+</span></code></pre></div>
+<h3 id="clearallcustomroleassignments">ClearAllCustomRoleAssignments</h3>
+<p>Select batch:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="n">UserId</span><span class="p">,</span><span class="w"> </span><span class="n">Roles</span><span class="p">,</span><span class="w"> </span><span class="n">LastViewedAt</span><span class="p">,</span><span class="w"> </span><span class="n">MsgCount</span><span class="p">,</span><span class="w"> </span><span class="n">MentionCount</span><span class="p">,</span><span class="w"> </span><span class="n">MentionCountRoot</span><span class="p">,</span>
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="w">       </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">UrgentMentionCount</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">UrgentMentionCount</span><span class="p">,</span><span class="w"> </span><span class="n">MsgCountRoot</span><span class="p">,</span><span class="w"> </span><span class="n">NotifyProps</span><span class="p">,</span>
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a><span class="w">       </span><span class="n">LastUpdateAt</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeUser</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeAdmin</span><span class="p">,</span><span class="w"> </span><span class="n">SchemeGuest</span>
+</span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-49-5"><a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a><span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="n">UserId</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="p">)</span>
+</span><span id="__span-49-6"><a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ChannelId</span><span class="p">,</span><span class="w"> </span><span class="n">UserId</span>
+</span><span id="__span-49-7"><a id="__codelineno-49-7" name="__codelineno-49-7" href="#__codelineno-49-7"></a><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1000</span>
+</span></code></pre></div>
+<p>For each member (if roles changed):</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">ChannelMembers</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">Roles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<hr />
+<h2 id="export-and-indexing">Export and indexing</h2>
+<p>(GetAllChannelsForExportAfter, GetChannelMembersForExport, GetAllDirectChannelsForExportAfter, GetChannelsBatchForIndexing use squirrel with Channels/Teams/Schemes/ChannelMembers/Users and filters; see code for exact columns and WHERE.)</p>
+<hr />
+<h2 id="misc">Misc</h2>
+<h3 id="userbelongstochannels">UserBelongsToChannels</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">Count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">ChannelMembers</span>
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">UserId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">ChannelId</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="o">?</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Returns whether count &gt; 0.</p>
+<h3 id="updatemembersrole">UpdateMembersRole</h3>
+<p>Squirrel: UPDATE ChannelMembers SET SchemeAdmin = CASE WHEN UserId IN (?) THEN true ELSE false END, ... WHERE ChannelId = ? AND (SchemeGuest = false OR SchemeGuest IS NULL) AND (new admins or demoted admins), <strong>RETURNING</strong> channel member columns.</p>
+<h3 id="groupsyncedchannelcount">GroupSyncedChannelCount</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span>
+</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">GroupConstrained</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">DeleteAt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span></code></pre></div>
+<h3 id="setshared">SetShared</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">Shared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<h3 id="getteamforchannel">GetTeamForChannel</h3>
+<p>Subquery:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">TeamId</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Channels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span></code></pre></div>
+<p>Main: select team columns from Teams WHERE Id = (subquery).</p>
+<h3 id="isreadonlychannel">IsReadOnlyChannel</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">schemeid</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">channels</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span>
+</span></code></pre></div>
+<p>If scheme id present, calls <strong>IsChannelReadOnlyScheme</strong>.</p>
+<h3 id="ischannelreadonlyscheme">IsChannelReadOnlyScheme</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">roles</span><span class="p">.</span><span class="n">permissions</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">roles</span>
+</span><span id="__span-56-2"><a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">schemes</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">roles</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">schemes</span><span class="p">.</span><span class="n">defaultchanneluserrole</span>
+</span><span id="__span-56-3"><a id="__codelineno-56-3" name="__codelineno-56-3" href="#__codelineno-56-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">schemes</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">?</span>
+</span><span id="__span-56-4"><a id="__codelineno-56-4" name="__codelineno-56-4" href="#__codelineno-56-4"></a><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span>
+</span></code></pre></div>
+<p>Returns whether the permission list does not contain <code>create_post</code>.</p>
+<hr />
+<h2 id="no-op-cache-only-no-sql-in-this-store">No-op / cache-only (no SQL in this store)</h2>
+<p>InvalidateChannel, InvalidateChannelByName, ClearCaches, ClearMembersForUserCache, InvalidateAllChannelMembersForUser, InvalidateCacheForChannelMembersNotifyProps, InvalidateMemberCount, InvalidatePinnedPostCount, InvalidateGuestCount: no SQL. <strong>GetMemberCountFromCache</strong> delegates to <strong>GetMemberCount</strong> (SQL as in <strong>GetMemberCount</strong>).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2499 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>PostgreSQL Index Guide - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#postgresql-index-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PostgreSQL Index Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Table of Contents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Cases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#index-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#index-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-primary-key-and-unique-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Primary Key and Unique Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-range-queries-and-sorting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Range Queries and Sorting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-full-text-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Full-Text Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-array-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Array Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-jsonb-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. JSONB Queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-geospatial-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Geospatial Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-range-data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Range Data Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-large-time-series-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Large Time-Series Tables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-equality-only-lookups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Equality-Only Lookups
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-text-pattern-matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Text Pattern Matching
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-case-insensitive-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Case-Insensitive Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-soft-delete-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Soft-Delete Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-index-only-scans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Index-Only Scans
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-high-writeload-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. High-Writeload Tables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-production-index-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Production Index Creation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#16-multi-column-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. Multi-Column Filtering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#17-skewed-boolean-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17. Skewed Boolean Distribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#18-membership-testing-with-multiple-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18. Membership Testing with Multiple Columns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index-types_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Index Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#b-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B-Tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hash
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gist-generalized-search-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GiST (Generalized Search Tree)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sp-gist-space-partitioned-gist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SP-GiST (Space-Partitioned GiST)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gin-generalized-inverted-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GIN (Generalized Inverted Index)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#brin-block-range-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BRIN (Block Range Index)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bloom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloom
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index-features_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Index Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#partial-indexes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partial Indexes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unique-indexes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unique Indexes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expression-indexes-functional-indexes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expression Indexes (Functional Indexes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#covering-indexes-include-clause" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Covering Indexes (INCLUDE Clause)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concurrent-index-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concurrent Index Creation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multicolumn-indexes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multicolumn Indexes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fillfactor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fillfactor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nulls-distinct-nulls-not-distinct" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NULLS DISTINCT / NULLS NOT DISTINCT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#descending-indexes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Descending Indexes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parallel-index-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel Index Creation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Additional Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index Maintenance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitoring-index-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring Index Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="postgresql-index-guide">PostgreSQL Index Guide</h1>
+<h2 id="table-of-contents">Table of Contents</h2>
+<h3 id="use-cases"><a href="#use-cases">Use Cases</a></h3>
+<ul>
+<li><a href="#1-primary-key-and-unique-constraints">Primary Key and Unique Constraints</a></li>
+<li><a href="#2-range-queries-and-sorting">Range Queries and Sorting</a></li>
+<li><a href="#3-full-text-search">Full-Text Search</a></li>
+<li><a href="#4-array-operations">Array Operations</a></li>
+<li><a href="#5-jsonb-queries">JSONB Queries</a></li>
+<li><a href="#6-geospatial-data">Geospatial Data</a></li>
+<li><a href="#7-range-data-types">Range Data Types</a></li>
+<li><a href="#8-large-time-series-tables">Large Time-Series Tables</a></li>
+<li><a href="#9-equality-only-lookups">Equality-Only Lookups</a></li>
+<li><a href="#10-text-pattern-matching">Text Pattern Matching</a></li>
+<li><a href="#11-case-insensitive-search">Case-Insensitive Search</a></li>
+<li><a href="#12-soft-delete-pattern">Soft-Delete Pattern</a></li>
+<li><a href="#13-index-only-scans">Index-Only Scans</a></li>
+<li><a href="#14-high-writeload-tables">High-Writeload Tables</a></li>
+<li><a href="#15-production-index-creation">Production Index Creation</a></li>
+<li><a href="#16-multi-column-filtering">Multi-Column Filtering</a></li>
+<li><a href="#17-skewed-boolean-distribution">Skewed Boolean Distribution</a></li>
+<li><a href="#18-membership-testing-with-multiple-columns">Membership Testing with Multiple Columns</a></li>
+</ul>
+<h3 id="index-types"><a href="#index-types">Index Types</a></h3>
+<ul>
+<li><a href="#b-tree">B-Tree</a></li>
+<li><a href="#hash">Hash</a></li>
+<li><a href="#gist">GiST</a></li>
+<li><a href="#sp-gist">SP-GiST</a></li>
+<li><a href="#gin">GIN</a></li>
+<li><a href="#brin">BRIN</a></li>
+<li><a href="#bloom">Bloom</a></li>
+</ul>
+<h3 id="index-features"><a href="#index-features">Index Features</a></h3>
+<ul>
+<li><a href="#partial-indexes">Partial Indexes</a></li>
+<li><a href="#unique-indexes">Unique Indexes</a></li>
+<li><a href="#expression-indexes">Expression Indexes</a></li>
+<li><a href="#covering-indexes-include">Covering Indexes (INCLUDE)</a></li>
+<li><a href="#concurrent-index-creation">Concurrent Index Creation</a></li>
+<li><a href="#multicolumn-indexes">Multicolumn Indexes</a></li>
+<li><a href="#cluster">Cluster</a></li>
+<li><a href="#fillfactor">Fillfactor</a></li>
+<li><a href="#nulls-distinct--nulls-not-distinct">NULLS DISTINCT / NULLS NOT DISTINCT</a></li>
+<li><a href="#descending-indexes">Descending Indexes</a></li>
+<li><a href="#parallel-index-creation">Parallel Index Creation</a></li>
+</ul>
+<hr />
+<h2 id="use-cases_1">Use Cases</h2>
+<h3 id="1-primary-key-and-unique-constraints">1. Primary Key and Unique Constraints</h3>
+<p><strong>Recommended Index:</strong> B-Tree (default)</p>
+<p><strong>Why:</strong> B-Tree is PostgreSQL's default index type and provides excellent performance for equality and range queries. It's the only index type that can enforce UNIQUE constraints without additional extensions.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="n">email</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="n">username</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">UNIQUE</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">);</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1">-- Automatically creates B-Tree indexes on id and email</span>
+</span></code></pre></div>
+<p><strong>Use with Unique Feature:</strong> When you need to enforce uniqueness across specific row subsets.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">-- Only one active user per email</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_active_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="2-range-queries-and-sorting">2. Range Queries and Sorting</h3>
+<p><strong>Recommended Index:</strong> B-Tree</p>
+<p><strong>Why:</strong> B-Tree naturally sorts data, making it ideal for range queries (<code>&lt;</code>, <code>&gt;</code>, <code>BETWEEN</code>) and <code>ORDER BY</code> operations.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_created_at</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="p">);</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="s1">&#39;2024-01-01&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="s1">&#39;2024-12-31&#39;</span><span class="p">;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">DESC</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>Use with Descending Feature:</strong> For mixed sort orders.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_created_status</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="k">ASC</span><span class="p">);</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">-- Optimizes:</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="k">ASC</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="3-full-text-search">3. Full-Text Search</h3>
+<p><strong>Recommended Index:</strong> GIN</p>
+<p><strong>Why:</strong> GIN indexes each word in the text and supports efficient containment searches. It's the recommended choice for full-text search with <code>to_tsvector()</code>.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_fts</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="p">));</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="p">)</span><span class="w"> </span><span class="o">@@</span><span class="w"> </span><span class="n">to_tsquery</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;postgresql &amp; index&#39;</span><span class="p">);</span>
+</span></code></pre></div>
+<p><strong>Use with Partial Feature:</strong> Index only published articles.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_fts_published</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="p">))</span><span class="w"> </span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;published&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="4-array-operations">4. Array Operations</h3>
+<p><strong>Recommended Index:</strong> GIN</p>
+<p><strong>Why:</strong> GIN indexes each array element, enabling efficient array containment and overlap queries.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">posts</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="n">tags</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">[]</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">);</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_tags</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">posts</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">tags</span><span class="p">);</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">posts</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="o">@&gt;</span><span class="w"> </span><span class="nb">ARRAY</span><span class="p">[</span><span class="s1">&#39;database&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;sql&#39;</span><span class="p">];</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">posts</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">tags</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">ARRAY</span><span class="p">[</span><span class="s1">&#39;sql&#39;</span><span class="p">];</span>
+</span></code></pre></div>
+<p><strong>Use with Partial Feature:</strong> Index only active posts.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_active_tags</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">posts</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="5-jsonb-queries">5. JSONB Queries</h3>
+<p><strong>Recommended Index:</strong> GIN</p>
+<p><strong>Why:</strong> GIN supports <code>@&gt;</code> containment operator for JSONB, making it perfect for querying nested JSON data.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="n">metadata</span><span class="w"> </span><span class="n">JSONB</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">);</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_metadata</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">metadata</span><span class="p">);</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">metadata</span><span class="w"> </span><span class="o">@&gt;</span><span class="w"> </span><span class="s1">&#39;{&quot;category&quot;: &quot;electronics&quot;, &quot;stock&quot;: true}&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>Alternative:</strong> Expression Index with B-Tree for specific JSONB paths.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_metadata_category</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="p">((</span><span class="n">metadata</span><span class="o">-&gt;&gt;</span><span class="s1">&#39;category&#39;</span><span class="p">));</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1">-- Benefits:</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">metadata</span><span class="o">-&gt;&gt;</span><span class="s1">&#39;category&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;electronics&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="6-geospatial-data">6. Geospatial Data</h3>
+<p><strong>Recommended Index:</strong> GiST</p>
+<p><strong>Why:</strong> GiST supports spatial operators like <code>&amp;&amp;</code> (overlaps), <code>@&gt;</code> (contains), and <code>&lt;@</code> (contained by), essential for GIS applications.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">postgis</span><span class="p">;</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">locations</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="n">name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">  </span><span class="n">geom</span><span class="w"> </span><span class="n">GEOMETRY</span><span class="p">(</span><span class="n">Point</span><span class="p">,</span><span class="w"> </span><span class="mi">4326</span><span class="p">)</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="p">);</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_geom</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">locations</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GiST</span><span class="w"> </span><span class="p">(</span><span class="n">geom</span><span class="p">);</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">locations</span><span class="w"> </span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">ST_DWithin</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span><span class="w"> </span><span class="n">ST_MakePoint</span><span class="p">(</span><span class="o">-</span><span class="mi">71</span><span class="p">.</span><span class="mi">06</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">.</span><span class="mi">36</span><span class="p">),</span><span class="w"> </span><span class="mi">1000</span><span class="p">);</span>
+</span></code></pre></div>
+<p><strong>Use with Partial Feature:</strong> Index only active locations.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_active_geom</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">locations</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GiST</span><span class="w"> </span><span class="p">(</span><span class="n">geom</span><span class="p">)</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="7-range-data-types">7. Range Data Types</h3>
+<p><strong>Recommended Index:</strong> GiST or SP-GiST</p>
+<p><strong>Why:</strong> Both support range operators like <code>@&gt;</code> (contains) and <code>&amp;&amp;</code> (overlaps). SP-GiST can be faster for certain distributions.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">reservations</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="n">room_id</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="n">during</span><span class="w"> </span><span class="n">TSRANGE</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="p">);</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_during</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">reservations</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GiST</span><span class="w"> </span><span class="p">(</span><span class="n">during</span><span class="p">);</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">reservations</span><span class="w"> </span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">during</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s1">&#39;[2024-01-01 14:00, 2024-01-01 16:00)&#39;</span><span class="p">::</span><span class="n">tsrange</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="8-large-time-series-tables">8. Large Time-Series Tables</h3>
+<p><strong>Recommended Index:</strong> BRIN</p>
+<p><strong>Why:</strong> BRIN stores summary information per block range, making it extremely space-efficient for large tables with naturally ordered data like timestamps.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">events</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="n">BIGSERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="n">event_type</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="k">data</span><span class="w"> </span><span class="n">JSONB</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="p">);</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_created_at</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">events</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">BRIN</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="p">);</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1">-- Benefits queries scanning large time ranges:</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">events</span><span class="w"> </span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="s1">&#39;2024-01-01&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="s1">&#39;2024-01-31&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>Use with Partial Feature:</strong> Index only recent data.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_recent_events</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">events</span><span class="w"> </span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="k">USING</span><span class="w"> </span><span class="n">BRIN</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span><span class="w"> </span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="k">CURRENT_DATE</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;1 year&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="9-equality-only-lookups">9. Equality-Only Lookups</h3>
+<p><strong>Recommended Index:</strong> Hash</p>
+<p><strong>Why:</strong> Hash indexes are faster for equality comparisons than B-Tree, but don't support range queries. Good for columns used only in <code>=</code> conditions.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_email_hash</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">HASH</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">);</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;user@example.com&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>Use Case Warning:</strong> Only use when you never query ranges on this column.</p>
+<h3 id="10-text-pattern-matching">10. Text Pattern Matching</h3>
+<p><strong>Recommended Index:</strong> SP-GiST</p>
+<p><strong>Why:</strong> SP-GiST provides efficient pattern matching for text, supporting operators like <code>~</code>, <code>~*</code>, <code>LIKE</code>, and <code>ILIKE</code>.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_text_pattern</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">documents</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">SP</span><span class="o">-</span><span class="n">GiST</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="p">);</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">documents</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%postgres%&#39;</span><span class="p">;</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">documents</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s1">&#39;^PostgreSQL&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="11-case-insensitive-search">11. Case-Insensitive Search</h3>
+<p><strong>Recommended Index:</strong> Expression Index with B-Tree</p>
+<p><strong>Why:</strong> Expression indexes allow you to index the result of <code>LOWER()</code> or other functions, enabling case-insensitive search.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_lower_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="k">LOWER</span><span class="p">(</span><span class="n">email</span><span class="p">));</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">LOWER</span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">LOWER</span><span class="p">(</span><span class="s1">&#39;USER@EXAMPLE.COM&#39;</span><span class="p">);</span>
+</span></code></pre></div>
+<p><strong>Use with Unique Feature:</strong> Enforce case-insensitive uniqueness.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_unique_lower_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="k">LOWER</span><span class="p">(</span><span class="n">email</span><span class="p">));</span>
+</span></code></pre></div>
+<h3 id="12-soft-delete-pattern">12. Soft-Delete Pattern</h3>
+<p><strong>Recommended Index:</strong> Partial B-Tree</p>
+<p><strong>Why:</strong> Partial indexes exclude deleted rows, reducing index size and improving query performance for active records.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span><span class="n">email</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">  </span><span class="n">deleted_at</span><span class="w"> </span><span class="k">TIMESTAMP</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="p">);</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_active_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">deleted_at</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;user@example.com&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">deleted_at</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="13-index-only-scans">13. Index-Only Scans</h3>
+<p><strong>Recommended Index:</strong> Covering Index (B-Tree with INCLUDE)</p>
+<p><strong>Why:</strong> INCLUDE adds non-key columns to the index, enabling index-only scans that avoid table lookups.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_order_status_covering</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="w"> </span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">INCLUDE</span><span class="w"> </span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">total</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="p">);</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">total</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;completed&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="14-high-writeload-tables">14. High-Writeload Tables</h3>
+<p><strong>Recommended Index:</strong> Lower Fillfactor B-Tree</p>
+<p><strong>Why:</strong> Lower fillfactor reserves space in index pages, reducing page splits and fragmentation during frequent updates.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_updated_at</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="p">(</span><span class="n">updated_at</span><span class="p">)</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">fillfactor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">70</span><span class="p">);</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="c1">-- Benefits tables with frequent updates, reduces index maintenance overhead</span>
+</span></code></pre></div>
+<h3 id="15-production-index-creation">15. Production Index Creation</h3>
+<p><strong>Recommended Feature:</strong> CONCURRENTLY</p>
+<p><strong>Why:</strong> Building indexes with CONCURRENTLY doesn't block writes, essential for production systems.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">CONCURRENTLY</span><span class="w"> </span><span class="n">idx_new_index</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">);</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1">-- Allows application to continue writing while index is built</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1">-- Takes longer than regular index creation</span>
+</span></code></pre></div>
+<h3 id="16-multi-column-filtering">16. Multi-Column Filtering</h3>
+<p><strong>Recommended Index:</strong> Multicolumn B-Tree</p>
+<p><strong>Why:</strong> Indexes on multiple columns optimize queries filtering on multiple conditions simultaneously.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">  </span><span class="n">customer_id</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">  </span><span class="n">created_at</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="p">);</span>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_customer_status</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">);</span>
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>
+</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span>
+</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">customer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="p">;</span>
+</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a>
+</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a><span class="c1">-- Also benefits queries on customer_id alone (leftmost prefix):</span>
+</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">customer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="17-skewed-boolean-distribution">17. Skewed Boolean Distribution</h3>
+<p><strong>Recommended Index:</strong> Partial B-Tree</p>
+<p><strong>Why:</strong> When 99% of rows have the same boolean value, a partial index on the rare value is much smaller and faster.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="w">  </span><span class="n">email</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="w">  </span><span class="n">is_admin</span><span class="w"> </span><span class="nb">BOOLEAN</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">FALSE</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="p">);</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_admins</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_admin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="c1">-- Benefits queries filtering for admins (rare case):</span>
+</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_admin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="18-membership-testing-with-multiple-columns">18. Membership Testing with Multiple Columns</h3>
+<p><strong>Recommended Index:</strong> Bloom</p>
+<p><strong>Why:</strong> Bloom indexes are probabilistic structures that efficiently test membership across multiple columns with minimal space.</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">bloom</span><span class="p">;</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="w">  </span><span class="n">category</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="w">  </span><span class="n">brand</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="w">  </span><span class="n">color</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="p">);</span>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>
+</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_bloom</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">bloom</span><span class="w"> </span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">brand</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">);</span>
+</span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>
+</span><span id="__span-25-12"><a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a><span class="c1">-- Benefits queries like:</span>
+</span><span id="__span-25-13"><a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="w"> </span>
+</span><span id="__span-25-14"><a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;electronics&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">brand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Apple&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;black&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="index-types_1">Index Types</h2>
+<h3 id="b-tree">B-Tree</h3>
+<p><strong>Default index type</strong> and most versatile option in PostgreSQL.</p>
+<p><strong>Supports:</strong>
+- Equality operators: <code>=</code>, <code>!=</code>, <code>&lt;&gt;</code>
+- Range operators: <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>BETWEEN</code>
+- Pattern matching: <code>LIKE</code>, <code>ILIKE</code>, <code>~</code>, <code>~*</code>
+- Sorting: <code>ORDER BY</code>, <code>GROUP BY</code></p>
+<p><strong>Best For:</strong>
+- Primary keys and unique constraints
+- Range queries
+- Sorting operations
+- Most general-purpose indexing needs</p>
+<p><strong>Example:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1">-- Basic B-Tree index</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1">-- Multicolumn B-Tree</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">);</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="c1">-- Descending order</span>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_created_desc</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">events</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Default choice for most scenarios
+- When you need both equality and range queries
+- When enforcing UNIQUE constraints
+- When you need to support sorting</p>
+<hr />
+<h3 id="hash">Hash</h3>
+<p><strong>Optimized for equality-only comparisons.</strong></p>
+<p><strong>Supports:</strong>
+- Equality operators: <code>=</code></p>
+<p><strong>Does NOT Support:</strong>
+- Range operators: <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>
+- Pattern matching: <code>LIKE</code>, <code>~</code>
+- Sorting: <code>ORDER BY</code></p>
+<p><strong>Best For:</strong>
+- Columns queried only with <code>=</code>
+- High-frequency equality lookups
+- When index size matters</p>
+<p><strong>Example:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_email_hash</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">HASH</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">);</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="c1">-- Efficient for:</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;user@example.com&#39;</span><span class="p">;</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="c1">-- Inefficient for:</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;user%&#39;</span><span class="p">;</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- When you never query ranges on the column
+- When you need faster equality lookups than B-Tree
+- When index size is a concern</p>
+<p><strong>When to Avoid:</strong>
+- When you might need range queries in the future
+- When you need sorting
+- When you need pattern matching</p>
+<hr />
+<h3 id="gist-generalized-search-tree">GiST (Generalized Search Tree)</h3>
+<p><strong>Supports complex data types and spatial searches.</strong></p>
+<p><strong>Supports:</strong>
+- Geometric operators: <code>&lt;&lt;</code>, <code>&amp;&lt;</code>, <code>&amp;&gt;</code>, <code>&gt;&gt;</code>, <code>&lt;&lt;|</code>, <code>&amp;&lt;|</code>, <code>|&amp;&gt;</code>, <code>|&gt;&gt;</code>, <code>@&gt;</code>, <code>&lt;@</code>, <code>~=</code>, <code>&amp;&amp;</code>
+- Range operators: <code>@&gt;</code>, <code>&lt;@</code>, <code>&amp;&amp;</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>
+- Full-text search operators: <code>@@</code></p>
+<p><strong>Best For:</strong>
+- Geospatial data (PostGIS)
+- Range types
+- Full-text search (alternative to GIN)
+- IP network types</p>
+<p><strong>Example:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1">-- PostGIS geometry</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">postgis</span><span class="p">;</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_geom</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">locations</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GiST</span><span class="w"> </span><span class="p">(</span><span class="n">geom</span><span class="p">);</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="c1">-- Range types</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_during</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">reservations</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GiST</span><span class="w"> </span><span class="p">(</span><span class="n">during</span><span class="p">);</span>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="c1">-- IP networks</span>
+</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_ip</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">access_logs</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GiST</span><span class="w"> </span><span class="p">(</span><span class="n">ip_range</span><span class="p">);</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Working with geometric/spatial data
+- Using range data types
+- Need complex containment queries
+- Alternative to GIN for full-text search (better for updates)</p>
+<hr />
+<h3 id="sp-gist-space-partitioned-gist">SP-GiST (Space-Partitioned GiST)</h3>
+<p><strong>Alternative to GiST for certain data types and distributions.</strong></p>
+<p><strong>Supports:</strong>
+- Text pattern matching: <code>~</code>, <code>~*</code>, <code>LIKE</code>, <code>ILIKE</code>
+- Range operators: <code>@&gt;</code>, <code>&lt;@</code>, <code>&amp;&amp;</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>
+- Point data</p>
+<p><strong>Best For:</strong>
+- Text pattern matching
+- Highly skewed data distributions
+- Points in space
+- Some range queries</p>
+<p><strong>Example:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1">-- Text pattern matching</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_text_pattern</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">documents</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">SP</span><span class="o">-</span><span class="n">GiST</span><span class="w"> </span><span class="p">(</span><span class="n">title</span><span class="p">);</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1">-- Points</span>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_points</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">locations</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">SP</span><span class="o">-</span><span class="n">GiST</span><span class="w"> </span><span class="p">(</span><span class="n">coordinates</span><span class="p">);</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Need efficient text pattern matching
+- Data has highly non-uniform distribution
+- Alternative to GiST for specific data types
+- When GiST performance is suboptimal for your data</p>
+<p><strong>When to Avoid:</strong>
+- When data distribution is uniform (GiST may be better)
+- When you're unsure (start with GiST or GIN)</p>
+<hr />
+<h3 id="gin-generalized-inverted-index">GIN (Generalized Inverted Index)</h3>
+<p><strong>Best for array values and document search.</strong></p>
+<p><strong>Supports:</strong>
+- Array operators: <code>@&gt;</code> (contains), <code>&amp;&amp;</code> (overlaps), <code>@?</code> (contains elements), <code>@@</code> (GIN array queries)
+- Full-text search: <code>@@</code> (tsquery)
+- JSONB: <code>@&gt;</code> (contains), <code>?</code> (key exists), <code>?|</code>, <code>?&amp;</code></p>
+<p><strong>Best For:</strong>
+- Array operations
+- Full-text search
+- JSONB queries
+- Any containment-based queries</p>
+<p><strong>Example:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1">-- Arrays</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_tags</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">tags</span><span class="p">);</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1">-- Full-text search</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_fts</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">articles</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">to_tsvector</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="p">));</span>
+</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>
+</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="c1">-- JSONB</span>
+</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_metadata</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">metadata</span><span class="p">);</span>
+</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>
+</span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="c1">-- HStore</span>
+</span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_attributes</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">GIN</span><span class="w"> </span><span class="p">(</span><span class="n">attributes</span><span class="p">);</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Querying array contents
+- Full-text search with <code>@@</code>
+- JSONB containment queries
+- When you need to index composite values</p>
+<p><strong>Performance Considerations:</strong>
+- Larger than B-Tree indexes
+- Slower for writes than B-Tree
+- Use <code>fastupdate = true</code> for write-heavy workloads (default)
+- Use <code>fastupdate = false</code> for read-heavy workloads</p>
+<hr />
+<h3 id="brin-block-range-index">BRIN (Block Range Index)</h3>
+<p><strong>Extremely space-efficient for very large tables with ordered data.</strong></p>
+<p><strong>Supports:</strong>
+- Equality operators: <code>=</code>, <code>!=</code>, <code>&lt;&gt;</code>
+- Range operators: <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>BETWEEN</code></p>
+<p><strong>Best For:</strong>
+- Very large tables (millions/billions of rows)
+- Naturally ordered data (timestamps, serial IDs)
+- Queries that scan large portions of the table
+- When index size is critical</p>
+<p><strong>Example:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1">-- Default pages_per_range (128)</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_created_at</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">events</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">BRIN</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="p">);</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="c1">-- More granular (better query performance)</span>
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_created_at</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">events</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">BRIN</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span><span class="w"> </span>
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">pages_per_range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">);</span>
+</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>
+</span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a><span class="c1">-- Less granular (smaller index)</span>
+</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_created_at</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">events</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">BRIN</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span><span class="w"> </span>
+</span><span id="__span-31-10"><a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">pages_per_range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">512</span><span class="p">);</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Tables with hundreds of millions of rows
+- Data is naturally ordered (timestamps, sequences)
+- Queries typically scan large ranges
+- Storage space is a concern</p>
+<p><strong>When to Avoid:</strong>
+- Small or medium-sized tables (use B-Tree)
+- Randomly distributed data
+- Queries that need precise individual row lookups</p>
+<p><strong>Performance Note:</strong> BRIN doesn't speed up point queries (single row lookups). It only helps when scanning ranges that span multiple block ranges.</p>
+<hr />
+<h3 id="bloom">Bloom</h3>
+<p><strong>Probabilistic data structure for membership testing.</strong></p>
+<p><strong>Supports:</strong>
+- Equality operators: <code>=</code>, <code>!=</code>, <code>&lt;&gt;</code></p>
+<p><strong>Does NOT Support:</strong>
+- Range operators
+- Pattern matching
+- Sorting</p>
+<p><strong>Best For:</strong>
+- Testing membership across multiple columns
+- Small, space-efficient indexes
+- When false positives are acceptable</p>
+<p><strong>Example:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">bloom</span><span class="p">;</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="w">  </span><span class="n">category</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+</span><span id="__span-32-6"><a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="w">  </span><span class="n">brand</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+</span><span id="__span-32-7"><a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="w">  </span><span class="n">color</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-32-8"><a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="p">);</span>
+</span><span id="__span-32-9"><a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>
+</span><span id="__span-32-10"><a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_bloom</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">bloom</span><span class="w"> </span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">brand</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">);</span>
+</span><span id="__span-32-11"><a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a>
+</span><span id="__span-32-12"><a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a><span class="c1">-- Queries benefit:</span>
+</span><span id="__span-32-13"><a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="w"> </span>
+</span><span id="__span-32-14"><a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;electronics&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">brand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Apple&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;black&#39;</span><span class="p">;</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Need to filter on multiple columns simultaneously
+- Index size is a critical concern
+- Can tolerate occasional false positives (PostgreSQL rechecks)
+- Alternative to multicolumn B-Tree when space is tight</p>
+<p><strong>When to Avoid:</strong>
+- When you need range queries
+- When you need sorting
+- When false positives are unacceptable
+- When you can afford a larger B-Tree index</p>
+<p><strong>Important:</strong> Requires the <code>bloom</code> extension to be installed.</p>
+<hr />
+<h2 id="index-features_1">Index Features</h2>
+<h3 id="partial-indexes">Partial Indexes</h3>
+<p>Create indexes that only include rows matching a <code>WHERE</code> clause condition.</p>
+<p><strong>Benefits:</strong>
+- Smaller index size
+- Faster index scans
+- Reduced storage and memory usage
+- Faster index creation</p>
+<p><strong>Use Cases:</strong>
+- Filter frequently queried subsets of data
+- Boolean columns with skewed distribution
+- Soft-delete patterns
+- Time-based filtering</p>
+<p><strong>Examples:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1">-- Basic partial index</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_active_users</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="c1">-- Partial unique index</span>
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_active_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+</span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>
+</span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="c1">-- Multiple conditions</span>
+</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_priority_active</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">tasks</span><span class="w"> </span><span class="p">(</span><span class="n">priority</span><span class="p">)</span><span class="w"> </span>
+</span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">is_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+</span><span id="__span-33-10"><a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a>
+</span><span id="__span-33-11"><a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a><span class="c1">-- Time-based</span>
+</span><span id="__span-33-12"><a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_recent</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">logs</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span><span class="w"> </span>
+</span><span id="__span-33-13"><a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="k">CURRENT_DATE</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;30 days&#39;</span><span class="p">;</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Frequently query a subset of rows
+- 90%+ of queries include the filter condition
+- Boolean columns with highly uneven distribution
+- Soft-delete pattern (only index non-deleted rows)
+- Time-based queries on recent data</p>
+<p><strong>When to Avoid:</strong>
+- When queries don't include the filter condition (index won't be used)
+- When the subset is large (close to 100% of rows)</p>
+<hr />
+<h3 id="unique-indexes">Unique Indexes</h3>
+<p>Enforce uniqueness on column(s) to prevent duplicate values.</p>
+<p><strong>Benefits:</strong>
+- Data integrity
+- Automatic use for UNIQUE constraints
+- Enables efficient lookups (B-Tree)</p>
+<p><strong>Use Cases:</strong>
+- Primary keys
+- Unique business identifiers (email, username)
+- Enforcing uniqueness in subsets (with partial indexes)</p>
+<p><strong>Examples:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1">-- Basic unique index</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">);</span>
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="c1">-- Multicolumn unique index</span>
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">);</span>
+</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>
+</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a><span class="c1">-- Partial unique index (only one active per email)</span>
+</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_active_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+</span><span id="__span-34-9"><a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>
+</span><span id="__span-34-10"><a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a><span class="c1">-- Expression unique index (case-insensitive)</span>
+</span><span id="__span-34-11"><a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_unique_lower_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="k">LOWER</span><span class="p">(</span><span class="n">email</span><span class="p">));</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Enforcing business rules (unique emails, usernames)
+- Preventing duplicate data
+- Primary keys (automatically created)
+- Enforcing uniqueness on specific row subsets</p>
+<p><strong>When to Avoid:</strong>
+- When duplicates are allowed
+- When you only need performance, not uniqueness (use regular index)</p>
+<hr />
+<h3 id="expression-indexes-functional-indexes">Expression Indexes (Functional Indexes)</h3>
+<p>Index the result of an expression or function call, not raw column values.</p>
+<p><strong>Benefits:</strong>
+- Enable index usage for computed values
+- Support case-insensitive search
+- Index complex transformations</p>
+<p><strong>Use Cases:</strong>
+- Case-insensitive comparisons
+- Indexing computed expressions
+- Pattern matching with functions
+- Complex WHERE conditions</p>
+<p><strong>Examples:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1">-- Case-insensitive search</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_lower_name</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="k">LOWER</span><span class="p">(</span><span class="n">name</span><span class="p">));</span>
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="c1">-- Computed expression</span>
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_full_name</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">((</span><span class="n">first_name</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">last_name</span><span class="p">));</span>
+</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>
+</span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a><span class="c1">-- Date extraction</span>
+</span><span id="__span-35-8"><a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_month</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">events</span><span class="w"> </span><span class="p">(</span><span class="k">EXTRACT</span><span class="p">(</span><span class="k">MONTH</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">created_at</span><span class="p">));</span>
+</span><span id="__span-35-9"><a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>
+</span><span id="__span-35-10"><a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a><span class="c1">-- String manipulation</span>
+</span><span id="__span-35-11"><a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_email_domain</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="k">SUBSTRING</span><span class="p">(</span><span class="n">email</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">POSITION</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+</span><span id="__span-35-12"><a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a>
+</span><span id="__span-35-13"><a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a><span class="c1">-- Coalesce (handle NULLs)</span>
+</span><span id="__span-35-14"><a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_coalesce</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="p">(</span><span class="k">COALESCE</span><span class="p">(</span><span class="n">sku</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;default&#39;</span><span class="p">));</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Frequently query with functions on indexed columns
+- Need case-insensitive search
+- Query computed expressions
+- Pattern matching with transforms</p>
+<p><strong>When to Avoid:</strong>
+- When you can query the raw column instead (simpler)
+- When the expression is complex and rarely used</p>
+<p><strong>Important:</strong> The query must use the exact same expression for the index to be used.</p>
+<hr />
+<h3 id="covering-indexes-include-clause">Covering Indexes (INCLUDE Clause)</h3>
+<p>Include non-key columns in the index for index-only scans (PostgreSQL 11+).</p>
+<p><strong>Benefits:</strong>
+- Avoid table access (index-only scans)
+- No table lookups for included columns
+- Smaller than full index on all columns
+- Performance improvement for common queries</p>
+<p><strong>Use Cases:</strong>
+- Queries that need a few columns from filtered rows
+- SELECT statements with limited columns
+- Reducing I/O for frequent queries</p>
+<p><strong>Examples:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1">-- Basic covering index</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_order_status_covering</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="w"> </span>
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="n">INCLUDE</span><span class="w"> </span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">total</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="p">);</span>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="c1">-- Query benefits:</span>
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">total</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span>
+</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span>
+</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;completed&#39;</span><span class="p">;</span>
+</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>
+</span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="c1">-- Multiple conditions with included columns</span>
+</span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_user_created</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">events</span><span class="w"> </span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="p">)</span><span class="w"> </span>
+</span><span id="__span-36-12"><a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a><span class="n">INCLUDE</span><span class="w"> </span><span class="p">(</span><span class="n">event_type</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">);</span>
+</span><span id="__span-36-13"><a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a>
+</span><span id="__span-36-14"><a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a><span class="c1">-- Query benefits:</span>
+</span><span id="__span-36-15"><a id="__codelineno-36-15" name="__codelineno-36-15" href="#__codelineno-36-15"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="p">,</span><span class="w"> </span><span class="n">event_type</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="w"> </span>
+</span><span id="__span-36-16"><a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a><span class="k">FROM</span><span class="w"> </span><span class="n">events</span><span class="w"> </span>
+</span><span id="__span-36-17"><a id="__codelineno-36-17" name="__codelineno-36-17" href="#__codelineno-36-17"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="s1">&#39;2024-01-01&#39;</span><span class="p">;</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Frequently SELECT specific columns after filtering
+- Queries that don't need all columns
+- Want to eliminate table lookups for hot queries
+- Common query patterns</p>
+<p><strong>When to Avoid:</strong>
+- When you need many columns (index becomes large)
+- When queries vary significantly in selected columns
+- When table is small (not worth the overhead)</p>
+<p><strong>Important:</strong> Included columns cannot be used for filtering or sorting. They're only for retrieval.</p>
+<hr />
+<h3 id="concurrent-index-creation">Concurrent Index Creation</h3>
+<p>Build indexes without blocking writes to the table (PostgreSQL 8.2+).</p>
+<p><strong>Benefits:</strong>
+- No write locks during index creation
+- Application continues working
+- Essential for production systems</p>
+<p><strong>Trade-offs:</strong>
+- Takes longer than regular index creation
+- Cannot be used in a transaction
+- If failed, leaves invalid index that must be cleaned up</p>
+<p><strong>Use Cases:</strong>
+- Production deployments
+- Large tables
+- High-traffic systems
+- Zero-downtime migrations</p>
+<p><strong>Examples:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1">-- Basic concurrent index</span>
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">CONCURRENTLY</span><span class="w"> </span><span class="n">idx_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">);</span>
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="c1">-- Concurrent unique index</span>
+</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">CONCURRENTLY</span><span class="w"> </span><span class="n">idx_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">);</span>
+</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>
+</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="c1">-- Concurrent partial index</span>
+</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">CONCURRENTLY</span><span class="w"> </span><span class="n">idx_active_users</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">is_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a>
+</span><span id="__span-37-10"><a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a><span class="c1">-- Clean up failed concurrent index</span>
+</span><span id="__span-37-11"><a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a><span class="k">DROP</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">CONCURRENTLY</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">idx_email</span><span class="p">;</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Production environments
+- Anytime writes cannot be blocked
+- Large tables (indexing takes time)
+- Critical applications</p>
+<p><strong>When to Avoid:</strong>
+- Development/testing (use regular CREATE INDEX for speed)
+- Small tables where creation is instant
+- Within a transaction block</p>
+<p><strong>Important:</strong> 
+- Must be run outside transactions
+- Requires more time than regular creation
+- If it fails, you must clean up manually</p>
+<hr />
+<h3 id="multicolumn-indexes">Multicolumn Indexes</h3>
+<p>Index on multiple columns to optimize queries filtering on multiple conditions.</p>
+<p><strong>Benefits:</strong>
+- Optimize queries with multiple WHERE conditions
+- Single index instead of multiple single-column indexes
+- Better performance for specific query patterns</p>
+<p><strong>Use Cases:</strong>
+- Queries filtering on multiple columns
+- Composite business keys
+- Specific query patterns</p>
+<p><strong>Examples:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="c1">-- Basic multicolumn index</span>
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">);</span>
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>
+</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="c1">-- Benefits:</span>
+</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;John&#39;</span>
+</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;John&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;john@example.com&#39;</span>
+</span><span id="__span-38-7"><a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;J%&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;john%&#39;</span>
+</span><span id="__span-38-8"><a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>
+</span><span id="__span-38-9"><a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a><span class="c1">-- Does NOT help:</span>
+</span><span id="__span-38-10"><a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;john@example.com&#39;</span><span class="w"> </span><span class="p">(</span><span class="n">leftmost</span><span class="w"> </span><span class="k">prefix</span><span class="w"> </span><span class="k">rule</span><span class="p">)</span>
+</span><span id="__span-38-11"><a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a>
+</span><span id="__span-38-12"><a id="__codelineno-38-12" name="__codelineno-38-12" href="#__codelineno-38-12"></a><span class="c1">-- Three columns</span>
+</span><span id="__span-38-13"><a id="__codelineno-38-13" name="__codelineno-38-13" href="#__codelineno-38-13"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_customer_status_created</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="p">);</span>
+</span><span id="__span-38-14"><a id="__codelineno-38-14" name="__codelineno-38-14" href="#__codelineno-38-14"></a>
+</span><span id="__span-38-15"><a id="__codelineno-38-15" name="__codelineno-38-15" href="#__codelineno-38-15"></a><span class="c1">-- Benefits all these:</span>
+</span><span id="__span-38-16"><a id="__codelineno-38-16" name="__codelineno-38-16" href="#__codelineno-38-16"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">customer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span>
+</span><span id="__span-38-17"><a id="__codelineno-38-17" name="__codelineno-38-17" href="#__codelineno-38-17"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">customer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span>
+</span><span id="__span-38-18"><a id="__codelineno-38-18" name="__codelineno-38-18" href="#__codelineno-38-18"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">customer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">&#39;2024-01-01&#39;</span>
+</span><span id="__span-38-19"><a id="__codelineno-38-19" name="__codelineno-38-19" href="#__codelineno-38-19"></a>
+</span><span id="__span-38-20"><a id="__codelineno-38-20" name="__codelineno-38-20" href="#__codelineno-38-20"></a><span class="c1">-- Does NOT help:</span>
+</span><span id="__span-38-21"><a id="__codelineno-38-21" name="__codelineno-38-21" href="#__codelineno-38-21"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span>
+</span><span id="__span-38-22"><a id="__codelineno-38-22" name="__codelineno-38-22" href="#__codelineno-38-22"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;pending&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">&#39;2024-01-01&#39;</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Frequently query with multiple columns together
+- The same combination appears in many queries
+- Want to optimize specific query patterns</p>
+<p><strong>When to Avoid:</strong>
+- When columns are queried independently
+- When query patterns vary significantly
+- When index becomes too wide (many columns)</p>
+<p><strong>Best Practices:</strong>
+- Put most selective column first (most unique values)
+- Put most commonly filtered column first
+- Consider query patterns (what's always present?)
+- Don't create more than 3-4 columns per index</p>
+<p><strong>Leftmost Prefix Rule:</strong> A multicolumn index (A, B, C) supports queries on A, (A, B), and (A, B, C), but NOT B, C, or (B, C).</p>
+<hr />
+<h3 id="cluster">Cluster</h3>
+<p>Reorder the physical table storage based on index order.</p>
+<p><strong>Benefits:</strong>
+- Improves sequential scan performance
+- Better locality for range queries
+- Can significantly speed up certain queries</p>
+<p><strong>Trade-offs:</strong>
+- Takes time to complete (locks table)
+- Performance degrades over time as table is updated
+- Requires maintenance (re-cluster periodically)</p>
+<p><strong>Use Cases:</strong>
+- Tables where data is mostly static
+- Frequent range queries on ordered data
+- Reports/analytical queries</p>
+<p><strong>Examples:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1">-- Cluster table by index</span>
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="k">CLUSTER</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">idx_customer_created</span><span class="p">;</span>
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="c1">-- Cluster verbose (shows progress)</span>
+</span><span id="__span-39-5"><a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="k">CLUSTER</span><span class="w"> </span><span class="k">VERBOSE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">idx_name</span><span class="p">;</span>
+</span><span id="__span-39-6"><a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a>
+</span><span id="__span-39-7"><a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a><span class="c1">-- Re-cluster after updates</span>
+</span><span id="__span-39-8"><a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a><span class="k">CLUSTER</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">idx_customer_created</span><span class="p">;</span>
+</span><span id="__span-39-9"><a id="__codelineno-39-9" name="__codelineno-39-9" href="#__codelineno-39-9"></a>
+</span><span id="__span-39-10"><a id="__codelineno-39-10" name="__codelineno-39-10" href="#__codelineno-39-10"></a><span class="c1">-- Analyze after clustering</span>
+</span><span id="__span-39-11"><a id="__codelineno-39-11" name="__codelineno-39-11" href="#__codelineno-39-11"></a><span class="k">ANALYZE</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Mostly static tables
+- Frequent range scans on ordered data
+- When query performance is critical
+- Can afford downtime for clustering</p>
+<p><strong>When to Avoid:</strong>
+- Highly dynamic tables (frequent updates/inserts)
+- When data is frequently changing
+- When you can't afford table locks
+- When benefit doesn't outweigh cost</p>
+<p><strong>Important:</strong> 
+- Locks the table during operation
+- Must run ANALYZE after clustering
+- Performance degrades with updates
+- Consider automatic maintenance for re-clustering</p>
+<hr />
+<h3 id="fillfactor">Fillfactor</h3>
+<p>Control how much space is reserved in index pages for updates (works for both indexes and tables).</p>
+<p><strong>Benefits:</strong>
+- Reduces page splits during updates
+- Lower index maintenance overhead
+- Better performance for write-heavy workloads</p>
+<p><strong>Trade-offs:</strong>
+- Larger index size (unused space)
+- Slower scans (more pages to read)</p>
+<p><strong>Use Cases:</strong>
+- Frequently updated tables/indexes
+- High write throughput
+- When reducing page splits is important</p>
+<p><strong>Examples:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1">-- High fillfactor (read-heavy, rare updates)</span>
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">fillfactor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>
+</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="c1">-- Medium fillfactor (moderate updates)</span>
+</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">fillfactor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">90</span><span class="p">);</span>
+</span><span id="__span-40-6"><a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a>
+</span><span id="__span-40-7"><a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a><span class="c1">-- Low fillfactor (heavy updates)</span>
+</span><span id="__span-40-8"><a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_updated_at</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="p">(</span><span class="n">updated_at</span><span class="p">)</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">fillfactor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">70</span><span class="p">);</span>
+</span><span id="__span-40-9"><a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a>
+</span><span id="__span-40-10"><a id="__codelineno-40-10" name="__codelineno-40-10" href="#__codelineno-40-10"></a><span class="c1">-- Table fillfactor (for heaps)</span>
+</span><span id="__span-40-11"><a id="__codelineno-40-11" name="__codelineno-40-11" href="#__codelineno-40-11"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="p">(</span><span class="n">fillfactor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">70</span><span class="p">);</span>
+</span><span id="__span-40-12"><a id="__codelineno-40-12" name="__codelineno-40-12" href="#__codelineno-40-12"></a>
+</span><span id="__span-40-13"><a id="__codelineno-40-13" name="__codelineno-40-13" href="#__codelineno-40-13"></a><span class="c1">-- Multicolumn with fillfactor</span>
+</span><span id="__span-40-14"><a id="__codelineno-40-14" name="__codelineno-40-14" href="#__codelineno-40-14"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="p">(</span><span class="n">fillfactor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">85</span><span class="p">);</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Tables with frequent updates
+- High write workloads
+- When index maintenance is expensive
+- Want to reduce page splits</p>
+<p><strong>When to Avoid:</strong>
+- Read-only tables (use 100)
+- Storage is expensive
+- Query performance is more important than write performance</p>
+<p><strong>Recommended Values:</strong>
+- <code>fillfactor = 100</code>: Read-only or rarely updated data
+- <code>fillfactor = 90-95</code>: Moderate updates
+- <code>fillfactor = 70-85</code>: Heavy updates, high write throughput</p>
+<p><strong>Important:</strong> Lower fillfactor means larger indexes but better write performance.</p>
+<hr />
+<h3 id="nulls-distinct-nulls-not-distinct">NULLS DISTINCT / NULLS NOT DISTINCT</h3>
+<p>Control how NULLs are handled in unique indexes (PostgreSQL 15+).</p>
+<p><strong>Benefits:</strong>
+- Enforce uniqueness including NULL values
+- Customize uniqueness semantics
+- Better control over data constraints</p>
+<p><strong>Use Cases:</strong>
+- When NULL should be treated as a value for uniqueness
+- Phone numbers, optional unique fields
+- Custom business rules</p>
+<p><strong>Examples:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="c1">-- Default behavior (NULLs are distinct, multiple NULLs allowed)</span>
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">);</span>
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a><span class="c1">-- Allows: (&#39;john@example.com&#39;, &#39;jane@example.com&#39;, NULL, NULL)</span>
+</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>
+</span><span id="__span-41-5"><a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a><span class="c1">-- Treat NULLs as not distinct (only one NULL allowed)</span>
+</span><span id="__span-41-6"><a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_phone</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">phone</span><span class="p">)</span><span class="w"> </span><span class="n">NULLS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="p">;</span>
+</span><span id="__span-41-7"><a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a><span class="c1">-- Allows: (&#39;555-1234&#39;, &#39;555-5678&#39;, NULL)</span>
+</span><span id="__span-41-8"><a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a><span class="c1">-- Prevents: (&#39;555-1234&#39;, &#39;555-1234&#39;, NULL, NULL)</span>
+</span><span id="__span-41-9"><a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a>
+</span><span id="__span-41-10"><a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a><span class="c1">-- Partial with NULL handling</span>
+</span><span id="__span-41-11"><a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_active_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span>
+</span><span id="__span-41-12"><a id="__codelineno-41-12" name="__codelineno-41-12" href="#__codelineno-41-12"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">is_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="w"> </span>
+</span><span id="__span-41-13"><a id="__codelineno-41-13" name="__codelineno-41-13" href="#__codelineno-41-13"></a><span class="n">NULLS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="p">;</span>
+</span><span id="__span-41-14"><a id="__codelineno-41-14" name="__codelineno-41-14" href="#__codelineno-41-14"></a>
+</span><span id="__span-41-15"><a id="__codelineno-41-15" name="__codelineno-41-15" href="#__codelineno-41-15"></a><span class="c1">-- Multiple columns</span>
+</span><span id="__span-41-16"><a id="__codelineno-41-16" name="__codelineno-41-16" href="#__codelineno-41-16"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">)</span><span class="w"> </span>
+</span><span id="__span-41-17"><a id="__codelineno-41-17" name="__codelineno-41-17" href="#__codelineno-41-17"></a><span class="n">NULLS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="p">;</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Want to enforce uniqueness on optional fields
+- When NULL should be treated as a value
+- Business rules require single NULL
+- Custom uniqueness semantics</p>
+<p><strong>When to Avoid:</strong>
+- When multiple NULLs should be allowed (default)
+- When using PostgreSQL &lt; 15 (not available)
+- When you want standard SQL NULL behavior</p>
+<p><strong>Important:</strong> Only available in PostgreSQL 15 and later.</p>
+<hr />
+<h3 id="descending-indexes">Descending Indexes</h3>
+<p>Support descending order in indexes (PostgreSQL 8.3+).</p>
+<p><strong>Benefits:</strong>
+- Optimize queries with ORDER BY DESC
+- Support mixed ascending/descending sorts
+- Better performance for specific sort orders</p>
+<p><strong>Use Cases:</strong>
+- Queries with ORDER BY column_name DESC
+- Mixed sort orders
+- Frequently accessed sorted views</p>
+<p><strong>Examples:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1">-- Simple descending index</span>
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_created_desc</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">events</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span>
+</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>
+</span><span id="__span-42-4"><a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a><span class="c1">-- Benefits:</span>
+</span><span id="__span-42-5"><a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">events</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">DESC</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</span><span id="__span-42-6"><a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a>
+</span><span id="__span-42-7"><a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a><span class="c1">-- Mixed ascending/descending</span>
+</span><span id="__span-42-8"><a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_status_created</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="k">ASC</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span>
+</span><span id="__span-42-9"><a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>
+</span><span id="__span-42-10"><a id="__codelineno-42-10" name="__codelineno-42-10" href="#__codelineno-42-10"></a><span class="c1">-- Benefits:</span>
+</span><span id="__span-42-11"><a id="__codelineno-42-11" name="__codelineno-42-11" href="#__codelineno-42-11"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="k">ASC</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</span><span id="__span-42-12"><a id="__codelineno-42-12" name="__codelineno-42-12" href="#__codelineno-42-12"></a>
+</span><span id="__span-42-13"><a id="__codelineno-42-13" name="__codelineno-42-13" href="#__codelineno-42-13"></a><span class="c1">-- Partial descending</span>
+</span><span id="__span-42-14"><a id="__codelineno-42-14" name="__codelineno-42-14" href="#__codelineno-42-14"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_active_created</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">created_at</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span><span class="w"> </span>
+</span><span id="__span-42-15"><a id="__codelineno-42-15" name="__codelineno-42-15" href="#__codelineno-42-15"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">is_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+</span><span id="__span-42-16"><a id="__codelineno-42-16" name="__codelineno-42-16" href="#__codelineno-42-16"></a>
+</span><span id="__span-42-17"><a id="__codelineno-42-17" name="__codelineno-42-17" href="#__codelineno-42-17"></a><span class="c1">-- Multicolumn with mixed order</span>
+</span><span id="__span-42-18"><a id="__codelineno-42-18" name="__codelineno-42-18" href="#__codelineno-42-18"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_price_rating_desc</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="p">(</span><span class="n">price</span><span class="w"> </span><span class="k">ASC</span><span class="p">,</span><span class="w"> </span><span class="n">rating</span><span class="w"> </span><span class="k">DESC</span><span class="p">);</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Frequent queries with ORDER BY DESC
+- Mixed sort orders in same query
+- Need to optimize specific sort patterns
+- When sort order is consistent</p>
+<p><strong>When to Avoid:</strong>
+- When sort order varies
+- When data size is small
+- When sorting is infrequent</p>
+<p><strong>Important:</strong> The index order must match the query's ORDER BY for it to be used.</p>
+<hr />
+<h3 id="parallel-index-creation">Parallel Index Creation</h3>
+<p>Build indexes using parallel workers (PostgreSQL 11+).</p>
+<p><strong>Benefits:</strong>
+- Faster index creation on large tables
+- Utilizes multiple CPU cores
+- Reduced index creation time</p>
+<p><strong>Trade-offs:</strong>
+- Higher CPU usage during creation
+- More memory consumption
+- Requires configuration tuning</p>
+<p><strong>Use Cases:</strong>
+- Large tables (millions+ rows)
+- Index creation time is critical
+- Sufficient CPU resources available</p>
+<p><strong>Examples:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="c1">-- Set parallel workers</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="k">SET</span><span class="w"> </span><span class="n">max_parallel_maintenance_workers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a><span class="k">SET</span><span class="w"> </span><span class="n">maintenance_work_mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1GB&#39;</span><span class="p">;</span>
+</span><span id="__span-43-4"><a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>
+</span><span id="__span-43-5"><a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="c1">-- Create index (uses parallel workers)</span>
+</span><span id="__span-43-6"><a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_large_column</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">large_table</span><span class="w"> </span><span class="p">(</span><span class="k">column</span><span class="p">);</span>
+</span><span id="__span-43-7"><a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a>
+</span><span id="__span-43-8"><a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a><span class="c1">-- Set at session level</span>
+</span><span id="__span-43-9"><a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a><span class="k">SET</span><span class="w"> </span><span class="k">LOCAL</span><span class="w"> </span><span class="n">max_parallel_maintenance_workers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+</span><span id="__span-43-10"><a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a><span class="k">SET</span><span class="w"> </span><span class="k">LOCAL</span><span class="w"> </span><span class="n">maintenance_work_mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;2GB&#39;</span><span class="p">;</span>
+</span><span id="__span-43-11"><a id="__codelineno-43-11" name="__codelineno-43-11" href="#__codelineno-43-11"></a>
+</span><span id="__span-43-12"><a id="__codelineno-43-12" name="__codelineno-43-12" href="#__codelineno-43-12"></a><span class="c1">-- Create multiple indexes in parallel (requires multiple sessions)</span>
+</span><span id="__span-43-13"><a id="__codelineno-43-13" name="__codelineno-43-13" href="#__codelineno-43-13"></a><span class="c1">-- Session 1:</span>
+</span><span id="__span-43-14"><a id="__codelineno-43-14" name="__codelineno-43-14" href="#__codelineno-43-14"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">CONCURRENTLY</span><span class="w"> </span><span class="n">idx_1</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">large_table</span><span class="w"> </span><span class="p">(</span><span class="n">column1</span><span class="p">);</span>
+</span><span id="__span-43-15"><a id="__codelineno-43-15" name="__codelineno-43-15" href="#__codelineno-43-15"></a>
+</span><span id="__span-43-16"><a id="__codelineno-43-16" name="__codelineno-43-16" href="#__codelineno-43-16"></a><span class="c1">-- Session 2:</span>
+</span><span id="__span-43-17"><a id="__codelineno-43-17" name="__codelineno-43-17" href="#__codelineno-43-17"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">CONCURRENTLY</span><span class="w"> </span><span class="n">idx_2</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">large_table</span><span class="w"> </span><span class="p">(</span><span class="n">column2</span><span class="p">);</span>
+</span></code></pre></div></p>
+<p><strong>When to Use:</strong>
+- Creating indexes on large tables
+- Have spare CPU capacity
+- Want to minimize maintenance windows
+- Index creation is time-sensitive</p>
+<p><strong>When to Avoid:</strong>
+- Small tables (overhead not worth it)
+- CPU is already at capacity
+- Creating indexes on production during peak hours
+- Limited memory available</p>
+<p><strong>Configuration:</strong>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="c1">-- Show current settings</span>
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="k">SHOW</span><span class="w"> </span><span class="n">max_parallel_maintenance_workers</span><span class="p">;</span>
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="k">SHOW</span><span class="w"> </span><span class="n">maintenance_work_mem</span><span class="p">;</span>
+</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>
+</span><span id="__span-44-5"><a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a><span class="c1">-- Recommended settings for parallel index creation:</span>
+</span><span id="__span-44-6"><a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a><span class="k">SET</span><span class="w"> </span><span class="n">max_parallel_maintenance_workers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="c1">-- Adjust based on CPU cores</span>
+</span><span id="__span-44-7"><a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a><span class="k">SET</span><span class="w"> </span><span class="n">maintenance_work_mem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;1GB&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">-- Larger = faster, more memory</span>
+</span></code></pre></div></p>
+<p><strong>Important:</strong> 
+- Works best with <code>maintenance_work_mem</code> set appropriately
+- Number of workers should not exceed CPU cores
+- Monitor CPU and memory during creation</p>
+<hr />
+<h2 id="additional-notes">Additional Notes</h2>
+<h3 id="index-maintenance">Index Maintenance</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="c1">-- Reindex an index</span>
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="k">REINDEX</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name</span><span class="p">;</span>
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>
+</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="c1">-- Reindex all indexes on a table</span>
+</span><span id="__span-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="k">REINDEX</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="p">;</span>
+</span><span id="__span-45-6"><a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a>
+</span><span id="__span-45-7"><a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a><span class="c1">-- Reindex concurrently (PostgreSQL 12+)</span>
+</span><span id="__span-45-8"><a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a><span class="k">REINDEX</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">CONCURRENTLY</span><span class="w"> </span><span class="n">idx_name</span><span class="p">;</span>
+</span><span id="__span-45-9"><a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a>
+</span><span id="__span-45-10"><a id="__codelineno-45-10" name="__codelineno-45-10" href="#__codelineno-45-10"></a><span class="c1">-- Analyze after index changes</span>
+</span><span id="__span-45-11"><a id="__codelineno-45-11" name="__codelineno-45-11" href="#__codelineno-45-11"></a><span class="k">ANALYZE</span><span class="w"> </span><span class="n">users</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="monitoring-index-usage">Monitoring Index Usage</h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="c1">-- Check index usage statistics</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">schemaname</span><span class="p">,</span><span class="w"> </span><span class="n">tablename</span><span class="p">,</span><span class="w"> </span><span class="n">indexname</span><span class="p">,</span><span class="w"> </span><span class="n">idx_scan</span><span class="p">,</span><span class="w"> </span><span class="n">idx_tup_read</span><span class="p">,</span><span class="w"> </span><span class="n">idx_tup_fetch</span>
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_user_indexes</span>
+</span><span id="__span-46-4"><a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">idx_scan</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</span><span id="__span-46-5"><a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a>
+</span><span id="__span-46-6"><a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="c1">-- Find unused indexes</span>
+</span><span id="__span-46-7"><a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">schemaname</span><span class="p">,</span><span class="w"> </span><span class="n">tablename</span><span class="p">,</span><span class="w"> </span><span class="n">indexname</span>
+</span><span id="__span-46-8"><a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_user_indexes</span>
+</span><span id="__span-46-9"><a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">idx_scan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-46-10"><a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a><span class="k">AND</span><span class="w"> </span><span class="n">indexname</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%_pkey&#39;</span><span class="p">;</span>
+</span><span id="__span-46-11"><a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a>
+</span><span id="__span-46-12"><a id="__codelineno-46-12" name="__codelineno-46-12" href="#__codelineno-46-12"></a><span class="c1">-- Index size</span>
+</span><span id="__span-46-13"><a id="__codelineno-46-13" name="__codelineno-46-13" href="#__codelineno-46-13"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_size_pretty</span><span class="p">(</span><span class="n">pg_relation_size</span><span class="p">(</span><span class="s1">&#39;idx_name&#39;</span><span class="p">));</span>
+</span></code></pre></div>
+<h3 id="common-pitfalls">Common Pitfalls</h3>
+<ol>
+<li><strong>Too many indexes:</strong> Each index slows down writes</li>
+<li><strong>Unused indexes:</strong> Waste space and maintenance time</li>
+<li><strong>Duplicate indexes:</strong> Multiple indexes on same columns</li>
+<li><strong>Wrong index type:</strong> Using GIN when B-Tree would work</li>
+<li><strong>Ignoring partial indexes:</strong> Missing optimization opportunities</li>
+<li><strong>Not analyzing:</strong> Query planner needs statistics</li>
+</ol>
+<h3 id="best-practices">Best Practices</h3>
+<ol>
+<li>Start with B-Tree, specialize when needed</li>
+<li>Use partial indexes for common query filters</li>
+<li>Consider covering indexes for frequent queries</li>
+<li>Use CONCURRENTLY in production</li>
+<li>Monitor index usage regularly</li>
+<li>Remove unused indexes</li>
+<li>Analyze tables after index changes</li>
+<li>Test query performance before/after indexing</li>
+</ol>
+<hr />
+<p><strong>Last Updated:</strong> 2026-06-14</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

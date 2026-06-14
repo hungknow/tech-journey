@@ -1,0 +1,1681 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Stack - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#stack" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Stack
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stack
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stack">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-parentheses-valid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Parentheses &amp; Valid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-monotonic-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Monotonic Stack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-calculator-eval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Calculator &amp; Eval
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Other
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Stack</h1>
+
+<h2 id="stack">Stack</h2>
+<h3 id="1-parentheses-valid">1. Parentheses &amp; Valid</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0020</td>
+<td><a href="./problems/0020-valid-parentheses.md">Valid Parentheses</a></td>
+<td><a href="./golang/0020_valid_parentheses.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0032</td>
+<td><a href="./problems/0032-longest-valid-parentheses.md">Longest Valid Parentheses</a></td>
+<td><a href="./golang/0032_longest_valid_parentheses.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0394</td>
+<td><a href="./problems/0394-decode-string.md">Decode String</a></td>
+<td><a href="./golang/0394_decode_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0856</td>
+<td><a href="./problems/0856-score-of-parentheses.md">Score of Parentheses</a></td>
+<td><a href="./golang/0856_score_of_parentheses.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0921</td>
+<td><a href="./problems/0921-minimum-add-to-make-parentheses-valid.md">Minimum Add to Make Parentheses Valid</a></td>
+<td><a href="./golang/0921_minimum_add_to_make_parentheses_valid.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1021</td>
+<td><a href="./problems/1021-remove-outermost-parentheses.md">Remove Outermost Parentheses</a></td>
+<td><a href="./golang/1021_remove_outermost_parentheses.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1190</td>
+<td><a href="./problems/1190-reverse-substrings-between-each-pair-of-parentheses.md">Reverse Substrings Between Each Pair of Parentheses</a></td>
+<td><a href="./golang/1190_reverse_substrings_between_each_pair_of_parentheses.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1541</td>
+<td><a href="./problems/1541-minimum-insertions-to-balance-a-parentheses-string.md">Minimum Insertions to Balance a Parentheses String</a></td>
+<td><a href="./golang/1541_minimum_insertions_to_balance_a_parentheses_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="2-monotonic-stack">2. Monotonic Stack</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0084</td>
+<td><a href="./problems/0084-largest-rectangle-in-histogram.md">Largest Rectangle in Histogram</a></td>
+<td><a href="./golang/0084_largest_rectangle_in_histogram.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Mono Stack, DP</td>
+</tr>
+<tr>
+<td>0085</td>
+<td><a href="./problems/0085-maximal-rectangle.md">Maximal Rectangle</a></td>
+<td><a href="./golang/0085_maximal_rectangle.go">Go</a></td>
+<td><em>O(m * n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>EPI</td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>0496</td>
+<td><a href="./problems/0496-next-greater-element-i.md">Next Greater Element I</a></td>
+<td><a href="./golang/0496_next_greater_element_i.go">Go</a></td>
+<td><em>O(m + n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>0739</td>
+<td><a href="./problems/0739-daily-temperatures.md">Daily Temperatures</a></td>
+<td><a href="./golang/0739_daily_temperatures.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1019</td>
+<td><a href="./problems/1019-next-greater-node-in-linked-list.md">Next Greater Node In Linked List</a></td>
+<td><a href="./golang/1019_next_greater_node_in_linked_list.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>1063</td>
+<td><a href="./problems/1063-number-of-valid-subarrays.md">Number of Valid Subarrays</a></td>
+<td><a href="./golang/1063_number_of_valid_subarrays.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>1130</td>
+<td><a href="./problems/1130-minimum-cost-tree-from-leaf-values.md">Minimum Cost Tree From Leaf Values</a></td>
+<td><a href="./golang/1130_minimum_cost_tree_from_leaf_values.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>1856</td>
+<td><a href="./problems/1856-maximum-subarray-min-product.md">Maximum Subarray Min-Product</a></td>
+<td><a href="./golang/1856_maximum_subarray_min_product.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>variant of <a href="https://leetcode.com/problems/largest-rectangle-in-histogram/">Largest Rectangle in Histogram</a></td>
+<td>Mono Stack, Prefix Sum</td>
+</tr>
+<tr>
+<td>1944</td>
+<td><a href="./problems/1944-number-of-visible-people-in-a-queue.md">Number of Visible People in a Queue</a></td>
+<td><a href="./golang/1944_number_of_visible_people_in_a_queue.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/buildings-with-an-ocean-view/">Buildings With an Ocean View</a></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>1950</td>
+<td><a href="./problems/1950-maximum-of-minimum-values-in-all-subarrays.md">Maximum of Minimum Values in All Subarrays</a></td>
+<td><a href="./golang/1950_maximum_of_minimum_values_in_all_subarrays.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>2104</td>
+<td><a href="./problems/2104-sum-of-subarray-ranges.md">Sum of Subarray Ranges</a></td>
+<td><a href="./golang/2104_sum_of_subarray_ranges.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>2281</td>
+<td><a href="./problems/2281-sum-of-total-strength-of-wizards.md">Sum of Total Strength of Wizards</a></td>
+<td><a href="./golang/2281_sum_of_total_strength_of_wizards.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/largest-rectangle-in-histogram/">Largest Rectangle in Histogram</a></td>
+<td>Mono Stack, Prefix Sum</td>
+</tr>
+<tr>
+<td>2282</td>
+<td><a href="./problems/2282-number-of-people-that-can-be-seen-in-a-grid.md">Number of People That Can Be Seen in a Grid</a></td>
+<td><a href="./golang/2282_number_of_people_that_can_be_seen_in_a_grid.go">Go</a></td>
+<td><em>O(m * n)</em></td>
+<td><em>O(m + n)</em></td>
+<td>Medium</td>
+<td>🔒, variant of <a href="https://leetcode.com/problems/number-of-visible-people-in-a-queue/">Number of Visible People in a Queue</a></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>2334</td>
+<td><a href="./problems/2334-subarray-with-elements-greater-than-varying-threshold.md">Subarray With Elements Greater Than Varying Threshold</a></td>
+<td><a href="./golang/2334_subarray_with_elements_greater_than_varying_threshold.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>variant of <a href="https://leetcode.com/problems/maximum-subarray-min-product/">Maximum Subarray Min-Product</a></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>2355</td>
+<td><a href="./problems/2355-maximum-number-of-books-you-can-take.md">Maximum Number of Books You Can Take</a></td>
+<td><a href="./golang/2355_maximum_number_of_books_you_can_take.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td>Mono Stack, Math</td>
+</tr>
+<tr>
+<td>2454</td>
+<td><a href="./problems/2454-next-greater-element-iv.md">Next Greater Element IV</a></td>
+<td><a href="./golang/2454_next_greater_element_iv.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>2735</td>
+<td><a href="./problems/2735-collecting-chocolates.md">Collecting Chocolates</a></td>
+<td><a href="./golang/2735_collecting_chocolates.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Mono Stack, Difference Array, Prefix Sum, Binary Search, Mono Deque, Brute Force</td>
+</tr>
+<tr>
+<td>2736</td>
+<td><a href="./problems/2736-maximum-sum-queries.md">Maximum Sum Queries</a></td>
+<td><a href="./golang/2736_maximum_sum_queries.go">Go</a></td>
+<td><em>O(nlogn + mlogm + mlogn)</em></td>
+<td><em>O(n + m)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Sort, Mono Stack, Binary Search</td>
+</tr>
+<tr>
+<td>2832</td>
+<td><a href="./problems/2832-maximal-range-that-each-element-is-maximum-in-it.md">Maximal Range That Each Element Is Maximum in It</a></td>
+<td><a href="./golang/2832_maximal_range_that_each_element_is_maximum_in_it.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>2863</td>
+<td><a href="./problems/2863-maximum-length-of-semi-decreasing-subarrays.md">Maximum Length of Semi-Decreasing Subarrays</a></td>
+<td><a href="./golang/2863_maximum_length_of_semi_decreasing_subarrays.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Sort, Mono Stack</td>
+</tr>
+<tr>
+<td>2865</td>
+<td><a href="./problems/2865-beautiful-towers-i.md">Beautiful Towers I</a></td>
+<td><a href="./golang/2865_beautiful_towers_i.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Mono Stack</td>
+</tr>
+<tr>
+<td>2866</td>
+<td><a href="./problems/2866-beautiful-towers-ii.md">Beautiful Towers II</a></td>
+<td><a href="./golang/2866_beautiful_towers_ii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td>Mono Stack</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="3-calculator-eval">3. Calculator &amp; Eval</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0150</td>
+<td><a href="./problems/0150-evaluate-reverse-polish-notation.md">Evaluate Reverse Polish Notation</a></td>
+<td><a href="./golang/0150_evaluate_reverse_polish_notation.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0224</td>
+<td><a href="./problems/0224-basic-calculator.md">Basic Calculator</a></td>
+<td><a href="./golang/0224_basic_calculator.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0227</td>
+<td><a href="./problems/0227-basic-calculator-ii.md">Basic Calculator II</a></td>
+<td><a href="./golang/0227_basic_calculator_ii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0770</td>
+<td><a href="./problems/0770-basic-calculator-iv.md">Basic Calculator IV</a></td>
+<td><a href="./golang/0770_basic_calculator_iv.go">Go</a></td>
+<td>add: <em>O(d * t)</em><br> sub: <em>O(d * t)</em><br> mul: <em>O(d * t^2)</em><br> eval: <em>O(d * t)</em> <br> to_list: <em>O(d * tlogt)</em></td>
+<td><em>O(e + d * t)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0772</td>
+<td><a href="./problems/0772-basic-calculator-iii.md">Basic Calculator III</a></td>
+<td><a href="./golang/0772_basic_calculator_iii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1597</td>
+<td><a href="./problems/1597-build-binary-expression-tree-from-infix-expression.md">Build Binary Expression Tree From Infix Expression</a></td>
+<td><a href="./golang/1597_build_binary_expression_tree_from_infix_expression.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒, variant of <a href="https://leetcode.com/problems/basic-calculator-iii/">Basic Calculator III</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="4-other">4. Other</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Solution</th>
+<th>Time</th>
+<th>Space</th>
+<th>Difficulty</th>
+<th>Tag</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0071</td>
+<td><a href="./problems/0071-simplify-path.md">Simplify Path</a></td>
+<td><a href="./golang/0071_simplify_path.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0101</td>
+<td><a href="./problems/0101-symmetric-tree.md">Symmetric Tree</a></td>
+<td><a href="./golang/0101_symmetric_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0155</td>
+<td><a href="./problems/0155-min-stack.md">Min Stack</a></td>
+<td><a href="./golang/0155_min_stack.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0232</td>
+<td><a href="./problems/0232-implement-queue-using-stacks.md">Implement Queue using Stacks</a></td>
+<td><a href="./golang/0232_implement_queue_using_stacks.go">Go</a></td>
+<td><em>O(1), amortized</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td>EPI, LintCode</td>
+<td></td>
+</tr>
+<tr>
+<td>0255</td>
+<td><a href="./problems/0255-verify-preorder-sequence-in-binary-search-tree.md">Verify Preorder Sequence in Binary Search Tree</a></td>
+<td><a href="./golang/0255_verify_preorder_sequence_in_binary_search_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0272</td>
+<td><a href="./problems/0272-closest-binary-search-tree-value-ii.md">Closest Binary Search Tree Value II</a></td>
+<td><a href="./golang/0272_closest_binary_search_tree_value_ii.go">Go</a></td>
+<td><em>O(h + k)</em></td>
+<td><em>O(h)</em></td>
+<td>Hard</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0331</td>
+<td><a href="./problems/0331-verify-preorder-serialization-of-a-binary-tree.md">Verify Preorder Serialization of a Binary Tree</a></td>
+<td><a href="./golang/0331_verify_preorder_serialization_of_a_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0341</td>
+<td><a href="./problems/0341-flatten-nested-list-iterator.md">Flatten Nested List Iterator</a></td>
+<td><a href="./golang/0341_flatten_nested_list_iterator.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Iterator</td>
+</tr>
+<tr>
+<td>0385</td>
+<td><a href="./problems/0385-mini-parser.md">Mini Parser</a></td>
+<td><a href="./golang/0385_mini_parser.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0439</td>
+<td><a href="./problems/0439-ternary-expression-parser.md">Ternary Expression Parser</a></td>
+<td><a href="./golang/0439_ternary_expression_parser.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td></td>
+</tr>
+<tr>
+<td>0456</td>
+<td><a href="./problems/0456-132-pattern.md">132 Pattern</a></td>
+<td><a href="./golang/0456_132_pattern.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0636</td>
+<td><a href="./problems/0636-exclusive-time-of-functions.md">Exclusive Time of Functions</a></td>
+<td><a href="./golang/0636_exclusive_time_of_functions.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0682</td>
+<td><a href="./problems/0682-baseball-game.md">Baseball Game</a></td>
+<td><a href="./golang/0682_baseball_game.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0726</td>
+<td><a href="./problems/0726-number-of-atoms.md">Number of Atoms</a></td>
+<td><a href="./golang/0726_number_of_atoms.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0735</td>
+<td><a href="./problems/0735-asteroid-collision.md">Asteroid Collision</a></td>
+<td><a href="./golang/0735_asteroid_collision.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0736</td>
+<td><a href="./problems/0736-parse-lisp-expression.md">Parse Lisp Expression</a></td>
+<td><a href="./golang/0736_parse_lisp_expression.go">Go</a></td>
+<td><em>O(n^2)</em></td>
+<td><em>O(n^2)</em></td>
+<td>Hard</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0853</td>
+<td><a href="./problems/0853-car-fleet.md">Car Fleet</a></td>
+<td><a href="./golang/0853_car_fleet.go">Go</a></td>
+<td><em>O(nlogn)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0872</td>
+<td><a href="./problems/0872-leaf-similar-trees.md">Leaf-Similar Trees</a></td>
+<td><a href="./golang/0872_leaf_similar_trees.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(h)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0895</td>
+<td><a href="./problems/0895-maximum-frequency-stack.md">Maximum Frequency Stack</a></td>
+<td><a href="./golang/0895_maximum_frequency_stack.go">Go</a></td>
+<td><em>O(1)</em></td>
+<td><em>O(n)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Hash</td>
+</tr>
+<tr>
+<td>0901</td>
+<td><a href="./problems/0901-online-stock-span.md">Online Stock Span</a></td>
+<td><a href="./golang/0901_online_stock_span.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0946</td>
+<td><a href="./problems/0946-validate-stack-sequences.md">Validate Stack Sequences</a></td>
+<td><a href="./golang/0946_validate_stack_sequences.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1003</td>
+<td><a href="./problems/1003-check-if-word-is-valid-after-substitutions.md">Check If Word Is Valid After Substitutions</a></td>
+<td><a href="./golang/1003_check_if_word_is_valid_after_substitutions.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1047</td>
+<td><a href="./problems/1047-remove-all-adjacent-duplicates-in-string.md">Remove All Adjacent Duplicates In String</a></td>
+<td><a href="./golang/1047_remove_all_adjacent_duplicates_in_string.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1209</td>
+<td><a href="./problems/1209-remove-all-adjacent-duplicates-in-string-ii.md">Remove All Adjacent Duplicates in String II</a></td>
+<td><a href="./golang/1209_remove_all_adjacent_duplicates_in_string_ii.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1441</td>
+<td><a href="./problems/1441-build-an-array-with-stack-operations.md">Build an Array With Stack Operations</a></td>
+<td><a href="./golang/1441_build_an_array_with_stack_operations.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(1)</em></td>
+<td>Easy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2197</td>
+<td><a href="./problems/2197-replace-non-coprime-numbers-in-array.md">Replace Non-Coprime Numbers in Array</a></td>
+<td><a href="./golang/2197_replace_non_coprime_numbers_in_array.go">Go</a></td>
+<td><em>O(nlogm)</em></td>
+<td><em>O(1)</em></td>
+<td>Hard</td>
+<td></td>
+<td>Stack, Math</td>
+</tr>
+<tr>
+<td>2696</td>
+<td><a href="./problems/2696-minimum-string-length-after-removing-substrings.md">Minimum String Length After Removing Substrings</a></td>
+<td><a href="./golang/2696_minimum_string_length_after_removing_substrings.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Stack</td>
+</tr>
+<tr>
+<td>2764</td>
+<td><a href="./problems/2764-is-array-a-preorder-of-some-binary-tree.md">is Array a Preorder of Some ‌Binary Tree</a></td>
+<td><a href="./golang/2764_is_array_a_preorder_of_some_binary_tree.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Medium</td>
+<td>🔒</td>
+<td>Stack</td>
+</tr>
+<tr>
+<td>2899</td>
+<td><a href="./problems/2899-last-visited-integers.md">Last Visited Integers</a></td>
+<td><a href="./golang/2899_last_visited_integers.go">Go</a></td>
+<td><em>O(n)</em></td>
+<td><em>O(n)</em></td>
+<td>Easy</td>
+<td></td>
+<td>Stack</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

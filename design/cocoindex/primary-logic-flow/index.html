@@ -1,0 +1,1272 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Primary Logic Flows in CocoIndex - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#primary-logic-flows-in-cocoindex" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Primary Logic Flows in CocoIndex
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-flow-definition-and-build-python-rust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Flow definition and build (Python → Rust)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-flow-analysis-and-execution-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Flow analysis and execution plan
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-source-streaming-and-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Source streaming and scheduling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-persource-row-pipeline-evaluate-precommit-apply-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Per–source-row pipeline (evaluate → precommit → apply → commit)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-incremental-detection-ordinal-fingerprint-skip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Incremental detection (ordinal, fingerprint, skip)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-memoization-cache-uuid-stability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Memoization (cache + UUID stability)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-tracking-table-and-target-key-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Tracking table and target key lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-live-updater-batch-vs-change-stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Live updater (batch vs change stream)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-setup-and-drop-backends-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Setup and drop (backends, tracking)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-transform-flows-transient-in-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Transform flows (transient, in-memory)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-query-handlers-and-service-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Query handlers and service API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-cli-and-app-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. CLI and app loading
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-tree-by-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File tree (by flow)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="primary-logic-flows-in-cocoindex">Primary Logic Flows in CocoIndex</h1>
+<p>A concise map of the main logic flows in the Python and Rust codebase. See also <code>cr/incremental-update.md</code> and <code>cr/memorization.md</code> for detailed behavior.</p>
+<hr />
+<h2 id="1-flow-definition-and-build-python-rust">1. Flow definition and build (Python → Rust)</h2>
+<p><strong>Purpose:</strong> User defines a flow in Python; the engine builds an internal representation and execution plan. The flow is a declarative pipeline: which sources to read, how to transform rows, what to collect, and where to export.</p>
+<p>You define the flow by receiving a <code>FlowBuilder</code> and a root <code>DataScope</code>. You call <code>add_source</code> to register a data source and its output type. On a <code>DataSlice</code> (a handle over source or transformed data), <code>transform</code> adds a function step whose output becomes the new slice, and <code>for_each</code> opens a nested scope per row. In each scope, <code>DataScope</code> holds field values and <code>add_collector</code> creates a <code>DataCollector</code> that accumulates rows via <code>collect(...)</code> and sends them to targets via <code>export(...)</code>. No source rows are read at definition time—only a spec graph is built.</p>
+<p>When the flow is first used, <code>_create_engine_flow()</code> runs this definition; then Rust’s <code>build_flow()</code> (in <code>builder/flow_builder.rs</code>) turns the graph into an engine flow instance (sources, transforms, collectors, exports). The analyzer (<code>analyzer.rs</code>) type-checks it and builds an execution plan (<code>plan.rs</code>); <code>AnalyzedFlow::from_flow_instance</code> in <code>analyzed_flow.rs</code> produces the final data schema, setup state, and plan.</p>
+<p><strong>Code:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python/cocoindex/
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  flow.py
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>rust/cocoindex/src/builder/
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  flow_builder.rs
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  analyzer.rs
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  plan.rs
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  analyzed_flow.rs
+</span></code></pre></div></p>
+<p><strong>Value:</strong> Single place where “source → transforms → collect → export” becomes an analyzable, executable pipeline with schemas and setup.</p>
+<hr />
+<h2 id="2-flow-analysis-and-execution-plan">2. Flow analysis and execution plan</h2>
+<p><strong>Purpose:</strong> Turn a flow instance spec into a typed schema, setup state, and a runnable execution plan. This is where the engine infers types, resolves sources/targets, and produces a linearized plan the runtime can execute.</p>
+<p>The analyzer walks the flow graph (sources, transforms, for_each, collect, export) and builds a <code>ValueTypeBuilder</code> tree for each value type (struct/table fields, collector schemas). It resolves function specs to executors and attaches concurrency controllers. You get a <code>FlowSchema</code> (root and collector schemas), <code>AnalyzedSetupState</code> (tracking table, source/target/attachment configs), and an <code>ExecutionPlan</code>.</p>
+<p>The plan is a sequence of ops: <code>AnalyzedImportOp</code> (source + primary key), <code>AnalyzedTransformOp</code> (inputs → function → output), <code>AnalyzedForEachOp</code> (nested scope per row), <code>AnalyzedCollectOp</code> (input mapping → collector rows), <code>AnalyzedExportOp</code> (collector → target + primary key). Field definitions get a <code>FieldDefFingerprint</code> (sources + logic fingerprint) so the runtime can detect logic changes and decide reprocessing. All of this lives in <code>builder/analyzer.rs</code> and <code>builder/plan.rs</code>: <code>analyze_flow(flow_instance, flow_instance_ctx)</code> returns the schema, setup state, and a future of the execution plan.</p>
+<p><strong>Code:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>rust/cocoindex/src/builder/
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  analyzer.rs
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  plan.rs
+</span></code></pre></div></p>
+<p><strong>Value:</strong> Enables correct execution (types, keys, targets) and incremental/tracking behavior (source keys, target keys, logic fingerprints).</p>
+<hr />
+<h2 id="3-source-streaming-and-scheduling">3. Source streaming and scheduling</h2>
+<p><strong>Purpose:</strong> Stream source rows (with ordinals and optional content fingerprints), skip already-processed rows in memory, and schedule work per source so only new or changed data triggers the per-row pipeline.</p>
+<p>Each source is driven by its executor’s <code>read(options)</code>, which yields a stream of <code>PartialSourceRow</code>: source key, ordinal, optional content_version_fp, and value as Existence(field_values) or NonExistence. The runtime keeps an in-memory <code>SourceIndexingState</code> (in <code>execution/source_indexer.rs</code>): for each source key, the last known <code>SourceVersion</code> (ordinal + logic kind) and optional content fingerprint.</p>
+<p>When a row arrives, <code>LocalSourceRowStateOperator::advance(source_version, content_version_fp, force_reload)</code> compares with this state: if the stored version is newer or equal (same ordinal, same or newer logic), the row is skipped and no pipeline runs; otherwise the runtime takes a per-key semaphore and runs the full row pipeline (evaluate → precommit → apply → commit). Keys that appeared in a prior scan but not in the current scan are treated as deleted—the pipeline runs with NonExistence to remove target keys and update or remove the tracking row.</p>
+<p>The live updater (<code>execution/live_updater.rs</code>) runs one task per source: either a single <code>update_one_pass</code> (batch) or a long-lived loop that consumes <code>change_stream</code> events and optionally does periodic refresh.</p>
+<p><strong>Code:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>rust/cocoindex/src/execution/
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  source_indexer.rs
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  live_updater.rs
+</span></code></pre></div></p>
+<p><strong>Value:</strong> Only changed or new source rows are processed; deleted rows are detected and cleaned up; concurrency and backpressure are centralized.</p>
+<hr />
+<h2 id="4-persource-row-pipeline-evaluate-precommit-apply-commit">4. Per–source-row pipeline (evaluate → precommit → apply → commit)</h2>
+<p><strong>Purpose:</strong> For each source row that is not skipped: evaluate the flow with memoization, stage target keys and memo in the tracking table, apply upserts/deletes to targets, then commit the tracking row. This ensures each row is applied at most once and tracking stays consistent with targets.</p>
+<p>For one (source_id, source_key) the runtime first <strong>reads tracking</strong> via <code>read_source_tracking_info_for_processing</code> to get stored memoization_info, processed_source_ordinal, process_logic_fingerprint, etc. If it’s not a full reprocess and the stored version <code>should_skip</code> the incoming source version (ordinal + logic), it returns Skipped and does nothing. Optionally, if a content fingerprint is present and matches the stored one, it only advances the stored ordinal and skips evaluation and targets.</p>
+<p>Next it <strong>evaluates</strong>: it rehydrates <code>EvaluationMemory</code> from the stored memoization blob and runs <code>evaluate_source_entry</code>; the evaluator fills the root scope with the source row and runs the plan’s reactive ops (transforms, for_each, collect) in order, with cacheable ops using the memory for cache and UUIDs. Output is the root scope value (including collected rows per collector) and a new <code>StoredMemoizationInfo</code> containing only entries used in this run; full reprocess clears that row’s memo cache before eval.</p>
+<p>In the <strong>precommit</strong> phase, inside a DB transaction the runtime re-reads tracking with <code>read_source_tracking_info_for_precommit</code> and re-checks skip; from the evaluation output it computes the new target keys per export, diffs with existing/staging keys to build upserts and deletes per target, and writes to the tracking row only the precommit fields (staging target keys and memoization_info), then commits the transaction—no target writes yet. It then <strong>applies to targets</strong>: for each export group it calls the target executor’s <code>apply_mutation</code> with the computed <code>ExportTargetMutation</code> (upserts and deletes).</p>
+<p>Finally it <strong>commits tracking</strong> in a new transaction: <code>read_source_tracking_info_for_commit</code>; if another process has committed with process_ordinal ≥ ours, it does not overwrite (lost race); otherwise it writes the committed source ordinal, content fingerprint, logic fingerprint, process ordinal/time, and final target keys, or deletes the tracking row if the source row is gone and there are no staged keys. This logic lives in <code>execution/row_indexer.rs</code>, <code>execution/evaluator.rs</code>, and <code>execution/db_tracking.rs</code>.</p>
+<p><strong>Code:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>rust/cocoindex/src/execution/
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  row_indexer.rs
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  evaluator.rs
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  db_tracking.rs
+</span></code></pre></div></p>
+<p><strong>Value:</strong> Correct, serializable incremental updates: no double-apply, no lost deletes, and tracking table always reflects last committed state and target keys produced.</p>
+<hr />
+<h2 id="5-incremental-detection-ordinal-fingerprint-skip">5. Incremental detection (ordinal, fingerprint, skip)</h2>
+<p><strong>Purpose:</strong> Decide whether to skip processing a source row using stored vs incoming ordinal and optional content fingerprint, so the engine never re-applies older data and avoids redundant work when nothing changed.</p>
+<p>A <code>SourceVersion</code> pairs an ordinal (monotonic per source) with a kind: UnknownLogic (no stored fingerprint), DifferentLogic (stored fingerprint differs from current flow logic), CurrentLogic (matches), or NonExistence (row deleted). The stored version is built from the tracking row via <code>from_stored_processing_info</code> / <code>from_stored_precommit_info</code> using process_logic_fingerprint.</p>
+<p><code>should_skip(target, update_stats)</code> compares stored vs incoming: skip if the stored ordinal is greater than the incoming ordinal (we already applied a newer version), or if ordinals are equal and the stored kind is same or newer; otherwise the row is processed, so we never apply an older ordinal than what’s committed. If the source supplies a content fingerprint and it matches the stored one (and logic is current), we can skip the full evaluation and target writes and only advance the stored ordinal in the tracking table (content-hash collapsing). Implemented in <code>execution/row_indexer.rs</code> (<code>SourceVersion</code>, <code>SourceVersionKind</code>) and <code>execution/indexing_status.rs</code>.</p>
+<p><strong>Code:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>rust/cocoindex/src/execution/
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  row_indexer.rs
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  indexing_status.rs
+</span></code></pre></div></p>
+<p><strong>Value:</strong> Minimal recomputation and target writes; preserves consistency (never apply an older source version).</p>
+<hr />
+<h2 id="6-memoization-cache-uuid-stability">6. Memoization (cache + UUID stability)</h2>
+<p><strong>Purpose:</strong> Cache expensive per-row computations (e.g. LLM, embeddings) by (op logic + inputs) and keep UUID sequences stable for collected rows across runs, so re-runs reuse results and target keys don’t flip.</p>
+<p>Per source row, the tracking table holds <code>memoization_info</code>: a <code>StoredMemoizationInfo</code> with (1) a cache (fingerprint → { time_sec, value }) for past cacheable op results, and (2) uuids (fingerprint → list of UUIDs) for stable generated IDs. At evaluation start this blob is loaded into <code>EvaluationMemory</code>: cache entries become Previous (available for lookup) and the UUID lists are restored.</p>
+<p>During eval, cacheable ops call <code>get_cache_entry(key, output_type, ttl)</code>; on miss they call <code>evaluate_with_cell(cell, compute)</code> and store the result as Current. UUIDs are handed out via <code>next_uuid(fingerprint)</code> from the restored list or by appending new ones. After eval, <code>into_stored()</code> produces a new <code>StoredMemoizationInfo</code> that keeps only entries used in this run (Current); entries that were only in Previous and unused are dropped. That updated blob is written to the tracking row at precommit along with staging keys. Implemented in <code>execution/memoization.rs</code>, used in <code>evaluator.rs</code> and <code>row_indexer.rs</code>.</p>
+<p><strong>Code:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>rust/cocoindex/src/execution/
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  memoization.rs
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  evaluator.rs
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  row_indexer.rs
+</span></code></pre></div></p>
+<p><strong>Value:</strong> Fewer redundant LLM/embedding calls; stable target keys (e.g. vector DB) across runs.</p>
+<hr />
+<h2 id="7-tracking-table-and-target-key-lifecycle">7. Tracking table and target key lifecycle</h2>
+<p><strong>Purpose:</strong> Persist, per source row, what was last committed and which target keys were produced, so the engine can compute upserts and deletes on the next run and avoid double-applies or lost deletes.</p>
+<p>The tracking table is keyed by (source_id, source_key). Each row has two groups of columns. <strong>Precommit fields</strong> (written in the precommit transaction): staging target keys (per target: list of key + additional_key + process_ordinal + fingerprint) and memoization_info. <strong>Commit fields</strong> (written in the commit transaction): processed_source_ordinal, processed_source_fp, process_logic_fingerprint, max_process_ordinal, process_ordinal, and the final list of target keys per target.</p>
+<p>On precommit we write only staging + memo and do not overwrite committed fields; on commit we overwrite committed fields with the new ordinal, fingerprints, process_ordinal/time, and final target keys—or we delete the tracking row if the source row is gone and there are no staged keys. When computing mutations for a target, the delete list is (old committed keys + old staging keys) minus (new staging keys), so keys that disappeared from the flow output are deleted from the target. Schema and read/write logic live in <code>execution/db_tracking.rs</code> and <code>execution/db_tracking_setup.rs</code>.</p>
+<p><strong>Code:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>rust/cocoindex/src/execution/
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  db_tracking.rs
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  db_tracking_setup.rs
+</span></code></pre></div></p>
+<p><strong>Value:</strong> Enables correct incremental updates and deletes when source rows change or are removed (see <code>cr/incremental-update.md</code>).</p>
+<hr />
+<h2 id="8-live-updater-batch-vs-change-stream">8. Live updater (batch vs change stream)</h2>
+<p><strong>Purpose:</strong> Run either a one-pass batch update (process all sources once and exit) or a long-lived live update that keeps sources in sync using change streams and optional periodic refresh.</p>
+<p>The <code>FlowLiveUpdater</code> (in <code>execution/live_updater.rs</code>) holds the flow context, a JoinSet of per-source tasks, and status channels (active_sources, updated_sources). In non–live mode, each source runs a single <code>update_one_pass</code>: it reads the source stream, advances row state, and runs the per-row pipeline for each non-skipped row (including handling deletes), then the task completes.</p>
+<p>In live mode, for each source the updater spawns a task that either (1) uses the source’s <code>change_stream()</code> if available—consuming change events and running updates with retries for affected keys—or (2) runs periodic full refreshes. Status (which sources are active, which have been updated) is reported via <code>next_status_updates_async()</code>. Data flow is the same as in sections 3–4: source rows stream in, skip logic and per-row pipeline run, and targets are updated; the only difference is whether the source task runs once or loops. Python’s <code>flow.py</code> exposes <code>FlowLiveUpdater</code>, <code>Flow.update_async</code> (creates the updater with live_mode=False), and <code>Flow.update()</code>.</p>
+<p><strong>Code:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>python/cocoindex/
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  flow.py
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>rust/cocoindex/src/execution/
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  live_updater.rs
+</span></code></pre></div></p>
+<p><strong>Value:</strong> Single API for “run once” and “keep updating” with minimal code paths.</p>
+<hr />
+<h2 id="9-setup-and-drop-backends-tracking">9. Setup and drop (backends, tracking)</h2>
+<p><strong>Purpose:</strong> Create or tear down persistent resources (tracking table, target DBs, indexes, etc.) so flows have a consistent environment and can be reset cleanly.</p>
+<p>Setup takes a list of flow full names and builds a setup bundle: for each flow, the engine describes what changes are needed (e.g. create tracking table, create target schema/indexes, register attachments). No user data is read or written—only DDL and backend registration. The tracking table schema is fixed: source_id, source_key, plus precommit columns (e.g. staging_target_keys, memoization_info) and commit columns (processed_source_ordinal, processed_source_fp, process_logic_fingerprint, max_process_ordinal, process_ordinal, target_keys, etc.). Apply runs these changes in order.</p>
+<p>Drop produces a drop bundle that reverses or removes the same resources (e.g. drop tracking table, drop target objects). Rust implements this in <code>setup/</code> (driver, components, db_metadata, flow_features) and <code>execution/db_tracking_setup.rs</code>. Python’s <code>Flow.setup_async</code> / <code>setup()</code> and <code>Flow.drop_async</code> / <code>drop()</code> build the bundle via <code>make_setup_bundle_async</code> / <code>make_drop_bundle_async</code> and call the generic describe-and-apply path; <code>setup.py</code> provides SetupChangeBundle and describe_and_apply.</p>
+<p><strong>Code:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>python/cocoindex/
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>  flow.py
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>  setup.py
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>rust/cocoindex/src/
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>  setup/
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>  execution/
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    db_tracking_setup.rs
+</span></code></pre></div></p>
+<p><strong>Value:</strong> Reproducible environment for development and production; flows can be reset via drop then setup.</p>
+<hr />
+<h2 id="10-transform-flows-transient-in-memory">10. Transform flows (transient, in-memory)</h2>
+<p><strong>Purpose:</strong> Run a pure transformation on in-memory inputs without sources, targets, or tracking—e.g. for one-off or query-time transforms.</p>
+<p>The user defines a transform flow with a function that takes one or more <code>DataSlice[T]</code> arguments and returns a <code>DataSlice[T]</code>. On first use, the engine builds a transient flow: direct inputs are declared for each argument, and the function body is executed in the same builder DSL (transforms, for_each, etc.) but with no sources or exports; the result is the direct output. That yields an <code>AnalyzedTransientFlow</code> (schema + transient execution plan) from <code>analyzer::analyze_transient_flow</code> in <code>builder/analyzed_flow.rs</code>.</p>
+<p>On <code>eval</code> / <code>eval_async</code>, the Python side encodes the argument values and calls the engine’s <code>evaluate_async(params)</code>. The Rust evaluator runs the same execution path as indexed flows (same op scope evaluation), but with no import/export ops and no tracking or memoization persistence: the root scope is filled from the encoded params, reactive ops run, and the output is decoded and returned to Python. No DB or target I/O occurs. Python entry points are <code>flow.py</code> — <code>TransformFlow</code>, <code>@transform_flow()</code>, <code>TransformFlow.eval</code> / <code>eval_async</code>; build uses <code>_build_flow_info_async</code> (add_direct_input, set_direct_output, build_transient_flow_async).</p>
+<p><strong>Code:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>python/cocoindex/
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  flow.py
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>rust/cocoindex/src/builder/
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  analyzed_flow.rs
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>rust/cocoindex/src/execution/
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>  evaluator.rs
+</span></code></pre></div></p>
+<p><strong>Value:</strong> Reuse same flow DSL and evaluator for ad-hoc or embedded transforms (e.g. query-time or batch scripts).</p>
+<hr />
+<h2 id="11-query-handlers-and-service-api">11. Query handlers and service API</h2>
+<p><strong>Purpose:</strong> Expose flow-specific query endpoints (e.g. vector search, graph query) via a common API so clients can query indexed data without coupling to the indexing pipeline.</p>
+<p>The user registers a query handler on a flow with <code>add_query_handler(name, handler, result_fields=...)</code>. The handler is a callable (optionally async) that is serialized (e.g. via <code>dump_engine_object</code>) and stored with the flow.</p>
+<p>At runtime, the service layer’s <code>run_query_handler</code> receives a flow id, handler name, and query payload (e.g. a string or JSON). It looks up the flow and the registered handler, deserializes and invokes the handler with the query, and returns the result in a structured shape (using result_fields when provided). No source/tracking/target data flows through the handler by default—the handler typically uses the flow’s targets or attachments to serve the query. So the data flow is: request → resolve flow and handler → invoke handler(query) → format response. Python: <code>flow.py</code> — <code>Flow.add_query_handler</code>, <code>@Flow.query_handler</code>; handler is made async and serialized. Rust: <code>service/flows.rs</code> (list_flows, get_flow_schema, get_flow, get_keys, run_query_handler, etc.), <code>service/query_handler.rs</code> (invoke handler with query string and return structured results).</p>
+<p><strong>Code:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>python/cocoindex/
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  flow.py
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>rust/cocoindex/src/service/
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  flows.rs
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>  query_handler.rs
+</span></code></pre></div></p>
+<p><strong>Value:</strong> One place to add “query this flow” semantics without touching core indexing logic.</p>
+<hr />
+<h2 id="12-cli-and-app-loading">12. CLI and app loading</h2>
+<p><strong>Purpose:</strong> Load the user app (flows and ops), apply environment config, and run setup/update/drop/serve from a single CLI entry point.</p>
+<p>The CLI loads environment (e.g. <code>load_dotenv</code>) and then loads the user app via <code>load_user_app(app_target)</code> / <code>add_user_app</code>: that imports the app module so that flows and ops are registered in the global engine context. No flow data is streamed at load time.</p>
+<p>Commands then dispatch: setup/drop build and apply setup/drop bundles for flows that require setup (<code>flow_names_with_setup</code>); update creates a <code>FlowLiveUpdater</code> and runs it (batch or live); serve starts the service layer so that flow and query-handler APIs are exposed. So the flow is orchestration-only: CLI → load app → run the chosen command (setup, update, drop, serve), which in turn uses the flow and setup logic described in the previous sections. Implemented in <code>cli.py</code> (load_dotenv, load_user_app, add_user_app, and the setup/update/drop/serve commands) and <code>user_app_loader.py</code>; <code>flow_names_with_setup</code> determines which flows need setup.</p>
+<p><strong>Code:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>python/cocoindex/
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>  cli.py
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>  user_app_loader.py
+</span></code></pre></div></p>
+<p><strong>Value:</strong> Standard way to run CocoIndex in production or scripts (single entry point, env and app dir config).</p>
+<hr />
+<h2 id="file-tree-by-flow">File tree (by flow)</h2>
+<p><strong>1. Flow definition and build</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>python/cocoindex/
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>  flow.py
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>rust/cocoindex/src/builder/
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>  flow_builder.rs
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>  analyzer.rs
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>  plan.rs
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>  analyzed_flow.rs
+</span></code></pre></div></p>
+<p><strong>2. Flow analysis and execution plan</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>rust/cocoindex/src/builder/
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>  analyzer.rs
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>  plan.rs
+</span></code></pre></div></p>
+<p><strong>3. Source streaming and scheduling</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>rust/cocoindex/src/execution/
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>  source_indexer.rs
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>  live_updater.rs
+</span></code></pre></div></p>
+<p><strong>4. Per-row pipeline (evaluate → precommit → apply → commit)</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>rust/cocoindex/src/execution/
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>  row_indexer.rs
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>  evaluator.rs
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>  db_tracking.rs
+</span></code></pre></div></p>
+<p><strong>5. Incremental detection (ordinal, fingerprint, skip)</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>rust/cocoindex/src/execution/
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>  row_indexer.rs
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>  indexing_status.rs
+</span></code></pre></div></p>
+<p><strong>6. Memoization</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>rust/cocoindex/src/execution/
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>  memoization.rs
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>  evaluator.rs
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>  row_indexer.rs
+</span></code></pre></div></p>
+<p><strong>7. Tracking table and target key lifecycle</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>rust/cocoindex/src/execution/
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>  db_tracking.rs
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>  db_tracking_setup.rs
+</span></code></pre></div></p>
+<p><strong>8. Live updater</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>python/cocoindex/
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>  flow.py
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>rust/cocoindex/src/execution/
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>  live_updater.rs
+</span></code></pre></div></p>
+<p><strong>9. Setup and drop</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>python/cocoindex/
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>  flow.py
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>  setup.py
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>rust/cocoindex/src/
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>  setup/
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>  execution/
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>    db_tracking_setup.rs
+</span></code></pre></div></p>
+<p><strong>10. Transform flows</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>python/cocoindex/
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>  flow.py
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>rust/cocoindex/src/builder/
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>  analyzed_flow.rs
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>rust/cocoindex/src/execution/
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>  evaluator.rs
+</span></code></pre></div></p>
+<p><strong>11. Query handlers and service API</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>python/cocoindex/
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>  flow.py
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>rust/cocoindex/src/service/
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>  flows.rs
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>  query_handler.rs
+</span></code></pre></div></p>
+<p><strong>12. CLI and app loading</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>python/cocoindex/
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>  cli.py
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>  user_app_loader.py
+</span></code></pre></div></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1802 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Library Module Features - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#library-module-features" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Library Module Features
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#features-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#library-lifecycle-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Library Lifecycle Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Library Lifecycle Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#library-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Library Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Library Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lock-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lock Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lock Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#device-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Device Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Device Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sync-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sync Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#statistics-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Statistics Tracking
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Statistics Tracking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#thumbnail-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thumbnail Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Thumbnail Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Event System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#job-system-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Job System Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Job System Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-system-watching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File System Watching
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File System Watching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-solves_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Solves
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-components_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="library-module-features">Library Module Features</h1>
+<p>The library module (<code>core/src/library/</code>) provides the core functionality for managing Spacedrive libraries. A library is a self-contained unit that stores metadata, thumbnails, and configuration for indexed file locations.</p>
+<h2 id="features-overview">Features Overview</h2>
+<ul>
+<li><a href="#library-lifecycle-management">Library Lifecycle Management</a></li>
+<li><a href="#library-configuration">Library Configuration</a></li>
+<li><a href="#database-management">Database Management</a></li>
+<li><a href="#lock-management">Lock Management</a></li>
+<li><a href="#device-management">Device Management</a></li>
+<li><a href="#sync-integration">Sync Integration</a></li>
+<li><a href="#statistics-tracking">Statistics Tracking</a></li>
+<li><a href="#thumbnail-management">Thumbnail Management</a></li>
+<li><a href="#event-system">Event System</a></li>
+<li><a href="#job-system-integration">Job System Integration</a></li>
+<li><a href="#file-system-watching">File System Watching</a></li>
+<li><a href="#error-handling">Error Handling</a></li>
+</ul>
+<hr />
+<h2 id="library-lifecycle-management">Library Lifecycle Management</h2>
+<h3 id="purpose">Purpose</h3>
+<p>Provides complete lifecycle management for Spacedrive libraries from creation to deletion, ensuring data integrity and proper resource cleanup throughout the library's existence.</p>
+<h3 id="what-it-solves">What It Solves</h3>
+<ul>
+<li>Prevents data corruption by managing library initialization and shutdown sequences</li>
+<li>Handles concurrent access scenarios through proper locking mechanisms</li>
+<li>Enables automatic library discovery and loading on daemon startup</li>
+<li>Supports both manual and automated library creation workflows</li>
+<li>Provides clean deletion with optional data removal</li>
+</ul>
+<h3 id="key-components">Key Components</h3>
+<ul>
+<li><strong>Library Creation</strong>: <code>LibraryManager::create_library()</code> - Creates new libraries with proper initialization</li>
+<li><strong>Library Opening</strong>: <code>LibraryManager::open_library()</code> - Opens existing libraries with validation</li>
+<li><strong>Library Closing</strong>: <code>LibraryManager::close_library()</code> - Gracefully shuts down libraries</li>
+<li><strong>Library Deletion</strong>: <code>LibraryManager::delete_library()</code> - Removes libraries with optional data cleanup</li>
+<li><strong>Auto-discovery</strong>: <code>LibraryManager::load_all()</code> - Automatically discovers and loads libraries</li>
+<li><strong>Manual Loading</strong>: Individual library path loading for on-demand access</li>
+</ul>
+<hr />
+<h2 id="library-configuration">Library Configuration</h2>
+<h3 id="purpose_1">Purpose</h3>
+<p>Manages persistent library configuration including settings, statistics, and metadata that control library behavior and provide runtime information.</p>
+<h3 id="what-it-solves_1">What It Solves</h3>
+<ul>
+<li>Centralizes library settings in a single, versioned configuration file</li>
+<li>Enables library-wide preferences (thumbnails, sync, encryption)</li>
+<li>Tracks library statistics for UI display and monitoring</li>
+<li>Supports configuration updates without requiring library restart</li>
+<li>Provides version compatibility handling through schema versioning</li>
+</ul>
+<h3 id="key-components_1">Key Components</h3>
+<ul>
+<li><strong>Configuration Structure</strong>: <code>LibraryConfig</code> - Main configuration container with versioning</li>
+<li><strong>Settings Management</strong>: <code>LibrarySettings</code> - User-configurable preferences</li>
+<li><strong>Statistics Tracking</strong>: <code>LibraryStatistics</code> - Runtime metrics and counters</li>
+<li><strong>Indexer Settings</strong>: <code>IndexerSettings</code> - Indexing behavior and rule configuration</li>
+<li><strong>Configuration Persistence</strong>: Automatic save/load from <code>library.json</code></li>
+<li><strong>Configuration Updates</strong>: Real-time configuration changes with persistence</li>
+</ul>
+<hr />
+<h2 id="database-management">Database Management</h2>
+<h3 id="purpose_2">Purpose</h3>
+<p>Handles database connection management, migrations, and access for all library data storage needs.</p>
+<h3 id="what-it-solves_2">What It Solves</h3>
+<ul>
+<li>Ensures database schema is always up-to-date through automatic migrations</li>
+<li>Manages database connections efficiently with proper connection pooling</li>
+<li>Provides transaction support for atomic operations</li>
+<li>Handles legacy database migration (database.db → library.db)</li>
+<li>Supports WAL (Write-Ahead Logging) for performance and crash recovery</li>
+</ul>
+<h3 id="key-components_2">Key Components</h3>
+<ul>
+<li><strong>Database Initialization</strong>: <code>Database::create()</code> - Creates new database with schema</li>
+<li><strong>Database Opening</strong>: <code>Database::open()</code> - Opens existing database with validation</li>
+<li><strong>Migration System</strong>: Automatic schema migrations on library open</li>
+<li><strong>Connection Management</strong>: Centralized connection handling</li>
+<li><strong>Legacy Migration</strong>: Handles old database format upgrades</li>
+<li><strong>WAL Checkpoint</strong>: Proper cleanup during shutdown</li>
+</ul>
+<hr />
+<h2 id="lock-management">Lock Management</h2>
+<h3 id="purpose_3">Purpose</h3>
+<p>Prevents concurrent access to libraries by multiple processes or instances, ensuring data integrity and preventing corruption.</p>
+<h3 id="what-it-solves_3">What It Solves</h3>
+<ul>
+<li>Prevents data corruption from concurrent modifications</li>
+<li>Handles stale lock detection and cleanup</li>
+<li>Provides process tracking for debugging</li>
+<li>Supports graceful lock acquisition and release</li>
+<li>Enables lock file inspection for troubleshooting</li>
+</ul>
+<h3 id="key-components_3">Key Components</h3>
+<ul>
+<li><strong>Lock Acquisition</strong>: <code>LibraryLock::acquire()</code> - Attempts to acquire library lock</li>
+<li><strong>Lock Validation</strong>: Checks for existing locks and process status</li>
+<li><strong>Stale Detection</strong>: Identifies and cleans up abandoned locks</li>
+<li><strong>Lock Information</strong>: Stores device ID, process ID, and timestamp</li>
+<li><strong>Lock Release</strong>: Manual and automatic cleanup mechanisms</li>
+<li><strong>Cross-platform</strong>: Supports Unix and Windows process checking</li>
+</ul>
+<hr />
+<h2 id="device-management">Device Management</h2>
+<h3 id="purpose_4">Purpose</h3>
+<p>Manages device registration and tracking within libraries, enabling multi-device synchronization and collaboration.</p>
+<h3 id="what-it-solves_4">What It Solves</h3>
+<ul>
+<li>Enables multi-device library access and synchronization</li>
+<li>Handles device slug conflicts with automatic resolution</li>
+<li>Tracks device metadata for identity and capabilities</li>
+<li>Supports device-specific settings and preferences</li>
+<li>Provides device cache for efficient slug-to-UUID resolution</li>
+</ul>
+<h3 id="key-components_4">Key Components</h3>
+<ul>
+<li><strong>Device Registration</strong>: <code>ensure_device_registered()</code> - Automatic device registration on library open</li>
+<li><strong>Slug Collision Handling</strong>: Automatic slug modification for uniqueness</li>
+<li><strong>Device Cache</strong>: In-memory cache for device resolution</li>
+<li><strong>Device Metadata</strong>: Tracks hardware specs, OS, and capabilities</li>
+<li><strong>Library-specific Slugs</strong>: Per-library device identification</li>
+<li><strong>Device Updates</strong>: Automatic device information updates on open</li>
+</ul>
+<hr />
+<h2 id="sync-integration">Sync Integration</h2>
+<h3 id="purpose_5">Purpose</h3>
+<p>Provides integration with Spacedrive's synchronization system for cross-device data replication and collaboration.</p>
+<h3 id="what-it-solves_5">What It Solves</h3>
+<ul>
+<li>Enables real-time synchronization across multiple devices</li>
+<li>Supports both device-owned and shared resource types</li>
+<li>Provides efficient batch synchronization for large operations</li>
+<li>Handles foreign key mapping for complex relationships</li>
+<li>Integrates with transaction manager for atomic sync operations</li>
+</ul>
+<h3 id="key-components_5">Key Components</h3>
+<ul>
+<li><strong>Sync Service Initialization</strong>: <code>init_sync_service()</code> - Sets up sync infrastructure</li>
+<li><strong>Model Synchronization</strong>: <code>sync_model()</code> - Single record sync</li>
+<li><strong>Batch Synchronization</strong>: <code>sync_models_batch()</code> - Efficient bulk sync</li>
+<li><strong>Foreign Key Mapping</strong>: Automatic FK conversion for relationships</li>
+<li><strong>Device-owned Resources</strong>: State-based synchronization</li>
+<li><strong>Shared Resources</strong>: Log-based synchronization with HLC</li>
+</ul>
+<hr />
+<h2 id="statistics-tracking">Statistics Tracking</h2>
+<h3 id="purpose_6">Purpose</h3>
+<p>Maintains accurate library statistics for monitoring, capacity planning, and user-facing metrics.</p>
+<h3 id="what-it-solves_6">What It Solves</h3>
+<ul>
+<li>Provides real-time library metrics for UI display</li>
+<li>Supports capacity planning and storage management</li>
+<li>Enables performance monitoring and optimization</li>
+<li>Tracks indexing progress and completeness</li>
+<li>Supports both immediate and background calculation</li>
+</ul>
+<h3 id="key-components_6">Key Components</h3>
+<ul>
+<li><strong>Statistics Calculation</strong>: <code>calculate_statistics()</code> - Computes all library metrics</li>
+<li><strong>File Statistics</strong>: File count and total size tracking</li>
+<li><strong>Location Statistics</strong>: Location count and capacity tracking</li>
+<li><strong>Device Statistics</strong>: Device count and metadata tracking</li>
+<li><strong>Content Statistics</strong>: Unique content counting</li>
+<li><strong>Background Updates</strong>: Async statistics recalculation</li>
+<li><strong>Event Emission</strong>: Statistics change notifications</li>
+</ul>
+<hr />
+<h2 id="thumbnail-management">Thumbnail Management</h2>
+<h3 id="purpose_7">Purpose</h3>
+<p>Manages thumbnail generation, storage, and retrieval for media files in the library.</p>
+<h3 id="what-it-solves_7">What It Solves</h3>
+<ul>
+<li>Provides efficient image preview for UI</li>
+<li>Supports multiple thumbnail sizes for different use cases</li>
+<li>Implements two-level directory sharding for performance</li>
+<li>Enables thumbnail generation job scheduling</li>
+<li>Provides thumbnail existence checking and retrieval</li>
+</ul>
+<h3 id="key-components_7">Key Components</h3>
+<ul>
+<li><strong>Thumbnail Storage</strong>: Two-level sharded directory structure</li>
+<li><strong>Path Resolution</strong>: Size-specific thumbnail paths</li>
+<li><strong>Thumbnail Saving</strong>: <code>save_thumbnail()</code> - Writes thumbnail data</li>
+<li><strong>Thumbnail Retrieval</strong>: <code>get_thumbnail()</code> - Reads thumbnail data</li>
+<li><strong>Existence Checking</strong>: <code>has_thumbnail()</code> - Checks for existing thumbnails</li>
+<li><strong>Job Integration</strong>: <code>generate_thumbnails()</code> - Schedules thumbnail generation</li>
+<li><strong>Legacy Support</strong>: Backward compatibility for old thumbnail paths</li>
+</ul>
+<hr />
+<h2 id="event-system">Event System</h2>
+<h3 id="purpose_8">Purpose</h3>
+<p>Emits events for library state changes and operations, enabling reactive UI updates and system coordination.</p>
+<h3 id="what-it-solves_8">What It Solves</h3>
+<ul>
+<li>Provides real-time updates to UI components</li>
+<li>Enables coordination between different system components</li>
+<li>Supports event-driven architecture</li>
+<li>Facilitates monitoring and logging</li>
+<li>Enables external integrations through event hooks</li>
+</ul>
+<h3 id="key-components_8">Key Components</h3>
+<ul>
+<li><strong>Event Bus Integration</strong>: General event bus for library events</li>
+<li><strong>Sync Event Bus</strong>: Dedicated bus for sync operations</li>
+<li><strong>Library Events</strong>: Created, opened, closed, deleted events</li>
+<li><strong>Statistics Events</strong>: Statistics update notifications</li>
+<li><strong>Resource Events</strong>: Model change notifications</li>
+<li><strong>Error Events</strong>: Failure notifications with categorization</li>
+</ul>
+<hr />
+<h2 id="job-system-integration">Job System Integration</h2>
+<h3 id="purpose_9">Purpose</h3>
+<p>Integrates with Spacedrive's job system for long-running operations like indexing, thumbnail generation, and synchronization.</p>
+<h3 id="what-it-solves_9">What It Solves</h3>
+<ul>
+<li>Enables asynchronous long-running operations</li>
+<li>Provides job scheduling and management</li>
+<li>Supports job resumption after interruption</li>
+<li>Tracks job progress and status</li>
+<li>Enables concurrent job execution</li>
+</ul>
+<h3 id="key-components_9">Key Components</h3>
+<ul>
+<li><strong>Job Manager</strong>: Per-library job scheduling and tracking</li>
+<li><strong>Job Dispatch</strong>: <code>jobs.dispatch()</code> - Schedules new jobs</li>
+<li><strong>Job Resumption</strong>: Automatic job recovery on library open</li>
+<li><strong>Job Shutdown</strong>: Graceful job termination</li>
+<li><strong>Job Logging</strong>: Per-library job log storage</li>
+<li><strong>Job Context</strong>: Library-specific job configuration</li>
+</ul>
+<hr />
+<h2 id="file-system-watching">File System Watching</h2>
+<h3 id="purpose_10">Purpose</h3>
+<p>Monitors the libraries directory for changes, enabling automatic library detection and loading.</p>
+<h3 id="what-it-solves_10">What It Solves</h3>
+<ul>
+<li>Enables automatic library detection when libraries are added/removed</li>
+<li>Supports hot-reloading of libraries without restart</li>
+<li>Provides filesystem change notifications</li>
+<li>Handles library creation/deletion detection</li>
+<li>Supports manual and automatic watch mode</li>
+</ul>
+<h3 id="key-components_10">Key Components</h3>
+<ul>
+<li><strong>Watcher Initialization</strong>: <code>start_watching()</code> - Starts filesystem monitoring</li>
+<li><strong>Event Processing</strong>: Handles filesystem change events</li>
+<li><strong>Library Detection</strong>: Automatic library directory identification</li>
+<li><strong>Path Validation</strong>: Ensures valid library structure</li>
+<li><strong>Lock Detection</strong>: Checks for library locks before loading</li>
+<li><strong>Error Handling</strong>: Graceful failure with monitoring</li>
+</ul>
+<hr />
+<h2 id="error-handling">Error Handling</h2>
+<h3 id="purpose_11">Purpose</h3>
+<p>Provides comprehensive error handling for all library operations with clear error types and recovery guidance.</p>
+<h3 id="what-it-solves_11">What It Solves</h3>
+<ul>
+<li>Enables proper error classification and handling</li>
+<li>Provides clear error messages for users and developers</li>
+<li>Supports error recovery strategies</li>
+<li>Enables proper error propagation</li>
+<li>Facilitates debugging and troubleshooting</li>
+</ul>
+<h3 id="key-components_11">Key Components</h3>
+<ul>
+<li><strong>Error Types</strong>: Comprehensive error enumeration</li>
+<li><strong>Error Classification</strong>: Database, IO, JSON, job, and watcher errors</li>
+<li><strong>Lock Errors</strong>: AlreadyInUse, StaleLock handling</li>
+<li><strong>Configuration Errors</strong>: Invalid name, missing configuration</li>
+<li><strong>Result Types</strong>: Type-safe error handling</li>
+<li><strong>Error Context</strong>: Detailed error information and causes</li>
+</ul>
+<hr />
+<h2 id="implementation-notes">Implementation Notes</h2>
+<p>All implementations are located in <code>core/src/library/</code> with the following structure:</p>
+<ul>
+<li><code>mod.rs</code> - Main library structure and implementation</li>
+<li><code>manager.rs</code> - Library lifecycle and management</li>
+<li><code>config.rs</code> - Configuration types and persistence</li>
+<li><code>lock.rs</code> - Lock file management</li>
+<li><code>error.rs</code> - Error types and handling</li>
+<li><code>sync_helpers.rs</code> - Synchronization helper methods</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

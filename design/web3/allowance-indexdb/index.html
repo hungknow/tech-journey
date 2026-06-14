@@ -1,0 +1,1538 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Event Fetching and IndexedDB Caching Flow - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#event-fetching-and-indexeddb-caching-flow" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Event Fetching and IndexedDB Caching Flow
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event-fetching-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event Fetching Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Event Fetching Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initial-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#first-time-fetch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        First-Time Fetch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#incremental-updates-subsequent-fetches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Incremental Updates (Subsequent Fetches)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Incremental Updates (Subsequent Fetches)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-incremental-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Incremental Update
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maximum-block-range-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maximum Block Range Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Maximum Block Range Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#no-hard-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No Hard Limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatic-range-splitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic Range Splitting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-divide-and-conquer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Divide and Conquer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#querying-to-the-next-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Querying to the Next Block
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Querying to the Next Block">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-next-block-query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Next Block Query
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#allowance-amount-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Allowance Amount Calculation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Allowance Amount Calculation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#erc20-token-allowances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ERC20 Token Allowances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#erc721-token-allowances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ERC721 Token Allowances
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ERC721 Token Allowances">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-token-approvals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single Token Approvals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#approval-for-all" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Approval For All
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permit2-allowances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permit2 Allowances
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-example-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Example Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complete Example Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-user-checks-allowances-for-wallet-0x1234-on-ethereum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario: User checks allowances for wallet 0x1234... on Ethereum
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-takeaways-from-transfer-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways from Transfer Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Benefits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="event-fetching-and-indexeddb-caching-flow">Event Fetching and IndexedDB Caching Flow</h1>
+<h2 id="overview">Overview</h2>
+<p>This document describes how the application fetches blockchain events for token allowances, caches them in IndexedDB, and calculates current allowance amounts. The system is designed to efficiently handle large block ranges by using incremental updates and intelligent caching.</p>
+<h2 id="event-fetching-flow">Event Fetching Flow</h2>
+<h3 id="initial-setup">Initial Setup</h3>
+<p>When fetching events for a wallet address, the system follows these steps:</p>
+<ol>
+<li>
+<p><strong>Check Address Activity</strong>: First, it checks if the address has any transactions by querying the transaction nonce. If the nonce is zero (meaning no transactions), the system skips event fetching entirely for efficiency.</p>
+</li>
+<li>
+<p><strong>Determine Block Range</strong>: </p>
+</li>
+<li><strong>Starting Block</strong>: Always begins from block 0 (genesis block)</li>
+<li><strong>Ending Block</strong>: Always queries up to the latest block on the chain</li>
+<li>
+<p>The latest block number is fetched dynamically from the blockchain</p>
+</li>
+<li>
+<p><strong>Event Types Queried</strong>: The system fetches multiple event types in parallel:</p>
+</li>
+<li>ERC721 Transfer events (both to and from the address)</li>
+<li>ERC721 Approval events (single token approvals)</li>
+<li>ERC721 ApprovalForAll events (all token approvals)</li>
+<li>Permit2 Approval events</li>
+<li>Permit2 Permit events</li>
+<li>Permit2 Lockdown events</li>
+</ol>
+<h3 id="first-time-fetch">First-Time Fetch</h3>
+<p>On the first request for a wallet address:</p>
+<ol>
+<li>The system queries all events from block 0 to the latest block</li>
+<li>Events are filtered by the wallet address using topic filters</li>
+<li>All fetched events are stored in IndexedDB with a cache key based on:</li>
+<li>Chain ID</li>
+<li>Event topics (event type selectors)</li>
+<li>Wallet address (if applicable)</li>
+<li>The cache stores:</li>
+<li>All event logs</li>
+<li>The highest block number that was queried (<code>toBlock</code>)</li>
+<li>Chain ID and filter parameters</li>
+</ol>
+<p><strong>Example</strong>: For a wallet on Ethereum mainnet, the first fetch might query from block 0 to block 18,500,000 (current latest block), fetching all Approval and Transfer events for that address.</p>
+<h2 id="incremental-updates-subsequent-fetches">Incremental Updates (Subsequent Fetches)</h2>
+<p>After the initial fetch, the system uses intelligent incremental updates:</p>
+<h3 id="how-it-works">How It Works</h3>
+<ol>
+<li>
+<p><strong>Check Cache</strong>: The system first checks IndexedDB for previously cached events using the same cache key (chain ID + topics + address)</p>
+</li>
+<li>
+<p><strong>Determine Query Range</strong>:</p>
+</li>
+<li>If cached events exist, it retrieves the <code>toBlock</code> value from the cache</li>
+<li>The new query starts from <code>cachedToBlock + 1</code> (the next block after the last cached block)</li>
+<li>
+<p>The query ends at the current latest block</p>
+</li>
+<li>
+<p><strong>Fetch Only New Events</strong>: Only events from the new block range are fetched from the blockchain</p>
+</li>
+<li>
+<p><strong>Merge and Update</strong>: </p>
+</li>
+<li>New events are merged with cached events</li>
+<li>The cache is updated with the combined event list</li>
+<li>The <code>toBlock</code> is updated to the new latest block</li>
+</ol>
+<h3 id="example-incremental-update">Example: Incremental Update</h3>
+<p><strong>Scenario</strong>: 
+- First fetch: Block 0 to 18,500,000 (cached)
+- Second fetch (next day): Latest block is now 18,510,000</p>
+<p><strong>Process</strong>:
+1. System checks cache and finds events up to block 18,500,000
+2. Calculates: <code>fromBlock = 18,500,000 + 1 = 18,500,001</code>
+3. Queries only blocks 18,500,001 to 18,510,000 (10,000 new blocks)
+4. Merges new events with cached events
+5. Updates cache with combined events and new <code>toBlock = 18,510,000</code></p>
+<p>This approach dramatically reduces query size and improves performance on subsequent loads.</p>
+<h2 id="maximum-block-range-handling">Maximum Block Range Handling</h2>
+<h3 id="no-hard-limit">No Hard Limit</h3>
+<p>The system does not enforce a hard maximum block range. It can theoretically query from block 0 to any latest block number.</p>
+<h3 id="automatic-range-splitting">Automatic Range Splitting</h3>
+<p>However, when queries become too large, the system automatically splits them using a "divide and conquer" strategy:</p>
+<ol>
+<li>
+<p><strong>Pre-emptive Splitting</strong>: For certain blockchain APIs (like Covalent), if the block range exceeds 5,000,000 blocks, the query is automatically split in half before attempting to fetch.</p>
+</li>
+<li>
+<p><strong>Error-Based Splitting</strong>: If a query fails due to response size limits or timeouts:</p>
+</li>
+<li>The system catches the error</li>
+<li>Automatically splits the block range in half</li>
+<li>Recursively queries both halves</li>
+<li>
+<p>Combines the results</p>
+</li>
+<li>
+<p><strong>Recursive Division</strong>: The splitting continues recursively until:</p>
+</li>
+<li>The query succeeds, or</li>
+<li>The range is reduced to a single block (at which point it throws an error if it still fails)</li>
+</ol>
+<h3 id="example-divide-and-conquer">Example: Divide and Conquer</h3>
+<p><strong>Scenario</strong>: Querying blocks 0 to 20,000,000 fails due to size limit</p>
+<p><strong>Process</strong>:
+1. Split into: 0-10,000,000 and 10,000,001-20,000,000
+2. Query both ranges in parallel
+3. If either fails, split that range in half again
+4. Continue until all ranges succeed
+5. Combine all results</p>
+<p>This ensures the system can handle chains of any size, even if individual queries have limitations.</p>
+<h2 id="querying-to-the-next-block">Querying to the Next Block</h2>
+<p>When the system needs to fetch new events, it calculates the next block to query from:</p>
+<h3 id="formula">Formula</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextFromBlock = cachedToBlock + 1
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>nextToBlock = currentLatestBlock
+</span></code></pre></div>
+<h3 id="process">Process</h3>
+<ol>
+<li>
+<p><strong>Retrieve Cache</strong>: Get the cached events entry for the specific filter (chain + topics + address)</p>
+</li>
+<li>
+<p><strong>Check Cache Status</strong>:</p>
+</li>
+<li>If no cache exists: <code>fromBlock = 0</code> (initial fetch)</li>
+<li>
+<p>If cache exists: <code>fromBlock = cachedToBlock + 1</code></p>
+</li>
+<li>
+<p><strong>Validate Range</strong>:</p>
+</li>
+<li>If <code>fromBlock &gt; toBlock</code>: All events are already cached, return cached events filtered by the requested range</li>
+<li>
+<p>Otherwise: Query from <code>fromBlock</code> to <code>toBlock</code></p>
+</li>
+<li>
+<p><strong>Update Cache</strong>: After successful query, update the cache with:</p>
+</li>
+<li>Combined old and new events</li>
+<li>New <code>toBlock</code> value</li>
+</ol>
+<h3 id="example-next-block-query">Example: Next Block Query</h3>
+<p><strong>Current State</strong>:
+- Cached events: Blocks 0 to 15,000,000
+- Current latest block: 15,000,500</p>
+<p><strong>Calculation</strong>:
+- <code>fromBlock = 15,000,000 + 1 = 15,000,001</code>
+- <code>toBlock = 15,000,500</code>
+- Query range: 15,000,001 to 15,000,500 (500 blocks)</p>
+<p><strong>Result</strong>: Only 500 blocks are queried instead of 15+ million blocks.</p>
+<h2 id="allowance-amount-calculation">Allowance Amount Calculation</h2>
+<p>The system calculates current allowance amounts differently for ERC20 and ERC721 tokens:</p>
+<h3 id="erc20-token-allowances">ERC20 Token Allowances</h3>
+<p><strong>Why Events Aren't Enough</strong>: 
+- Approval events only show the amount that was approved at the time
+- The actual allowance decreases when tokens are transferred using <code>transferFrom</code>
+- Events cannot tell us the current remaining allowance</p>
+<p><strong>Calculation Process</strong>:</p>
+<ol>
+<li>
+<p><strong>Find Approval Events</strong>: Identify all Approval events for the token and spender from the event logs</p>
+</li>
+<li>
+<p><strong>Deduplicate</strong>: Remove duplicate events, keeping only the most recent approval for each token-spender pair</p>
+</li>
+<li>
+<p><strong>Filter Zero Approvals</strong>: If the most recent approval event shows amount 0, the allowance is definitely zero (no need to query)</p>
+</li>
+<li>
+<p><strong>Query Current State</strong>: For non-zero approvals, query the token contract directly:</p>
+</li>
+<li>Call: <code>allowance(owner, spender)</code> </li>
+<li>This returns the current remaining allowance on-chain</li>
+<li>
+<p>This is the actual amount that can still be spent</p>
+</li>
+<li>
+<p><strong>Store Result</strong>: Store the current allowance amount along with the last updated timestamp from the approval event</p>
+</li>
+</ol>
+<p><strong>Example</strong>:
+- Event shows: Approval of 1000 tokens at block 10,000
+- User transfers 300 tokens using transferFrom at block 12,000
+- Current allowance query returns: 700 tokens (1000 - 300)
+- System displays: 700 tokens as the current allowance</p>
+<h3 id="erc721-token-allowances">ERC721 Token Allowances</h3>
+<p>ERC721 tokens have two types of allowances:</p>
+<h4 id="single-token-approvals">Single Token Approvals</h4>
+<p><strong>Process</strong>:
+1. Find Approval events for specific token IDs
+2. Check if the token was transferred after approval (transfers reset approvals)
+3. If the most recent event is a Transfer, the approval is revoked
+4. If the most recent event is an Approval to address(0), the approval is revoked
+5. Otherwise, the approval is still active</p>
+<p><strong>No Contract Query Needed</strong>: Single token approvals can be determined entirely from events because transfers automatically revoke them.</p>
+<h4 id="approval-for-all">Approval For All</h4>
+<p><strong>Process</strong>:
+1. Find ApprovalForAll events
+2. Check the <code>approved</code> boolean in the most recent event
+3. If <code>approved = false</code>, the allowance is revoked
+4. If <code>approved = true</code>, the allowance is still active</p>
+<p><strong>No Contract Query Needed</strong>: The most recent ApprovalForAll event directly indicates the current state.</p>
+<h3 id="permit2-allowances">Permit2 Allowances</h3>
+<p><strong>Process</strong>:
+1. Find Permit2 Approval/Permit/Lockdown events
+2. Query the Permit2 contract: <code>allowance(owner, token, spender)</code>
+3. Returns: amount, expiration, and nonce
+4. Filter out expired allowances (expiration &lt; current time)
+5. Filter out zero-amount allowances</p>
+<p><strong>Why Query</strong>: Permit2 allowances have expiration times and can be partially used, so the current state must be queried from the contract.</p>
+<h2 id="complete-example-flow">Complete Example Flow</h2>
+<h3 id="scenario-user-checks-allowances-for-wallet-0x1234-on-ethereum">Scenario: User checks allowances for wallet <code>0x1234...</code> on Ethereum</h3>
+<p><strong>Step 1: Initial Fetch (First Time)</strong>
+- Check nonce: 5 transactions found (non-zero, proceed)
+- Latest block: 18,500,000
+- Query events: Block 0 to 18,500,000
+- Events found:
+  - 3 Approval events for USDC token (ERC20)
+  - 1 Approval event for Bored Ape NFT #1234 (ERC721 single token)
+  - 1 ApprovalForAll event for Bored Ape NFT collection
+  - 4 Transfer events (2 ERC20 transfers, 2 ERC721 transfers)
+- Cache stored: All events + <code>toBlock = 18,500,000</code></p>
+<p><strong>Step 2: Process Events and Calculate Allowances</strong></p>
+<p><strong>For USDC (ERC20 Token):</strong>
+- Found 3 approval events:
+  - Block 10,000: Approved 1000 tokens to <code>spender1</code>
+  - Block 12,000: Approved 500 tokens to <code>spender2</code>
+  - Block 15,000: Approved 2000 tokens to <code>spender3</code>
+- Found 2 transfer events:
+  - Block 13,000: <code>spender1</code> transferred 300 tokens using <code>transferFrom</code>
+  - Block 16,000: <code>spender3</code> transferred 500 tokens using <code>transferFrom</code>
+- Query current on-chain state for each:
+  - <code>allowance(0x1234..., spender1)</code> → 700 tokens (1000 - 300 = 700 remaining)
+  - <code>allowance(0x1234..., spender2)</code> → 500 tokens (no transfers, full amount available)
+  - <code>allowance(0x1234..., spender3)</code> → 1500 tokens (2000 - 500 = 1500 remaining)
+- <strong>Result</strong>: 3 active allowances (700, 500, and 1500 tokens)</p>
+<p><strong>For Bored Ape NFT #1234 (ERC721 Single Token):</strong>
+- Found events in chronological order:
+  - Block 8,000: Approval event - Token #1234 approved to <code>spenderA</code>
+  - Block 9,000: <strong>Transfer event</strong> - Token #1234 transferred to another address
+  - Block 11,000: Approval event - Token #1234 approved to <code>spenderB</code> (after transfer back)
+- Processing logic:
+  - Most recent event for token #1234 is an Approval (block 11,000)
+  - Transfer at block 9,000 would have revoked the approval, but token was transferred back
+  - Current approval to <code>spenderB</code> is still active
+- <strong>Result</strong>: 1 active allowance (Token #1234 to <code>spenderB</code>)</p>
+<p><strong>For Bored Ape Collection (ERC721 ApprovalForAll):</strong>
+- Found 1 ApprovalForAll event:
+  - Block 7,000: <code>approved = true</code> to <code>spenderC</code>
+- Note: Transfers do NOT affect ApprovalForAll (only explicit ApprovalForAll events with <code>approved = false</code> can revoke it)
+- <strong>Result</strong>: 1 active allowance (all tokens in collection to <code>spenderC</code>)</p>
+<p><strong>Step 3: Display Results</strong>
+- USDC: 3 active allowances (700, 500, and 1500 tokens)
+- Bored Ape #1234: 1 active allowance (to spenderB)
+- Bored Ape Collection: 1 active allowance (all tokens to spenderC)</p>
+<p><strong>Step 4: Next Day - Transfer Happens (Incremental Update)</strong></p>
+<p><strong>New Events Detected:</strong>
+- Latest block: 18,510,000
+- Check cache: Events up to 18,500,000
+- Calculate: Query blocks 18,500,001 to 18,510,000
+- New events found:
+  - Block 18,505,000: Transfer event - <code>spender2</code> transferred 200 USDC tokens using <code>transferFrom</code>
+  - Block 18,507,000: Transfer event - Bored Ape NFT #1234 transferred to another address
+  - Block 18,509,000: ApprovalForAll event - <code>approved = false</code> to <code>spenderC</code> (explicit revocation)</p>
+<p><strong>Recalculate Allowances:</strong></p>
+<p><strong>USDC Allowances:</strong>
+- Re-query contract for <code>spender2</code>: <code>allowance(0x1234..., spender2)</code> → 300 tokens (500 - 200 = 300 remaining)
+- Other allowances unchanged (spender1: 700, spender3: 1500)
+- <strong>Updated Result</strong>: 3 active allowances (700, 300, and 1500 tokens)</p>
+<p><strong>Bored Ape NFT #1234:</strong>
+- Most recent event for token #1234 is now a Transfer (block 18,507,000)
+- Transfer automatically revokes single token approvals
+- <strong>Updated Result</strong>: 0 active allowances (approval revoked by transfer)</p>
+<p><strong>Bored Ape Collection:</strong>
+- Most recent ApprovalForAll event shows <code>approved = false</code> (block 18,509,000)
+- <strong>Updated Result</strong>: 0 active allowances (explicitly revoked)</p>
+<p><strong>Step 5: Final Display Results After Transfers</strong>
+- USDC: 3 active allowances (700, 300, and 1500 tokens) - one reduced by transfer
+- Bored Ape #1234: 0 active allowances - revoked by transfer
+- Bored Ape Collection: 0 active allowances - explicitly revoked</p>
+<h3 id="key-takeaways-from-transfer-impact">Key Takeaways from Transfer Impact</h3>
+<ol>
+<li>
+<p><strong>ERC20 Transfers</strong>: Reduce the allowance amount but don't revoke it completely. The system detects this by querying the current on-chain state, which reflects all transfers.</p>
+</li>
+<li>
+<p><strong>ERC721 Single Token Transfers</strong>: Automatically revoke approvals for that specific token. The system detects this by checking if the most recent event for a token ID is a Transfer event.</p>
+</li>
+<li>
+<p><strong>ERC721 ApprovalForAll</strong>: Transfers do NOT affect ApprovalForAll. Only explicit ApprovalForAll events with <code>approved = false</code> can revoke it.</p>
+</li>
+<li>
+<p><strong>Event Order Matters</strong>: The system processes events chronologically to determine which is the most recent action, which determines the current allowance state.</p>
+</li>
+</ol>
+<h2 id="key-benefits">Key Benefits</h2>
+<ol>
+<li><strong>Efficiency</strong>: Only queries new blocks after initial fetch</li>
+<li><strong>Performance</strong>: Cached events load instantly from IndexedDB</li>
+<li><strong>Accuracy</strong>: Always queries current on-chain state for ERC20 allowances</li>
+<li><strong>Scalability</strong>: Handles chains of any size through automatic range splitting</li>
+<li><strong>Reliability</strong>: Falls back to full query if cache fails</li>
+</ol>
+<h2 id="limitations">Limitations</h2>
+<ol>
+<li><strong>Browser Storage</strong>: IndexedDB has storage limits (typically 50-100MB per origin)</li>
+<li><strong>Cache Invalidation</strong>: Cache is only updated when new blocks are queried</li>
+<li><strong>Chain-Specific</strong>: Some chains (PulseChain, BitTorrent) don't use caching due to infrastructure limitations</li>
+<li><strong>Event-Based Discovery</strong>: Can only find allowances for tokens that have had approval events (won't find tokens with no approval history)</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

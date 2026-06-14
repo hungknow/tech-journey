@@ -1,0 +1,475 @@
+erDiagram
+    users {
+        varchar id PK
+        varchar username
+        varchar email
+        varchar authservice
+        bigint createat
+        bigint deleteat
+    }
+
+    teams {
+        varchar id PK
+        varchar name
+        varchar displayname
+        varchar schemeid
+        bigint createat
+        bigint deleteat
+    }
+
+    channels {
+        varchar id PK
+        varchar name
+        varchar teamid FK
+        varchar creatorid FK
+        varchar schemeid
+        varchar type
+        bigint createat
+        bigint deleteat
+    }
+
+    posts {
+        varchar id PK
+        varchar channelid FK
+        varchar userid FK
+        varchar rootid FK
+        varchar parentid FK
+        varchar message
+        bigint createat
+    }
+
+    channelmembers {
+        varchar channelid PK
+        varchar userid PK
+        bigint lastviewedat
+        bigint mentioncount
+    }
+
+    teammembers {
+        varchar teamid PK
+        varchar userid PK
+        varchar roles
+        bigint deleteat
+    }
+
+    bots {
+        varchar userid PK
+        varchar ownerid FK
+        bigint createat
+    }
+
+    schemes {
+        varchar id PK
+        varchar scope
+        varchar name
+    }
+
+    fileinfo {
+        varchar id PK
+        varchar channelid FK
+        varchar postid FK
+        varchar creatorid FK
+        varchar name
+        bigint createat
+    }
+
+    reactions {
+        varchar postid FK
+        varchar userid FK
+        varchar channelid FK
+        varchar emojiname
+    }
+
+    threads {
+        varchar postid PK
+        varchar channelid FK
+        bigint replycount
+    }
+
+    threadmemberships {
+        varchar postid PK
+        varchar userid PK
+        boolean following
+    }
+
+    audits {
+        varchar id PK
+        varchar userid FK
+        varchar action
+        bigint createat
+    }
+
+    sessions {
+        varchar id PK
+        varchar userid FK
+        varchar token
+        bigint expiresat
+    }
+
+    commands {
+        varchar id PK
+        varchar teamid FK
+        varchar creatorid FK
+        varchar trigger
+    }
+
+    commandwebhooks {
+        varchar id PK
+        varchar channelid FK
+        varchar commandid FK
+        varchar userid FK
+    }
+
+    incomingwebhooks {
+        varchar id PK
+        varchar channelid FK
+        varchar teamid FK
+        varchar userid FK
+    }
+
+    outgoingwebhooks {
+        varchar id PK
+        varchar channelid FK
+        varchar teamid FK
+        varchar creatorid FK
+    }
+
+    oauthapps {
+        varchar id PK
+        varchar creatorid FK
+        varchar name
+    }
+
+    oauthaccessdata {
+        varchar token PK
+        varchar userid FK
+        varchar clientid FK
+    }
+
+    usergroups {
+        varchar id PK
+        varchar name
+        varchar displayname
+    }
+
+    groupmembers {
+        varchar groupid PK
+        varchar userid PK
+    }
+
+    groupchannels {
+        varchar groupid PK
+        varchar channelid PK
+    }
+
+    groupteams {
+        varchar groupid PK
+        varchar teamid PK
+    }
+
+    preferences {
+        varchar userid PK
+        varchar category PK
+        varchar name PK
+        varchar value
+    }
+
+    status {
+        varchar userid PK
+        varchar status
+    }
+
+    sidebarcategories {
+        varchar id PK
+        varchar userid FK
+        varchar teamid FK
+        varchar displayname
+    }
+
+    sidebarchannels {
+        varchar channelid PK
+        varchar userid PK
+        varchar categoryid PK
+    }
+
+    channelmemberhistory {
+        varchar channelid PK
+        varchar userid PK
+        bigint jointime PK
+    }
+
+    jobs {
+        varchar id PK
+        varchar type
+        varchar status
+    }
+
+    emoji {
+        varchar id PK
+        varchar creatorid FK
+        varchar name
+    }
+
+    compliances {
+        varchar id PK
+        varchar userid FK
+        varchar type
+    }
+
+    licenses {
+        varchar id PK
+    }
+
+    systems {
+        varchar name PK
+        varchar value
+    }
+
+    linkmetadata {
+        bigint hash PK
+        varchar url
+    }
+
+    readreceipts {
+        varchar postid PK
+        varchar userid PK
+        bigint expireat
+    }
+
+    retentionpolicies {
+        varchar id PK
+        varchar displayname
+    }
+
+    retentionpolicieschannels {
+        varchar channelid PK
+        varchar policyid FK
+    }
+
+    retentionpoliciesteams {
+        varchar teamid PK
+        varchar policyid FK
+    }
+
+    scheduledposts {
+        varchar id PK
+        varchar channelid FK
+        varchar userid FK
+        bigint scheduledat
+    }
+
+    recaps {
+        varchar id PK
+        varchar userid FK
+        varchar botid FK
+        varchar status
+        varchar title
+    }
+
+    recapchannels {
+        varchar id PK
+        varchar channelid FK
+        varchar recapid FK
+    }
+
+    sharedchannels {
+        varchar channelid PK
+        varchar teamid FK
+        varchar remoteid FK
+    }
+
+    sharedchannelremotes {
+        varchar id PK
+        varchar channelid PK
+        varchar remoteid FK
+    }
+
+    sharedchannelusers {
+        varchar id PK
+        varchar channelid FK
+        varchar userid FK
+        varchar remoteid FK
+    }
+
+    sharedchannelattachments {
+        varchar id PK
+        varchar fileid FK
+    }
+
+    termsofservice {
+        varchar id PK
+        varchar userid FK
+        text text
+    }
+
+    usertermsofservice {
+        varchar userid PK
+        varchar termsofserviceid FK
+    }
+
+    persistentnotifications {
+        varchar postid PK
+        smallint sentcount
+    }
+
+    temporaryposts {
+        varchar postid PK
+        bigint expireat
+    }
+
+    uploadsessions {
+        varchar id PK
+        varchar channelid FK
+        varchar userid FK
+    }
+
+    useraccesstokens {
+        varchar id PK
+        varchar userid FK
+        varchar token
+    }
+
+    publicchannels {
+        varchar id PK
+        varchar teamid FK
+        varchar name
+    }
+
+    clusterdiscovery {
+        varchar id PK
+        varchar hostname
+    }
+
+    remoteclusters {
+        varchar remoteid PK
+        varchar name PK
+    }
+
+    contentflaggingteamsettings {
+        varchar teamid PK
+        boolean enabled
+    }
+
+    contentflaggingteamreviewers {
+        varchar teamid PK
+        varchar userid PK
+    }
+
+    contentflaggingcommonreviewers {
+        varchar userid PK
+    }
+
+    pluginkeyvaluestore {
+        varchar pluginid PK
+        varchar pkey PK
+    }
+
+    propertygroups {
+        varchar id PK
+        varchar name
+    }
+
+    translations {
+        varchar objectid PK
+        varchar dstlang PK
+        varchar objecttype
+    }
+
+    tokens {
+        varchar token PK
+        varchar type
+    }
+
+    productnoticeviewstate {
+        varchar userid PK
+        varchar noticeid PK
+    }
+
+    recentsearches {
+        varchar userid PK
+        int searchpointer PK
+    }
+
+    retentionidsfordeletion {
+        varchar id PK
+        varchar tablename
+    }
+
+    outgoingoauthconnections {
+        varchar id PK
+        varchar creatorid FK
+        varchar name
+    }
+
+    users ||--o{ channelmembers : "member of"
+    users ||--o{ teammembers : "member of"
+    users ||--o{ posts : "author"
+    users ||--o{ bots : "is bot"
+    users ||--o{ sessions : "has"
+    users ||--o{ audits : "audited"
+    users ||--o{ preferences : "has"
+    users ||--o{ status : "has"
+    users ||--o{ sidebarcategories : "owns"
+    users ||--o{ sidebarchannels : "has"
+    users ||--o{ channelmemberhistory : "in"
+    users ||--o{ reactions : "adds"
+    users ||--o{ threadmemberships : "follows"
+    users ||--o{ readreceipts : "read"
+    users ||--o{ recaps : "owns"
+    users ||--o{ scheduledposts : "schedules"
+    users ||--o{ useraccesstokens : "has"
+    users ||--o{ oauthaccessdata : "has"
+    users ||--o{ groupmembers : "in group"
+    users ||--o{ compliances : "in"
+    users ||--o{ incomingwebhooks : "created"
+    users ||--o{ commandwebhooks : "triggered"
+    users ||--o{ uploadsessions : "uploads"
+    users ||--o{ usertermsofservice : "accepted"
+    users ||--o{ recentsearches : "searched"
+    users ||--o{ productnoticeviewstate : "viewed"
+
+    teams ||--o{ channels : "contains"
+    teams ||--o{ teammembers : "has"
+    teams ||--o{ commands : "has"
+    teams ||--o{ incomingwebhooks : "has"
+    teams ||--o{ outgoingwebhooks : "has"
+    teams ||--o{ sidebarcategories : "in"
+    teams ||--o{ groupteams : "linked"
+    teams ||--o{ retentionpoliciesteams : "policy"
+    teams ||--o{ publicchannels : "has"
+    teams ||--o{ contentflaggingteamsettings : "settings"
+    teams ||--o{ contentflaggingteamreviewers : "reviewers"
+    teams ||--o{ sharedchannels : "has"
+
+    channels ||--o{ channelmembers : "has"
+    channels ||--o{ posts : "contains"
+    channels ||--o{ fileinfo : "has"
+    channels ||--o{ channelmemberhistory : "history"
+    channels ||--o{ commandwebhooks : "in"
+    channels ||--o{ incomingwebhooks : "target"
+    channels ||--o{ outgoingwebhooks : "target"
+    channels ||--o{ groupchannels : "linked"
+    channels ||--o{ threads : "has"
+    channels ||--o{ reactions : "in"
+    channels ||--o{ retentionpolicieschannels : "policy"
+    channels ||--o{ scheduledposts : "scheduled in"
+    channels ||--o{ recapchannels : "recapped"
+    channels ||--o{ sharedchannels : "shared"
+    channels ||--o{ sidebarchannels : "in sidebar"
+    channels ||--o{ uploadsessions : "upload to"
+
+    posts ||--o{ fileinfo : "attachments"
+    posts ||--o{ reactions : "has"
+    posts ||--o{ threads : "thread root"
+    posts ||--o{ threadmemberships : "followed"
+    posts ||--o{ readreceipts : "read"
+    posts ||--o{ persistentnotifications : "notified"
+    posts ||--o{ temporaryposts : "temp"
+    posts ||--o{ posts : "parent"
+
+    recaps ||--o{ recapchannels : "includes"
+
+    oauthapps ||--o{ oauthaccessdata : "tokens"
+
+    schemes ||--o{ channels : "channel scheme"
+    schemes ||--o{ teams : "team scheme"

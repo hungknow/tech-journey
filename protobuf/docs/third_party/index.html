@@ -1,0 +1,1130 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Third-Party Add-ons for Protocol Buffers - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#third-party-add-ons-for-protocol-buffers" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Third-Party Add-ons for Protocol Buffers
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../design/sql/postgres_jsonb/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/sql/postgres_jsonb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres JSONB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design/sql/postgres_connection_pool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postgres Connection Pool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#programming-languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programming Languages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rpc-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RPC Implementations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-utilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other Utilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="third-party-add-ons-for-protocol-buffers">Third-Party Add-ons for Protocol Buffers</h1>
+<p>This page lists code related to Protocol Buffers which is developed and maintained by third parties.  You may find this code useful, but note that <strong>these projects are not affiliated with or endorsed by Google (unless explicitly marked)</strong>; try them at your own risk.  Also note that many projects here are in the early stages of development and not production-ready.</p>
+<p>If you have a project that should be listed here, please
+<a href="https://github.com/protocolbuffers/protobuf/pulls">send us a pull request</a> to update this page.</p>
+<h2 id="programming-languages">Programming Languages</h2>
+<p>These are projects we know about implementing Protocol Buffers for other
+programming languages: * Action Script:
+https://code.google.com/p/protobuf-actionscript3/ * Action Script:
+https://code.google.com/p/protoc-gen-as3/ * Action Script:
+https://github.com/matrix3d/JProtoc * Action Script:
+https://github.com/zhongfq/protobuf-as3/ * Ada:
+https://github.com/reznikmm/protobuf * C:
+https://github.com/protobuf-c/protobuf-c * C: https://koti.kapsi.fi/jpa/nanopb/
+* C: https://github.com/cloudwu/pbc/ * C: https://github.com/haberman/upb/wiki *
+C: https://github.com/squidfunk/protobluff * C:
+https://github.com/eerimoq/pbtools * C++:
+https://github.com/protocolbuffers/protobuf (Google-official implementation) *
+C++: https://github.com/yksten/struct2x * C++: https://EmbeddedProto.com *
+C/C++: http://spbc.sf.net/ * C#: https://code.google.com/p/protobuf-csharp-port
+* C#: https://silentorbit.com/protobuf/ * C#/.NET/WCF/VB:
+https://code.google.com/p/protobuf-net/ * Clojure:
+http://github.com/ninjudd/clojure-protobuf * Clojure:
+https://github.com/clojusc/protobuf * Clojure: https://protojure.readthedocs.io
+* Common Lisp: http://github.com/brown/protobuf * Common Lisp:
+http://github.com/qitab/cl-protobuf * D: https://github.com/dcarp/protobuf-d *
+D: https://github.com/msoucy/dproto * D:
+https://github.com/opticron/ProtocolBuffer * Dart:
+https://github.com/dart-lang/dart-protobuf (runtime)
+https://github.com/dart-lang/dart-protoc-plugin (code generator) * Delphi:
+http://sourceforge.net/projects/protobuf-delphi/ * Delphi:
+http://fundementals.sourceforge.net/dl.html * Elixir:
+https://github.com/jeremyong/exprotoc * Elixir:
+https://github.com/tony612/protobuf-elixir * Elixir:
+https://github.com/ahamez/protox * Elm:
+https://github.com/tiziano88/elm-protobuf * Erlang:
+https://github.com/tomas-abrahamsson/gpb * Erlang: http://piqi.org/ * Erlang:
+https://github.com/basho/erlang_protobuffs (no longer maintained, use gpb
+instead) * Hacklang/HHVM: https://github.com/y3llowcake/proto-hack * GDScript:
+https://github.com/oniksan/godobuf (Godot v3 engine plugin) * Go:
+https://github.com/golang/protobuf (Google-official implementation) * Go:
+https://github.com/akunspy/gopbuf * Go: https://github.com/gogo/protobuf *
+GopherJS: https://github.com/johanbrandhorst/protobuf * Haskell:
+https://hackage.haskell.org/package/hprotoc * Haskell:
+https://github.com/google/proto-lens (Google-unofficial implementation) *
+Haskell: https://github.com/awakesecurity/proto3-suite (code generator)
+https://github.com/awakesecurity/proto3-wire (binary serializer/deserializer) *
+Haxe: https://github.com/Atry/protoc-gen-haxe * Java:
+https://github.com/protocolbuffers/protobuf (Google-official implementation) *
+Java/Android: https://github.com/square/wire * Java:
+https://github.com/HebiRobotics/QuickBuffers/ * Java ME:
+https://code.google.com/p/protobuf-javame/ * Java ME:
+http://swingme.sourceforge.net/encode.shtml * Javascript:
+https://code.google.com/p/protobuf-js/ * Javascript:
+http://github.com/sirikata/protojs * Javascript:
+https://github.com/dcodeIO/ProtoBuf.js * Javascript:
+https://code.google.com/p/protobuf-for-node/ * Javascript:
+https://code.google.com/p/protostuff/ * Javascript:
+https://github.com/seishun/node-protoc-plugin (Node.js port of plugin.h) *
+Javascript: https://github.com/seishun/node-protoc-gen-javascript (Node.js port
+of the Google-official implementation) * Javascript:
+https://github.com/ButterCam/sisyphus-js * Julia:
+https://github.com/tanmaykm/ProtoBuf.jl * Kotlin:
+https://github.com/marcoferrer/kroto-plus * Kotlin:
+https://github.com/Kotlin/kotlinx.serialization * Kotlin:
+https://github.com/ButterCam/sisyphus * Kotlin:
+https://github.com/open-toast/protokt * Kotlin Multiplatform:
+https://github.com/streem/pbandk * Lua:
+https://code.google.com/p/protoc-gen-lua/ * Lua:
+http://github.com/indygreg/lua-protobuf * Lua:
+https://github.com/Neopallium/lua-pb * Matlab:
+https://code.google.com/p/protobuf-matlab/ * Mercury:
+https://code.google.com/p/protobuf-mercury/ * Objective C:
+https://code.google.com/p/protobuf-objc/ * Objective C:
+https://github.com/alexeyxo/protobuf-objc * OCaml: http://piqi.org/ * Perl:
+http://groups.google.com/group/protobuf-perl * Perl:
+https://metacpan.org/pod/Google::ProtocolBuffers * Perl:
+https://metacpan.org/pod/Google::ProtocolBuffers::Dynamic * Perl/XS:
+https://code.google.com/p/protobuf-perlxs/ * PHP:
+https://code.google.com/p/pb4php/ * PHP:
+https://github.com/allegro/php-protobuf/ * PHP:
+https://github.com/chobie/php-protocolbuffers * Prolog:
+http://www.swi-prolog.org/pldoc/package/protobufs.html * Purescript:
+https://github.com/xc-jp/purescript-protobuf * Python:
+https://github.com/protocolbuffers/protobuf (Google-official implementation) *
+Python: https://github.com/eigenein/protobuf * Python:
+https://github.com/danielgtaylor/python-betterproto * R:
+http://cran.r-project.org/package=RProtoBuf * Ruby:
+https://code.google.com/p/ruby-protobuf/ * Ruby:
+http://github.com/mozy/ruby-protocol-buffers * Ruby:
+https://github.com/bmizerany/beefcake/tree/master/lib/beefcake * Ruby:
+https://github.com/localshred/protobuf * Rust: https://github.com/tokio-rs/prost
+* Rust: https://github.com/stepancheg/rust-protobuf/ * Rust:
+https://github.com/tafia/quick-protobuf * Scala:
+http://github.com/jeffplaisance/scala-protobuf * Scala:
+https://code.google.com/p/protobuf-scala * Scala:
+https://github.com/SandroGrzicic/ScalaBuff * Scala: https://scalapb.github.io *
+Solidity: https://github.com/celer-network/pb3-gen-sol * Swift:
+https://github.com/alexeyxo/protobuf-swift * Swift:
+https://github.com/apple/swift-protobuf/ * Typescript:
+https://github.com/thesayyn/protoc-gen-ts * Typescript:
+https://github.com/pbkit/pbkit * Vala: https://launchpad.net/protobuf-vala *
+Visual Basic: https://code.google.com/p/protobuf-net/</p>
+<h2 id="rpc-implementations">RPC Implementations</h2>
+<p>GRPC (http://www.grpc.io/) is Google's RPC implementation for Protocol Buffers. There are other third-party RPC implementations as well.  Some of these actually work with Protocol Buffers service definitions (defined using the <code>service</code> keyword in <code>.proto</code> files) while others just use Protocol Buffers message objects.</p>
+<ul>
+<li>https://github.com/grpc/grpc (C++, Node.js, Python, Ruby, Objective-C, PHP, C#, Google-official implementation)</li>
+<li>https://zeroc.com/products/ice (Multiple languages)</li>
+<li>https://github.com/protobuf-net/protobuf-net (C#/.NET/WCF/VB)</li>
+<li>http://www.deltavsoft.com/doc/_external_serialization.html#Protobufs (C++)</li>
+<li>https://protojure.github.io (Clojure)</li>
+<li>https://code.google.com/p/protobuf-rpc-pro/ (Java)</li>
+<li>https://github.com/baidu/sofa-pbrpc (C++)</li>
+<li>https://github.com/madhon/protobuf-csharp-rpc (C#)</li>
+<li>https://github.com/madwyn/libpbrpc (C++)</li>
+<li>https://github.com/SeriousMa/grpc-protobuf-validation (Java)</li>
+<li>https://github.com/elixir-grpc/grpc (Elixir)</li>
+<li>https://github.com/johanbrandhorst/protobuf (GopherJS)</li>
+<li>https://github.com/awakesecurity/gRPC-haskell (Haskell)</li>
+<li>https://github.com/Yeolar/raster (C++)</li>
+<li>https://github.com/jnordberg/wsrpc (JavaScript Node.js/Browser)</li>
+<li>https://github.com/pbkit/npm-packages/blob/main/frpc-test/src/index.spec.ts (TypeScript Node.js/Browser)</li>
+<li>https://github.com/ppissias/xsrpcj (Java)</li>
+<li>https://github.com/twitchtv/twirp (Multiple languages)</li>
+</ul>
+<p>Inactive:</p>
+<ul>
+<li>https://launchpad.net/txprotobuf/ (Python)</li>
+<li>https://github.com/modeswitch/protobuf-rpc (Python)</li>
+<li>https://github.com/sdeo/protobuf-socket-rpc (Java, Python)</li>
+<li>https://code.google.com/p/proto-streamer/ (Java)</li>
+<li>https://code.google.com/p/server1/ (C++)</li>
+<li>https://code.google.com/p/protobuf-mina-rpc/ (Python client, Java server)</li>
+<li>https://code.google.com/p/casocklib/ (C++)</li>
+<li>https://code.google.com/p/cxf-protobuf/ (Java)</li>
+<li>https://code.google.com/p/protobuf-remote/ (C++/C#)</li>
+<li>https://code.google.com/p/eneter-protobuf-serializer/ (Java/.NET)</li>
+<li>https://github.com/robbinfan/claire/tree/master/protorpc (C++)</li>
+<li>https://github.com/ebencheung/arab (C++)</li>
+<li>https://code.google.com/p/protobuf-csharp-rpc/ (C#)</li>
+<li>https://github.com/thesamet/rpcz (C++/Python, based on ZeroMQ)</li>
+<li>https://github.com/w359405949/libmaid (C++, Python)</li>
+</ul>
+<h2 id="other-utilities">Other Utilities</h2>
+<p>There are miscellaneous other things you may find useful as a Protocol Buffers developer.</p>
+<ul>
+<li><a href="https://bazel.build">Bazel Build</a><ul>
+<li><a href="https://github.com/bazelbuild/rules_closure">rules_closure</a> <code>js-closure</code></li>
+<li><a href="https://github.com/bazelbuild/rules_go">rules_go</a> <code>go</code></li>
+<li><a href="https://github.com/pubref/rules_protobuf">rules_protobuf</a> <code>java</code> <code>c++</code> <code>c#</code> <code>go</code> <code>js-closure</code> <code>js-node</code> <code>python</code> <code>ruby</code></li>
+</ul>
+</li>
+<li><a href="https://code.google.com/p/protobuf-netbeans-plugin/">NetBeans IDE plugin</a></li>
+<li><a href="https://code.google.com/p/protobuf-wireshark/">Wireshark/Ethereal packet sniffer plugin</a></li>
+<li><a href="https://code.google.com/p/protobuf-java-format/">Alternate encodings (JSON, XML, HTML) for Java protobufs</a></li>
+<li><a href="https://github.com/sijuv/protobuf-codec">Another JSON encoder/decoder for Java</a></li>
+<li><a href="https://code.google.com/p/protobufeditor/">Editor for serialized protobufs</a></li>
+<li><a href="http://github.com/jvolkman/intellij-protobuf-editor">IntelliJ IDEA plugin</a></li>
+<li><a href="https://github.com/devkanro/intellij-protobuf-plugin">IntelliJ Protobuf Plugin</a></li>
+<li><a href="http://github.com/michaeledgar/protobuf-tmbundle">TextMate syntax highlighting</a></li>
+<li><a href="https://code.google.com/p/protocol-buffer-plsql/">Oracle PL SQL plugin</a></li>
+<li><a href="https://code.google.com/p/protobuf-dt/">Eclipse editor for protobuf (from Google)</a></li>
+<li><a href="https://github.com/saadware/protobuf-cppbuilder">C++ Builder compatible protobuf</a></li>
+<li>Maven Protobuf Compiler Plugin<ul>
+<li>By xolstice.org (<a href="https://www.xolstice.org/protobuf-maven-plugin/">Documentation</a>) (<a href="https://github.com/xolstice/protobuf-maven-plugin/">Source</a>) <a href="https://repo1.maven.org/maven2/org/xolstice/maven/plugins/protobuf-maven-plugin/"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/org.xolstice.maven.plugins/protobuf-maven-plugin.svg" /></a></li>
+<li>https://code.google.com/p/maven-protoc-plugin/</li>
+<li>https://github.com/os72/protoc-jar-maven-plugin</li>
+</ul>
+</li>
+<li><a href="https://github.com/pseudomuto/protoc-gen-doc">Documentation generator plugin (Markdown/HTML/DocBook/...)</a></li>
+<li><a href="https://code.google.com/p/protoc-gen-docbook/">DocBook generator for .proto files</a></li>
+<li><a href="https://github.com/dbcode/protobuf-nginx/">Protobuf for nginx module</a></li>
+<li><a href="https://github.com/connamara/protobuf_spec">RSpec matchers and Cucumber step defs for testing Protocol Buffers</a></li>
+<li><a href="https://github.com/Atry/sbt-cppp">Sbt plugin for Protocol Buffers</a></li>
+<li><a href="https://github.com/google/protobuf-gradle-plugin">Protobuf Plugin for Gradle</a></li>
+<li><a href="https://github.com/os72/protoc-jar">Multi-platform executable JAR and Java API for protoc</a></li>
+<li><a href="https://github.com/NextTuesday/py-pb-converters">Python scripts to convert between Protocol Buffers and JSON</a></li>
+<li><a href="http://visualstudiogallery.msdn.microsoft.com/4bc0f38c-b058-4e05-ae38-155e053c19c5">Visual Studio Language Service support for Protocol Buffers</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=zxh404.vscode-proto3">Visual Studio Code Support for Protocol Buffers</a></li>
+<li><a href="https://github.com/yinqiwen/pbjson">C++ library for serialization/de-serialization between Protocol Buffers and JSON.</a></li>
+<li><a href="https://github.com/protobufel/protobuf-el">ProtoBuf with Java EE7 Expression Language 3.0; pure Java ProtoBuf Parser and Builder.</a></li>
+<li><a href="https://github.com/chai2010/notepadplus-protobuf">Notepad++ Syntax Highlighting for .proto files</a></li>
+<li><a href="https://github.com/ckaznocha/protoc-gen-lint">Linter for .proto files</a></li>
+<li><a href="https://github.com/os72/protobuf-dynamic">Protocol Buffers Dynamic Schema - create protobuf schemas programmatically (Java)</a></li>
+<li><a href="https://github.com/konsumer/node-protoc-plugin">Make protoc plugins in NodeJS</a></li>
+<li><a href="https://profanedb.gitlab.io">ProfaneDB - A Protocol Buffers database</a></li>
+<li><a href="https://github.com/CurataEng/hypothesis-protobuf">Protocol Buffer property-based testing utility and example message generator (Python / Hypothesis)</a></li>
+<li><a href="https://github.com/nilslice/protolock">Protolock - CLI utility to prevent backward-incompatible changes to .proto files</a></li>
+<li><a href="https://github.com/mattpaletta/optional-grpc.git">Optional GRPC - GRPC for testable microservices (Python)</a></li>
+<li><a href="https://github.com/yoheimuta/go-protoparser">Protobuf Parser - Yet another Go package which parses a Protocol Buffer file (proto2+proto3)</a></li>
+<li><a href="https://github.com/yoheimuta/protolint">Protolint - A tool to enforce Protocol Buffer style and conventions.</a><ul>
+<li><a href="https://github.com/plexsystems/vscode-protolint">vscode-protolint: A protobuf linter for visual studio code</a></li>
+<li><a href="https://github.com/yoheimuta/intellij-protolint">intellij-protolint: A protobuf linter for JetBrains IDEs</a></li>
+<li><a href="https://github.com/yoheimuta/vim-protolint">vim-protolint: A protobuf linter for Vim</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/github/super-linter">super-linter: Protocol Buffer lint as GitHub Action</a></li>
+<li><a href="https://github.com/idodod/protoc-gen-fieldmask">protoc-gen-fieldmask - A plugin to generate static type fieldmask paths</a></li>
+<li><a href="https://github.com/GoogleCloudPlatform/protoc-gen-bq-schema">protoc-gen-bq-schema - A protoc plugin to generate BigQuery schema files</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
