@@ -1245,14 +1245,20 @@
 <h3 id="tcpnetwork-configuration">TCP/Network Configuration</h3>
 <ul>
 <li><code>tcp_keepalives_idle</code> (integer, default: OS default)</li>
-<li>Seconds of inactivity before sending TCP keepalive</li>
-<li><code>tcp_keepalives_interval</code> (integer, default: OS default)</li>
-<li>Seconds between unacknowledged keepalive retransmissions</li>
-<li><code>tcp_keepalives_count</code> (integer, default: OS default)</li>
-<li>Number of lost keepalives before considering connection dead</li>
-<li><code>tcp_user_timeout</code> (integer, default: OS default)</li>
-<li>Milliseconds data can remain unacknowledged before closing</li>
 </ul>
+<p>Seconds of inactivity before sending TCP keepalive.</p>
+<ul>
+<li><code>tcp_keepalives_interval</code> (integer, default: OS default)</li>
+</ul>
+<p>Seconds between unacknowledged keepalive retransmissions.</p>
+<ul>
+<li><code>tcp_keepalives_count</code> (integer, default: OS default)</li>
+</ul>
+<p>Number of lost keepalives before considering connection dead.</p>
+<ul>
+<li><code>tcp_user_timeout</code> (integer, default: OS default)</li>
+</ul>
+<p>Milliseconds data can remain unacknowledged before closing.</p>
 <h2 id="connection-pooler-configuration-pgbouncer">Connection Pooler Configuration (PgBouncer)</h2>
 <h3 id="core-parameters">Core Parameters</h3>
 <div class="language-ini highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">[databases]</span>
@@ -1274,15 +1280,16 @@
 <h3 id="pool-modes">Pool Modes</h3>
 <ul>
 <li><code>session</code> mode</li>
-<li>Behavior: One connection per client (no pooling)</li>
-<li>Use Case: Limited use, testing</li>
-<li><code>transaction</code> mode</li>
-<li>Behavior: Return connection after each transaction</li>
-<li>Use Case: Recommended for most workloads</li>
-<li><code>statement</code> mode</li>
-<li>Behavior: Return connection after each statement</li>
-<li>Use Case: Specific isolation requirements</li>
 </ul>
+<p>Behavior: One connection per client (no pooling). Use Case: Limited use, testing.</p>
+<ul>
+<li><code>transaction</code> mode</li>
+</ul>
+<p>Behavior: Return connection after each transaction. Use Case: Recommended for most workloads.</p>
+<ul>
+<li><code>statement</code> mode</li>
+</ul>
+<p>Behavior: Return connection after each statement. Use Case: Specific isolation requirements.</p>
 <h2 id="calculating-optimal-connection-count">Calculating Optimal Connection Count</h2>
 <h3 id="the-fundamental-formula">The Fundamental Formula</h3>
 <p>The PostgreSQL wiki establishes a well-validated formula for optimal throughput:</p>
@@ -1292,10 +1299,8 @@
 <ul>
 <li><code>core_count</code>: Physical CPU cores (exclude hyperthreading threads)</li>
 <li><code>effective_spindle_count</code>: Number of disk drives actively seeking data</li>
-<li><strong>0</strong> if active dataset is fully cached in RAM</li>
-<li>Approaches actual spindle count as cache hit rate decreases</li>
-<li>For SSD storage: typically <strong>0</strong> (negligible seek time overhead)</li>
 </ul>
+<p><strong>0</strong> if active dataset is fully cached in RAM. Approaches actual spindle count as cache hit rate decreases. For SSD storage: typically <strong>0</strong> (negligible seek time overhead).</p>
 <h3 id="calculation-steps">Calculation Steps</h3>
 <h4 id="step-1-determine-cpu-capacity">Step 1: Determine CPU Capacity</h4>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># macOS</span>
@@ -1309,23 +1314,16 @@
 <h4 id="step-2-analyze-workload-type">Step 2: Analyze Workload Type</h4>
 <ul>
 <li>OLTP (transactional)</li>
-<li>Characteristics: Many short queries, high concurrency</li>
-<li>
-<p>Connection Strategy: Higher pool count (formula-based)</p>
-</li>
-<li>
-<p>OLAP (analytics)</p>
-</li>
-<li>Characteristics: Long-running queries, low concurrency</li>
-<li>
-<p>Connection Strategy: Lower pool count (formula-based ÷ 2)</p>
-</li>
-<li>
-<p>Mixed</p>
-</li>
-<li>Characteristics: Variable patterns</li>
-<li>Connection Strategy: Start with formula, monitor and adjust</li>
 </ul>
+<p>Characteristics: Many short queries, high concurrency. Connection Strategy: Higher pool count (formula-based).</p>
+<ul>
+<li>OLAP (analytics)</li>
+</ul>
+<p>Characteristics: Long-running queries, low concurrency. Connection Strategy: Lower pool count (formula-based ÷ 2).</p>
+<ul>
+<li>Mixed</li>
+</ul>
+<p>Characteristics: Variable patterns. Connection Strategy: Start with formula, monitor and adjust.</p>
 <h4 id="step-3-calculate-working-memory">Step 3: Calculate Working Memory</h4>
 <p>Ensure sufficient memory per connection:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>work_mem × max_active_connections × operations_per_query ≤ Available RAM
@@ -1510,24 +1508,28 @@
 <h3 id="key-metrics-to-monitor">Key Metrics to Monitor</h3>
 <ul>
 <li>Connection Utilization</li>
-<li>Description: % of <code>max_connections</code> in use</li>
-<li>Target Range: 60-80% during peak</li>
-<li>Pool Wait Time</li>
-<li>Description: Time clients wait for connections</li>
-<li>Target Range: &lt; 100ms (P99)</li>
-<li>Query Duration</li>
-<li>Description: Average query execution time</li>
-<li>Target Range: Depends on workload</li>
-<li>Lock Contention</li>
-<li>Description: % time spent waiting on locks</li>
-<li>Target Range: &lt; 5%</li>
-<li>Cache Hit Ratio</li>
-<li>Description: % queries served from cache</li>
-<li>Target Range: &gt; 99% for OLTP</li>
-<li>Context Switches</li>
-<li>Description: OS context switches per second</li>
-<li>Target Range: Monitor trends</li>
 </ul>
+<p>Description: % of <code>max_connections</code> in use. Target Range: 60-80% during peak.</p>
+<ul>
+<li>Pool Wait Time</li>
+</ul>
+<p>Description: Time clients wait for connections. Target Range: &lt; 100ms (P99).</p>
+<ul>
+<li>Query Duration</li>
+</ul>
+<p>Description: Average query execution time. Target Range: Depends on workload.</p>
+<ul>
+<li>Lock Contention</li>
+</ul>
+<p>Description: % time spent waiting on locks. Target Range: &lt; 5%.</p>
+<ul>
+<li>Cache Hit Ratio</li>
+</ul>
+<p>Description: % queries served from cache. Target Range: &gt; 99% for OLTP.</p>
+<ul>
+<li>Context Switches</li>
+</ul>
+<p>Description: OS context switches per second. Target Range: Monitor trends.</p>
 <h2 id="common-pitfalls-and-solutions">Common Pitfalls and Solutions</h2>
 <h3 id="pitfall-1-oversubscribing-connections">Pitfall 1: Oversubscribing Connections</h3>
 <p><strong>Problem:</strong> Setting <code>max_connections</code> or pool size too high causes resource contention and performance degradation.</p>
