@@ -31,6 +31,13 @@
 | 0050 | [Pow(x, n)](./problems/0050-powx-n.md) | [Go](./golang/0050_powx_n.go)     | _O(logn)_       | _O(1)_       | Medium         ||
 | 0326 | [Power of Three](./problems/0326-power-of-three.md) | [Go](./golang/0326_power_of_three.go) | _O(1)_ | _O(1)_ | Easy |||
 | 0372 | [Super Pow](./problems/0372-super-pow.md) | [Go](./golang/0372_super_pow.go) | _O(n)_ | _O(1)_ | Medium |||
+
+---
+
+### 4. Number Theory
+
+| # | Title | Solution | Time | Space | Difficulty | Tag | Note |
+|-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
 | 0507 | [Perfect Number](./problems/0507-perfect-number.md) | [Go](./golang/0507_perfect_number.go) | _O(sqrt(n))_       | _O(1)_          | Easy         || Math |
 | 0633 | [Sum of Square Numbers](./problems/0633-sum-of-square-numbers.md) | [Go](./golang/0633_sum_of_square_numbers.go) | _O(sqrt(c) * logc)_ | _O(1)_ | Easy |||
 | 0829 | [Consecutive Numbers Sum](./problems/0829-consecutive-numbers-sum.md) | [Go](./golang/0829_consecutive_numbers_sum.go) | _O(sqrt(n))_ | _O(1)_ | Hard || Factorization |
@@ -54,7 +61,7 @@
 
 ---
 
-### 4. Geometry / Rectangle
+### 5. Geometry / Rectangle
 
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
 |-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
@@ -71,7 +78,7 @@
 
 ---
 
-### 5. Random / Probability
+### 6. Random / Probability
 
 | # | Title | Solution | Time | Space | Difficulty | Tag | Note |
 |-----|----------------|---------------|---------------|---------------|-------------|--------------|-----|
