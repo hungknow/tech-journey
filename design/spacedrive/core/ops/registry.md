@@ -5,6 +5,7 @@
 The operation registry (`core/src/ops/registry.rs`) provides a compile-time registration system for all actions and queries in Spacedrive. It uses the `inventory` crate to collect operations across the codebase into global hashmaps, enabling type-safe dispatch from incoming RPC calls to their handlers.
 
 **Key goals:**
+
 - Action-centric API with minimal boilerplate
 - Automatic method string generation (`query:network.status`, `action:files.copy.input`)
 - No manual trait implementation—use registration macros instead
@@ -92,13 +93,14 @@ type CoreActionHandlerFn = fn(
 **Registry Maps**: Lazily-initialized collections of all registered operations.
 
 ```rust
-static LIBRARY_QUERIES: Lazy<HashMap<&'static str, LibraryQueryHandlerFn>>
-static CORE_QUERIES:    Lazy<HashMap<&'static str, CoreQueryHandlerFn>>
-static LIBRARY_ACTIONS: Lazy<HashMap<&'static str, LibraryActionHandlerFn>>
-static CORE_ACTIONS:    Lazy<HashMap<&'static str, CoreActionHandlerFn>>
+static LIBRARY_QUERIES: Lazy<HashMap<&'static str, LibraryQueryHandlerFn>>;
+static CORE_QUERIES:    Lazy<HashMap<&'static str, CoreQueryHandlerFn>>;
+static LIBRARY_ACTIONS: Lazy<HashMap<&'static str, LibraryActionHandlerFn>>;
+static CORE_ACTIONS:    Lazy<HashMap<&'static str, CoreActionHandlerFn>>;
 ```
 
 **Usage Sequence**:
+
 1. `inventory::collect!()` runs at compile-time to gather entries
 2. `Lazy::new(||)` builds hashmaps on first access by iterating entries
 3. RPC handlers look up method strings to get handler function pointers
@@ -125,6 +127,7 @@ query_method!("network.status")  // => "query:network.status"
 **Purpose**: Registers a library query with automatic type extraction.
 
 **What it does**:
+
 1. Implements `Wire` trait for `Q::Input` with method `"query:$name"`
 2. Submits `LibraryQueryEntry` to inventory with `handle_library_query::<Q>` as handler
 3. Implements `QueryTypeInfo` for TypeScript type generation
@@ -141,6 +144,7 @@ crate::register_library_query!(FileListQuery, "files.list");
 ```
 
 **Resolves**:
+
 - Method string: `"query:files.list"`
 - Wire trait for `FileListQuery::Input`
 - Type extraction for frontend type generation
@@ -163,6 +167,7 @@ crate::register_core_query!(NetworkStatusQuery, "network.status");
 ```
 
 **Resolves**:
+
 - Method string: `"query:network.status"`
 - Wire trait for `NetworkStatusQuery::Input`
 - Core scope type extraction
@@ -173,6 +178,7 @@ crate::register_core_query!(NetworkStatusQuery, "network.status");
 **Purpose**: Registers a library action with automatic type extraction.
 
 **What it does**:
+
 1. Implements `Wire` trait for `A::Input` with method `"action:$name.input"`
 2. Submits `LibraryActionEntry` to inventory with `handle_library_action::<A>` as handler
 3. Implements `OperationTypeInfo` for TypeScript type generation
@@ -189,6 +195,7 @@ crate::register_library_action!(FileCopyAction, "files.copy");
 ```
 
 **Resolves**:
+
 - Method string: `"action:files.copy.input"`
 - Wire trait for `FileCopyAction::Input`
 - Library scope type extraction
@@ -211,6 +218,7 @@ crate::register_core_action!(LibraryCreateAction, "libraries.create");
 ```
 
 **Resolves**:
+
 - Method string: `"action:libraries.create.input"`
 - Wire trait for `LibraryCreateAction::Input`
 - Core scope type extraction
@@ -223,6 +231,7 @@ crate::register_core_action!(LibraryCreateAction, "libraries.create");
 **Purpose**: Thin wrapper that deserializes input, executes library query, serializes output.
 
 **Core Steps**:
+
 1. Create `ApiDispatcher` from `CoreContext`
 2. Deserialize `payload` into `Q::Input`
 3. Call `dispatcher.execute_library_query::<Q>(input, session)`
@@ -230,6 +239,7 @@ crate::register_core_action!(LibraryCreateAction, "libraries.create");
 5. Return result or error as String
 
 **Resolves**:
+
 - JSON-RPC payload to strongly-typed Rust types
 - Library context from session for database access
 - Business logic dispatch via ApiDispatcher
@@ -239,6 +249,7 @@ crate::register_core_action!(LibraryCreateAction, "libraries.create");
 **Purpose**: Executes core query without library context.
 
 **Core Steps**:
+
 1. Create `ApiDispatcher` from `CoreContext`
 2. Deserialize `payload` into `Q::Input`
 3. Call `dispatcher.execute_core_query::<Q>(input, session)`
@@ -246,6 +257,7 @@ crate::register_core_action!(LibraryCreateAction, "libraries.create");
 5. Return result or error as String
 
 **Resolves**:
+
 - Core queries that don't require library context
 - Session context for authentication but not library scoping
 
@@ -254,6 +266,7 @@ crate::register_core_action!(LibraryCreateAction, "libraries.create");
 **Purpose**: Executes library action with library context.
 
 **Core Steps**:
+
 1. Create `ApiDispatcher` from `CoreContext`
 2. Deserialize `payload` into `A::Input`
 3. Call `dispatcher.execute_library_action::<A>(input, session)`
@@ -261,6 +274,7 @@ crate::register_core_action!(LibraryCreateAction, "libraries.create");
 5. Return result or error as String
 
 **Resolves**:
+
 - Actions that modify library-scoped state
 - Transaction handling via dispatcher
 - Library context for database operations
@@ -270,6 +284,7 @@ crate::register_core_action!(LibraryCreateAction, "libraries.create");
 **Purpose**: Executes core action without library context.
 
 **Core Steps**:
+
 1. Create `ApiDispatcher` from `CoreContext`
 2. Call `dispatcher.create_base_session()` to get default session
 3. Deserialize `payload` into `A::Input`
@@ -278,6 +293,7 @@ crate::register_core_action!(LibraryCreateAction, "libraries.create");
 6. Return result or error as String
 
 **Resolves**:
+
 - Core actions like library creation that don't require library context
 - Base session creation for authentication without library scoping
 
