@@ -1,4 +1,4 @@
-PostgreSQL JSON/JSONB operations in Go, TypeScript, Python.
+PostgreSQL JSON/JSONB operations in Go.
 
 - [Create JSON](#create-json)
 - [Query field with -> operator](#query-field-with---operator)
@@ -30,7 +30,6 @@ PostgreSQL JSON/JSONB operations in Go, TypeScript, Python.
 
 # Create JSON
 
-## Golang
 ```go
 import "encoding/json"
 
@@ -50,22 +49,10 @@ data := pgtype.JSONB{Bytes: []byte(`{"name":"Alice","age":30}`), Valid: true}
 pool.Exec(ctx, "INSERT INTO users (data) VALUES ($1)", data)
 ```
 
-## TypeScript
-```typescript
-const data = { name: 'Alice', age: 30, tags: ['engineer', 'typescript'] };
-await pool.query('INSERT INTO users (data) VALUES ($1)', [JSON.stringify(data)]);
-```
-
-## Python
-```python
-import json
-data = {"name": "Alice", "age": 30, "tags": ["engineer", "python"]}
-cur.execute("INSERT INTO users (data) VALUES (%s)", (json.dumps(data),))
-```
-
 # Query field with -> operator
 
-## Golang
+Returns JSON value at specified key. Use -> when you need the result as JSON.
+
 ```go
 type Result struct{ Name string }
 var r Result
@@ -77,23 +64,10 @@ db.QueryRow("SELECT data->'name' FROM users WHERE id = $1", 1).Scan(&r.Name)
 pool.QueryRow(ctx, "SELECT data->'name' FROM users WHERE id = $1", 1).Scan(&r.Name)
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query<{ name: string }>('SELECT data->\'name\' FROM users WHERE id = $1', [1]);
-const name = rows[0].name;
-```
-
-## Python
-```python
-cur.execute("SELECT data->'name' FROM users WHERE id = %s", (1,))
-name = cur.fetchone()[0]
-```
-
 # Query field with ->> operator
 
-The `->>` operator returns the value as **text**, which is often more convenient for string operations and comparisons, while `->` returns a **JSON value** that may need additional casting.
+Returns text value at specified key. Use ->> for string comparisons, filtering, or when you need text output.
 
-## Golang
 ```go
 var name string
 db.QueryRow("SELECT data->>'name' FROM users WHERE id = $1", 1).Scan(&name)
@@ -104,21 +78,10 @@ db.QueryRow("SELECT data->>'name' FROM users WHERE id = $1", 1).Scan(&name)
 pool.QueryRow(ctx, "SELECT data->>'name' FROM users WHERE id = $1", 1).Scan(&name)
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT data->>\'name\' FROM users WHERE id = $1', [1]);
-const name = rows[0].name;
-```
-
-## Python
-```python
-cur.execute("SELECT data->>'name' FROM users WHERE id = %s", (1,))
-name = cur.fetchone()[0]
-```
-
 # Query nested field
 
-## Golang
+Chain -> and ->> operators to navigate nested objects. Returns text at the final key.
+
 ```go
 var city string
 db.QueryRow("SELECT data->'address'->>'city' FROM users WHERE id = $1", 1).Scan(&city)
@@ -129,21 +92,10 @@ db.QueryRow("SELECT data->'address'->>'city' FROM users WHERE id = $1", 1).Scan(
 pool.QueryRow(ctx, "SELECT data->'address'->>'city' FROM users WHERE id = $1", 1).Scan(&city)
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT data->\'address\'->>\'city\' FROM users WHERE id = $1', [1]);
-const city = rows[0].city;
-```
-
-## Python
-```python
-cur.execute("SELECT data->'address'->>'city' FROM users WHERE id = %s", (1,))
-city = cur.fetchone()[0]
-```
-
 # Query array element
 
-## Golang
+Access array elements using -> with zero-based index. Returns JSON value at index.
+
 ```go
 var firstTag string
 db.QueryRow("SELECT data->'tags'->0 FROM users WHERE id = $1", 1).Scan(&firstTag)
@@ -154,21 +106,10 @@ db.QueryRow("SELECT data->'tags'->0 FROM users WHERE id = $1", 1).Scan(&firstTag
 pool.QueryRow(ctx, "SELECT data->'tags'->0 FROM users WHERE id = $1", 1).Scan(&firstTag)
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT data->\'tags\'->0 FROM users WHERE id = $1', [1]);
-const firstTag = rows[0].tags;
-```
-
-## Python
-```python
-cur.execute("SELECT data->'tags'->0 FROM users WHERE id = %s", (1,))
-first_tag = cur.fetchone()[0]
-```
-
 # Contains key with ? operator
 
-## Golang
+Check if JSON contains a specific top-level key. Returns boolean.
+
 ```go
 var hasName bool
 db.QueryRow("SELECT data ? 'name' FROM users WHERE id = $1", 1).Scan(&hasName)
@@ -179,21 +120,10 @@ db.QueryRow("SELECT data ? 'name' FROM users WHERE id = $1", 1).Scan(&hasName)
 pool.QueryRow(ctx, "SELECT data ? 'name' FROM users WHERE id = $1", 1).Scan(&hasName)
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT data ? \'name\' FROM users WHERE id = $1', [1]);
-const hasName = rows[0].exists;
-```
-
-## Python
-```python
-cur.execute("SELECT data ? 'name' FROM users WHERE id = %s", (1,))
-has_name = cur.fetchone()[0]
-```
-
 # Contains value with @> operator
 
-## Golang
+Check if JSON contains a specific key-value pair. Returns boolean.
+
 ```go
 var contains bool
 db.QueryRow("SELECT data @> '{\"name\":\"Alice\"}' FROM users WHERE id = $1", 1).Scan(&contains)
@@ -204,21 +134,10 @@ db.QueryRow("SELECT data @> '{\"name\":\"Alice\"}' FROM users WHERE id = $1", 1)
 pool.QueryRow(ctx, "SELECT data @> '{\"name\":\"Alice\"}' FROM users WHERE id = $1", 1).Scan(&contains)
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT data @> \'{\"name\":\"Alice\"}\' FROM users WHERE id = $1', [1]);
-const contains = rows[0].exists;
-```
-
-## Python
-```python
-cur.execute("SELECT data @> '{\"name\":\"Alice\"}' FROM users WHERE id = %s", (1,))
-contains = cur.fetchone()[0]
-```
-
 # Query where JSON contains key
 
-## Golang
+Filter rows where JSON contains a specific top-level key.
+
 ```go
 id := 1
 db.Query("SELECT id FROM users WHERE data ? 'name'")
@@ -229,20 +148,10 @@ db.Query("SELECT id FROM users WHERE data ? 'name'")
 rows, _ := pool.Query(ctx, "SELECT id FROM users WHERE data ? 'name'")
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT id FROM users WHERE data ? \'name\'');
-```
-
-## Python
-```python
-cur.execute("SELECT id FROM users WHERE data ? 'name'")
-ids = cur.fetchall()
-```
-
 # Query where JSON contains value
 
-## Golang
+Filter rows where JSON contains a specific key-value pair.
+
 ```go
 db.Query("SELECT id FROM users WHERE data @> '{\"name\":\"Alice\"}'")
 ```
@@ -252,20 +161,10 @@ db.Query("SELECT id FROM users WHERE data @> '{\"name\":\"Alice\"}'")
 rows, _ := pool.Query(ctx, "SELECT id FROM users WHERE data @> '{\"name\":\"Alice\"}'")
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT id FROM users WHERE data @> \'{\"name\":\"Alice\"}\'');
-```
-
-## Python
-```python
-cur.execute("SELECT id FROM users WHERE data @> '{\"name\":\"Alice\"}'")
-ids = cur.fetchall()
-```
-
 # Query where array contains element
 
-## Golang
+Filter rows where a JSON array contains a specific element.
+
 ```go
 db.Query("SELECT id FROM users WHERE data->'tags' ? 'engineer'")
 ```
@@ -275,20 +174,10 @@ db.Query("SELECT id FROM users WHERE data->'tags' ? 'engineer'")
 rows, _ := pool.Query(ctx, "SELECT id FROM users WHERE data->'tags' ? 'engineer'")
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT id FROM users WHERE data->\'tags\' ? \'engineer\'');
-```
-
-## Python
-```python
-cur.execute("SELECT id FROM users WHERE data->'tags' ? 'engineer'")
-ids = cur.fetchall()
-```
-
 # Update JSON field with jsonb_set
 
-## Golang
+Updates an existing field value. Does NOT create the field if it doesn't exist (use `true` as 4th param to create).
+
 ```go
 tx, _ := db.Begin()
 tx.Exec("UPDATE users SET data = jsonb_set(data, '{name}', '\"Bob\"') WHERE id = $1", 1)
@@ -302,26 +191,10 @@ tx.Exec(ctx, "UPDATE users SET data = jsonb_set(data, '{name}', '\"Bob\"') WHERE
 tx.Commit(ctx)
 ```
 
-## TypeScript
-```typescript
-const client = await pool.connect();
-await client.query('BEGIN');
-await client.query('UPDATE users SET data = jsonb_set(data, \'{name}\', \'\"Bob\"\') WHERE id = $1', [1]);
-await client.query('COMMIT');
-client.release();
-```
-
-## Python
-```python
-conn.autocommit = False
-cur = conn.cursor()
-cur.execute("UPDATE users SET data = jsonb_set(data, '{name}', '\"Bob\"') WHERE id = %s", (1,))
-conn.commit()
-```
-
 # Add new field with jsonb_set
 
-## Golang
+Adds a new field to JSON. Uses `true` as the 4th parameter to create the field if it doesn't exist. If field exists, updates it.
+
 ```go
 tx, _ := db.Begin()
 tx.Exec("UPDATE users SET data = jsonb_set(data, '{email}', '\"alice@example.com\"', true) WHERE id = $1", 1)
@@ -335,26 +208,10 @@ tx.Exec(ctx, "UPDATE users SET data = jsonb_set(data, '{email}', '\"alice@exampl
 tx.Commit(ctx)
 ```
 
-## TypeScript
-```typescript
-const client = await pool.connect();
-await client.query('BEGIN');
-await client.query('UPDATE users SET data = jsonb_set(data, \'{email}\', \'\"alice@example.com\"\', true) WHERE id = $1', [1]);
-await client.query('COMMIT');
-client.release();
-```
-
-## Python
-```python
-conn.autocommit = False
-cur = conn.cursor()
-cur.execute("UPDATE users SET data = jsonb_set(data, '{email}', '\"alice@example.com\"', true) WHERE id = %s", (1,))
-conn.commit()
-```
-
 # Delete field with - operator
 
-## Golang
+Removes a top-level key from JSON. Ignores if key doesn't exist.
+
 ```go
 tx, _ := db.Begin()
 tx.Exec("UPDATE users SET data = data - 'age' WHERE id = $1", 1)
@@ -368,26 +225,10 @@ tx.Exec(ctx, "UPDATE users SET data = data - 'age' WHERE id = $1", 1)
 tx.Commit(ctx)
 ```
 
-## TypeScript
-```typescript
-const client = await pool.connect();
-await client.query('BEGIN');
-await client.query('UPDATE users SET data = data - \'age\' WHERE id = $1', [1]);
-await client.query('COMMIT');
-client.release();
-```
-
-## Python
-```python
-conn.autocommit = False
-cur = conn.cursor()
-cur.execute("UPDATE users SET data = data - 'age' WHERE id = %s", (1,))
-conn.commit()
-```
-
 # Delete multiple fields with - operator
 
-## Golang
+Removes multiple top-level keys at once. Ignores non-existent keys.
+
 ```go
 tx, _ := db.Begin()
 tx.Exec("UPDATE users SET data = data - '{age,email}' WHERE id = $1", 1)
@@ -401,26 +242,10 @@ tx.Exec(ctx, "UPDATE users SET data = data - '{age,email}' WHERE id = $1", 1)
 tx.Commit(ctx)
 ```
 
-## TypeScript
-```typescript
-const client = await pool.connect();
-await client.query('BEGIN');
-await client.query('UPDATE users SET data = data - \'{age,email}\' WHERE id = $1', [1]);
-await client.query('COMMIT');
-client.release();
-```
-
-## Python
-```python
-conn.autocommit = False
-cur = conn.cursor()
-cur.execute("UPDATE users SET data = data - '{age,email}' WHERE id = %s", (1,))
-conn.commit()
-```
-
 # Delete nested field with #- operator
 
-## Golang
+Removes a nested key using path notation. Ignores if path doesn't exist.
+
 ```go
 tx, _ := db.Begin()
 tx.Exec("UPDATE users SET data = data #- '{address,city}' WHERE id = $1", 1)
@@ -434,26 +259,10 @@ tx.Exec(ctx, "UPDATE users SET data = data #- '{address,city}' WHERE id = $1", 1
 tx.Commit(ctx)
 ```
 
-## TypeScript
-```typescript
-const client = await pool.connect();
-await client.query('BEGIN');
-await client.query('UPDATE users SET data = data #- \'{address,city}\' WHERE id = $1', [1]);
-await client.query('COMMIT');
-client.release();
-```
-
-## Python
-```python
-conn.autocommit = False
-cur = conn.cursor()
-cur.execute("UPDATE users SET data = data #- '{address,city}' WHERE id = %s", (1,))
-conn.commit()
-```
-
 # Append to array with jsonb_set
 
-## Golang
+Adds element to array at specified index. Creates new element if index doesn't exist, pads array with nulls.
+
 ```go
 tx, _ := db.Begin()
 tx.Exec("UPDATE users SET data = jsonb_set(data, '{tags,999}', '\"newtag\"') WHERE id = $1", 1)
@@ -467,26 +276,10 @@ tx.Exec(ctx, "UPDATE users SET data = jsonb_set(data, '{tags,999}', '\"newtag\"'
 tx.Commit(ctx)
 ```
 
-## TypeScript
-```typescript
-const client = await pool.connect();
-await client.query('BEGIN');
-await client.query('UPDATE users SET data = jsonb_set(data, \'{tags,999}\', \'\"newtag\"\') WHERE id = $1', [1]);
-await client.query('COMMIT');
-client.release();
-```
-
-## Python
-```python
-conn.autocommit = False
-cur = conn.cursor()
-cur.execute("UPDATE users SET data = jsonb_set(data, '{tags,999}', '\"newtag\"') WHERE id = %s", (1,))
-conn.commit()
-```
-
 # Concatenate JSON with || operator
 
-## Golang
+Merges two JSON objects. Right side values override left side for matching keys. Adds new keys from right side.
+
 ```go
 tx, _ := db.Begin()
 tx.Exec("UPDATE users SET data = data || '{\"email\":\"alice@example.com\"}' WHERE id = $1", 1)
@@ -500,26 +293,10 @@ tx.Exec(ctx, "UPDATE users SET data = data || '{\"email\":\"alice@example.com\"}
 tx.Commit(ctx)
 ```
 
-## TypeScript
-```typescript
-const client = await pool.connect();
-await client.query('BEGIN');
-await client.query('UPDATE users SET data = data || \'{\"email\":\"alice@example.com\"}\' WHERE id = $1', [1]);
-await client.query('COMMIT');
-client.release();
-```
-
-## Python
-```python
-conn.autocommit = False
-cur = conn.cursor()
-cur.execute("UPDATE users SET data = data || '{\"email\":\"alice@example.com\"}' WHERE id = %s", (1,))
-conn.commit()
-```
-
 # Get JSON keys with jsonb_object_keys
 
-## Golang
+Returns set of all top-level keys. Use for iterating over object properties.
+
 ```go
 var key string
 rows, _ := db.Query("SELECT jsonb_object_keys(data) FROM users WHERE id = $1", 1)
@@ -537,21 +314,10 @@ rows, _ := pool.Query(ctx, "SELECT jsonb_object_keys(data) FROM users WHERE id =
 keys, _ := pgx.CollectRows(rows, pgx.RowTo[string])
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT jsonb_object_keys(data) FROM users WHERE id = $1', [1]);
-const keys = rows.map(r => r.jsonb_object_keys);
-```
-
-## Python
-```python
-cur.execute("SELECT jsonb_object_keys(data) FROM users WHERE id = %s", (1,))
-keys = [row[0] for row in cur.fetchall()]
-```
-
 # Get all keys with jsonb_keys
 
-## Golang
+Collects all top-level keys into an array for batch processing.
+
 ```go
 var keys []string
 db.QueryRow("SELECT jsonb_object_keys(data) FROM users WHERE id = $1", 1).Scan((*pq.StringArray)(&keys))
@@ -563,21 +329,10 @@ var keys []string
 pool.QueryRow(ctx, "SELECT array_agg(jsonb_object_keys(data)) FROM users WHERE id = $1", 1).Scan(&keys)
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT array_agg(jsonb_object_keys(data)) FROM users WHERE id = $1', [1]);
-const keys = rows[0].array_agg;
-```
-
-## Python
-```python
-cur.execute("SELECT array_agg(jsonb_object_keys(data)) FROM users WHERE id = %s", (1,))
-keys = cur.fetchone()[0]
-```
-
 # Check if any key exists with ?| operator
 
-## Golang
+Returns true if JSON contains ANY of the specified keys.
+
 ```go
 var exists bool
 db.QueryRow("SELECT data ?| ARRAY['name','email'] FROM users WHERE id = $1", 1).Scan(&exists)
@@ -588,21 +343,10 @@ db.QueryRow("SELECT data ?| ARRAY['name','email'] FROM users WHERE id = $1", 1).
 pool.QueryRow(ctx, "SELECT data ?| ARRAY['name','email'] FROM users WHERE id = $1", 1).Scan(&exists)
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT data ?| ARRAY[\'name\',\'email\'] FROM users WHERE id = $1', [1]);
-const exists = rows[0].exists;
-```
-
-## Python
-```python
-cur.execute("SELECT data ?| ARRAY['name','email'] FROM users WHERE id = %s", (1,))
-exists = cur.fetchone()[0]
-```
-
 # Check if all keys exist with ?& operator
 
-## Golang
+Returns true only if JSON contains ALL of the specified keys.
+
 ```go
 var exists bool
 db.QueryRow("SELECT data ?& ARRAY['name','age'] FROM users WHERE id = $1", 1).Scan(&exists)
@@ -613,21 +357,10 @@ db.QueryRow("SELECT data ?& ARRAY['name','age'] FROM users WHERE id = $1", 1).Sc
 pool.QueryRow(ctx, "SELECT data ?& ARRAY['name','age'] FROM users WHERE id = $1", 1).Scan(&exists)
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT data ?& ARRAY[\'name\',\'age\'] FROM users WHERE id = $1', [1]);
-const exists = rows[0].exists;
-```
-
-## Python
-```python
-cur.execute("SELECT data ?& ARRAY['name','age'] FROM users WHERE id = %s", (1,))
-exists = cur.fetchone()[0]
-```
-
 # Aggregate JSON array with jsonb_agg
 
-## Golang
+Combines multiple JSON values into a single JSON array.
+
 ```go
 var result string
 db.QueryRow("SELECT jsonb_agg(data) FROM users WHERE id IN ($1, $2, $3)", 1, 2, 3).Scan(&result)
@@ -639,21 +372,10 @@ var result string
 pool.QueryRow(ctx, "SELECT jsonb_agg(data) FROM users WHERE id IN ($1, $2, $3)", 1, 2, 3).Scan(&result)
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT jsonb_agg(data) FROM users WHERE id IN ($1, $2, $3)', [1, 2, 3]);
-const aggregated = rows[0].jsonb_agg;
-```
-
-## Python
-```python
-cur.execute("SELECT jsonb_agg(data) FROM users WHERE id IN (%s, %s, %s)", (1, 2, 3))
-result = cur.fetchone()[0]
-```
-
 # Merge JSONB with jsonb_merge_patch
 
-## Golang
+Deep merges two JSON objects. null values in patch remove keys. Works recursively for nested objects.
+
 ```go
 tx, _ := db.Begin()
 tx.Exec("UPDATE users SET data = jsonb_merge_patch(data, '{\"age\":31}') WHERE id = $1", 1)
@@ -667,26 +389,10 @@ tx.Exec(ctx, "UPDATE users SET data = jsonb_merge_patch(data, '{\"age\":31}') WH
 tx.Commit(ctx)
 ```
 
-## TypeScript
-```typescript
-const client = await pool.connect();
-await client.query('BEGIN');
-await client.query('UPDATE users SET data = jsonb_merge_patch(data, \'{\"age\":31}\') WHERE id = $1', [1]);
-await client.query('COMMIT');
-client.release();
-```
-
-## Python
-```python
-conn.autocommit = False
-cur = conn.cursor()
-cur.execute("UPDATE users SET data = jsonb_merge_patch(data, '{\"age\":31}') WHERE id = %s", (1,))
-conn.commit()
-```
-
 # Search text in JSON with @? operator
 
-## Golang
+JSONPath query to search for text patterns anywhere in JSON. Returns boolean.
+
 ```go
 var found bool
 db.QueryRow("SELECT data @? '$.name ? (@ == \"Alice\")' FROM users WHERE id = $1", 1).Scan(&found)
@@ -697,21 +403,10 @@ db.QueryRow("SELECT data @? '$.name ? (@ == \"Alice\")' FROM users WHERE id = $1
 pool.QueryRow(ctx, "SELECT data @? '$.name ? (@ == \"Alice\")' FROM users WHERE id = $1", 1).Scan(&found)
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT data @? \'$.name ? (@ == \"Alice\")\' FROM users WHERE id = $1', [1]);
-const found = rows[0].exists;
-```
-
-## Python
-```python
-cur.execute("SELECT data @? '$.name ? (@ == \"Alice\")' FROM users WHERE id = %s", (1,))
-found = cur.fetchone()[0]
-```
-
 # Extract all matching values with jsonb_path_query
 
-## Golang
+JSONPath query to extract all values matching a condition. Returns set of matching values.
+
 ```go
 var values []string
 rows, _ := db.Query("SELECT jsonb_path_query(data, '$.tags[*] ? (@ == \"engineer\")') FROM users WHERE id = $1", 1)
@@ -729,21 +424,10 @@ rows, _ := pool.Query(ctx, "SELECT jsonb_path_query(data, '$.tags[*] ? (@ == \"e
 values, _ := pgx.CollectRows(rows, pgx.RowTo[string])
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT jsonb_path_query(data, \'$.tags[*] ? (@ == \"engineer\")\') FROM users WHERE id = $1', [1]);
-const values = rows.map(r => r.jsonb_path_query);
-```
-
-## Python
-```python
-cur.execute("SELECT jsonb_path_query(data, '$.tags[*] ? (@ == \"engineer\")') FROM users WHERE id = %s", (1,))
-values = [row[0] for row in cur.fetchall()]
-```
-
 # Query nested array with jsonb_path_query
 
-## Golang
+JSONPath query to extract values from nested arrays using path notation.
+
 ```go
 var values []string
 rows, _ := db.Query("SELECT jsonb_path_query(data, '$.items[*].name') FROM users WHERE id = $1", 1)
@@ -761,21 +445,10 @@ rows, _ := pool.Query(ctx, "SELECT jsonb_path_query(data, '$.items[*].name') FRO
 values, _ := pgx.CollectRows(rows, pgx.RowTo[string])
 ```
 
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT jsonb_path_query(data, \'$.items[*].name\') FROM users WHERE id = $1', [1]);
-const values = rows.map(r => r.jsonb_path_query);
-```
-
-## Python
-```python
-cur.execute("SELECT jsonb_path_query(data, '$.items[*].name') FROM users WHERE id = %s", (1,))
-values = [row[0] for row in cur.fetchall()]
-```
-
 # Get path to value with jsonb_path_query_first
 
-## Golang
+JSONPath query to extract the first matching value. Returns single value or null.
+
 ```go
 var value string
 db.QueryRow("SELECT jsonb_path_query_first(data, '$.name') FROM users WHERE id = $1", 1).Scan(&value)
@@ -784,16 +457,4 @@ db.QueryRow("SELECT jsonb_path_query_first(data, '$.name') FROM users WHERE id =
 ```go
 // pgx reference
 pool.QueryRow(ctx, "SELECT jsonb_path_query_first(data, '$.name') FROM users WHERE id = $1", 1).Scan(&value)
-```
-
-## TypeScript
-```typescript
-const { rows } = await pool.query('SELECT jsonb_path_query_first(data, \'$.name\') FROM users WHERE id = $1', [1]);
-const value = rows[0].jsonb_path_query_first;
-```
-
-## Python
-```python
-cur.execute("SELECT jsonb_path_query_first(data, '$.name') FROM users WHERE id = %s", (1,))
-value = cur.fetchone()[0]
 ```
