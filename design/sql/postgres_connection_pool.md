@@ -9,58 +9,62 @@ PostgreSQL connection pooling is essential for managing database resources effic
 ### PostgreSQL Configuration Parameters (postgresql.conf)
 
 - `max_connections` (integer, default: 100)
-  - Maximum concurrent connections to the database server
-  - Can only be set at server start
+
+  Maximum concurrent connections to the database server. Can only be set at server start.
 
 - `reserved_connections` (integer, default: 0)
-  - Connection slots reserved for roles with `pg_use_reserved_connections` privileges
-  - Can only be set at server start
+
+  Connection slots reserved for roles with `pg_use_reserved_connections` privileges. Can only be set at server start.
 
 - `superuser_reserved_connections` (integer, default: 3)
-  - Connection slots reserved for superusers (emergency use)
-  - Can only be set at server start
+
+  Connection slots reserved for superusers (emergency use). Can only be set at server start.
 
 - `listen_addresses` (string, default: localhost)
-  - IP addresses to listen on (`*` for all, `0.0.0.0` for IPv4 all)
-  - Can only be set at server start
+
+  IP addresses to listen on (`*` for all, `0.0.0.0` for IPv4 all). Can only be set at server start.
 
 - `port` (integer, default: 5432)
-  - TCP port for connections
-  - Can only be set at server start
+
+  TCP port for connections. Can only be set at server start.
 
 - `unix_socket_directories` (string, default: /tmp)
-  - Directories for Unix-domain sockets
-  - Can only be set at server start
+
+  Directories for Unix-domain sockets. Can only be set at server start.
 
 - `unix_socket_group` (string, default: empty)
-  - Owning group for Unix-domain sockets
-  - Can only be set at server start
+
+  Owning group for Unix-domain sockets. Can only be set at server start.
 
 - `unix_socket_permissions` (integer, default: 0777)
-  - Permissions for Unix-domain sockets
-  - Can only be set at server start
+
+  Permissions for Unix-domain sockets. Can only be set at server start.
 
 - `authentication_timeout` (integer, default: 1m)
-  - Maximum time to complete client authentication
-  - Can be set in postgresql.conf
+
+  Maximum time to complete client authentication. Can be set in postgresql.conf.
 
 - `client_connection_check_interval` (integer, default: 0)
-  - Time interval (ms) for checking client connectivity during queries
-  - Can be set in postgresql.conf
+
+  Time interval (ms) for checking client connectivity during queries. Can be set in postgresql.conf.
 
 ### TCP/Network Configuration
 
 - `tcp_keepalives_idle` (integer, default: OS default)
-  - Seconds of inactivity before sending TCP keepalive
+
+  Seconds of inactivity before sending TCP keepalive.
 
 - `tcp_keepalives_interval` (integer, default: OS default)
-  - Seconds between unacknowledged keepalive retransmissions
+
+  Seconds between unacknowledged keepalive retransmissions.
 
 - `tcp_keepalives_count` (integer, default: OS default)
-  - Number of lost keepalives before considering connection dead
+
+  Number of lost keepalives before considering connection dead.
 
 - `tcp_user_timeout` (integer, default: OS default)
-  - Milliseconds data can remain unacknowledged before closing
+
+  Milliseconds data can remain unacknowledged before closing.
 
 ## Connection Pooler Configuration (PgBouncer)
 
@@ -87,16 +91,16 @@ client_idle_timeout = 0          # Close idle client connections after (seconds)
 ### Pool Modes
 
 - `session` mode
-  - Behavior: One connection per client (no pooling)
-  - Use Case: Limited use, testing
+
+  Behavior: One connection per client (no pooling). Use Case: Limited use, testing.
 
 - `transaction` mode
-  - Behavior: Return connection after each transaction
-  - Use Case: Recommended for most workloads
+
+  Behavior: Return connection after each transaction. Use Case: Recommended for most workloads.
 
 - `statement` mode
-  - Behavior: Return connection after each statement
-  - Use Case: Specific isolation requirements
+
+  Behavior: Return connection after each statement. Use Case: Specific isolation requirements.
 
 ## Calculating Optimal Connection Count
 
@@ -112,9 +116,8 @@ optimal_connections = (core_count × 2) + effective_spindle_count
 
 - `core_count`: Physical CPU cores (exclude hyperthreading threads)
 - `effective_spindle_count`: Number of disk drives actively seeking data
-  - **0** if active dataset is fully cached in RAM
-  - Approaches actual spindle count as cache hit rate decreases
-  - For SSD storage: typically **0** (negligible seek time overhead)
+
+  **0** if active dataset is fully cached in RAM. Approaches actual spindle count as cache hit rate decreases. For SSD storage: typically **0** (negligible seek time overhead).
 
 ### Calculation Steps
 
@@ -133,16 +136,16 @@ lscpu | grep "Core(s)"     # Physical cores
 #### Step 2: Analyze Workload Type
 
 - OLTP (transactional)
-  - Characteristics: Many short queries, high concurrency
-  - Connection Strategy: Higher pool count (formula-based)
+
+  Characteristics: Many short queries, high concurrency. Connection Strategy: Higher pool count (formula-based).
 
 - OLAP (analytics)
-  - Characteristics: Long-running queries, low concurrency
-  - Connection Strategy: Lower pool count (formula-based ÷ 2)
+
+  Characteristics: Long-running queries, low concurrency. Connection Strategy: Lower pool count (formula-based ÷ 2).
 
 - Mixed
-  - Characteristics: Variable patterns
-  - Connection Strategy: Start with formula, monitor and adjust
+
+  Characteristics: Variable patterns. Connection Strategy: Start with formula, monitor and adjust.
 
 #### Step 3: Calculate Working Memory
 
@@ -370,28 +373,28 @@ watch -n 1 'psql -h localhost -p 6432 -U pgbouncer -c "SHOW POOLS;"'
 ### Key Metrics to Monitor
 
 - Connection Utilization
-  - Description: % of `max_connections` in use
-  - Target Range: 60-80% during peak
+
+  Description: % of `max_connections` in use. Target Range: 60-80% during peak.
 
 - Pool Wait Time
-  - Description: Time clients wait for connections
-  - Target Range: < 100ms (P99)
+
+  Description: Time clients wait for connections. Target Range: < 100ms (P99).
 
 - Query Duration
-  - Description: Average query execution time
-  - Target Range: Depends on workload
+
+  Description: Average query execution time. Target Range: Depends on workload.
 
 - Lock Contention
-  - Description: % time spent waiting on locks
-  - Target Range: < 5%
+
+  Description: % time spent waiting on locks. Target Range: < 5%.
 
 - Cache Hit Ratio
-  - Description: % queries served from cache
-  - Target Range: > 99% for OLTP
+
+  Description: % queries served from cache. Target Range: > 99% for OLTP.
 
 - Context Switches
-  - Description: OS context switches per second
-  - Target Range: Monitor trends
+
+  Description: OS context switches per second. Target Range: Monitor trends.
 
 ## Common Pitfalls and Solutions
 

@@ -8,6 +8,7 @@ This section covers SQL database design patterns and best practices for PostgreS
 - [Postgres Connection Pool](postgres_connection_pool.md)
 - [Postgres Index](postgres_index.md)
 - [Postgres Lock](postgres_lock.md)
+- [Postgres JSON function](postgres_json_function.md)
 
 ## SQLite
 
