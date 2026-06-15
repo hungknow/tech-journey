@@ -1,0 +1,1656 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Cython-Based CSV Data Processing - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cython-based-csv-data-processing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Cython-Based CSV Data Processing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../sql/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../spacedrive/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spacedrive
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../rust_apache_arrow/" class="md-tabs__link">
+          
+  
+  
+  Rust
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spacedrive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spacedrive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rust
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rust
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rust_apache_arrow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arrow-Based CSV Data Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rust_csv_cython.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cython CSV Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step-by-Step Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#c-struct-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C Struct Definitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cython-bar-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cython Bar Class
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-views-zero-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Views (Zero-Copy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-ownership-and-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Ownership and Transfer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory Ownership and Transfer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memory-sizes-standard-precision-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Sizes (Standard Precision Mode)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cython-implementation-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cython Implementation Details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cython Implementation Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bardatawrangler-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BarDataWrangler Class
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timestamp-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timestamp Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#price-and-quantity-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Price and Quantity Creation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Characteristics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disadvantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disadvantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-cython-vs-arrow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison: Cython vs Arrow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-optimization-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Optimization Tips
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="cython-based-csv-data-processing">Cython-Based CSV Data Processing</h1>
+<h2 id="overview">Overview</h2>
+<p>This document describes the data flow for processing CSV data into domain objects using the Cython-based implementation. This is the legacy approach that directly processes pandas DataFrames and creates Cython-wrapped C structs, providing efficient memory access through zero-copy memory views.</p>
+<h2 id="architecture">Architecture</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────┐     ┌──────────────┐     ┌─────────────┐     ┌─────────────┐
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│   CSV File  │ --&gt; │   Pandas     │ --&gt; │   Cython    │ --&gt; │  C Structs  │ --&gt; │  Python    │
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│             │     │  DataFrame   │     │  Wrangler   │     │  (Bar_t)    │     │  Bar Objs  │
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>└─────────────┘     └──────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+</span></code></pre></div>
+<h2 id="data-flow">Data Flow</h2>
+<h3 id="step-by-step-process">Step-by-Step Process</h3>
+<ol>
+<li>
+<p><strong>CSV → DataFrame</strong> (Python)
+   <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># Result: pandas DataFrame with columns [open, high, low, close, volume]</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>DataFrame → Memory Views</strong> (Cython)
+   <div class="language-cython highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c"># Zero-copy views into numpy arrays</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">data</span><span class="o">.</span><span class="n">values</span>      <span class="c"># double[:] memory view (5 columns: open, high, low, close, volume)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">ts_events</span>        <span class="c"># uint64_t[:] memory view (timestamps)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">ts_inits</span>         <span class="c"># uint64_t[:] memory view (initialization timestamps)</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Memory Views → Bar Objects</strong> (Cython)
+   <div class="language-cython highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_build_bar</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>    <span class="c"># double[:] - zero-copy view</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">ts_events</span><span class="p">,</span>      <span class="c"># uint64_t[:] - zero-copy view</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">ts_inits</span>        <span class="c"># uint64_t[:] - zero-copy view</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">))</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Bar Construction</strong> (Cython → Rust FFI)
+   <div class="language-cython highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">cpdef</span><span class="w"> </span><span class="kt">Bar</span> <span class="nf">_build_bar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">double</span><span class="p">[:]</span> <span class="n">values</span><span class="p">,</span> <span class="n">uint64_t</span> <span class="n">ts_event</span><span class="p">,</span> <span class="n">uint64_t</span> <span class="n">ts_init</span><span class="p">):</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="k">return</span> <span class="n">Bar</span><span class="p">(</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>        <span class="n">bar_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bar_type</span><span class="p">,</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="nb">open</span><span class="o">=</span><span class="n">Price</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">price_precision</span><span class="p">),</span>      <span class="c"># Creates Price_t</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="n">high</span><span class="o">=</span><span class="n">Price</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mf">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">price_precision</span><span class="p">),</span>     <span class="c"># Creates Price_t</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="n">low</span><span class="o">=</span><span class="n">Price</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mf">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">price_precision</span><span class="p">),</span>       <span class="c"># Creates Price_t</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="n">close</span><span class="o">=</span><span class="n">Price</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mf">3</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">price_precision</span><span class="p">),</span>    <span class="c"># Creates Price_t</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="n">volume</span><span class="o">=</span><span class="n">Quantity</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mf">4</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">size_precision</span><span class="p">),</span> <span class="c"># Creates Quantity_t</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="n">ts_event</span><span class="o">=</span><span class="n">ts_event</span><span class="p">,</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="n">ts_init</span><span class="o">=</span><span class="n">ts_init</span><span class="p">,</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="p">)</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>C Struct Creation</strong> (Rust FFI)
+   <div class="language-c highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Called via FFI from Cython</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">Bar_t</span><span class="w"> </span><span class="n">bar_new</span><span class="p">(</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">BarType_t</span><span class="w"> </span><span class="n">bar_type</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="n">Price_t</span><span class="w"> </span><span class="n">open</span><span class="p">,</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="n">Price_t</span><span class="w"> </span><span class="n">high</span><span class="p">,</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="n">Price_t</span><span class="w"> </span><span class="n">low</span><span class="p">,</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="n">Price_t</span><span class="w"> </span><span class="n">close</span><span class="p">,</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="n">Quantity_t</span><span class="w"> </span><span class="n">volume</span><span class="p">,</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">ts_event</span><span class="p">,</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">ts_init</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">)</span>
+</span></code></pre></div></p>
+</li>
+</ol>
+<h2 id="memory-layout">Memory Layout</h2>
+<h3 id="c-struct-definitions">C Struct Definitions</h3>
+<p><strong>Price_t Structure</strong> (Standard Precision):
+<div class="language-c highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">Price_t</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">raw</span><span class="p">;</span><span class="w">        </span><span class="c1">// 8 bytes - fixed-point integer</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">precision</span><span class="p">;</span><span class="w">  </span><span class="c1">// 1 byte - decimal precision</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="c1">// Padding: 7 bytes (aligned to 8-byte boundary)</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">}</span><span class="w"> </span><span class="n">Price_t</span><span class="p">;</span><span class="w">  </span><span class="c1">// Total: 16 bytes (with padding)</span>
+</span></code></pre></div></p>
+<p><strong>Quantity_t Structure</strong> (Standard Precision):
+<div class="language-c highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">Quantity_t</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">raw</span><span class="p">;</span><span class="w">       </span><span class="c1">// 8 bytes - fixed-point integer</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">precision</span><span class="p">;</span><span class="w">  </span><span class="c1">// 1 byte - decimal precision</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="c1">// Padding: 7 bytes (aligned to 8-byte boundary)</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">}</span><span class="w"> </span><span class="n">Quantity_t</span><span class="p">;</span><span class="w">  </span><span class="c1">// Total: 16 bytes (with padding)</span>
+</span></code></pre></div></p>
+<p><strong>BarType_t Structure</strong>:
+<div class="language-c highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">BarType_t</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="n">InstrumentId_t</span><span class="w"> </span><span class="n">instrument_id</span><span class="p">;</span><span class="w">  </span><span class="c1">// ~50-100 bytes (symbol + venue strings)</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="n">BarSpecification_t</span><span class="w"> </span><span class="n">spec</span><span class="p">;</span><span class="w">        </span><span class="c1">// ~20 bytes (step, aggregation, price_type)</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="n">AggregationSource</span><span class="w"> </span><span class="n">source</span><span class="p">;</span><span class="w">       </span><span class="c1">// 1 byte (enum)</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="c1">// Padding and alignment</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="p">}</span><span class="w"> </span><span class="n">BarType_t</span><span class="p">;</span><span class="w">  </span><span class="c1">// Total: ~80-120 bytes (variable, depends on strings)</span>
+</span></code></pre></div></p>
+<p><strong>Bar_t Structure</strong>:
+<div class="language-c highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">Bar_t</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="n">BarType_t</span><span class="w"> </span><span class="n">bar_type</span><span class="p">;</span><span class="w">    </span><span class="c1">// ~80-120 bytes</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="n">Price_t</span><span class="w"> </span><span class="n">open</span><span class="p">;</span><span class="w">          </span><span class="c1">// 16 bytes</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="n">Price_t</span><span class="w"> </span><span class="n">high</span><span class="p">;</span><span class="w">          </span><span class="c1">// 16 bytes</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="n">Price_t</span><span class="w"> </span><span class="n">low</span><span class="p">;</span><span class="w">           </span><span class="c1">// 16 bytes</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="n">Price_t</span><span class="w"> </span><span class="n">close</span><span class="p">;</span><span class="w">         </span><span class="c1">// 16 bytes</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="n">Quantity_t</span><span class="w"> </span><span class="n">volume</span><span class="p">;</span><span class="w">     </span><span class="c1">// 16 bytes</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">ts_event</span><span class="p">;</span><span class="w">     </span><span class="c1">// 8 bytes</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">ts_init</span><span class="p">;</span><span class="w">      </span><span class="c1">// 8 bytes</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="p">}</span><span class="w"> </span><span class="n">Bar_t</span><span class="p">;</span><span class="w">  </span><span class="c1">// Total: ~176-216 bytes (depending on BarType_t size)</span>
+</span></code></pre></div></p>
+<h3 id="cython-bar-class">Cython Bar Class</h3>
+<div class="language-cython highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">cdef</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Bar</span><span class="p">(</span><span class="n">Data</span><span class="p">):</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="k">cdef</span><span class="w"> </span><span class="kt">Bar_t</span> <span class="nv">_mem</span><span class="w">        </span><span class="c"># Embedded C struct (176-216 bytes)</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="k">cdef</span><span class="w"> </span><span class="kr">readonly</span> <span class="kt">bint</span> <span class="nv">is_revision</span><span class="w">  </span><span class="c"># 1 byte (Python bool)</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="c"># Python object overhead: ~48 bytes (PyObject header)</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="c"># Total per Bar object: ~225-265 bytes</span>
+</span></code></pre></div>
+<h3 id="memory-views-zero-copy">Memory Views (Zero-Copy)</h3>
+<p><strong>double[:] Memory View</strong>:
+- Points directly to numpy array's underlying buffer
+- No memory copy
+- Zero overhead for accessing data
+- Lifetime: tied to numpy array</p>
+<p><strong>uint64_t[:] Memory View</strong>:
+- Points directly to numpy array's underlying buffer
+- No memory copy
+- Zero overhead for accessing data
+- Lifetime: tied to numpy array</p>
+<h2 id="memory-ownership-and-transfer">Memory Ownership and Transfer</h2>
+<h3 id="memory-sizes-standard-precision-mode">Memory Sizes (Standard Precision Mode)</h3>
+<p><strong>Configuration Constants:</strong>
+- <code>PRECISION_BYTES = 8</code> (64-bit integers for prices/quantities)
+- <code>FIXED_SCALAR = 1_000_000_000.0</code> (10^9)</p>
+<p><strong>Per Bar Memory Footprint (10,000 bars example):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Components</th>
+<th>Size per Bar</th>
+<th>Total (10K)</th>
+<th>Ownership</th>
+<th>Lifetime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DataFrame</strong></td>
+<td>Data (5×float64) + index + overhead</td>
+<td>~250-350 bytes</td>
+<td>~2.5-3.5 MB</td>
+<td>Python heap</td>
+<td>Until GC</td>
+</tr>
+<tr>
+<td><strong>Memory Views</strong></td>
+<td><code>double[:]</code> (5 cols) + <code>uint64_t[:]</code> (2 timestamps)</td>
+<td>56 bytes</td>
+<td>560 KB</td>
+<td>Zero-copy (views)</td>
+<td>Tied to DataFrame</td>
+</tr>
+<tr>
+<td><strong>C Struct (Bar_t)</strong></td>
+<td><code>BarType_t</code> + 4×<code>Price_t</code> + <code>Quantity_t</code> + 2×<code>uint64_t</code></td>
+<td>~176-216 bytes</td>
+<td>~1.8-2.2 MB</td>
+<td>Python heap (embedded)</td>
+<td>Same as Bar object</td>
+</tr>
+<tr>
+<td><strong>Bar Object</strong></td>
+<td><code>PyObject</code> header + <code>Bar_t _mem</code> + flags</td>
+<td>~225-265 bytes</td>
+<td>~2.25-2.65 MB</td>
+<td>Python heap</td>
+<td>Until GC</td>
+</tr>
+<tr>
+<td><strong>Temporary</strong></td>
+<td><code>ts_inits</code> array (computed)</td>
+<td>8 bytes</td>
+<td>~80 KB</td>
+<td>Python heap</td>
+<td>During processing</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Memory Transfer:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Transfer</th>
+<th>Amount</th>
+<th>Method</th>
+<th>Zero-Copy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DataFrame → Views</strong></td>
+<td>0 bytes</td>
+<td>Direct pointer access</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Views → C Structs</strong></td>
+<td>~176-216 bytes/bar</td>
+<td>FFI function calls</td>
+<td>No (extracted/converted)</td>
+</tr>
+<tr>
+<td><strong>C Structs → Bar Objects</strong></td>
+<td>0 bytes</td>
+<td>Embedded in Python object</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="memory-lifecycle">Memory Lifecycle</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>1. Python: DataFrame created (2.5-3.5 MB)
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>   ↓
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>2. Cython: Memory views created (0 bytes - zero-copy)
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>   [DataFrame still in memory]
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>   ↓
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>3. Cython: Process each row via map()
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>   [For each row:]
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>   ↓
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>4. Cython: Extract values from memory views (stack operations)
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>   ↓
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>5. Rust FFI: Create Price_t, Quantity_t structs (stack)
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>   ↓
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>6. Rust FFI: Create Bar_t struct (~176-216 bytes)
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>   ↓
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>7. Cython: Create Bar Python object (~225-265 bytes)
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>   [Bar_t embedded in Bar._mem]
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>   ↓
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>8. Python: list[Bar] returned
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>   [DataFrame can be GC&#39;d, but Bar objects remain]
+</span></code></pre></div>
+<p><strong>Key Points:</strong>
+- <strong>Zero-copy views</strong>: <code>double[:]</code> and <code>uint64_t[:]</code> provide direct numpy array access (no copy)
+- <strong>C struct embedding</strong>: Each Bar object contains embedded <code>Bar_t</code> struct on Python heap
+- <strong>Peak memory</strong>: ~6.15 MB (DataFrame + Bar objects) vs ~7.7 MB for Arrow approach
+- <strong>Efficiency</strong>: Row-by-row processing, no intermediate serialization, compact C structs (~176-216 bytes vs ~250-350 bytes in DataFrame)</p>
+<h2 id="cython-implementation-details">Cython Implementation Details</h2>
+<h3 id="bardatawrangler-class">BarDataWrangler Class</h3>
+<div class="language-cython highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">cdef</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">BarDataWrangler</span><span class="p">:</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="k">cdef</span><span class="w"> </span><span class="kt">BarType</span> <span class="nv">bar_type</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="k">cdef</span><span class="w"> </span><span class="kt">Instrument</span> <span class="nv">instrument</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>        <span class="c"># 1. Normalize DataFrame index</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">as_utc_index</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>        <span class="c"># 2. Add default volume if missing</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>        <span class="k">if</span> <span class="s">&quot;volume&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>            <span class="n">data</span><span class="p">[</span><span class="s">&quot;volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">default_volume</span><span class="p">)</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>        <span class="c"># 3. Convert timestamps (zero-copy views)</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>        <span class="n">ts_events</span><span class="p">,</span> <span class="n">ts_inits</span> <span class="o">=</span> <span class="n">prepare_event_and_init_timestamps</span><span class="p">(</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>            <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> 
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>            <span class="n">ts_init_delta</span>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>        <span class="p">)</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>        <span class="c"># ts_events: uint64_t[:] - zero-copy view</span>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>        <span class="c"># ts_inits: uint64_t[:] - new array (computed)</span>
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>
+</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>        <span class="c"># 4. Process each row (zero-copy access)</span>
+</span><span id="__span-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span>
+</span><span id="__span-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_build_bar</span><span class="p">,</span>
+</span><span id="__span-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>            <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>    <span class="c"># double[:] - zero-copy view</span>
+</span><span id="__span-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a>            <span class="n">ts_events</span><span class="p">,</span>      <span class="c"># uint64_t[:] - zero-copy view</span>
+</span><span id="__span-12-26"><a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a>            <span class="n">ts_inits</span>        <span class="c"># uint64_t[:] - new array</span>
+</span><span id="__span-12-27"><a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a>        <span class="p">))</span>
+</span><span id="__span-12-28"><a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a>
+</span><span id="__span-12-29"><a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a>    <span class="k">cpdef</span><span class="w"> </span><span class="kt">Bar</span> <span class="nf">_build_bar</span><span class="p">(</span>
+</span><span id="__span-12-30"><a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a>        <span class="bp">self</span><span class="p">,</span> 
+</span><span id="__span-12-31"><a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a>        <span class="nb">double</span><span class="p">[:]</span> <span class="n">values</span><span class="p">,</span>      <span class="c"># Zero-copy view: [open, high, low, close, volume]</span>
+</span><span id="__span-12-32"><a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a>        <span class="n">uint64_t</span> <span class="n">ts_event</span><span class="p">,</span>     <span class="c"># Single value</span>
+</span><span id="__span-12-33"><a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a>        <span class="n">uint64_t</span> <span class="n">ts_init</span>       <span class="c"># Single value</span>
+</span><span id="__span-12-34"><a id="__codelineno-12-34" name="__codelineno-12-34" href="#__codelineno-12-34"></a>    <span class="p">):</span>
+</span><span id="__span-12-35"><a id="__codelineno-12-35" name="__codelineno-12-35" href="#__codelineno-12-35"></a>        <span class="c"># Extract values from memory view (no copy)</span>
+</span><span id="__span-12-36"><a id="__codelineno-12-36" name="__codelineno-12-36" href="#__codelineno-12-36"></a>        <span class="c"># Create Price/Quantity objects (calls Rust FFI)</span>
+</span><span id="__span-12-37"><a id="__codelineno-12-37" name="__codelineno-12-37" href="#__codelineno-12-37"></a>        <span class="c"># Create Bar object (embeds C struct)</span>
+</span><span id="__span-12-38"><a id="__codelineno-12-38" name="__codelineno-12-38" href="#__codelineno-12-38"></a>        <span class="k">return</span> <span class="n">Bar</span><span class="p">(</span>
+</span><span id="__span-12-39"><a id="__codelineno-12-39" name="__codelineno-12-39" href="#__codelineno-12-39"></a>            <span class="n">bar_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bar_type</span><span class="p">,</span>
+</span><span id="__span-12-40"><a id="__codelineno-12-40" name="__codelineno-12-40" href="#__codelineno-12-40"></a>            <span class="nb">open</span><span class="o">=</span><span class="n">Price</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">price_precision</span><span class="p">),</span>
+</span><span id="__span-12-41"><a id="__codelineno-12-41" name="__codelineno-12-41" href="#__codelineno-12-41"></a>            <span class="n">high</span><span class="o">=</span><span class="n">Price</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mf">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">price_precision</span><span class="p">),</span>
+</span><span id="__span-12-42"><a id="__codelineno-12-42" name="__codelineno-12-42" href="#__codelineno-12-42"></a>            <span class="n">low</span><span class="o">=</span><span class="n">Price</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mf">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">price_precision</span><span class="p">),</span>
+</span><span id="__span-12-43"><a id="__codelineno-12-43" name="__codelineno-12-43" href="#__codelineno-12-43"></a>            <span class="n">close</span><span class="o">=</span><span class="n">Price</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mf">3</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">price_precision</span><span class="p">),</span>
+</span><span id="__span-12-44"><a id="__codelineno-12-44" name="__codelineno-12-44" href="#__codelineno-12-44"></a>            <span class="n">volume</span><span class="o">=</span><span class="n">Quantity</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mf">4</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">size_precision</span><span class="p">),</span>
+</span><span id="__span-12-45"><a id="__codelineno-12-45" name="__codelineno-12-45" href="#__codelineno-12-45"></a>            <span class="n">ts_event</span><span class="o">=</span><span class="n">ts_event</span><span class="p">,</span>
+</span><span id="__span-12-46"><a id="__codelineno-12-46" name="__codelineno-12-46" href="#__codelineno-12-46"></a>            <span class="n">ts_init</span><span class="o">=</span><span class="n">ts_init</span><span class="p">,</span>
+</span><span id="__span-12-47"><a id="__codelineno-12-47" name="__codelineno-12-47" href="#__codelineno-12-47"></a>        <span class="p">)</span>
+</span></code></pre></div>
+<h3 id="timestamp-processing">Timestamp Processing</h3>
+<div class="language-cython highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">prepare_event_and_init_timestamps</span><span class="p">(</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="n">index</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">,</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="n">ts_init_delta</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="p">):</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="c"># Convert DatetimeIndex to uint64 view (zero-copy)</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="n">ts_events</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">)</span>  <span class="c"># Zero-copy view</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="c"># Compute ts_inits (new array created)</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="n">ts_inits</span> <span class="o">=</span> <span class="n">ts_events</span> <span class="o">+</span> <span class="n">ts_init_delta</span>  <span class="c"># New numpy array</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    <span class="k">return</span> <span class="n">ts_events</span><span class="p">,</span> <span class="n">ts_inits</span>
+</span></code></pre></div>
+<p><strong>Memory Impact</strong>:
+- <code>ts_events</code>: 0 bytes (zero-copy view of index)
+- <code>ts_inits</code>: ~80 KB for 10,000 bars (new array: 10,000 × 8 bytes)</p>
+<h3 id="price-and-quantity-creation">Price and Quantity Creation</h3>
+<div class="language-cython highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">cdef</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Price</span><span class="p">:</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>    <span class="k">cdef</span><span class="w"> </span><span class="kt">Price_t</span> <span class="nv">_mem</span><span class="w">  </span><span class="c"># Embedded C struct</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">double</span> <span class="n">value</span><span class="p">,</span> <span class="n">uint8_t</span> <span class="n">precision</span><span class="p">):</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>        <span class="c"># Convert float to fixed-point integer</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>        <span class="c"># Calls Rust FFI: price_new(raw_value, precision)</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_mem</span> <span class="o">=</span> <span class="n">price_new</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
+</span></code></pre></div>
+<p><strong>Memory Impact</strong>:
+- Price object: ~64 bytes (PyObject header + Price_t struct)
+- Created temporarily during Bar construction
+- Can be garbage collected after Bar is created (if not referenced)</p>
+<h2 id="performance-characteristics">Performance Characteristics</h2>
+<h3 id="advantages">Advantages</h3>
+<ol>
+<li><strong>Zero-Copy Memory Views</strong>: Direct access to numpy arrays without copying</li>
+<li><strong>Efficient Row Processing</strong>: Process one row at a time, minimal memory overhead</li>
+<li><strong>Direct C Structs</strong>: No intermediate serialization format</li>
+<li><strong>Python Integration</strong>: Bar objects are native Python objects</li>
+<li><strong>Memory Efficient</strong>: Lower peak memory than Arrow approach for single-pass</li>
+</ol>
+<h3 id="disadvantages">Disadvantages</h3>
+<ol>
+<li><strong>No Batch Processing</strong>: Must process row-by-row</li>
+<li><strong>No Streaming</strong>: Cannot process data in chunks easily</li>
+<li><strong>Python GIL</strong>: Processing happens with GIL held (single-threaded)</li>
+<li><strong>No Cross-Language Interop</strong>: Cython objects are Python-specific</li>
+<li><strong>Memory Views Lifetime</strong>: Must keep DataFrame in memory during processing</li>
+</ol>
+<h2 id="comparison-cython-vs-arrow">Comparison: Cython vs Arrow</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Cython Approach</th>
+<th>Arrow Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Memory Views</strong></td>
+<td>Zero-copy (<code>double[:]</code>)</td>
+<td>Arrow IPC bytes (copied)</td>
+</tr>
+<tr>
+<td><strong>Processing</strong></td>
+<td>Row-by-row</td>
+<td>Batch processing</td>
+</tr>
+<tr>
+<td><strong>Peak Memory</strong></td>
+<td>~6.15 MB (10K bars)</td>
+<td>~7.7 MB (10K bars)</td>
+</tr>
+<tr>
+<td><strong>Streaming</strong></td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Cross-Language</strong></td>
+<td>Python only</td>
+<td>Python, Rust, others</td>
+</tr>
+<tr>
+<td><strong>Serialization</strong></td>
+<td>Direct C structs</td>
+<td>Arrow IPC format</td>
+</tr>
+<tr>
+<td><strong>GIL Impact</strong></td>
+<td>Held during processing</td>
+<td>Released in Rust</td>
+</tr>
+<tr>
+<td><strong>Batch Operations</strong></td>
+<td>No</td>
+<td>Yes (columnar)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage-example">Usage Example</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">nautilus_trader.persistence.wranglers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BarDataWrangler</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">nautilus_trader.model.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">BarType</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">nautilus_trader.test_kit.providers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestDataProvider</span><span class="p">,</span> <span class="n">TestInstrumentProvider</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="c1"># 1. Create instrument</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="n">instrument</span> <span class="o">=</span> <span class="n">TestInstrumentProvider</span><span class="o">.</span><span class="n">default_fx_ccy</span><span class="p">(</span><span class="s2">&quot;GBP/USD&quot;</span><span class="p">)</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="c1"># 2. Create wrangler</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="n">wrangler</span> <span class="o">=</span> <span class="n">BarDataWrangler</span><span class="p">(</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>    <span class="n">bar_type</span><span class="o">=</span><span class="n">BarType</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;GBP/USD.SIM-1-MINUTE-BID-EXTERNAL&quot;</span><span class="p">),</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>    <span class="n">instrument</span><span class="o">=</span><span class="n">instrument</span><span class="p">,</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="p">)</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="c1"># 3. Load CSV data</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="n">provider</span> <span class="o">=</span> <span class="n">TestDataProvider</span><span class="p">()</span>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="n">df</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">read_csv_bars</span><span class="p">(</span><span class="s2">&quot;fxcm/gbpusd-m1-bid-2012.csv&quot;</span><span class="p">)</span>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="c1"># 4. Process DataFrame (zero-copy memory views used internally)</span>
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="n">bars</span> <span class="o">=</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">process</span><span class="p">(</span>
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>    <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>    <span class="n">default_volume</span><span class="o">=</span><span class="mf">1_000_000.0</span><span class="p">,</span>
+</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>    <span class="n">ts_init_delta</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="p">)</span>
+</span><span id="__span-15-24"><a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a>
+</span><span id="__span-15-25"><a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="c1"># 5. Use Bar objects</span>
+</span><span id="__span-15-26"><a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="k">for</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">bars</span><span class="p">:</span>
+</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bar</span><span class="o">.</span><span class="n">ts_event</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">bar</span><span class="o">.</span><span class="n">open</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">bar</span><span class="o">.</span><span class="n">close</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="memory-optimization-tips">Memory Optimization Tips</h2>
+<ol>
+<li>
+<p><strong>Process in Chunks</strong>: For very large datasets, process DataFrame in chunks
+   <div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">10_000</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">all_bars</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">chunk_size</span><span class="p">):</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="n">chunk</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">chunk_size</span><span class="p">]</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    <span class="n">bars</span> <span class="o">=</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="n">all_bars</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bars</span><span class="p">)</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    <span class="c1"># DataFrame chunk can be GC&#39;d here</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Reuse Wrangler</strong>: Create wrangler once and reuse for multiple DataFrames</p>
+</li>
+<li>
+<p><strong>Release DataFrame Early</strong>: After processing, explicitly delete DataFrame
+   <div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">bars</span> <span class="o">=</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="k">del</span> <span class="n">df</span>  <span class="c1"># Allow GC to free DataFrame memory</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Use Memory Views Directly</strong>: For advanced use cases, work with memory views directly in Cython</p>
+</li>
+<li>
+<p><strong>Batch Processing</strong>: Consider Arrow approach for very large datasets or streaming scenarios</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
