@@ -228,6 +228,26 @@
   
 
       
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../rust_apache_arrow/" class="md-tabs__link">
+          
+  
+  
+  Rust
+
+        </a>
+      </li>
+    
+  
+
+      
     </ul>
   </div>
 </nav>
@@ -711,6 +731,95 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rust
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rust
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rust_apache_arrow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Arrow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -904,15 +1013,7 @@
 </ul>
 <hr />
 <h2 id="operation-registry">Operation Registry</h2>
-<p>The operation registry enables compile-time registration of all actions and queries using the <code>inventory</code> crate. This creates a central mapping between wire method strings and their handler functions.</p>
-<p><strong>Purpose:</strong> Operations register automatically at compile time without manual registration code. The daemon looks up handlers by method string when requests arrive, eliminating manual dispatch logic.</p>
-<p><strong>What it solves:</strong></p>
-<ul>
-<li>Removes boilerplate for registering operations</li>
-<li>Ensures all operations are discoverable without runtime registration</li>
-<li>Provides type-safe method strings through macros like <code>register_library_action!</code></li>
-<li>Separates registration from business logic</li>
-</ul>
+<p>The operation registry enables compile-time registration of all actions and queries using the <code>inventory</code> crate. This creates a central mapping between wire method strings and their handler functions, eliminating manual dispatch logic and registration boilerplate.</p>
 <p><strong>Implementation:</strong> <code>core/src/infra/wire/registry.rs</code></p>
 <p>The registry maintains four global hashmaps:</p>
 <ul>
@@ -927,15 +1028,7 @@
 3. Automatically implement type extraction traits</p>
 <hr />
 <h2 id="type-extraction-system">Type Extraction System</h2>
-<p>The type extraction system enables automatic discovery and extraction of Input/Output types from registered operations at compile time using trait-based metadata.</p>
-<p><strong>Purpose:</strong> Generate TypeScript and Swift clients automatically without manually defining type mappings. The system discovers all registered operations and extracts their types for code generation.</p>
-<p><strong>What it solves:</strong></p>
-<ul>
-<li>Eliminates manual type synchronization between backend and frontend</li>
-<li>Ensures type safety across the client-daemon boundary</li>
-<li>Generates type information at compile time rather than runtime</li>
-<li>Solves the timeline problem where type generation needs type data before daemon startup</li>
-</ul>
+<p>The type extraction system enables automatic discovery and extraction of Input/Output types from registered operations at compile time using trait-based metadata. This eliminates manual type synchronization between backend and frontend while ensuring type safety across the client-daemon boundary, solving the timeline problem where type generation needs type data before daemon startup.</p>
 <p><strong>Implementation:</strong> <code>core/src/infra/wire/type_extraction.rs</code></p>
 <p>Key components:</p>
 <ul>
@@ -947,15 +1040,7 @@
 <p>The registration macros automatically implement these traits, so operations don't need manual type extraction code.</p>
 <hr />
 <h2 id="handler-functions">Handler Functions</h2>
-<p>Handler functions provide thin wrappers that deserialize inputs, dispatch to business logic, and serialize outputs. They convert between JSON-RPC payloads and typed business logic calls.</p>
-<p><strong>Purpose:</strong> Bridge the gap between JSON-RPC wire protocol and typed Rust operations. Each handler follows the same pattern: deserialize payload, call dispatcher, serialize result.</p>
-<p><strong>What it solves:</strong></p>
-<ul>
-<li>Centralizes JSON serialization/deserialization logic</li>
-<li>Provides consistent error handling across all operations</li>
-<li>Separates protocol handling from business logic</li>
-<li>Allows the dispatcher to handle session and library context</li>
-</ul>
+<p>Handler functions provide thin wrappers that deserialize inputs, dispatch to business logic, and serialize outputs, centralizing JSON serialization/deserialization logic while separating protocol handling from business logic.</p>
 <p><strong>Implementation:</strong> <code>core/src/infra/wire/registry.rs</code></p>
 <p>Four handler functions exist:</p>
 <ul>
@@ -967,15 +1052,7 @@
 <p>All handlers return <code>Pin&lt;Box&lt;dyn Future&lt;Output = Result&lt;serde_json::Value, String&gt;&gt; + Send + 'static&gt;&gt;</code> for async execution.</p>
 <hr />
 <h2 id="api-type-wrappers">API Type Wrappers</h2>
-<p>API type wrappers convert internal types to API-safe types for export to clients like Swift. This allows the daemon to use internal types while exposing client-compatible types.</p>
-<p><strong>Purpose:</strong> Convert internal implementation types to types suitable for client code generation without changing internal APIs.</p>
-<p><strong>What it solves:</strong></p>
-<ul>
-<li>Internal types like <code>JobHandle</code> can remain unchanged</li>
-<li>Clients receive compatible types like <code>JobReceipt</code></li>
-<li>Conversion is automatic through the <code>ToApiType</code> trait</li>
-<li>Keeps business logic clean while handling API compatibility</li>
-</ul>
+<p>API type wrappers convert internal types to API-safe types for export to clients like Swift, allowing internal types like <code>JobHandle</code> to remain unchanged while clients receive compatible types like <code>JobReceipt</code> through automatic conversion.</p>
 <p><strong>Implementation:</strong> <code>core/src/infra/wire/api_types.rs</code></p>
 <p>Current wrappers include:</p>
 <ul>
@@ -984,15 +1061,7 @@
 </ul>
 <hr />
 <h2 id="swift-code-generation">Swift Code Generation</h2>
-<p>Swift code generation automatically produces Swift client code from Rust types, including namespace structs and async methods for all registered operations.</p>
-<p><strong>Purpose:</strong> Generate complete Swift client libraries that mirror the Rust backend API, ensuring type safety across platforms.</p>
-<p><strong>What it solves:</strong></p>
-<ul>
-<li>Eliminates manual Swift client maintenance</li>
-<li>Ensures Swift types always match Rust types</li>
-<li>Provides async/await interface for Swift apps</li>
-<li>Organizes operations into namespaces for cleaner API</li>
-</ul>
+<p>Swift code generation automatically produces Swift client code from Rust types, including namespace structs and async methods for all registered operations. This eliminates manual Swift client maintenance while ensuring Swift types always match Rust types.</p>
 <p><strong>Implementation:</strong> <code>core/src/infra/wire/type_extraction.rs</code></p>
 <p>Key functions:</p>
 <ul>

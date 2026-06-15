@@ -11,6 +11,8 @@
       
       
       
+        <link rel="prev" href="../../algorithm/sql/">
+      
       
       
         
@@ -21,7 +23,7 @@
     
     
       
-        <title>Rust Arrow-Based CSV Data Processing - Tech Journey</title>
+        <title>Apache Arrow - Tech Journey</title>
       
     
     
@@ -106,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Rust Arrow-Based CSV Data Processing
+              Apache Arrow
             
           </span>
         </div>
@@ -225,6 +227,28 @@
 
       </a>
     </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Rust
+
+        </a>
+      </li>
+    
   
 
       
@@ -707,6 +731,517 @@
   
 
       </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rust
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rust
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Arrow
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache Arrow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rust-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rust Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rust Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-traits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Traits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Traits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-arrowschemaprovider" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. ArrowSchemaProvider
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-encodetorecordbatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. EncodeToRecordBatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-decodefromrecordbatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. DecodeFromRecordBatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generic-implementation-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generic Implementation Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyo3-wrangler-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PyO3 Wrangler Interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arrow-recordbatch-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arrow RecordBatch Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed-point-binary-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed-Point Binary Encoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arrow-ipc-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arrow IPC Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Interface
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Python Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arrow-ipc-serialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arrow IPC Serialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyo3-wrangler-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PyO3 Wrangler Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-level-python-wrapper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level Python Wrapper
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Data Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complete Data Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step-by-Step Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-ownership-and-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Ownership and Transfer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zero-copy-ipc-bytes-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zero-Copy IPC Bytes Access
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Zero-Copy IPC Bytes Access">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rust-implementation-zero-copy-bytes-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rust Implementation: Zero-Copy Bytes Access
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-usage-pass-pybytes-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Usage: Pass PyBytes Directly
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-optimization-iterator-based-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Optimization: Iterator-Based Streaming
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory Optimization: Iterator-Based Streaming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rust-implementation-iterator-based-wrangler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rust Implementation: Iterator-Based Wrangler
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-implementation-chunked-dataframe-iterator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Implementation: Chunked DataFrame Iterator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Benefits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-of-this-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benefits of This Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extending-to-new-data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extending to New Data Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1314,16 +1849,20 @@
 </span><span id="__span-5-53"><a id="__codelineno-5-53" name="__codelineno-5-53" href="#__codelineno-5-53"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-5-54"><a id="__codelineno-5-54" name="__codelineno-5-54" href="#__codelineno-5-54"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><strong>Key Points</strong>:
-- <strong><code>&amp;[u8]</code> parameter</strong>: PyO3 extracts bytes from Python → may copy to Rust-owned memory
-- <strong><code>Bound&lt;'py, PyBytes&gt;</code> parameter</strong>: Direct reference to Python object → <code>as_bytes()</code> returns pointer to Python's memory (zero-copy)
-- Uses <code>StreamReader</code> to handle multiple RecordBatches
-- Returns <code>Vec&lt;DataType&gt;</code> which PyO3 automatically converts to Python list
-- Metadata is stored in the wrangler to avoid passing it repeatedly</p>
-<p><strong>Why <code>Bound&lt;PyBytes&gt;</code> is Needed for Zero-Copy:</strong>
-- <code>&amp;[u8]</code> is a Rust slice type - PyO3 must extract/copy from Python object
-- <code>Bound&lt;'py, PyBytes&gt;</code> is a Python object reference - <code>as_bytes()</code> accesses Python's internal buffer directly
-- The <code>'py</code> lifetime ensures Python object stays alive during the function call</p>
+<p><strong>Key Points</strong>:</p>
+<ul>
+<li><strong><code>&amp;[u8]</code> parameter</strong>: PyO3 extracts bytes from Python → may copy to Rust-owned memory</li>
+<li><strong><code>Bound&lt;'py, PyBytes&gt;</code> parameter</strong>: Direct reference to Python object → <code>as_bytes()</code> returns pointer to Python's memory (zero-copy)</li>
+<li>Uses <code>StreamReader</code> to handle multiple RecordBatches</li>
+<li>Returns <code>Vec&lt;DataType&gt;</code> which PyO3 automatically converts to Python list</li>
+<li>Metadata is stored in the wrangler to avoid passing it repeatedly</li>
+</ul>
+<p><strong>Why <code>Bound&lt;PyBytes&gt;</code> is Needed for Zero-Copy:</strong></p>
+<ul>
+<li><code>&amp;[u8]</code> is a Rust slice type - PyO3 must extract/copy from Python object</li>
+<li><code>Bound&lt;'py, PyBytes&gt;</code> is a Python object reference - <code>as_bytes()</code> accesses Python's internal buffer directly</li>
+<li>The <code>'py</code> lifetime ensures Python object stays alive during the function call</li>
+</ul>
 <h2 id="memory-layout">Memory Layout</h2>
 <h3 id="arrow-recordbatch-structure">Arrow RecordBatch Structure</h3>
 <p>Arrow uses a columnar memory layout for efficient processing:</p>
@@ -1611,21 +2150,25 @@
 </span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="c1">// This extraction typically COPIES the data to create a Rust-owned slice</span>
 </span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="p">}</span>
 </span></code></pre></div></p>
-<p><strong>The Problem:</strong>
-- PyO3's <code>extract()</code> or automatic conversion from Python <code>bytes</code> to <code>&amp;[u8]</code> may copy the data
-- <code>&amp;[u8]</code> is a Rust slice type that doesn't track the Python object's lifetime
-- PyO3 needs to ensure the slice is valid, which often means copying to Rust-owned memory</p>
+<p><strong>The Problem:</strong></p>
+<ul>
+<li>PyO3's <code>extract()</code> or automatic conversion from Python <code>bytes</code> to <code>&amp;[u8]</code> may copy the data</li>
+<li><code>&amp;[u8]</code> is a Rust slice type that doesn't track the Python object's lifetime</li>
+<li>PyO3 needs to ensure the slice is valid, which often means copying to Rust-owned memory</li>
+</ul>
 <p><strong>Why <code>Bound&lt;'py, PyBytes&gt;</code> Provides Zero-Copy:</strong></p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">fn</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Bound</span><span class="o">&lt;&#39;</span><span class="na">py</span><span class="p">,</span><span class="w"> </span><span class="n">PyBytes</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">PyResult</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Bar</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">    </span><span class="c1">// Get zero-copy reference directly from Python object</span>
 </span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">bytes_slice</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">as_bytes</span><span class="p">();</span><span class="w">  </span><span class="c1">// No copy!</span>
 </span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><strong>The Solution:</strong>
-- <code>Bound&lt;'py, PyBytes&gt;</code> is a reference to the Python object itself (not extracted data)
-- <code>as_bytes()</code> returns <code>&amp;[u8]</code> that directly points to Python's internal buffer
-- The <code>'py</code> lifetime ensures the Python object stays alive during the function call
-- No copy occurs - Rust borrows directly from Python's memory</p>
+<p><strong>The Solution:</strong></p>
+<ul>
+<li><code>Bound&lt;'py, PyBytes&gt;</code> is a reference to the Python object itself (not extracted data)</li>
+<li><code>as_bytes()</code> returns <code>&amp;[u8]</code> that directly points to Python's internal buffer</li>
+<li>The <code>'py</code> lifetime ensures the Python object stays alive during the function call</li>
+<li>No copy occurs - Rust borrows directly from Python's memory</li>
+</ul>
 <p><strong>Memory Comparison:</strong></p>
 <table>
 <thead>
@@ -1731,16 +2274,20 @@
 </span><span id="__span-25-13"><a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a><span class="n">bars</span> <span class="o">=</span> <span class="n">wrangler</span><span class="o">.</span><span class="n">process_record_batch_bytes_pybytes</span><span class="p">(</span><span class="n">ipc_bytes</span><span class="p">)</span>
 </span><span id="__span-25-14"><a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="c1"># Rust borrows from Python&#39;s bytes, no copy occurs</span>
 </span></code></pre></div>
-<p><strong>Memory Benefits:</strong>
-- <strong>Zero-copy access</strong>: <code>PyBytes::as_bytes()</code> returns <code>&amp;[u8]</code> - a borrowed reference, not a copy
-- <strong>Direct pointer access</strong>: Rust reads directly from Python's memory
-- <strong>Lifetime safety</strong>: Python bytes must outlive the Rust function call
-- <strong>Memory saved</strong>: ~560 KB per 10,000 bars (no copy across FFI boundary)</p>
-<p><strong>Implementation Details:</strong>
-- <code>PyBytes::as_bytes()</code> → <code>&amp;[u8]</code>: Zero-copy borrowed slice
-- <code>Cursor::new(&amp;[u8])</code>: Borrows the slice (no copy)
-- <strong>Note</strong>: <code>StreamReader</code> may need owned data internally, but initial access is zero-copy
-- For iterator-based processing: Python must keep PyBytes alive during iteration</p>
+<p><strong>Memory Benefits:</strong></p>
+<ul>
+<li><strong>Zero-copy access</strong>: <code>PyBytes::as_bytes()</code> returns <code>&amp;[u8]</code> - a borrowed reference, not a copy</li>
+<li><strong>Direct pointer access</strong>: Rust reads directly from Python's memory</li>
+<li><strong>Lifetime safety</strong>: Python bytes must outlive the Rust function call</li>
+<li><strong>Memory saved</strong>: ~560 KB per 10,000 bars (no copy across FFI boundary)</li>
+</ul>
+<p><strong>Implementation Details:</strong></p>
+<ul>
+<li><code>PyBytes::as_bytes()</code> → <code>&amp;[u8]</code>: Zero-copy borrowed slice</li>
+<li><code>Cursor::new(&amp;[u8])</code>: Borrows the slice (no copy)</li>
+<li><strong>Note</strong>: <code>StreamReader</code> may need owned data internally, but initial access is zero-copy</li>
+<li>For iterator-based processing: Python must keep PyBytes alive during iteration</li>
+</ul>
 <p><strong>Alternative: PyBuffer Protocol (True Zero-Copy)</strong></p>
 <p>For maximum zero-copy efficiency, use PyBuffer protocol:</p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="k">use</span><span class="w"> </span><span class="n">pyo3</span><span class="p">::</span><span class="n">types</span><span class="p">::</span><span class="n">PyBuffer</span><span class="p">;</span>
@@ -1789,11 +2336,13 @@
 </span><span id="__span-27-21"><a id="__codelineno-27-21" name="__codelineno-27-21" href="#__codelineno-27-21"></a>8. Python: list[Bar] available
 </span><span id="__span-27-22"><a id="__codelineno-27-22" name="__codelineno-27-22" href="#__codelineno-27-22"></a>   [Rust Bar objects remain in Rust heap, IPC bytes can be GC&#39;d]
 </span></code></pre></div>
-<p><strong>Key Points:</strong>
-- <strong>Python → Rust</strong>: Zero-copy via <code>PyBytes::as_bytes()</code> (borrowed reference, no copy)
-- <strong>Rust → Python</strong>: ~560 KB wrappers (data stays in Rust heap)
-- <strong>Peak Memory</strong>: ~7.1 MB total (~4 MB Python + ~3.1 MB Rust) for 10,000 bars (saves ~560 KB)
-- <strong>Efficiency</strong>: Columnar Arrow format + zero-copy bytes access minimizes memory</p>
+<p><strong>Key Points:</strong></p>
+<ul>
+<li><strong>Python → Rust</strong>: Zero-copy via <code>PyBytes::as_bytes()</code> (borrowed reference, no copy)</li>
+<li><strong>Rust → Python</strong>: ~560 KB wrappers (data stays in Rust heap)</li>
+<li><strong>Peak Memory</strong>: ~7.1 MB total (~4 MB Python + ~3.1 MB Rust) for 10,000 bars (saves ~560 KB)</li>
+<li><strong>Efficiency</strong>: Columnar Arrow format + zero-copy bytes access minimizes memory</li>
+</ul>
 <h3 id="memory-optimization-iterator-based-streaming">Memory Optimization: Iterator-Based Streaming</h3>
 <p><strong>Current Memory Duplication Issues:</strong></p>
 <p>The current flow creates multiple copies of data:
@@ -2119,16 +2668,20 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Key Benefits:</strong>
-- <strong>Constant Memory</strong>: Peak memory is independent of dataset size
-- <strong>Lazy Evaluation</strong>: Bars are created only when needed
-- <strong>Early GC</strong>: Each chunk can be garbage collected immediately after processing
-- <strong>Scalable</strong>: Can process datasets of any size with fixed memory footprint</p>
-<p><strong>Summary:</strong>
-- <strong>For small datasets (&lt;100K bars)</strong>: Current approach is fine
-- <strong>For medium datasets (100K-1M bars)</strong>: Use chunked processing
-- <strong>For large datasets (&gt;1M bars)</strong>: Use streaming + lazy evaluation
-- <strong>For very large files</strong>: Use memory-mapped files + chunked processing</p>
+<p><strong>Key Benefits:</strong></p>
+<ul>
+<li><strong>Constant Memory</strong>: Peak memory is independent of dataset size</li>
+<li><strong>Lazy Evaluation</strong>: Bars are created only when needed</li>
+<li><strong>Early GC</strong>: Each chunk can be garbage collected immediately after processing</li>
+<li><strong>Scalable</strong>: Can process datasets of any size with fixed memory footprint</li>
+</ul>
+<p><strong>Summary:</strong></p>
+<ul>
+<li><strong>For small datasets (&lt;100K bars)</strong>: Current approach is fine</li>
+<li><strong>For medium datasets (100K-1M bars)</strong>: Use chunked processing</li>
+<li><strong>For large datasets (&gt;1M bars)</strong>: Use streaming + lazy evaluation</li>
+<li><strong>For very large files</strong>: Use memory-mapped files + chunked processing</li>
+</ul>
 <h2 id="benefits-of-this-architecture">Benefits of This Architecture</h2>
 <ol>
 <li><strong>Zero-Copy Transfer</strong>: Arrow IPC format allows efficient memory transfer</li>
