@@ -219,6 +219,7 @@ impl DataWrangler {
 ```
 
 **Key Points**:
+
 - **`&[u8]` parameter**: PyO3 extracts bytes from Python → may copy to Rust-owned memory
 - **`Bound<'py, PyBytes>` parameter**: Direct reference to Python object → `as_bytes()` returns pointer to Python's memory (zero-copy)
 - Uses `StreamReader` to handle multiple RecordBatches
@@ -226,6 +227,7 @@ impl DataWrangler {
 - Metadata is stored in the wrangler to avoid passing it repeatedly
 
 **Why `Bound<PyBytes>` is Needed for Zero-Copy:**
+
 - `&[u8]` is a Rust slice type - PyO3 must extract/copy from Python object
 - `Bound<'py, PyBytes>` is a Python object reference - `as_bytes()` accesses Python's internal buffer directly
 - The `'py` lifetime ensures Python object stays alive during the function call
@@ -510,6 +512,7 @@ fn process(&self, data: &[u8]) -> PyResult<Vec<Bar>> {
 ```
 
 **The Problem:**
+
 - PyO3's `extract()` or automatic conversion from Python `bytes` to `&[u8]` may copy the data
 - `&[u8]` is a Rust slice type that doesn't track the Python object's lifetime
 - PyO3 needs to ensure the slice is valid, which often means copying to Rust-owned memory
@@ -524,6 +527,7 @@ fn process(&self, data: &Bound<'py, PyBytes>) -> PyResult<Vec<Bar>> {
 ```
 
 **The Solution:**
+
 - `Bound<'py, PyBytes>` is a reference to the Python object itself (not extracted data)
 - `as_bytes()` returns `&[u8]` that directly points to Python's internal buffer
 - The `'py` lifetime ensures the Python object stays alive during the function call
@@ -627,12 +631,14 @@ bars = wrangler.process_record_batch_bytes_pybytes(ipc_bytes)
 ```
 
 **Memory Benefits:**
+
 - **Zero-copy access**: `PyBytes::as_bytes()` returns `&[u8]` - a borrowed reference, not a copy
 - **Direct pointer access**: Rust reads directly from Python's memory
 - **Lifetime safety**: Python bytes must outlive the Rust function call
 - **Memory saved**: ~560 KB per 10,000 bars (no copy across FFI boundary)
 
 **Implementation Details:**
+
 - `PyBytes::as_bytes()` → `&[u8]`: Zero-copy borrowed slice
 - `Cursor::new(&[u8])`: Borrows the slice (no copy)
 - **Note**: `StreamReader` may need owned data internally, but initial access is zero-copy
@@ -694,6 +700,7 @@ fn process_with_buffer<'py>(
 ```
 
 **Key Points:**
+
 - **Python → Rust**: Zero-copy via `PyBytes::as_bytes()` (borrowed reference, no copy)
 - **Rust → Python**: ~560 KB wrappers (data stays in Rust heap)
 - **Peak Memory**: ~7.1 MB total (~4 MB Python + ~3.1 MB Rust) for 10,000 bars (saves ~560 KB)
@@ -1027,12 +1034,14 @@ Chunk 2 (10K rows) → Arrow Table → IPC Bytes → RecordBatch → Bar Iterato
 | **Memory Reduction** | **~99.7%** | Constant memory usage | **100%** (zero-copy) |
 
 **Key Benefits:**
+
 - **Constant Memory**: Peak memory is independent of dataset size
 - **Lazy Evaluation**: Bars are created only when needed
 - **Early GC**: Each chunk can be garbage collected immediately after processing
 - **Scalable**: Can process datasets of any size with fixed memory footprint
 
 **Summary:**
+
 - **For small datasets (<100K bars)**: Current approach is fine
 - **For medium datasets (100K-1M bars)**: Use chunked processing
 - **For large datasets (>1M bars)**: Use streaming + lazy evaluation
