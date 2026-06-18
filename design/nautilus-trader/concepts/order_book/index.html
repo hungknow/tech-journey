@@ -3148,12 +3148,14 @@
 </span></code></pre></div></p>
 <h3 id="4-orderbookdepth10-orderbook">4. OrderBookDepth10 → OrderBook</h3>
 <p><strong>Data Flow:</strong> <code>Exchange</code> → <code>Adapter.parse_order_book_depth()</code> → <code>OrderBookDepth10</code> → <code>DataEngine._handle_depth10()</code> → <code>Cache.order_book().apply_depth()</code> → <code>OrderBook.apply_depth()</code> → <code>OrderBook (replaced)</code></p>
-<p><strong>Processing Steps:</strong>
-1. Exchange sends full depth snapshot (up to 10 levels)
-2. Adapter parses into <code>OrderBookDepth10</code>
-3. <code>DataEngine</code> publishes depth snapshot
-4. <code>BookUpdater</code> applies depth, which <strong>replaces</strong> current book state
-5. OrderBook is cleared and rebuilt from snapshot</p>
+<p><strong>Processing Steps:</strong></p>
+<ol>
+<li>Exchange sends full depth snapshot (up to 10 levels)</li>
+<li>Adapter parses into <code>OrderBookDepth10</code></li>
+<li><code>DataEngine</code> publishes depth snapshot</li>
+<li><code>BookUpdater</code> applies depth, which <strong>replaces</strong> current book state</li>
+<li>OrderBook is cleared and rebuilt from snapshot</li>
+</ol>
 <p><strong>Example:</strong>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Depth snapshot arrives</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">depth</span> <span class="o">=</span> <span class="n">OrderBookDepth10</span><span class="p">(</span>
@@ -3174,12 +3176,14 @@
 </span></code></pre></div></p>
 <h3 id="5-quotetick-orderbook-l1-only">5. QuoteTick → OrderBook (L1 only)</h3>
 <p><strong>Data Flow:</strong> <code>Exchange</code> → <code>Adapter.parse_quote_tick()</code> → <code>QuoteTick</code> → <code>DataEngine._handle_quote_tick()</code> → <code>Cache.order_book().update_quote_tick()</code> → <code>OrderBook.update_quote_tick()</code> → <code>OrderBook (L1 updated)</code></p>
-<p><strong>Processing Steps:</strong>
-1. Exchange sends top-of-book quote
-2. Adapter parses into <code>QuoteTick</code>
-3. <code>DataEngine</code> caches quote and publishes
-4. For L1_MBP books, <code>OrderBook.update_quote_tick()</code> updates top level
-5. Previous top bid/ask is replaced with new values</p>
+<p><strong>Processing Steps:</strong></p>
+<ol>
+<li>Exchange sends top-of-book quote</li>
+<li>Adapter parses into <code>QuoteTick</code></li>
+<li><code>DataEngine</code> caches quote and publishes</li>
+<li>For L1_MBP books, <code>OrderBook.update_quote_tick()</code> updates top level</li>
+<li>Previous top bid/ask is replaced with new values</li>
+</ol>
 <p><strong>Example:</strong>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Quote tick arrives</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">quote</span> <span class="o">=</span> <span class="n">QuoteTick</span><span class="p">(</span>
@@ -3201,12 +3205,14 @@
 </span></code></pre></div></p>
 <h3 id="6-tradetick-orderbook-l1-only">6. TradeTick → OrderBook (L1 only)</h3>
 <p><strong>Data Flow:</strong> <code>Exchange</code> → <code>Adapter.parse_trade_tick()</code> → <code>TradeTick</code> → <code>DataEngine._handle_trade_tick()</code> → <code>Cache.order_book().update_trade_tick()</code> → <code>OrderBook.update_trade_tick()</code> → <code>OrderBook (L1 updated)</code></p>
-<p><strong>Processing Steps:</strong>
-1. Exchange sends trade execution
-2. Adapter parses into <code>TradeTick</code>
-3. <code>DataEngine</code> processes trade
-4. For L1_MBP books, <code>OrderBook.update_trade_tick()</code> updates top level with trade price
-5. Both bid and ask are set to trade price (market consensus)</p>
+<p><strong>Processing Steps:</strong></p>
+<ol>
+<li>Exchange sends trade execution</li>
+<li>Adapter parses into <code>TradeTick</code></li>
+<li><code>DataEngine</code> processes trade</li>
+<li>For L1_MBP books, <code>OrderBook.update_trade_tick()</code> updates top level with trade price</li>
+<li>Both bid and ask are set to trade price (market consensus)</li>
+</ol>
 <p><strong>Example:</strong>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Trade tick arrives</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">trade</span> <span class="o">=</span> <span class="n">TradeTick</span><span class="p">(</span>
@@ -3226,12 +3232,14 @@
 </span></code></pre></div></p>
 <h3 id="7-orderbook-strategy">7. OrderBook → Strategy</h3>
 <p><strong>Data Flow:</strong> <code>OrderBook (updated)</code> → <code>Cache.order_book()</code> → <code>Strategy.on_order_book_deltas()</code> / <code>Strategy.on_quote_tick()</code> → <code>Strategy.check_trigger()</code> → <code>Strategy uses book data</code></p>
-<p><strong>Processing Steps:</strong>
-1. OrderBook is updated in cache
-2. Strategy receives <code>OrderBookDeltas</code> or <code>QuoteTick</code> callback
-3. Strategy fetches current <code>OrderBook</code> from cache
-4. Strategy analyzes book state (spread, imbalance, depth, etc.)
-5. Strategy makes trading decisions based on book data</p>
+<p><strong>Processing Steps:</strong></p>
+<ol>
+<li>OrderBook is updated in cache</li>
+<li>Strategy receives <code>OrderBookDeltas</code> or <code>QuoteTick</code> callback</li>
+<li>Strategy fetches current <code>OrderBook</code> from cache</li>
+<li>Strategy analyzes book state (spread, imbalance, depth, etc.)</li>
+<li>Strategy makes trading decisions based on book data</li>
+</ol>
 <p><strong>Example:</strong>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">on_order_book_deltas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deltas</span><span class="p">:</span> <span class="n">OrderBookDeltas</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="c1"># Fetch current book state</span>
@@ -3252,11 +3260,13 @@
 </span></code></pre></div></p>
 <h3 id="8-orderbook-quotetick-generation">8. OrderBook → QuoteTick Generation</h3>
 <p><strong>Data Flow:</strong> <code>OrderBook (L2/L3)</code> → <code>OrderBook.to_quote_tick()</code> → <code>QuoteTick</code> → <code>DataEngine._handle_quote_tick()</code> → <code>Strategy.on_quote_tick()</code></p>
-<p><strong>Processing Steps:</strong>
-1. OrderBook (L2 or L3) maintains full depth
-2. When book updates, <code>to_quote_tick()</code> extracts top-of-book
-3. Generated <code>QuoteTick</code> is published
-4. Strategies can subscribe to quotes instead of full deltas</p>
+<p><strong>Processing Steps:</strong></p>
+<ol>
+<li>OrderBook (L2 or L3) maintains full depth</li>
+<li>When book updates, <code>to_quote_tick()</code> extracts top-of-book</li>
+<li>Generated <code>QuoteTick</code> is published</li>
+<li>Strategies can subscribe to quotes instead of full deltas</li>
+</ol>
 <p><strong>Example:</strong>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># OrderBook has multiple levels</span>
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># Bids: [50000.0 @ 2.0, 49999.0 @ 1.5, ...]</span>
@@ -3269,11 +3279,13 @@
 <h2 id="what-data-affects-the-orderbook">What Data Affects the OrderBook</h2>
 <h3 id="1-orderbookdelta">1. OrderBookDelta</h3>
 <p><strong>Impact:</strong> Individual order-level changes (Add, Update, Delete, Clear)</p>
-<p><strong>Actions:</strong>
-- <code>BookAction.ADD</code>: Adds a new order to the book
-- <code>BookAction.UPDATE</code>: Updates quantity/price of existing order
-- <code>BookAction.DELETE</code>: Removes an order from the book
-- <code>BookAction.CLEAR</code>: Clears all orders from the book</p>
+<p><strong>Actions:</strong></p>
+<ul>
+<li><code>BookAction.ADD</code>: Adds a new order to the book</li>
+<li><code>BookAction.UPDATE</code>: Updates quantity/price of existing order</li>
+<li><code>BookAction.DELETE</code>: Removes an order from the book</li>
+<li><code>BookAction.CLEAR</code>: Clears all orders from the book</li>
+</ul>
 <p><strong>Example:</strong>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Add new bid order</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">delta</span> <span class="o">=</span> <span class="n">OrderBookDelta</span><span class="p">(</span>

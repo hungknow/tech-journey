@@ -2638,18 +2638,22 @@
 <h3 id="8-market-data-processing">8. Market Data Processing</h3>
 <p>QuoteTicks flow through the data engine to subscribers.</p>
 <p><strong>Data Flow:</strong> <code>Exchange</code> → <code>Adapter._handle_data()</code> → <code>QuoteTick</code> → <code>DataEngine._handle_quote_tick()</code> → <code>Cache.add_quote_tick()</code> / <code>MessageBus.publish()</code> → <code>Strategy.on_quote_tick()</code> / <code>Indicator.handle_quote_tick()</code></p>
-<p><strong>Processing steps:</strong>
-1. Exchange sends market data
-2. Adapter converts to QuoteTick via <code>parse_to_quote_tick()</code>
-3. DataEngine calls <code>_handle_quote_tick()</code> which caches and publishes
-4. Strategies receive QuoteTick via <code>on_quote_tick()</code> callback
-5. Indicators receive QuoteTick via <code>handle_quote_tick()</code> method</p>
+<p><strong>Processing steps:</strong></p>
+<ol>
+<li>Exchange sends market data</li>
+<li>Adapter converts to QuoteTick via <code>parse_to_quote_tick()</code></li>
+<li>DataEngine calls <code>_handle_quote_tick()</code> which caches and publishes</li>
+<li>Strategies receive QuoteTick via <code>on_quote_tick()</code> callback</li>
+<li>Indicators receive QuoteTick via <code>handle_quote_tick()</code> method</li>
+</ol>
 <h3 id="9-data-persistence">9. Data Persistence</h3>
 <p>QuoteTicks are stored in databases for historical analysis.</p>
 <p><strong>Data Flow:</strong> <code>QuoteTick</code> → <code>Persistence Layer</code> → <code>PostgreSQL/Parquet</code></p>
-<p><strong>Storage format:</strong>
-- PostgreSQL: Table <code>quote</code> with columns: <code>instrument_id</code>, <code>bid_price</code>, <code>ask_price</code>, <code>bid_size</code>, <code>ask_size</code>, <code>ts_event</code>, <code>ts_init</code>
-- Parquet: Columnar format for efficient querying</p>
+<p><strong>Storage format:</strong></p>
+<ul>
+<li>PostgreSQL: Table <code>quote</code> with columns: <code>instrument_id</code>, <code>bid_price</code>, <code>ask_price</code>, <code>bid_size</code>, <code>ask_size</code>, <code>ts_event</code>, <code>ts_init</code></li>
+<li>Parquet: Columnar format for efficient querying</li>
+</ul>
 <h2 id="comparison-with-other-data-types">Comparison with Other Data Types</h2>
 <table>
 <thead>

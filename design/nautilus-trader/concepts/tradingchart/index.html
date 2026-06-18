@@ -2845,67 +2845,79 @@
 <h2 id="domain-services">Domain Services</h2>
 <h3 id="1-chartdataservice">1. ChartDataService</h3>
 <p><strong>Purpose</strong>: Manages chart data operations (adding, removing, filtering bars)</p>
-<p><strong>Key Functions</strong>:
-- <code>add_bar(chart: &amp;mut TradingChart, bar: Bar)</code> - Add a new bar to the chart
-- <code>add_bars(chart: &amp;mut TradingChart, bars: Vec&lt;Bar&gt;)</code> - Bulk add bars
-- <code>remove_bars_before(chart: &amp;mut TradingChart, timestamp: UnixNanos)</code> - Remove bars before timestamp
-- <code>remove_bars_after(chart: &amp;mut TradingChart, timestamp: UnixNanos)</code> - Remove bars after timestamp
-- <code>filter_bars_by_range(chart: &amp;mut TradingChart, start: UnixNanos, end: UnixNanos)</code> - Filter bars to time range
-- <code>get_visible_bars(chart: &amp;TradingChart) -&gt; Vec&lt;&amp;Bar&gt;</code> - Get bars within current viewport
-- <code>get_price_range(chart: &amp;TradingChart, start: UnixNanos, end: UnixNanos) -&gt; (Price, Price)</code> - Calculate price range for time period
-- <code>validate_bar_sequence(chart: &amp;TradingChart) -&gt; Result&lt;(), ChartError&gt;</code> - Validate bar sequence integrity</p>
+<p><strong>Key Functions</strong>:</p>
+<ul>
+<li><code>add_bar(chart: &amp;mut TradingChart, bar: Bar)</code> - Add a new bar to the chart</li>
+<li><code>add_bars(chart: &amp;mut TradingChart, bars: Vec&lt;Bar&gt;)</code> - Bulk add bars</li>
+<li><code>remove_bars_before(chart: &amp;mut TradingChart, timestamp: UnixNanos)</code> - Remove bars before timestamp</li>
+<li><code>remove_bars_after(chart: &amp;mut TradingChart, timestamp: UnixNanos)</code> - Remove bars after timestamp</li>
+<li><code>filter_bars_by_range(chart: &amp;mut TradingChart, start: UnixNanos, end: UnixNanos)</code> - Filter bars to time range</li>
+<li><code>get_visible_bars(chart: &amp;TradingChart) -&gt; Vec&lt;&amp;Bar&gt;</code> - Get bars within current viewport</li>
+<li><code>get_price_range(chart: &amp;TradingChart, start: UnixNanos, end: UnixNanos) -&gt; (Price, Price)</code> - Calculate price range for time period</li>
+<li><code>validate_bar_sequence(chart: &amp;TradingChart) -&gt; Result&lt;(), ChartError&gt;</code> - Validate bar sequence integrity</li>
+</ul>
 <p><strong>Location</strong>: <code>crates/model/src/trading/chart/domain_services/data.rs</code></p>
 <h3 id="2-chartscaleservice">2. ChartScaleService</h3>
 <p><strong>Purpose</strong>: Calculates and manages scale factors for X and Y axes</p>
-<p><strong>Key Functions</strong>:
-- <code>calculate_x_scale(chart: &amp;TradingChart, canvas_width: u32) -&gt; ScaleX</code> - Calculate X-axis scale
-- <code>calculate_y_scale(chart: &amp;TradingChart, canvas_height: u32) -&gt; ScaleY</code> - Calculate Y-axis scale
-- <code>update_x_scale(chart: &amp;mut TradingChart, scale_factor: f64)</code> - Update X-axis scale
-- <code>update_y_scale(chart: &amp;mut TradingChart, scale_factor: f64)</code> - Update Y-axis scale
-- <code>auto_fit_viewport(chart: &amp;mut TradingChart, canvas_width: u32, canvas_height: u32)</code> - Auto-fit viewport to all data
-- <code>normalize_scale(scale: f64, min: f64, max: f64) -&gt; f64</code> - Normalize scale within bounds</p>
+<p><strong>Key Functions</strong>:</p>
+<ul>
+<li><code>calculate_x_scale(chart: &amp;TradingChart, canvas_width: u32) -&gt; ScaleX</code> - Calculate X-axis scale</li>
+<li><code>calculate_y_scale(chart: &amp;TradingChart, canvas_height: u32) -&gt; ScaleY</code> - Calculate Y-axis scale</li>
+<li><code>update_x_scale(chart: &amp;mut TradingChart, scale_factor: f64)</code> - Update X-axis scale</li>
+<li><code>update_y_scale(chart: &amp;mut TradingChart, scale_factor: f64)</code> - Update Y-axis scale</li>
+<li><code>auto_fit_viewport(chart: &amp;mut TradingChart, canvas_width: u32, canvas_height: u32)</code> - Auto-fit viewport to all data</li>
+<li><code>normalize_scale(scale: f64, min: f64, max: f64) -&gt; f64</code> - Normalize scale within bounds</li>
+</ul>
 <p><strong>Location</strong>: <code>crates/model/src/trading/chart/domain_services/scale.rs</code></p>
 <h3 id="3-chartviewportservice">3. ChartViewportService</h3>
 <p><strong>Purpose</strong>: Manages viewport (visible area) operations</p>
-<p><strong>Key Functions</strong>:
-- <code>set_viewport(chart: &amp;mut TradingChart, viewport: Viewport)</code> - Set viewport explicitly
-- <code>pan_viewport(chart: &amp;mut TradingChart, delta_time: TimeDelta, delta_price: Price)</code> - Pan viewport
-- <code>zoom_to_range(chart: &amp;mut TradingChart, start: UnixNanos, end: UnixNanos)</code> - Zoom to specific time range
-- <code>zoom_to_price_range(chart: &amp;mut TradingChart, min_price: Price, max_price: Price)</code> - Zoom to price range
-- <code>zoom_in(chart: &amp;mut TradingChart, factor: f64)</code> - Zoom in by factor
-- <code>zoom_out(chart: &amp;mut TradingChart, factor: f64)</code> - Zoom out by factor
-- <code>reset_viewport(chart: &amp;mut TradingChart)</code> - Reset to show all data
-- <code>calculate_viewport_from_zoom(chart: &amp;TradingChart) -&gt; Viewport</code> - Calculate viewport from zoom level</p>
+<p><strong>Key Functions</strong>:</p>
+<ul>
+<li><code>set_viewport(chart: &amp;mut TradingChart, viewport: Viewport)</code> - Set viewport explicitly</li>
+<li><code>pan_viewport(chart: &amp;mut TradingChart, delta_time: TimeDelta, delta_price: Price)</code> - Pan viewport</li>
+<li><code>zoom_to_range(chart: &amp;mut TradingChart, start: UnixNanos, end: UnixNanos)</code> - Zoom to specific time range</li>
+<li><code>zoom_to_price_range(chart: &amp;mut TradingChart, min_price: Price, max_price: Price)</code> - Zoom to price range</li>
+<li><code>zoom_in(chart: &amp;mut TradingChart, factor: f64)</code> - Zoom in by factor</li>
+<li><code>zoom_out(chart: &amp;mut TradingChart, factor: f64)</code> - Zoom out by factor</li>
+<li><code>reset_viewport(chart: &amp;mut TradingChart)</code> - Reset to show all data</li>
+<li><code>calculate_viewport_from_zoom(chart: &amp;TradingChart) -&gt; Viewport</code> - Calculate viewport from zoom level</li>
+</ul>
 <p><strong>Location</strong>: <code>crates/model/src/trading/chart/domain_services/viewport.rs</code></p>
 <h3 id="4-chartzoomservice">4. ChartZoomService</h3>
 <p><strong>Purpose</strong>: Manages zoom operations and zoom level calculations</p>
-<p><strong>Key Functions</strong>:
-- <code>zoom_in(chart: &amp;mut TradingChart, factor: f64)</code> - Zoom in
-- <code>zoom_out(chart: &amp;mut TradingChart, factor: f64)</code> - Zoom out
-- <code>set_zoom_level(chart: &amp;mut TradingChart, level: f64)</code> - Set zoom level
-- <code>zoom_to_point(chart: &amp;mut TradingChart, time: UnixNanos, price: Price, factor: f64)</code> - Zoom to specific point
-- <code>zoom_to_rect(chart: &amp;mut TradingChart, start_time: UnixNanos, end_time: UnixNanos, min_price: Price, max_price: Price)</code> - Zoom to rectangle
-- <code>calculate_zoom_from_viewport(chart: &amp;TradingChart) -&gt; f64</code> - Calculate zoom level from viewport
-- <code>constrain_zoom_level(level: f64, min: f64, max: f64) -&gt; f64</code> - Constrain zoom level to bounds</p>
+<p><strong>Key Functions</strong>:</p>
+<ul>
+<li><code>zoom_in(chart: &amp;mut TradingChart, factor: f64)</code> - Zoom in</li>
+<li><code>zoom_out(chart: &amp;mut TradingChart, factor: f64)</code> - Zoom out</li>
+<li><code>set_zoom_level(chart: &amp;mut TradingChart, level: f64)</code> - Set zoom level</li>
+<li><code>zoom_to_point(chart: &amp;mut TradingChart, time: UnixNanos, price: Price, factor: f64)</code> - Zoom to specific point</li>
+<li><code>zoom_to_rect(chart: &amp;mut TradingChart, start_time: UnixNanos, end_time: UnixNanos, min_price: Price, max_price: Price)</code> - Zoom to rectangle</li>
+<li><code>calculate_zoom_from_viewport(chart: &amp;TradingChart) -&gt; f64</code> - Calculate zoom level from viewport</li>
+<li><code>constrain_zoom_level(level: f64, min: f64, max: f64) -&gt; f64</code> - Constrain zoom level to bounds</li>
+</ul>
 <p><strong>Location</strong>: <code>crates/model/src/trading/chart/domain_services/zoom.rs</code></p>
 <h3 id="5-chartanalysisservice">5. ChartAnalysisService</h3>
 <p><strong>Purpose</strong>: Provides analytical operations on chart data</p>
-<p><strong>Key Functions</strong>:
-- <code>get_price_range(chart: &amp;TradingChart, start: UnixNanos, end: UnixNanos) -&gt; (Price, Price)</code> - Get price range
-- <code>get_volume_range(chart: &amp;TradingChart, start: UnixNanos, end: UnixNanos) -&gt; (Quantity, Quantity)</code> - Get volume range
-- <code>get_bar_at_time(chart: &amp;TradingChart, time: UnixNanos) -&gt; Option&lt;&amp;Bar&gt;</code> - Get bar at specific time
-- <code>get_bars_in_range(chart: &amp;TradingChart, start: UnixNanos, end: UnixNanos) -&gt; Vec&lt;&amp;Bar&gt;</code> - Get bars in time range
-- <code>calculate_visible_bar_count(chart: &amp;TradingChart) -&gt; usize</code> - Count visible bars
-- <code>estimate_optimal_bar_density(chart: &amp;TradingChart, canvas_width: u32) -&gt; usize</code> - Estimate optimal bars to display</p>
+<p><strong>Key Functions</strong>:</p>
+<ul>
+<li><code>get_price_range(chart: &amp;TradingChart, start: UnixNanos, end: UnixNanos) -&gt; (Price, Price)</code> - Get price range</li>
+<li><code>get_volume_range(chart: &amp;TradingChart, start: UnixNanos, end: UnixNanos) -&gt; (Quantity, Quantity)</code> - Get volume range</li>
+<li><code>get_bar_at_time(chart: &amp;TradingChart, time: UnixNanos) -&gt; Option&lt;&amp;Bar&gt;</code> - Get bar at specific time</li>
+<li><code>get_bars_in_range(chart: &amp;TradingChart, start: UnixNanos, end: UnixNanos) -&gt; Vec&lt;&amp;Bar&gt;</code> - Get bars in time range</li>
+<li><code>calculate_visible_bar_count(chart: &amp;TradingChart) -&gt; usize</code> - Count visible bars</li>
+<li><code>estimate_optimal_bar_density(chart: &amp;TradingChart, canvas_width: u32) -&gt; usize</code> - Estimate optimal bars to display</li>
+</ul>
 <p><strong>Location</strong>: <code>crates/model/src/trading/chart/domain_services/analysis.rs</code></p>
 <h3 id="6-chartrenderingservice">6. ChartRenderingService</h3>
 <p><strong>Purpose</strong>: Coordinates rendering state and prepares data for rendering layer</p>
-<p><strong>Key Functions</strong>:
-- <code>prepare_rendering_data(chart: &amp;TradingChart) -&gt; RenderingData</code> - Prepare data for rendering
-- <code>get_visible_bars_for_rendering(chart: &amp;TradingChart) -&gt; Vec&lt;BarRenderInfo&gt;</code> - Get bars formatted for rendering
-- <code>calculate_candlestick_positions(chart: &amp;TradingChart) -&gt; Vec&lt;CandlestickPosition&gt;</code> - Calculate candlestick positions
-- <code>get_axis_labels(chart: &amp;TradingChart) -&gt; (Vec&lt;TimeLabel&gt;, Vec&lt;PriceLabel&gt;)</code> - Get axis labels
-- <code>validate_rendering_state(chart: &amp;TradingChart) -&gt; Result&lt;(), ChartError&gt;</code> - Validate rendering state</p>
+<p><strong>Key Functions</strong>:</p>
+<ul>
+<li><code>prepare_rendering_data(chart: &amp;TradingChart) -&gt; RenderingData</code> - Prepare data for rendering</li>
+<li><code>get_visible_bars_for_rendering(chart: &amp;TradingChart) -&gt; Vec&lt;BarRenderInfo&gt;</code> - Get bars formatted for rendering</li>
+<li><code>calculate_candlestick_positions(chart: &amp;TradingChart) -&gt; Vec&lt;CandlestickPosition&gt;</code> - Calculate candlestick positions</li>
+<li><code>get_axis_labels(chart: &amp;TradingChart) -&gt; (Vec&lt;TimeLabel&gt;, Vec&lt;PriceLabel&gt;)</code> - Get axis labels</li>
+<li><code>validate_rendering_state(chart: &amp;TradingChart) -&gt; Result&lt;(), ChartError&gt;</code> - Validate rendering state</li>
+</ul>
 <p><strong>Location</strong>: <code>crates/model/src/trading/chart/domain_services/rendering.rs</code></p>
 <h2 id="aggregate-root-methods">Aggregate Root Methods</h2>
 <h3 id="core-operations">Core Operations</h3>

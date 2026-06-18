@@ -2354,7 +2354,7 @@
 <h1 id="tradetick">TradeTick</h1>
 <h2 id="overview">Overview</h2>
 <p>A <code>TradeTick</code> represents a single executed trade in a market, containing information about a unique trade that matched buyer and seller counterparties.</p>
-<p><strong>Example:</strong>
+<p><strong>Example:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>instrument_id: ETHUSDT-PERP.BINANCE
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>price: 10000.5000
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>size: 1.25000000
@@ -2362,7 +2362,7 @@
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>trade_id: 123456789
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>ts_event: 0
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>ts_init: 1
-</span></code></pre></div></p>
+</span></code></pre></div>
 <h2 id="data-structure">Data Structure</h2>
 <table>
 <thead>
@@ -2410,13 +2410,17 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Requirements:</strong>
-- Size must be positive (&gt; 0)
-- Trade ID must be a valid string (max 36 characters)</p>
-<p><strong>AggressorSide Values:</strong>
-- <code>NO_AGGRESSOR</code> (0): No specific aggressor identified
-- <code>BUYER</code> (1): The buy order was the aggressor (market buy)
-- <code>SELLER</code> (2): The sell order was the aggressor (market sell)</p>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Size must be positive (&gt; 0)</li>
+<li>Trade ID must be a valid string (max 36 characters)</li>
+</ul>
+<p><strong>AggressorSide Values:</strong></p>
+<ul>
+<li><code>NO_AGGRESSOR</code> (0): No specific aggressor identified</li>
+<li><code>BUYER</code> (1): The buy order was the aggressor (market buy)</li>
+<li><code>SELLER</code> (2): The sell order was the aggressor (market sell)</li>
+</ul>
 <h2 id="where-tradetick-is-used">Where TradeTick is Used</h2>
 <h3 id="1-order-book-management">1. Order Book Management</h3>
 <p>TradeTick updates Level 1 (L1) order books with last trade price when book type is <code>L1_MBP</code>.</p>
@@ -2625,12 +2629,14 @@
 <h3 id="7-order-emulator-uses-tradetick">7. Order Emulator Uses TradeTick</h3>
 <p>Order emulator processes TradeTicks to update matching core and iterate orders for execution.</p>
 <p><strong>Data Flow:</strong> <code>TradeTick</code> → <code>OrderEmulator.on_trade_tick()</code> → <code>MatchingCore.set_last_raw()</code> → <code>MatchingCore.iterate()</code> → <code>Order Execution</code></p>
-<p><strong>Processing steps:</strong>
-1. TradeTick received by order emulator
-2. Matching core updates last price: <code>set_last_raw(trade.price)</code>
-3. If no quote subscriptions, bid/ask set to trade price
-4. Orders are iterated and checked for execution
-5. Trailing stop orders are updated if applicable</p>
+<p><strong>Processing steps:</strong></p>
+<ol>
+<li>TradeTick received by order emulator</li>
+<li>Matching core updates last price: <code>set_last_raw(trade.price)</code></li>
+<li>If no quote subscriptions, bid/ask set to trade price</li>
+<li>Orders are iterated and checked for execution</li>
+<li>Trailing stop orders are updated if applicable</li>
+</ol>
 <p><strong>Example:</strong></p>
 <table>
 <thead>

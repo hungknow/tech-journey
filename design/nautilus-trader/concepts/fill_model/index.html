@@ -3014,11 +3014,13 @@
 <h2 id="configuration-parameters">Configuration Parameters</h2>
 <h3 id="prob_fill_on_limit-default-10"><code>prob_fill_on_limit</code> (default: <code>1.0</code>)</h3>
 <p><strong>Purpose</strong>: Simulates the probability of a limit order getting filled when its price level is reached in the market.</p>
-<p><strong>How it works</strong>:
-- Simulates your position in the order queue at a given price level
-- Applies to all data types (L1/L2/L3 order book, quotes, trades, bars)
-- New random probability check occurs each time market price touches your order price (but does not move through it)
-- On successful probability check, fills entire remaining order quantity</p>
+<p><strong>How it works</strong>:</p>
+<ul>
+<li>Simulates your position in the order queue at a given price level</li>
+<li>Applies to all data types (L1/L2/L3 order book, quotes, trades, bars)</li>
+<li>New random probability check occurs each time market price touches your order price (but does not move through it)</li>
+<li>On successful probability check, fills entire remaining order quantity</li>
+</ul>
 <p><strong>Real implementation</strong> (from <code>crates/execution/src/matching_engine/engine.rs</code>):</p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">if</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="n">order_side</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">OrderSide</span><span class="p">::</span><span class="n">Buy</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">bid</span><span class="p">.</span><span class="n">is_some_and</span><span class="p">(</span><span class="o">|</span><span class="n">bid</span><span class="o">|</span><span class="w"> </span><span class="n">bid</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">order_price</span><span class="p">)</span>
@@ -3034,11 +3036,13 @@
 - <code>prob_fill_on_limit=1.0</code>: Always fills when price matches (simulates being at the front of the queue)</p>
 <h3 id="prob_slippage-default-00"><code>prob_slippage</code> (default: <code>0.0</code>)</h3>
 <p><strong>Purpose</strong>: Simulates the probability of experiencing price slippage when executing market orders.</p>
-<p><strong>How it works</strong>:
-- Only applies to L1 data types (quotes, trades, bars)
-- When triggered, moves fill price one tick against your order direction
-- Affects all market-type orders (<code>MARKET</code>, <code>MARKET_TO_LIMIT</code>, <code>MARKET_IF_TOUCHED</code>, <code>STOP_MARKET</code>)
-- Not utilized with L2/L3 data where order book depth can determine slippage naturally</p>
+<p><strong>How it works</strong>:</p>
+<ul>
+<li>Only applies to L1 data types (quotes, trades, bars)</li>
+<li>When triggered, moves fill price one tick against your order direction</li>
+<li>Affects all market-type orders (<code>MARKET</code>, <code>MARKET_TO_LIMIT</code>, <code>MARKET_IF_TOUCHED</code>, <code>STOP_MARKET</code>)</li>
+<li>Not utilized with L2/L3 data where order book depth can determine slippage naturally</li>
+</ul>
 <p><strong>Real implementation</strong> (from <code>crates/execution/src/matching_engine/engine.rs</code>):</p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">book_type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">BookType</span><span class="p">::</span><span class="n">L1_MBP</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">fill_model</span><span class="p">.</span><span class="n">is_slipped</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">fill_px</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="n">order_side</span><span class="p">().</span><span class="n">as_specified</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -3099,10 +3103,12 @@
 <li>If the check succeeds, the order is filled at the limit price</li>
 <li>If the check fails, the order remains open (simulating being behind other orders in the queue)</li>
 </ol>
-<p><strong>Impact on trading</strong>:
-- Lower <code>prob_fill_on_limit</code> values result in fewer filled limit orders
-- This can cause strategies to miss entry/exit opportunities
-- Higher values (closer to 1.0) simulate better queue position and more fills</p>
+<p><strong>Impact on trading</strong>:</p>
+<ul>
+<li>Lower <code>prob_fill_on_limit</code> values result in fewer filled limit orders</li>
+<li>This can cause strategies to miss entry/exit opportunities</li>
+<li>Higher values (closer to 1.0) simulate better queue position and more fills</li>
+</ul>
 <h3 id="market-orders">Market Orders</h3>
 <p>When executing market orders with L1 data:</p>
 <ol>
@@ -3111,11 +3117,13 @@
 <li>If slippage occurs, the fill price is adjusted by one tick against the order direction</li>
 <li>For L2/L3 data, slippage is determined naturally by order book depth</li>
 </ol>
-<p><strong>Impact on trading</strong>:
-- Slippage increases execution costs
-- For buy orders: slippage means paying more (one tick above best ask)
-- For sell orders: slippage means receiving less (one tick below best bid)
-- Higher <code>prob_slippage</code> values reduce strategy profitability</p>
+<p><strong>Impact on trading</strong>:</p>
+<ul>
+<li>Slippage increases execution costs</li>
+<li>For buy orders: slippage means paying more (one tick above best ask)</li>
+<li>For sell orders: slippage means receiving less (one tick below best bid)</li>
+<li>Higher <code>prob_slippage</code> values reduce strategy profitability</li>
+</ul>
 <h3 id="stop-orders">Stop Orders</h3>
 <p>Stop orders convert to market orders when triggered, so they are affected by:
 - <code>prob_slippage</code> (for the market order execution)
@@ -3210,11 +3218,13 @@
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
 </span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">)</span>
 </span></code></pre></div>
-<p><strong>Impact</strong>:
-- Fewer limit order fills → missed trading opportunities
-- Some slippage on market orders → higher execution costs
-- More conservative backtest results → lower reported returns
-- Better represents challenging market conditions</p>
+<p><strong>Impact</strong>:</p>
+<ul>
+<li>Fewer limit order fills → missed trading opportunities</li>
+<li>Some slippage on market orders → higher execution costs</li>
+<li>More conservative backtest results → lower reported returns</li>
+<li>Better represents challenging market conditions</li>
+</ul>
 <h3 id="example-2-optimistic-fill-model">Example 2: Optimistic Fill Model</h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">fill_model</span> <span class="o">=</span> <span class="n">FillModel</span><span class="p">(</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="n">prob_fill_on_limit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># All limit orders fill</span>
@@ -3222,11 +3232,13 @@
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
 </span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="p">)</span>
 </span></code></pre></div>
-<p><strong>Impact</strong>:
-- All limit orders fill when price matches → maximum trading opportunities
-- No slippage on market orders → lowest execution costs
-- More optimistic backtest results → higher reported returns
-- May not represent realistic market conditions</p>
+<p><strong>Impact</strong>:</p>
+<ul>
+<li>All limit orders fill when price matches → maximum trading opportunities</li>
+<li>No slippage on market orders → lowest execution costs</li>
+<li>More optimistic backtest results → higher reported returns</li>
+<li>May not represent realistic market conditions</li>
+</ul>
 <h3 id="example-3-realistic-fill-model">Example 3: Realistic Fill Model</h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">fill_model</span> <span class="o">=</span> <span class="n">FillModel</span><span class="p">(</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="n">prob_fill_on_limit</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>  <span class="c1"># 80% of limit orders fill</span>
@@ -3234,10 +3246,12 @@
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
 </span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="p">)</span>
 </span></code></pre></div>
-<p><strong>Impact</strong>:
-- Most limit orders fill → good trading opportunity capture
-- Occasional slippage → realistic execution costs
-- Balanced backtest results → more representative of live trading</p>
+<p><strong>Impact</strong>:</p>
+<ul>
+<li>Most limit orders fill → good trading opportunity capture</li>
+<li>Occasional slippage → realistic execution costs</li>
+<li>Balanced backtest results → more representative of live trading</li>
+</ul>
 <h2 id="testing">Testing</h2>
 <p>The <code>FillModel</code> is thoroughly tested in:</p>
 <ul>
