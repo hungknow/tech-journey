@@ -3251,43 +3251,37 @@
 <ol>
 <li>
 <p><strong>Message bus operations</strong></p>
-</li>
-<li>
-<p>All message dispatch is immediate and sequential</p>
-</li>
+<ul>
+<li>All message dispatch is immediate and sequential</li>
 <li>Messages are processed in the order they are received</li>
-<li>
-<p>No concurrent message processing</p>
+<li>No concurrent message processing</li>
+</ul>
 </li>
 <li>
 <p><strong>Engine operations</strong></p>
-</li>
-<li>
-<p>Data engine: Sequential event processing</p>
-</li>
+<ul>
+<li>Data engine: Sequential event processing</li>
 <li>Execution engine: Sequential command handling</li>
 <li>Risk engine: Sequential risk checks</li>
-<li>
-<p>All engines share the same event loop</p>
+<li>All engines share the same event loop</li>
+</ul>
 </li>
 <li>
 <p><strong>Actor message handling</strong></p>
-</li>
-<li>
-<p>Each actor processes messages sequentially</p>
-</li>
+<ul>
+<li>Each actor processes messages sequentially</li>
 <li>Actors are type-erased and registered globally</li>
-<li>
-<p>No parallel actor execution</p>
+<li>No parallel actor execution</li>
+</ul>
 </li>
 <li>
 <p><strong>Timer callbacks</strong></p>
-</li>
-<li>
-<p>Prioritized in the select loop</p>
-</li>
+<ul>
+<li>Prioritized in the select loop</li>
 <li>Single maintenance timer for all periodic tasks</li>
 <li>Tasks fire when their deadline has passed</li>
+</ul>
+</li>
 </ol>
 <h3 id="no-true-parallelism">No True Parallelism</h3>
 <p>The system does <strong>not</strong> support parallel execution for:</p>
