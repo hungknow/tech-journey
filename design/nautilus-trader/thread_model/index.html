@@ -3311,10 +3311,12 @@
 <p>Actors are registered using <code>add_actor&lt;T&gt;()</code> where <code>T: DataActor + Component</code>. Registration consumes the actor and stores it in the global registry.</p>
 <h3 id="thread-local-storage-pattern">Thread-Local Storage Pattern</h3>
 <p>The system uses thread-local storage for channel senders to avoid passing references through the call stack:</p>
-<p><strong>Invariants:</strong>
-- <code>bind_senders</code> must be called before any code that reads from TLS
-- The event loop and all TLS consumers must execute on the same thread
-- Senders are cloneable and <code>Send</code>, but TLS slots are not accessible from other threads</p>
+<p><strong>Invariants:</strong></p>
+<ul>
+<li><code>bind_senders</code> must be called before any code that reads from TLS</li>
+<li>The event loop and all TLS consumers must execute on the same thread</li>
+<li>Senders are cloneable and <code>Send</code>, but TLS slots are not accessible from other threads</li>
+</ul>
 <h2 id="engine-architecture">Engine Architecture</h2>
 <h3 id="three-main-engines">Three Main Engines</h3>
 <p>The kernel orchestrates three main engines:</p>
@@ -3326,10 +3328,12 @@
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">trader</span><span class="p">:</span><span class="w"> </span><span class="nc">Rc</span><span class="o">&lt;</span><span class="n">RefCell</span><span class="o">&lt;</span><span class="n">Trader</span><span class="o">&gt;&gt;</span><span class="p">,</span>
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><strong>Engine lifecycle:</strong>
-- All engines are started sequentially: <code>data_engine</code>, <code>exec_engine</code>, <code>risk_engine</code>
-- Engines use <code>Rc&lt;RefCell&lt;..&gt;&gt;</code> for mutable access on the same thread
-- No inter-engine synchronization needed (single-threaded)</p>
+<p><strong>Engine lifecycle:</strong></p>
+<ul>
+<li>All engines are started sequentially: <code>data_engine</code>, <code>exec_engine</code>, <code>risk_engine</code></li>
+<li>Engines use <code>Rc&lt;RefCell&lt;..&gt;&gt;</code> for mutable access on the same thread</li>
+<li>No inter-engine synchronization needed (single-threaded)</li>
+</ul>
 <h3 id="maintenance-scheduling">Maintenance Scheduling</h3>
 <p>Six periodic tasks share a single coarse <code>maintenance_timer</code> (100ms interval):</p>
 <ol>
@@ -3458,10 +3462,12 @@
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><strong>Use cases:</strong>
-- Message bus handlers processing events
-- Callback invocations from Rust to Python
-- Direct synchronous operations</p>
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Message bus handlers processing events</li>
+<li>Callback invocations from Rust to Python</li>
+<li>Direct synchronous operations</li>
+</ul>
 <h4 id="cross-thread-processing">Cross-Thread Processing</h4>
 <p>For operations that need to run on Python's event loop, the system uses <code>call_soon_threadsafe</code>:</p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// crates/core/src/python/mod.rs</span>
@@ -3476,10 +3482,12 @@
 </span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><strong>Use cases:</strong>
-- Scheduling callbacks on Python's asyncio event loop
-- Cross-thread communication from Tokio tasks to Python
-- Deferring work to Python's thread</p>
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Scheduling callbacks on Python's asyncio event loop</li>
+<li>Cross-thread communication from Tokio tasks to Python</li>
+<li>Deferring work to Python's thread</li>
+</ul>
 <h3 id="gil-global-interpreter-lock-management">GIL (Global Interpreter Lock) Management</h3>
 <p>The system implements strategic GIL handling to maximize concurrency:</p>
 <h4 id="gil-release-for-blocking-operations">GIL Release for Blocking Operations</h4>
