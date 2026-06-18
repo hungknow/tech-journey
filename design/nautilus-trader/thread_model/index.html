@@ -1,0 +1,3764 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../../rust/rust_zero_copy/">
+      
+      
+        <link rel="next" href="../crates/risk/risk/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Thread Model - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#threading-and-task-management-model" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Thread Model
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../sql/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../spacedrive/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spacedrive
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../rust/rust_apache_arrow/" class="md-tabs__link">
+          
+  
+  
+  Rust
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Nautilus Trader
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spacedrive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spacedrive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rust
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rust
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_apache_arrow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arrow-Based CSV Data Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_csv_cython/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cython CSV Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_zero_cost_async/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero-cost Async
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_zero_copy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero Copy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nautilus Trader
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nautilus Trader
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thread Model
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thread Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filetree-skeleton-files-for-threading-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filetree: Skeleton Files for Threading Management
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-threading-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Threading Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Threading Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-threaded-async-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single-Threaded Async Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-loop-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event Loop Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-distribution-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Distribution Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Distribution Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sequential-cooperative-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequential (Cooperative) Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-true-parallelism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No True Parallelism
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concurrent-io-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concurrent I/O Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actor-model-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actor Model Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actor Model Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-actor-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Actor Registry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thread-local-storage-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thread-Local Storage Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#engine-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engine Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Engine Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-main-engines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three Main Engines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maintenance-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maintenance Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-distribution-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Distribution Mechanisms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Distribution Mechanisms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#message-bus-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message Bus Routing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-communication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Channel Communication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#actor-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actor Messaging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Characteristics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trade-offs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary Table
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-rust-interoperability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python-Rust Interoperability
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Python-Rust Interoperability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyo3-bindings-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PyO3 Bindings Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#threading-model-for-python-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threading Model for Python Calls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Threading Model for Python Calls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#same-thread-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Same-Thread Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-thread-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Thread Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gil-global-interpreter-lock-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GIL (Global Interpreter Lock) Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GIL (Global Interpreter Lock) Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gil-release-for-blocking-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GIL Release for Blocking Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gil-acquisition-for-callbacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GIL Acquisition for Callbacks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async-integration-with-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Async Integration with Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-rust-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python → Rust Data Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rust-python-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rust → Python Data Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#streaming-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Streaming Infrastructure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Streaming Infrastructure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#websocket-stream-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WebSocket Stream Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stream-backend-abstraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stream Backend Abstraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket-client-threading-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WebSocket Client Threading Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WebSocket Client Threading Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reader-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reader Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writer-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writer Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#controller-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controller Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stream-processing-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stream Processing Priority
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-bus-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message Bus Streaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP Streaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adapter-specific-streaming-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adapter-Specific Streaming Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtime Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Runtime Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tokio-runtime-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tokio Runtime Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async-task-spawning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Async Task Spawning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-threading-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Threading Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complete Threading Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#thread-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thread Allocation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-rust-interop-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python-Rust Interop Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stream-processing-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stream Processing Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-architecture-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Architecture Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Crates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/risk/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_2" id="__nav_6_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Execution
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Execution
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/order_manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/matching_engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/matching_core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/order_emulator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Emulator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/reconciliation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reconciliation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/tradingchart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trading Chart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/trade_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trade Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/quote_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quote Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/order_book/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/fill_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fill Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/simulated_exchange/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulated Exchange
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/model_ddd_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model DDD File
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../python-rust-ffi-streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python-Rust FFI Streaming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filetree-skeleton-files-for-threading-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filetree: Skeleton Files for Threading Management
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-threading-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Threading Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Threading Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-threaded-async-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single-Threaded Async Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-loop-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event Loop Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-distribution-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Distribution Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Distribution Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sequential-cooperative-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequential (Cooperative) Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-true-parallelism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No True Parallelism
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concurrent-io-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concurrent I/O Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actor-model-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actor Model Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actor Model Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-actor-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Actor Registry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thread-local-storage-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thread-Local Storage Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#engine-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engine Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Engine Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#three-main-engines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Three Main Engines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maintenance-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maintenance Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-distribution-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Distribution Mechanisms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Distribution Mechanisms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#message-bus-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message Bus Routing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-communication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Channel Communication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#actor-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actor Messaging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Characteristics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trade-offs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trade-offs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary Table
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-rust-interoperability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python-Rust Interoperability
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Python-Rust Interoperability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyo3-bindings-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PyO3 Bindings Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#threading-model-for-python-calls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threading Model for Python Calls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Threading Model for Python Calls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#same-thread-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Same-Thread Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-thread-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Thread Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gil-global-interpreter-lock-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GIL (Global Interpreter Lock) Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GIL (Global Interpreter Lock) Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gil-release-for-blocking-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GIL Release for Blocking Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gil-acquisition-for-callbacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GIL Acquisition for Callbacks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async-integration-with-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Async Integration with Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-rust-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python → Rust Data Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rust-python-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rust → Python Data Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#streaming-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Streaming Infrastructure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Streaming Infrastructure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#websocket-stream-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WebSocket Stream Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stream-backend-abstraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stream Backend Abstraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket-client-threading-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WebSocket Client Threading Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WebSocket Client Threading Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reader-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reader Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#writer-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writer Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#controller-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controller Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stream-processing-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stream Processing Priority
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-bus-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message Bus Streaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP Streaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adapter-specific-streaming-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adapter-Specific Streaming Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtime Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Runtime Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tokio-runtime-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tokio Runtime Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async-task-spawning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Async Task Spawning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-threading-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Threading Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complete Threading Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#thread-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thread Allocation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-rust-interop-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python-Rust Interop Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stream-processing-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stream Processing Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-architecture-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Architecture Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="threading-and-task-management-model">Threading and Task Management Model</h1>
+<h2 id="overview">Overview</h2>
+<p>Nautilus Trader implements a <strong>single-threaded cooperative multitasking</strong> architecture using Tokio's <code>current_thread</code> runtime. This design prioritizes determinism, low latency, and simplicity over CPU parallelism. All components run on a single thread using cooperative scheduling through async/await and message passing. The system also provides Python bindings via PyO3 with sophisticated threading management for cross-language interoperability.</p>
+<h2 id="filetree-skeleton-files-for-threading-management">Filetree: Skeleton Files for Threading Management</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>crates/
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── common/
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   └── src/
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│       ├── actor/
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│       │   ├── data_actor.rs         # Data actor trait definition
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│       │   └── registry.rs            # Global actor registry
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│       ├── msgbus/
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│       │   ├── mod.rs                 # Message bus core
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│       │   ├── switchboard.rs         # Topic routing
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│       │   └── typed_handler.rs       # Typed message handlers
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│       └── python/
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│           └── msgbus.rs              # Python message bus bindings
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>├── live/
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│   └── src/
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│       ├── config.rs                  # Runtime configuration and validation
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│       ├── node.rs                    # Main event loop orchestration
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>│       └── runner.rs                  # AsyncRunner event loop implementation
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>├── system/
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>│   └── src/
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>│       ├── kernel.rs                  # System kernel and engine management
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>│       └── trader.rs                  # Actor and strategy lifecycle management
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>├── data/
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│   └── src/
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>│       └── engine/
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>│           └── mod.rs                 # Data engine implementation
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>├── execution/
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>│   └── src/
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>│       └── engine/
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>│           └── mod.rs                 # Execution engine implementation
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>├── risk/
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>│   └── src/
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>│       └── engine/
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>│           └── mod.rs                 # Risk engine implementation
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>├── network/
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>│   ├── src/
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>│   │   ├── transport/
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>│   │   │   └── stream.rs              # WebSocket stream transport trait
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>│   │   ├── websocket/
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>│   │   │   ├── types.rs               # WebSocket stream types
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>│   │   │   └── client.rs              # WebSocket client with reader/writer tasks
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>│   │   └── python/
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>│   │       ├── websocket.rs           # Python WebSocket bindings
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>│   │       └── http.rs                # Python HTTP bindings (with GIL release)
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>├── core/
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>│   └── src/
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>│       └── python/
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>│           └── mod.rs                 # Core Python interop utilities
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>└── pyo3/
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>    └── src/
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>        └── lib.rs                     # PyO3 module aggregator
+</span></code></pre></div>
+<h2 id="core-threading-model">Core Threading Model</h2>
+<h3 id="single-threaded-async-runtime">Single-Threaded Async Runtime</h3>
+<p>The system uses <code>tokio::runtime::Builder::new_current_thread()</code> to create a single-threaded runtime. All components use <code>Rc&lt;RefCell&lt;..&gt;&gt;</code> instead of thread-safe <code>Arc&lt;Mutex&lt;..&gt;&gt;</code> and are explicitly marked as <code>!Send</code> (cannot be moved between threads).</p>
+<p><strong>Key characteristics:</strong>
+- All access happens on the same thread
+- No synchronization primitives needed (zero lock contention)
+- Deterministic performance with predictable latency patterns
+- Cache locality benefits from single-threaded execution</p>
+<h3 id="event-loop-architecture">Event Loop Architecture</h3>
+<p>The <code>AsyncRunner</code> in <code>runner.rs</code> manages the core event loop using a <code>tokio::select!</code> macro with biased selection. This loop multiplexes five key channel pairs:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">AsyncRunnerChannels</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">time_evt_rx</span><span class="p">:</span><span class="w"> </span><span class="nc">tokio</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">mpsc</span><span class="p">::</span><span class="n">UnboundedReceiver</span><span class="o">&lt;</span><span class="n">TimeEventHandler</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">exec_evt_rx</span><span class="p">:</span><span class="w"> </span><span class="nc">tokio</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">mpsc</span><span class="p">::</span><span class="n">UnboundedReceiver</span><span class="o">&lt;</span><span class="n">ExecutionEvent</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">exec_cmd_rx</span><span class="p">:</span><span class="w"> </span><span class="nc">tokio</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">mpsc</span><span class="p">::</span><span class="n">UnboundedReceiver</span><span class="o">&lt;</span><span class="n">TradingCommand</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">data_evt_rx</span><span class="p">:</span><span class="w"> </span><span class="nc">tokio</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">mpsc</span><span class="p">::</span><span class="n">UnboundedReceiver</span><span class="o">&lt;</span><span class="n">DataEvent</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">data_cmd_rx</span><span class="p">:</span><span class="w"> </span><span class="nc">tokio</span><span class="p">::</span><span class="n">sync</span><span class="p">::</span><span class="n">mpsc</span><span class="p">::</span><span class="n">UnboundedReceiver</span><span class="o">&lt;</span><span class="n">DataCommand</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Event processing priority (biased select):</strong></p>
+<ol>
+<li><strong>Signal branches first</strong> - SIGINT and stop signals always checked</li>
+<li><strong>Maintenance dispatcher</strong> - Reconciliation, purging, pruning, auditing</li>
+<li><strong>Execution commands</strong> - Prioritized over data events</li>
+<li><strong>Data events and commands</strong> - Market data and subscriptions</li>
+</ol>
+<p>The <code>select!</code> macro runs one branch to completion (including inner awaits) before polling the next, ensuring <code>RefCell</code> borrows held across <code>.await</code> points within a single branch cannot conflict with borrows in other branches.</p>
+<h2 id="task-distribution-model">Task Distribution Model</h2>
+<h3 id="sequential-cooperative-operations">Sequential (Cooperative) Operations</h3>
+<p>The following tasks are processed <strong>sequentially in order</strong>:</p>
+<ol>
+<li><strong>Message bus operations</strong></li>
+<li>All message dispatch is immediate and sequential</li>
+<li>Messages are processed in the order they are received</li>
+<li>
+<p>No concurrent message processing</p>
+</li>
+<li>
+<p><strong>Engine operations</strong></p>
+</li>
+<li>Data engine: Sequential event processing</li>
+<li>Execution engine: Sequential command handling</li>
+<li>Risk engine: Sequential risk checks</li>
+<li>
+<p>All engines share the same event loop</p>
+</li>
+<li>
+<p><strong>Actor message handling</strong></p>
+</li>
+<li>Each actor processes messages sequentially</li>
+<li>Actors are type-erased and registered globally</li>
+<li>
+<p>No parallel actor execution</p>
+</li>
+<li>
+<p><strong>Timer callbacks</strong></p>
+</li>
+<li>Prioritized in the select loop</li>
+<li>Single maintenance timer for all periodic tasks</li>
+<li>Tasks fire when their deadline has passed</li>
+</ol>
+<h3 id="no-true-parallelism">No True Parallelism</h3>
+<p>The system does <strong>not</strong> support parallel execution for:
+- CPU-bound tasks (no thread pool)
+- Message processing (sequential only)
+- Actor execution (one at a time)
+- Engine operations (shared event loop)</p>
+<h3 id="concurrent-io-operations">Concurrent I/O Operations</h3>
+<p>The system supports <strong>concurrent I/O</strong> through async operations:
+- Network operations (WebSocket connections, HTTP requests)
+- Database operations (persistence, event storage)
+- File I/O (configuration, logs)</p>
+<p>All I/O callbacks run on the same thread when they complete, maintaining the single-threaded invariant.</p>
+<h2 id="actor-model-implementation">Actor Model Implementation</h2>
+<h3 id="global-actor-registry">Global Actor Registry</h3>
+<p>The system uses a global actor registry with type-erased actors managed through <code>Trader</code>:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">Trader</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">actor_ids</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">ActorId</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">strategy_ids</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">StrategyId</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">exec_algorithm_ids</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">ExecAlgorithmId</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Actors are registered using <code>add_actor&lt;T&gt;()</code> where <code>T: DataActor + Component</code>. Registration consumes the actor and stores it in the global registry.</p>
+<h3 id="thread-local-storage-pattern">Thread-Local Storage Pattern</h3>
+<p>The system uses thread-local storage for channel senders to avoid passing references through the call stack:</p>
+<p><strong>Invariants:</strong>
+- <code>bind_senders</code> must be called before any code that reads from TLS
+- The event loop and all TLS consumers must execute on the same thread
+- Senders are cloneable and <code>Send</code>, but TLS slots are not accessible from other threads</p>
+<h2 id="engine-architecture">Engine Architecture</h2>
+<h3 id="three-main-engines">Three Main Engines</h3>
+<p>The kernel orchestrates three main engines:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">NautilusKernel</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">data_engine</span><span class="p">:</span><span class="w"> </span><span class="nc">Rc</span><span class="o">&lt;</span><span class="n">RefCell</span><span class="o">&lt;</span><span class="n">DataEngine</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">risk_engine</span><span class="p">:</span><span class="w"> </span><span class="nc">Rc</span><span class="o">&lt;</span><span class="n">RefCell</span><span class="o">&lt;</span><span class="n">RiskEngine</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">exec_engine</span><span class="p">:</span><span class="w"> </span><span class="nc">Rc</span><span class="o">&lt;</span><span class="n">RefCell</span><span class="o">&lt;</span><span class="n">ExecutionEngine</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">order_emulator</span><span class="p">:</span><span class="w"> </span><span class="nc">OrderEmulatorAdapter</span><span class="p">,</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">trader</span><span class="p">:</span><span class="w"> </span><span class="nc">Rc</span><span class="o">&lt;</span><span class="n">RefCell</span><span class="o">&lt;</span><span class="n">Trader</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Engine lifecycle:</strong>
+- All engines are started sequentially: <code>data_engine</code>, <code>exec_engine</code>, <code>risk_engine</code>
+- Engines use <code>Rc&lt;RefCell&lt;..&gt;&gt;</code> for mutable access on the same thread
+- No inter-engine synchronization needed (single-threaded)</p>
+<h3 id="maintenance-scheduling">Maintenance Scheduling</h3>
+<p>Six periodic tasks share a single coarse <code>maintenance_timer</code> (100ms interval):</p>
+<ol>
+<li>Reconciliation (inflight, open, position sub-checks)</li>
+<li>Purge closed orders</li>
+<li>Purge closed positions</li>
+<li>Purge account events</li>
+<li>Own-books audit</li>
+<li>Recent-fills cache prune</li>
+</ol>
+<p>Each task tracks its own <code>next_fire: Instant</code> and the dispatcher fires tasks whose deadline has passed.</p>
+<h2 id="task-distribution-mechanisms">Task Distribution Mechanisms</h2>
+<h3 id="message-bus-routing">Message Bus Routing</h3>
+<p>The system uses a centralized message bus with:
+- <strong>Pub/Sub pattern</strong>: Components subscribe to specific message types
+- <strong>Typed endpoints</strong>: Strongly typed message handlers
+- <strong>Switchboard routing</strong>: Centralized topic management</p>
+<h3 id="channel-communication">Channel Communication</h3>
+<ul>
+<li><strong>Unbounded channels</strong>: High-throughput event processing</li>
+<li><strong>Biased select</strong>: Critical messages prioritized (exec commands over data)</li>
+<li><strong>No backpressure</strong>: By design (unbounded channels)</li>
+</ul>
+<h3 id="actor-messaging">Actor Messaging</h3>
+<p>Actors communicate through:
+- <strong>Type-erased handlers</strong>: <code>TypedHandler&lt;T&gt;</code> for specific message types
+- <strong>Global registry</strong>: Thread-local storage for actor lookup
+- <strong>Direct dispatch</strong>: Message bus routes to registered handlers</p>
+<h2 id="performance-characteristics">Performance Characteristics</h2>
+<h3 id="advantages">Advantages</h3>
+<ol>
+<li><strong>Zero lock contention</strong>: No synchronization primitives needed</li>
+<li><strong>Deterministic performance</strong>: Predictable latency patterns</li>
+<li><strong>Cache locality</strong>: All data structures in CPU cache</li>
+<li><strong>Simpler debugging</strong>: No race conditions or deadlocks</li>
+<li><strong>Lower overhead</strong>: No context switching or thread management</li>
+</ol>
+<h3 id="trade-offs">Trade-offs</h3>
+<ol>
+<li><strong>Limited CPU utilization</strong>: Single core only</li>
+<li><strong>Blocking operations</strong>: Must be async to avoid blocking the thread</li>
+<li><strong>No CPU parallelism</strong>: Cannot parallelize CPU-intensive tasks</li>
+</ol>
+<h2 id="summary-table">Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Threading Model</strong></td>
+<td>Single-threaded cooperative multitasking</td>
+</tr>
+<tr>
+<td><strong>Runtime</strong></td>
+<td>Tokio <code>current_thread</code> flavor</td>
+</tr>
+<tr>
+<td><strong>Scheduler</strong></td>
+<td>Cooperative async/await</td>
+</tr>
+<tr>
+<td><strong>Synchronization</strong></td>
+<td>None (by design)</td>
+</tr>
+<tr>
+<td><strong>Message Passing</strong></td>
+<td>Channel-based (unbounded mpsc)</td>
+</tr>
+<tr>
+<td><strong>Component Access</strong></td>
+<td><code>Rc&lt;RefCell&lt;..&gt;&gt;</code> (not thread-safe)</td>
+</tr>
+<tr>
+<td><strong>Task Distribution</strong></td>
+<td>Event-driven, message-based</td>
+</tr>
+<tr>
+<td><strong>Parallel Execution</strong></td>
+<td>None (sequential processing)</td>
+</tr>
+<tr>
+<td><strong>Concurrent I/O</strong></td>
+<td>Yes (async I/O, single-threaded)</td>
+</tr>
+<tr>
+<td><strong>Tasks Processed In Order</strong></td>
+<td>Message bus, engines, actors, timers</td>
+</tr>
+<tr>
+<td><strong>Tasks Processed In Parallel</strong></td>
+<td>None (no CPU parallelism)</td>
+</tr>
+<tr>
+<td><strong>Concurrent I/O Operations</strong></td>
+<td>Network, database, file I/O</td>
+</tr>
+</tbody>
+</table>
+<p>This architecture is well-suited for high-frequency trading systems where low latency and deterministic behavior are more important than CPU parallelism.</p>
+<h2 id="python-rust-interoperability">Python-Rust Interoperability</h2>
+<h3 id="pyo3-bindings-architecture">PyO3 Bindings Architecture</h3>
+<p>Nautilus Trader provides Python bindings through PyO3, enabling Python code to call Rust logic efficiently. The main entry point is <code>/Users/hung/work/nautilus_trader/crates/pyo3/src/lib.rs</code> which aggregates all Python submodules:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#[pymodule]</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">fn</span><span class="w"> </span><span class="nf">_libnautilus</span><span class="p">(</span><span class="n">py</span><span class="p">:</span><span class="w"> </span><span class="nc">Python</span><span class="o">&lt;&#39;</span><span class="nb">_</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Bound</span><span class="o">&lt;&#39;</span><span class="nb">_</span><span class="p">,</span><span class="w"> </span><span class="n">PyModule</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">PyResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="c1">// Registers multiple submodules from different crates</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">submodule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pyo3</span><span class="p">::</span><span class="n">wrap_pymodule</span><span class="o">!</span><span class="p">(</span><span class="n">nautilus_core</span><span class="p">::</span><span class="n">python</span><span class="p">::</span><span class="n">core</span><span class="p">);</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">m</span><span class="p">.</span><span class="n">add_wrapped</span><span class="p">(</span><span class="n">submodule</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="c1">// ... similar for all other crates</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="threading-model-for-python-calls">Threading Model for Python Calls</h3>
+<h4 id="same-thread-processing">Same-Thread Processing</h4>
+<p>For operations that can run on the current thread, the system uses <code>Python::attach</code>:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// crates/core/src/python/mod.rs</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">call_python</span><span class="p">(</span><span class="n">py</span><span class="p">:</span><span class="w"> </span><span class="nc">Python</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Py</span><span class="o">&lt;</span><span class="n">PyAny</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">py_obj</span><span class="p">:</span><span class="w"> </span><span class="nc">Py</span><span class="o">&lt;</span><span class="n">PyAny</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Err</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">callback</span><span class="p">.</span><span class="n">call1</span><span class="p">(</span><span class="n">py</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">py_obj</span><span class="p">,))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">        </span><span class="n">log</span><span class="p">::</span><span class="n">error</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;Error calling Python: {e}&quot;</span><span class="p">);</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Use cases:</strong>
+- Message bus handlers processing events
+- Callback invocations from Rust to Python
+- Direct synchronous operations</p>
+<h4 id="cross-thread-processing">Cross-Thread Processing</h4>
+<p>For operations that need to run on Python's event loop, the system uses <code>call_soon_threadsafe</code>:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// crates/core/src/python/mod.rs</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">call_python_threadsafe</span><span class="p">(</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">py</span><span class="p">:</span><span class="w"> </span><span class="nc">Python</span><span class="p">,</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="n">call_soon</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Py</span><span class="o">&lt;</span><span class="n">PyAny</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="n">callback</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Py</span><span class="o">&lt;</span><span class="n">PyAny</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="n">py_obj</span><span class="p">:</span><span class="w"> </span><span class="nc">Py</span><span class="o">&lt;</span><span class="n">PyAny</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Err</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">call_soon</span><span class="p">.</span><span class="n">call1</span><span class="p">(</span><span class="n">py</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">callback</span><span class="p">,</span><span class="w"> </span><span class="n">py_obj</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">        </span><span class="n">log</span><span class="p">::</span><span class="n">error</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;Error scheduling Python callback on event loop: {e}&quot;</span><span class="p">);</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Use cases:</strong>
+- Scheduling callbacks on Python's asyncio event loop
+- Cross-thread communication from Tokio tasks to Python
+- Deferring work to Python's thread</p>
+<h3 id="gil-global-interpreter-lock-management">GIL (Global Interpreter Lock) Management</h3>
+<p>The system implements strategic GIL handling to maximize concurrency:</p>
+<h4 id="gil-release-for-blocking-operations">GIL Release for Blocking Operations</h4>
+<p>For blocking I/O operations, the GIL is released to allow other Python threads to run:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// crates/network/src/python/http.rs</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">http_get</span><span class="p">(</span><span class="n">py</span><span class="p">:</span><span class="w"> </span><span class="nc">Python</span><span class="o">&lt;&#39;</span><span class="nb">_</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">url</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="o">..</span><span class="p">.)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">PyResult</span><span class="o">&lt;</span><span class="n">HttpResponse</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="c1">// Release the GIL while blocking on the request</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">py</span><span class="p">.</span><span class="n">detach</span><span class="p">(</span><span class="o">||</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">        </span><span class="n">join_blocking_http_thread</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">thread</span><span class="p">::</span><span class="n">spawn</span><span class="p">(</span><span class="k">move</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">runtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocking_http_runtime</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">            </span><span class="n">runtime</span><span class="p">.</span><span class="n">block_on</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">                </span><span class="c1">// HTTP request processing</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">            </span><span class="p">})</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">        </span><span class="p">}))</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="p">})</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Thread used:</strong> Dedicated blocking thread spawned for the HTTP request</p>
+<h4 id="gil-acquisition-for-callbacks">GIL Acquisition for Callbacks</h4>
+<p>When Rust calls back into Python, the GIL is acquired:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">// crates/common/src/python/msgbus.rs</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">impl</span><span class="w"> </span><span class="n">Handler</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">Any</span><span class="o">&gt;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">PyCallableHandler</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">dyn</span><span class="w"> </span><span class="n">Any</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">py_msg</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">downcast_ref</span><span class="p">::</span><span class="o">&lt;</span><span class="n">PyMessage</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">            </span><span class="n">Python</span><span class="p">::</span><span class="n">attach</span><span class="p">(</span><span class="o">|</span><span class="n">py</span><span class="o">|</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Err</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">callable</span><span class="p">.</span><span class="n">call1</span><span class="p">(</span><span class="n">py</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="o">&amp;</span><span class="n">py_msg</span><span class="p">.</span><span class="mi">0</span><span class="p">,))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">                    </span><span class="n">log</span><span class="p">::</span><span class="n">error</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;Python handler {id} failed: {e}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">id</span><span class="p">);</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">                </span><span class="p">}</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">            </span><span class="p">});</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Thread used:</strong> Current Tokio event loop thread (single-threaded runtime)</p>
+<h3 id="async-integration-with-python">Async Integration with Python</h3>
+<p>The system uses <code>pyo3_async_runtimes</code> for seamless async/await integration:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">// crates/network/src/python/websocket.rs</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="cp">#[staticmethod]</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="k">fn</span><span class="w"> </span><span class="nf">py_connect</span><span class="p">(</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="n">loop_</span><span class="p">:</span><span class="w"> </span><span class="nc">Py</span><span class="o">&lt;</span><span class="n">PyAny</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="nc">WebSocketConfig</span><span class="p">,</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="n">handler</span><span class="p">:</span><span class="w"> </span><span class="nc">Py</span><span class="o">&lt;</span><span class="n">PyAny</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="n">py</span><span class="p">:</span><span class="w"> </span><span class="nc">Python</span><span class="o">&lt;&#39;</span><span class="nb">_</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">PyResult</span><span class="o">&lt;</span><span class="n">Bound</span><span class="o">&lt;&#39;</span><span class="nb">_</span><span class="p">,</span><span class="w"> </span><span class="n">PyAny</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">call_soon_threadsafe</span><span class="p">:</span><span class="w"> </span><span class="nc">Py</span><span class="o">&lt;</span><span class="n">PyAny</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loop_</span><span class="p">.</span><span class="n">getattr</span><span class="p">(</span><span class="n">py</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;call_soon_threadsafe&quot;</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="n">pyo3_async_runtimes</span><span class="p">::</span><span class="n">tokio</span><span class="p">::</span><span class="n">future_into_py</span><span class="p">(</span><span class="n">py</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="k">move</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">        </span><span class="nb">Box</span><span class="p">::</span><span class="n">pin</span><span class="p">(</span><span class="bp">Self</span><span class="p">::</span><span class="n">connect</span><span class="p">(</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">            </span><span class="n">config</span><span class="p">,</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">            </span><span class="nb">Some</span><span class="p">(</span><span class="n">message_handler</span><span class="p">),</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">            </span><span class="n">ping_handler_fn</span><span class="p">,</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">            </span><span class="n">post_reconnection_fn</span><span class="p">,</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">        </span><span class="p">))</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">        </span><span class="p">.</span><span class="k">await</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">        </span><span class="p">.</span><span class="n">map_err</span><span class="p">(</span><span class="n">to_websocket_pyerr</span><span class="p">)</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">    </span><span class="p">})</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Thread used:</strong> Tokio event loop thread (single-threaded runtime)</p>
+<h3 id="python-rust-data-flow">Python → Rust Data Flow</h3>
+<ol>
+<li>Python calls PyO3-exposed methods</li>
+<li>PyO3 converts Python types to Rust types</li>
+<li>Rust processes the request (often async on Tokio runtime)</li>
+<li>Results converted back to Python via <code>pyo3_async_runtimes</code></li>
+</ol>
+<p><strong>Thread:</strong> Tokio event loop thread (single-threaded runtime)</p>
+<h3 id="rust-python-data-flow">Rust → Python Data Flow</h3>
+<ol>
+<li>Rust code generates events/data</li>
+<li>Data wrapped in <code>PyMessage</code> for Python consumption</li>
+<li><code>Python::attach</code> acquires GIL and calls Python callbacks</li>
+<li>Python handlers receive processed data via <code>call_soon_threadsafe</code></li>
+</ol>
+<p><strong>Thread:</strong> Tokio event loop thread (single-threaded runtime)</p>
+<h2 id="streaming-infrastructure">Streaming Infrastructure</h2>
+<h3 id="websocket-stream-architecture">WebSocket Stream Architecture</h3>
+<p>The system provides WebSocket streaming with a split architecture:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">// crates/network/src/websocket/types.rs</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">use</span><span class="w"> </span><span class="n">futures_util</span><span class="p">::</span><span class="n">stream</span><span class="p">::{</span><span class="n">SplitSink</span><span class="p">,</span><span class="w"> </span><span class="n">SplitStream</span><span class="p">};</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="sd">/// Stream half of the active WebSocket transport.</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">pub</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">MessageReader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SplitStream</span><span class="o">&lt;</span><span class="n">BoxedWsTransport</span><span class="o">&gt;</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="stream-backend-abstraction">Stream Backend Abstraction</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// crates/network/src/transport/stream.rs</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">trait</span><span class="w"> </span><span class="n">WsTransport</span><span class="p">:</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="nc">Stream</span><span class="o">&lt;</span><span class="n">Item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="n">Message</span><span class="p">,</span><span class="w"> </span><span class="n">TransportError</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="o">+</span><span class="w"> </span><span class="n">Sink</span><span class="o">&lt;</span><span class="n">Message</span><span class="p">,</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TransportError</span><span class="o">&gt;</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="o">+</span><span class="w"> </span><span class="nb">Send</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="o">+</span><span class="w"> </span><span class="nb">Unpin</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="p">{</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Thread safety:</strong> Stream trait requires <code>Send</code>, but actual execution happens on Tokio runtime thread</p>
+<h3 id="websocket-client-threading-model">WebSocket Client Threading Model</h3>
+<p>The WebSocket client uses a multi-task architecture:</p>
+<h4 id="reader-task">Reader Task</h4>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">tokio</span><span class="p">::</span><span class="n">task</span><span class="p">::</span><span class="n">spawn</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="k">move</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="c1">// Processes incoming WebSocket messages</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="nb">Ok</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">next</span><span class="p">().</span><span class="k">await</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">        </span><span class="c1">// Process message and call Python handler</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">});</span>
+</span></code></pre></div>
+<p><strong>Thread used:</strong> Tokio event loop thread (single-threaded runtime)</p>
+<h4 id="writer-task">Writer Task</h4>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">tokio</span><span class="p">::</span><span class="n">task</span><span class="p">::</span><span class="n">spawn</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="k">move</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="c1">// Handles outgoing messages</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">receiver</span><span class="p">.</span><span class="n">recv</span><span class="p">().</span><span class="k">await</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">        </span><span class="c1">// Send message through WebSocket</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="p">});</span>
+</span></code></pre></div>
+<p><strong>Thread used:</strong> Tokio event loop thread (single-threaded runtime)</p>
+<h4 id="controller-task">Controller Task</h4>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">tokio</span><span class="p">::</span><span class="n">task</span><span class="p">::</span><span class="n">spawn</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="k">move</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="c1">// Manages connection state and reconnection</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="c1">// Heartbeat handling</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="c1">// Rate limiting</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="p">});</span>
+</span></code></pre></div>
+<p><strong>Thread used:</strong> Tokio event loop thread (single-threaded runtime)</p>
+<h3 id="stream-processing-priority">Stream Processing Priority</h3>
+<p>All WebSocket stream tasks run cooperatively on the single Tokio event loop thread:
+- <strong>Reader task</strong>: Processes incoming messages as they arrive
+- <strong>Writer task</strong>: Sends messages from the command channel
+- <strong>Controller task</strong>: Periodic maintenance (heartbeat, reconnection)</p>
+<p>Tasks are scheduled cooperatively through <code>tokio::select!</code> and await points, with no true parallelism.</p>
+<h3 id="message-bus-streaming">Message Bus Streaming</h3>
+<p>The Python message bus supports streaming patterns:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">// crates/common/src/python/msgbus.rs</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">PyMessageBus</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="n">listeners</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Py</span><span class="o">&lt;</span><span class="n">PyAny</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="n">streaming_types</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Py</span><span class="o">&lt;</span><span class="n">PyAny</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="n">correlation_index</span><span class="p">:</span><span class="w"> </span><span class="nc">AHashMap</span><span class="o">&lt;</span><span class="n">UUID4</span><span class="p">,</span><span class="w"> </span><span class="n">Py</span><span class="o">&lt;</span><span class="n">PyAny</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="p">}</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="k">impl</span><span class="w"> </span><span class="n">PyMessageBus</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">py_publish</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">py</span><span class="p">:</span><span class="w"> </span><span class="nc">Python</span><span class="o">&lt;&#39;</span><span class="nb">_</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">topic</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">:</span><span class="w"> </span><span class="nc">Py</span><span class="o">&lt;</span><span class="n">PyAny</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">external_pub</span><span class="p">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">PyResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">py_msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyMessage</span><span class="p">(</span><span class="n">msg</span><span class="p">.</span><span class="n">clone_ref</span><span class="p">(</span><span class="n">py</span><span class="p">));</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">        </span><span class="n">msgbus_api</span><span class="p">::</span><span class="n">publish_any</span><span class="p">(</span><span class="n">topic_mstr</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">py_msg</span><span class="p">);</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">external_pub</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">            </span><span class="bp">self</span><span class="p">.</span><span class="n">publish_external</span><span class="p">(</span><span class="n">py</span><span class="p">,</span><span class="w"> </span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">msg</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">pub_count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="w">        </span><span class="nb">Ok</span><span class="p">(())</span>
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Thread used:</strong> Tokio event loop thread (single-threaded runtime)</p>
+<h3 id="http-streaming">HTTP Streaming</h3>
+<p>For HTTP requests, the system uses dedicated blocking threads:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1">// crates/network/src/python/http.rs</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">http_get</span><span class="p">(</span><span class="n">py</span><span class="p">:</span><span class="w"> </span><span class="nc">Python</span><span class="o">&lt;&#39;</span><span class="nb">_</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">url</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="o">..</span><span class="p">.)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">PyResult</span><span class="o">&lt;</span><span class="n">HttpResponse</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="n">py</span><span class="p">.</span><span class="n">detach</span><span class="p">(</span><span class="o">||</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">        </span><span class="n">join_blocking_http_thread</span><span class="p">(</span><span class="n">std</span><span class="p">::</span><span class="n">thread</span><span class="p">::</span><span class="n">spawn</span><span class="p">(</span><span class="k">move</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">runtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blocking_http_runtime</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">            </span><span class="n">runtime</span><span class="p">.</span><span class="n">block_on</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">                </span><span class="c1">// HTTP request processing</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">            </span><span class="p">})</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">        </span><span class="p">}))</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="p">})</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Thread used:</strong> Dedicated blocking thread (spawned per request)</p>
+<h3 id="adapter-specific-streaming-patterns">Adapter-Specific Streaming Patterns</h3>
+<p>Exchange adapters follow consistent patterns for shared state across async operations:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1">// crates/adapters/okx/src/python/websocket.rs</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="sd">//! Design Pattern: Clone and Share State</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="sd">//! The WebSocket client must be cloned for async operations because PyO3&#39;s `future_into_py`</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="sd">//! requires `&#39;static` futures (cannot borrow from `self`). To ensure clones share the same</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="sd">//! connection state, key fields use `Arc&lt;RwLock&lt;T&gt;&gt;`:</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="sd">//!</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="sd">//! - `inner: Arc&lt;RwLock&lt;Option&lt;WebSocketClient&gt;&gt;&gt;` - The WebSocket connection.</span>
+</span></code></pre></div>
+<p><strong>Thread used:</strong> Tokio event loop thread (single-threaded runtime)</p>
+<h2 id="runtime-management">Runtime Management</h2>
+<h3 id="tokio-runtime-configuration">Tokio Runtime Configuration</h3>
+<p>The system provides both production and simulation runtime support:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1">// crates/common/src/live/dst.rs</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">mod</span><span class="w"> </span><span class="nn">runtime</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="cp">#[cfg(not(all(feature = </span><span class="s">&quot;simulation&quot;</span><span class="cp">, madsim)))]</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">tokio</span><span class="p">::</span><span class="n">runtime</span><span class="p">::{</span><span class="n">Builder</span><span class="p">,</span><span class="w"> </span><span class="n">Handle</span><span class="p">,</span><span class="w"> </span><span class="n">Runtime</span><span class="p">};</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">    </span><span class="cp">#[cfg(all(feature = </span><span class="s">&quot;simulation&quot;</span><span class="cp">, madsim))]</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">    </span><span class="k">mod</span><span class="w"> </span><span class="nn">sim</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">        </span><span class="c1">// Simulated runtime for deterministic testing</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="async-task-spawning">Async Task Spawning</h3>
+<p>Extensive use of <code>tokio::task::spawn</code> for concurrent operations:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1">// crates/network/src/websocket/client.rs</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">tokio</span><span class="p">::</span><span class="n">task</span><span class="p">::</span><span class="n">spawn</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="k">move</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span><span class="c1">// Background tasks for connection management</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="c1">// Message processing</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">    </span><span class="c1">// Heartbeat handling</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">    </span><span class="c1">// Rate limiting</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="p">});</span>
+</span></code></pre></div>
+<p><strong>Thread used:</strong> Tokio event loop thread (single-threaded runtime)</p>
+<h2 id="complete-threading-summary">Complete Threading Summary</h2>
+<h3 id="thread-allocation">Thread Allocation</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Thread</th>
+<th>Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Core event loop</strong></td>
+<td>Single Tokio thread</td>
+<td>Cooperative multitasking</td>
+</tr>
+<tr>
+<td><strong>Message bus processing</strong></td>
+<td>Single Tokio thread</td>
+<td>Sequential</td>
+</tr>
+<tr>
+<td><strong>Engine operations</strong></td>
+<td>Single Tokio thread</td>
+<td>Sequential</td>
+</tr>
+<tr>
+<td><strong>WebSocket reader</strong></td>
+<td>Single Tokio thread</td>
+<td>Cooperative async</td>
+</tr>
+<tr>
+<td><strong>WebSocket writer</strong></td>
+<td>Single Tokio thread</td>
+<td>Cooperative async</td>
+</tr>
+<tr>
+<td><strong>WebSocket controller</strong></td>
+<td>Single Tokio thread</td>
+<td>Cooperative async</td>
+</tr>
+<tr>
+<td><strong>Python callbacks (same-thread)</strong></td>
+<td>Single Tokio thread</td>
+<td>GIL acquired</td>
+</tr>
+<tr>
+<td><strong>Python callbacks (cross-thread)</strong></td>
+<td>Python event loop thread</td>
+<td><code>call_soon_threadsafe</code></td>
+</tr>
+<tr>
+<td><strong>HTTP requests</strong></td>
+<td>Dedicated blocking thread</td>
+<td>Per-request spawn</td>
+</tr>
+<tr>
+<td><strong>Async I/O</strong></td>
+<td>Single Tokio thread</td>
+<td>Non-blocking</td>
+</tr>
+<tr>
+<td><strong>Adapter WebSocket</strong></td>
+<td>Single Tokio thread</td>
+<td>Cooperative async</td>
+</tr>
+</tbody>
+</table>
+<h3 id="python-rust-interop-summary">Python-Rust Interop Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Same-thread calls</strong></td>
+<td><code>Python::attach</code> on Tokio thread</td>
+</tr>
+<tr>
+<td><strong>Cross-thread calls</strong></td>
+<td><code>call_soon_threadsafe</code> on Python event loop</td>
+</tr>
+<tr>
+<td><strong>GIL handling</strong></td>
+<td>Released for blocking I/O, acquired for callbacks</td>
+</tr>
+<tr>
+<td><strong>Async integration</strong></td>
+<td><code>pyo3_async_runtimes::tokio</code></td>
+</tr>
+<tr>
+<td><strong>State sharing</strong></td>
+<td><code>Arc&lt;RwLock&lt;T&gt;&gt;</code> pattern</td>
+</tr>
+<tr>
+<td><strong>Callback thread</strong></td>
+<td>Tokio event loop thread (single-threaded)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="stream-processing-summary">Stream Processing Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Stream Type</th>
+<th>Reader Thread</th>
+<th>Writer Thread</th>
+<th>Controller Thread</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>WebSocket</strong></td>
+<td>Tokio thread</td>
+<td>Tokio thread</td>
+<td>Tokio thread</td>
+</tr>
+<tr>
+<td><strong>HTTP</strong></td>
+<td>Blocking thread</td>
+<td>Blocking thread</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><strong>Message bus</strong></td>
+<td>Tokio thread</td>
+<td>Tokio thread</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><strong>Async I/O</strong></td>
+<td>Tokio thread</td>
+<td>Tokio thread</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-architecture-points">Key Architecture Points</h3>
+<ol>
+<li><strong>Single-threaded Tokio runtime</strong> for core trading logic (deterministic, low-latency)</li>
+<li><strong>Dedicated blocking threads</strong> for HTTP requests (non-blocking for Tokio runtime)</li>
+<li><strong>GIL-aware design</strong> for Python interop (strategic release/acquisition)</li>
+<li><strong>Cooperative multitasking</strong> for all async operations (no true parallelism)</li>
+<li><strong>Split stream architecture</strong> for WebSocket (separate reader/writer tasks on same thread)</li>
+<li><strong>Cross-thread scheduling</strong> for Python event loop integration (<code>call_soon_threadsafe</code>)</li>
+<li><strong>Shared state via <code>Arc&lt;RwLock&lt;T&gt;&gt;</code></strong> for async operations across clones</li>
+</ol>
+<p>The architecture enables high-performance Rust processing with full Python interoperability, maintaining deterministic behavior for trading logic while providing flexible streaming capabilities for data ingestion and order execution.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

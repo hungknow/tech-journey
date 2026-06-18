@@ -1,0 +1,3325 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../fill_model/">
+      
+      
+        <link rel="next" href="../model_ddd_file/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Simulated Exchange - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#simulatedexchange" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Simulated Exchange
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../sql/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../spacedrive/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spacedrive
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../rust/rust_apache_arrow/" class="md-tabs__link">
+          
+  
+  
+  Rust
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../thread_model/" class="md-tabs__link">
+          
+  
+  
+  Nautilus Trader
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spacedrive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spacedrive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rust
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rust
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rust/rust_apache_arrow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arrow-Based CSV Data Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rust/rust_csv_cython/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cython CSV Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rust/rust_zero_cost_async/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero-cost Async
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rust/rust_zero_copy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero Copy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nautilus Trader
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nautilus Trader
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../thread_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thread Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Crates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/risk/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_2" id="__nav_6_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Execution
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Execution
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/execution/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/execution/order_manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/execution/matching_engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/execution/matching_core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/execution/order_emulator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Emulator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/execution/reconciliation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reconciliation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tradingchart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trading Chart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trade_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trade Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quote_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quote Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../order_book/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fill_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fill Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulated Exchange
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulated Exchange
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-submodules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Submodules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Submodules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ordermatchingengine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. OrderMatchingEngine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-backtestexecutionclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. BacktestExecutionClient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-simulationmodule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. SimulationModule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Cache
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-clock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Clock
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-state-and-data-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core State and Data Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core State and Data Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exchange-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exchange Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instrument-and-engine-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instrument and Engine Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#account-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Account Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operational-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operational Contexts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Operational Contexts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Initialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-instrument-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Instrument Registration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-market-data-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Market Data Processing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Market Data Processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-quote-tick-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Quote Tick Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-trade-tick-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Trade Tick Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-bar-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Bar Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-order-book-delta-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Order Book Delta Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-instrument-status-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Instrument Status Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-trading-command-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Trading Command Processing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Trading Command Processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-command-submission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Command Submission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-command-processing-with-latency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Command Processing (with Latency)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-order-submission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Order Submission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-order-modification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Order Modification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-order-cancellation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Order Cancellation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-account-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Account Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Account Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-account-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Account Initialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-account-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Account Adjustment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-query-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Query Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-reset-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Reset Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#market-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Data Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trading-command-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trading Command Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-exchange-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Exchange Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exchange-with-latency-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exchange with Latency Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exchange-with-custom-fill-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exchange with Custom Fill Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model_ddd_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model DDD File
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python-rust-ffi-streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python-Rust FFI Streaming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-submodules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Submodules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Submodules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ordermatchingengine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. OrderMatchingEngine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-backtestexecutionclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. BacktestExecutionClient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-simulationmodule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. SimulationModule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Cache
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-clock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Clock
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-state-and-data-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core State and Data Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core State and Data Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exchange-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exchange Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instrument-and-engine-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instrument and Engine Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#account-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Account Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operational-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operational Contexts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Operational Contexts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Initialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-instrument-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Instrument Registration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-market-data-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Market Data Processing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Market Data Processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-quote-tick-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Quote Tick Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-trade-tick-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Trade Tick Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-bar-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Bar Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-order-book-delta-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Order Book Delta Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-instrument-status-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Instrument Status Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-trading-command-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Trading Command Processing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Trading Command Processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-command-submission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Command Submission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-command-processing-with-latency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Command Processing (with Latency)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-order-submission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Order Submission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-order-modification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Order Modification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-order-cancellation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Order Cancellation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-account-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Account Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Account Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-account-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Account Initialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-account-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Account Adjustment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-query-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Query Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-reset-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Reset Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#market-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Data Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trading-command-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trading Command Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-exchange-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Exchange Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exchange-with-latency-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exchange with Latency Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exchange-with-custom-fill-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exchange with Custom Fill Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="simulatedexchange">SimulatedExchange</h1>
+<p>The <code>SimulatedExchange</code> is a comprehensive simulation of a trading venue designed for realistic trading execution during backtesting. It provides a complete exchange environment with order matching engines, account management, and configurable execution models to accurately simulate real market conditions.</p>
+<h2 id="overview">Overview</h2>
+<p>The <code>SimulatedExchange</code> serves as the core venue simulation component in NautilusTrader's backtesting infrastructure. It maintains order books, processes market data, executes trades, and manages account state with configurable models for fees, fills, and latency to provide realistic backtesting scenarios.</p>
+<h3 id="key-features">Key Features</h3>
+<ul>
+<li><strong>Multi-instrument order matching</strong> with realistic execution</li>
+<li><strong>Configurable fee, fill, and latency models</strong> for accurate simulation</li>
+<li><strong>Support for various order types</strong> and execution options</li>
+<li><strong>Account balance and position management</strong></li>
+<li><strong>Market data processing</strong> and order book maintenance</li>
+<li><strong>Simulation modules</strong> for custom venue behaviors</li>
+<li><strong>Network latency simulation</strong> with priority queue processing</li>
+</ul>
+<h2 id="implementation">Implementation</h2>
+<p>The <code>SimulatedExchange</code> is implemented in Rust:</p>
+<ul>
+<li><strong>Rust implementation</strong>: <code>crates/backtest/src/exchange.rs</code></li>
+<li><strong>Python/Cython interface</strong>: <code>nautilus_trader/backtest/engine.pyx</code></li>
+</ul>
+<h2 id="core-submodules">Core Submodules</h2>
+<p>The <code>SimulatedExchange</code> integrates several key submodules to provide its functionality:</p>
+<h3 id="1-ordermatchingengine">1. OrderMatchingEngine</h3>
+<p><strong>Purpose</strong>: Handles order matching and execution for individual instruments.</p>
+<p><strong>Location</strong>: <code>crates/execution/src/matching_engine/engine.rs</code></p>
+<p><strong>Responsibilities</strong>:
+- Maintains order books for each instrument
+- Processes order submissions, modifications, and cancellations
+- Executes orders against market data (quotes, trades, bars, order book deltas)
+- Applies fill models to determine execution probabilities
+- Calculates fees using fee models
+- Generates order events (filled, rejected, canceled, etc.)</p>
+<p><strong>State Managed</strong>:
+- Order book state (<code>OrderBook</code>)
+- Open orders (bid and ask sides)
+- Market status (open/closed)
+- Target prices (bid, ask, last) for bar execution
+- Cached filled quantities
+- Account ID mappings</p>
+<h3 id="2-backtestexecutionclient">2. BacktestExecutionClient</h3>
+<p><strong>Purpose</strong>: Provides the execution client interface for backtesting, bridging trading commands from strategies to the simulated exchange.</p>
+<p><strong>Location</strong>: <code>crates/backtest/src/execution_client.rs</code></p>
+<p><strong>Responsibilities</strong>:
+- Receives trading commands from strategies
+- Forwards commands to <code>SimulatedExchange</code> via <code>send()</code> method
+- Manages account state generation
+- Tracks connection status
+- Generates order submitted events</p>
+<p><strong>State Managed</strong>:
+- Connection status
+- Account ID and client ID
+- Reference to the exchange (weak reference)</p>
+<h3 id="3-simulationmodule">3. SimulationModule</h3>
+<p><strong>Purpose</strong>: Allows custom extensions to the backtesting simulation environment.</p>
+<p><strong>Location</strong>: <code>crates/backtest/src/modules/mod.rs</code></p>
+<p><strong>Responsibilities</strong>:
+- Pre-processes market data before main simulation
+- Implements custom venue behaviors (e.g., market makers, price impact)
+- Processes simulation logic at specific timestamps
+- Resets module state between backtest runs</p>
+<p><strong>State Managed</strong>: Module-specific state (varies by implementation)</p>
+<h3 id="4-cache">4. Cache</h3>
+<p><strong>Purpose</strong>: Provides shared data access for instruments, accounts, and other market data.</p>
+<p><strong>Location</strong>: <code>crates/common/src/cache.rs</code></p>
+<p><strong>Responsibilities</strong>:
+- Stores instrument definitions
+- Maintains account information
+- Provides indexed access to market data</p>
+<p><strong>State Managed</strong>:
+- Instrument registry
+- Account registry
+- Market data indexes</p>
+<h3 id="5-clock">5. Clock</h3>
+<p><strong>Purpose</strong>: Provides time management for the simulation.</p>
+<p><strong>Location</strong>: <code>crates/common/src/clock.rs</code></p>
+<p><strong>Responsibilities</strong>:
+- Tracks current simulation timestamp
+- Provides time-based operations</p>
+<p><strong>State Managed</strong>:
+- Current timestamp (<code>UnixNanos</code>)</p>
+<h2 id="core-state-and-data-management">Core State and Data Management</h2>
+<p>The <code>SimulatedExchange</code> manages the following state:</p>
+<h3 id="exchange-configuration">Exchange Configuration</h3>
+<ul>
+<li><strong><code>id</code></strong>: Venue identifier</li>
+<li><strong><code>oms_type</code></strong>: Order management system type (Netting/Hedging)</li>
+<li><strong><code>account_type</code></strong>: Account type (Cash/Margin)</li>
+<li><strong><code>book_type</code></strong>: Order book type (L1_MBP, L2_MBP, L3_MBO)</li>
+<li><strong><code>base_currency</code></strong>: Base currency for single-currency accounts</li>
+<li><strong><code>default_leverage</code></strong>: Default leverage for margin accounts</li>
+<li><strong><code>leverages</code></strong>: Instrument-specific leverage configuration</li>
+</ul>
+<h3 id="execution-models">Execution Models</h3>
+<ul>
+<li><strong><code>fill_model</code></strong>: Fill model for order execution probability</li>
+<li><strong><code>fee_model</code></strong>: Fee model for calculating trading fees</li>
+<li><strong><code>latency_model</code></strong>: Optional latency model for network delay simulation</li>
+</ul>
+<h3 id="instrument-and-engine-management">Instrument and Engine Management</h3>
+<ul>
+<li><strong><code>instruments</code></strong>: HashMap of registered instruments (<code>InstrumentId</code> → <code>InstrumentAny</code>)</li>
+<li><strong><code>matching_engines</code></strong>: HashMap of order matching engines (<code>InstrumentId</code> → <code>OrderMatchingEngine</code>)</li>
+<li><strong><code>modules</code></strong>: Vector of simulation modules for custom behaviors</li>
+</ul>
+<h3 id="command-processing">Command Processing</h3>
+<ul>
+<li><strong><code>message_queue</code></strong>: Queue for immediate command processing (<code>VecDeque&lt;TradingCommand&gt;</code>)</li>
+<li><strong><code>inflight_queue</code></strong>: Priority queue for latency-delayed commands (<code>BinaryHeap&lt;InflightCommand&gt;</code>)</li>
+<li><strong><code>inflight_counter</code></strong>: Counter for commands at the same timestamp (<code>HashMap&lt;UnixNanos, u32&gt;</code>)</li>
+</ul>
+<h3 id="account-management">Account Management</h3>
+<ul>
+<li><strong><code>starting_balances</code></strong>: Initial account balances for backtest runs</li>
+<li><strong><code>exec_client</code></strong>: Reference to the execution client for account operations</li>
+<li><strong><code>frozen_account</code></strong>: Flag indicating if account balances should not change</li>
+</ul>
+<h3 id="execution-options">Execution Options</h3>
+<ul>
+<li><strong><code>bar_execution</code></strong>: Whether bars should move the market</li>
+<li><strong><code>reject_stop_orders</code></strong>: Whether to reject stop orders if already in the market</li>
+<li><strong><code>support_gtd_orders</code></strong>: Whether to support Good-Till-Date orders</li>
+<li><strong><code>support_contingent_orders</code></strong>: Whether to support contingent orders</li>
+<li><strong><code>use_position_ids</code></strong>: Whether to generate venue position IDs</li>
+<li><strong><code>use_random_ids</code></strong>: Whether to use random UUIDs for venue IDs</li>
+<li><strong><code>use_reduce_only</code></strong>: Whether to support reduce-only orders</li>
+<li><strong><code>use_message_queue</code></strong>: Whether to use internal message queue</li>
+<li><strong><code>allow_cash_borrowing</code></strong>: Whether cash accounts can borrow</li>
+</ul>
+<h2 id="operational-contexts">Operational Contexts</h2>
+<h3 id="1-initialization">1. Initialization</h3>
+<p><strong>Submodules Involved</strong>:
+- <code>Cache</code>: Provides instrument and account data
+- <code>Clock</code>: Provides initial timestamp
+- <code>BacktestExecutionClient</code>: Registers with exchange</p>
+<p><strong>Actions</strong>:
+1. Validates starting balances and base currency configuration
+2. Initializes empty data structures (instruments, matching engines, queues)
+3. Sets execution options and models
+4. Registers execution client (via <code>register_client()</code>)
+5. Initializes account state (via <code>initialize_account()</code>)</p>
+<p><strong>State Changes</strong>:
+- Creates fresh account state with starting balances
+- Sets default and instrument-specific leverages
+- Clears all queues and counters</p>
+<h3 id="2-instrument-registration">2. Instrument Registration</h3>
+<p><strong>Submodules Involved</strong>:
+- <code>OrderMatchingEngine</code>: Creates new matching engine for instrument
+- <code>Cache</code>: Retrieves instrument definition if needed</p>
+<p><strong>Actions</strong>:
+1. Validates instrument venue matches exchange venue
+2. Validates account type compatibility (cash accounts cannot trade futures/perpetuals)
+3. Inserts instrument into <code>instruments</code> HashMap
+4. Creates <code>OrderMatchingEngine</code> with configuration
+5. Inserts matching engine into <code>matching_engines</code> HashMap</p>
+<p><strong>State Changes</strong>:
+- Adds new entry to <code>instruments</code> HashMap
+- Adds new entry to <code>matching_engines</code> HashMap
+- Matching engine initializes its own order book and state</p>
+<h3 id="3-market-data-processing">3. Market Data Processing</h3>
+<h4 id="31-quote-tick-processing">3.1 Quote Tick Processing</h4>
+<p><strong>Submodules Involved</strong>:
+- <code>SimulationModule</code>: Pre-processes quote tick data
+- <code>OrderMatchingEngine</code>: Processes quote tick and updates order book</p>
+<p><strong>Actions</strong>:
+1. All modules call <code>pre_process()</code> with quote tick data
+2. If instrument not registered, retrieves from cache and registers it
+3. Matching engine processes quote tick via <code>process_quote_tick()</code>
+4. Matching engine updates order book bid/ask prices</p>
+<p><strong>State Changes</strong>:
+- Order book bid/ask prices updated in matching engine
+- Target prices may be updated for execution</p>
+<h4 id="32-trade-tick-processing">3.2 Trade Tick Processing</h4>
+<p><strong>Submodules Involved</strong>:
+- <code>SimulationModule</code>: Pre-processes trade tick data
+- <code>OrderMatchingEngine</code>: Processes trade tick and executes orders</p>
+<p><strong>Actions</strong>:
+1. All modules call <code>pre_process()</code> with trade tick data
+2. If instrument not registered, retrieves from cache and registers it
+3. Matching engine processes trade tick via <code>process_trade_tick()</code>
+4. Matching engine updates last trade price and executes matching orders</p>
+<p><strong>State Changes</strong>:
+- Order book last price updated
+- Orders may be filled or partially filled
+- Account balances updated via execution client</p>
+<h4 id="33-bar-processing">3.3 Bar Processing</h4>
+<p><strong>Submodules Involved</strong>:
+- <code>SimulationModule</code>: Pre-processes bar data
+- <code>OrderMatchingEngine</code>: Processes bar and executes orders (if <code>bar_execution</code> enabled)</p>
+<p><strong>Actions</strong>:
+1. All modules call <code>pre_process()</code> with bar data
+2. If instrument not registered, retrieves from cache and registers it
+3. Matching engine processes bar via <code>process_bar()</code>
+4. If <code>bar_execution</code> is enabled, matching engine updates market prices and executes orders</p>
+<p><strong>State Changes</strong>:
+- Order book prices updated based on bar close price
+- Orders may be filled based on bar execution logic
+- Last bar state stored in matching engine</p>
+<h4 id="34-order-book-delta-processing">3.4 Order Book Delta Processing</h4>
+<p><strong>Submodules Involved</strong>:
+- <code>SimulationModule</code>: Pre-processes delta data
+- <code>OrderMatchingEngine</code>: Processes delta and updates order book</p>
+<p><strong>Actions</strong>:
+1. All modules call <code>pre_process()</code> with delta data
+2. If instrument not registered, retrieves from cache and registers it
+3. Matching engine processes single delta via <code>process_order_book_delta()</code>
+   OR processes batch deltas via <code>process_order_book_deltas()</code>
+4. Matching engine updates order book with add/update/delete operations</p>
+<p><strong>State Changes</strong>:
+- Order book depth updated (for L2/L3 books)
+- Best bid/ask prices may change
+- Order book sequence number incremented</p>
+<h4 id="35-instrument-status-processing">3.5 Instrument Status Processing</h4>
+<p><strong>Submodules Involved</strong>:
+- <code>OrderMatchingEngine</code>: Updates market status</p>
+<p><strong>Actions</strong>:
+1. If instrument not registered, retrieves from cache and registers it
+2. Matching engine processes status via <code>process_status()</code>
+3. Market status updated (open/closed/pre-open/etc.)</p>
+<p><strong>State Changes</strong>:
+- Matching engine market status updated
+- May affect order acceptance/rejection</p>
+<h3 id="4-trading-command-processing">4. Trading Command Processing</h3>
+<h4 id="41-command-submission">4.1 Command Submission</h4>
+<p><strong>Submodules Involved</strong>:
+- <code>BacktestExecutionClient</code>: Receives command from strategy
+- <code>SimulatedExchange</code>: Routes command to appropriate queue
+- <code>LatencyModel</code>: Calculates latency delay (if enabled)</p>
+<p><strong>Actions</strong>:
+1. Execution client receives command and calls <code>exchange.send()</code>
+2. If <code>use_message_queue</code> is false, command processed immediately
+3. If latency model exists, command added to <code>inflight_queue</code> with delayed timestamp
+4. Otherwise, command added to <code>message_queue</code> for immediate processing</p>
+<p><strong>State Changes</strong>:
+- Command added to appropriate queue
+- Inflight counter incremented if using latency model</p>
+<h4 id="42-command-processing-with-latency">4.2 Command Processing (with Latency)</h4>
+<p><strong>Submodules Involved</strong>:
+- <code>SimulatedExchange</code>: Processes commands from queues
+- <code>OrderMatchingEngine</code>: Executes command against order book</p>
+<p><strong>Actions</strong>:
+1. <code>process()</code> called with current timestamp
+2. Commands from <code>inflight_queue</code> with timestamp &lt;= current time are processed
+3. Commands from <code>message_queue</code> are processed in order
+4. Each command routed to appropriate matching engine
+5. Matching engine processes command (submit/modify/cancel)</p>
+<p><strong>State Changes</strong>:
+- Commands removed from queues
+- Orders added/modified/removed in matching engine
+- Order events generated and sent via message bus</p>
+<h4 id="43-order-submission">4.3 Order Submission</h4>
+<p><strong>Submodules Involved</strong>:
+- <code>OrderMatchingEngine</code>: Validates and processes order
+- <code>FillModel</code>: Determines fill probability
+- <code>FeeModel</code>: Calculates fees on fills</p>
+<p><strong>Actions</strong>:
+1. Matching engine receives order via <code>process_order()</code>
+2. Order validated (price, quantity, time in force, etc.)
+3. Order added to order book or executed immediately
+4. Fill model applied to determine execution
+5. Fees calculated on fills
+6. Order events generated (accepted, filled, rejected)</p>
+<p><strong>State Changes</strong>:
+- Order added to matching engine's order book
+- Account balances updated on fills
+- Position state updated (if applicable)</p>
+<h4 id="44-order-modification">4.4 Order Modification</h4>
+<p><strong>Submodules Involved</strong>:
+- <code>OrderMatchingEngine</code>: Processes modification request</p>
+<p><strong>Actions</strong>:
+1. Matching engine receives modify command via <code>process_modify()</code>
+2. Existing order located
+3. Order parameters updated (price, quantity, etc.)
+4. Order re-evaluated for execution
+5. Order updated event generated</p>
+<p><strong>State Changes</strong>:
+- Order parameters updated in matching engine
+- Order may be re-executed if new price matches market</p>
+<h4 id="45-order-cancellation">4.5 Order Cancellation</h4>
+<p><strong>Submodules Involved</strong>:
+- <code>OrderMatchingEngine</code>: Processes cancellation request</p>
+<p><strong>Actions</strong>:
+1. Matching engine receives cancel command via <code>process_cancel()</code>
+   OR <code>process_cancel_all()</code> for all orders
+   OR <code>process_batch_cancel()</code> for specific orders
+2. Order(s) located and removed from order book
+3. Order canceled event generated</p>
+<p><strong>State Changes</strong>:
+- Order removed from matching engine's order book
+- Order state updated to canceled</p>
+<h3 id="5-account-management">5. Account Management</h3>
+<h4 id="51-account-initialization">5.1 Account Initialization</h4>
+<p><strong>Submodules Involved</strong>:
+- <code>BacktestExecutionClient</code>: Generates account state
+- <code>Cache</code>: Stores account information</p>
+<p><strong>Actions</strong>:
+1. <code>initialize_account()</code> called
+2. Starting balances converted to <code>AccountBalance</code> objects
+3. Execution client generates account state via <code>generate_account_state()</code>
+4. Default leverage set for margin accounts
+5. Instrument-specific leverages applied</p>
+<p><strong>State Changes</strong>:
+- Account created in cache with starting balances
+- Leverage settings applied
+- Account state event published</p>
+<h4 id="52-account-adjustment">5.2 Account Adjustment</h4>
+<p><strong>Submodules Involved</strong>:
+- <code>BacktestExecutionClient</code>: Updates account state
+- <code>Cache</code>: Retrieves current account state</p>
+<p><strong>Actions</strong>:
+1. <code>adjust_account()</code> called with adjustment amount
+2. If account frozen, no action taken
+3. Current balance retrieved from cache
+4. Balance adjusted (added to total and free)
+5. New account state generated via execution client</p>
+<p><strong>State Changes</strong>:
+- Account balance updated
+- Account state event published with new balances</p>
+<h3 id="6-query-operations">6. Query Operations</h3>
+<p><strong>Submodules Involved</strong>:
+- <code>OrderMatchingEngine</code>: Provides order book and order information
+- <code>Cache</code>: Provides account information</p>
+<p><strong>Actions</strong>:
+- <code>best_bid_price()</code>: Returns best bid price from matching engine
+- <code>best_ask_price()</code>: Returns best ask price from matching engine
+- <code>get_book()</code>: Returns order book snapshot
+- <code>get_open_orders()</code>: Returns all open orders (optionally filtered by instrument)
+- <code>get_account()</code>: Returns account from execution client</p>
+<p><strong>State Changes</strong>: None (read-only operations)</p>
+<h3 id="7-reset-operations">7. Reset Operations</h3>
+<p><strong>Submodules Involved</strong>:
+- <code>SimulationModule</code>: Resets module state
+- <code>OrderMatchingEngine</code>: Resets matching engine state
+- <code>BacktestExecutionClient</code>: Resets account state</p>
+<p><strong>Actions</strong>:
+1. <code>reset()</code> called
+2. All modules call <code>reset()</code>
+3. Fresh account state generated
+4. All matching engines call <code>reset()</code>
+5. Queues cleared (TODO: currently not fully implemented)</p>
+<p><strong>State Changes</strong>:
+- All trading state reset to initial values
+- Account balances reset to starting balances
+- Order books cleared
+- All open orders removed</p>
+<h2 id="data-flow">Data Flow</h2>
+<h3 id="market-data-flow">Market Data Flow</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Market Data (QuoteTick/TradeTick/Bar/OrderBookDelta)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    ↓
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>SimulationModule.pre_process() [optional custom processing]
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    ↓
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>SimulatedExchange.process_*()
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ↓
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>OrderMatchingEngine.process_*()
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ↓
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>OrderBook.update() + Order Execution
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    ↓
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Order Events (OrderFilled, etc.)
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    ↓
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>MessageBus → Portfolio → Account Updates
+</span></code></pre></div>
+<h3 id="trading-command-flow">Trading Command Flow</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Strategy
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    ↓
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>BacktestExecutionClient.submit_order/modify_order/cancel_order()
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    ↓
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>SimulatedExchange.send()
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    ↓
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>[LatencyModel] → InflightQueue OR MessageQueue
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    ↓
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>SimulatedExchange.process()
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    ↓
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>SimulatedExchange.process_trading_command()
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    ↓
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>OrderMatchingEngine.process_order/modify/cancel()
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    ↓
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>Order Events (OrderAccepted, OrderFilled, etc.)
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    ↓
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>MessageBus → Strategy + Portfolio
+</span></code></pre></div>
+<h2 id="configuration-examples">Configuration Examples</h2>
+<h3 id="basic-exchange-setup">Basic Exchange Setup</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">exchange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SimulatedExchange</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">Venue</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s">&quot;SIM&quot;</span><span class="p">),</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">OmsType</span><span class="p">::</span><span class="n">Netting</span><span class="p">,</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">AccountType</span><span class="p">::</span><span class="n">Margin</span><span class="p">,</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="fm">vec!</span><span class="p">[</span><span class="n">Money</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="mf">10000.0</span><span class="p">,</span><span class="w"> </span><span class="n">Currency</span><span class="p">::</span><span class="n">USD</span><span class="p">())],</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="n">Currency</span><span class="p">::</span><span class="n">USD</span><span class="p">()),</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">Decimal</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="n">HashMap</span><span class="p">::</span><span class="n">new</span><span class="p">(),</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="fm">vec!</span><span class="p">[],</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="n">cache</span><span class="p">,</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="n">clock</span><span class="p">,</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="n">FillModel</span><span class="p">::</span><span class="n">default</span><span class="p">(),</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="n">FeeModelAny</span><span class="p">::</span><span class="n">MakerTaker</span><span class="p">(</span><span class="n">MakerTakerFeeModel</span><span class="p">),</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="n">BookType</span><span class="p">::</span><span class="n">L2_MBP</span><span class="p">,</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="c1">// bar_execution</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="c1">// reject_stop_orders</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="c1">// support_gtd_orders</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="c1">// support_contingent_orders</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="c1">// use_position_ids</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="c1">// use_random_ids</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="c1">// use_reduce_only</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="c1">// use_message_queue</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="c1">// allow_cash_borrowing</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="c1">// frozen_account</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="exchange-with-latency-model">Exchange with Latency Model</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">latency_model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LatencyModel</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">UnixNanos</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span><span class="w">  </span><span class="c1">// base_latency</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">UnixNanos</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="mi">200</span><span class="p">),</span><span class="w">  </span><span class="c1">// insert_latency</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="n">UnixNanos</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="mi">300</span><span class="p">),</span><span class="w">  </span><span class="c1">// update_latency</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">UnixNanos</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span><span class="w">  </span><span class="c1">// delete_latency</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">);</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">exchange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SimulatedExchange</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="o">..</span><span class="p">.)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">exchange</span><span class="p">.</span><span class="n">set_latency_model</span><span class="p">(</span><span class="n">latency_model</span><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="exchange-with-custom-fill-model">Exchange with Custom Fill Model</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">fill_model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FillModel</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.1</span><span class="p">);</span><span class="w"> </span><span class="c1">// prob_fill_on_limit, prob_fill_on_stop, prob_slippage</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">exchange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SimulatedExchange</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="o">..</span><span class="p">.,</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">fill_model</span><span class="p">,</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="o">..</span><span class="p">.,</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span></code></pre></div>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Instrument Registration</strong>: Register all instruments before processing market data to avoid runtime panics</li>
+<li><strong>Account Initialization</strong>: Always call <code>initialize_account()</code> after registering the execution client</li>
+<li><strong>Latency Models</strong>: Use latency models for more realistic backtesting, especially for high-frequency strategies</li>
+<li><strong>Fill Models</strong>: Adjust fill model parameters based on your strategy's expected queue position</li>
+<li><strong>Reset Between Runs</strong>: Call <code>reset()</code> between backtest runs to ensure clean state</li>
+<li><strong>Module Usage</strong>: Use simulation modules for venue-specific behaviors (e.g., market makers, price impact)</li>
+</ol>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><a href="backtesting.md">Backtesting</a> - Overview of backtesting infrastructure</li>
+<li><a href="../fill_model/">FillModel</a> - Order execution probability modeling</li>
+<li><a href="../order_book/">Order Book</a> - Order book structure and operations</li>
+<li><a href="execution.md">Execution</a> - Execution client and order management</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

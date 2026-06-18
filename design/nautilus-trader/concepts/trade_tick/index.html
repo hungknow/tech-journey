@@ -1,0 +1,2425 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../tradingchart/">
+      
+      
+        <link rel="next" href="../quote_tick/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Trade Tick - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tradetick" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Trade Tick
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../sql/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../spacedrive/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spacedrive
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../rust/rust_apache_arrow/" class="md-tabs__link">
+          
+  
+  
+  Rust
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../thread_model/" class="md-tabs__link">
+          
+  
+  
+  Nautilus Trader
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spacedrive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spacedrive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rust
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rust
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rust/rust_apache_arrow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arrow-Based CSV Data Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rust/rust_csv_cython/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cython CSV Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rust/rust_zero_cost_async/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero-cost Async
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rust/rust_zero_copy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero Copy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nautilus Trader
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nautilus Trader
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../thread_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thread Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Crates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/risk/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_2" id="__nav_6_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Execution
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Execution
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/execution/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/execution/order_manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/execution/matching_engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/execution/matching_core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/execution/order_emulator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Emulator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../crates/execution/reconciliation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reconciliation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tradingchart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trading Chart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trade Tick
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trade Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-tradetick-is-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where TradeTick is Used
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Where TradeTick is Used">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-order-book-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Order Book Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-data-aggregation-tradetick-bar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Data Aggregation (TradeTick → Bar)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-bar-converts-to-tradetick-backtesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Bar Converts to TradeTick (Backtesting)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-csv-data-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. CSV Data Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-strategies-use-tradetick" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Strategies Use TradeTick
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-indicators-use-tradetick" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Indicators Use TradeTick
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-order-emulator-uses-tradetick" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Order Emulator Uses TradeTick
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-market-data-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Market Data Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-data-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Data Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-with-other-data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison with Other Data Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quote_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quote Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../order_book/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fill_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fill Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simulated_exchange/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulated Exchange
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model_ddd_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model DDD File
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python-rust-ffi-streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python-Rust FFI Streaming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-tradetick-is-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where TradeTick is Used
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Where TradeTick is Used">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-order-book-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Order Book Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-data-aggregation-tradetick-bar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Data Aggregation (TradeTick → Bar)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-bar-converts-to-tradetick-backtesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Bar Converts to TradeTick (Backtesting)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-csv-data-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. CSV Data Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-strategies-use-tradetick" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Strategies Use TradeTick
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-indicators-use-tradetick" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Indicators Use TradeTick
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-order-emulator-uses-tradetick" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Order Emulator Uses TradeTick
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-market-data-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Market Data Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-data-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Data Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-with-other-data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison with Other Data Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="tradetick">TradeTick</h1>
+<h2 id="overview">Overview</h2>
+<p>A <code>TradeTick</code> represents a single executed trade in a market, containing information about a unique trade that matched buyer and seller counterparties.</p>
+<p><strong>Example:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>instrument_id: ETHUSDT-PERP.BINANCE
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>price: 10000.5000
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>size: 1.25000000
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>aggressor_side: BUYER
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>trade_id: 123456789
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>ts_event: 0
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>ts_init: 1
+</span></code></pre></div></p>
+<h2 id="data-structure">Data Structure</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>instrument_id</code></td>
+<td>Instrument identifier</td>
+<td><code>EURUSD.SIM</code>, <code>BTCUSDT.BINANCE</code></td>
+</tr>
+<tr>
+<td><code>price</code></td>
+<td>Executed trade price</td>
+<td><code>1.0500</code></td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td>Executed trade quantity</td>
+<td><code>100000</code></td>
+</tr>
+<tr>
+<td><code>aggressor_side</code></td>
+<td>Side of the aggressing order</td>
+<td><code>BUYER</code>, <code>SELLER</code>, <code>NO_AGGRESSOR</code></td>
+</tr>
+<tr>
+<td><code>trade_id</code></td>
+<td>Trade match ID (assigned by venue)</td>
+<td><code>"123456789"</code></td>
+</tr>
+<tr>
+<td><code>ts_event</code></td>
+<td>Event timestamp (nanoseconds)</td>
+<td><code>1000000000</code></td>
+</tr>
+<tr>
+<td><code>ts_init</code></td>
+<td>Initialization timestamp (nanoseconds)</td>
+<td><code>2000000000</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Requirements:</strong>
+- Size must be positive (&gt; 0)
+- Trade ID must be a valid string (max 36 characters)</p>
+<p><strong>AggressorSide Values:</strong>
+- <code>NO_AGGRESSOR</code> (0): No specific aggressor identified
+- <code>BUYER</code> (1): The buy order was the aggressor (market buy)
+- <code>SELLER</code> (2): The sell order was the aggressor (market sell)</p>
+<h2 id="where-tradetick-is-used">Where TradeTick is Used</h2>
+<h3 id="1-order-book-management">1. Order Book Management</h3>
+<p>TradeTick updates Level 1 (L1) order books with last trade price when book type is <code>L1_MBP</code>.</p>
+<p><strong>Data Flow:</strong> <code>TradeTick</code> → <code>MatchingEngine.process_trade_tick()</code> → <code>OrderBook.update_trade_tick()</code> → <code>OrderBook (L1_MBP)</code></p>
+<p><strong>Example:</strong></p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>bid_price</th>
+<th>bid_size</th>
+<th>ask_price</th>
+<th>ask_size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Before</strong></td>
+<td>99.00</td>
+<td>100.0</td>
+<td>100.00</td>
+<td>100.0</td>
+</tr>
+<tr>
+<td><strong>TradeTick</strong></td>
+<td>price=99.50, size=200.0, aggressor=BUYER</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>After</strong></td>
+<td>99.50</td>
+<td>200.0</td>
+<td>99.50</td>
+<td>200.0</td>
+</tr>
+</tbody>
+</table>
+<p>The trade price becomes both bid and ask when updating L1 order book from trades.</p>
+<h3 id="2-data-aggregation-tradetick-bar">2. Data Aggregation (TradeTick → Bar)</h3>
+<p>Multiple TradeTicks aggregate into OHLCV bars using trade prices and sizes.</p>
+<p><strong>Data Flow:</strong> <code>TradeTick[]</code> → <code>BarAggregator.handle_trade_tick()</code> → <code>Bar</code></p>
+<p><strong>Example: Tick-based aggregation (100 ticks per bar)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Input (Sample TradeTicks)</th>
+<th>Output (Bar)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tick 1: price=0.670340, size=1000<br>Tick 2: price=0.670345, size=1500<br>Tick 3: price=0.670225, size=2000<br>...<br>Tick 100: price=0.670230, size=1200</td>
+<td>open: 0.670340<br>high: 0.670345<br>low: 0.670225<br>close: 0.670230<br>volume: 150000</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-bar-converts-to-tradetick-backtesting">3. Bar Converts to TradeTick (Backtesting)</h3>
+<p>Bars synthesize into TradeTicks for backtesting when only bar data is available. Typically generates 4 trades (OHLC) with quarter volume each.</p>
+<p><strong>Data Flow:</strong> <code>Bar</code> → <code>BacktestEngine._process_trade_ticks_from_bar()</code> → <code>TradeTick[]</code> (4 ticks: OHLC)</p>
+<p><strong>Example:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Input Bar</th>
+<th>Generated TradeTicks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>open: 1.12120<br>high: 1.12130<br>low: 1.12110<br>close: 1.12125<br>volume: 100000</td>
+<td><strong>Tick 1 (Open):</strong><br>price=1.12120, size=25000, aggressor=BUYER<br><br><strong>Tick 2 (High):</strong><br>price=1.12130, size=25000, aggressor=BUYER<br><br><strong>Tick 3 (Low):</strong><br>price=1.12110, size=25000, aggressor=SELLER<br><br><strong>Tick 4 (Close):</strong><br>price=1.12125, size=25000, aggressor=BUYER</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-csv-data-processing">4. CSV Data Processing</h3>
+<p>CSV files are parsed into TradeTicks and flow through the system.</p>
+<p><strong>Data Flow:</strong> <code>CSV</code> → <code>TradeTickDataWrangler.process()</code> → <code>TradeTick[]</code> → <code>DataEngine._handle_trade_tick()</code> → <code>OrderBook.update_trade_tick()</code> / <code>BarAggregator.handle_trade_tick()</code></p>
+<p><strong>Example from <code>trade_tick_data.csv</code>:</strong></p>
+<table>
+<thead>
+<tr>
+<th>CSV Row</th>
+<th>Parsed TradeTick</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>20200101 170000065,1.121200,100000,BUYER,12345</code></td>
+<td>instrument_id: EURUSD.SIM<br>price: 1.121200<br>size: 100000<br>aggressor_side: BUYER<br>trade_id: 12345<br>ts_event: 20200101 170000065</td>
+<td>Last price updated<br>Order book updated (if L1_MBP)<br>Published to subscribers</td>
+</tr>
+<tr>
+<td><code>20200101 170010447,1.121300,75000,SELLER,12346</code></td>
+<td>instrument_id: EURUSD.SIM<br>price: 1.121300<br>size: 75000<br>aggressor_side: SELLER<br>trade_id: 12346<br>ts_event: 20200101 170010447</td>
+<td>Price increased (buyer aggressor)<br>Bar aggregator receives tick<br>Volume accumulated</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-strategies-use-tradetick">5. Strategies Use TradeTick</h3>
+<p>Strategies subscribe to TradeTicks and implement <code>on_trade_tick()</code> to make trading decisions based on executed trades.</p>
+<p><strong>Data Flow:</strong> <code>MessageBus</code> → <code>Strategy.on_trade_tick()</code> → <code>Indicator.handle_trade_tick()</code> / <code>Order Management</code></p>
+<p><strong>Example 1: Volume-Based Strategy</strong></p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Action</th>
+<th>TradeTick Data Used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Subscribe</td>
+<td><code>strategy.subscribe_trade_ticks(instrument_id)</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td>2. Receive TradeTick</td>
+<td><code>on_trade_tick(tick: TradeTick)</code></td>
+<td>price: 10000.5000<br>size: 1.25000000<br>aggressor_side: BUYER</td>
+</tr>
+<tr>
+<td>3. Analyze Volume</td>
+<td>Calculate cumulative volume<br>Check if volume spike detected</td>
+<td>size, aggressor_side</td>
+</tr>
+<tr>
+<td>4. Submit Orders</td>
+<td>Submit orders based on volume analysis</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example 2: Strategy with Indicator</strong></p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Action</th>
+<th>TradeTick Data Used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Subscribe</td>
+<td><code>strategy.subscribe_trade_ticks(instrument_id)</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td>2. Receive TradeTick</td>
+<td><code>on_trade_tick(tick: TradeTick)</code></td>
+<td>price: 1.0500<br>size: 100000</td>
+</tr>
+<tr>
+<td>3. Update Indicator</td>
+<td><code>macd.handle_trade_tick(tick)</code></td>
+<td>price: 1.0500</td>
+</tr>
+<tr>
+<td>4. Check Signal</td>
+<td><code>if macd.initialized: check_signals()</code></td>
+<td>Indicator value from TradeTick</td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-indicators-use-tradetick">6. Indicators Use TradeTick</h3>
+<p>Indicators implement <code>handle_trade_tick()</code> to update their calculations using trade prices and sizes.</p>
+<p><strong>Data Flow:</strong> <code>Strategy.on_trade_tick()</code> → <code>Indicator.handle_trade_tick()</code> → <code>Indicator.update()</code></p>
+<p><strong>Example: Volume-Weighted Average Price (VWAP)</strong></p>
+<table>
+<thead>
+<tr>
+<th>TradeTick Input</th>
+<th>Indicator Processing</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>price: 1.121200<br>size: 100000</td>
+<td>Calculate: <code>cumulative_price_volume += price * size</code><br><code>cumulative_volume += size</code><br>Update VWAP: <code>cumulative_price_volume / cumulative_volume</code></td>
+<td>vwap: 1.121200</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example: MACD Indicator</strong></p>
+<table>
+<thead>
+<tr>
+<th>TradeTick Input</th>
+<th>Indicator Processing</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>price: 1.0500<br>size: 50000</td>
+<td>Extract price: 1.0500<br>Update MACD calculation<br>Check if initialized</td>
+<td>macd_value: 0.0012<br>signal: 0.0008<br>histogram: 0.0004</td>
+</tr>
+</tbody>
+</table>
+<h3 id="7-order-emulator-uses-tradetick">7. Order Emulator Uses TradeTick</h3>
+<p>Order emulator processes TradeTicks to update matching core and iterate orders for execution.</p>
+<p><strong>Data Flow:</strong> <code>TradeTick</code> → <code>OrderEmulator.on_trade_tick()</code> → <code>MatchingCore.set_last_raw()</code> → <code>MatchingCore.iterate()</code> → <code>Order Execution</code></p>
+<p><strong>Processing steps:</strong>
+1. TradeTick received by order emulator
+2. Matching core updates last price: <code>set_last_raw(trade.price)</code>
+3. If no quote subscriptions, bid/ask set to trade price
+4. Orders are iterated and checked for execution
+5. Trailing stop orders are updated if applicable</p>
+<p><strong>Example:</strong></p>
+<table>
+<thead>
+<tr>
+<th>TradeTick</th>
+<th>Matching Core Update</th>
+<th>Order Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>price: 10000.5000<br>size: 1.25000000<br>aggressor: BUYER</td>
+<td>last: 10000.5000<br>bid: 10000.5000 (if no quotes)<br>ask: 10000.5000 (if no quotes)</td>
+<td>Market orders may execute<br>Stop orders checked<br>Trailing stops updated</td>
+</tr>
+</tbody>
+</table>
+<h3 id="8-market-data-processing">8. Market Data Processing</h3>
+<p>TradeTicks flow through the data engine to subscribers.</p>
+<p><strong>Data Flow:</strong> <code>Exchange</code> → <code>Adapter._handle_data()</code> → <code>TradeTick</code> → <code>DataEngine._handle_trade_tick()</code> → <code>Cache.add_trade_tick()</code> / <code>MessageBus.publish()</code> → <code>Strategy.on_trade_tick()</code> / <code>Indicator.handle_trade_tick()</code></p>
+<p><strong>Processing steps:</strong>
+1. Exchange sends trade data
+2. Adapter converts to TradeTick via <code>parse_trade_msg()</code> or similar
+3. DataEngine calls <code>_handle_trade_tick()</code> which caches and publishes
+4. Strategies receive TradeTick via <code>on_trade_tick()</code> callback
+5. Indicators receive TradeTick via <code>handle_trade_tick()</code> method</p>
+<h3 id="9-data-persistence">9. Data Persistence</h3>
+<p>TradeTicks are stored in databases for historical analysis.</p>
+<p><strong>Data Flow:</strong> <code>TradeTick</code> → <code>Persistence Layer</code> → <code>PostgreSQL/Parquet</code></p>
+<p><strong>Storage format:</strong>
+- PostgreSQL: Table <code>trade</code> with columns: <code>instrument_id</code>, <code>price</code>, <code>quantity</code>, <code>aggressor_side</code>, <code>venue_trade_id</code>, <code>ts_event</code>, <code>ts_init</code>
+- Parquet: Columnar format for efficient querying</p>
+<h2 id="comparison-with-other-data-types">Comparison with Other Data Types</h2>
+<table>
+<thead>
+<tr>
+<th>Data Type</th>
+<th>Description</th>
+<th>Relationship</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TradeTick</strong></td>
+<td>Executed trade prices</td>
+<td>Source for aggregation</td>
+</tr>
+<tr>
+<td><strong>QuoteTick</strong></td>
+<td>Top-of-book bid/ask prices</td>
+<td>Complementary (willing vs actual)</td>
+</tr>
+<tr>
+<td><strong>OrderBook</strong></td>
+<td>Multiple price levels (L2/L3)</td>
+<td>TradeTick updates L1 order book</td>
+</tr>
+<tr>
+<td><strong>Bar</strong></td>
+<td>Aggregated OHLCV data</td>
+<td>TradeTick → Bar (many-to-one)<br>Bar → TradeTick (one-to-many, backtesting)</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
