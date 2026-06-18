@@ -12,6 +12,7 @@ The Action System provides a centralized, robust, and extensible layer for handl
 - **LibraryAction**: Trait for library-scoped actions that operate within a specific library context (files, locations, indexing, etc.)
 
 Both traits provide:
+
 - Input/Output type associations with wire contracts
 - Pre-execution validation step
 - User confirmation workflow support

@@ -14,16 +14,7 @@ The wire module provides the infrastructure for type-safe communication between 
 
 ## Operation Registry
 
-The operation registry enables compile-time registration of all actions and queries using the `inventory` crate. This creates a central mapping between wire method strings and their handler functions.
-
-**Purpose:** Operations register automatically at compile time without manual registration code. The daemon looks up handlers by method string when requests arrive, eliminating manual dispatch logic.
-
-**What it solves:**
-
-- Removes boilerplate for registering operations
-- Ensures all operations are discoverable without runtime registration
-- Provides type-safe method strings through macros like `register_library_action!`
-- Separates registration from business logic
+The operation registry enables compile-time registration of all actions and queries using the `inventory` crate. This creates a central mapping between wire method strings and their handler functions, eliminating manual dispatch logic and registration boilerplate.
 
 **Implementation:** `core/src/infra/wire/registry.rs`
 
@@ -43,16 +34,7 @@ Each operation uses registration macros that:
 
 ## Type Extraction System
 
-The type extraction system enables automatic discovery and extraction of Input/Output types from registered operations at compile time using trait-based metadata.
-
-**Purpose:** Generate TypeScript and Swift clients automatically without manually defining type mappings. The system discovers all registered operations and extracts their types for code generation.
-
-**What it solves:**
-
-- Eliminates manual type synchronization between backend and frontend
-- Ensures type safety across the client-daemon boundary
-- Generates type information at compile time rather than runtime
-- Solves the timeline problem where type generation needs type data before daemon startup
+The type extraction system enables automatic discovery and extraction of Input/Output types from registered operations at compile time using trait-based metadata. This eliminates manual type synchronization between backend and frontend while ensuring type safety across the client-daemon boundary, solving the timeline problem where type generation needs type data before daemon startup.
 
 **Implementation:** `core/src/infra/wire/type_extraction.rs`
 
@@ -69,16 +51,7 @@ The registration macros automatically implement these traits, so operations don'
 
 ## Handler Functions
 
-Handler functions provide thin wrappers that deserialize inputs, dispatch to business logic, and serialize outputs. They convert between JSON-RPC payloads and typed business logic calls.
-
-**Purpose:** Bridge the gap between JSON-RPC wire protocol and typed Rust operations. Each handler follows the same pattern: deserialize payload, call dispatcher, serialize result.
-
-**What it solves:**
-
-- Centralizes JSON serialization/deserialization logic
-- Provides consistent error handling across all operations
-- Separates protocol handling from business logic
-- Allows the dispatcher to handle session and library context
+Handler functions provide thin wrappers that deserialize inputs, dispatch to business logic, and serialize outputs, centralizing JSON serialization/deserialization logic while separating protocol handling from business logic.
 
 **Implementation:** `core/src/infra/wire/registry.rs`
 
@@ -95,16 +68,7 @@ All handlers return `Pin<Box<dyn Future<Output = Result<serde_json::Value, Strin
 
 ## API Type Wrappers
 
-API type wrappers convert internal types to API-safe types for export to clients like Swift. This allows the daemon to use internal types while exposing client-compatible types.
-
-**Purpose:** Convert internal implementation types to types suitable for client code generation without changing internal APIs.
-
-**What it solves:**
-
-- Internal types like `JobHandle` can remain unchanged
-- Clients receive compatible types like `JobReceipt`
-- Conversion is automatic through the `ToApiType` trait
-- Keeps business logic clean while handling API compatibility
+API type wrappers convert internal types to API-safe types for export to clients like Swift, allowing internal types like `JobHandle` to remain unchanged while clients receive compatible types like `JobReceipt` through automatic conversion.
 
 **Implementation:** `core/src/infra/wire/api_types.rs`
 
@@ -117,16 +81,7 @@ Current wrappers include:
 
 ## Swift Code Generation
 
-Swift code generation automatically produces Swift client code from Rust types, including namespace structs and async methods for all registered operations.
-
-**Purpose:** Generate complete Swift client libraries that mirror the Rust backend API, ensuring type safety across platforms.
-
-**What it solves:**
-
-- Eliminates manual Swift client maintenance
-- Ensures Swift types always match Rust types
-- Provides async/await interface for Swift apps
-- Organizes operations into namespaces for cleaner API
+Swift code generation automatically produces Swift client code from Rust types, including namespace structs and async methods for all registered operations. This eliminates manual Swift client maintenance while ensuring Swift types always match Rust types.
 
 **Implementation:** `core/src/infra/wire/type_extraction.rs`
 
