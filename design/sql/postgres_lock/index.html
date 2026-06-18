@@ -2063,11 +2063,13 @@
 <li>Implementing custom locking semantics</li>
 </ul>
 <h3 id="why-use-advisory-locks">Why use Advisory Locks</h3>
-<p>Advisory locks are ideal when you need to:
-- Implement custom synchronization logic beyond what standard SQL operations provide
-- Coordinate across multiple services or workers
-- Prevent race conditions in job processing systems
-- Implement rate limiting or mutex behavior in your application layer</p>
+<p>Advisory locks are ideal when you need to:</p>
+<ul>
+<li>Implement custom synchronization logic beyond what standard SQL operations provide</li>
+<li>Coordinate across multiple services or workers</li>
+<li>Prevent race conditions in job processing systems</li>
+<li>Implement rate limiting or mutex behavior in your application layer</li>
+</ul>
 <h3 id="go-code-example">Go Code Example</h3>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
@@ -2170,10 +2172,12 @@
 <h3 id="access-share">ACCESS SHARE</h3>
 <p><strong>Conflicts with:</strong> ACCESS EXCLUSIVE</p>
 <p><strong>Acquired by:</strong> SELECT statements</p>
-<p><strong>Why use ACCESS SHARE:</strong>
-- Allows concurrent reads while preventing table modifications
-- Used when you need to ensure a table isn't dropped or modified during read operations
-- Provides read consistency for complex reporting queries</p>
+<p><strong>Why use ACCESS SHARE:</strong></p>
+<ul>
+<li>Allows concurrent reads while preventing table modifications</li>
+<li>Used when you need to ensure a table isn't dropped or modified during read operations</li>
+<li>Provides read consistency for complex reporting queries</li>
+</ul>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
@@ -2227,10 +2231,12 @@
 <h3 id="row-share">ROW SHARE</h3>
 <p><strong>Conflicts with:</strong> EXCLUSIVE, ACCESS EXCLUSIVE</p>
 <p><strong>Acquired by:</strong> SELECT FOR UPDATE/FOR SHARE</p>
-<p><strong>Why use ROW SHARE:</strong>
-- Allows concurrent reads and row-level locks
-- Prevents table-wide exclusive locks while maintaining row-level consistency
-- Useful for scenarios where you need to update some rows but allow access to others</p>
+<p><strong>Why use ROW SHARE:</strong></p>
+<ul>
+<li>Allows concurrent reads and row-level locks</li>
+<li>Prevents table-wide exclusive locks while maintaining row-level consistency</li>
+<li>Useful for scenarios where you need to update some rows but allow access to others</li>
+</ul>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
@@ -2277,10 +2283,12 @@
 <h3 id="row-exclusive">ROW EXCLUSIVE</h3>
 <p><strong>Conflicts with:</strong> SHARE, SHARE ROW EXCLUSIVE, EXCLUSIVE, ACCESS EXCLUSIVE</p>
 <p><strong>Acquired by:</strong> INSERT, UPDATE, DELETE, MERGE</p>
-<p><strong>Why use ROW EXCLUSIVE:</strong>
-- Standard lock for write operations
-- Allows concurrent writes to different rows
-- Prevents table-level operations that would conflict with row modifications</p>
+<p><strong>Why use ROW EXCLUSIVE:</strong></p>
+<ul>
+<li>Standard lock for write operations</li>
+<li>Allows concurrent writes to different rows</li>
+<li>Prevents table-level operations that would conflict with row modifications</li>
+</ul>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
@@ -2340,10 +2348,12 @@
 <h3 id="share-update-exclusive">SHARE UPDATE EXCLUSIVE</h3>
 <p><strong>Conflicts with:</strong> SHARE UPDATE EXCLUSIVE, SHARE, SHARE ROW EXCLUSIVE, EXCLUSIVE, ACCESS EXCLUSIVE</p>
 <p><strong>Acquired by:</strong> VACUUM (without FULL), ANALYZE, CREATE INDEX CONCURRENTLY</p>
-<p><strong>Why use SHARE UPDATE EXCLUSIVE:</strong>
-- Allows concurrent reads while preventing conflicting maintenance operations
-- Used for schema changes and maintenance that don't require full table lock
-- Ideal for online schema migrations and maintenance</p>
+<p><strong>Why use SHARE UPDATE EXCLUSIVE:</strong></p>
+<ul>
+<li>Allows concurrent reads while preventing conflicting maintenance operations</li>
+<li>Used for schema changes and maintenance that don't require full table lock</li>
+<li>Ideal for online schema migrations and maintenance</li>
+</ul>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
@@ -2403,10 +2413,12 @@
 <h3 id="share">SHARE</h3>
 <p><strong>Conflicts with:</strong> ROW EXCLUSIVE, SHARE UPDATE EXCLUSIVE, SHARE ROW EXCLUSIVE, EXCLUSIVE, ACCESS EXCLUSIVE</p>
 <p><strong>Acquired by:</strong> CREATE INDEX (without CONCURRENTLY)</p>
-<p><strong>Why use SHARE:</strong>
-- Prevents concurrent modifications while allowing reads
-- Used when creating indexes that need consistent view of data
-- Ensures index creation sees consistent snapshot of table data</p>
+<p><strong>Why use SHARE:</strong></p>
+<ul>
+<li>Prevents concurrent modifications while allowing reads</li>
+<li>Used when creating indexes that need consistent view of data</li>
+<li>Ensures index creation sees consistent snapshot of table data</li>
+</ul>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
@@ -2451,10 +2463,12 @@
 </span></code></pre></div>
 <h3 id="share-row-exclusive">SHARE ROW EXCLUSIVE</h3>
 <p><strong>Conflicts with:</strong> ROW EXCLUSIVE, SHARE UPDATE EXCLUSIVE, SHARE, SHARE ROW EXCLUSIVE, EXCLUSIVE, ACCESS EXCLUSIVE</p>
-<p><strong>Why use SHARE ROW EXCLUSIVE:</strong>
-- Protects table while allowing row-level operations
-- Stronger than SHARE, prevents concurrent updates
-- Used for scenarios needing read consistency with exclusive row updates</p>
+<p><strong>Why use SHARE ROW EXCLUSIVE:</strong></p>
+<ul>
+<li>Protects table while allowing row-level operations</li>
+<li>Stronger than SHARE, prevents concurrent updates</li>
+<li>Used for scenarios needing read consistency with exclusive row updates</li>
+</ul>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
@@ -2508,10 +2522,12 @@
 </span></code></pre></div>
 <h3 id="exclusive">EXCLUSIVE</h3>
 <p><strong>Conflicts with:</strong> ROW SHARE, ROW EXCLUSIVE, SHARE UPDATE EXCLUSIVE, SHARE, SHARE ROW EXCLUSIVE, EXCLUSIVE, ACCESS EXCLUSIVE</p>
-<p><strong>Why use EXCLUSIVE:</strong>
-- Prevents concurrent writes while allowing reads
-- Used for data consistency during critical updates
-- Stronger isolation than SHARE but allows SELECT operations</p>
+<p><strong>Why use EXCLUSIVE:</strong></p>
+<ul>
+<li>Prevents concurrent writes while allowing reads</li>
+<li>Used for data consistency during critical updates</li>
+<li>Stronger isolation than SHARE but allows SELECT operations</li>
+</ul>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
@@ -2567,10 +2583,12 @@
 <h3 id="access-exclusive">ACCESS EXCLUSIVE</h3>
 <p><strong>Conflicts with:</strong> All modes</p>
 <p><strong>Acquired by:</strong> DROP TABLE, TRUNCATE, REINDEX, CLUSTER, VACUUM FULL, ALTER TABLE (most forms)</p>
-<p><strong>Why use ACCESS EXCLUSIVE:</strong>
-- Strongest table lock, prevents all concurrent access
-- Used for DDL operations that change table structure
-- Ensures no other transactions can access the table during modification</p>
+<p><strong>Why use ACCESS EXCLUSIVE:</strong></p>
+<ul>
+<li>Strongest table lock, prevents all concurrent access</li>
+<li>Used for DDL operations that change table structure</li>
+<li>Ensures no other transactions can access the table during modification</li>
+</ul>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
@@ -2622,10 +2640,12 @@
 <h2 id="row-level-locks">Row-level Locks</h2>
 <p>Row-level locks provide fine-grained concurrency control by locking specific rows rather than entire tables.</p>
 <h3 id="for-update">FOR UPDATE</h3>
-<p><strong>Why use FOR UPDATE:</strong>
-- Locks selected rows for update within the same transaction
-- Prevents other transactions from modifying or deleting these rows
-- Essential for read-modify-write patterns to prevent lost updates</p>
+<p><strong>Why use FOR UPDATE:</strong></p>
+<ul>
+<li>Locks selected rows for update within the same transaction</li>
+<li>Prevents other transactions from modifying or deleting these rows</li>
+<li>Essential for read-modify-write patterns to prevent lost updates</li>
+</ul>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
@@ -2727,10 +2747,12 @@
 </span><span id="__span-9-99"><a id="__codelineno-9-99" name="__codelineno-9-99" href="#__codelineno-9-99"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="for-share">FOR SHARE</h3>
-<p><strong>Why use FOR SHARE:</strong>
-- Locks rows for reading, preventing other transactions from modifying them
-- Allows other transactions to also read the same rows with FOR SHARE
-- Useful when you need read consistency without preventing other readers</p>
+<p><strong>Why use FOR SHARE:</strong></p>
+<ul>
+<li>Locks rows for reading, preventing other transactions from modifying them</li>
+<li>Allows other transactions to also read the same rows with FOR SHARE</li>
+<li>Useful when you need read consistency without preventing other readers</li>
+</ul>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
@@ -2787,10 +2809,12 @@
 </span><span id="__span-10-54"><a id="__codelineno-10-54" name="__codelineno-10-54" href="#__codelineno-10-54"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="for-no-key-update">FOR NO KEY UPDATE</h3>
-<p><strong>Why use FOR NO KEY UPDATE:</strong>
-- Similar to FOR UPDATE but weaker - doesn't block SELECT FOR KEY SHARE
-- Allows other transactions to read the same rows with FOR KEY SHARE
-- Useful when updating non-key columns while allowing referential integrity checks</p>
+<p><strong>Why use FOR NO KEY UPDATE:</strong></p>
+<ul>
+<li>Similar to FOR UPDATE but weaker - doesn't block SELECT FOR KEY SHARE</li>
+<li>Allows other transactions to read the same rows with FOR KEY SHARE</li>
+<li>Useful when updating non-key columns while allowing referential integrity checks</li>
+</ul>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
@@ -2870,10 +2894,12 @@
 </span><span id="__span-11-77"><a id="__codelineno-11-77" name="__codelineno-11-77" href="#__codelineno-11-77"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="for-key-share">FOR KEY SHARE</h3>
-<p><strong>Why use FOR KEY SHARE:</strong>
-- Weakest lock, only prevents FOR UPDATE and FOR NO KEY UPDATE
-- Allows other transactions to modify non-key columns
-- Useful for foreign key validation and referential integrity checks</p>
+<p><strong>Why use FOR KEY SHARE:</strong></p>
+<ul>
+<li>Weakest lock, only prevents FOR UPDATE and FOR NO KEY UPDATE</li>
+<li>Allows other transactions to modify non-key columns</li>
+<li>Useful for foreign key validation and referential integrity checks</li>
+</ul>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
 </span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>

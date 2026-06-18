@@ -2694,21 +2694,27 @@
 </span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="c1">-- Inefficient for:</span>
 </span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;user%&#39;</span><span class="p">;</span>
 </span></code></pre></div></p>
-<p><strong>When to Use:</strong>
-- When you never query ranges on the column
-- When you need faster equality lookups than B-Tree
-- When index size is a concern</p>
-<p><strong>When to Avoid:</strong>
-- When you might need range queries in the future
-- When you need sorting
-- When you need pattern matching</p>
+<p><strong>When to Use:</strong></p>
+<ul>
+<li>When you never query ranges on the column</li>
+<li>When you need faster equality lookups than B-Tree</li>
+<li>When index size is a concern</li>
+</ul>
+<p><strong>When to Avoid:</strong></p>
+<ul>
+<li>When you might need range queries in the future</li>
+<li>When you need sorting</li>
+<li>When you need pattern matching</li>
+</ul>
 <hr />
 <h3 id="gist-generalized-search-tree">GiST (Generalized Search Tree)</h3>
 <p><strong>Supports complex data types and spatial searches.</strong></p>
-<p><strong>Supports:</strong>
-- Geometric operators: <code>&lt;&lt;</code>, <code>&amp;&lt;</code>, <code>&amp;&gt;</code>, <code>&gt;&gt;</code>, <code>&lt;&lt;|</code>, <code>&amp;&lt;|</code>, <code>|&amp;&gt;</code>, <code>|&gt;&gt;</code>, <code>@&gt;</code>, <code>&lt;@</code>, <code>~=</code>, <code>&amp;&amp;</code>
-- Range operators: <code>@&gt;</code>, <code>&lt;@</code>, <code>&amp;&amp;</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>
-- Full-text search operators: <code>@@</code></p>
+<p><strong>Supports:</strong></p>
+<ul>
+<li>Geometric operators: <code>&lt;&lt;</code>, <code>&amp;&lt;</code>, <code>&amp;&gt;</code>, <code>&gt;&gt;</code>, <code>&lt;&lt;|</code>, <code>&amp;&lt;|</code>, <code>|&amp;&gt;</code>, <code>|&gt;&gt;</code>, <code>@&gt;</code>, <code>&lt;@</code>, <code>~=</code>, <code>&amp;&amp;</code></li>
+<li>Range operators: <code>@&gt;</code>, <code>&lt;@</code>, <code>&amp;&amp;</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code></li>
+<li>Full-text search operators: <code>@@</code></li>
+</ul>
 <p><strong>Best For:</strong>
 - Geospatial data (PostGIS)
 - Range types
