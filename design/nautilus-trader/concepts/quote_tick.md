@@ -147,6 +147,7 @@ QuoteTicks flow through the data engine to subscribers.
 **Data Flow:** `Exchange` → `Adapter._handle_data()` → `QuoteTick` → `DataEngine._handle_quote_tick()` → `Cache.add_quote_tick()` / `MessageBus.publish()` → `Strategy.on_quote_tick()` / `Indicator.handle_quote_tick()`
 
 **Processing steps:**
+
 1. Exchange sends market data
 2. Adapter converts to QuoteTick via `parse_to_quote_tick()`
 3. DataEngine calls `_handle_quote_tick()` which caches and publishes
@@ -160,6 +161,7 @@ QuoteTicks are stored in databases for historical analysis.
 **Data Flow:** `QuoteTick` → `Persistence Layer` → `PostgreSQL/Parquet`
 
 **Storage format:**
+
 - PostgreSQL: Table `quote` with columns: `instrument_id`, `bid_price`, `ask_price`, `bid_size`, `ask_size`, `ts_event`, `ts_init`
 - Parquet: Columnar format for efficient querying
 

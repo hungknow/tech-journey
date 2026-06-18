@@ -261,6 +261,7 @@ book.apply_deltas(deltas)
 **Data Flow:** `Exchange` → `Adapter.parse_order_book_depth()` → `OrderBookDepth10` → `DataEngine._handle_depth10()` → `Cache.order_book().apply_depth()` → `OrderBook.apply_depth()` → `OrderBook (replaced)`
 
 **Processing Steps:**
+
 1. Exchange sends full depth snapshot (up to 10 levels)
 2. Adapter parses into `OrderBookDepth10`
 3. `DataEngine` publishes depth snapshot
@@ -292,6 +293,7 @@ book.apply_depth(depth)
 **Data Flow:** `Exchange` → `Adapter.parse_quote_tick()` → `QuoteTick` → `DataEngine._handle_quote_tick()` → `Cache.order_book().update_quote_tick()` → `OrderBook.update_quote_tick()` → `OrderBook (L1 updated)`
 
 **Processing Steps:**
+
 1. Exchange sends top-of-book quote
 2. Adapter parses into `QuoteTick`
 3. `DataEngine` caches quote and publishes
@@ -324,6 +326,7 @@ book.update_quote_tick(quote)
 **Data Flow:** `Exchange` → `Adapter.parse_trade_tick()` → `TradeTick` → `DataEngine._handle_trade_tick()` → `Cache.order_book().update_trade_tick()` → `OrderBook.update_trade_tick()` → `OrderBook (L1 updated)`
 
 **Processing Steps:**
+
 1. Exchange sends trade execution
 2. Adapter parses into `TradeTick`
 3. `DataEngine` processes trade
@@ -354,6 +357,7 @@ book.update_trade_tick(trade)
 **Data Flow:** `OrderBook (updated)` → `Cache.order_book()` → `Strategy.on_order_book_deltas()` / `Strategy.on_quote_tick()` → `Strategy.check_trigger()` → `Strategy uses book data`
 
 **Processing Steps:**
+
 1. OrderBook is updated in cache
 2. Strategy receives `OrderBookDeltas` or `QuoteTick` callback
 3. Strategy fetches current `OrderBook` from cache
@@ -385,6 +389,7 @@ def on_order_book_deltas(self, deltas: OrderBookDeltas) -> None:
 **Data Flow:** `OrderBook (L2/L3)` → `OrderBook.to_quote_tick()` → `QuoteTick` → `DataEngine._handle_quote_tick()` → `Strategy.on_quote_tick()`
 
 **Processing Steps:**
+
 1. OrderBook (L2 or L3) maintains full depth
 2. When book updates, `to_quote_tick()` extracts top-of-book
 3. Generated `QuoteTick` is published
@@ -408,6 +413,7 @@ quote = book.to_quote_tick()
 **Impact:** Individual order-level changes (Add, Update, Delete, Clear)
 
 **Actions:**
+
 - `BookAction.ADD`: Adds a new order to the book
 - `BookAction.UPDATE`: Updates quantity/price of existing order
 - `BookAction.DELETE`: Removes an order from the book

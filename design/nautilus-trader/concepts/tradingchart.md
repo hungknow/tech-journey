@@ -115,6 +115,7 @@ pub struct ChartId {
 **Purpose**: Manages chart data operations (adding, removing, filtering bars)
 
 **Key Functions**:
+
 - `add_bar(chart: &mut TradingChart, bar: Bar)` - Add a new bar to the chart
 - `add_bars(chart: &mut TradingChart, bars: Vec<Bar>)` - Bulk add bars
 - `remove_bars_before(chart: &mut TradingChart, timestamp: UnixNanos)` - Remove bars before timestamp
@@ -131,6 +132,7 @@ pub struct ChartId {
 **Purpose**: Calculates and manages scale factors for X and Y axes
 
 **Key Functions**:
+
 - `calculate_x_scale(chart: &TradingChart, canvas_width: u32) -> ScaleX` - Calculate X-axis scale
 - `calculate_y_scale(chart: &TradingChart, canvas_height: u32) -> ScaleY` - Calculate Y-axis scale
 - `update_x_scale(chart: &mut TradingChart, scale_factor: f64)` - Update X-axis scale
@@ -145,6 +147,7 @@ pub struct ChartId {
 **Purpose**: Manages viewport (visible area) operations
 
 **Key Functions**:
+
 - `set_viewport(chart: &mut TradingChart, viewport: Viewport)` - Set viewport explicitly
 - `pan_viewport(chart: &mut TradingChart, delta_time: TimeDelta, delta_price: Price)` - Pan viewport
 - `zoom_to_range(chart: &mut TradingChart, start: UnixNanos, end: UnixNanos)` - Zoom to specific time range
@@ -161,6 +164,7 @@ pub struct ChartId {
 **Purpose**: Manages zoom operations and zoom level calculations
 
 **Key Functions**:
+
 - `zoom_in(chart: &mut TradingChart, factor: f64)` - Zoom in
 - `zoom_out(chart: &mut TradingChart, factor: f64)` - Zoom out
 - `set_zoom_level(chart: &mut TradingChart, level: f64)` - Set zoom level
@@ -176,6 +180,7 @@ pub struct ChartId {
 **Purpose**: Provides analytical operations on chart data
 
 **Key Functions**:
+
 - `get_price_range(chart: &TradingChart, start: UnixNanos, end: UnixNanos) -> (Price, Price)` - Get price range
 - `get_volume_range(chart: &TradingChart, start: UnixNanos, end: UnixNanos) -> (Quantity, Quantity)` - Get volume range
 - `get_bar_at_time(chart: &TradingChart, time: UnixNanos) -> Option<&Bar>` - Get bar at specific time
@@ -190,6 +195,7 @@ pub struct ChartId {
 **Purpose**: Coordinates rendering state and prepares data for rendering layer
 
 **Key Functions**:
+
 - `prepare_rendering_data(chart: &TradingChart) -> RenderingData` - Prepare data for rendering
 - `get_visible_bars_for_rendering(chart: &TradingChart) -> Vec<BarRenderInfo>` - Get bars formatted for rendering
 - `calculate_candlestick_positions(chart: &TradingChart) -> Vec<CandlestickPosition>` - Calculate candlestick positions

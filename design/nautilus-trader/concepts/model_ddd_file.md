@@ -1,3 +1,4 @@
+```markdown
 crates/model/src/
 ├── lib.rs
 ├── macros.rs
@@ -235,3 +236,4 @@ crates/model/src/
     │   └── ... (same structure as before)
     └── python/                       # Python bindings
         └── ... (same structure as before)
+```

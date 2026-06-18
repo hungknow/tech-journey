@@ -38,6 +38,7 @@ pub struct FillModel {
 **Purpose**: Simulates the probability of a limit order getting filled when its price level is reached in the market.
 
 **How it works**:
+
 - Simulates your position in the order queue at a given price level
 - Applies to all data types (L1/L2/L3 order book, quotes, trades, bars)
 - New random probability check occurs each time market price touches your order price (but does not move through it)
@@ -65,6 +66,7 @@ if order.order_side() == OrderSide::Buy
 **Purpose**: Simulates the probability of experiencing price slippage when executing market orders.
 
 **How it works**:
+
 - Only applies to L1 data types (quotes, trades, bars)
 - When triggered, moves fill price one tick against your order direction
 - Affects all market-type orders (`MARKET`, `MARKET_TO_LIMIT`, `MARKET_IF_TOUCHED`, `STOP_MARKET`)
@@ -149,6 +151,7 @@ When a limit order's price level is reached:
 4. If the check fails, the order remains open (simulating being behind other orders in the queue)
 
 **Impact on trading**:
+
 - Lower `prob_fill_on_limit` values result in fewer filled limit orders
 - This can cause strategies to miss entry/exit opportunities
 - Higher values (closer to 1.0) simulate better queue position and more fills
@@ -163,6 +166,7 @@ When executing market orders with L1 data:
 4. For L2/L3 data, slippage is determined naturally by order book depth
 
 **Impact on trading**:
+
 - Slippage increases execution costs
 - For buy orders: slippage means paying more (one tick above best ask)
 - For sell orders: slippage means receiving less (one tick below best bid)
@@ -311,6 +315,7 @@ fill_model = FillModel(
 ```
 
 **Impact**:
+
 - Fewer limit order fills → missed trading opportunities
 - Some slippage on market orders → higher execution costs
 - More conservative backtest results → lower reported returns
@@ -327,6 +332,7 @@ fill_model = FillModel(
 ```
 
 **Impact**:
+
 - All limit orders fill when price matches → maximum trading opportunities
 - No slippage on market orders → lowest execution costs
 - More optimistic backtest results → higher reported returns
@@ -343,6 +349,7 @@ fill_model = FillModel(
 ```
 
 **Impact**:
+
 - Most limit orders fill → good trading opportunity capture
 - Occasional slippage → realistic execution costs
 - Balanced backtest results → more representative of live trading

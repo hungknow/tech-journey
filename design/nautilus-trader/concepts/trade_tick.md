@@ -5,6 +5,7 @@
 A `TradeTick` represents a single executed trade in a market, containing information about a unique trade that matched buyer and seller counterparties.
 
 **Example:**
+
 ```
 instrument_id: ETHUSDT-PERP.BINANCE
 price: 10000.5000
@@ -28,10 +29,12 @@ ts_init: 1
 | `ts_init` | Initialization timestamp (nanoseconds) | `2000000000` |
 
 **Requirements:**
+
 - Size must be positive (> 0)
 - Trade ID must be a valid string (max 36 characters)
 
 **AggressorSide Values:**
+
 - `NO_AGGRESSOR` (0): No specific aggressor identified
 - `BUYER` (1): The buy order was the aggressor (market buy)
 - `SELLER` (2): The sell order was the aggressor (market sell)
@@ -140,6 +143,7 @@ Order emulator processes TradeTicks to update matching core and iterate orders f
 **Data Flow:** `TradeTick` → `OrderEmulator.on_trade_tick()` → `MatchingCore.set_last_raw()` → `MatchingCore.iterate()` → `Order Execution`
 
 **Processing steps:**
+
 1. TradeTick received by order emulator
 2. Matching core updates last price: `set_last_raw(trade.price)`
 3. If no quote subscriptions, bid/ask set to trade price

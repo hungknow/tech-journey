@@ -102,28 +102,28 @@ The following tasks are processed **sequentially in order**:
 
 1. **Message bus operations**
 
-- All message dispatch is immediate and sequential
-- Messages are processed in the order they are received
-- No concurrent message processing
+    - All message dispatch is immediate and sequential
+    - Messages are processed in the order they are received
+    - No concurrent message processing
 
 2. **Engine operations**
 
-- Data engine: Sequential event processing
-- Execution engine: Sequential command handling
-- Risk engine: Sequential risk checks
-- All engines share the same event loop
+    - Data engine: Sequential event processing
+    - Execution engine: Sequential command handling
+    - Risk engine: Sequential risk checks
+    - All engines share the same event loop
 
 3. **Actor message handling**
 
-- Each actor processes messages sequentially
-- Actors are type-erased and registered globally
-- No parallel actor execution
+    - Each actor processes messages sequentially
+    - Actors are type-erased and registered globally
+    - No parallel actor execution
 
 4. **Timer callbacks**
 
-- Prioritized in the select loop
-- Single maintenance timer for all periodic tasks
-- Tasks fire when their deadline has passed
+    - Prioritized in the select loop
+    - Single maintenance timer for all periodic tasks
+    - Tasks fire when their deadline has passed
 
 ### No True Parallelism
 
@@ -165,6 +165,7 @@ Actors are registered using `add_actor<T>()` where `T: DataActor + Component`. R
 The system uses thread-local storage for channel senders to avoid passing references through the call stack:
 
 **Invariants:**
+
 - `bind_senders` must be called before any code that reads from TLS
 - The event loop and all TLS consumers must execute on the same thread
 - Senders are cloneable and `Send`, but TLS slots are not accessible from other threads
@@ -186,6 +187,7 @@ pub struct NautilusKernel {
 ```
 
 **Engine lifecycle:**
+
 - All engines are started sequentially: `data_engine`, `exec_engine`, `risk_engine`
 - Engines use `Rc<RefCell<..>>` for mutable access on the same thread
 - No inter-engine synchronization needed (single-threaded)
@@ -294,6 +296,7 @@ pub fn call_python(py: Python, callback: &Py<PyAny>, py_obj: Py<PyAny>) {
 ```
 
 **Use cases:**
+
 - Message bus handlers processing events
 - Callback invocations from Rust to Python
 - Direct synchronous operations
@@ -317,6 +320,7 @@ pub fn call_python_threadsafe(
 ```
 
 **Use cases:**
+
 - Scheduling callbacks on Python's asyncio event loop
 - Cross-thread communication from Tokio tasks to Python
 - Deferring work to Python's thread
