@@ -1565,17 +1565,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#key-dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Dependencies
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#integration-points" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2362,17 +2351,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#key-dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Dependencies
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#integration-points" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2405,23 +2383,29 @@
 <p>The Order Manager is responsible for managing the lifecycle and state of orders within the Nautilus Trader execution system. It provides centralized order management with support for complex order relationships and contingent orders.</p>
 <h2 id="problems-solved">Problems Solved</h2>
 <h3 id="1-complex-order-relationship-management">1. Complex Order Relationship Management</h3>
-<p>The Order Manager resolves the complexity of managing contingent order types that depend on each other's state, including:
-- <strong>OTO (One-Triggers-Others)</strong>: When a parent order fills, it triggers child orders to be submitted
-- <strong>OCO (One-Cancels-Others)</strong>: When one order fills, it automatically cancels all linked orders
-- <strong>OUO (One-Updates-Others)</strong>: When one order updates, it propagates changes to linked orders</p>
+<p>The Order Manager resolves the complexity of managing contingent order types that depend on each other's state, including:</p>
+<ul>
+<li><strong>OTO (One-Triggers-Others)</strong>: When a parent order fills, it triggers child orders to be submitted</li>
+<li><strong>OCO (One-Cancels-Others)</strong>: When one order fills, it automatically cancels all linked orders</li>
+<li><strong>OUO (One-Updates-Others)</strong>: When one order updates, it propagates changes to linked orders</li>
+</ul>
 <h3 id="2-order-state-coordination">2. Order State Coordination</h3>
-<p>The manager ensures consistent order state across multiple system components:
-- Local order state tracking
-- Emulation system integration
-- Risk management coordination
-- Execution algorithm routing</p>
+<p>The manager ensures consistent order state across multiple system components:</p>
+<ul>
+<li>Local order state tracking</li>
+<li>Emulation system integration</li>
+<li>Risk management coordination</li>
+<li>Execution algorithm routing</li>
+</ul>
 <h3 id="3-event-driven-order-lifecycle">3. Event-Driven Order Lifecycle</h3>
-<p>Handles order events and triggers appropriate actions based on order state changes:
-- Order rejection handling
-- Order cancellation logic
-- Order expiration management
-- Order filled event processing
-- Order updated event handling</p>
+<p>Handles order events and triggers appropriate actions based on order state changes:</p>
+<ul>
+<li>Order rejection handling</li>
+<li>Order cancellation logic</li>
+<li>Order expiration management</li>
+<li>Order filled event processing</li>
+<li>Order updated event handling</li>
+</ul>
 <h2 id="techniques-used">Techniques Used</h2>
 <h3 id="1-action-based-architecture">1. Action-Based Architecture</h3>
 <p>The Order Manager uses a command pattern where operations return a list of <code>OrderManagerAction</code> enum variants:
@@ -2441,12 +2425,14 @@
 </span></code></pre></div>
 This enables tracking pending orders and preventing duplicate submissions.</p>
 <h3 id="3-cache-backed-state-management">3. Cache-Backed State Management</h3>
-<p>The manager relies on a shared <code>Cache</code> for persistent order state, allowing:
-- Order existence verification
-- Closed state tracking
-- Pending cancel local status
-- Execution spawn quantity tracking
-- Position and client ID association</p>
+<p>The manager relies on a shared <code>Cache</code> for persistent order state, allowing:</p>
+<ul>
+<li>Order existence verification</li>
+<li>Closed state tracking</li>
+<li>Pending cancel local status</li>
+<li>Execution spawn quantity tracking</li>
+<li>Position and client ID association</li>
+</ul>
 <h3 id="4-event-routing-with-pattern-matching">4. Event Routing with Pattern Matching</h3>
 <p>Order events are dispatched to specific handler methods using pattern matching:
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">handle_event</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">OrderEventAny</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">OrderManagerAction</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
@@ -2461,10 +2447,12 @@ This enables tracking pending orders and preventing duplicate submissions.</p>
 </span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
 </span></code></pre></div></p>
 <h3 id="5-contingency-aware-processing">5. Contingency-Aware Processing</h3>
-<p>Different contingency types trigger different behaviors:
-- <strong>OTO</strong>: Child orders submitted when parent fills, quantities adjusted based on fill amount
-- <strong>OCO</strong>: Contingent orders cancelled when one order fills
-- <strong>OUO</strong>: Child orders cancelled when parent is fully executed, quantities updated based on parent's leaves</p>
+<p>Different contingency types trigger different behaviors:</p>
+<ul>
+<li><strong>OTO</strong>: Child orders submitted when parent fills, quantities adjusted based on fill amount</li>
+<li><strong>OCO</strong>: Contingent orders cancelled when one order fills</li>
+<li><strong>OUO</strong>: Child orders cancelled when parent is fully executed, quantities updated based on parent's leaves</li>
+</ul>
 <h2 id="file-tree">File Tree</h2>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>crates/execution/src/order_manager/
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── mod.rs          # Module definition and OrderManagerAction enum
@@ -2584,7 +2572,7 @@ This enables tracking pending orders and preventing duplicate submissions.</p>
 <p><strong>Event-Driven</strong>: The system is entirely event-driven, with actions generated based on order state changes.</p>
 </li>
 </ol>
-<h2 id="key-dependencies">Key Dependencies</h2>
+<p>Key Dependencies:</p>
 <ul>
 <li><code>nautilus_common::Cache</code>: Centralized cache for order state</li>
 <li><code>nautilus_common::Clock</code>: Time source for timestamping</li>

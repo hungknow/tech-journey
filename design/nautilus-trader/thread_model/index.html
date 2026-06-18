@@ -3131,8 +3131,12 @@
 <h3 id="sequential-cooperative-operations">Sequential (Cooperative) Operations</h3>
 <p>The following tasks are processed <strong>sequentially in order</strong>:</p>
 <ol>
-<li><strong>Message bus operations</strong></li>
-<li>All message dispatch is immediate and sequential</li>
+<li>
+<p><strong>Message bus operations</strong></p>
+</li>
+<li>
+<p>All message dispatch is immediate and sequential</p>
+</li>
 <li>Messages are processed in the order they are received</li>
 <li>
 <p>No concurrent message processing</p>
@@ -3140,7 +3144,9 @@
 <li>
 <p><strong>Engine operations</strong></p>
 </li>
-<li>Data engine: Sequential event processing</li>
+<li>
+<p>Data engine: Sequential event processing</p>
+</li>
 <li>Execution engine: Sequential command handling</li>
 <li>Risk engine: Sequential risk checks</li>
 <li>
@@ -3149,7 +3155,9 @@
 <li>
 <p><strong>Actor message handling</strong></p>
 </li>
-<li>Each actor processes messages sequentially</li>
+<li>
+<p>Each actor processes messages sequentially</p>
+</li>
 <li>Actors are type-erased and registered globally</li>
 <li>
 <p>No parallel actor execution</p>
@@ -3157,21 +3165,27 @@
 <li>
 <p><strong>Timer callbacks</strong></p>
 </li>
-<li>Prioritized in the select loop</li>
+<li>
+<p>Prioritized in the select loop</p>
+</li>
 <li>Single maintenance timer for all periodic tasks</li>
 <li>Tasks fire when their deadline has passed</li>
 </ol>
 <h3 id="no-true-parallelism">No True Parallelism</h3>
-<p>The system does <strong>not</strong> support parallel execution for:
-- CPU-bound tasks (no thread pool)
-- Message processing (sequential only)
-- Actor execution (one at a time)
-- Engine operations (shared event loop)</p>
+<p>The system does <strong>not</strong> support parallel execution for:</p>
+<ul>
+<li>CPU-bound tasks (no thread pool)</li>
+<li>Message processing (sequential only)</li>
+<li>Actor execution (one at a time)</li>
+<li>Engine operations (shared event loop)</li>
+</ul>
 <h3 id="concurrent-io-operations">Concurrent I/O Operations</h3>
-<p>The system supports <strong>concurrent I/O</strong> through async operations:
-- Network operations (WebSocket connections, HTTP requests)
-- Database operations (persistence, event storage)
-- File I/O (configuration, logs)</p>
+<p>The system supports <strong>concurrent I/O</strong> through async operations:</p>
+<ul>
+<li>Network operations (WebSocket connections, HTTP requests)</li>
+<li>Database operations (persistence, event storage)</li>
+<li>File I/O (configuration, logs)</li>
+</ul>
 <p>All I/O callbacks run on the same thread when they complete, maintaining the single-threaded invariant.</p>
 <h2 id="actor-model-implementation">Actor Model Implementation</h2>
 <h3 id="global-actor-registry">Global Actor Registry</h3>
@@ -3217,10 +3231,12 @@
 <p>Each task tracks its own <code>next_fire: Instant</code> and the dispatcher fires tasks whose deadline has passed.</p>
 <h2 id="task-distribution-mechanisms">Task Distribution Mechanisms</h2>
 <h3 id="message-bus-routing">Message Bus Routing</h3>
-<p>The system uses a centralized message bus with:
-- <strong>Pub/Sub pattern</strong>: Components subscribe to specific message types
-- <strong>Typed endpoints</strong>: Strongly typed message handlers
-- <strong>Switchboard routing</strong>: Centralized topic management</p>
+<p>The system uses a centralized message bus with:</p>
+<ul>
+<li><strong>Pub/Sub pattern</strong>: Components subscribe to specific message types</li>
+<li><strong>Typed endpoints</strong>: Strongly typed message handlers</li>
+<li><strong>Switchboard routing</strong>: Centralized topic management</li>
+</ul>
 <h3 id="channel-communication">Channel Communication</h3>
 <ul>
 <li><strong>Unbounded channels</strong>: High-throughput event processing</li>
@@ -3228,10 +3244,12 @@
 <li><strong>No backpressure</strong>: By design (unbounded channels)</li>
 </ul>
 <h3 id="actor-messaging">Actor Messaging</h3>
-<p>Actors communicate through:
-- <strong>Type-erased handlers</strong>: <code>TypedHandler&lt;T&gt;</code> for specific message types
-- <strong>Global registry</strong>: Thread-local storage for actor lookup
-- <strong>Direct dispatch</strong>: Message bus routes to registered handlers</p>
+<p>Actors communicate through:</p>
+<ul>
+<li><strong>Type-erased handlers</strong>: <code>TypedHandler&lt;T&gt;</code> for specific message types</li>
+<li><strong>Global registry</strong>: Thread-local storage for actor lookup</li>
+<li><strong>Direct dispatch</strong>: Message bus routes to registered handlers</li>
+</ul>
 <h2 id="performance-characteristics">Performance Characteristics</h2>
 <h3 id="advantages">Advantages</h3>
 <ol>
@@ -3474,10 +3492,12 @@
 </span></code></pre></div>
 <p><strong>Thread used:</strong> Tokio event loop thread (single-threaded runtime)</p>
 <h3 id="stream-processing-priority">Stream Processing Priority</h3>
-<p>All WebSocket stream tasks run cooperatively on the single Tokio event loop thread:
-- <strong>Reader task</strong>: Processes incoming messages as they arrive
-- <strong>Writer task</strong>: Sends messages from the command channel
-- <strong>Controller task</strong>: Periodic maintenance (heartbeat, reconnection)</p>
+<p>All WebSocket stream tasks run cooperatively on the single Tokio event loop thread:</p>
+<ul>
+<li><strong>Reader task</strong>: Processes incoming WebSocket messages as they arrive</li>
+<li><strong>Writer task</strong>: Sends messages from the command channel</li>
+<li><strong>Controller task</strong>: Periodic maintenance (heartbeat, reconnection)</li>
+</ul>
 <p>Tasks are scheduled cooperatively through <code>tokio::select!</code> and await points, with no true parallelism.</p>
 <h3 id="message-bus-streaming">Message Bus Streaming</h3>
 <p>The Python message bus supports streaming patterns:</p>

@@ -2637,48 +2637,62 @@
 </ol>
 <h2 id="technical-solutions">Technical Solutions</h2>
 <h3 id="1-pre-trade-validation-pipeline">1. Pre-Trade Validation Pipeline</h3>
-<p>A multi-layered validation approach that checks orders before submission:
-- Instrument existence and validity
-- Price and quantity precision checks
-- Notional value validation (min/max limits)
-- Account balance/margin sufficiency
-- Position-reducing order validation
-- Reduce-only order verification</p>
+<p>A multi-layered validation approach that checks orders before submission:</p>
+<ul>
+<li>Instrument existence and validity</li>
+<li>Price and quantity precision checks</li>
+<li>Notional value validation (min/max limits)</li>
+<li>Account balance/margin sufficiency</li>
+<li>Position-reducing order validation</li>
+<li>Reduce-only order verification</li>
+</ul>
 <h3 id="2-rate-limiting-architecture">2. Rate Limiting Architecture</h3>
-<p>Uses throttler components with configurable rate limits:
-- <code>Throttler&lt;TradingCommand&gt;</code> for order submissions
-- <code>Throttler&lt;ModifyOrder&gt;</code> for order modifications
-- Success/failure handlers for compliant and non-compliant commands
-- Configurable intervals and limits per operation type</p>
+<p>Uses throttler components with configurable rate limits:</p>
+<ul>
+<li><code>Throttler&lt;TradingCommand&gt;</code> for order submissions</li>
+<li><code>Throttler&lt;ModifyOrder&gt;</code> for order modifications</li>
+<li>Success/failure handlers for compliant and non-compliant commands</li>
+<li>Configurable intervals and limits per operation type</li>
+</ul>
 <h3 id="3-trading-state-machine">3. Trading State Machine</h3>
-<p>Three-state trading control system:
-- <strong>Active</strong>: Normal trading operations allowed
-- <strong>Reducing</strong>: Only position-reducing orders permitted
-- <strong>Halted</strong>: All trading operations blocked</p>
+<p>Three-state trading control system:</p>
+<ul>
+<li><strong>Active</strong>: Normal trading operations allowed</li>
+<li><strong>Reducing</strong>: Only position-reducing orders permitted</li>
+<li><strong>Halted</strong>: All trading operations blocked</li>
+</ul>
 <h3 id="4-message-bus-integration">4. Message Bus Integration</h3>
-<p>Event-driven architecture using the message bus:
-- Multiple endpoint registration for trading commands
-- Order event subscription and processing
-- Position event monitoring
-- Re-entrancy-safe queued execution for event handlers</p>
+<p>Event-driven architecture using the message bus:</p>
+<ul>
+<li>Multiple endpoint registration for trading commands</li>
+<li>Order event subscription and processing</li>
+<li>Position event monitoring</li>
+<li>Re-entrancy-safe queued execution for event handlers</li>
+</ul>
 <h3 id="5-fixed-risk-position-sizing">5. Fixed-Risk Position Sizing</h3>
-<p>Algorithm for calculating position sizes based on:
-- Account equity and risk percentage
-- Entry/stop-loss price difference
-- Commission rates and exchange rates
-- Unit batching and hard limits
-- Instrument max quantity constraints</p>
+<p>Algorithm for calculating position sizes based on:</p>
+<ul>
+<li>Account equity and risk percentage</li>
+<li>Entry/stop-loss price difference</li>
+<li>Commission rates and exchange rates</li>
+<li>Unit batching and hard limits</li>
+<li>Instrument max quantity constraints</li>
+</ul>
 <h3 id="6-multi-account-risk-aggregation">6. Multi-Account Risk Aggregation</h3>
-<p>Account-type-specific risk checks:
-- <strong>Cash accounts</strong>: Balance sufficiency with optional borrowing
-- <strong>Margin accounts</strong>: Initial margin requirement validation
-- <strong>Betting accounts</strong>: Liability calculation and balance locking</p>
+<p>Account-type-specific risk checks:</p>
+<ul>
+<li><strong>Cash accounts</strong>: Balance sufficiency with optional borrowing</li>
+<li><strong>Margin accounts</strong>: Initial margin requirement validation</li>
+<li><strong>Betting accounts</strong>: Liability calculation and balance locking</li>
+</ul>
 <h3 id="7-position-tracking">7. Position Tracking</h3>
-<p>Real-time position monitoring for risk assessment:
-- Net long/short quantity tracking
-- Pending order quantity accounting
-- Position-reducing order identification
-- Base currency handling for sell orders</p>
+<p>Real-time position monitoring for risk assessment:</p>
+<ul>
+<li>Net long/short quantity tracking</li>
+<li>Pending order quantity accounting</li>
+<li>Position-reducing order identification</li>
+<li>Base currency handling for sell orders</li>
+</ul>
 <h2 id="file-tree">File Tree</h2>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>crates/risk/
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── Cargo.toml              # Package configuration and dependencies
