@@ -2446,6 +2446,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#state-event-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State-Event Matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-affected-by-fill-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Affected by Fill Events
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-design-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Design Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Design Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#previous-state-preservation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Previous State Preservation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#duplicate-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Duplicate Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#state-machine-invariants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State Machine Invariants
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#order-lifecycle-management" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2988,6 +3060,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#state-event-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State-Event Matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-affected-by-fill-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Affected by Fill Events
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-design-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Design Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Design Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#previous-state-preservation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Previous State Preservation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#duplicate-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Duplicate Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#state-machine-invariants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State Machine Invariants
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#order-lifecycle-management" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3092,7 +3236,576 @@
 <li><strong>OrderTriggered</strong> - Stop/trigger orders activated</li>
 <li><strong>OrderUpdated</strong> - Order parameters modified</li>
 <li><strong>OrderDenied</strong> - Order denied by risk engine or validation logic</li>
+<li><strong>OrderPendingUpdate</strong> - Order modification request in progress</li>
+<li><strong>OrderPendingCancel</strong> - Order cancellation request in progress</li>
+<li><strong>OrderModifyRejected</strong> - Order modification rejected by venue</li>
+<li><strong>OrderCancelRejected</strong> - Order cancellation rejected by venue</li>
+<li><strong>OrderEmulated</strong> - Order is being emulated locally (trigger conditions not yet met)</li>
+<li><strong>OrderReleased</strong> - Emulated order released for submission to venue</li>
 </ul>
+<h2 id="state-event-matrix">State-Event Matrix</h2>
+<p>The following table shows which events can transition from which states, what data is affected, and why:</p>
+<table>
+<thead>
+<tr>
+<th>Current State</th>
+<th>Event</th>
+<th>Next State</th>
+<th>Data Affected</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>INITIALIZED</strong></td>
+<td>Denied</td>
+<td>DENIED</td>
+<td><code>ts_closed</code></td>
+<td>Local validation or risk check failed before submission</td>
+</tr>
+<tr>
+<td><strong>INITIALIZED</strong></td>
+<td>Emulated</td>
+<td>EMULATED</td>
+<td><code>emulation_trigger</code></td>
+<td>Order is held locally until trigger conditions are met</td>
+</tr>
+<tr>
+<td><strong>INITIALIZED</strong></td>
+<td>Released</td>
+<td>RELEASED</td>
+<td><code>emulation_trigger</code></td>
+<td>Emulated order conditions satisfied, ready for venue submission</td>
+</tr>
+<tr>
+<td><strong>INITIALIZED</strong></td>
+<td>Submitted</td>
+<td>SUBMITTED</td>
+<td><code>account_id</code>, <code>ts_submitted</code></td>
+<td>Order transmitted to venue for execution</td>
+</tr>
+<tr>
+<td><strong>INITIALIZED</strong></td>
+<td>Rejected</td>
+<td>REJECTED</td>
+<td><code>ts_closed</code></td>
+<td>External order rejected immediately (e.g., API error)</td>
+</tr>
+<tr>
+<td><strong>INITIALIZED</strong></td>
+<td>Accepted</td>
+<td>ACCEPTED</td>
+<td><code>venue_order_id</code>, <code>account_id</code>, <code>ts_accepted</code></td>
+<td>External order accepted immediately (rare)</td>
+</tr>
+<tr>
+<td><strong>INITIALIZED</strong></td>
+<td>Canceled</td>
+<td>CANCELED</td>
+<td><code>ts_closed</code></td>
+<td>External order canceled before acknowledgment (rare)</td>
+</tr>
+<tr>
+<td><strong>INITIALIZED</strong></td>
+<td>Expired</td>
+<td>EXPIRED</td>
+<td><code>ts_closed</code></td>
+<td>External order expired before acknowledgment (rare)</td>
+</tr>
+<tr>
+<td><strong>INITIALIZED</strong></td>
+<td>Triggered</td>
+<td>TRIGGERED</td>
+<td>None</td>
+<td>External stop order triggered immediately (rare)</td>
+</tr>
+<tr>
+<td><strong>INITIALIZED</strong></td>
+<td>Updated</td>
+<td>INITIALIZED</td>
+<td>Various order fields</td>
+<td>In-place modification of order parameters before submission</td>
+</tr>
+<tr>
+<td><strong>EMULATED</strong></td>
+<td>Canceled</td>
+<td>CANCELED</td>
+<td><code>ts_closed</code></td>
+<td>User canceled emulated order before trigger</td>
+</tr>
+<tr>
+<td><strong>EMULATED</strong></td>
+<td>Expired</td>
+<td>EXPIRED</td>
+<td><code>ts_closed</code></td>
+<td>Emulated order reached expiration time</td>
+</tr>
+<tr>
+<td><strong>EMULATED</strong></td>
+<td>Released</td>
+<td>RELEASED</td>
+<td><code>emulation_trigger</code></td>
+<td>Trigger conditions satisfied, order released</td>
+</tr>
+<tr>
+<td><strong>RELEASED</strong></td>
+<td>Submitted</td>
+<td>SUBMITTED</td>
+<td><code>account_id</code>, <code>ts_submitted</code></td>
+<td>Released order submitted to venue</td>
+</tr>
+<tr>
+<td><strong>RELEASED</strong></td>
+<td>Denied</td>
+<td>DENIED</td>
+<td><code>ts_closed</code></td>
+<td>Validation failed after release</td>
+</tr>
+<tr>
+<td><strong>RELEASED</strong></td>
+<td>Canceled</td>
+<td>CANCELED</td>
+<td><code>ts_closed</code></td>
+<td>Execution algorithm canceled released order</td>
+</tr>
+<tr>
+<td><strong>RELEASED</strong></td>
+<td>Updated</td>
+<td>RELEASED</td>
+<td>Various order fields</td>
+<td>In-place modification of released order parameters</td>
+</tr>
+<tr>
+<td><strong>SUBMITTED</strong></td>
+<td>PendingUpdate</td>
+<td>PENDING_UPDATE</td>
+<td><code>previous_status</code></td>
+<td>Modification request sent to venue, awaiting acknowledgment</td>
+</tr>
+<tr>
+<td><strong>SUBMITTED</strong></td>
+<td>PendingCancel</td>
+<td>PENDING_CANCEL</td>
+<td><code>previous_status</code></td>
+<td>Cancellation request sent to venue, awaiting acknowledgment</td>
+</tr>
+<tr>
+<td><strong>SUBMITTED</strong></td>
+<td>Rejected</td>
+<td>REJECTED</td>
+<td><code>ts_closed</code></td>
+<td>Venue rejected the order (invalid params, insufficient funds)</td>
+</tr>
+<tr>
+<td><strong>SUBMITTED</strong></td>
+<td>Canceled</td>
+<td>CANCELED</td>
+<td><code>ts_closed</code></td>
+<td>FOK/IOC order canceled by venue if not filled (AutoCancel)</td>
+</tr>
+<tr>
+<td><strong>SUBMITTED</strong></td>
+<td>Accepted</td>
+<td>ACCEPTED</td>
+<td><code>venue_order_id</code>, <code>account_id</code>, <code>ts_accepted</code></td>
+<td>Venue acknowledged the order</td>
+</tr>
+<tr>
+<td><strong>SUBMITTED</strong></td>
+<td>Updated</td>
+<td>SUBMITTED</td>
+<td>Various order fields</td>
+<td>Modification confirmed (instant update)</td>
+</tr>
+<tr>
+<td><strong>SUBMITTED</strong></td>
+<td>Filled</td>
+<td>FILLED</td>
+<td>All fill data</td>
+<td>Order filled immediately (common for market orders)</td>
+</tr>
+<tr>
+<td><strong>ACCEPTED</strong></td>
+<td>Rejected</td>
+<td>REJECTED</td>
+<td><code>ts_closed</code></td>
+<td>StopLimit order rejected after acceptance (e.g., trigger invalid)</td>
+</tr>
+<tr>
+<td><strong>ACCEPTED</strong></td>
+<td>PendingUpdate</td>
+<td>PENDING_UPDATE</td>
+<td><code>previous_status</code></td>
+<td>Modification request sent to venue</td>
+</tr>
+<tr>
+<td><strong>ACCEPTED</strong></td>
+<td>PendingCancel</td>
+<td>PENDING_CANCEL</td>
+<td><code>previous_status</code></td>
+<td>Cancellation request sent to venue</td>
+</tr>
+<tr>
+<td><strong>ACCEPTED</strong></td>
+<td>Canceled</td>
+<td>CANCELED</td>
+<td><code>ts_closed</code></td>
+<td>Order canceled by user or system</td>
+</tr>
+<tr>
+<td><strong>ACCEPTED</strong></td>
+<td>Triggered</td>
+<td>TRIGGERED</td>
+<td>None</td>
+<td>Stop/trigger order activated</td>
+</tr>
+<tr>
+<td><strong>ACCEPTED</strong></td>
+<td>Updated</td>
+<td>ACCEPTED</td>
+<td>Various order fields</td>
+<td>Order parameters modified successfully</td>
+</tr>
+<tr>
+<td><strong>ACCEPTED</strong></td>
+<td>Expired</td>
+<td>EXPIRED</td>
+<td><code>ts_closed</code></td>
+<td>Order reached expiration time</td>
+</tr>
+<tr>
+<td><strong>ACCEPTED</strong></td>
+<td>Filled</td>
+<td>FILLED</td>
+<td>All fill data</td>
+<td>Order fully or partially executed</td>
+</tr>
+<tr>
+<td><strong>CANCELED</strong></td>
+<td>Filled</td>
+<td>FILLED</td>
+<td>All fill data</td>
+<td>Fill occurred after cancellation (race condition)</td>
+</tr>
+<tr>
+<td><strong>PENDING_UPDATE</strong></td>
+<td>Rejected</td>
+<td>REJECTED</td>
+<td><code>ts_closed</code></td>
+<td>Modification rejected by venue</td>
+</tr>
+<tr>
+<td><strong>PENDING_UPDATE</strong></td>
+<td>Accepted</td>
+<td>ACCEPTED</td>
+<td><code>venue_order_id</code>, <code>account_id</code>, <code>ts_accepted</code></td>
+<td>Order accepted while pending update (rare)</td>
+</tr>
+<tr>
+<td><strong>PENDING_UPDATE</strong></td>
+<td>Canceled</td>
+<td>CANCELED</td>
+<td><code>ts_closed</code></td>
+<td>Order canceled while pending update</td>
+</tr>
+<tr>
+<td><strong>PENDING_UPDATE</strong></td>
+<td>Expired</td>
+<td>EXPIRED</td>
+<td><code>ts_closed</code></td>
+<td>Order expired while pending update</td>
+</tr>
+<tr>
+<td><strong>PENDING_UPDATE</strong></td>
+<td>Triggered</td>
+<td>TRIGGERED</td>
+<td>None</td>
+<td>Stop order triggered while pending update</td>
+</tr>
+<tr>
+<td><strong>PENDING_UPDATE</strong></td>
+<td>PendingUpdate</td>
+<td>PENDING_UPDATE</td>
+<td>None</td>
+<td>Multiple modification requests queued</td>
+</tr>
+<tr>
+<td><strong>PENDING_UPDATE</strong></td>
+<td>PendingCancel</td>
+<td>PENDING_CANCEL</td>
+<td><code>previous_status</code></td>
+<td>Cancellation request sent while update pending</td>
+</tr>
+<tr>
+<td><strong>PENDING_UPDATE</strong></td>
+<td>ModifyRejected</td>
+<td>PENDING_UPDATE</td>
+<td><code>status</code> (restored to previous)</td>
+<td>Venue rejected modification, order returned to previous state</td>
+</tr>
+<tr>
+<td><strong>PENDING_UPDATE</strong></td>
+<td>Updated</td>
+<td>PENDING_UPDATE</td>
+<td>Various order fields</td>
+<td>Modification confirmed, state remains pending</td>
+</tr>
+<tr>
+<td><strong>PENDING_UPDATE</strong></td>
+<td>Filled</td>
+<td>FILLED</td>
+<td>All fill data</td>
+<td>Order filled while pending update</td>
+</tr>
+<tr>
+<td><strong>PENDING_CANCEL</strong></td>
+<td>Rejected</td>
+<td>REJECTED</td>
+<td><code>ts_closed</code></td>
+<td>Cancellation rejected by venue, order still active</td>
+</tr>
+<tr>
+<td><strong>PENDING_CANCEL</strong></td>
+<td>PendingCancel</td>
+<td>PENDING_CANCEL</td>
+<td>None</td>
+<td>Multiple cancellation requests queued</td>
+</tr>
+<tr>
+<td><strong>PENDING_CANCEL</strong></td>
+<td>CancelRejected</td>
+<td>PENDING_CANCEL</td>
+<td><code>status</code> (restored to previous)</td>
+<td>Venue rejected cancellation, order returned to previous state</td>
+</tr>
+<tr>
+<td><strong>PENDING_CANCEL</strong></td>
+<td>Canceled</td>
+<td>CANCELED</td>
+<td><code>ts_closed</code></td>
+<td>Cancellation confirmed by venue</td>
+</tr>
+<tr>
+<td><strong>PENDING_CANCEL</strong></td>
+<td>Expired</td>
+<td>EXPIRED</td>
+<td><code>ts_closed</code></td>
+<td>Order expired while pending cancel</td>
+</tr>
+<tr>
+<td><strong>PENDING_CANCEL</strong></td>
+<td>Accepted</td>
+<td>ACCEPTED</td>
+<td>None</td>
+<td>Order accepted while pending cancel (failed cancel)</td>
+</tr>
+<tr>
+<td><strong>PENDING_CANCEL</strong></td>
+<td>Filled</td>
+<td>FILLED</td>
+<td>All fill data</td>
+<td>Order filled while pending cancel (failed cancel)</td>
+</tr>
+<tr>
+<td><strong>TRIGGERED</strong></td>
+<td>Rejected</td>
+<td>REJECTED</td>
+<td><code>ts_closed</code></td>
+<td>Triggered order rejected by venue</td>
+</tr>
+<tr>
+<td><strong>TRIGGERED</strong></td>
+<td>PendingUpdate</td>
+<td>PENDING_UPDATE</td>
+<td><code>previous_status</code></td>
+<td>Modification request sent after trigger</td>
+</tr>
+<tr>
+<td><strong>TRIGGERED</strong></td>
+<td>PendingCancel</td>
+<td>PENDING_CANCEL</td>
+<td><code>previous_status</code></td>
+<td>Cancellation request sent after trigger</td>
+</tr>
+<tr>
+<td><strong>TRIGGERED</strong></td>
+<td>Canceled</td>
+<td>CANCELED</td>
+<td><code>ts_closed</code></td>
+<td>Triggered order canceled</td>
+</tr>
+<tr>
+<td><strong>TRIGGERED</strong></td>
+<td>Expired</td>
+<td>EXPIRED</td>
+<td><code>ts_closed</code></td>
+<td>Triggered order expired</td>
+</tr>
+<tr>
+<td><strong>TRIGGERED</strong></td>
+<td>Filled</td>
+<td>FILLED</td>
+<td>All fill data</td>
+<td>Triggered order executed</td>
+</tr>
+<tr>
+<td><strong>TRIGGERED</strong></td>
+<td>Updated</td>
+<td>TRIGGERED</td>
+<td>Various order fields</td>
+<td>Triggered order parameters modified</td>
+</tr>
+<tr>
+<td><strong>PARTIALLY_FILLED</strong></td>
+<td>PendingUpdate</td>
+<td>PENDING_UPDATE</td>
+<td><code>previous_status</code></td>
+<td>Modification request sent</td>
+</tr>
+<tr>
+<td><strong>PARTIALLY_FILLED</strong></td>
+<td>PendingCancel</td>
+<td>PENDING_CANCEL</td>
+<td><code>previous_status</code></td>
+<td>Cancellation request sent</td>
+</tr>
+<tr>
+<td><strong>PARTIALLY_FILLED</strong></td>
+<td>Canceled</td>
+<td>CANCELED</td>
+<td><code>ts_closed</code></td>
+<td>Remaining quantity canceled</td>
+</tr>
+<tr>
+<td><strong>PARTIALLY_FILLED</strong></td>
+<td>Expired</td>
+<td>EXPIRED</td>
+<td><code>ts_closed</code></td>
+<td>Order expired with partial fills</td>
+</tr>
+<tr>
+<td><strong>PARTIALLY_FILLED</strong></td>
+<td>Filled</td>
+<td>FILLED</td>
+<td>All fill data</td>
+<td>Final fill completed the order</td>
+</tr>
+<tr>
+<td><strong>PARTIALLY_FILLED</strong></td>
+<td>Accepted</td>
+<td>ACCEPTED</td>
+<td>None</td>
+<td>Venue re-acknowledged order (rare)</td>
+</tr>
+<tr>
+<td><strong>PARTIALLY_FILLED</strong></td>
+<td>Updated</td>
+<td>PARTIALLY_FILLED</td>
+<td>Various order fields</td>
+<td>Order parameters modified</td>
+</tr>
+</tbody>
+</table>
+<h2 id="data-affected-by-fill-events">Data Affected by Fill Events</h2>
+<p>The <strong>OrderFilled</strong> event is particularly important as it affects multiple data fields:</p>
+<table>
+<thead>
+<tr>
+<th>Data Field</th>
+<th>Affected</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>filled_qty</code></td>
+<td>Increased by <code>last_qty</code></td>
+<td>Tracks cumulative executed quantity</td>
+</tr>
+<tr>
+<td><code>leaves_qty</code></td>
+<td>Decreased by <code>last_qty</code></td>
+<td>Tracks remaining quantity to be executed</td>
+</tr>
+<tr>
+<td><code>overfill_qty</code></td>
+<td>Increased if fill exceeds order quantity</td>
+<td>Detects and tracks execution errors</td>
+</tr>
+<tr>
+<td><code>venue_order_id</code></td>
+<td>Set to fill's <code>venue_order_id</code></td>
+<td>Associates venue's order identifier</td>
+</tr>
+<tr>
+<td><code>position_id</code></td>
+<td>Set to fill's <code>position_id</code></td>
+<td>Links order to position</td>
+</tr>
+<tr>
+<td><code>trade_ids</code></td>
+<td>Appended with fill's <code>trade_id</code></td>
+<td>Records all trade executions</td>
+</tr>
+<tr>
+<td><code>last_trade_id</code></td>
+<td>Set to fill's <code>trade_id</code></td>
+<td>Tracks most recent trade</td>
+</tr>
+<tr>
+<td><code>liquidity_side</code></td>
+<td>Set to fill's <code>liquidity_side</code></td>
+<td>Records if order took or provided liquidity</td>
+</tr>
+<tr>
+<td><code>avg_px</code></td>
+<td>Recalculated as weighted average</td>
+<td>Tracks average execution price</td>
+</tr>
+<tr>
+<td><code>commissions</code></td>
+<td>Accumulated by currency</td>
+<td>Records trading fees and costs</td>
+</tr>
+<tr>
+<td><code>ts_accepted</code></td>
+<td>Set on first fill if not previously set</td>
+<td>Records venue acknowledgment time</td>
+</tr>
+<tr>
+<td><code>ts_last</code></td>
+<td>Set to fill's <code>ts_event</code></td>
+<td>Records most recent activity</td>
+</tr>
+<tr>
+<td><code>ts_closed</code></td>
+<td>Set when order fully filled</td>
+<td>Records order completion time</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Updated to PARTIALLY_FILLED or FILLED</td>
+<td>Reflects order state after fill</td>
+</tr>
+</tbody>
+</table>
+<h2 id="key-design-principles">Key Design Principles</h2>
+<h3 id="previous-state-preservation">Previous State Preservation</h3>
+<p>The system carefully preserves <code>previous_status</code> to enable proper recovery from failed operations:
+- When entering <code>PENDING_UPDATE</code> or <code>PENDING_CANCEL</code>, the pre-pending status is saved
+- This allows restoration to the correct state if the operation is rejected
+- The previous status is NOT overwritten when already in a pending state (handles multiple concurrent requests)</p>
+<h3 id="duplicate-detection">Duplicate Detection</h3>
+<p>Duplicate fills are detected and rejected to prevent data corruption:
+- Checks are performed before state transition to maintain consistency
+- Detection uses <code>trade_id</code>, <code>order_side</code>, <code>last_qty</code>, and <code>last_px</code> for matching
+- This prevents double-counting of executions from venue retransmissions</p>
+<h3 id="state-machine-invariants">State Machine Invariants</h3>
+<p>The state machine enforces several invariants:
+- <code>filled_qty + leaves_qty &gt;= quantity</code> (may exceed due to overfill)
+- All fills must have valid <code>venue_order_id</code>, <code>last_trade_id</code>, and <code>trade_ids</code>
+- Status must be PARTIALLY_FILLED or FILLED after any fill
+- Venue order IDs are tracked throughout the order's lifecycle (can change on modification)</p>
 <h2 id="order-lifecycle-management">Order Lifecycle Management</h2>
 <p>Nautilus Trader orders follow a deterministic state machine with event sourcing. Each order maintains:</p>
 <ol>
