@@ -1,0 +1,4320 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../trailing-stop-market-order/">
+      
+      
+        <link rel="next" href="../../../python-rust-ffi-streaming/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Trailing Stop Limit Order - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#trailing-stop-limit-order" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Trailing Stop Limit Order
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../sql/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../spacedrive/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spacedrive
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../rust/rust_apache_arrow/" class="md-tabs__link">
+          
+  
+  
+  Rust
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../thread_model/" class="md-tabs__link">
+          
+  
+  
+  Nautilus Trader
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../spacedrive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spacedrive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rust
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rust
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rust/rust_apache_arrow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arrow-Based CSV Data Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rust/rust_csv_cython/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cython CSV Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rust/rust_zero_cost_async/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero-cost Async
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../rust/rust_zero_copy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero Copy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nautilus Trader
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nautilus Trader
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../thread_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thread Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Crates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../crates/risk/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_2" id="__nav_6_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Execution
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Execution
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../crates/execution/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../crates/execution/order_manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../crates/execution/matching_engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../crates/execution/matching_core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../crates/execution/order_emulator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Emulator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../crates/execution/reconciliation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reconciliation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_3" id="__nav_6_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtest
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Backtest
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../crates/backtest/backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../crates/backtest/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_4" id="__nav_6_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Portfolio
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Portfolio
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../crates/portfolio/portfolio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Portfolio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tradingchart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trading Chart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trade_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trade Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quote_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quote Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../order_book/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fill_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fill Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../simulated_exchange/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulated Exchange
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model_ddd_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model DDD File
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../position/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Position
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../venue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Venue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_10" id="__nav_6_3_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instruments
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Instruments
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/instrument/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instrument
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/synthetic_instrument/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synthetic Instrument
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/betting_instrument/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Betting Instrument
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/binary_option/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Option
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/cfd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CFD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/commodity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commodity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/crypto_future/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crypto Future
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/crypto_perpetual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crypto Perpetual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/currency_pair/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Currency Pair
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/equity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/futures_contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Futures Contract
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instruments/option_contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Option Contract
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3_11" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_11" id="__nav_6_3_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orders
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_11_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_3_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Orders
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../market-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Market Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stop-market-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stop Market Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stop-limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stop Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../market-if-touched-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Market If Touched Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../limit-if-touched-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limit If Touched Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../market-to-limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Market To Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trailing-stop-market-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trailing Stop Market Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trailing Stop Limit Order
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trailing Stop Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#differences-from-other-order-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Differences from Other Order Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#offset-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offset Relationships
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Offset Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#for-long-positions-sell-orders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Long Positions (Sell Orders)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-short-positions-buy-orders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Short Positions (Buy Orders)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event Triggers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Event Triggers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-update-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Update Scenarios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update Logic
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activation-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Activation Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Activation Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#long-position-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long Position Activation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#short-position-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Short Position Activation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#profit-protection-with-price-guarantee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profit Protection with Price Guarantee
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volatility-based-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volatility-Based Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#percentage-based-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage-Based Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-only-limit-portion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Post-Only Limit Portion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-quantity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Quantity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-instrument-trailing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Instrument Trailing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advantages-and-disadvantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages and Disadvantages
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advantages and Disadvantages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disadvantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disadvantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#offset-selection-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offset Selection Guidelines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Offset Selection Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#limit-offset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limit Offset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trailing-offset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trailing Offset
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-trading-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Trading Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Trading Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trend-following-with-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trend Following with Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volatility-adjusted-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volatility-Adjusted Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slippage-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Slippage Calculation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activation-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Activation Management
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-code-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source Code Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python-rust-ffi-streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python-Rust FFI Streaming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Py03
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Py03
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyo3/call_python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    call_function
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyo3/call_python_threadsafe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    call_python_threadsafe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#differences-from-other-order-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Differences from Other Order Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#offset-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offset Relationships
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Offset Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#for-long-positions-sell-orders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Long Positions (Sell Orders)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-short-positions-buy-orders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Short Positions (Buy Orders)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event Triggers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Event Triggers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-update-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Update Scenarios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update Logic
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activation-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Activation Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Activation Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#long-position-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long Position Activation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#short-position-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Short Position Activation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#profit-protection-with-price-guarantee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profit Protection with Price Guarantee
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volatility-based-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volatility-Based Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#percentage-based-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Percentage-Based Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#post-only-limit-portion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Post-Only Limit Portion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-quantity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Quantity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-instrument-trailing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Instrument Trailing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advantages-and-disadvantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages and Disadvantages
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advantages and Disadvantages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disadvantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disadvantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#offset-selection-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offset Selection Guidelines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Offset Selection Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#limit-offset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limit Offset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trailing-offset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trailing Offset
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-trading-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Trading Strategies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Trading Strategies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trend-following-with-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trend Following with Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volatility-adjusted-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volatility-Adjusted Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slippage-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Slippage Calculation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activation-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Activation Management
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-code-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source Code Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="trailing-stop-limit-order">Trailing Stop Limit Order</h1>
+<p>Trailing stop limit orders combine dynamic risk management with precise price control, providing both automatic stop adjustment and guaranteed execution prices.</p>
+<h2 id="when-to-use">When to Use</h2>
+<p>Trailing stop limit orders are ideal for:</p>
+<ul>
+<li><strong>Profit protection with limits</strong>: Lock gains while ensuring minimum exit price</li>
+<li><strong>Gap protection</strong>: Prevent unfavorable fills during rapid reversals</li>
+<li><strong>Trend following with control</strong>: Allow positions to run with guaranteed exit price</li>
+<li><strong>Volatility management</strong>: Control execution in volatile markets</li>
+<li><strong>Precise risk management</strong>: Combine dynamic adjustment with price guarantees</li>
+</ul>
+<h2 id="example">Example</h2>
+<p>A trader wants to sell 10 BTC with a trailing stop and minimum exit price:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">trailing_stop_limit_order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrailingStopLimitOrder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">trader_id</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">strategy_id</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">instrument_id</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">client_order_id</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="n">OrderSide</span><span class="p">::</span><span class="n">Sell</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="n">Quantity</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="mf">10.0</span><span class="p">),</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="n">Price</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;50000.00&quot;</span><span class="p">),</span><span class="w">  </span><span class="c1">// Limit price</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="n">Price</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;52000.00&quot;</span><span class="p">),</span><span class="w">  </span><span class="c1">// Initial trigger price</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="n">TriggerType</span><span class="p">::</span><span class="n">LastPrice</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="n">Decimal</span><span class="p">::</span><span class="n">from_str</span><span class="p">(</span><span class="s">&quot;0.05&quot;</span><span class="p">).</span><span class="n">unwrap</span><span class="p">(),</span><span class="w">  </span><span class="c1">// Limit offset</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="n">Decimal</span><span class="p">::</span><span class="n">from_str</span><span class="p">(</span><span class="s">&quot;0.03&quot;</span><span class="p">).</span><span class="n">unwrap</span><span class="p">(),</span><span class="w">  </span><span class="c1">// Trailing offset</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="n">TrailingOffsetType</span><span class="p">::</span><span class="n">Percentage</span><span class="p">,</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="n">TimeInForce</span><span class="p">::</span><span class="n">Gtc</span><span class="p">,</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="n">expire_time</span><span class="p">),</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="n">post_only</span><span class="p">,</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="n">reduce_only</span><span class="p">,</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="n">quote_quantity</span><span class="p">,</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="n">display_qty</span><span class="p">),</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="n">emulation_trigger</span><span class="p">,</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="n">trigger_instrument_id</span><span class="p">,</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">    </span><span class="n">contingency_type</span><span class="p">,</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">    </span><span class="n">order_list_id</span><span class="p">,</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="n">linked_order_ids</span><span class="p">,</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">    </span><span class="n">parent_order_id</span><span class="p">,</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="n">exec_algorithm_id</span><span class="p">,</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">    </span><span class="n">exec_algorithm_params</span><span class="p">,</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">    </span><span class="n">exec_spawn_id</span><span class="p">,</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">    </span><span class="n">tags</span><span class="p">,</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">    </span><span class="n">init_id</span><span class="p">,</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">    </span><span class="n">ts_init</span><span class="p">,</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="p">);</span>
+</span></code></pre></div>
+<h2 id="differences-from-other-order-types">Differences from Other Order Types</h2>
+<p>Unlike trailing stop market orders, trailing stop limit orders:</p>
+<ul>
+<li><strong>Price guarantee</strong>: Limit price ensures minimum execution price</li>
+<li><strong>Gap protection</strong>: Prevents unfavorable fills during rapid reversals</li>
+<li><strong>Complex parameters</strong>: Both trailing and limit offsets</li>
+<li><strong>Three-phase lifecycle</strong>: Activation → Trigger → Limit order</li>
+<li><strong>No execution guarantee</strong>: May not fill if limit not reached</li>
+</ul>
+<p>Unlike stop limit orders, trailing stop limit orders:</p>
+<ul>
+<li><strong>Dynamic adjustment</strong>: Trigger price adjusts as price moves favorably</li>
+<li><strong>Better trend capture</strong>: Allows larger price movements before protection</li>
+<li><strong>Automated management</strong>: Less manual adjustment needed</li>
+<li><strong>Profit maximization</strong>: Can lock in more gains during trends</li>
+</ul>
+<h2 id="data-structure">Data Structure</h2>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">TrailingStopLimitOrder</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">core</span><span class="p">:</span><span class="w"> </span><span class="nc">OrderCore</span><span class="p">,</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">activation_price</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">Price</span><span class="o">&gt;</span><span class="p">,</span><span class="w">  </span><span class="c1">// Price when trailing starts</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">price</span><span class="p">:</span><span class="w"> </span><span class="nc">Price</span><span class="p">,</span><span class="w">                     </span><span class="c1">// Limit price</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">trigger_price</span><span class="p">:</span><span class="w"> </span><span class="nc">Price</span><span class="p">,</span><span class="w">             </span><span class="c1">// Current trailing trigger</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">trigger_type</span><span class="p">:</span><span class="w"> </span><span class="nc">TriggerType</span><span class="p">,</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">limit_offset</span><span class="p">:</span><span class="w"> </span><span class="nc">Decimal</span><span class="p">,</span><span class="w">            </span><span class="c1">// Distance from trigger to limit</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">trailing_offset</span><span class="p">:</span><span class="w"> </span><span class="nc">Decimal</span><span class="p">,</span><span class="w">         </span><span class="c1">// Distance from price to trigger</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">trailing_offset_type</span><span class="p">:</span><span class="w"> </span><span class="nc">TrailingOffsetType</span><span class="p">,</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">expire_time</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">UnixNanos</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">is_post_only</span><span class="p">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">display_qty</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">Quantity</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">trigger_instrument_id</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">InstrumentId</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">is_activated</span><span class="p">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">is_triggered</span><span class="p">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">ts_triggered</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">UnixNanos</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>The TrailingStopLimitOrder structure includes:</p>
+<ul>
+<li><strong>activation_price</strong>: The price level when trailing behavior began</li>
+<li><strong>price</strong>: The limit price after trigger</li>
+<li><strong>trigger_price</strong>: The current dynamic trigger level</li>
+<li><strong>limit_offset</strong>: Distance from trigger to limit price</li>
+<li><strong>trailing_offset</strong>: Distance from price to trigger</li>
+<li><strong>is_activated</strong>: Whether trailing behavior has started</li>
+<li><strong>is_triggered</strong>: Whether stop has been hit</li>
+</ul>
+<h2 id="offset-relationships">Offset Relationships</h2>
+<h3 id="for-long-positions-sell-orders">For Long Positions (Sell Orders)</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Example: Long BTC position with trailing stop limit</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">OrderSide</span><span class="p">::</span><span class="n">Sell</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">49</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="w">  </span><span class="c1">// Limit price (minimum sell)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">trigger_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">50</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="w">  </span><span class="c1">// Initial trigger (below price)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">limit_offset</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">1</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="w">  </span><span class="c1">// $1,000 below trigger</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">trailing_offset</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">1</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="w">  </span><span class="c1">// $1,000 below price</span>
+</span></code></pre></div>
+<p><strong>Calculation</strong>: limit_price = trigger_price - limit_offset</p>
+<p>As price moves:</p>
+<ul>
+<li>Price rises to $51,000 → trigger rises to $50,000 → limit = $49,000</li>
+<li>Price rises to $52,000 → trigger rises to $51,000 → limit = $50,000</li>
+<li>Price drops to $51,000 → order triggers at trigger, becomes limit order at $50,000</li>
+</ul>
+<h3 id="for-short-positions-buy-orders">For Short Positions (Buy Orders)</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// Example: Short ETH position with trailing stop limit</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">OrderSide</span><span class="p">::</span><span class="n">Buy</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">3</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="w">  </span><span class="c1">// Limit price (maximum buy)</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">trigger_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">2</span><span class="p">,</span><span class="mi">800</span><span class="p">,</span><span class="w">  </span><span class="c1">// Initial trigger (below price)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">limit_offset</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">100</span><span class="p">,</span><span class="w">  </span><span class="c1">// $100 above trigger</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">trailing_offset</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">100</span><span class="p">,</span><span class="w">  </span><span class="c1">// $100 below price</span>
+</span></code></pre></div>
+<p><strong>Calculation</strong>: limit_price = trigger_price + limit_offset</p>
+<p>As price moves:</p>
+<ul>
+<li>Price drops to $2,700 → trigger drops to $2,600 → limit = $2,700</li>
+<li>Price drops to $2,600 → trigger drops to $2,500 → limit = $2,600</li>
+<li>Price rises to $2,600 → order triggers at trigger, becomes limit order at $2,600</li>
+</ul>
+<h2 id="event-triggers">Event Triggers</h2>
+<p>Trailing stop limit orders follow this lifecycle:</p>
+<ul>
+<li><strong>OrderInitialized</strong>: Limit price, trigger price, and offsets set</li>
+<li><strong>OrderUpdated</strong>: Dynamic trigger price adjustments as trailing activates</li>
+<li><strong>OrderTriggered</strong>: Trailing stop hit, becomes limit order</li>
+<li><strong>OrderFilled</strong>: Limit order execution at or better than limit price</li>
+<li><strong>SetActivated</strong>: Called when trailing behavior begins</li>
+</ul>
+<h3 id="key-update-scenarios">Key Update Scenarios</h3>
+<ul>
+<li>Dynamic trigger price trailing</li>
+<li>Independent limit and trailing offset adjustments</li>
+<li>Activation price recording when trailing starts</li>
+<li>Transition from trailing to limit order behavior</li>
+<li>Slippage calculated relative to limit price</li>
+</ul>
+<h3 id="update-logic">Update Logic</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">fn</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">OrderUpdated</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="c1">// Update limit price if provided</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">price</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">price</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">price</span><span class="p">;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="c1">// Update trigger price</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">trigger_price</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">trigger_price</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">trigger_price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trigger_price</span><span class="p">;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="bp">self</span><span class="p">.</span><span class="n">quantity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">quantity</span><span class="p">;</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="bp">self</span><span class="p">.</span><span class="n">leaves_qty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">quantity</span><span class="p">.</span><span class="n">saturating_sub</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">filled_qty</span><span class="p">);</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="activation-examples">Activation Examples</h2>
+<h3 id="long-position-activation">Long Position Activation</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Order initially set</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">trigger_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">50</span><span class="p">,</span><span class="mi">000</span><span class="w">  </span><span class="c1">// Initial trigger</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">limit_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">49</span><span class="p">,</span><span class="mi">000</span><span class="w">    </span><span class="c1">// Limit price</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1">// Price rises to $51,000</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">activation_price</span><span class="p">:</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="cp">$</span><span class="mi">51</span><span class="p">,</span><span class="mi">000</span><span class="p">)</span><span class="w">  </span><span class="c1">// Set when trailing activates</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">trigger_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">50</span><span class="p">,</span><span class="mi">000</span><span class="w">  </span><span class="c1">// Trailing stops ($51,000 - $1,000)</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">limit_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">49</span><span class="p">,</span><span class="mi">000</span><span class="w">  </span><span class="c1">// Limit = $50,000 - $1,000</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1">// Price rises to $52,000</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="n">trigger_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">51</span><span class="p">,</span><span class="mi">000</span><span class="w">  </span><span class="c1">// Trailing stops ($52,000 - $1,000)</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="n">limit_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">50</span><span class="p">,</span><span class="mi">000</span><span class="w">  </span><span class="c1">// Limit = $51,000 - $1,000</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1">// Price drops to $51,000</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="n">is_triggered</span><span class="p">:</span><span class="w"> </span><span class="nc">true</span><span class="w">  </span><span class="c1">// Trigger hit</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="n">ts_triggered</span><span class="p">:</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="w">  </span><span class="c1">// Trigger time</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1">// Order becomes limit order at $50,000</span>
+</span></code></pre></div>
+<h3 id="short-position-activation">Short Position Activation</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// Order initially set</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">trigger_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">3</span><span class="p">,</span><span class="mi">000</span><span class="w">  </span><span class="c1">// Initial trigger</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">limit_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">3</span><span class="p">,</span><span class="mi">100</span><span class="w">    </span><span class="c1">// Limit price</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1">// Price drops to $2,800</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">activation_price</span><span class="p">:</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="cp">$</span><span class="mi">2</span><span class="p">,</span><span class="mi">800</span><span class="p">)</span><span class="w">  </span><span class="c1">// Set when trailing activates</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">trigger_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">2</span><span class="p">,</span><span class="mi">700</span><span class="w">  </span><span class="c1">// Trailing stops ($2,800 + $100)</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">limit_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">2</span><span class="p">,</span><span class="mi">800</span><span class="w">  </span><span class="c1">// Limit = $2,700 + $100</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1">// Price drops to $2,600</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="n">trigger_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">2</span><span class="p">,</span><span class="mi">500</span><span class="w">  </span><span class="c1">// Trailing stops ($2,600 + $100)</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="n">limit_price</span><span class="p">:</span><span class="w"> </span><span class="cp">$</span><span class="mi">2</span><span class="p">,</span><span class="mi">600</span><span class="w">  </span><span class="c1">// Limit = $2,500 + $100</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="c1">// Price rises to $2,600</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="n">is_triggered</span><span class="p">:</span><span class="w"> </span><span class="nc">true</span><span class="w">  </span><span class="c1">// Trigger hit</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="n">ts_triggered</span><span class="p">:</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="w">  </span><span class="c1">// Trigger time</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="c1">// Order becomes limit order at $2,600</span>
+</span></code></pre></div>
+<h2 id="common-use-cases">Common Use Cases</h2>
+<h3 id="profit-protection-with-price-guarantee">Profit Protection with Price Guarantee</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// Protect long BTC gains with trailing stop limit</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">profit_protection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrailingStopLimitOrder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="n">trader_id</span><span class="p">,</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">strategy_id</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="n">instrument_id</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;BTC-USDT.BINANCE&quot;</span><span class="p">),</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="n">ClientOrderId</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;PROFIT-PROTECT-001&quot;</span><span class="p">),</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="n">OrderSide</span><span class="p">::</span><span class="n">Sell</span><span class="p">,</span><span class="w">  </span><span class="c1">// Exit long position</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="n">Quantity</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;1.0&quot;</span><span class="p">),</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="n">Price</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;49000.00&quot;</span><span class="p">),</span><span class="w">  </span><span class="c1">// Limit price (minimum exit)</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="n">Price</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;50000.00&quot;</span><span class="p">),</span><span class="w">  </span><span class="c1">// Trigger price</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="n">TriggerType</span><span class="p">::</span><span class="n">LastPrice</span><span class="p">,</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="n">Decimal</span><span class="p">::</span><span class="n">from_str</span><span class="p">(</span><span class="s">&quot;1000.00&quot;</span><span class="p">).</span><span class="n">unwrap</span><span class="p">(),</span><span class="w">  </span><span class="c1">// $1,000 limit offset</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="n">Decimal</span><span class="p">::</span><span class="n">from_str</span><span class="p">(</span><span class="s">&quot;1000.00&quot;</span><span class="p">).</span><span class="n">unwrap</span><span class="p">(),</span><span class="w">  </span><span class="c1">// $1,000 trailing offset</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="n">TrailingOffsetType</span><span class="p">::</span><span class="n">Price</span><span class="p">,</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="n">TimeInForce</span><span class="p">::</span><span class="n">Gtc</span><span class="p">,</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="c1">// Not post-only</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">    </span><span class="kc">true</span><span class="p">,</span><span class="w">  </span><span class="c1">// reduce_only</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">    </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="w">    </span><span class="n">UUID4</span><span class="p">::</span><span class="n">new</span><span class="p">(),</span>
+</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="w">    </span><span class="n">UnixNanos</span><span class="p">::</span><span class="n">now</span><span class="p">(),</span>
+</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="p">);</span>
+</span></code></pre></div>
+<p>Strategy:</p>
+<ul>
+<li><strong>Protection</strong>: Stops trail price movements downward</li>
+<li><strong>Price guarantee</strong>: Won't sell below limit price</li>
+<li><strong>Gap protection</strong>: Won't execute if price gaps to lower level</li>
+</ul>
+<h3 id="volatility-based-protection">Volatility-Based Protection</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">// Set offsets based on volatility</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">atr_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculate_atr</span><span class="p">(</span><span class="n">instrument</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">);</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kd">let</span><span class="w"> </span><span class="n">limit_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atr_value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.5</span><span class="p">;</span><span class="w">  </span><span class="c1">// Conservative limit</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kd">let</span><span class="w"> </span><span class="n">trail_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atr_value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span><span class="w">  </span><span class="c1">// Normal trail</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="kd">let</span><span class="w"> </span><span class="n">volatility_trail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrailingStopLimitOrder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="c1">// ... other parameters</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="n">TrailingOffsetType</span><span class="p">::</span><span class="n">Price</span><span class="p">,</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="n">limit_offset</span><span class="p">,</span><span class="w">  </span><span class="c1">// ATR-based limit offset</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="n">trail_offset</span><span class="p">,</span><span class="w">  </span><span class="c1">// ATR-based trail offset</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="percentage-based-protection">Percentage-Based Protection</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">// Use percentage offsets for relative risk</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">percent_trail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrailingStopLimitOrder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="n">trader_id</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="n">strategy_id</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="n">instrument_id</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;ETH-USDT.BINANCE&quot;</span><span class="p">),</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="n">ClientOrderId</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;PERCENT-TRAIL-001&quot;</span><span class="p">),</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="n">OrderSide</span><span class="p">::</span><span class="n">Buy</span><span class="p">,</span><span class="w">  </span><span class="c1">// Exit short position</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="n">Quantity</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;10.0&quot;</span><span class="p">),</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="n">Price</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;3500.00&quot;</span><span class="p">),</span><span class="w">  </span><span class="c1">// Limit price (max buy)</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="n">Price</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;3600.00&quot;</span><span class="p">),</span><span class="w">  </span><span class="c1">// Trigger price</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="n">TriggerType</span><span class="p">::</span><span class="n">LastPrice</span><span class="p">,</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="n">Decimal</span><span class="p">::</span><span class="n">from_str</span><span class="p">(</span><span class="s">&quot;100.00&quot;</span><span class="p">).</span><span class="n">unwrap</span><span class="p">(),</span><span class="w">  </span><span class="c1">// Fixed limit offset</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="n">Decimal</span><span class="p">::</span><span class="n">from_str</span><span class="p">(</span><span class="s">&quot;0.05&quot;</span><span class="p">).</span><span class="n">unwrap</span><span class="p">(),</span><span class="w">  </span><span class="c1">// 5% trailing offset</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="n">TrailingOffsetType</span><span class="p">::</span><span class="n">Percentage</span><span class="p">,</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="n">TimeInForce</span><span class="p">::</span><span class="n">Gtc</span><span class="p">,</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">    </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">    </span><span class="kc">true</span><span class="p">,</span><span class="w">  </span><span class="c1">// reduce_only</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">    </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a><span class="w">    </span><span class="n">UUID4</span><span class="p">::</span><span class="n">new</span><span class="p">(),</span>
+</span><span id="__span-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a><span class="w">    </span><span class="n">UnixNanos</span><span class="p">::</span><span class="n">now</span><span class="p">(),</span>
+</span><span id="__span-9-34"><a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="p">);</span>
+</span></code></pre></div>
+<h2 id="advanced-features">Advanced Features</h2>
+<h3 id="post-only-limit-portion">Post-Only Limit Portion</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">// Post-only for maximum price control</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">post_only_trail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrailingStopLimitOrder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="c1">// ... other parameters</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="n">post_only</span><span class="p">:</span><span class="w"> </span><span class="nc">true</span><span class="p">,</span><span class="w">  </span><span class="c1">// Only provide liquidity after trigger</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">);</span>
+</span></code></pre></div>
+<p>Benefits:</p>
+<ul>
+<li>Maker rebates on limit portion</li>
+<li>Never takes liquidity after trigger</li>
+<li>Better price guarantees</li>
+</ul>
+<h3 id="display-quantity">Display Quantity</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// Show only portion of trailing stop limit</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">display_trail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrailingStopLimitOrder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="c1">// ... other parameters</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="n">display_qty</span><span class="p">:</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">Quantity</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;5.0&quot;</span><span class="p">)),</span><span class="w">  </span><span class="c1">// Visible portion</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="cross-instrument-trailing">Cross-Instrument Trailing</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// Trail based on ETH price for BTC order</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">cross_trail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrailingStopLimitOrder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="c1">// ... other parameters</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="n">trigger_instrument_id</span><span class="p">:</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">instrument_id</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;ETH-USDT.BINANCE&quot;</span><span class="p">)),</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="p">);</span>
+</span></code></pre></div>
+<h2 id="advantages-and-disadvantages">Advantages and Disadvantages</h2>
+<h3 id="advantages">Advantages</h3>
+<ul>
+<li><strong>Dynamic adjustment</strong>: Automatically adapts to price movements</li>
+<li><strong>Price precision</strong>: Guaranteed maximum/minimum execution price</li>
+<li><strong>Gap protection</strong>: Prevents unfavorable fills during reversals</li>
+<li><strong>Risk control</strong>: Maintains appropriate distance from price</li>
+<li><strong>Flexibility</strong>: Works with both percentage and fixed offsets</li>
+</ul>
+<h3 id="disadvantages">Disadvantages</h3>
+<ul>
+<li><strong>No execution guarantee</strong>: May not fill if limit not reached</li>
+<li><strong>Complexity</strong>: More parameters to manage than simple trailing stops</li>
+<li><strong>Slower execution</strong>: Limit phase takes time after trigger</li>
+<li><strong>Missed opportunities</strong>: May miss valid exits due to limit</li>
+<li><strong>Tracking needed</strong>: Monitor both trigger and limit phases</li>
+</ul>
+<h2 id="best-practices">Best Practices</h2>
+<ul>
+<li>Set appropriate spread between trigger and limit prices</li>
+<li>Consider volatility when setting offset distances</li>
+<li>Monitor activated orders for execution</li>
+<li>Use post-only for fee optimization</li>
+<li>Combine with take-profit orders for complete strategies</li>
+<li>Test parameters in paper trading first</li>
+<li>Consider minimum spread requirements</li>
+</ul>
+<h2 id="offset-selection-guidelines">Offset Selection Guidelines</h2>
+<h3 id="limit-offset">Limit Offset</h3>
+<p><strong>Purpose</strong>: Distance from trigger to limit price</p>
+<p><strong>Use when:</strong></p>
+<ul>
+<li>Want price protection after trigger</li>
+<li>Trading volatile markets with potential gaps</li>
+<li>Want to prevent unfavorable fills</li>
+</ul>
+<p><strong>Typical values:</strong></p>
+<ul>
+<li>Conservative: 1-2× ATR or 1-2% price</li>
+<li>Moderate: 0.5-1× ATR or 0.5-1% price</li>
+<li>Aggressive: 0.2-0.5× ATR or 0.2-0.5% price</li>
+</ul>
+<h3 id="trailing-offset">Trailing Offset</h3>
+<p><strong>Purpose</strong>: Distance from current price to trigger</p>
+<p><strong>Use when:</strong></p>
+<ul>
+<li>Want appropriate risk adjustment speed</li>
+<li>Trading markets with different volatility profiles</li>
+<li>Want control over trailing sensitivity</li>
+</ul>
+<p><strong>Typical values:</strong></p>
+<ul>
+<li>Conservative: 1-3× ATR or 1-3% price</li>
+<li>Moderate: 0.5-1× ATR or 0.5-1% price</li>
+<li>Aggressive: 0.2-0.5× ATR or 0.2-0.5% price</li>
+</ul>
+<h2 id="common-trading-strategies">Common Trading Strategies</h2>
+<h3 id="trend-following-with-protection">Trend Following with Protection</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// Enter trend with protection</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">trend_entry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MarketOrder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="n">OrderSide</span><span class="p">::</span><span class="n">Buy</span><span class="p">,</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="n">Quantity</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;1.0&quot;</span><span class="p">),</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="n">TimeInForce</span><span class="p">::</span><span class="n">Ioc</span><span class="p">,</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="c1">// ... other parameters</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="p">);</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="c1">// Protect with trailing stop limit</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="kd">let</span><span class="w"> </span><span class="n">trend_trail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrailingStopLimitOrder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">    </span><span class="n">OrderSide</span><span class="p">::</span><span class="n">Sell</span><span class="p">,</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">    </span><span class="n">Quantity</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;1.0&quot;</span><span class="p">),</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">    </span><span class="n">Price</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;49000.00&quot;</span><span class="p">),</span><span class="w">  </span><span class="c1">// Limit price</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">    </span><span class="n">Price</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;50000.00&quot;</span><span class="p">),</span><span class="w">  </span><span class="c1">// Trigger price</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="w">    </span><span class="n">TriggerType</span><span class="p">::</span><span class="n">LastPrice</span><span class="p">,</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="w">    </span><span class="n">Decimal</span><span class="p">::</span><span class="n">from_str</span><span class="p">(</span><span class="s">&quot;500.00&quot;</span><span class="p">).</span><span class="n">unwrap</span><span class="p">(),</span><span class="w">  </span><span class="c1">// $500 limit offset</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="w">    </span><span class="n">Decimal</span><span class="p">::</span><span class="n">from_str</span><span class="p">(</span><span class="s">&quot;1000.00&quot;</span><span class="p">).</span><span class="n">unwrap</span><span class="p">(),</span><span class="w">  </span><span class="c1">// $1,000 trail offset</span>
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="w">    </span><span class="n">TrailingOffsetType</span><span class="p">::</span><span class="n">Price</span><span class="p">,</span>
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="w">    </span><span class="n">TimeInForce</span><span class="p">::</span><span class="n">Gtc</span><span class="p">,</span>
+</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="w">    </span><span class="c1">// ... other parameters</span>
+</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="volatility-adjusted-protection">Volatility-Adjusted Protection</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1">// Adjust offsets based on current volatility</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">atr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculate_atr</span><span class="p">(</span><span class="n">instrument</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">);</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kd">let</span><span class="w"> </span><span class="n">volatility_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atr</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">average_atr</span><span class="p">(</span><span class="n">instrument</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="kd">let</span><span class="w"> </span><span class="n">limit_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_limit_offset</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">volatility_factor</span><span class="p">;</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="kd">let</span><span class="w"> </span><span class="n">trail_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_trail_offset</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">volatility_factor</span><span class="p">;</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="kd">let</span><span class="w"> </span><span class="n">adjusted_trail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrailingStopLimitOrder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">    </span><span class="c1">// ... other parameters</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">    </span><span class="n">TrailingOffsetType</span><span class="p">::</span><span class="n">Price</span><span class="p">,</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">    </span><span class="n">limit_offset</span><span class="p">,</span><span class="w">  </span><span class="c1">// Adjusted based on volatility</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">    </span><span class="n">trail_offset</span><span class="p">,</span><span class="w">  </span><span class="c1">// Adjusted based on volatility</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="p">);</span>
+</span></code></pre></div>
+<h2 id="validation-rules">Validation Rules</h2>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">// Quantity must be positive</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">check_positive_quantity</span><span class="p">(</span><span class="n">quantity</span><span class="p">,</span><span class="w"> </span><span class="fm">stringify!</span><span class="p">(</span><span class="n">quantity</span><span class="p">))</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1">// Display quantity cannot exceed total quantity</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="n">check_display_qty</span><span class="p">(</span><span class="n">display_qty</span><span class="p">,</span><span class="w"> </span><span class="n">quantity</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1">// GTD requires expire_time</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="n">check_time_in_force</span><span class="p">(</span><span class="n">time_in_force</span><span class="p">,</span><span class="w"> </span><span class="n">expire_time</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="c1">// Required fields</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="kd">let</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">price</span><span class="p">.</span><span class="n">ok_or_else</span><span class="p">(</span><span class="o">||</span><span class="w"> </span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">    </span><span class="n">CorrectnessError</span><span class="p">::</span><span class="n">PredicateViolation</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">        </span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;`price` is required for `TrailingStopLimitOrder` initialization&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">    </span><span class="p">})</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="kd">let</span><span class="w"> </span><span class="n">trigger_price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">trigger_price</span><span class="p">.</span><span class="n">ok_or_else</span><span class="p">(</span><span class="o">||</span><span class="w"> </span>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">    </span><span class="n">CorrectnessError</span><span class="p">::</span><span class="n">PredicateViolation</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="w">        </span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;`trigger_price` is required for `TrailingStopLimitOrder` initialization&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="w">    </span><span class="p">})</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>
+</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="kd">let</span><span class="w"> </span><span class="n">trigger_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">trigger_type</span><span class="p">.</span><span class="n">ok_or_else</span><span class="p">(</span><span class="o">||</span><span class="w"> </span>
+</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a><span class="w">    </span><span class="n">CorrectnessError</span><span class="p">::</span><span class="n">PredicateViolation</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="w">        </span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;`trigger_type` is required for `TrailingStopLimitOrder` initialization&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+</span><span id="__span-15-24"><a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a><span class="w">    </span><span class="p">})</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-15-25"><a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a>
+</span><span id="__span-15-26"><a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="kd">let</span><span class="w"> </span><span class="n">limit_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">limit_offset</span><span class="p">.</span><span class="n">ok_or_else</span><span class="p">(</span><span class="o">||</span><span class="w"> </span>
+</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a><span class="w">    </span><span class="n">CorrectnessError</span><span class="p">::</span><span class="n">PredicateViolation</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-28"><a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a><span class="w">        </span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;`limit_offset` is required for `TrailingStopLimitOrder` initialization&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+</span><span id="__span-15-29"><a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a><span class="w">    </span><span class="p">})</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-15-30"><a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a>
+</span><span id="__span-15-31"><a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a><span class="kd">let</span><span class="w"> </span><span class="n">trailing_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">trailing_offset</span><span class="p">.</span><span class="n">ok_or_else</span><span class="p">(</span><span class="o">||</span><span class="w"> </span>
+</span><span id="__span-15-32"><a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a><span class="w">    </span><span class="n">CorrectnessError</span><span class="p">::</span><span class="n">PredicateViolation</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-33"><a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a><span class="w">        </span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;`trailing_offset` is required for `TrailingStopLimitOrder` initialization&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+</span><span id="__span-15-34"><a id="__codelineno-15-34" name="__codelineno-15-34" href="#__codelineno-15-34"></a><span class="w">    </span><span class="p">})</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-15-35"><a id="__codelineno-15-35" name="__codelineno-15-35" href="#__codelineno-15-35"></a>
+</span><span id="__span-15-36"><a id="__codelineno-15-36" name="__codelineno-15-36" href="#__codelineno-15-36"></a><span class="kd">let</span><span class="w"> </span><span class="n">trailing_offset_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">trailing_offset_type</span><span class="p">.</span><span class="n">ok_or_else</span><span class="p">(</span><span class="o">||</span><span class="w"> </span>
+</span><span id="__span-15-37"><a id="__codelineno-15-37" name="__codelineno-15-37" href="#__codelineno-15-37"></a><span class="w">    </span><span class="n">CorrectnessError</span><span class="p">::</span><span class="n">PredicateViolation</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-38"><a id="__codelineno-15-38" name="__codelineno-15-38" href="#__codelineno-15-38"></a><span class="w">        </span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;`trailing_offset_type` is required for `TrailingStopLimitOrder` initialization&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span>
+</span><span id="__span-15-39"><a id="__codelineno-15-39" name="__codelineno-15-39" href="#__codelineno-15-39"></a><span class="w">    </span><span class="p">})</span><span class="o">?</span><span class="p">;</span>
+</span></code></pre></div>
+<h2 id="slippage-calculation">Slippage Calculation</h2>
+<p>Trailing stop limit orders calculate slippage based on the limit price (not trigger price):</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1">// For fills: slippage relative to limit price</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="c1">// Buy orders: may have negative slippage (favorable) if fill &lt; limit</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="c1">// Sell orders: may have negative slippage (favorable) if fill &gt; limit</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">fn</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="nc">OrderEventAny</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">OrderError</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">is_order_filled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">matches!</span><span class="p">(</span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">OrderEventAny</span><span class="p">::</span><span class="n">Filled</span><span class="p">(</span><span class="n">_</span><span class="p">));</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">is_order_triggered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">matches!</span><span class="p">(</span><span class="n">event</span><span class="p">,</span><span class="w"> </span><span class="n">OrderEventAny</span><span class="p">::</span><span class="n">Triggered</span><span class="p">(</span><span class="n">_</span><span class="p">));</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span><span class="c1">// Track trigger timestamp</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">ts_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">is_order_triggered</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">        </span><span class="nb">Some</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">ts_event</span><span class="p">())</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">        </span><span class="nb">None</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">    </span><span class="p">};</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="w">    </span><span class="bp">self</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">clone</span><span class="p">())</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="w">    </span><span class="c1">// Update trigger state</span>
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_order_triggered</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">is_triggered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">ts_triggered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ts_event</span><span class="p">;</span>
+</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>
+</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="w">    </span><span class="c1">// Calculate slippage based on limit price</span>
+</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_order_filled</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">set_slippage</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">price</span><span class="p">);</span><span class="w">  </span><span class="c1">// Compare to limit price</span>
+</span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a>
+</span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a><span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span>
+</span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="activation-management">Activation Management</h2>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">impl</span><span class="w"> </span><span class="n">TrailingStopLimitOrder</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="cp">#[must_use]</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">has_activation_price</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">activation_price</span><span class="p">.</span><span class="n">is_some</span><span class="p">()</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">set_activated</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">        </span><span class="fm">debug_assert!</span><span class="p">(</span><span class="o">!</span><span class="bp">self</span><span class="p">.</span><span class="n">is_activated</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;double activation&quot;</span><span class="p">);</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">is_activated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="source-code-reference">Source Code Reference</h2>
+<p>Implementation details can be found in:</p>
+<ul>
+<li><a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/trailing_stop_limit.rs">trailing_stop_limit.rs</a> - Main implementation</li>
+<li><a href="https://github.com/nautechsystems/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/mod.rs">mod.rs</a> - Order trait and core functionality</li>
+</ul>
+<p>Key methods:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1">// Create trailing stop limit order with validation</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">new_checked</span><span class="p">(</span><span class="o">..</span><span class="p">.)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="bp">Self</span><span class="p">,</span><span class="w"> </span><span class="n">OrderError</span><span class="o">&gt;</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1">// Create trailing stop limit order (panics on validation failure)</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">new</span><span class="p">(</span><span class="o">..</span><span class="p">.)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">Self</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1">// Check if has activation price</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">has_activation_price</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">bool</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="c1">// Set activation state</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">set_activated</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="c1">// Check if triggered</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="k">fn</span><span class="w"> </span><span class="nf">is_triggered</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="w">  </span><span class="c1">// Returns Some(true/false)</span>
+</span></code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
