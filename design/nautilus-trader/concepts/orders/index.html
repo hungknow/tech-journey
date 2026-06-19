@@ -3068,12 +3068,14 @@
 <h1 id="orders">Orders</h1>
 <p>Orders are fundamental trading instructions that represent an investor's intent to buy or sell financial instruments. In Nautilus Trader, orders are modeled as comprehensive domain objects that track their entire lifecycle from initialization through execution or cancellation.</p>
 <h2 id="purpose">Purpose</h2>
-<p>The order system in Nautilus Trader provides:
-- Type-safe order representations for various trading strategies
-- Complete order lifecycle tracking with event sourcing
-- Support for complex order types including stop orders and conditional triggers
-- Flexible execution parameters like time-in-force, display quantity, and post-only options
-- Integration with venue-specific order management</p>
+<p>The order system in Nautilus Trader provides:</p>
+<ul>
+<li>Type-safe order representations for various trading strategies</li>
+<li>Complete order lifecycle tracking with event sourcing</li>
+<li>Support for complex order types including stop orders and conditional triggers</li>
+<li>Flexible execution parameters like time-in-force, display quantity, and post-only options</li>
+<li>Integration with venue-specific order management</li>
+</ul>
 <h2 id="order-types">Order Types</h2>
 <p>Nautilus Trader supports the following order types:</p>
 <ul>
@@ -3100,30 +3102,34 @@
 <li><strong>Time Management</strong>: Time-in-force orders to control order duration and expiration</li>
 </ul>
 <h2 id="order-events-and-state-transitions">Order Events and State Transitions</h2>
-<p>Orders progress through various states based on events received from the trading venue:
-- <strong>OrderInitialized</strong> - Initial order creation and validation
-- <strong>OrderSubmitted</strong> - Order sent to the venue for execution
-- <strong>OrderAccepted</strong> - Venue acknowledges the order
-- <strong>OrderRejected</strong> - Venue rejects the order (invalid parameters, insufficient funds, etc.)
-- <strong>OrderFilled</strong> - Order fully or partially executed
-- <strong>OrderCanceled</strong> - Order canceled by user or system
-- <strong>OrderExpired</strong> - Order reached expiration time
-- <strong>OrderTriggered</strong> - Stop/trigger orders activated
-- <strong>OrderUpdated</strong> - Order parameters modified
-- <strong>OrderDenied</strong> - Order denied by risk engine or validation logic</p>
+<p>Orders progress through various states based on events received from the trading venue:</p>
+<ul>
+<li><strong>OrderInitialized</strong> - Initial order creation and validation</li>
+<li><strong>OrderSubmitted</strong> - Order sent to the venue for execution</li>
+<li><strong>OrderAccepted</strong> - Venue acknowledges the order</li>
+<li><strong>OrderRejected</strong> - Venue rejects the order (invalid parameters, insufficient funds, etc.)</li>
+<li><strong>OrderFilled</strong> - Order fully or partially executed</li>
+<li><strong>OrderCanceled</strong> - Order canceled by user or system</li>
+<li><strong>OrderExpired</strong> - Order reached expiration time</li>
+<li><strong>OrderTriggered</strong> - Stop/trigger orders activated</li>
+<li><strong>OrderUpdated</strong> - Order parameters modified</li>
+<li><strong>OrderDenied</strong> - Order denied by risk engine or validation logic</li>
+</ul>
 <h2 id="source-code">Source Code</h2>
-<p>The order implementation is located in <code>crates/model/src/orders/</code>:
-- <a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/mod.rs">mod.rs</a> - Core order traits and types
-- <a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/any.rs">any.rs</a> - OrderAny enum for polymorphic handling
-- <a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/market.rs">market.rs</a> - Market order implementation
-- <a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/limit.rs">limit.rs</a> - Limit order implementation
-- <a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/stop_market.rs">stop_market.rs</a> - Stop market order implementation
-- <a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/stop_limit.rs">stop_limit.rs</a> - Stop limit order implementation
-- <a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/limit_if_touched.rs">limit_if_touched.rs</a> - Limit-if-touched order implementation
-- <a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/market_if_touched.rs">market_if_touched.rs</a> - Market-if-touched order implementation
-- <a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/market_to_limit.rs">market_to_limit.rs</a> - Market-to-limit order implementation
-- <a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/trailing_stop_market.rs">trailing_stop_market.rs</a> - Trailing stop market order implementation
-- <a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/trailing_stop_limit.rs">trailing_stop_limit.rs</a> - Trailing stop limit order implementation</p>
+<p>The order implementation is located in <code>crates/model/src/orders/</code>:</p>
+<ul>
+<li><a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/mod.rs">mod.rs</a> - Core order traits and types</li>
+<li><a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/any.rs">any.rs</a> - OrderAny enum for polymorphic handling</li>
+<li><a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/market.rs">market.rs</a> - Market order implementation</li>
+<li><a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/limit.rs">limit.rs</a> - Limit order implementation</li>
+<li><a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/stop_market.rs">stop_market.rs</a> - Stop market order implementation</li>
+<li><a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/stop_limit.rs">stop_limit.rs</a> - Stop limit order implementation</li>
+<li><a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/limit_if_touched.rs">limit_if_touched.rs</a> - Limit-if-touched order implementation</li>
+<li><a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/market_if_touched.rs">market_if_touched.rs</a> - Market-if-touched order implementation</li>
+<li><a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/market_to_limit.rs">market_to_limit.rs</a> - Market-to-limit order implementation</li>
+<li><a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/trailing_stop_market.rs">trailing_stop_market.rs</a> - Trailing stop market order implementation</li>
+<li><a href="https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/trailing_stop_limit.rs">trailing_stop_limit.rs</a> - Trailing stop limit order implementation</li>
+</ul>
 <h2 id="order-lifecycle-management">Order Lifecycle Management</h2>
 <p>Nautilus Trader orders follow a deterministic state machine with event sourcing. Each order maintains:</p>
 <ol>
