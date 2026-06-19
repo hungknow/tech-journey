@@ -5,6 +5,7 @@ Orders are fundamental trading instructions that represent an investor's intent 
 ## Purpose
 
 The order system in Nautilus Trader provides:
+
 - Type-safe order representations for various trading strategies
 - Complete order lifecycle tracking with event sourcing
 - Support for complex order types including stop orders and conditional triggers
@@ -41,6 +42,7 @@ Orders enable various trading strategies and risk management approaches:
 ## Order Events and State Transitions
 
 Orders progress through various states based on events received from the trading venue:
+
 - **OrderInitialized** - Initial order creation and validation
 - **OrderSubmitted** - Order sent to the venue for execution
 - **OrderAccepted** - Venue acknowledges the order
@@ -52,25 +54,9 @@ Orders progress through various states based on events received from the trading
 - **OrderUpdated** - Order parameters modified
 - **OrderDenied** - Order denied by risk engine or validation logic
 
-## Source Code
-
-The order implementation is located in `crates/model/src/orders/`:
-- [mod.rs](https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/mod.rs) - Core order traits and types
-- [any.rs](https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/any.rs) - OrderAny enum for polymorphic handling
-- [market.rs](https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/market.rs) - Market order implementation
-- [limit.rs](https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/limit.rs) - Limit order implementation
-- [stop_market.rs](https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/stop_market.rs) - Stop market order implementation
-- [stop_limit.rs](https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/stop_limit.rs) - Stop limit order implementation
-- [limit_if_touched.rs](https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/limit_if_touched.rs) - Limit-if-touched order implementation
-- [market_if_touched.rs](https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/market_if_touched.rs) - Market-if-touched order implementation
-- [market_to_limit.rs](https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/market_to_limit.rs) - Market-to-limit order implementation
-- [trailing_stop_market.rs](https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/trailing_stop_market.rs) - Trailing stop market order implementation
-- [trailing_stop_limit.rs](https://github.com/nautechsystems/nautilus_trader/blob/master/crates/model/src/orders/trailing_stop_limit.rs) - Trailing stop limit order implementation
-
 ## Order Lifecycle Management
 
 Nautilus Trader orders follow a deterministic state machine with event sourcing. Each order maintains:
-
 
 1. **Event History**: Complete record of all events applied to the order
 2. **State Tracking**: Current status and previous status for state recovery
@@ -79,6 +65,7 @@ Nautilus Trader orders follow a deterministic state machine with event sourcing.
 5. **Commission Tracking**: Per-currency commission accumulation
 
 ### Common Order States
+
 - **INITIALIZED**: Order created but not yet submitted
 - **SUBMITTED**: Order sent to venue, awaiting acknowledgment
 - **ACCEPTED**: Order acknowledged and active on venue

@@ -6,7 +6,6 @@ Limit if touched orders are designed for entering positions on pullbacks to supp
 
 Limit if touched orders are ideal for:
 
-
 - **Support/resistance trading**: Enter positions at key levels with limit protection
 - **Pullback entries**: Buy at retracement levels with limit orders
 - **Profit taking**: Sell into rallies at resistance levels
@@ -53,14 +52,12 @@ let limit_if_touched_order = LimitIfTouchedOrder::new(
 
 Unlike stop orders, limit if touched orders:
 
-
 - **Directional sensitivity**: Buy orders trigger when price rises to level
 - **Price advantage**: Execute at limit price which is at or better than trigger
 - **Breakout avoidance**: Enter on pullbacks rather than breakouts
 - **Favorable positioning**: Limit price equals or exceeds trigger for buy orders
 
 Unlike limit orders, limit if touched orders:
-
 
 - **Conditional activation**: Only become active limit orders when trigger touched
 - **Two-phase lifecycle**: Inactive until triggered, then becomes limit order
@@ -244,7 +241,6 @@ let support_entry = LimitIfTouchedOrder::new(
 
 Strategy:
 
-
 - **Trigger**: Order becomes active when price touches $45,000
 - **Execution**: Will execute at $45,000 or better
 - **Rationale**: Buying at support level with price protection
@@ -287,7 +283,6 @@ let pullback_entry = LimitIfTouchedOrder::new(
 ```
 
 Strategy:
-
 
 - **Trigger**: Order becomes active when price touches $3,500
 - **Execution**: Will execute at $3,490 or better (more favorable)
@@ -334,7 +329,6 @@ let resistance_exit = LimitIfTouchedOrder::new(
 
 Strategy:
 
-
 - **Trigger**: Order becomes active when price touches $50,000
 - **Execution**: Will execute at $50,000 or better (higher price)
 - **Rationale**: Selling at resistance with price protection
@@ -377,7 +371,6 @@ let rally_exit = LimitIfTouchedOrder::new(
 ```
 
 Strategy:
-
 
 - **Trigger**: Order becomes active when price touches $3,500
 - **Execution**: Will execute at $3,510 or better (higher price)
@@ -427,7 +420,6 @@ let time_limited_lit = LimitIfTouchedOrder::new(
 
 ### Advantages
 
-
 - **Pullback timing**: Enter on market pullbacks rather than breakouts
 - **Price advantage**: Get better execution than trigger price
 - **Support/resistance**: Trade at key technical levels
@@ -436,7 +428,6 @@ let time_limited_lit = LimitIfTouchedOrder::new(
 
 ### Disadvantages
 
-
 - **No execution guarantee**: May never trigger if price doesn't reach level
 - **Time consumption**: Can wait indefinitely for price touch
 - **Missed opportunities**: Price may move past level without touching
@@ -444,7 +435,6 @@ let time_limited_lit = LimitIfTouchedOrder::new(
 - **Monitoring needed**: Track both trigger and limit phases
 
 ## Best Practices
-
 
 - Set appropriate spread between trigger and limit prices
 - Use technical analysis to identify good trigger levels
@@ -457,7 +447,6 @@ let time_limited_lit = LimitIfTouchedOrder::new(
 ## Common Trading Strategies
 
 ### Support/Resistance Trading
-
 
 ```rust
 // Enter at support, exit at resistance

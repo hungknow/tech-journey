@@ -6,7 +6,6 @@ Limit orders provide precise price control by ensuring execution at specified pr
 
 Limit orders are ideal for:
 
-
 - Ensuring maximum/minimum execution prices
 - Providing liquidity to the market
 - Implementing specific entry/exit price levels
@@ -52,7 +51,6 @@ let limit_order = LimitOrder::new(
 
 Unlike market orders, limit orders:
 
-
 - **Price guarantee**: Never execute worse than the specified price
 - **No execution guarantee**: May never fill if price doesn't reach limit
 - **Time persistence**: Can remain in the order book for extended periods
@@ -85,7 +83,6 @@ The LimitOrder structure includes:
 
 Limit orders are updated by these events:
 
-
 - **OrderInitialized**: Order creation with price and quantity
 - **OrderUpdated**: Price, quantity, or display quantity modifications
 - **OrderFilled**: Partial or complete execution at limit price or better
@@ -93,7 +90,6 @@ Limit orders are updated by these events:
 - **OrderAccepted**: Venue acknowledgment and placement in order book
 
 ### Key Update Scenarios
-
 
 - Price adjustments via `OrderUpdated` with new price
 - Display quantity changes for iceberg orders
@@ -124,7 +120,6 @@ fn apply(&mut self, event: OrderEventAny) -> Result<(), OrderError> {
 
 Limit orders support all time-in-force types:
 
-
 - **GTC (Good-Til-Cancel)**: Active until manually canceled
 - **IOC (Immediate or Cancel)**: Fill immediately or cancel remainder
 - **FOK (Fill or Kill)**: Must fill entire quantity or cancel completely
@@ -152,7 +147,6 @@ pub struct LimitOrder {
 
 Benefits:
 
-
 - Maker rebates on many exchanges
 - No taker fees
 - Better execution price guarantees
@@ -170,7 +164,6 @@ let iceberg_order = LimitOrder::new(
 ```
 
 Benefits:
-
 
 - Hides true order size
 - Reduces market impact
@@ -247,7 +240,6 @@ let gtd_order = LimitOrder::new(
 
 ### Advantages
 
-
 - **Price guarantee**: Never execute worse than specified price
 - **Maker rebates**: Potential fee rebates on many exchanges
 - **Market impact**: Can reduce impact by providing liquidity
@@ -256,14 +248,12 @@ let gtd_order = LimitOrder::new(
 
 ### Disadvantages
 
-
 - **No execution guarantee**: May never fill
 - **Time consumption**: Can wait indefinitely for price
 - **Priority**: Lower priority than market orders
 - **Missed opportunities**: May miss favorable price movements while waiting
 
 ## Best Practices
-
 
 - Use for price-sensitive trading strategies
 - Consider post-only for fee optimization
