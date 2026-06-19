@@ -338,41 +338,130 @@ flip_position(instrument, position, fill, oms_type)
 
 ### External Order Materialization
 
-```rust
-materialize_external_order_from_status(report)
-    ↓
-┌─────────────────────────────────────┐
-│ Resolve strategy ID:                │
-│ • Check external_order_claims       │
-│ • Default to "EXTERNAL"             │
+```
+Resolve strategy ID
+    └─ Check external_order_claims
+    └─ Default to "EXTERNAL" if not found
+
+Check if should filter unclaimed orders
+    └─ If yes and order unclaimed: Return None (log filter)
+
+Create OrderInitialized event
+    └─ Use report fields
+    └─ Mark as reconciliation=true
+
+Create order from events
+    └─ order = OrderAny::from_events(init)
+
+Add to cache
+    └─ cache.add_order(order)
+    └─ cache.add_venue_order_id()
+
+Register with adapter
+    └─ adapter.register_external_order()
+```
+
+### Handler Logic Flows
+
+#### handle_submit_order
+
+```
+Check if order already exists in cache by client_order_id
+    └─ If yes: Return early (don't resubmit)
+
+Create order from OrderInitialized event
+    └─ If creation fails: Early return
+
+Add order to cache
+    └─ Register client_order_id mapping
+
+Create order state snapshot if configured
+
+Validate that client handles the order's venue
+    └─ If no venue match: Generate OrderDenied event
+
+Validate position ID against OMS type settings
+    └─ If invalid ID for NETTING: Generate OrderDenied event
+
+Get instrument from cache
+    └─ If not found: Log error, generate OrderDenied
+
+Update own order book if enabled and order qualifies
+
+Submit order to execution client
+    └─ If submission fails: Log error, generate OrderDenied
+
+Generate OrderAccepted event
+
+Publish to message bus
+```
+
+#### handle_modify_order
+
+```
+Forward modify command to execution client
+    └─ client.modify_order(cmd)
+
+If error occurs: Log error
+No return value
+```
+
+#### handle_cancel_order
+
+```
+Forward cancel command to execution client
+    └─ client.cancel_order(cmd)
+
+If error occurs: Log error
+No return value
+```
+
+#### handle_cancel_all_orders
+
+```
+Forward cancel_all command to execution client
+    └─ client.cancel_all_orders(cmd)
+
+If error occurs: Log error
+No return value
+```
+
+#### handle_batch_cancel_orders
+
+```
+Forward batch cancel command to execution client
+    └─ client.batch_cancel_orders(cmd)
+
+If error occurs: Log error
+No return value
+```
+│ client.batch_cancel_orders(cmd)     │
 └─────────────────────────────────────┘
     ↓
 ┌─────────────────────────────────────┐
-│ Should filter unclaimed orders?     │
-│ └─ Yes: Return None (log filter)    │
+│ Error? → Log error                  │
+│ No return value                     │
 └─────────────────────────────────────┘
-    ↓
-┌─────────────────────────────────────┐
-│ Create OrderInitialized event:      │
-│ • Use report fields                │
-│ • Mark as reconciliation=true      │
-└─────────────────────────────────────┘
-    ↓
-┌─────────────────────────────────────┐
-│ Create order from events:           │
-│ order = OrderAny::from_events(init) │
-└─────────────────────────────────────┘
-    ↓
-┌─────────────────────────────────────┐
-│ Add to cache:                       │
-│ cache.add_order(order)              │
-│ cache.add_venue_order_id()          │
-└─────────────────────────────────────┘
-    ↓
-┌─────────────────────────────────────┐
-│ Register with adapter:              │
-│ adapter.register_external_order()   │
-└─────────────────────────────────────┘
+```
+
+#### handle_query_order
+
+```
+Forward query order command to execution client
+    └─ client.query_order(cmd)
+
+If error occurs: Log error
+No return value
+```
+
+#### handle_query_account
+
+```
+Forward query account command to execution client
+    └─ client.query_account(cmd)
+
+If error occurs: Log error
+No return value
 ```
 
 ## Key Data Structures
