@@ -3831,11 +3831,13 @@
 <h2 id="purpose">Purpose</h2>
 <p>The Order Emulator is a high-performance in-memory order emulation system designed to simulate the execution behavior of complex order types that are not natively supported by exchange venues. It provides client-side emulation for advanced order types, enabling traders to use sophisticated order strategies without relying on exchange-specific order types.</p>
 <h2 id="problem-resolved">Problem Resolved</h2>
-<p>Many cryptocurrency exchanges and trading venues lack support for advanced order types such as:
-- <strong>Stop orders</strong> (StopMarket, StopLimit)
-- <strong>Stop-If-Touched orders</strong> (MarketIfTouched, LimitIfTouched)
-- <strong>Trailing Stop orders</strong> (TrailingStopMarket, TrailingStopLimit)
-- <strong>Contingent orders</strong> (One-Cancels-Other, One-Triggers-Other)</p>
+<p>Many cryptocurrency exchanges and trading venues lack support for advanced order types such as:</p>
+<ul>
+<li><strong>Stop orders</strong> (StopMarket, StopLimit)</li>
+<li><strong>Stop-If-Touched orders</strong> (MarketIfTouched, LimitIfTouched)</li>
+<li><strong>Trailing Stop orders</strong> (TrailingStopMarket, TrailingStopLimit)</li>
+<li><strong>Contingent orders</strong> (One-Cancels-Other, One-Triggers-Other)</li>
+</ul>
 <p>The Order Emulator solves this problem by:
 1. Emulating these order types locally on the client side
 2. Subscribing to market data (quotes/trades) to monitor trigger conditions
@@ -3850,13 +3852,15 @@
 <li><strong>Stop Book</strong>: BTreeMap<Price, OrderBucket> keyed by trigger price</li>
 <li><strong>Pending Bucket</strong>: SmallVec for orders without keys (e.g., MarketToLimit before conversion)</li>
 </ul>
-<p>Key features:
-- <strong>Price-Time Priority</strong>: Orders matched in FIFO order within price levels
-- <strong>Bid Processing</strong>: Best (highest) price first via <code>iter().rev()</code>
-- <strong>Ask Processing</strong>: Best (lowest) price first via <code>iter()</code>
-- <strong>Stop Processing</strong>: Closest trigger first (bids: lowest trigger, asks: highest trigger)
-- <strong>O(log L + B)</strong> complexity where L is distinct price levels and B is orders per level
-- <strong>SmallVec optimization</strong>: Inline capacity for 4 orders per level before heap allocation</p>
+<p>Key features:</p>
+<ul>
+<li><strong>Price-Time Priority</strong>: Orders matched in FIFO order within price levels</li>
+<li><strong>Bid Processing</strong>: Best (highest) price first via <code>iter().rev()</code></li>
+<li><strong>Ask Processing</strong>: Best (lowest) price first via <code>iter()</code></li>
+<li><strong>Stop Processing</strong>: Closest trigger first (bids: lowest trigger, asks: highest trigger)</li>
+<li><strong>O(log L + B)</strong> complexity where L is distinct price levels and B is orders per level</li>
+<li><strong>SmallVec optimization</strong>: Inline capacity for 4 orders per level before heap allocation</li>
+</ul>
 <h3 id="2-trigger-types">2. Trigger Types</h3>
 <p>The emulator supports multiple trigger types for order activation:</p>
 <ul>
@@ -3870,24 +3874,32 @@
 - BidAsk triggers → Subscribe to QuoteTick
 - LastPrice triggers → Subscribe to TradeTick</p>
 <h3 id="4-trailing-stop-calculation">4. Trailing Stop Calculation</h3>
-<p>Specialized algorithms for trailing stop orders (<code>trailing.rs</code>):
-- <strong>Price offset</strong>: Fixed price difference
-- <strong>Basis points</strong>: Percentage-based offset
-- <strong>Ticks</strong>: Tick-size based offset</p>
-<p>The calculation ensures triggers only move in the favorable direction:
-- Buy orders: Trigger decreases as price decreases
-- Sell orders: Trigger increases as price increases</p>
+<p>Specialized algorithms for trailing stop orders (<code>trailing.rs</code>):</p>
+<ul>
+<li><strong>Price offset</strong>: Fixed price difference</li>
+<li><strong>Basis points</strong>: Percentage-based offset</li>
+<li><strong>Ticks</strong>: Tick-size based offset</li>
+</ul>
+<p>The calculation ensures triggers only move in the favorable direction:</p>
+<ul>
+<li>Buy orders: Trigger decreases as price decreases</li>
+<li>Sell orders: Trigger increases as price increases</li>
+</ul>
 <h3 id="5-order-lifecycle-management">5. Order Lifecycle Management</h3>
-<p>Integration with OrderManager for comprehensive lifecycle handling:
-- Command caching for order submission
-- State transition tracking
-- Event publishing to message bus
-- Re-entrant event handling protection</p>
+<p>Integration with OrderManager for comprehensive lifecycle handling:</p>
+<ul>
+<li>Command caching for order submission</li>
+<li>State transition tracking</li>
+<li>Event publishing to message bus</li>
+<li>Re-entrant event handling protection</li>
+</ul>
 <h3 id="6-contingency-handling">6. Contingency Handling</h3>
-<p>Support for complex order relationships:
-- <strong>OTO (One-Triggers-Other)</strong>: Parent order triggers child orders
-- <strong>OCO (One-Cancels-Other)</strong>: Orders cancel when one fills
-- <strong>OUO (One-Updates-Other)</strong>: Order updates trigger updates to linked orders</p>
+<p>Support for complex order relationships:</p>
+<ul>
+<li><strong>OTO (One-Triggers-Other)</strong>: Parent order triggers child orders</li>
+<li><strong>OCO (One-Cancels-Other)</strong>: Orders cancel when one fills</li>
+<li><strong>OUO (One-Updates-Other)</strong>: Order updates trigger updates to linked orders</li>
+</ul>
 <h2 id="file-tree">File Tree</h2>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>crates/execution/src/order_emulator/
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── mod.rs              # Module declarations
