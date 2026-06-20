@@ -3787,12 +3787,14 @@
 <h3 id="data-storage">Data Storage</h3>
 <p>The struct stores extensive state including:</p>
 <ul>
-<li><strong>Core Components</strong>:</li>
+<li>
+<p><strong>Core Components</strong>:</p>
+<ul>
 <li><code>clock: Rc&lt;RefCell&lt;dyn Clock&gt;&gt;</code> - Reference to the system clock</li>
 <li><code>cache: Rc&lt;RefCell&lt;Cache&gt;&gt;</code> - Reference to the data cache</li>
 <li><code>clients: IndexMap&lt;ClientId, DataClientAdapter&gt;</code> - Registered data clients</li>
-<li>
-<p><code>default_client: Option&lt;DataClientAdapter&gt;</code> - Default fallback client</p>
+<li><code>default_client: Option&lt;DataClientAdapter&gt;</code> - Default fallback client</li>
+</ul>
 </li>
 <li>
 <p><strong>Subscription Management</strong>:</p>
@@ -3806,11 +3808,11 @@
 </li>
 <li>
 <p><strong>Book Management</strong>:</p>
-</li>
+<ul>
 <li><code>book_updaters: AHashMap&lt;InstrumentId, Rc&lt;BookUpdater&gt;&gt;</code> - Book updaters</li>
 <li><code>book_snapshotters: AHashMap&lt;NonZeroUsize, Rc&lt;BookSnapshotter&gt;&gt;</code> - Snapshot timers</li>
-<li>
-<p><code>book_intervals: AHashMap&lt;NonZeroUsize, BookSnapshotInfos&gt;</code> - Interval configurations</p>
+<li><code>book_intervals: AHashMap&lt;NonZeroUsize, BookSnapshotInfos&gt;</code> - Interval configurations</li>
+</ul>
 </li>
 <li>
 <p><strong>Bar Aggregation</strong>:</p>
