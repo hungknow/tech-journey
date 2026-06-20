@@ -3798,13 +3798,13 @@
 </li>
 <li>
 <p><strong>Subscription Management</strong>:</p>
-</li>
+<ul>
 <li><code>external_clients: AHashSet&lt;ClientId&gt;</code> - Set of external client IDs</li>
 <li><code>routing_map: IndexMap&lt;Venue, ClientId&gt;</code> - Maps venues to clients</li>
 <li><code>book_deltas_counts: IndexMap&lt;BookDeltasKey, usize&gt;</code> - Delta subscription counts</li>
 <li><code>book_depth10_subs: AHashSet&lt;InstrumentId&gt;</code> - Depth10 subscriptions</li>
-<li>
-<p><code>book_snapshot_counts: IndexMap&lt;BookSnapshotKey, usize&gt;</code> - Snapshot counts</p>
+<li><code>book_snapshot_counts: IndexMap&lt;BookSnapshotKey, usize&gt;</code> - Snapshot counts</li>
+</ul>
 </li>
 <li>
 <p><strong>Book Management</strong>:</p>
@@ -3816,31 +3816,31 @@
 </li>
 <li>
 <p><strong>Bar Aggregation</strong>:</p>
-</li>
+<ul>
 <li><code>bar_aggregators: IndexMap&lt;BarAggregatorKey, Rc&lt;RefCell&lt;Box&lt;dyn BarAggregator&gt;&gt;&gt;&gt;</code> - Active aggregators</li>
-<li>
-<p><code>bar_aggregator_handlers: AHashMap&lt;BarAggregatorKey, Vec&lt;BarAggregatorSubscription&gt;&gt;</code> - Handlers</p>
+<li><code>bar_aggregator_handlers: AHashMap&lt;BarAggregatorKey, Vec&lt;BarAggregatorSubscription&gt;&gt;</code> - Handlers</li>
+</ul>
 </li>
 <li>
 <p><strong>Request Processing</strong>:</p>
-</li>
+<ul>
 <li><code>request_bar_aggregations: AHashMap&lt;UUID4, RequestBarAggregation&gt;</code> - Request aggregations</li>
 <li><code>request_pipeline_parent_request: AHashMap&lt;UUID4, RequestCommand&gt;</code> - Parent requests</li>
-<li>
-<p><code>time_range_pipeline_requests: AHashMap&lt;UUID4, TimeRangePipelineState&gt;</code> - Time range pipelines</p>
+<li><code>time_range_pipeline_requests: AHashMap&lt;UUID4, TimeRangePipelineState&gt;</code> - Time range pipelines</li>
+</ul>
 </li>
 <li>
 <p><strong>Continuous Futures</strong>:</p>
-</li>
+<ul>
 <li><code>continuous_future_requests: AHashMap&lt;UUID4, ContinuousFutureRequestState&gt;</code> - Active requests</li>
-<li>
-<p><code>continuous_future_subscriptions: AHashMap&lt;BarType, ContinuousFutureSubscriptionState&gt;</code> - Subscriptions</p>
+<li><code>continuous_future_subscriptions: AHashMap&lt;BarType, ContinuousFutureSubscriptionState&gt;</code> - Subscriptions</li>
+</ul>
 </li>
 <li>
 <p><strong>Option Chains</strong>:</p>
-</li>
-<li>
-<p><code>option_chain_managers: AHashMap&lt;OptionSeriesId, Rc&lt;RefCell&lt;OptionChainManager&gt;&gt;&gt;</code> - Chain managers</p>
+<ul>
+<li><code>option_chain_managers: AHashMap&lt;OptionSeriesId, Rc&lt;RefCell&lt;OptionChainManager&gt;&gt;&gt;</code> - Chain managers</li>
+</ul>
 </li>
 <li>
 <p><strong>Synthetic Instruments</strong>:</p>
