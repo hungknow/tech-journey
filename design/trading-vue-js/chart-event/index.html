@@ -1,0 +1,4347 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../candlestick-scaling/">
+      
+      
+        <link rel="next" href="../crosshair/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Chart Event - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chart-mouse-and-keyboard-events" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chart Event
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../sql/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../spacedrive/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spacedrive
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../rust/rust_apache_arrow/" class="md-tabs__link">
+          
+  
+  
+  Rust
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../nautilus-trader/thread_model/" class="md-tabs__link">
+          
+  
+  
+  Nautilus Trader
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../candlestick-scaling/" class="md-tabs__link">
+          
+  
+  
+  Trading-Vue-Js
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spacedrive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spacedrive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rust
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rust
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_apache_arrow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arrow-Based CSV Data Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_csv_cython/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cython CSV Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_zero_cost_async/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero-cost Async
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_zero_copy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero Copy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nautilus Trader
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nautilus Trader
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/thread_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thread Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Crates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/risk/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_2" id="__nav_6_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Execution
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Execution
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/execution/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/execution/order_manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/execution/matching_engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/execution/matching_core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/execution/order_emulator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Emulator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/execution/reconciliation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reconciliation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_3" id="__nav_6_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtest
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Backtest
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/backtest/backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/backtest/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_4" id="__nav_6_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Portfolio
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Portfolio
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/portfolio/portfolio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Portfolio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_5" id="__nav_6_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_5_1" id="__nav_6_2_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_6_2_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Engine
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/data/engine/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/tradingchart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trading Chart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/trade_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trade Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/quote_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quote Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/order_book/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/fill_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fill Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/simulated_exchange/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulated Exchange
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/model_ddd_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model DDD File
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/position/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Position
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/venue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Venue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_10" id="__nav_6_3_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instruments
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Instruments
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/instrument/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instrument
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/synthetic_instrument/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synthetic Instrument
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/betting_instrument/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Betting Instrument
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/binary_option/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Option
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/cfd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CFD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/commodity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commodity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/crypto_future/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crypto Future
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/crypto_perpetual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crypto Perpetual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/currency_pair/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Currency Pair
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/equity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/futures_contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Futures Contract
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/option_contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Option Contract
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_11" id="__nav_6_3_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orders
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Orders
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/market-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Market Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/stop-market-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stop Market Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/stop-limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stop Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/market-if-touched-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Market If Touched Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/limit-if-touched-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limit If Touched Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/market-to-limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Market To Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/trailing-stop-market-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trailing Stop Market Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/trailing-stop-limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trailing Stop Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/python-rust-ffi-streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python-Rust FFI Streaming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Py03
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Py03
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/pyo3/call_python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    call_function
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/pyo3/call_python_threadsafe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    call_python_threadsafe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trading-Vue-Js
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Trading-Vue-Js
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../candlestick-scaling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Candlestick Scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chart Event
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chart Event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variables-and-the-events-that-affect-them" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables and the events that affect them
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mouse-events-on-the-grid-canvas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mouse events on the grid canvas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mouse events on the grid canvas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mousemove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mousemove
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mouseout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mouseout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mousedown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mousedown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mouseup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mouseup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#click-mobile-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        click (mobile only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#touch-and-gesture-events-hammer-on-grid-canvas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Touch and gesture events (Hammer on grid canvas)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Touch and gesture events (Hammer on grid canvas)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#panstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        panstart
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panmove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        panmove
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        panend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tap-mobile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tap (mobile)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pinchstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pinchstart
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pinchend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pinchend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pinch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pinch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#press-mobile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        press (mobile)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wheel-mouse-wheel-trackpad-on-grid-canvas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wheel (mouse wheel / trackpad on grid canvas)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wheel (mouse wheel / trackpad on grid canvas)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wheel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        wheel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyboard-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard events
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Keyboard events">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keydown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        keydown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        keyup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keypress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        keypress
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-level-events-tradingvue-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root-level events (TradingVue container)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Root-level events (TradingVue container)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mousedown-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mousedown (root)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mouseleave-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mouseleave (root)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-of-shared-state-touched-by-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of shared state touched by events
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crosshair/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crosshair
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drawing-timing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drawing Timing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../range/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Range
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Script
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zoom-draw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zoom Draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variables-and-the-events-that-affect-them" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables and the events that affect them
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mouse-events-on-the-grid-canvas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mouse events on the grid canvas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mouse events on the grid canvas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mousemove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mousemove
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mouseout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mouseout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mousedown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mousedown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mouseup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mouseup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#click-mobile-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        click (mobile only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#touch-and-gesture-events-hammer-on-grid-canvas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Touch and gesture events (Hammer on grid canvas)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Touch and gesture events (Hammer on grid canvas)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#panstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        panstart
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panmove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        panmove
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        panend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tap-mobile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tap (mobile)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pinchstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pinchstart
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pinchend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pinchend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pinch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pinch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#press-mobile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        press (mobile)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wheel-mouse-wheel-trackpad-on-grid-canvas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wheel (mouse wheel / trackpad on grid canvas)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wheel (mouse wheel / trackpad on grid canvas)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wheel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        wheel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyboard-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard events
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Keyboard events">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keydown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        keydown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        keyup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keypress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        keypress
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-level-events-tradingvue-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root-level events (TradingVue container)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Root-level events (TradingVue container)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mousedown-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mousedown (root)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mouseleave-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mouseleave (root)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-of-shared-state-touched-by-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of shared state touched by events
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="chart-mouse-and-keyboard-events">Chart mouse and keyboard events</h1>
+<p>This document describes every mouse and keyboard event that affects the chart: which variables are updated and what is affected afterward. The first section lists all variables and the events that affect them; the rest groups events by source and describes updates and effects in detail.</p>
+<hr />
+<h2 id="variables-and-the-events-that-affect-them">Variables and the events that affect them</h2>
+<p><strong>crosshair_state</strong> (Chart: crosshair position and state)</p>
+<ul>
+<li><strong>crosshair_state.x</strong>, <strong>crosshair_state.y</strong>, <strong>crosshair_state.t</strong>, <strong>crosshair_state.y$</strong>, <strong>crosshair_state.grid_id</strong>, <strong>crosshair_state.values</strong>: mousemove (via cursor_changed and crosshair sync), mouseout (position effectively cleared), panstart (cursor_changed), panmove (cursor_changed; or crosshair coord only when mode is aim), tap (cursor_changed with mode explore), press (cursor_changed with mode aim).</li>
+<li><strong>crosshair_state.locked</strong>: mousedown (set true), mouseup (set false), panstart (set true), panend (set false).</li>
+</ul>
+<p><strong>visible_time_range</strong> (Chart: visible time or index window)</p>
+<ul>
+<li><strong>visible_time_range[0]</strong>, <strong>visible_time_range[1]</strong>: panmove (when active_pan_drag is set), panend (via momentum_scroll on mobile), pinch, wheel (zoom or trackpad scroll), and in all cases via the subsequent range-changed handling in Chart.</li>
+</ul>
+<p><strong>visible_data_slice</strong> (Chart: data subset for the visible time range)</p>
+<ul>
+<li>Updated whenever visible_time_range changes: same events as <strong>visible_time_range</strong> (panmove, panend with momentum_scroll, pinch, wheel), because range-changed handling overwrites visible_data_slice from the new range.</li>
+</ul>
+<p><strong>chart_has_focus</strong> (Chart: user has clicked inside the chart)</p>
+<ul>
+<li><strong>chart_has_focus</strong>: mousedown on root (set true), mouseleave on root (set false).</li>
+</ul>
+<p><strong>vertical_scale_per_grid</strong> (Chart: per-grid y scale and offset)</p>
+<ul>
+<li><strong>vertical_scale_per_grid[grid_id]</strong>: panmove (when active_pan_drag is set and y_transform is not auto; sidebar-transform is emitted and vertical scale is updated).</li>
+</ul>
+<p><strong>canvas_screen_offset</strong> (grid: canvas bounding rect offset for coordinate conversion)</p>
+<ul>
+<li><strong>canvas_screen_offset_x</strong>, <strong>canvas_screen_offset_y</strong>: mousemove, panmove on mobile, press on mobile (canvas bounding rect offset refreshed each time).</li>
+</ul>
+<p><strong>active_pan_drag</strong> (grid: active pan or drag gesture state)</p>
+<ul>
+<li><strong>active_pan_drag</strong>: panstart (set to drag state object), mouseup (null), panend (null), pinchstart (null).</li>
+</ul>
+<p><strong>active_pinch_zoom</strong> (grid: active pinch-zoom gesture state)</p>
+<ul>
+<li><strong>active_pinch_zoom</strong>: pinchstart (set to visible_time_range width and copy), pinchend (null).</li>
+</ul>
+<p><strong>momentum_scroll_animation</strong> (grid: pan_fade — follow-through after release)</p>
+<ul>
+<li><strong>momentum_scroll_animation</strong>: panend on mobile (may start when active_pan_drag was set), tap (stop), press (stop).</li>
+</ul>
+<p><strong>is_trackpad_gesture</strong> (grid: whether wheel event is from trackpad)</p>
+<ul>
+<li><strong>is_trackpad_gesture</strong>: wheel (set true when event has deltaX).</li>
+</ul>
+<p><strong>overlay_pointer_state</strong> (per overlay: pointer position and button state for overlay logic)</p>
+<ul>
+<li><strong>overlay_pointer_state.x</strong>, <strong>overlay_pointer_state.y</strong>, <strong>overlay_pointer_state.t</strong>, <strong>overlay_pointer_state.y$</strong>: mousemove (and on mobile, panmove and tap/press via synthetic mousemove).</li>
+<li><strong>overlay_pointer_state.pressed</strong>: mousedown (true), mouseup (false).</li>
+</ul>
+<p><strong>overlay_held_keys</strong> (per overlay: which keys are currently held)</p>
+<ul>
+<li><strong>held_keys_map[key]</strong>: keydown (set true for event.key; also emits key name if first press), keyup (set false for event.key).</li>
+</ul>
+<p><strong>chart_layout</strong> (Chart: grid dimensions and scales)</p>
+<ul>
+<li><strong>chart_layout</strong>: updated indirectly when visible_time_range, width, height, or vertical_scale_per_grid change; the events that change visible_time_range or vertical scale therefore affect chart_layout (panmove, panend with momentum_scroll, pinch, wheel, and sidebar-transform from panmove).</li>
+</ul>
+<p><strong>chart_has_focus_in_meta</strong> (passed to grid from Chart as meta.activated)</p>
+<ul>
+<li>Same as <strong>chart_has_focus</strong>: mousedown on root (true), mouseleave on root (false). Used when handling wheel when SCROLL_WHEEL is 'click'.</li>
+</ul>
+<hr />
+<h2 id="mouse-events-on-the-grid-canvas">Mouse events on the grid canvas</h2>
+<p>The grid canvas is the main chart area. It receives native mouse events (desktop) and forwards them to the grid and overlays.</p>
+<h3 id="mousemove">mousemove</h3>
+<p><strong>Used for</strong> — Moving the crosshair and reading values: the chart shows the price (or value) at the pointer and overlays can show tooltips or react to hover.</p>
+<p><strong>Context</strong> — Fires on the grid canvas when the pointer moves over the chart (desktop). On mobile, equivalent updates come from panmove and tap/press via synthetic mousemove.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>cursor_changed payload</strong> (emitted): <code>grid_id</code>, <code>x</code> (event.layerX), <code>y</code> (event.layerY + layout offset). Chart receives this and may run crosshair sync.</li>
+<li><strong>canvas_screen_offset_x</strong>, <strong>canvas_screen_offset_y</strong> (grid): canvas bounding rect offset refreshed so screen coordinates are correct.</li>
+<li><strong>overlay_pointer_state</strong> (per overlay): <code>x</code>, <code>y</code> (layer coordinates), <code>t</code> (time at x), <code>y$</code> (value at y).</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Chart emits cursor-changed; Chart may set crosshair_state.mode and sync crosshair values, which updates crosshair_state.grid_id, crosshair_state.t, crosshair_state.values[grid.id], crosshair_state.x, crosshair_state.y, crosshair_state.y$.</li>
+<li>Crosshair and overlays receive the new pointer position; crosshair visibility and overlay logic (e.g. tooltips) can react.</li>
+<li>Grid redraws when crosshair_state changes so crosshair and overlay rendering stay in sync.</li>
+</ul>
+<h3 id="mouseout">mouseout</h3>
+<p><strong>Used for</strong> — Hiding the crosshair and clearing hover state when the pointer leaves the chart so the user sees that focus is no longer on the chart.</p>
+<p><strong>Context</strong> — Fires on the grid canvas when the pointer leaves the canvas (desktop only; mobile has no native mouseout).</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>cursor_changed payload</strong> (emitted): empty object. Chart still handles cursor-changed but with no coordinates.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Crosshair position is cleared or not updated; crosshair can hide and overlays can clear hover state.</li>
+<li>Overlay pointer handlers receive <code>mouseout</code>; overlay logic can clear hover/tooltips.</li>
+</ul>
+<h3 id="mousedown">mousedown</h3>
+<p><strong>Used for</strong> — Starting a pan/drag or an overlay action: the crosshair is locked so it does not jump while dragging, and overlays (e.g. drawing tools) can begin a drag or selection.</p>
+<p><strong>Context</strong> — Fires on the grid canvas when the user presses the mouse button over the chart (desktop). On mobile, tap and press trigger equivalent behavior (synthetic mousedown).</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>overlay_pointer_state.pressed</strong>: set to true (after handlers run).</li>
+<li><strong>cursor_locked</strong> (emitted): true. Chart sets <code>crosshair_state.locked = true</code> (unless <code>crosshair_state.scroll_lock</code> is set).</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Overlay renderers and pointer listeners receive <code>mousedown</code>; tools and overlays can start drag or selection.</li>
+<li>If event is not default-prevented, Chart emits <code>custom-event</code> with <code>grid-mousedown</code> (grid_id and event). DataCube and extensions can react.</li>
+<li>Crosshair is locked so pan/drag can start without the crosshair jumping.</li>
+</ul>
+<h3 id="mouseup">mouseup</h3>
+<p><strong>Used for</strong> — Ending a pan/drag or overlay action: the crosshair unlocks and can move with the pointer again, and overlays can finalize a drag or selection.</p>
+<p><strong>Context</strong> — Fires on the grid canvas when the user releases the mouse button (desktop). On mobile, panend clears drag state; overlay “click” is simulated after tap.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>active_pan_drag</strong> (grid): set to null (drag state cleared).</li>
+<li><strong>cursor_locked</strong> (emitted): false. Chart sets <code>crosshair_state.locked = false</code>.</li>
+<li><strong>overlay_pointer_state.pressed</strong>: set to false (after handlers run).</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Pan/drag ends; no further visible_time_range or transform updates from this pointer.</li>
+<li>Overlay renderers and pointer listeners receive <code>mouseup</code>; tools can finish drag or selection.</li>
+<li>Crosshair can move again with the pointer.</li>
+</ul>
+<h3 id="click-mobile-only">click (mobile only)</h3>
+<p><strong>Used for</strong> — Letting overlays react to a tap as a single click (e.g. buttons, point-and-click tools) without changing crosshair or time range in the framework.</p>
+<p><strong>Context</strong> — Not bound on the canvas on desktop. On mobile, it is only fired from <strong>tap</strong>: a synthetic mousemove and mousedown run first, then a delayed click is sent to overlays.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li>None in the grid or Chart directly; overlays receive the synthetic click event.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Overlay renderers that handle click receive it (e.g. buttons, point-and-click tools). No crosshair or visible_time_range change from the framework.</li>
+</ul>
+<hr />
+<h2 id="touch-and-gesture-events-hammer-on-grid-canvas">Touch and gesture events (Hammer on grid canvas)</h2>
+<p>Hammer handles touch and pointer gestures on the same canvas. These run in addition to (or instead of) native mouse events on mobile.</p>
+<h3 id="panstart">panstart</h3>
+<p><strong>Used for</strong> — Starting a pan or drag: the user can scroll the chart horizontally (change visible time range), shift the y-axis (if not auto-scaled), and the crosshair is locked at the touch point.</p>
+<p><strong>Context</strong> — Fires when the user touches the grid canvas and starts a pan (or on desktop, when a pointer drag is recognized as pan). Does not run if crosshair is scroll-locked or in aim mode (then only cursor position is reported).</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>active_pan_drag</strong> (grid): object with drag state: <code>x</code>, <code>y</code> (center + offset), <code>r</code> (visible_time_range copy), <code>t</code> (visible_time_range width), <code>o</code> (y_transform offset), <code>y_r</code> (y transform range), <code>B</code> (chart_layout.B), <code>t0</code> (timestamp). Omitted if <code>crosshair_state.scroll_lock</code> or if <code>crosshair_state.mode === 'aim'</code> (then only crosshair coord is emitted).</li>
+<li><strong>cursor_changed</strong> (emitted): <code>grid_id</code>, <code>x</code>, <code>y</code> (center + offset).</li>
+<li><strong>cursor_locked</strong> (emitted): true.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Chart sets crosshair position and locks crosshair; pan/drag can move visible_time_range and/or vertical_scale_per_grid.</li>
+<li>Subsequent panmove either updates visible_time_range (and optionally y) when active_pan_drag is set, or only updates crosshair position when mode is aim.</li>
+</ul>
+<h3 id="panmove">panmove</h3>
+<p><strong>Used for</strong> — Updating the chart while panning or dragging: the visible time range (and optionally the y scale) moves with the finger or pointer, and the crosshair position is kept in sync for aim mode.</p>
+<p><strong>Context</strong> — Fires repeatedly while the user pans or drags on the grid canvas. On mobile, also drives a synthetic mousemove so overlays see pointer movement. If a pan was started (active_pan_drag set), this updates visible_time_range and possibly vertical_scale_per_grid; otherwise in aim mode it only updates crosshair position.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li>On mobile: <strong>canvas_screen_offset_x</strong>, <strong>canvas_screen_offset_y</strong> refreshed, and a synthetic mousemove (from touch) is sent to overlays so they see movement.</li>
+<li>If <strong>active_pan_drag</strong> is set: <strong>visible_time_range[0], visible_time_range[1]</strong> are updated (and optionally <strong>sidebar-transform</strong> for y), then range is clamped and <strong>range-changed</strong> is emitted.</li>
+<li><strong>cursor_changed</strong> (emitted): <code>grid_id</code>, <code>x</code>, <code>y</code> (center + offset).</li>
+<li>If no active_pan_drag and <strong>crosshair_state.mode === 'aim'</strong>: <strong>cursor_changed</strong> with coord only.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>visible_time_range and/or vertical_scale_per_grid change; Chart handles range-changed and updates visible_time_range, visible_data_slice, chart_layout; Grid redraws.</li>
+<li>Sidebar can receive <code>sidebar-transform</code> and update scale/position.</li>
+<li>Crosshair position stays in sync for crosshair and overlays.</li>
+</ul>
+<h3 id="panend">panend</h3>
+<p><strong>Used for</strong> — Ending a pan/drag: the crosshair unlocks and, on mobile, optional momentum scrolling can continue for a short time so the chart “coasts” after a fast swipe.</p>
+<p><strong>Context</strong> — Fires when the user lifts the finger or releases the pointer after a pan/drag on the grid canvas. On mobile, if the user was panning, a brief momentum_scroll_animation may run using the release velocity.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>active_pan_drag</strong> (grid): set to null.</li>
+<li>On mobile, if active_pan_drag was set: <strong>momentum_scroll_animation</strong> may start (updating <strong>visible_time_range[0], visible_time_range[1]</strong> and emitting <strong>range-changed</strong> until velocity decays).</li>
+<li><strong>cursor_locked</strong> (emitted): false.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Pan/drag ends; crosshair unlocks; optional momentum scroll (mobile) continues briefly via momentum_scroll_animation.</li>
+</ul>
+<h3 id="tap-mobile">tap (mobile)</h3>
+<p><strong>Used for</strong> — Treating a short touch as a click: the chart switches to explore mode (crosshair follows the tap), overlays receive mousemove, mousedown, and click, and any running momentum scroll is stopped so the tap is not mistaken for a pan.</p>
+<p><strong>Context</strong> — Fires on the grid canvas when the user taps without panning (mobile). Simulates a full mouse sequence (mousemove → mousedown → click) for overlays and sets crosshair_state.mode to explore.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li>Synthetic mousemove, mousedown, and delayed click are sent to overlays; <strong>cursor_changed</strong> emitted twice (empty then <code>mode: 'explore'</code>); grid redraws.</li>
+<li>If <strong>momentum_scroll_animation</strong> was running, it is stopped.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Overlays get mousemove, mousedown, then click; crosshair_state.mode set to explore; grid redraws.</li>
+</ul>
+<h3 id="pinchstart">pinchstart</h3>
+<p><strong>Used for</strong> — Preparing a pinch-zoom: the chart stores the current visible time range so the following pinch events can zoom in or out around the center without conflicting with an active pan.</p>
+<p><strong>Context</strong> — Fires when the user puts a second finger on the grid canvas (mobile). Any active pan is cancelled (active_pan_drag cleared); the current range width and bounds are stored for pinchzoom.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>active_pan_drag</strong> (grid): set to null (pan cancelled).</li>
+<li><strong>active_pinch_zoom</strong> (grid): stores visible_time_range width and a copy of visible_time_range for pinchzoom.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Subsequent pinch events will zoom around center using this stored range.</li>
+</ul>
+<h3 id="pinchend">pinchend</h3>
+<p><strong>Used for</strong> — Ending a pinch-zoom: no further zoom is applied until the user starts a new pinch, so the chart stays at the last zoom level.</p>
+<p><strong>Context</strong> — Fires when the user lifts one finger so the pinch gesture ends (mobile). Clears active_pinch_zoom; no other chart state is updated.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>active_pinch_zoom</strong> (grid): set to null.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Pinch zoom stops; no further visible_time_range updates from pinch until next pinchstart.</li>
+</ul>
+<h3 id="pinch">pinch</h3>
+<p><strong>Used for</strong> — Zooming the chart in or out with two fingers: the visible time range shrinks (zoom in) or grows (zoom out) around the center, within min/max zoom limits.</p>
+<p><strong>Context</strong> — Fires repeatedly while the user pinches on the grid canvas (mobile), after pinchstart has stored the range. Scale is applied to the stored range; range-changed is emitted and the chart redraws.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li>If <strong>active_pinch_zoom</strong> is set: <strong>visible_time_range[0], visible_time_range[1]</strong> updated (zoom in/out around center), then <strong>range-changed</strong> emitted. Bounds are clamped by min/max zoom limits.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Chart handles range-changed and updates visible_time_range, visible_data_slice, chart_layout; grid and sidebar redraw.</li>
+</ul>
+<h3 id="press-mobile">press (mobile)</h3>
+<p><strong>Used for</strong> — Long-press to “aim”: the crosshair locks at the press position (aim mode) so the user can read values without the crosshair moving, and overlays get a full mouse sequence (mousemove, mousedown, click) for long-press actions.</p>
+<p><strong>Context</strong> — Fires when the user holds a finger on the grid canvas long enough for Hammer to recognize a press (mobile). Stops any momentum scroll, refreshes canvas offset, sets crosshair mode to aim, and sends synthetic mousemove, mousedown, and click to overlays.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>momentum_scroll_animation</strong> (grid): stopped if present.</li>
+<li><strong>canvas_screen_offset_x</strong>, <strong>canvas_screen_offset_y</strong> (grid): refreshed.</li>
+<li><strong>cursor_changed</strong> (emitted): with coord and <code>mode: 'aim'</code>.</li>
+<li>Grid redraw is scheduled.</li>
+<li>Synthetic mousemove, mousedown, and delayed click are sent to overlays.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Crosshair switches to aim mode (locked at press position); overlays get mousemove, mousedown, click; grid redraws.</li>
+</ul>
+<hr />
+<h2 id="wheel-mouse-wheel-trackpad-on-grid-canvas">Wheel (mouse wheel / trackpad on grid canvas)</h2>
+<p>Wheel is handled by Hamster on the grid canvas and drives zoom and scroll.</p>
+<h3 id="wheel">wheel</h3>
+<p><strong>Used for</strong> — Zooming or scrolling the chart with the mouse wheel or trackpad: vertical wheel (or trackpad vertical) zooms in/out or scrolls the visible time range; horizontal trackpad scrolls the chart left/right. Optional “click-to-activate” (SCROLL_WHEEL 'click') requires a prior click inside the chart before wheel has effect.</p>
+<p><strong>Context</strong> — Fires when the user scrolls over the grid canvas (desktop and trackpad). Behavior depends on config (SCROLL_WHEEL, ZOOM_MODE) and whether the event has horizontal delta (trackpad). If ZOOM_MODE is 'tl' with ctrl or tl, rezoom-range can also update the y-axis.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>is_trackpad_gesture</strong> (grid): set to true when deltaX is present and used to scale delta and choose scroll vs zoom behavior.</li>
+<li><strong>event.deltaX</strong>, <strong>event.deltaY</strong>: normalized from the event if not set.</li>
+<li>If horizontal scroll (trackpad): <strong>visible_time_range[0], visible_time_range[1]</strong> updated (horizontal scroll), then <strong>range-changed</strong> emitted.</li>
+<li>Otherwise (or in addition): <strong>visible_time_range[0], visible_time_range[1]</strong> updated (zoom or vertical scroll). In ZOOM_MODE 'tl' with ctrl or tl mode, <strong>rezoom-range</strong> is emitted with grid_id, z, diff1, diff2.</li>
+<li>visible_time_range is clamped to data bounds and <strong>range-changed</strong> is emitted.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Chart handles range-changed and updates visible_time_range, visible_data_slice, chart_layout; grid and botbar redraw.</li>
+<li>If <strong>rezoom-range</strong> is emitted, the section forwards to the sidebar for y-axis rezoom.</li>
+<li>Wheel is optionally prevented (when wmode is not 'pass', and when wmode is 'click' only if chart_has_focus_in_meta).</li>
+</ul>
+<hr />
+<h2 id="keyboard-events">Keyboard events</h2>
+<p>Keyboard events are global (window). They are forwarded to registered listeners; each grid section receives them only when that grid is active.</p>
+<h3 id="keydown">keydown</h3>
+<p><strong>Used for</strong> — Letting overlays react to key presses (e.g. Escape to cancel a tool, Enter to confirm, modifier keys for multi-step actions). The “active” grid (the one under the crosshair) receives the event; overlays can read which keys are held via held_keys_map.</p>
+<p><strong>Context</strong> — Fires on the window when any key is pressed. Only the grid whose crosshair_state.grid_id matches and has a defined crosshair_state.t is considered active and receives keydown; other grids ignore it.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>overlay_held_keys</strong> (per overlay): for the event’s key, <strong>held_keys_map[key]</strong> set to true. If the key was not already pressed, the key name is also emitted as a custom event (e.g. Escape).</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Only the grid with matching crosshair_state.grid_id and defined crosshair_state.t is active; that grid forwards keydown to its overlays. Overlay renderers and key listeners receive keydown; overlays can cancel drag, submit, etc.</li>
+</ul>
+<h3 id="keyup">keyup</h3>
+<p><strong>Used for</strong> — Letting overlays know a key was released (e.g. shift, escape, or shortcut keys) so they can clear key-held state or finish an action.</p>
+<p><strong>Context</strong> — Fires on the window when any key is released. Only the active grid (same as keydown) receives keyup; overlay held_keys_map is updated so overlays can query which keys are still held.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>overlay_held_keys</strong> (per overlay): <strong>held_keys_map[event.key]</strong> set to false.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Active grid’s overlays receive keyup; overlays can clear key-held state (e.g. shift, escape).</li>
+</ul>
+<h3 id="keypress">keypress</h3>
+<p><strong>Used for</strong> — Letting overlays handle character input (e.g. typing in a text tool or search box). The framework does not change crosshair or range; overlays can use it for their own UI.</p>
+<p><strong>Context</strong> — Fires on the window when a character key is pressed (after keydown). Forwarded to the active grid’s overlays only; no built-in chart state is updated.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li>None in the framework; only forwarded to overlay renderers.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Overlays can handle character input (e.g. text tools). No crosshair_state or visible_time_range change in core.</li>
+</ul>
+<hr />
+<h2 id="root-level-events-tradingvue-container">Root-level events (TradingVue container)</h2>
+<p>The root div of TradingVue listens to two mouse events to track whether the user is “inside” the chart.</p>
+<h3 id="mousedown-root">mousedown (root)</h3>
+<p><strong>Used for</strong> — Marking that the user has interacted with the chart so that, when SCROLL_WHEEL is 'click', wheel zoom/scroll is enabled only after this click. Avoids accidental zoom when the pointer is over the chart but the user intended to scroll the page.</p>
+<p><strong>Context</strong> — Fires on the root chart container (the outer div), not on the grid canvas, when the user presses the mouse button anywhere inside the chart area (toolbar, legend, canvas, etc.). Sets chart_has_focus so wheel can be allowed when SCROLL_WHEEL is 'click'.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>chart_has_focus</strong> (Chart): set to true.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>Chart’s chart_has_focus_in_meta becomes true; passed to grid as meta.activated. When SCROLL_WHEEL is 'click', wheel zoom/scroll is only applied after the user has clicked inside the chart once.</li>
+</ul>
+<h3 id="mouseleave-root">mouseleave (root)</h3>
+<p><strong>Used for</strong> — Clearing “chart has focus” when the pointer leaves the chart so that, with SCROLL_WHEEL 'click', wheel over the chart is ignored again until the user clicks inside. Keeps wheel behavior consistent with user intent (scroll page vs. zoom chart).</p>
+<p><strong>Context</strong> — Fires on the root chart container when the pointer leaves that container (e.g. moves to the page margin, another widget, or the browser chrome). Chart no longer treats the user as “focused” on the chart.</p>
+<p><strong>Variables updated</strong></p>
+<ul>
+<li><strong>chart_has_focus</strong> (Chart): set to false.</li>
+</ul>
+<p><strong>Affected</strong></p>
+<ul>
+<li>chart_has_focus_in_meta becomes false; with SCROLL_WHEEL 'click', wheel on the chart will again be ignored until the user mousedowns inside the root.</li>
+</ul>
+<hr />
+<h2 id="summary-of-shared-state-touched-by-events">Summary of shared state touched by events</h2>
+<ul>
+<li><strong>crosshair_state</strong>: x, y, t, y$, grid_id, locked, mode, values — updated by cursor_changed and cursor_locked; drives crosshair, overlay values, and which grid gets keyboard events.</li>
+<li><strong>visible_time_range</strong>: time (or index) window — updated by range_changed from wheel, pan, pinch, trackpad_scroll, momentum_scroll_animation; drives chart_layout, visible_data_slice, and redraws.</li>
+<li><strong>vertical_scale_per_grid</strong>: per-grid y scale/position — updated by sidebar-transform from pan/drag when y_transform is not auto; drives chart_layout and sidebar.</li>
+<li><strong>active_pan_drag</strong> / <strong>active_pinch_zoom</strong>: internal gesture state for pan and pinch; not exposed outside grid.</li>
+<li><strong>overlay_pointer_state</strong>: x, y, t, y$, pressed — used by overlay logic and drawing.</li>
+<li><strong>overlay_held_keys</strong> (held_keys_map): which keys are held — used by overlay logic.</li>
+<li><strong>chart_has_focus</strong>: whether the user has clicked inside the chart; gates wheel when SCROLL_WHEEL is 'click'.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

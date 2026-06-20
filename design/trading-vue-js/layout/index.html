@@ -1,0 +1,4434 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../drawing-timing/">
+      
+      
+        <link rel="next" href="../range/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Layout - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chart-layout-system" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Layout
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../sql/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../spacedrive/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spacedrive
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../rust/rust_apache_arrow/" class="md-tabs__link">
+          
+  
+  
+  Rust
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../nautilus-trader/thread_model/" class="md-tabs__link">
+          
+  
+  
+  Nautilus Trader
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../candlestick-scaling/" class="md-tabs__link">
+          
+  
+  
+  Trading-Vue-Js
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spacedrive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spacedrive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rust
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rust
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_apache_arrow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arrow-Based CSV Data Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_csv_cython/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cython CSV Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_zero_cost_async/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero-cost Async
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_zero_copy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero Copy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nautilus Trader
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nautilus Trader
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/thread_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thread Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Crates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/risk/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_2" id="__nav_6_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Execution
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Execution
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/execution/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/execution/order_manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/execution/matching_engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/execution/matching_core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/execution/order_emulator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Emulator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/execution/reconciliation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reconciliation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_3" id="__nav_6_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtest
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Backtest
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/backtest/backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/backtest/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_4" id="__nav_6_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Portfolio
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Portfolio
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/portfolio/portfolio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Portfolio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_5" id="__nav_6_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_2_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_5_1" id="__nav_6_2_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_6_2_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Engine
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/crates/data/engine/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/tradingchart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trading Chart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/trade_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trade Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/quote_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quote Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/order_book/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/fill_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fill Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/simulated_exchange/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulated Exchange
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/model_ddd_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model DDD File
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/position/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Position
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/venue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Venue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_10" id="__nav_6_3_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instruments
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Instruments
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/instrument/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instrument
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/synthetic_instrument/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synthetic Instrument
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/betting_instrument/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Betting Instrument
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/binary_option/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Option
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/cfd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CFD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/commodity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commodity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/crypto_future/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crypto Future
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/crypto_perpetual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crypto Perpetual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/currency_pair/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Currency Pair
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/equity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/futures_contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Futures Contract
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/instruments/option_contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Option Contract
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_3_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_11" id="__nav_6_3_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orders
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Orders
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/market-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Market Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/stop-market-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stop Market Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/stop-limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stop Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/market-if-touched-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Market If Touched Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/limit-if-touched-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limit If Touched Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/market-to-limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Market To Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/trailing-stop-market-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trailing Stop Market Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/concepts/orders/trailing-stop-limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trailing Stop Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/python-rust-ffi-streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python-Rust FFI Streaming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Py03
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Py03
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/pyo3/call_python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    call_function
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nautilus-trader/pyo3/call_python_threadsafe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    call_python_threadsafe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trading-Vue-Js
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Trading-Vue-Js
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../candlestick-scaling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Candlestick Scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chart-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chart Event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crosshair/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crosshair
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drawing-timing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drawing Timing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layout
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout Object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predefined-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Predefined Dimensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layout-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layout Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vertical-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vertical Organization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#horizontal-organization-grid-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Horizontal Organization (Grid Section)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grid-layout-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid Layout Calculation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Grid Layout Calculation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#height-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Height Distribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grid-object-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid Object Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sidebar-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sidebar Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sidebar Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#width-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Width Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#positioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positioning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#legend-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legend Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Legend Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positioning_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positioning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Content
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#botbar-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Botbar Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Botbar Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dimensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time Labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coordinate-transformations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coordinate Transformations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Coordinate Transformations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#y-axis-price-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Y-Axis (Price) Transformation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#x-axis-time-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        X-Axis (Time) Transformation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grid-line-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid Line Calculation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Grid Line Calculation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#x-axis-time-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        X-Axis (Time) Grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#y-axis-price-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Y-Axis (Price) Grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#candlestick-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Candlestick Layout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#offchart-grids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offchart Grids
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layout-update-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout Update Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../range/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Range
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Script
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zoom-draw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zoom Draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout Object
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predefined-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Predefined Dimensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layout-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Layout Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vertical-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vertical Organization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#horizontal-organization-grid-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Horizontal Organization (Grid Section)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grid-layout-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid Layout Calculation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Grid Layout Calculation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#height-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Height Distribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grid-object-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid Object Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sidebar-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sidebar Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sidebar Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#width-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Width Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#positioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positioning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#legend-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legend Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Legend Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positioning_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positioning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Content
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#botbar-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Botbar Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Botbar Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dimensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time Labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coordinate-transformations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coordinate Transformations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Coordinate Transformations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#y-axis-price-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Y-Axis (Price) Transformation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#x-axis-time-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        X-Axis (Time) Transformation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grid-line-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid Line Calculation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Grid Line Calculation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#x-axis-time-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        X-Axis (Time) Grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#y-axis-price-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Y-Axis (Price) Grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#candlestick-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Candlestick Layout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#offchart-grids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offchart Grids
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layout-update-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout Update Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="chart-layout-system">Chart Layout System</h1>
+<h2 id="overview">Overview</h2>
+<p>The chart layout system calculates all dimensions, positions, and coordinate transformations required to render the trading chart. It determines where to draw the legend, axes, overlays, and chart elements based on the available space and data.</p>
+<h2 id="core-concepts">Core Concepts</h2>
+<h3 id="layout-object">Layout Object</h3>
+<p>The layout is calculated by the <code>Layout()</code> function in <code>src/components/js/layout.js</code>, which returns an object containing:</p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nx">grids</span><span class="o">:</span><span class="w"> </span><span class="p">[...],</span><span class="w">      </span><span class="c1">// Array of grid objects (main + offchart)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nx">botbar</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w">          </span><span class="c1">// Bottom bar dimensions</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="nx">width</span><span class="p">,</span><span class="w"> </span><span class="nx">height</span><span class="p">,</span><span class="w"> </span><span class="nx">offset</span><span class="p">,</span><span class="w"> </span><span class="nx">xs</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="predefined-dimensions">Predefined Dimensions</h3>
+<p>The chart uses predefined dimensions from <code>src/stuff/constants.js</code>:</p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">ChartConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nx">SBMIN</span><span class="o">:</span><span class="w"> </span><span class="mf">60</span><span class="p">,</span><span class="w">       </span><span class="c1">// Minimal sidebar width (px)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nx">SBMAX</span><span class="o">:</span><span class="w"> </span><span class="kc">Infinity</span><span class="p">,</span><span class="w"> </span><span class="c1">// Max sidebar width (px)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nx">TOOLBAR</span><span class="o">:</span><span class="w"> </span><span class="mf">57</span><span class="p">,</span><span class="w">     </span><span class="c1">// Toolbar width (px)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nx">TB_ICON</span><span class="o">:</span><span class="w"> </span><span class="mf">25</span><span class="p">,</span><span class="w">     </span><span class="c1">// Toolbar icon size (px)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nx">CANDLEW</span><span class="o">:</span><span class="w"> </span><span class="mf">0.6</span><span class="p">,</span><span class="w">    </span><span class="c1">// Candle width as % of step</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nx">GRIDX</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span><span class="p">,</span><span class="w">      </span><span class="c1">// Target X-axis grid spacing (px)</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nx">GRIDY</span><span class="o">:</span><span class="w"> </span><span class="mf">47</span><span class="p">,</span><span class="w">       </span><span class="c1">// Target Y-axis grid spacing (px)</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="nx">BOTBAR</span><span class="o">:</span><span class="w"> </span><span class="mf">28</span><span class="p">,</span><span class="w">      </span><span class="c1">// Bottom bar height (px)</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nx">PANHEIGHT</span><span class="o">:</span><span class="w"> </span><span class="mf">22</span><span class="p">,</span><span class="w">   </span><span class="c1">// Cursor info panel height (px)</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nx">VOLSCALE</span><span class="o">:</span><span class="w"> </span><span class="mf">0.15</span><span class="p">,</span><span class="w">  </span><span class="c1">// Volume scale as % of height</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nx">EXPAND</span><span class="o">:</span><span class="w"> </span><span class="mf">0.15</span><span class="w">     </span><span class="c1">// % of range to expand for padding</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="layout-structure">Layout Structure</h2>
+<h3 id="vertical-organization">Vertical Organization</h3>
+<p>The chart is divided vertically into three main sections:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>┌─────────────────────────────────────┐
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>│         Legend (overlay)            │  &lt;- Positioned at top
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>├─────────────────────────────────────┤
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│                                     │
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>│         Grid Area                   │
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│      (Main Chart + Offchart)        │
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>│                                     │
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>├─────────────────────────────────────┤
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>│         Botbar                      │  &lt;- Time axis
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>└─────────────────────────────────────┘
+</span></code></pre></div>
+<h3 id="horizontal-organization-grid-section">Horizontal Organization (Grid Section)</h3>
+<p>Each grid section consists of:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>┌────────────────────┬────────┐
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│                    │        │
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│      Grid          │Sidebar │
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│   (Main Chart)     │(Y-axis)│
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│                    │        │
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>└────────────────────┴────────┘
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>     width = total - sb    sb
+</span></code></pre></div>
+<h2 id="grid-layout-calculation">Grid Layout Calculation</h2>
+<h3 id="height-distribution">Height Distribution</h3>
+<p>Grid heights are calculated in <code>grid_hs()</code> function (<code>layout.js:30-50</code>):</p>
+<p><strong>Method 1: Weighted Heights</strong>
+If any grid has a defined <code>height</code> value:
+- Calculate weights from all grid heights (default = 1)
+- Distribute total height proportionally
+- Use floor() and distribute remaining pixels evenly</p>
+<p><strong>Method 2: Automatic Distribution</strong>
+If no heights defined:
+- Main chart gets: <code>height - offchart_height * n</code>
+- Offchart each gets: <code>height * (2 * sqrt(n) / 7) / n</code>
+- Where <code>n</code> = number of offchart indicators</p>
+<h3 id="grid-object-structure">Grid Object Structure</h3>
+<p>Each grid object contains:</p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w">                    </span><span class="c1">// Grid index</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">            </span><span class="c1">// Grid width (excludes sidebar)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">           </span><span class="c1">// Grid height</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nx">sb</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">               </span><span class="c1">// Sidebar width</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nx">offset</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">           </span><span class="c1">// Vertical offset from top</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="nx">spacex</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">           </span><span class="c1">// Available X space (width)</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="nx">startx</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">           </span><span class="c1">// Starting X position</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="nx">px_step</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">          </span><span class="c1">// Pixels per candle interval</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="nx">A</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">                </span><span class="c1">// Y-axis scale factor</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nx">B</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">                </span><span class="c1">// Y-axis shift factor</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="nx">$_hi</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">             </span><span class="c1">// Y-axis high value</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="nx">$_lo</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">             </span><span class="c1">// Y-axis low value</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="nx">$_step</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">           </span><span class="c1">// Y-axis grid step</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="nx">t_step</span><span class="o">:</span><span class="w"> </span><span class="nx">number</span><span class="p">,</span><span class="w">           </span><span class="c1">// Time axis grid step</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="nx">xs</span><span class="o">:</span><span class="w"> </span><span class="p">[[</span><span class="nx">x</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">rank</span><span class="p">],</span><span class="w"> </span><span class="p">...],</span><span class="w"> </span><span class="c1">// X-axis grid positions</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="nx">ys</span><span class="o">:</span><span class="w"> </span><span class="p">[[</span><span class="nx">y</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">],</span><span class="w"> </span><span class="p">...],</span><span class="w">   </span><span class="c1">// Y-axis grid positions</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="nx">candles</span><span class="o">:</span><span class="w"> </span><span class="p">[...],</span><span class="w">          </span><span class="c1">// Candlestick positions</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="nx">volume</span><span class="o">:</span><span class="w"> </span><span class="p">[...],</span><span class="w">            </span><span class="c1">// Volume bar positions</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="nx">grid</span><span class="o">:</span><span class="w"> </span><span class="p">{...},</span><span class="w">              </span><span class="c1">// Grid configuration</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="nx">master_grid</span><span class="o">:</span><span class="w"> </span><span class="nx">ref</span><span class="p">,</span><span class="w">         </span><span class="c1">// Reference to main grid (for offchart)</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="nx">ti_map</span><span class="o">:</span><span class="w"> </span><span class="p">{...},</span><span class="w">            </span><span class="c1">// Time index mapping</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="c1">// Coordinate transformation functions:</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">    </span><span class="nx">t2screen</span><span class="p">(</span><span class="nx">t</span><span class="p">),</span><span class="w">              </span><span class="c1">// Timestamp -&gt; screen X</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">    </span><span class="nx">$2screen</span><span class="p">(</span><span class="nx">y</span><span class="p">),</span><span class="w">              </span><span class="c1">// Price -&gt; screen Y</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">    </span><span class="nx">screen2t</span><span class="p">(</span><span class="nx">x</span><span class="p">),</span><span class="w">              </span><span class="c1">// Screen X -&gt; timestamp</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">    </span><span class="nx">screen2$</span><span class="p">(</span><span class="nx">y</span><span class="p">),</span><span class="w">              </span><span class="c1">// Screen Y -&gt; price</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">    </span><span class="nx">t_magnet</span><span class="p">(</span><span class="nx">t</span><span class="p">),</span><span class="w">              </span><span class="c1">// Nearest time grid line</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">    </span><span class="nx">c_magnet</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span><span class="w">               </span><span class="c1">// Nearest candle</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="sidebar-layout">Sidebar Layout</h2>
+<h3 id="width-calculation">Width Calculation</h3>
+<p>Sidebar width is calculated in <code>calc_sidebar()</code> (<code>grid_maker.js:87-114</code>):</p>
+<ol>
+<li>Calculate precision needed based on data range</li>
+<li>Format high and low values with that precision</li>
+<li>Measure text width with padding (4 spaces)</li>
+<li>Clamp between <code>SBMIN</code> and <code>SBMAX</code></li>
+</ol>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Example calculation</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nx">prec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4</span><span class="w">              </span><span class="c1">// Decimal places</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nx">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ctx</span><span class="p">.</span><span class="nx">measureText</span><span class="p">(</span><span class="s2">&quot;1234.5678    &quot;</span><span class="p">).</span><span class="nx">width</span><span class="w">  </span><span class="c1">// ~80px</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nx">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">sb</span><span class="p">,</span><span class="w"> </span><span class="nx">SBMIN</span><span class="p">)</span><span class="w">  </span><span class="c1">// Ensure minimum</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nx">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">sb</span><span class="p">,</span><span class="w"> </span><span class="nx">SBMAX</span><span class="p">)</span><span class="w">  </span><span class="c1">// Ensure maximum</span>
+</span></code></pre></div>
+<h3 id="positioning">Positioning</h3>
+<p>Sidebar is positioned at:
+- X: <code>grid.width</code> (right edge of grid)
+- Y: <code>grid.offset</code> (vertical offset)
+- Width: <code>grid.sb</code>
+- Height: <code>grid.height</code></p>
+<h2 id="legend-layout">Legend Layout</h2>
+<h3 id="positioning_1">Positioning</h3>
+<p>Legend is positioned at (<code>Legend.vue:110-116</code>):</p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nx">calc_style</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">grid</span><span class="p">.</span><span class="nx">height</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">150</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">5</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">        </span><span class="nx">top</span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">grid</span><span class="p">.</span><span class="nx">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">top</span><span class="si">}</span><span class="sb">px`</span><span class="p">,</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">        </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">grid</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">20</span><span class="si">}</span><span class="sb">px`</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<ul>
+<li><strong>X</strong>: 10px from left edge</li>
+<li><strong>Y</strong>: <code>offset + 10px</code> (or 5px if height &lt; 150)</li>
+<li><strong>Width</strong>: Grid width - 20px</li>
+</ul>
+<h3 id="content">Content</h3>
+<ul>
+<li>Main chart grid shows: OHLCV values, title</li>
+<li>Offchart grids show: Indicator names, values</li>
+<li>Values only shown when cursor mode !== 'explore'</li>
+</ul>
+<h2 id="botbar-layout">Botbar Layout</h2>
+<h3 id="dimensions">Dimensions</h3>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">total_width</span><span class="p">,</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">BOTBAR</span><span class="w"> </span><span class="p">(</span><span class="mf">28</span><span class="nx">px</span><span class="p">),</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nx">offset</span><span class="o">:</span><span class="w"> </span><span class="nx">sum</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">all</span><span class="w"> </span><span class="nx">grid</span><span class="w"> </span><span class="nx">heights</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="nx">xs</span><span class="o">:</span><span class="w"> </span><span class="p">[...]</span><span class="w">  </span><span class="c1">// Time grid positions (from main grid)</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="time-labels">Time Labels</h3>
+<p>Time labels are drawn from the main grid's <code>xs</code> array:
+- Each element: <code>[x_position, [timestamp], rank]</code>
+- Rank determines highlight level (YEAR, MONTH, DAY, etc.)
+- Labels are clipped at sidebar position</p>
+<h2 id="coordinate-transformations">Coordinate Transformations</h2>
+<h3 id="y-axis-price-transformation">Y-Axis (Price) Transformation</h3>
+<p>Linear scale:
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nx">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nx">height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="nx">$hi</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">$lo</span><span class="p">)</span><span class="w">     </span><span class="c1">// Scale factor</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nx">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nx">$hi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">A</span><span class="w">                  </span><span class="c1">// Shift factor</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nx">$2screen</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">A</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">B</span><span class="w">       </span><span class="c1">// Price -&gt; pixel</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nx">screen2$</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">B</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">A</span><span class="w">     </span><span class="c1">// Pixel -&gt; price</span>
+</span></code></pre></div></p>
+<p>Logarithmic scale:
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nx">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nx">height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="nx">log</span><span class="p">(</span><span class="nx">$hi</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">log</span><span class="p">(</span><span class="nx">$lo</span><span class="p">))</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nx">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nx">log</span><span class="p">(</span><span class="nx">$hi</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">A</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nx">$2screen</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">log</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">A</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">B</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nx">screen2$</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">exp</span><span class="p">((</span><span class="nx">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">B</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">A</span><span class="p">)</span>
+</span></code></pre></div></p>
+<h3 id="x-axis-time-transformation">X-Axis (Time) Transformation</h3>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nx">spacex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">width</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">sb</span><span class="w">                              </span><span class="c1">// Available space</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nx">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">range</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">range</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="w">                         </span><span class="c1">// Time range</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nx">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">spacex</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">dt</span><span class="w">                                  </span><span class="c1">// Ratio</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="nx">px_step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">spacex</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="nx">dt</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">interval</span><span class="p">)</span><span class="w">               </span><span class="c1">// Pixels per candle</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="nx">t2screen</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">range</span><span class="p">[</span><span class="mf">0</span><span class="p">])</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">r</span><span class="w">                </span><span class="c1">// Timestamp -&gt; pixel</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="nx">screen2t</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">range</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">r</span><span class="w">                   </span><span class="c1">// Pixel -&gt; timestamp</span>
+</span></code></pre></div>
+<h2 id="grid-line-calculation">Grid Line Calculation</h2>
+<h3 id="x-axis-time-grid">X-Axis (Time) Grid</h3>
+<p>Time grid lines are calculated in <code>grid_x()</code> (<code>grid_maker.js:258-315</code>):</p>
+<ol>
+<li>Select appropriate time step from <code>TIMESCALES</code></li>
+<li>Insert lines at year/month/day boundaries</li>
+<li>Filter lines too close together (less than 80% of step)</li>
+<li>Extend grid left/right for smaller timeframes</li>
+</ol>
+<p>Time steps available:
+- Years: 10, 5, 3, 2, 1
+- Months: 6, 4, 3, 2, 1
+- Days: 15, 10, 7, 5, 3, 2, 1
+- Hours: 12, 6, 3, 1.5, 1
+- Minutes: 30, 15, 10, 5, 2, 1</p>
+<h3 id="y-axis-price-grid">Y-Axis (Price) Grid</h3>
+<p>Price grid lines are calculated in <code>grid_y()</code> (<code>grid_maker.js:378-393</code>):</p>
+<ol>
+<li>Calculate step from <code>$SCALES</code> based on y-range</li>
+<li>Start from first aligned value: <code>$lo - ($lo % step)</code></li>
+<li>Generate grid lines until <code>$hi</code></li>
+</ol>
+<p>For logarithmic scale (<code>grid_y_log()</code>):
+- Use multiplicative steps instead of additive
+- Calculate different multipliers for positive and negative ranges
+- Round values to nice numbers</p>
+<h2 id="candlestick-layout">Candlestick Layout</h2>
+<p>Candlestick positions are calculated in <code>candles_n_vol()</code> (<code>layout.js:63-103</code>):</p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">for</span><span class="w"> </span><span class="nx">each</span><span class="w"> </span><span class="nx">candle</span><span class="o">:</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="nx">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">t2screen</span><span class="p">(</span><span class="nx">timestamp</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5</span><span class="w">    </span><span class="c1">// Center X position</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="nx">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">mid</span><span class="w">                           </span><span class="c1">// X position</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="nx">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">px_step</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">CANDLEW</span><span class="w">             </span><span class="c1">// Width (60% of step)</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="nx">o</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">floor</span><span class="p">(</span><span class="nx">open</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">A</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">B</span><span class="p">)</span><span class="w">           </span><span class="c1">// Open Y</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="nx">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">floor</span><span class="p">(</span><span class="nx">high</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">A</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">B</span><span class="p">)</span><span class="w">           </span><span class="c1">// High Y</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="nx">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">floor</span><span class="p">(</span><span class="nx">low</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">A</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">B</span><span class="p">)</span><span class="w">            </span><span class="c1">// Low Y</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="nx">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">floor</span><span class="p">(</span><span class="nx">close</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">A</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">B</span><span class="p">)</span><span class="w">          </span><span class="c1">// Close Y</span>
+</span></code></pre></div>
+<p>Volume bars are aligned with candlesticks:
+- Width covers full candle area with small gaps
+- Height scaled by <code>VOLSCALE * height / max_volume</code>
+- Green color if close &gt;= open, red otherwise</p>
+<h2 id="offchart-grids">Offchart Grids</h2>
+<p>Offchart indicator grids:
+- Share X-axis with main grid (same <code>xs</code>, <code>px_step</code>, <code>startx</code>)
+- Have independent Y-axis (own <code>$_hi</code>, <code>$_lo</code>, <code>ys</code>)
+- Reference main grid via <code>master_grid</code>
+- Can merge with existing grids using <code>grid.id</code></p>
+<h2 id="layout-update-flow">Layout Update Flow</h2>
+<p>When chart needs to recalculate layout:</p>
+<ol>
+<li><strong>Chart.vue</strong> calls <code>update_layout()</code></li>
+<li><strong>Layout()</strong> creates new layout object</li>
+<li><strong>GridMaker</strong> creates each grid with proper dimensions</li>
+<li><strong>Utils.copy_layout()</strong> updates existing layout in place</li>
+<li>Components receive new layout via props</li>
+<li>Canvas renderers redraw with new coordinates</li>
+</ol>
+<p>Layout is recalculated on:
+- Width/height changes
+- Range changes
+- Data updates
+- Sidebar transform changes
+- Grid configuration changes</p>
+<h2 id="component-hierarchy">Component Hierarchy</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Chart.vue
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├── GridSection (for each grid)
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>│   ├── Legend (overlay)
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>│   ├── Grid
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>│   │   ├── Canvas
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>│   │   ├── Crosshair
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>│   │   └── Overlays (Candles, Indicators, etc.)
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>│   └── Sidebar
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>└── Botbar
+</span></code></pre></div>
+<p>Each component uses the layout object to position itself:</p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// Grid.vue (line 74-82)</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nx">position</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="nx">x</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nx">y</span><span class="o">:</span><span class="w"> </span><span class="nx">layout</span><span class="p">.</span><span class="nx">offset</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="p">}</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="nx">attrs</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">layout</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">layout</span><span class="p">.</span><span class="nx">height</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="p">}</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="c1">// Sidebar.vue (line 24-28)</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="nx">position</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">    </span><span class="nx">x</span><span class="o">:</span><span class="w"> </span><span class="nx">layout</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">    </span><span class="nx">y</span><span class="o">:</span><span class="w"> </span><span class="nx">layout</span><span class="p">.</span><span class="nx">offset</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="p">}</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="nx">attrs</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="w">    </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">grid</span><span class="p">.</span><span class="nx">sb</span><span class="p">,</span>
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="w">    </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">layout</span><span class="p">.</span><span class="nx">height</span>
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="p">}</span>
+</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>
+</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="c1">// Botbar.vue (line 24-27)</span>
+</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="nx">position</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="w">    </span><span class="nx">x</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span>
+</span><span id="__span-13-24"><a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="w">    </span><span class="nx">y</span><span class="o">:</span><span class="w"> </span><span class="nx">botbar</span><span class="p">.</span><span class="nx">offset</span>
+</span><span id="__span-13-25"><a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a><span class="p">}</span>
+</span><span id="__span-13-26"><a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a><span class="nx">attrs</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-27"><a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a><span class="w">    </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="nx">botbar</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span>
+</span><span id="__span-13-28"><a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a><span class="w">    </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="nx">botbar</span><span class="p">.</span><span class="nx">height</span>
+</span><span id="__span-13-29"><a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="summary">Summary</h2>
+<p>The chart layout system:</p>
+<ol>
+<li><strong>Calculates dimensions</strong> based on total size and configuration</li>
+<li><strong>Distributes space</strong> between main chart and offchart indicators</li>
+<li><strong>Determines positions</strong> for all chart elements (legend, axes, overlays)</li>
+<li><strong>Computes transformations</strong> between data coordinates and screen coordinates</li>
+<li><strong>Generates grid lines</strong> at appropriate intervals for both axes</li>
+<li><strong>Positions candlesticks</strong> and other visual elements using coordinate transforms</li>
+</ol>
+<p>All layout calculations happen in <code>Layout()</code> and <code>GridMaker</code>, creating a consistent coordinate system used throughout the chart for positioning and rendering.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

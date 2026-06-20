@@ -11,6 +11,10 @@
       
       
       
+        <link rel="prev" href="../../nautilus-trader/pyo3/call_python_threadsafe/">
+      
+      
+        <link rel="next" href="../chart-event/">
       
       
         
@@ -21,7 +25,7 @@
     
     
       
-        <title>Candlestick scaling: model and math - Tech Journey</title>
+        <title>Candlestick Scaling - Tech Journey</title>
       
     
     
@@ -106,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Candlestick scaling: model and math
+              Candlestick Scaling
             
           </span>
         </div>
@@ -261,6 +265,28 @@
   
   
   Nautilus Trader
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Trading-Vue-Js
 
         </a>
       </li>
@@ -2921,6 +2947,474 @@
   
 
     
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trading-Vue-Js
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Trading-Vue-Js
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Candlestick Scaling
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Candlestick Scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-variables-what-to-track" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Main variables (what to track)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#derived-variables-from-main-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Derived variables (from main variables)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Derived variables (from main variables)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#x-axis-time-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        X-axis (time → screen)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#y-axis-price-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Y-axis (price → screen)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-candle-draw-variables-all-derived" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-candle draw variables (all derived)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#volume-bar-height-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volume bar height (optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#log-scale-why-use-it-and-a-numeric-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Log scale: why use it and a numeric example
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Log scale: why use it and a numeric example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-use-log-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why use log scale?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-in-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example in numbers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-what-to-track-vs-what-to-derive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary: what to track vs what to derive
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chart-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chart Event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crosshair/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crosshair
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drawing-timing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drawing Timing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../range/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Range
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Script
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../zoom-draw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zoom Draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -3219,13 +3713,13 @@
 <p><strong>Time → x:</strong></p>
 <ul>
 <li><strong>time_to_screen(t)</strong> = <code>(t - time_range[0]) * px_per_time</code><br />
-  So <code>time_range[0]</code> → 0, <code>time_range[1]</code> → <code>draw_width</code>.<br />
-  In the codebase this is often stored as a function and then used as <code>floor(time_to_screen(t)) ± 0.5</code> for pixel alignment.</li>
+So <code>time_range[0]</code> → 0, <code>time_range[1]</code> → <code>draw_width</code>.<br />
+In the codebase this is often stored as a function and then used as <code>floor(time_to_screen(t)) ± 0.5</code> for pixel alignment.</li>
 </ul>
 <p><strong>Candle width (horizontal):</strong></p>
 <ul>
 <li><strong>candle_width_px</strong> = <code>pixels_per_bar * candle_width_ratio</code><br />
-  So candle width is a fixed fraction of the step. When you have overlays with a different bar interval (e.g. higher timeframe), use <strong>interval_ratio</strong> = overlay_interval / main_interval and set <strong>candle_width_px</strong> = <code>pixels_per_bar * candle_width_ratio * interval_ratio</code>.</li>
+So candle width is a fixed fraction of the step. When you have overlays with a different bar interval (e.g. higher timeframe), use <strong>interval_ratio</strong> = overlay_interval / main_interval and set <strong>candle_width_px</strong> = <code>pixels_per_bar * candle_width_ratio * interval_ratio</code>.</li>
 </ul>
 <p>So for <strong>width</strong> you only need: <strong>pixels_per_bar</strong> (from <strong>time_range</strong>, <strong>bar_interval</strong>, <strong>draw_width</strong>) and <strong>candle_width_ratio</strong> (and optional <strong>interval_ratio</strong>). Candle <strong>center x</strong> is <strong>time_to_screen(t)</strong> (with whatever rounding you use).</p>
 <h3 id="y-axis-price-screen">Y-axis (price → screen)</h3>
@@ -3255,7 +3749,7 @@
 <p>Then:</p>
 <ul>
 <li><strong>price → y</strong>: <code>y = price * price_scale + price_offset</code>.<br />
-  So <code>price_high</code> → 0, <code>price_low</code> → <code>chart_height</code>.</li>
+So <code>price_high</code> → 0, <code>price_low</code> → <code>chart_height</code>.</li>
 <li>When drawing, use integer pixel: e.g. <code>y_px = floor(price * price_scale + price_offset)</code> for o, h, l, c.</li>
 </ul>
 <p><strong>Log scale:</strong></p>
