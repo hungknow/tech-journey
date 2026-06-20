@@ -4154,26 +4154,30 @@
 <p><strong>Sidebar.vue</strong> and <strong>Botbar.vue</strong> have similar watchers.</p>
 <h3 id="event-flow">Event Flow</h3>
 <ol>
-<li><strong>Mouse Move:</strong></li>
 <li>
-<p>Grid.mousemove() → emits 'cursor-changed' → cursor watcher → redraw()</p>
+<p><strong>Mouse Move:</strong></p>
+<ul>
+<li>Grid.mousemove() → emits 'cursor-changed' → cursor watcher → redraw()</li>
+</ul>
 </li>
 <li>
 <p><strong>Pan/Scroll:</strong></p>
-</li>
-<li>
-<p>Grid.mousedrag() → updates range → range watcher → redraw()</p>
+<ul>
+<li>Grid.mousedrag() → updates range → range watcher → redraw()</li>
+</ul>
 </li>
 <li>
 <p><strong>Zoom:</strong></p>
-</li>
-<li>
-<p>Grid.mousezoom() → updates range → range watcher → redraw()</p>
+<ul>
+<li>Grid.mousezoom() → updates range → range watcher → redraw()</li>
+</ul>
 </li>
 <li>
 <p><strong>Data Update:</strong></p>
-</li>
+<ul>
 <li>Chart.data watcher → update_layout() → range change → redraw()</li>
+</ul>
+</li>
 </ol>
 <h2 id="timing-considerations">Timing Considerations</h2>
 <h3 id="dpr-scaling">DPR Scaling</h3>
@@ -4197,24 +4201,28 @@
 </ul>
 <h3 id="performance-optimizations">Performance Optimizations</h3>
 <ol>
-<li><strong>Grid Rendering:</strong></li>
+<li>
+<p><strong>Grid Rendering:</strong></p>
+<ul>
 <li>Uses <code>ctx.save()</code> / <code>ctx.restore()</code> for layer isolation</li>
 <li>Overlays sorted once per update, not per frame</li>
-<li>
-<p>Hidden overlays skipped without drawing</p>
+<li>Hidden overlays skipped without drawing</li>
+</ul>
 </li>
 <li>
 <p><strong>Cursor Updates:</strong></p>
-</li>
+<ul>
 <li>Cursor locked state prevents redundant redraws</li>
-<li>
-<p>CursorUpdater calculates all cursor values in one pass</p>
+<li>CursorUpdater calculates all cursor values in one pass</li>
+</ul>
 </li>
 <li>
 <p><strong>Layout Caching:</strong></p>
-</li>
+<ul>
 <li>Layout recalculated only when dependencies change</li>
 <li>GridMaker stores intermediate calculations</li>
+</ul>
+</li>
 </ol>
 <h2 id="overlay-registration">Overlay Registration</h2>
 <p>Overlays register themselves when mounted (src/mixins/overlay.js:36-58):</p>
