@@ -4138,15 +4138,19 @@
 <h3 id="height-distribution">Height Distribution</h3>
 <p>Grid heights are calculated in <code>grid_hs()</code> function (<code>layout.js:30-50</code>):</p>
 <p><strong>Method 1: Weighted Heights</strong>
-If any grid has a defined <code>height</code> value:
-- Calculate weights from all grid heights (default = 1)
-- Distribute total height proportionally
-- Use floor() and distribute remaining pixels evenly</p>
+If any grid has a defined <code>height</code> value:</p>
+<ul>
+<li>Calculate weights from all grid heights (default = 1)</li>
+<li>Distribute total height proportionally</li>
+<li>Use floor() and distribute remaining pixels evenly</li>
+</ul>
 <p><strong>Method 2: Automatic Distribution</strong>
-If no heights defined:
-- Main chart gets: <code>height - offchart_height * n</code>
-- Offchart each gets: <code>height * (2 * sqrt(n) / 7) / n</code>
-- Where <code>n</code> = number of offchart indicators</p>
+If no heights defined:</p>
+<ul>
+<li>Main chart gets: <code>height - offchart_height * n</code></li>
+<li>Offchart each gets: <code>height * (2 * sqrt(n) / 7) / n</code></li>
+<li>Where <code>n</code> = number of offchart indicators</li>
+</ul>
 <h3 id="grid-object-structure">Grid Object Structure</h3>
 <p>Each grid object contains:</p>
 <div class="language-javascript highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span>
@@ -4196,11 +4200,13 @@ If no heights defined:
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nx">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">sb</span><span class="p">,</span><span class="w"> </span><span class="nx">SBMAX</span><span class="p">)</span><span class="w">  </span><span class="c1">// Ensure maximum</span>
 </span></code></pre></div>
 <h3 id="positioning">Positioning</h3>
-<p>Sidebar is positioned at:
-- X: <code>grid.width</code> (right edge of grid)
-- Y: <code>grid.offset</code> (vertical offset)
-- Width: <code>grid.sb</code>
-- Height: <code>grid.height</code></p>
+<p>Sidebar is positioned at:</p>
+<ul>
+<li>X: <code>grid.width</code> (right edge of grid)</li>
+<li>Y: <code>grid.offset</code> (vertical offset)</li>
+<li>Width: <code>grid.sb</code></li>
+<li>Height: <code>grid.height</code></li>
+</ul>
 <h2 id="legend-layout">Legend Layout</h2>
 <h3 id="positioning_1">Positioning</h3>
 <p>Legend is positioned at (<code>Legend.vue:110-116</code>):</p>
@@ -4233,10 +4239,12 @@ If no heights defined:
 </span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="time-labels">Time Labels</h3>
-<p>Time labels are drawn from the main grid's <code>xs</code> array:
-- Each element: <code>[x_position, [timestamp], rank]</code>
-- Rank determines highlight level (YEAR, MONTH, DAY, etc.)
-- Labels are clipped at sidebar position</p>
+<p>Time labels are drawn from the main grid's <code>xs</code> array:</p>
+<ul>
+<li>Each element: <code>[x_position, [timestamp], rank]</code></li>
+<li>Rank determines highlight level (YEAR, MONTH, DAY, etc.)</li>
+<li>Labels are clipped at sidebar position</li>
+</ul>
 <h2 id="coordinate-transformations">Coordinate Transformations</h2>
 <h3 id="y-axis-price-transformation">Y-Axis (Price) Transformation</h3>
 <p>Linear scale:
@@ -4268,12 +4276,14 @@ If no heights defined:
 <li>Filter lines too close together (less than 80% of step)</li>
 <li>Extend grid left/right for smaller timeframes</li>
 </ol>
-<p>Time steps available:
-- Years: 10, 5, 3, 2, 1
-- Months: 6, 4, 3, 2, 1
-- Days: 15, 10, 7, 5, 3, 2, 1
-- Hours: 12, 6, 3, 1.5, 1
-- Minutes: 30, 15, 10, 5, 2, 1</p>
+<p>Time steps available:</p>
+<ul>
+<li>Years: 10, 5, 3, 2, 1</li>
+<li>Months: 6, 4, 3, 2, 1</li>
+<li>Days: 15, 10, 7, 5, 3, 2, 1</li>
+<li>Hours: 12, 6, 3, 1.5, 1</li>
+<li>Minutes: 30, 15, 10, 5, 2, 1</li>
+</ul>
 <h3 id="y-axis-price-grid">Y-Axis (Price) Grid</h3>
 <p>Price grid lines are calculated in <code>grid_y()</code> (<code>grid_maker.js:378-393</code>):</p>
 <ol>
@@ -4281,10 +4291,12 @@ If no heights defined:
 <li>Start from first aligned value: <code>$lo - ($lo % step)</code></li>
 <li>Generate grid lines until <code>$hi</code></li>
 </ol>
-<p>For logarithmic scale (<code>grid_y_log()</code>):
-- Use multiplicative steps instead of additive
-- Calculate different multipliers for positive and negative ranges
-- Round values to nice numbers</p>
+<p>For logarithmic scale (<code>grid_y_log()</code>):</p>
+<ul>
+<li>Use multiplicative steps instead of additive</li>
+<li>Calculate different multipliers for positive and negative ranges</li>
+<li>Round values to nice numbers</li>
+</ul>
 <h2 id="candlestick-layout">Candlestick Layout</h2>
 <p>Candlestick positions are calculated in <code>candles_n_vol()</code> (<code>layout.js:63-103</code>):</p>
 <div class="language-javascript highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">for</span><span class="w"> </span><span class="nx">each</span><span class="w"> </span><span class="nx">candle</span><span class="o">:</span>
@@ -4301,11 +4313,13 @@ If no heights defined:
 - Height scaled by <code>VOLSCALE * height / max_volume</code>
 - Green color if close &gt;= open, red otherwise</p>
 <h2 id="offchart-grids">Offchart Grids</h2>
-<p>Offchart indicator grids:
-- Share X-axis with main grid (same <code>xs</code>, <code>px_step</code>, <code>startx</code>)
-- Have independent Y-axis (own <code>$_hi</code>, <code>$_lo</code>, <code>ys</code>)
-- Reference main grid via <code>master_grid</code>
-- Can merge with existing grids using <code>grid.id</code></p>
+<p>Offchart indicator grids:</p>
+<ul>
+<li>Share X-axis with main grid (same <code>xs</code>, <code>px_step</code>, <code>startx</code>)</li>
+<li>Have independent Y-axis (own <code>$_hi</code>, <code>$_lo</code>, <code>ys</code>)</li>
+<li>Reference main grid via <code>master_grid</code></li>
+<li>Can merge with existing grids using <code>grid.id</code></li>
+</ul>
 <h2 id="layout-update-flow">Layout Update Flow</h2>
 <p>When chart needs to recalculate layout:</p>
 <ol>
@@ -4316,12 +4330,14 @@ If no heights defined:
 <li>Components receive new layout via props</li>
 <li>Canvas renderers redraw with new coordinates</li>
 </ol>
-<p>Layout is recalculated on:
-- Width/height changes
-- Range changes
-- Data updates
-- Sidebar transform changes
-- Grid configuration changes</p>
+<p>Layout is recalculated on:</p>
+<ul>
+<li>Width/height changes</li>
+<li>Range changes</li>
+<li>Data updates</li>
+<li>Sidebar transform changes</li>
+<li>Grid configuration changes</li>
+</ul>
 <h2 id="component-hierarchy">Component Hierarchy</h2>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Chart.vue
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├── GridSection (for each grid)
