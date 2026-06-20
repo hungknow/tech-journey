@@ -3786,13 +3786,9 @@
 </ul>
 <h3 id="data-storage">Data Storage</h3>
 <p>The struct stores extensive state including:</p>
-<ol>
-<li>
-<p><strong>Core Components</strong>:</p>
-</li>
-<li>
-<p><code>clock: Rc&lt;RefCell&lt;dyn Clock&gt;&gt;</code> - Reference to the system clock</p>
-</li>
+<ul>
+<li><strong>Core Components</strong>:</li>
+<li><code>clock: Rc&lt;RefCell&lt;dyn Clock&gt;&gt;</code> - Reference to the system clock</li>
 <li><code>cache: Rc&lt;RefCell&lt;Cache&gt;&gt;</code> - Reference to the data cache</li>
 <li><code>clients: IndexMap&lt;ClientId, DataClientAdapter&gt;</code> - Registered data clients</li>
 <li>
@@ -3801,9 +3797,7 @@
 <li>
 <p><strong>Subscription Management</strong>:</p>
 </li>
-<li>
-<p><code>external_clients: AHashSet&lt;ClientId&gt;</code> - Set of external client IDs</p>
-</li>
+<li><code>external_clients: AHashSet&lt;ClientId&gt;</code> - Set of external client IDs</li>
 <li><code>routing_map: IndexMap&lt;Venue, ClientId&gt;</code> - Maps venues to clients</li>
 <li><code>book_deltas_counts: IndexMap&lt;BookDeltasKey, usize&gt;</code> - Delta subscription counts</li>
 <li><code>book_depth10_subs: AHashSet&lt;InstrumentId&gt;</code> - Depth10 subscriptions</li>
@@ -3813,9 +3807,7 @@
 <li>
 <p><strong>Book Management</strong>:</p>
 </li>
-<li>
-<p><code>book_updaters: AHashMap&lt;InstrumentId, Rc&lt;BookUpdater&gt;&gt;</code> - Book updaters</p>
-</li>
+<li><code>book_updaters: AHashMap&lt;InstrumentId, Rc&lt;BookUpdater&gt;&gt;</code> - Book updaters</li>
 <li><code>book_snapshotters: AHashMap&lt;NonZeroUsize, Rc&lt;BookSnapshotter&gt;&gt;</code> - Snapshot timers</li>
 <li>
 <p><code>book_intervals: AHashMap&lt;NonZeroUsize, BookSnapshotInfos&gt;</code> - Interval configurations</p>
@@ -3823,18 +3815,14 @@
 <li>
 <p><strong>Bar Aggregation</strong>:</p>
 </li>
-<li>
-<p><code>bar_aggregators: IndexMap&lt;BarAggregatorKey, Rc&lt;RefCell&lt;Box&lt;dyn BarAggregator&gt;&gt;&gt;&gt;</code> - Active aggregators</p>
-</li>
+<li><code>bar_aggregators: IndexMap&lt;BarAggregatorKey, Rc&lt;RefCell&lt;Box&lt;dyn BarAggregator&gt;&gt;&gt;&gt;</code> - Active aggregators</li>
 <li>
 <p><code>bar_aggregator_handlers: AHashMap&lt;BarAggregatorKey, Vec&lt;BarAggregatorSubscription&gt;&gt;</code> - Handlers</p>
 </li>
 <li>
 <p><strong>Request Processing</strong>:</p>
 </li>
-<li>
-<p><code>request_bar_aggregations: AHashMap&lt;UUID4, RequestBarAggregation&gt;</code> - Request aggregations</p>
-</li>
+<li><code>request_bar_aggregations: AHashMap&lt;UUID4, RequestBarAggregation&gt;</code> - Request aggregations</li>
 <li><code>request_pipeline_parent_request: AHashMap&lt;UUID4, RequestCommand&gt;</code> - Parent requests</li>
 <li>
 <p><code>time_range_pipeline_requests: AHashMap&lt;UUID4, TimeRangePipelineState&gt;</code> - Time range pipelines</p>
@@ -3842,9 +3830,7 @@
 <li>
 <p><strong>Continuous Futures</strong>:</p>
 </li>
-<li>
-<p><code>continuous_future_requests: AHashMap&lt;UUID4, ContinuousFutureRequestState&gt;</code> - Active requests</p>
-</li>
+<li><code>continuous_future_requests: AHashMap&lt;UUID4, ContinuousFutureRequestState&gt;</code> - Active requests</li>
 <li>
 <p><code>continuous_future_subscriptions: AHashMap&lt;BarType, ContinuousFutureSubscriptionState&gt;</code> - Subscriptions</p>
 </li>
@@ -3857,22 +3843,18 @@
 <li>
 <p><strong>Synthetic Instruments</strong>:</p>
 </li>
-<li>
-<p><code>synthetic_quote_feeds: AHashMap&lt;InstrumentId, Vec&lt;SyntheticInstrument&gt;&gt;</code> - Quote feeds</p>
-</li>
+<li><code>synthetic_quote_feeds: AHashMap&lt;InstrumentId, Vec&lt;SyntheticInstrument&gt;&gt;</code> - Quote feeds</li>
 <li>
 <p><code>synthetic_trade_feeds: AHashMap&lt;InstrumentId, Vec&lt;SyntheticInstrument&gt;&gt;</code> - Trade feeds</p>
 </li>
 <li>
 <p><strong>Counters</strong>:</p>
 </li>
-<li>
-<p><code>command_count: u64</code> - Total commands received</p>
-</li>
+<li><code>command_count: u64</code> - Total commands received</li>
 <li><code>data_count: u64</code> - Total data objects received</li>
 <li><code>request_count: u64</code> - Total requests received</li>
 <li><code>response_count: u64</code> - Total responses received</li>
-</ol>
+</ul>
 <p><strong>Example</strong>:</p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DataEngine</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">clock</span><span class="p">:</span><span class="w"> </span><span class="nc">Rc</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">RefCell</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">clock</span><span class="p">)),</span>
