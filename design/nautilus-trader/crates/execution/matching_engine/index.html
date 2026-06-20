@@ -4187,7 +4187,7 @@
 <h2 id="purpose">Purpose</h2>
 <p>The matching engine module provides a complete order matching engine that simulates real trading venue behavior for backtesting and simulation purposes. It enables strategies to be tested against realistic order matching, fill simulation, and order book dynamics.</p>
 <h2 id="problem-it-resolves">Problem It Resolves</h2>
-<ol>
+<ul>
 <li><strong>Realistic Order Execution</strong>: Strategies need realistic execution simulation that accounts for order book depth, queue position, and liquidity consumption</li>
 <li><strong>Order Book Management</strong>: Efficiently maintain and update order books from various market data sources (quotes, trades, order book deltas, depth10 snapshots)</li>
 <li><strong>Order Lifecycle Management</strong>: Handle complete order lifecycles including submission, validation, modification, cancellation, and expiration</li>
@@ -4198,7 +4198,7 @@
 <li><strong>Fee Calculation</strong>: Compute trading fees based on configurable fee models</li>
 <li><strong>Instrument Expiration</strong>: Handle instrument expiration and option exercise/cash settlement</li>
 <li><strong>Position Liquidation</strong>: Support emergency position liquidation scenarios</li>
-</ol>
+</ul>
 <h2 id="techniques-used">Techniques Used</h2>
 <h3 id="core-data-structures">Core Data Structures</h3>
 <h4 id="ordermatchingcore">OrderMatchingCore</h4>
@@ -4222,20 +4222,24 @@
 </ul>
 <h3 id="matching-algorithm">Matching Algorithm</h3>
 <h4 id="price-time-priority-matching">Price-Time Priority Matching</h4>
-<ol>
-<li><strong>Bid Side Processing</strong>:</li>
+<ul>
+<li>
+<p><strong>Bid Side Processing</strong>:</p>
+<ul>
 <li>Iterate bid limits from best (highest) to worst price</li>
 <li>Iterate bid stops from nearest trigger (lowest) to farthest</li>
-<li>
-<p>FIFO within each price level</p>
+<li>FIFO within each price level</li>
+</ul>
 </li>
 <li>
 <p><strong>Ask Side Processing</strong>:</p>
-</li>
+<ul>
 <li>Iterate ask limits from best (lowest) to worst price</li>
 <li>Iterate ask stops from nearest trigger (highest) to farthest</li>
 <li>FIFO within each price level</li>
-</ol>
+</ul>
+</li>
+</ul>
 <h4 id="limit-order-matching">Limit Order Matching</h4>
 <ul>
 <li><strong>Cross Spread</strong>: Buy limit fills if <code>ask &lt;= limit_price</code>, Sell limit fills if <code>bid &gt;= limit_price</code></li>
@@ -4506,12 +4510,12 @@
 <h2 id="logic-flow">Logic Flow</h2>
 <h3 id="main-event-loop">Main Event Loop</h3>
 <p>The matching engine follows a reactive event-driven pattern:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>1. Receive market data (quote, trade, order book delta, bar)
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>2. Update internal state (order book, bid/ask/last)
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>3. Trigger matching iteration
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>4. Process match actions (fills, triggers)
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>5. Emit order events
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>6. Repeat for next market data update
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>- Receive market data (quote, trade, order book delta, bar)
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>- Update internal state (order book, bid/ask/last)
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>- Trigger matching iteration
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>- Process match actions (fills, triggers)
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>- Emit order events
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>- Repeat for next market data update
 </span></code></pre></div>
 <h3 id="matching-engine-state-machine">Matching Engine State Machine</h3>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>OrderMatchingEngine States:
@@ -4676,7 +4680,7 @@
 </span></code></pre></div>
 <p>This ensures deterministic trade IDs within a session while handling resets gracefully.</p>
 <h2 id="performance-considerations">Performance Considerations</h2>
-<ol>
+<ul>
 <li><strong>O(log L) Operations</strong>: Order add/delete is O(log L) for BTreeMap lookup plus O(B) for bucket operations</li>
 <li><strong>Inline Allocation</strong>: SmallVec with 4 inline slots avoids heap allocation for typical 1-3 orders per level</li>
 <li><strong>Hash-Based Lookup</strong>: AHashMap provides O(1) order lookups by client order ID</li>
@@ -4684,7 +4688,7 @@
 <li><strong>Queue Position Optimization</strong>: Only enabled for L1 books to minimize overhead</li>
 <li><strong>Liquidity Consumption</strong>: Optional feature for backtesting accuracy vs performance tradeoff</li>
 <li><strong>Event Dispatch</strong>: Supports both direct message bus and async handler routing to avoid RefCell re-entracy</li>
-</ol>
+</ul>
 <h2 id="testing">Testing</h2>
 <p>The module includes comprehensive unit tests covering:</p>
 <ul>
