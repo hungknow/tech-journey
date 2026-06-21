@@ -95,7 +95,7 @@ impl Board {
         self.current_player
     }
 
-    fn check_winner(&self) -> Option<Player> {
+    pub fn check_winner(&self) -> Option<Player> {
         let lines = [
             self.grid[0],
             self.grid[1],
@@ -118,6 +118,62 @@ impl Board {
         }
 
         None
+    }
+
+    pub fn is_game_over(&self) -> bool {
+        matches!(self.check_game_state(), GameState::Won(_) | GameState::Draw)
+    }
+
+    pub fn get_winning_cells(&self) -> Option<[(usize, usize); 3]> {
+        let winning_combos = [
+            // Rows
+            [(0,0), (0,1), (0,2)],
+            [(1,0), (1,1), (1,2)],
+            [(2,0), (2,1), (2,2)],
+            // Columns
+            [(0,0), (1,0), (2,0)],
+            [(0,1), (1,1), (2,1)],
+            [(0,2), (1,2), (2,2)],
+            // Diagonals
+            [(0,0), (1,1), (2,2)],
+            [(0,2), (1,1), (2,0)],
+        ];
+        
+        for combo in &winning_combos {
+            let values: Vec<Cell> = combo.iter()
+                .map(|&(r, c)| self.grid[r][c])
+                .collect();
+            
+            if values[0] != Cell::Empty && values[0] == values[1] && values[1] == values[2] {
+                return Some(*combo);
+            }
+        }
+        None
+    }
+
+    pub fn make_move_check_game(&mut self, row: usize, col: usize) -> Result<GameState, String> {
+        if !self.is_valid_move(row, col) {
+            return Err(format!("Invalid move at ({}, {})", row, col));
+        }
+        
+        let marker = match self.current_player {
+            Player::X => Cell::X,
+            Player::O => Cell::O,
+        };
+        
+        self.grid[row][col] = marker;
+        
+        let game_state = self.check_game_state();
+        
+        // Only switch player if game is still playing
+        if matches!(game_state, GameState::Playing) {
+            self.current_player = match self.current_player {
+                Player::X => Player::O,
+                Player::O => Player::X,
+            };
+        }
+        
+        Ok(game_state)
     }
 }
 
