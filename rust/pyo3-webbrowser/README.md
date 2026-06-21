@@ -18,7 +18,13 @@
 
 Activate Python env that have `maturin` tool available
 ```
-python3 -m venv .venv
+brew install pyenv
+
+pyenv install 3.13.0
+
+pyenv global 3.13.0
+
+python3 -m venv .
 source .venv/bin/activate
 pip install -U pip maturin
 pip freeze
@@ -193,18 +199,28 @@ fn tictactoe(_py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
 - Wrapper methods delegate calls to the underlying Rust implementation
 - Enums don't need explicit `#[pymethods]` - PyO3 exposes variants automatically
 
-### Phase 4: Build Configuration
+### Phase 4: Build
 
-**Create build.rs**
-```rust
-fn main() {
-    println!("cargo:rerun-if-changed=build.rs");
-}
+Install `emsdk` by following [guidelines](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions-using-the-emsdk-recommended).
+
+Because Pyodide is built with version 4.0.9, so we build whl by version 4.0.9
+```sh
+emsdk install 4.0.9
+emsdk activate 4.0.9
 ```
 
-**Configure Cargo.toml for maturin**
-- Ensure cdylib crate type for WASM compatibility
-- Maturin will handle the Python binding build process
+Install the target
+```sh
+rustup default nightly
+rustup target add wasm32-unknown-emscripten
+```
+
+Remember to activate emsdk
+
+```sh
+maturin build --target wasm32-unknown-emscripten
+```
+This compile to `.whl` file that we can import on `PyScript`.
 
 **Create maturin.toml** (optional, for advanced configuration)
 - Target: wasm32-unknown-emscripten
@@ -219,6 +235,9 @@ web/
 ├── styles.css
 └── app.js
 ```
+
+# Serve with any web server.
+python -m http.server 8000
 
 **Create web/index.html**
 - HTML5 boilerplate
@@ -269,12 +288,6 @@ maturin build --release --target wasm32-unknown-emscripten
 # For development (faster builds)
 maturin develop --target wasm32-unknown-emscripten
 ```
-
-**Why not trigger from build.rs?**
-- build.rs runs during cargo build
-- maturin invokes cargo build
-- This creates a circular dependency
-- Solution: Use maturin as the primary build tool instead
 
 **Create build wrapper script**
 ```bash
