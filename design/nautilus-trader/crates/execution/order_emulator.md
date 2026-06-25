@@ -7,6 +7,7 @@ The Order Emulator is a high-performance in-memory order emulation system design
 ## Problem Resolved
 
 Many cryptocurrency exchanges and trading venues lack support for advanced order types such as:
+
 - **Stop orders** (StopMarket, StopLimit)
 - **Stop-If-Touched orders** (MarketIfTouched, LimitIfTouched)
 - **Trailing Stop orders** (TrailingStopMarket, TrailingStopLimit)
@@ -30,6 +31,7 @@ The emulator uses an efficient order matching core (`OrderMatchingCore`) that ma
 - **Pending Bucket**: SmallVec for orders without keys (e.g., MarketToLimit before conversion)
 
 Key features:
+
 - **Price-Time Priority**: Orders matched in FIFO order within price levels
 - **Bid Processing**: Best (highest) price first via `iter().rev()`
 - **Ask Processing**: Best (lowest) price first via `iter()`
@@ -55,17 +57,20 @@ Automatic subscription to required market data based on trigger type:
 ### 4. Trailing Stop Calculation
 
 Specialized algorithms for trailing stop orders (`trailing.rs`):
+
 - **Price offset**: Fixed price difference
 - **Basis points**: Percentage-based offset
 - **Ticks**: Tick-size based offset
 
 The calculation ensures triggers only move in the favorable direction:
+
 - Buy orders: Trigger decreases as price decreases
 - Sell orders: Trigger increases as price increases
 
 ### 5. Order Lifecycle Management
 
 Integration with OrderManager for comprehensive lifecycle handling:
+
 - Command caching for order submission
 - State transition tracking
 - Event publishing to message bus
@@ -74,6 +79,7 @@ Integration with OrderManager for comprehensive lifecycle handling:
 ### 6. Contingency Handling
 
 Support for complex order relationships:
+
 - **OTO (One-Triggers-Other)**: Parent order triggers child orders
 - **OCO (One-Cancels-Other)**: Orders cancel when one fills
 - **OUO (One-Updates-Other)**: Order updates trigger updates to linked orders

@@ -6,16 +6,16 @@ The matching engine module provides a complete order matching engine that simula
 
 ## Problem It Resolves
 
-1. **Realistic Order Execution**: Strategies need realistic execution simulation that accounts for order book depth, queue position, and liquidity consumption
-2. **Order Book Management**: Efficiently maintain and update order books from various market data sources (quotes, trades, order book deltas, depth10 snapshots)
-3. **Order Lifecycle Management**: Handle complete order lifecycles including submission, validation, modification, cancellation, and expiration
-4. **Fill Simulation**: Determine when and how orders get filled based on market conditions, order types, and configurable fill models
-5. **Multi-Order Type Support**: Support various order types (market, limit, stop, stop-limit, trailing-stop, market-if-touched, etc.)
-6. **Price-Time Priority Matching**: Implement proper matching algorithms that respect price and time priority
-7. **Queue Position Tracking**: Track order queue positions for L1 books to simulate realistic fill timing
-8. **Fee Calculation**: Compute trading fees based on configurable fee models
-9. **Instrument Expiration**: Handle instrument expiration and option exercise/cash settlement
-10. **Position Liquidation**: Support emergency position liquidation scenarios
+- **Realistic Order Execution**: Strategies need realistic execution simulation that accounts for order book depth, queue position, and liquidity consumption
+- **Order Book Management**: Efficiently maintain and update order books from various market data sources (quotes, trades, order book deltas, depth10 snapshots)
+- **Order Lifecycle Management**: Handle complete order lifecycles including submission, validation, modification, cancellation, and expiration
+- **Fill Simulation**: Determine when and how orders get filled based on market conditions, order types, and configurable fill models
+- **Multi-Order Type Support**: Support various order types (market, limit, stop, stop-limit, trailing-stop, market-if-touched, etc.)
+- **Price-Time Priority Matching**: Implement proper matching algorithms that respect price and time priority
+- **Queue Position Tracking**: Track order queue positions for L1 books to simulate realistic fill timing
+- **Fee Calculation**: Compute trading fees based on configurable fee models
+- **Instrument Expiration**: Handle instrument expiration and option exercise/cash settlement
+- **Position Liquidation**: Support emergency position liquidation scenarios
 
 ## Techniques Used
 
@@ -23,8 +23,8 @@ The matching engine module provides a complete order matching engine that simula
 
 #### OrderMatchingCore
 - **BTreeMap-based Order Books**: Separate limit and stop books for both bid and ask sides
-  - Limit books keyed by limit price for O(log L) lookups
-  - Stop books keyed by trigger price for O(log L) lookups
+    - Limit books keyed by limit price for O(log L) lookups
+    - Stop books keyed by trigger price for O(log L) lookups
 - **SmallVec Buckets**: Per-level order storage with inline capacity (4 orders) to avoid heap allocations for typical cases
 - **AHashMap Index**: O(1) order lookup by client order ID across all books
 - **Price-Time Priority**: Orders within each level maintained in insertion order (FIFO)
@@ -41,21 +41,23 @@ The matching engine module provides a complete order matching engine that simula
 ### Matching Algorithm
 
 #### Price-Time Priority Matching
-1. **Bid Side Processing**:
-   - Iterate bid limits from best (highest) to worst price
-   - Iterate bid stops from nearest trigger (lowest) to farthest
-   - FIFO within each price level
+- **Bid Side Processing**:
+    - Iterate bid limits from best (highest) to worst price
+    - Iterate bid stops from nearest trigger (lowest) to farthest
+    - FIFO within each price level
 
-2. **Ask Side Processing**:
-   - Iterate ask limits from best (lowest) to worst price
-   - Iterate ask stops from nearest trigger (highest) to farthest
-   - FIFO within each price level
+- **Ask Side Processing**:
+    - Iterate ask limits from best (lowest) to worst price
+    - Iterate ask stops from nearest trigger (highest) to farthest
+    - FIFO within each price level
 
 #### Limit Order Matching
+
 - **Cross Spread**: Buy limit fills if `ask <= limit_price`, Sell limit fills if `bid >= limit_price`
 - **Inside Spread** (optional): Buy limit fills at or above bid, Sell limit fills at or below ask
 
 #### Stop Order Matching
+
 - **Stop Market/Limit**: Buy stop triggers if `ask >= stop_price`, Sell stop triggers if `bid <= stop_price`
 - **If-Touched Orders**: Buy if-touched triggers if `ask <= trigger_price`, Sell if-touched triggers if `bid >= trigger_price`
 - **Trailing Stop**: Dynamic stop price tracking with activation state
@@ -342,12 +344,12 @@ Expiration Check (triggered by market data or explicit call)
 The matching engine follows a reactive event-driven pattern:
 
 ```
-1. Receive market data (quote, trade, order book delta, bar)
-2. Update internal state (order book, bid/ask/last)
-3. Trigger matching iteration
-4. Process match actions (fills, triggers)
-5. Emit order events
-6. Repeat for next market data update
+- Receive market data (quote, trade, order book delta, bar)
+- Update internal state (order book, bid/ask/last)
+- Trigger matching iteration
+- Process match actions (fills, triggers)
+- Emit order events
+- Repeat for next market data update
 ```
 
 ### Matching Engine State Machine
@@ -544,13 +546,13 @@ This ensures deterministic trade IDs within a session while handling resets grac
 
 ## Performance Considerations
 
-1. **O(log L) Operations**: Order add/delete is O(log L) for BTreeMap lookup plus O(B) for bucket operations
-2. **Inline Allocation**: SmallVec with 4 inline slots avoids heap allocation for typical 1-3 orders per level
-3. **Hash-Based Lookup**: AHashMap provides O(1) order lookups by client order ID
-4. **Precision Mismatch Handling**: Rate-limited logging to prevent spam on instrument updates
-5. **Queue Position Optimization**: Only enabled for L1 books to minimize overhead
-6. **Liquidity Consumption**: Optional feature for backtesting accuracy vs performance tradeoff
-7. **Event Dispatch**: Supports both direct message bus and async handler routing to avoid RefCell re-entracy
+- **O(log L) Operations**: Order add/delete is O(log L) for BTreeMap lookup plus O(B) for bucket operations
+- **Inline Allocation**: SmallVec with 4 inline slots avoids heap allocation for typical 1-3 orders per level
+- **Hash-Based Lookup**: AHashMap provides O(1) order lookups by client order ID
+- **Precision Mismatch Handling**: Rate-limited logging to prevent spam on instrument updates
+- **Queue Position Optimization**: Only enabled for L1 books to minimize overhead
+- **Liquidity Consumption**: Optional feature for backtesting accuracy vs performance tradeoff
+- **Event Dispatch**: Supports both direct message bus and async handler routing to avoid RefCell re-entracy
 
 ## Testing
 
