@@ -1359,6 +1359,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#market-price-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Price State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#data-structures" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1551,6 +1562,56 @@
     <span class="md-ellipsis">
       
         Known Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#price-state-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Price State API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Price State API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setter-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setter Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-call-setters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Call Setters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#price-state-reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Price State Reset
       
     </span>
   </a>
@@ -3662,6 +3723,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#market-price-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Market Price State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#data-structures" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3866,6 +3938,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#price-state-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Price State API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Price State API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setter-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setter Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-call-setters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Call Setters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#price-state-reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Price State Reset
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#performance-characteristics" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3959,20 +4081,87 @@
 <p><code>OrderMatchingCore</code> is a common order matching core for the <code>OrderMatchingEngine</code> and other components. It provides a standardized mechanism for storing, retrieving, and matching orders with proper price-time priority ordering, mirroring real-venue architecture.</p>
 <h2 id="problem-solved">Problem Solved</h2>
 <p>The matching core resolves several key problems:</p>
-<ol>
+<ul>
 <li><strong>Order Storage and Retrieval</strong>: Provides efficient storage and lookup of orders across bid/ask sides</li>
 <li><strong>Price-Time Priority</strong>: Ensures orders are matched in the correct order (best price first, then FIFO within price)</li>
 <li><strong>Order Type Support</strong>: Handles both limit orders and stop orders with different matching semantics</li>
 <li><strong>Performance Optimization</strong>: Uses efficient data structures to minimize memory allocation and lookup time</li>
 <li><strong>Real-Venue Behavior</strong>: Mimics real exchange architecture with dual book system (limit + stop per side)</li>
-</ol>
+</ul>
 <h2 id="technical-approach">Technical Approach</h2>
+<h3 id="market-price-state">Market Price State</h3>
+<p>The matching core maintains three critical price fields that drive order matching and trigger logic:</p>
+<p><strong>Price Fields:</strong>
+- <strong><code>bid</code> (Option<Price>)</strong>: The current best bid price, updated via <code>set_bid_raw()</code>
+- <strong><code>ask</code> (Option<Price>)</strong>: The current best ask price, updated via <code>set_ask_raw()</code>
+- <strong><code>last</code> (Option<Price>)</strong>: The last traded price, updated via <code>set_last_raw()</code></p>
+<p>These fields represent the current market state against which all matching and trigger decisions are made. They are:</p>
+<ul>
+<li><strong>Optional</strong>: Can be <code>None</code> when market state is uninitialized</li>
+<li><strong>Mutable</strong>: Updated externally before each matching iteration</li>
+<li><strong>Reset</strong>: Cleared to <code>None</code> by <code>reset()</code> method</li>
+</ul>
+<p><strong>Update Context:</strong>
+The matching core does not fetch or subscribe to market data internally. Instead, the calling component (e.g., <code>OrderMatchingEngine</code>) is responsible for:</p>
+<ul>
+<li>Receiving market data updates (quotes, trades)</li>
+<li>Extracting relevant prices</li>
+<li>Calling the appropriate setter methods before triggering matching</li>
+</ul>
+<p><strong>Usage in Matching:</strong></p>
+<ul>
+<li><strong>Limit Order Matching</strong> (<code>is_limit_matched()</code> and <code>is_limit_fillable()</code>):</li>
+<li>Buy limits fillable if: <code>ask &lt;= limit_price</code> (cross spread)</li>
+<li>Sell limits fillable if: <code>bid &gt;= limit_price</code> (cross spread)</li>
+<li>
+<p>When <code>fill_limit_inside_spread</code> enabled:</p>
+<ul>
+<li>Buy limits fillable if: <code>price &gt;= bid</code> (requires both bid and ask)</li>
+<li>Sell limits fillable if: <code>price &lt;= ask</code> (requires both bid and ask)</li>
+</ul>
+</li>
+<li>
+<p><strong>Stop Order Triggering</strong> (<code>is_stop_matched()</code>):</p>
+</li>
+<li>Buy stops trigger if: <code>ask &gt;= trigger_price</code></li>
+<li>
+<p>Sell stops trigger if: <code>bid &lt;= trigger_price</code></p>
+</li>
+<li>
+<p><strong>Touch Order Triggering</strong> (<code>is_touch_triggered()</code>):</p>
+</li>
+<li>Buy if touched triggers if: <code>ask &lt;= trigger_price</code></li>
+<li>Sell if touched triggers if: <code>bid &gt;= trigger_price</code></li>
+</ul>
+<p><strong>Role of <code>last</code> Field:</strong></p>
+<p>The <code>last</code> field stores the most recent trade price but is <strong>not directly used</strong> in the current matching logic. Its purposes are:</p>
+<ul>
+<li><strong>Future enhancement</strong>: Reserved for potential use in market-based trigger conditions (e.g., stop orders based on last trade price rather than quotes)</li>
+<li><strong>State tracking</strong>: Maintains complete market price state for debugging and instrumentation</li>
+<li><strong>API symmetry</strong>: Provides consistent interface with bid/ask fields for caller convenience</li>
+<li><strong>External usage</strong>: Available to callers for custom matching logic or trigger conditions outside the core</li>
+</ul>
+<p><strong>Lifecycle:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Market Data Update → Extract Prices → Setters Called → Matching Iteration
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>     ↓                    ↓               ↓                ↓
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  QuoteTick/TradeTick → bid/ask/last → set_*_raw() → match_order()
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>     ↓                    ↓               ↓                ↓
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  External Update    Update State   Update State    Use State
+</span></code></pre></div>
+<p><strong>Critical Dependencies:</strong></p>
+<ul>
+<li><strong>Limit Matching</strong>: Requires at least one side (bid for sells, ask for buys) to be set</li>
+<li><strong>Stop/Touch Matching</strong>: Requires the opposite side to be set (ask for buy stops, bid for sell stops)</li>
+<li><strong>Inside-Spread Filling</strong>: Requires both bid and ask to be present</li>
+<li><strong>Matching Iteration</strong>: Prices must be updated before calling <code>iterate()</code>, <code>iterate_bids()</code>, or <code>iterate_asks()</code></li>
+<li><strong>Last Price</strong>: Currently unused in matching but maintained for completeness and future use</li>
+</ul>
 <h3 id="data-structures">Data Structures</h3>
-<ol>
+<ul>
 <li><strong>BTreeMap for Price-Level Ordering</strong>: Each side has two BTreeMaps (limit and stop books) keyed by price, providing O(log L) lookup where L is the number of distinct price levels</li>
 <li><strong>SmallVec for Per-Level Buckets</strong>: Orders at each price level are stored in SmallVec with inline capacity (4 orders), avoiding heap allocation for common cases</li>
 <li><strong>AHashMap for Fast Order Lookup</strong>: Index maps client_order_id to (side, BookKind, Price) for O(1) point queries</li>
-</ol>
+</ul>
 <h3 id="book-architecture">Book Architecture</h3>
 <p>Each side has separate books mirroring real-venue design:</p>
 <ul>
@@ -3990,149 +4179,188 @@
 </ul>
 <p>Within each price level, orders maintain FIFO ordering through insertion order in SmallVec.</p>
 <h2 id="file-tree">File Tree</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>matching_core/
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>└── mod.rs (1798 lines)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>matching_core/
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>└── mod.rs (1798 lines)
 </span></code></pre></div>
 <h2 id="data-flow">Data Flow</h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Order Entry
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    ↓
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>add_order(RestingOrder)
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    ↓
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Determine BookKind and Key via locate()
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    ├─ is_stop()? → Stop Book (trigger_price as key)
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    ├─ limit_price? → Limit Book (limit_price as key)
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    └─ Neither? → Pending Bucket
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    ↓
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>Insert into appropriate book + order_index
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    ↓
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>┌─────────────────────────────────────┐
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>│  Order Storage                       │
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>│  ├─ bid_limits: BTreeMap            │
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>│  ├─ ask_limits: BTreeMap            │
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>│  ├─ bid_stops: BTreeMap             │
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>│  ├─ ask_stops: BTreeMap             │
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>│  ├─ pending_bid: SmallVec           │
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>│  └─ pending_ask: SmallVec           │
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>└─────────────────────────────────────┘
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>    ↓
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>Market Update (bid/ask/last)
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>    ↓
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>iterate() / iterate_bids() / iterate_asks()
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>    ↓
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>match_order() checks:
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>    ├─ is_stop()? → match_stop_order()
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>    │              └─ is_stop_matched()
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>    ├─ is_limit()? → match_limit_order()
-</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>    │               └─ is_limit_matched()
-</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>    └─ Neither → skip
-</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>    ↓
-</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>MatchAction Output
-</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>    ├─ FillLimit(client_order_id)
-</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>    └─ TriggerStop(client_order_id)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>External Market Data (QuoteTick, TradeTick, etc.)
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>     ↓
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Price Extraction (caller responsibility)
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>     ↓
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>┌─────────────────────────────────────────┐
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│  Price State Updates                    │
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>│  ├─ set_last_raw(last)                  │
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>│  ├─ set_bid_raw(bid)                    │
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>│  └─ set_ask_raw(ask)                    │
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>└─────────────────────────────────────────┘
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>     ↓
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>Order Entry
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>     ↓
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>add_order(RestingOrder)
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>     ↓
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>Determine BookKind and Key via locate()
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>     ├─ is_stop()? → Stop Book (trigger_price as key)
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>     ├─ limit_price? → Limit Book (limit_price as key)
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>     └─ Neither? → Pending Bucket
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>     ↓
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>Insert into appropriate book + order_index
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>     ↓
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>┌─────────────────────────────────────┐
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>│  Order Storage                       │
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>│  ├─ bid_limits: BTreeMap            │
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>│  ├─ ask_limits: BTreeMap            │
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>│  ├─ bid_stops: BTreeMap             │
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>│  ├─ ask_stops: BTreeMap             │
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>│  ├─ pending_bid: SmallVec           │
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>│  └─ pending_ask: SmallVec           │
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>└─────────────────────────────────────┘
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>     ↓
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>Trigger Matching (price updates complete)
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>     ↓
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>iterate() / iterate_bids() / iterate_asks()
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>     ↓
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>match_order() checks:
+</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>     ├─ is_stop()? → match_stop_order()
+</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>     │              └─ is_stop_matched() [uses bid/ask]
+</span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a>     ├─ is_limit()? → match_limit_order()
+</span><span id="__span-2-41"><a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a>     │               └─ is_limit_matched() [uses bid/ask]
+</span><span id="__span-2-42"><a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a>     └─ Neither → skip
+</span><span id="__span-2-43"><a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a>     ↓
+</span><span id="__span-2-44"><a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a>MatchAction Output
+</span><span id="__span-2-45"><a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a>     ├─ FillLimit(client_order_id)
+</span><span id="__span-2-46"><a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a>     └─ TriggerStop(client_order_id)
 </span></code></pre></div>
 <h2 id="logic-flow">Logic Flow</h2>
 <h3 id="order-addition">Order Addition</h3>
-<ol>
-<li><strong>Determine Location</strong>: <code>locate()</code> examines the order to determine:</li>
-<li>If it has a trigger_price → Stop book, keyed by trigger_price</li>
+<ul>
+<li>
+<p><strong>Determine Location</strong>: <code>locate()</code> examines the order to determine:</p>
+</li>
+<li>
+<p>If it has a trigger_price → Stop book, keyed by trigger_price</p>
+</li>
 <li>If it has a limit_price (but no trigger) → Limit book, keyed by limit_price</li>
 <li>
 <p>If neither → Pending bucket</p>
 </li>
 <li>
-<p><strong>Insert</strong>: Order is inserted into the appropriate bucket at its price level:
-   <div class="language-rust highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">book</span><span class="p">.</span><span class="n">entry</span><span class="p">(</span><span class="n">price</span><span class="p">).</span><span class="n">or_default</span><span class="p">().</span><span class="n">push</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
-</span></code></pre></div></p>
+<p><strong>Insert</strong>: Order is inserted into the appropriate bucket at its price level:</p>
 </li>
-<li>
-<p><strong>Index</strong>: Order is indexed in <code>order_index</code> for fast lookup:
-   <div class="language-rust highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">order_index</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">client_order_id</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">side</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">))</span>
-</span></code></pre></div></p>
-</li>
-</ol>
+</ul>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">book</span><span class="p">.</span><span class="n">entry</span><span class="p">(</span><span class="n">price</span><span class="p">).</span><span class="n">or_default</span><span class="p">().</span><span class="n">push</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+</span></code></pre></div>
+<ul>
+<li><strong>Index</strong>: Order is indexed in <code>order_index</code> for fast lookup:</li>
+</ul>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">order_index</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">client_order_id</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">side</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">))</span>
+</span></code></pre></div>
 <h3 id="order-deletion">Order Deletion</h3>
-<ol>
-<li>
-<p><strong>Lookup</strong>: Remove from index to get location:
-   <div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">side</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">order_index</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="o">&amp;</span><span class="n">client_order_id</span><span class="p">)</span><span class="o">?</span>
-</span></code></pre></div></p>
-</li>
+<ul>
+<li><strong>Lookup</strong>: Remove from index to get location:</li>
+</ul>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">side</span><span class="p">,</span><span class="w"> </span><span class="n">location</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">order_index</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="o">&amp;</span><span class="n">client_order_id</span><span class="p">)</span><span class="o">?</span>
+</span></code></pre></div>
+<ul>
 <li>
 <p><strong>Remove</strong>: Find and remove from appropriate book/pending bucket</p>
 </li>
 <li>
 <p><strong>Cleanup</strong>: If bucket becomes empty, remove the price level from BTreeMap</p>
 </li>
-</ol>
+</ul>
 <h3 id="order-matching">Order Matching</h3>
 <h4 id="bid-side-iteration">Bid Side Iteration</h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>iterate_bids()
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    ↓
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>1. bid_limits.iter().rev()  // Best (highest) price first
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>   .flat_map(|(_, b)| b.iter())  // FIFO within level
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    ↓
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>2. bid_stops.iter()  // Closest (lowest) trigger first
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>   .flat_map(|(_, b)| b.iter())  // FIFO within level
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    ↓
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>3. pending_bid.iter()  // Orders without keys (skipped in matching)
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    ↓
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>filter_map(|order| match_order(order))
-</span></code></pre></div>
-<h4 id="ask-side-iteration">Ask Side Iteration</h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>iterate_asks()
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>iterate_bids()
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    ↓
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>1. ask_limits.iter()  // Best (lowest) price first
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>   .flat_map(|(_, b)| b.iter())  // FIFO within level
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>- bid_limits.iter().rev()  // Best (highest) price first
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  .flat_map(|(_, b)| b.iter())  // FIFO within level
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    ↓
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>2. ask_stops.iter().rev()  // Closest (highest) trigger first
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>   .flat_map(|(_, b)| b.iter())  // FIFO within level
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>- bid_stops.iter()  // Closest (lowest) trigger first
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  .flat_map(|(_, b)| b.iter())  // FIFO within level
 </span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    ↓
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>3. pending_ask.iter()  // Orders without keys (skipped in matching)
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>- pending_bid.iter()  // Orders without keys (skipped in matching)
 </span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    ↓
 </span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>filter_map(|order| match_order(order))
 </span></code></pre></div>
+<h4 id="ask-side-iteration">Ask Side Iteration</h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>iterate_asks()
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    ↓
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>- ask_limits.iter()  // Best (lowest) price first
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  .flat_map(|(_, b)| b.iter())  // FIFO within level
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    ↓
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>- ask_stops.iter().rev()  // Closest (highest) trigger first
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>  .flat_map(|(_, b)| b.iter())  // FIFO within level
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    ↓
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>- pending_ask.iter()  // Orders without keys (skipped in matching)
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    ↓
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>filter_map(|order| match_order(order))
+</span></code></pre></div>
 <h4 id="order-matching-logic">Order Matching Logic</h4>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">match_order</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="err">↓</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">if</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="n">is_stop</span><span class="p">():</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nc">if</span><span class="w"> </span><span class="o">!</span><span class="n">order</span><span class="p">.</span><span class="n">is_activated</span><span class="p">:</span><span class="w"> </span><span class="nc">return</span><span class="w"> </span><span class="nb">None</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_stop_matched</span><span class="p">(</span><span class="n">side</span><span class="p">,</span><span class="w"> </span><span class="n">trigger_price</span><span class="p">):</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">        </span><span class="nc">return</span><span class="w"> </span><span class="n">TriggerStop</span><span class="p">(</span><span class="n">client_order_id</span><span class="p">)</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="nc">return</span><span class="w"> </span><span class="nb">None</span>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">elif</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="n">is_limit</span><span class="p">():</span>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="nc">if</span><span class="w"> </span><span class="n">is_limit_matched</span><span class="p">(</span><span class="n">side</span><span class="p">,</span><span class="w"> </span><span class="n">limit_price</span><span class="p">):</span>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">        </span><span class="nc">return</span><span class="w"> </span><span class="n">FillLimit</span><span class="p">(</span><span class="n">client_order_id</span><span class="p">)</span>
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="nc">return</span><span class="w"> </span><span class="nb">None</span>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="k">else</span><span class="p">:</span>
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="nc">return</span><span class="w"> </span><span class="nb">None</span><span class="w">  </span><span class="c1">// No prices set (e.g., MARKET_TO_LIMIT)</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">match_order</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="err">↓</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">if</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="n">is_stop</span><span class="p">():</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nc">if</span><span class="w"> </span><span class="o">!</span><span class="n">order</span><span class="p">.</span><span class="n">is_activated</span><span class="p">:</span><span class="w"> </span><span class="nc">return</span><span class="w"> </span><span class="nb">None</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="c1">// Uses self.ask (for buys) or self.bid (for sells) for trigger checking</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_stop_matched</span><span class="p">(</span><span class="n">side</span><span class="p">,</span><span class="w"> </span><span class="n">trigger_price</span><span class="p">):</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">        </span><span class="nc">return</span><span class="w"> </span><span class="n">TriggerStop</span><span class="p">(</span><span class="n">client_order_id</span><span class="p">)</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="nc">return</span><span class="w"> </span><span class="nb">None</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">elif</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="n">is_limit</span><span class="p">():</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="c1">// Uses self.ask (for buys) or self.bid (for sells) for fill checking</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">is_limit_matched</span><span class="p">(</span><span class="n">side</span><span class="p">,</span><span class="w"> </span><span class="n">limit_price</span><span class="p">):</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">        </span><span class="nc">return</span><span class="w"> </span><span class="n">FillLimit</span><span class="p">(</span><span class="n">client_order_id</span><span class="p">)</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="k">else</span><span class="p">:</span><span class="w"> </span><span class="nc">return</span><span class="w"> </span><span class="nb">None</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="k">else</span><span class="p">:</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="nc">return</span><span class="w"> </span><span class="nb">None</span><span class="w">  </span><span class="c1">// No prices set (e.g., MARKET_TO_LIMIT)</span>
 </span></code></pre></div>
 <h4 id="limit-order-matching">Limit Order Matching</h4>
 <ul>
-<li><strong>Buy Limit</strong>: Fillable if <code>ask &lt;= limit_price</code></li>
-<li><strong>Sell Limit</strong>: Fillable if <code>bid &gt;= limit_price</code></li>
+<li><strong>Buy Limit</strong>: Fillable if <code>ask &lt;= limit_price</code> (requires <code>ask</code> field to be set)</li>
+<li><strong>Sell Limit</strong>: Fillable if <code>bid &gt;= limit_price</code> (requires <code>bid</code> field to be set)</li>
 </ul>
-<p>Additional mode: <code>fill_limit_inside_spread</code> allows filling at-or-inside spread:
-- <strong>Buy</strong>: <code>price &gt;= bid</code> (requires both bid and ask present)
-- <strong>Sell</strong>: <code>price &lt;= ask</code> (requires both bid and ask present)</p>
+<p>Additional mode: <code>fill_limit_inside_spread</code> allows filling at-or-inside spread:</p>
+<ul>
+<li><strong>Buy</strong>: <code>price &gt;= bid</code> (requires both <code>bid</code> and <code>ask</code> fields to be present)</li>
+<li><strong>Sell</strong>: <code>price &lt;= ask</code> (requires both <code>bid</code> and <code>ask</code> fields to be present)</li>
+</ul>
+<p><strong>Price State Requirements:</strong></p>
+<ul>
+<li>For cross-spread filling: At minimum requires the opposite side to be set</li>
+<li>For inside-spread filling: Both <code>bid</code> and <code>ask</code> must be <code>Some(Price)</code></li>
+<li>Missing prices result in no matches being generated</li>
+</ul>
 <h4 id="stop-order-matching">Stop Order Matching</h4>
 <ul>
-<li><strong>Buy Stop</strong>: Triggered if <code>ask &gt;= trigger_price</code></li>
-<li><strong>Sell Stop</strong>: Triggered if <code>bid &lt;= trigger_price</code></li>
+<li><strong>Buy Stop</strong>: Triggered if <code>ask &gt;= trigger_price</code> (requires <code>ask</code> field to be set)</li>
+<li><strong>Sell Stop</strong>: Triggered if <code>bid &lt;= trigger_price</code> (requires <code>bid</code> field to be set)</li>
+</ul>
+<p><strong>Price State Requirements:</strong></p>
+<ul>
+<li>Stop orders require the opposite side price to be set for trigger checking</li>
+<li>Missing prices result in no triggers being generated</li>
 </ul>
 <h4 id="touch-order-matching">Touch Order Matching</h4>
 <ul>
-<li><strong>Buy If Touched</strong>: Triggered if <code>ask &lt;= trigger_price</code></li>
-<li><strong>Sell If Touched</strong>: Triggered if <code>bid &gt;= trigger_price</code></li>
+<li><strong>Buy If Touched</strong>: Triggered if <code>ask &lt;= trigger_price</code> (requires <code>ask</code> field to be set)</li>
+<li><strong>Sell If Touched</strong>: Triggered if <code>bid &gt;= trigger_price</code> (requires <code>bid</code> field to be set)</li>
+</ul>
+<p><strong>Price State Requirements:</strong></p>
+<ul>
+<li>Touch orders require the opposite side price to be set for trigger checking</li>
+<li>Missing prices result in no triggers being generated</li>
 </ul>
 <h3 id="modify-semantics">Modify Semantics</h3>
-<p>The core does not provide in-place modify API. All modifications must be:
-1. <code>delete_order()</code> to remove the original
-2. <code>add_order()</code> to add the modified order</p>
-<p>This matches real-venue behavior where:
-- Price-changing modifies lose queue position
-- Quantity-only modifies lose queue position (current limitation)</p>
+<p>The core does not provide in-place modify API. All modifications must be:</p>
+<ul>
+<li><code>delete_order()</code> to remove the original</li>
+<li><code>add_order()</code> to add the modified order</li>
+</ul>
+<p>This matches real-venue behavior where:</p>
+<ul>
+<li>Price-changing modifies lose queue position</li>
+<li>Quantity-only modifies lose queue position (current limitation)</li>
+</ul>
 <h3 id="known-limitations">Known Limitations</h3>
-<ol>
+<ul>
 <li>
 <p><strong>Limits-then-stops Emission</strong>: In real venues, stops trigger as price crosses them and only then aggress against limit book. The current core emits all matchable limits before stops, which cannot perfectly reconstruct temporal order for certain gap scenarios.</p>
 </li>
@@ -4142,7 +4370,44 @@
 <li>
 <p><strong>Duplicate Inserts</strong>: <code>add_order()</code> does not deduplicate; callers must ensure each <code>client_order_id</code> appears at most once.</p>
 </li>
-</ol>
+</ul>
+<p><strong>Price State Management</strong>: The matching core does not subscribe to or fetch market data internally. Callers must:</p>
+<ul>
+<li>Update price fields before each matching iteration using <code>set_bid_raw()</code>, <code>set_ask_raw()</code>, and <code>set_last_raw()</code></li>
+<li>Ensure price state is synchronized with actual market conditions</li>
+<li>Handle cases where one or more price fields are <code>None</code> (no matching occurs for orders dependent on missing prices)</li>
+<li>Call <code>reset()</code> to clear price state when needed (e.g., instrument deactivation, session reset)</li>
+</ul>
+<h2 id="price-state-api">Price State API</h2>
+<h3 id="setter-methods">Setter Methods</h3>
+<p>The matching core provides three const setter methods for updating market price state:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="sd">/// Sets the last traded price</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">set_last_raw</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">:</span><span class="w"> </span><span class="nc">Price</span><span class="p">)</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="sd">/// Sets the best bid price</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">set_bid_raw</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">bid</span><span class="p">:</span><span class="w"> </span><span class="nc">Price</span><span class="p">)</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="sd">/// Sets the best ask price</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">set_ask_raw</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">ask</span><span class="p">:</span><span class="w"> </span><span class="nc">Price</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="when-to-call-setters">When to Call Setters</h3>
+<p><strong>Required Before:</strong>
+- Any call to <code>iterate()</code>, <code>iterate_bids()</code>, or <code>iterate_asks()</code>
+- Any direct call to matching methods (<code>match_order()</code>, <code>is_limit_matched()</code>, etc.)</p>
+<p><strong>Update Triggers:</strong>
+- New <code>QuoteTick</code> arrives: Update <code>bid</code> and <code>ask</code> via <code>set_bid_raw()</code> and <code>set_ask_raw()</code>
+- New <code>TradeTick</code> arrives: Update <code>last</code> via <code>set_last_raw()</code>
+- Market state changes: Update affected price fields based on data source
+- Instrument activation: Initialize all price fields from current market data
+- Session reset: Call <code>reset()</code> to clear all price state</p>
+<h3 id="price-state-reset">Price State Reset</h3>
+<p>The <code>reset()</code> method clears all internal state including price fields:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span>
+</span></code></pre></div>
+<p>This sets <code>bid</code>, <code>ask</code>, and <code>last</code> to <code>None</code>, clears all order books, and removes all orders from the index. Use this when:
+- Instrument is deactivated or removed from trading
+- Session boundary requires complete state reset
+- Order matching needs to start fresh with new price data</p>
 <h2 id="performance-characteristics">Performance Characteristics</h2>
 <ul>
 <li><strong>Add Order</strong>: O(log L) for BTreeMap lookup + O(1) for push to SmallVec</li>
@@ -4157,7 +4422,7 @@
 <p><code>RestingOrder</code> is a lightweight, copy-optimized representation of a passive order used for matching and trigger checking. It contains only the essential fields needed for order matching logic, making it significantly smaller than full <code>Order</code> objects and enabling efficient storage and copying in the matching core.</p>
 <p><strong>Purpose:</strong></p>
 <p>The primary design goals of <code>RestingOrder</code> are:</p>
-<ol>
+<ul>
 <li>
 <p><strong>Memory Efficiency</strong>: Stores only the minimal data required for matching decisions (price comparison and trigger checking), avoiding the overhead of full order state (quantity, fees, timestamps, etc.)</p>
 </li>
@@ -4170,16 +4435,16 @@
 <li>
 <p><strong>Matching Semantics</strong>: Provides methods like <code>is_stop()</code> and <code>is_limit()</code> to quickly determine matching behavior</p>
 </li>
-</ol>
+</ul>
 <p><strong>Field Details:</strong></p>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">RestingOrder</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">client_order_id</span><span class="p">:</span><span class="w"> </span><span class="nc">ClientOrderId</span><span class="p">,</span><span class="w">  </span><span class="c1">// Unique order identifier</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">order_side</span><span class="p">:</span><span class="w"> </span><span class="nc">OrderSideSpecified</span><span class="p">,</span><span class="w">  </span><span class="c1">// BUY or SELL</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">order_type</span><span class="p">:</span><span class="w"> </span><span class="nc">OrderType</span><span class="p">,</span><span class="w">           </span><span class="c1">// Full order type (LIMIT, STOP_MARKET, STOP_LIMIT, etc.)</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">trigger_price</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">Price</span><span class="o">&gt;</span><span class="p">,</span><span class="w">    </span><span class="c1">// Stop trigger or touch price (for stop orders)</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">limit_price</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">Price</span><span class="o">&gt;</span><span class="p">,</span><span class="w">      </span><span class="c1">// Limit execution price (for limit orders)</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">is_activated</span><span class="p">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span><span class="w">              </span><span class="c1">// Trailing stop activation state</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="p">}</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">RestingOrder</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">client_order_id</span><span class="p">:</span><span class="w"> </span><span class="nc">ClientOrderId</span><span class="p">,</span><span class="w">  </span><span class="c1">// Unique order identifier</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">order_side</span><span class="p">:</span><span class="w"> </span><span class="nc">OrderSideSpecified</span><span class="p">,</span><span class="w">  </span><span class="c1">// BUY or SELL</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">order_type</span><span class="p">:</span><span class="w"> </span><span class="nc">OrderType</span><span class="p">,</span><span class="w">           </span><span class="c1">// Full order type (LIMIT, STOP_MARKET, STOP_LIMIT, etc.)</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">trigger_price</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">Price</span><span class="o">&gt;</span><span class="p">,</span><span class="w">    </span><span class="c1">// Stop trigger or touch price (for stop orders)</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">limit_price</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">Price</span><span class="o">&gt;</span><span class="p">,</span><span class="w">      </span><span class="c1">// Limit execution price (for limit orders)</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">is_activated</span><span class="p">:</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span><span class="w">              </span><span class="c1">// Trailing stop activation state</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="p">}</span>
 </span></code></pre></div>
 <p><strong>Key Invariants:</strong></p>
 <ul>
@@ -4189,7 +4454,7 @@
 <li><code>is_activated</code> is only meaningful for trailing stops; other order types always use <code>true</code></li>
 </ul>
 <p><strong>Usage Patterns:</strong></p>
-<ol>
+<ul>
 <li>
 <p><strong>Storage</strong>: Stored in <code>OrderBucket = SmallVec&lt;[RestingOrder; 4]&gt;</code> at each price level, avoiding heap allocation for typical 1-3 orders per level</p>
 </li>
@@ -4205,7 +4470,7 @@
 <li>
 <p><strong>Iteration</strong>: Yielded by iterators (<code>iterate_bids()</code>, <code>iterate_asks()</code>) for batch matching operations</p>
 </li>
-</ol>
+</ul>
 <p><strong>Design Trade-offs:</strong></p>
 <ul>
 <li><strong>Pros</strong>: Minimal memory footprint, Copy semantics enable zero-copy iteration, simple matching logic</li>
@@ -4273,37 +4538,37 @@
 </tbody>
 </table>
 <p><strong>Example:</strong></p>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">// Create from full order</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">resting</span><span class="p">:</span><span class="w"> </span><span class="nc">RestingOrder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RestingOrder</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="o">&amp;</span><span class="n">PassiveOrderAny</span><span class="p">::</span><span class="n">try_from</span><span class="p">(</span><span class="n">order</span><span class="p">).</span><span class="n">unwrap</span><span class="p">());</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1">// Create directly (e.g., for testing)</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="kd">let</span><span class="w"> </span><span class="n">resting</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RestingOrder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="n">ClientOrderId</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s">&quot;O-123&quot;</span><span class="p">),</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="n">OrderSideSpecified</span><span class="p">::</span><span class="n">Buy</span><span class="p">,</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="n">OrderType</span><span class="p">::</span><span class="n">StopLimit</span><span class="p">,</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="n">Price</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;100.00&quot;</span><span class="p">)),</span><span class="w">  </span><span class="c1">// trigger_price</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="n">Price</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;99.50&quot;</span><span class="p">)),</span><span class="w">   </span><span class="c1">// limit_price</span>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="kc">false</span><span class="p">,</span><span class="w">                         </span><span class="c1">// is_activated</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">);</span>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1">// Check matching behavior</span>
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="k">if</span><span class="w"> </span><span class="n">resting</span><span class="p">.</span><span class="n">is_stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">    </span><span class="c1">// Handle trigger checking</span>
-</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="p">}</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// Create from full order</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">resting</span><span class="p">:</span><span class="w"> </span><span class="nc">RestingOrder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RestingOrder</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="o">&amp;</span><span class="n">PassiveOrderAny</span><span class="p">::</span><span class="n">try_from</span><span class="p">(</span><span class="n">order</span><span class="p">).</span><span class="n">unwrap</span><span class="p">());</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1">// Create directly (e.g., for testing)</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="kd">let</span><span class="w"> </span><span class="n">resting</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RestingOrder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="n">ClientOrderId</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s">&quot;O-123&quot;</span><span class="p">),</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="n">OrderSideSpecified</span><span class="p">::</span><span class="n">Buy</span><span class="p">,</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="n">OrderType</span><span class="p">::</span><span class="n">StopLimit</span><span class="p">,</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="n">Price</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;100.00&quot;</span><span class="p">)),</span><span class="w">  </span><span class="c1">// trigger_price</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="n">Price</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">&quot;99.50&quot;</span><span class="p">)),</span><span class="w">   </span><span class="c1">// limit_price</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">    </span><span class="kc">false</span><span class="p">,</span><span class="w">                         </span><span class="c1">// is_activated</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="p">);</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="c1">// Check matching behavior</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="k">if</span><span class="w"> </span><span class="n">resting</span><span class="p">.</span><span class="n">is_stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="w">    </span><span class="c1">// Handle trigger checking</span>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="matchaction">MatchAction</h3>
 <p>Result of order matching:
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="nc">MatchAction</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="n">FillLimit</span><span class="p">(</span><span class="n">ClientOrderId</span><span class="p">),</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="n">TriggerStop</span><span class="p">(</span><span class="n">ClientOrderId</span><span class="p">),</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">}</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="nc">MatchAction</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="n">FillLimit</span><span class="p">(</span><span class="n">ClientOrderId</span><span class="p">),</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="n">TriggerStop</span><span class="p">(</span><span class="n">ClientOrderId</span><span class="p">),</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="p">}</span>
 </span></code></pre></div></p>
 <h3 id="bookkind">BookKind</h3>
 <p>Identifies which book an order belongs to:
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">enum</span><span class="w"> </span><span class="nc">BookKind</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="n">Limit</span><span class="p">,</span><span class="w">  </span><span class="c1">// Plain LIMIT order</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="n">Stop</span><span class="p">,</span><span class="w">   </span><span class="c1">// Stop-style order</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="p">}</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">enum</span><span class="w"> </span><span class="nc">BookKind</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="n">Limit</span><span class="p">,</span><span class="w">  </span><span class="c1">// Plain LIMIT order</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="n">Stop</span><span class="p">,</span><span class="w">   </span><span class="c1">// Stop-style order</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="p">}</span>
 </span></code></pre></div></p>
 <h2 id="testing">Testing</h2>
 <p>Comprehensive test coverage includes:
