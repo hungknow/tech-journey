@@ -9,51 +9,52 @@ The `nautilus-portfolio` crate provides comprehensive portfolio management and r
 The portfolio crate addresses several critical challenges in algorithmic trading systems:
 
 
-1. **Real-time Portfolio Tracking**: Maintaining an accurate, up-to-date view of portfolio state across multiple accounts, venues, and instruments as trading events occur in real-time.
+- **Real-time Portfolio Tracking**: Maintaining an accurate, up-to-date view of portfolio state across multiple accounts, venues, and instruments as trading events occur in real-time.
 
-2. **Complex PnL Calculations**: Computing accurate profit and loss metrics for both open (unrealized) and closed (realized) positions, including handling of partial fills, position cycling, and multi-venue scenarios.
+- **Complex PnL Calculations**: Computing accurate profit and loss metrics for both open (unrealized) and closed (realized) positions, including handling of partial fills, position cycling, and multi-venue scenarios.
 
-3. **Multi-currency Support**: Managing portfolios across different settlement currencies with automatic conversion and exposure analysis.
+- **Multi-currency Support**: Managing portfolios across different settlement currencies with automatic conversion and exposure analysis.
 
-4. **Margin Management**: Calculating and tracking initial margin requirements (for open orders) and maintenance margin requirements (for open positions) across different account types.
+- **Margin Management**: Calculating and tracking initial margin requirements (for open orders) and maintenance margin requirements (for open positions) across different account types.
 
-5. **Account State Synchronization**: Keeping account balances, locked funds, and margin requirements synchronized with order lifecycle events.
+- **Account State Synchronization**: Keeping account balances, locked funds, and margin requirements synchronized with order lifecycle events.
 
-6. **Order Management System (OMS) Variations**: Supporting both NETTING and HEDGING OMS models with appropriate position and PnL accounting.
+- **Order Management System (OMS) Variations**: Supporting both NETTING and HEDGING OMS models with appropriate position and PnL accounting.
 
-7. **Price Resolution**: Implementing a hierarchical price resolution strategy for mark-to-market valuations.
+- **Price Resolution**: Implementing a hierarchical price resolution strategy for mark-to-market valuations.
 
 ## Techniques Used
 
 The portfolio crate employs several sophisticated techniques to solve these problems:
 
+- **Event-Driven Architecture**: The portfolio subscribes to and processes various event types (OrderEventAny, PositionEvent, AccountState, QuoteTick, Bar, MarkPriceUpdate) through a message bus system, enabling reactive updates.
 
-1. **Event-Driven Architecture**: The portfolio subscribes to and processes various event types (OrderEventAny, PositionEvent, AccountState, QuoteTick, Bar, MarkPriceUpdate) through a message bus system, enabling reactive updates.
+- **Incremental State Caching**: Realized PnL is cached incrementally from position snapshots, only processing new snapshots and detecting cache invalidation (purge/reset) to avoid unnecessary deserialization.
 
-2. **Incremental State Caching**: Realized PnL is cached incrementally from position snapshots, only processing new snapshots and detecting cache invalidation (purge/reset) to avoid unnecessary deserialization.
+- **NETTING OMS PnL Calculation**: A three-case rule for position cycles:
 
-3. **NETTING OMS PnL Calculation**: A three-case rule for position cycles:
-   - Active positions: Use only the last snapshot PnL
-   - Closed positions: Use sum of all snapshot PnLs
-   - Current realized PnL from active positions is added
+    - Active positions: Use only the last snapshot PnL
+    - Closed positions: Use sum of all snapshot PnLs
+    - Current realized PnL from active positions is added
 
-4. **Hierarchical Price Resolution**: Prices are obtained in priority order:
-   - Mark prices (if configured)
-   - Bid/ask prices based on position side (long→bid, short→ask)
-   - Last trade prices
-   - Bar close prices (if configured)
+- **Hierarchical Price Resolution**: Prices are obtained in priority order:
 
-5. **Currency Conversion**: Automatic conversion using exchange rates with configurable sources (quote vs. mark prices) and per-account base currency conversion.
+    - Mark prices (if configured)
+    - Bid/ask prices based on position side (long→bid, short→ask)
+    - Last trade prices
+    - Bar close prices (if configured)
 
-6. **Rc<RefCell<>> Pattern**: Shared state management allowing multiple references to the same portfolio state while ensuring thread-safe access through Rust's ownership system.
+- **Currency Conversion**: Automatic conversion using exchange rates with configurable sources (quote vs. mark prices) and per-account base currency conversion.
 
-7. **Message Bus Integration**: Typed handlers are registered for different event types, with both endpoint (direct) and topic (pub/sub) subscription patterns.
+- **Rc<RefCell<>> Pattern**: Shared state management allowing multiple references to the same portfolio state while ensuring thread-safe access through Rust's ownership system.
 
-8. **Position Folding**: For maintenance margin calculations, open positions are folded into a NETTING-equivalent state using quantity-weighted average prices.
+- **Message Bus Integration**: Typed handlers are registered for different event types, with both endpoint (direct) and topic (pub/sub) subscription patterns.
 
-9. **Timer-based Snapshotting**: Periodic portfolio snapshots are emitted at configurable intervals while positions are open, with automatic timer management (arm/disarm based on position count).
+- **Position Folding**: For maintenance margin calculations, open positions are folded into a NETTING-equivalent state using quantity-weighted average prices.
 
-10. **Throttled Logging**: Account state logging can be throttled based on minimum interval settings to reduce log volume in high-frequency scenarios.
+- **Timer-based Snapshotting**: Periodic portfolio snapshots are emitted at configurable intervals while positions are open, with automatic timer management (arm/disarm based on position count).
+
+- **Throttled Logging**: Account state logging can be throttled based on minimum interval settings to reduce log volume in high-frequency scenarios.
 
 ## File Tree
 
@@ -72,46 +73,47 @@ crates/portfolio/src/
 The data flow through the portfolio system follows a reactive event-driven pattern:
 
 
-1. **External Event Sources**: Trading events are generated by the execution engine and published to the message bus:
-   - Order events (accepted, filled, canceled, etc.)
-   - Position events (opened, changed, closed, adjusted)
-   - Account state events
-   - Market data (quotes, bars, mark prices)
+- **External Event Sources**: Trading events are generated by the execution engine and published to the message bus:
 
-2. **Message Bus Subscriptions**: The Portfolio registers typed handlers for specific message patterns during initialization:
-   - `events.order.*` → Order updates
-   - `events.position.*` → Position updates
-   - `events.account.*` → Account state updates
-   - `data.quotes.*` → Quote tick updates
-   - `data.bars.*EXTERNAL` → Bar updates (if configured)
-   - `data.mark_prices.*` → Mark price updates (if configured)
+    - Order events (accepted, filled, canceled, etc.)
+    - Position events (opened, changed, closed, adjusted)
+    - Account state events
+    - Market data (quotes, bars, mark prices)
 
-3. **Event Processing**: Each handler processes its event type:
-   - **Order events** (`update_order`):
-     - For fills: Update balances, calculate unrealized PnL, recalculate order margins
-     - For state changes: Recalculate initial margins for open orders
-     - Generate and publish AccountState events
+- **Message Bus Subscriptions**: The Portfolio registers typed handlers for specific message patterns during initialization:
+    - `events.order.*` → Order updates
+    - `events.position.*` → Position updates
+    - `events.account.*` → Account state updates
+    - `data.quotes.*` → Quote tick updates
+    - `data.bars.*EXTERNAL` → Bar updates (if configured)
+    - `data.mark_prices.*` → Mark price updates (if configured)
 
-   - **Position events** (`update_position`):
-     - Update net position tracking
-     - Recalculate unrealized and realized PnL
-     - Update maintenance margins for margin accounts
-     - Record closed position PnL for analysis
+- **Event Processing**: Each handler processes its event type:
+    - **Order events** (`update_order`):
+        - For fills: Update balances, calculate unrealized PnL, recalculate order margins
+        - For state changes: Recalculate initial margins for open orders
+        - Generate and publish AccountState events
 
-   - **Account state events** (`update_account`):
-     - Apply state to cache (if not already applied)
-     - Throttled logging based on configuration
+    - **Position events** (`update_position`):
+        - Update net position tracking
+        - Recalculate unrealized and realized PnL
+        - Update maintenance margins for margin accounts
+        - Record closed position PnL for analysis
 
-   - **Market data** (`update_quote_tick`, `update_bar`, `update_instrument_id`):
-     - Invalidate cached PnL for affected instruments
-     - Recalculate pending PnL if prices become available
-     - Update bar close price cache
+    - **Account state events** (`update_account`):
+        - Apply state to cache (if not already applied)
+        - Throttled logging based on configuration
 
-4. **Cache Persistence**: Updated accounts and positions are persisted to the central Cache, which serves as the system's source of truth.
+    - **Market data** (`update_quote_tick`, `update_bar`, `update_instrument_id`):
+        - Invalidate cached PnL for affected instruments
+        - Recalculate pending PnL if prices become available
+        - Update bar close price cache
 
-5. **Message Publication**: Updated AccountState and PortfolioSnapshot events are published back to the message bus for downstream consumers.
+- **Cache Persistence**: Updated accounts and positions are persisted to the central Cache, which serves as the system's source of truth.
 
-6. **Query Operations**: Portfolio queries (PnL, equity, exposure) retrieve data from the cache and calculate on-demand, using cached values when available.
+- **Message Publication**: Updated AccountState and PortfolioSnapshot events are published back to the message bus for downstream consumers.
+
+- **Query Operations**: Portfolio queries (PnL, equity, exposure) retrieve data from the cache and calculate on-demand, using cached values when available.
 
 ## Logic Flow
 
@@ -120,91 +122,91 @@ The core portfolio logic flow operates through initialization, event processing,
 
 ### Initialization Phase
 
-1. **Portfolio Creation**: `Portfolio::new()` creates a new portfolio with:
-   - Shared Cache and Clock references
-   - PortfolioConfig with behavioral settings
-   - Internal PortfolioState with empty tracking structures
-   - Message bus handler registrations
+- **Portfolio Creation**: `Portfolio::new()` creates a new portfolio with:
+    - Shared Cache and Clock references
+    - PortfolioConfig with behavioral settings
+    - Internal PortfolioState with empty tracking structures
+    - Message bus handler registrations
 
-2. **Order Initialization** (`initialize_orders`):
-   - Scans cache for all open orders
-   - Groups by instrument
-   - Calculates initial margins using AccountsManager
-   - Updates accounts in cache
+- **Order Initialization** (`initialize_orders`):
+    - Scans cache for all open orders
+    - Groups by instrument
+    - Calculates initial margins using AccountsManager
+    - Updates accounts in cache
 
-3. **Position Initialization** (`initialize_positions`):
-   - Scans cache for all open positions
-   - Groups by instrument and calculates net positions
-   - Calculates initial unrealized and realized PnL
-   - Updates maintenance margins for margin accounts
-   - Arms snapshot timers if configured
+- **Position Initialization** (`initialize_positions`):
+    - Scans cache for all open positions
+    - Groups by instrument and calculates net positions
+    - Calculates initial unrealized and realized PnL
+    - Updates maintenance margins for margin accounts
+    - Arms snapshot timers if configured
 
 ### Event Processing Loop
 
-4. **Order Event Handling** (`update_order`):
-   - Extract account ID and instrument
-   - Validate order lifecycle state
-   - For fills:
-     - Update account balances (via AccountsManager)
-     - Recalculate unrealized PnL
-   - Recalculate order margins
-   - Apply account state updates
-   - Publish AccountState (if not endpoint source)
+- **Order Event Handling** (`update_order`):
+    - Extract account ID and instrument
+    - Validate order lifecycle state
+    - For fills:
+        - Update account balances (via AccountsManager)
+        - Recalculate unrealized PnL
+    - Recalculate order margins
+    - Apply account state updates
+    - Publish AccountState (if not endpoint source)
 
-5. **Position Event Handling** (`update_position`):
-   - Update net position tracking
-   - Recalculate unrealized PnL using current market prices
-   - Recalculate realized PnL (may use snapshot data for NETTING OMS)
-   - Update maintenance margins for margin accounts
-   - Record closed position PnL for analysis
-   - Publish AccountState
+- **Position Event Handling** (`update_position`):
+    - Update net position tracking
+    - Recalculate unrealized PnL using current market prices
+    - Recalculate realized PnL (may use snapshot data for NETTING OMS)
+    - Update maintenance margins for margin accounts
+    - Record closed position PnL for analysis
+    - Publish AccountState
 
-6. **Market Data Updates**:
-   - Invalidate cached PnL for affected instruments
-   - If PnL was previously pending and data is now available, recalculate
-   - Store bar close prices in cache
+- **Market Data Updates**:
+    - Invalidate cached PnL for affected instruments
+    - If PnL was previously pending and data is now available, recalculate
+    - Store bar close prices in cache
 
-7. **Snapshot Timer Handling**:
-   - Periodically emit PortfolioSnapshot events while positions are open
-   - Store snapshots in bounded buffer (1M entries)
-   - Automatically arm/disarm timers based on position count
+- **Snapshot Timer Handling**:
+    - Periodically emit PortfolioSnapshot events while positions are open
+    - Store snapshots in bounded buffer (1M entries)
+    - Automatically arm/disarm timers based on position count
 
 ### Query Operations
 
-8. **PnL Queries**:
-   - **Unrealized PnL**: Calculate based on current market prices and open positions
-   - **Realized PnL**: Calculate using snapshot data (NETTING OMS) or direct aggregation (HEDGING OMS)
-   - Use cached values when available to avoid repeated calculations
+- **PnL Queries**:
+    - **Unrealized PnL**: Calculate based on current market prices and open positions
+    - **Realized PnL**: Calculate using snapshot data (NETTING OMS) or direct aggregation (HEDGING OMS)
+    - Use cached values when available to avoid repeated calculations
 
-9. **Equity Queries**:
-   - **Margin accounts**: balance.total + unrealized PnL
-   - **Cash accounts**: balance.total + mark_values (notional values of open positions)
+- **Equity Queries**:
+    - **Margin accounts**: balance.total + unrealized PnL
+    - **Cash accounts**: balance.total + mark_values (notional values of open positions)
 
-10. **Exposure Queries**:
+- **Exposure Queries**:
     - Calculate notional values of open positions
     - Convert to account base currency if configured
     - Aggregate per currency
 
-11. **Position State Queries**:
+- **Position State Queries**:
     - Net position: Sum of signed quantities across all open positions
     - Is net long/short/flat based on net position sign
     - Is completely flat: All instruments at zero net position
 
 ### Account Management
 
-12. **Balance Updates** (via AccountsManager):
+- **Balance Updates** (via AccountsManager):
     - Apply PnL from fills
     - Deduct commissions
     - Handle currency conversion for multi-currency accounts
     - Support both single-currency and multi-currency balance updates
 
-13. **Margin Calculations** (via AccountsManager):
+- **Margin Calculations** (via AccountsManager):
     - **Initial margins**: For open orders on each instrument
     - **Maintenance margins**: For net position exposure on each instrument
     - Support all instrument types (futures, options, crypto, betting, etc.)
     - Apply currency conversion as needed
 
-14. **Account State Generation**:
+- **Account State Generation**:
     - Generate AccountState events with current balances and margins
     - Include both per-instrument and account-wide margins
     - Apply throttled logging based on configuration
