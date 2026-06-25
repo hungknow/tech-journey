@@ -219,15 +219,89 @@ Where L is typically small (10-100 levels) and B is very small (1-3 orders per l
 
 ### RestingOrder
 
-Lightweight order information for matching:
+`RestingOrder` is a lightweight, copy-optimized representation of a passive order used for matching and trigger checking. It contains only the essential fields needed for order matching logic, making it significantly smaller than full `Order` objects and enabling efficient storage and copying in the matching core.
+
+**Purpose:**
+
+The primary design goals of `RestingOrder` are:
+
+1. **Memory Efficiency**: Stores only the minimal data required for matching decisions (price comparison and trigger checking), avoiding the overhead of full order state (quantity, fees, timestamps, etc.)
+
+2. **Performance**: Implements `Copy` trait, allowing it to be passed and stored without cloning overhead, which is critical for the high-frequency iteration patterns in matching
+
+3. **Order Identity**: Maintains the `client_order_id` as the primary key for indexing and lookup in the matching core's order index
+
+4. **Matching Semantics**: Provides methods like `is_stop()` and `is_limit()` to quickly determine matching behavior
+
+**Field Details:**
+
 ```rust
 pub struct RestingOrder {
-    pub client_order_id: ClientOrderId,
-    pub order_side: OrderSideSpecified,
-    pub order_type: OrderType,
-    pub trigger_price: Option<Price>,
-    pub limit_price: Option<Price>,
-    pub is_activated: bool,
+    pub client_order_id: ClientOrderId,  // Unique order identifier
+    pub order_side: OrderSideSpecified,  // BUY or SELL
+    pub order_type: OrderType,           // Full order type (LIMIT, STOP_MARKET, STOP_LIMIT, etc.)
+    pub trigger_price: Option<Price>,    // Stop trigger or touch price (for stop orders)
+    pub limit_price: Option<Price>,      // Limit execution price (for limit orders)
+    pub is_activated: bool,              // Trailing stop activation state
+}
+```
+
+**Key Invariants:**
+
+- `trigger_price.is_some()` indicates a stop-style order (stop book)
+- `limit_price.is_some()` with `trigger_price.is_none()` indicates a limit order (limit book)
+- Both prices `None` indicates an order in pending bucket (e.g., MARKET_TO_LIMIT before conversion)
+- `is_activated` is only meaningful for trailing stops; other order types always use `true`
+
+**Usage Patterns:**
+
+1. **Storage**: Stored in `OrderBucket = SmallVec<[RestingOrder; 4]>` at each price level, avoiding heap allocation for typical 1-3 orders per level
+
+2. **Creation**: Typically created via `From<&PassiveOrderAny>` conversion from full order objects, but can also be constructed directly via `RestingOrder::new()` for testing or special cases
+
+3. **Matching**: Passed to `match_order()` for trigger/fill checking against current market prices
+
+4. **Indexing**: Used as values in `order_index: AHashMap<ClientOrderId, (side, BookKind, Price)>` for O(1) lookup
+
+5. **Iteration**: Yielded by iterators (`iterate_bids()`, `iterate_asks()`) for batch matching operations
+
+**Design Trade-offs:**
+
+- **Pros**: Minimal memory footprint, Copy semantics enable zero-copy iteration, simple matching logic
+- **Cons**: Does not store quantity information (managed externally), separate from full order state (requires synchronization)
+
+**Order Type Mapping:**
+
+| Order Type | trigger_price | limit_price | Book Kind |
+|------------|---------------|-------------|-----------|
+| LIMIT | None | Some(price) | Limit |
+| STOP_MARKET | Some(trigger) | None | Stop |
+| STOP_LIMIT | Some(trigger) | Some(price) | Stop |
+| MARKET_IF_TOUCHED | Some(trigger) | None | Stop |
+| LIMIT_IF_TOUCHED | Some(trigger) | Some(price) | Stop |
+| TRAILING_STOP_MARKET | Some(trigger) | None | Stop |
+| TRAILING_STOP_LIMIT | Some(trigger) | Some(price) | Stop |
+| MARKET_TO_LIMIT | None | None | Pending |
+
+**Example:**
+
+```rust
+// Create from full order
+let resting: RestingOrder = RestingOrder::from(&PassiveOrderAny::try_from(order).unwrap());
+
+// Create directly (e.g., for testing)
+let resting = RestingOrder::new(
+    ClientOrderId::new("O-123"),
+    OrderSideSpecified::Buy,
+    OrderType::StopLimit,
+    Some(Price::from("100.00")),  // trigger_price
+    Some(Price::from("99.50")),   // limit_price
+    false,                         // is_activated
+);
+
+// Check matching behavior
+if resting.is_stop() {
+    // Handle trigger checking
 }
 ```
 
