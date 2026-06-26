@@ -1,0 +1,5946 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Algorithms and Design Documentation">
+      
+      
+      
+      
+        <link rel="prev" href="../thread_model/">
+      
+      
+        <link rel="next" href="../backtest-order-book-replay/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Handler Binding - Tech Journey</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#nautilustrader-message-bus-handler-binding-matrix" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Tech Journey" class="md-header__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tech Journey
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Handler Binding
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../algorithm/array/" class="md-tabs__link">
+          
+  
+  
+  Algorithms
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../sql/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  SQL
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../spacedrive/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Spacedrive
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../rust/rust_apache_arrow/" class="md-tabs__link">
+          
+  
+  
+  Rust
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../thread_model/" class="md-tabs__link">
+          
+  
+  
+  Nautilus Trader
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../trading-vue-js/candlestick-scaling/" class="md-tabs__link">
+          
+  
+  
+  Trading-Vue-Js
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Tech Journey" class="md-nav__button md-logo" aria-label="Tech Journey" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tech Journey
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/array/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Array
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/binary-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/dynamic-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/greedy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Greedy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/hash-table/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hash Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/math/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/string/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../algorithm/sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../spacedrive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spacedrive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rust
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rust
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_apache_arrow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arrow-Based CSV Data Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_csv_cython/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cython CSV Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_zero_cost_async/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero-cost Async
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rust/rust_zero_copy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zero Copy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nautilus Trader
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nautilus Trader
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../thread_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Thread Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handler Binding
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handler Binding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-data-engine-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Data Engine Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Data Engine Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-market-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Market Data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-topics-processed-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline Topics (Processed Data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signal-topics-custom-user-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal Topics (Custom User Data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defi-topics-conditional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeFi Topics (Conditional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-execution-engine-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Execution Engine Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Execution Engine Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-order-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Order Events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reconciliation-topics-event-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reconciliation Topics (Event Store)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-risk-engine-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Risk Engine Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Risk Engine Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-risk-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Risk Events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-portfolio-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Portfolio Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Portfolio Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-portfolio-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Portfolio Events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-strategy-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Strategy Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Strategy Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-strategy-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Strategy Data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-trader-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Trader Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Trader Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-system-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (System Events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-order-emulator-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Order Emulator Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Order Emulator Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-event-store-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Event Store Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Event Store Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-event-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Event Capture)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-system-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. System Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. System Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-system-events_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (System Events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-data-actor-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Data Actor Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Data Actor Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-data-forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Data Forwarding)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-option-chain-manager-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Option Chain Manager Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Option Chain Manager Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-option-chain-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Option Chain Data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-to-topic-mapping-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component-to-Topic Mapping Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Component-to-Topic Mapping Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#risk-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event Store
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#priority-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority Levels
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#message-flow-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message Flow Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Message Flow Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-market-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Market Data Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-order-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Order Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-risk-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Risk Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-position-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Position Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Improvements
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backtest-order-book-replay/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtest Order Book Replay
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Crates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/risk/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_2" id="__nav_6_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Execution
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Execution
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/order_manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/matching_engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/matching_core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/matching_engine_split/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Matching Engine Split
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/order_emulator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Emulator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/execution/reconciliation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reconciliation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_3" id="__nav_6_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtest
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Backtest
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/backtest/backtest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/backtest/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_4" id="__nav_6_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Portfolio
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Portfolio
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/portfolio/portfolio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Portfolio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/portfolio/manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_5" id="__nav_6_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_4_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_5_1" id="__nav_6_4_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_6_4_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Engine
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crates/data/engine/engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/tradingchart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trading Chart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/trade_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trade Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/quote_tick/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quote Tick
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/order_book/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Book
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/fill_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fill Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/simulated_exchange/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulated Exchange
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/model_ddd_file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model DDD File
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/position/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Position
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/venue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Venue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_5_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5_10" id="__nav_6_5_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instruments
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_5_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Instruments
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/instrument/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instrument
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/synthetic_instrument/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synthetic Instrument
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/betting_instrument/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Betting Instrument
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/binary_option/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Option
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/cfd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CFD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/commodity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commodity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/crypto_future/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crypto Future
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/crypto_perpetual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crypto Perpetual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/currency_pair/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Currency Pair
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/equity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/futures_contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Futures Contract
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/instruments/option_contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Option Contract
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_5_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5_11" id="__nav_6_5_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orders
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_5_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Orders
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/orders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/orders/market-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Market Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/orders/limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/orders/stop-market-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stop Market Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/orders/stop-limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stop Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/orders/market-if-touched-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Market If Touched Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/orders/limit-if-touched-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limit If Touched Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/orders/market-to-limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Market To Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/orders/trailing-stop-market-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trailing Stop Market Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/orders/trailing-stop-limit-order/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trailing Stop Limit Order
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../python-rust-ffi-streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python-Rust FFI Streaming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Py03
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Py03
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pyo3/call_python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    call_function
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pyo3/call_python_threadsafe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    call_python_threadsafe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trading-Vue-Js
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Trading-Vue-Js
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trading-vue-js/candlestick-scaling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Candlestick Scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trading-vue-js/chart-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chart Event
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trading-vue-js/crosshair/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crosshair
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trading-vue-js/drawing-timing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drawing Timing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trading-vue-js/layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trading-vue-js/range/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Range
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trading-vue-js/script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Script
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trading-vue-js/zoom-draw/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zoom Draw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-data-engine-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Data Engine Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Data Engine Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-market-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Market Data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipeline-topics-processed-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline Topics (Processed Data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signal-topics-custom-user-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signal Topics (Custom User Data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defi-topics-conditional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeFi Topics (Conditional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-execution-engine-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Execution Engine Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Execution Engine Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-order-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Order Events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reconciliation-topics-event-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reconciliation Topics (Event Store)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-risk-engine-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Risk Engine Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Risk Engine Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-risk-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Risk Events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-portfolio-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Portfolio Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Portfolio Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-portfolio-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Portfolio Events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-strategy-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Strategy Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Strategy Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-strategy-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Strategy Data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-trader-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Trader Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Trader Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-system-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (System Events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-order-emulator-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Order Emulator Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Order Emulator Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-event-store-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Event Store Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Event Store Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-event-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Event Capture)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-system-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. System Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. System Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#static-endpoints-point-to-point_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static Endpoints (Point-to-Point)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-system-events_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (System Events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-data-actor-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Data Actor Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Data Actor Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-data-forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Data Forwarding)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-option-chain-manager-topics-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Option Chain Manager Topics &amp; Handlers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Option Chain Manager Topics &amp; Handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#publishsubscribe-topics-option-chain-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publish/Subscribe Topics (Option Chain Data)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-to-topic-mapping-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component-to-Topic Mapping Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Component-to-Topic Mapping Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#risk-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portfolio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Portfolio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Event Store
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#priority-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority Levels
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#message-flow-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message Flow Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Message Flow Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-market-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Market Data Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-order-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Order Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-risk-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Risk Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-position-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Position Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Improvements
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="nautilustrader-message-bus-handler-binding-matrix">NautilusTrader Message Bus Handler Binding Matrix</h1>
+<h2 id="overview">Overview</h2>
+<p>This document describes all possible message bus topics and their corresponding handlers in the NautilusTrader system, organized by component and message type.</p>
+<hr />
+<h2 id="1-data-engine-topics-handlers">1. Data Engine Topics &amp; Handlers</h2>
+<h3 id="static-endpoints-point-to-point">Static Endpoints (Point-to-Point)</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint Name</th>
+<th>Endpoint Pattern</th>
+<th>Handler Type</th>
+<th>Handler Component</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DataEngine.queue_execute</code></td>
+<td><code>DataEngine.queue_execute</code></td>
+<td><code>DataCommand</code></td>
+<td>DataEngine</td>
+<td>N/A (queued)</td>
+</tr>
+<tr>
+<td><code>DataEngine.execute</code></td>
+<td><code>DataEngine.execute</code></td>
+<td><code>DataCommand</code></td>
+<td>DataEngine</td>
+<td>N/A (direct)</td>
+</tr>
+<tr>
+<td><code>DataEngine.process</code></td>
+<td><code>DataEngine.process</code></td>
+<td><code>Data</code></td>
+<td>DataEngine</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>DataEngine.process_data</code></td>
+<td><code>DataEngine.process_data</code></td>
+<td>Data objects</td>
+<td>DataEngine</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>DataEngine.response</code></td>
+<td><code>DataEngine.response</code></td>
+<td><code>DataResponse</code></td>
+<td>DataEngine</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<h3 id="publishsubscribe-topics-market-data">Publish/Subscribe Topics (Market Data)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Subscribers</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data.quotes.{venue}.{symbol}</code></td>
+<td><code>QuoteTick</code></td>
+<td>BarAggregator (quotes), Portfolio, DataActor</td>
+<td>10 (Portfolio)</td>
+<td>High-frequency quotes for bar aggregation</td>
+</tr>
+<tr>
+<td><code>data.trades.{venue}.{symbol}</code></td>
+<td><code>TradeTick</code></td>
+<td>BarAggregator (trades), DataActor</td>
+<td>None</td>
+<td>Trades for bar aggregation</td>
+</tr>
+<tr>
+<td><code>data.bars.{bar_type}</code></td>
+<td><code>Bar</code></td>
+<td>BarAggregator (bars), Portfolio (EXTERNAL)</td>
+<td>10 (Portfolio)</td>
+<td>Bars for higher-level aggregation</td>
+</tr>
+<tr>
+<td><code>data.book.deltas.{venue}.{symbol}</code></td>
+<td><code>OrderBookDeltas</code></td>
+<td>BookUpdater, BookSnapshotter, DataActor</td>
+<td>None</td>
+<td>Incremental book updates</td>
+</tr>
+<tr>
+<td><code>data.book.depth10.{venue}.{symbol}</code></td>
+<td><code>OrderBookDepth10</code></td>
+<td>BookUpdater, DataActor</td>
+<td>None</td>
+<td>Normalized depth-10 snapshots</td>
+</tr>
+<tr>
+<td><code>data.book.snapshots.{venue}.{symbol}.{interval_ms}</code></td>
+<td><code>OrderBook</code></td>
+<td>BookSnapshotter</td>
+<td>None</td>
+<td>Periodic book snapshots</td>
+</tr>
+<tr>
+<td><code>data.instrument.{venue}</code></td>
+<td><code>InstrumentAny</code></td>
+<td>ExecutionEngine, DataActor</td>
+<td>None</td>
+<td>All instruments for a venue</td>
+</tr>
+<tr>
+<td><code>data.instrument.{venue}.{symbol}</code></td>
+<td><code>InstrumentAny</code></td>
+<td>ExecutionEngine, DataActor</td>
+<td>None</td>
+<td>Specific instrument updates</td>
+</tr>
+<tr>
+<td><code>data.mark_prices.{venue}.{symbol}</code></td>
+<td><code>MarkPriceUpdate</code></td>
+<td>Portfolio</td>
+<td>10</td>
+<td>Mark price for PnL calculation</td>
+</tr>
+<tr>
+<td><code>data.index_prices.{venue}.{symbol}</code></td>
+<td><code>IndexPriceUpdate</code></td>
+<td>Portfolio</td>
+<td>10</td>
+<td>Index price for PnL calculation</td>
+</tr>
+<tr>
+<td><code>data.funding_rates.{venue}.{symbol}</code></td>
+<td><code>FundingRateUpdate</code></td>
+<td>Portfolio</td>
+<td>None</td>
+<td>Funding rate updates</td>
+</tr>
+<tr>
+<td><code>data.status.{venue}.{symbol}</code></td>
+<td><code>InstrumentStatus</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Instrument status changes</td>
+</tr>
+<tr>
+<td><code>data.close.{venue}.{symbol}</code></td>
+<td>Close events</td>
+<td>DataActor</td>
+<td>None</td>
+<td>Instrument close events</td>
+</tr>
+<tr>
+<td><code>data.option_greeks.{venue}.{symbol}</code></td>
+<td><code>OptionGreeks</code></td>
+<td>Portfolio, DataActor</td>
+<td>None</td>
+<td>Option Greeks data</td>
+</tr>
+<tr>
+<td><code>data.option_chain.{series_id}</code></td>
+<td><code>OptionChainSlice</code></td>
+<td>Portfolio, DataActor</td>
+<td>None</td>
+<td>Option chain data</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pipeline-topics-processed-data">Pipeline Topics (Processed Data)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Purpose</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data.pipeline.quotes.{venue}.{symbol}</code></td>
+<td><code>QuoteTick</code></td>
+<td>Post-processed quotes</td>
+<td>Used for data quality checks</td>
+</tr>
+<tr>
+<td><code>data.pipeline.trades.{venue}.{symbol}</code></td>
+<td><code>TradeTick</code></td>
+<td>Post-processed trades</td>
+<td>Used for data quality checks</td>
+</tr>
+<tr>
+<td><code>data.pipeline.bars.{bar_type}</code></td>
+<td><code>Bar</code></td>
+<td>Post-processed bars</td>
+<td>Used for data quality checks</td>
+</tr>
+<tr>
+<td><code>data.pipeline.book.deltas.{venue}.{symbol}</code></td>
+<td><code>OrderBookDeltas</code></td>
+<td>Post-processed deltas</td>
+<td>Used for data quality checks</td>
+</tr>
+<tr>
+<td><code>data.pipeline.mark_prices.{venue}.{symbol}</code></td>
+<td><code>MarkPriceUpdate</code></td>
+<td>Post-processed mark prices</td>
+<td>Used for data quality checks</td>
+</tr>
+</tbody>
+</table>
+<h3 id="signal-topics-custom-user-data">Signal Topics (Custom User Data)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Purpose</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data.Signal{TitleName}</code></td>
+<td>Custom types</td>
+<td>User-defined signals</td>
+<td>Strategy indicators</td>
+</tr>
+<tr>
+<td><code>data.Signal*</code></td>
+<td>Custom types</td>
+<td>All signals</td>
+<td>Wildcard subscription</td>
+</tr>
+</tbody>
+</table>
+<h3 id="defi-topics-conditional">DeFi Topics (Conditional)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Subscribers</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data.defi.blocks</code></td>
+<td><code>Block</code></td>
+<td>DeFiPoolUpdater</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>data.defi.pools</code></td>
+<td><code>Pool</code></td>
+<td>DeFiPoolUpdater</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>data.defi.swaps.{venue}.{symbol}</code></td>
+<td><code>PoolSwap</code></td>
+<td>DeFiPoolUpdater</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>data.defi.liquidity.{venue}.{symbol}</code></td>
+<td><code>PoolLiquidityUpdate</code></td>
+<td>DeFiPoolUpdater</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>data.defi.collects.{venue}.{symbol}</code></td>
+<td><code>PoolFeeCollect</code></td>
+<td>DeFiPoolUpdater</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>data.defi.flash.{venue}.{symbol}</code></td>
+<td><code>PoolFlash</code></td>
+<td>DeFiPoolUpdater</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-execution-engine-topics-handlers">2. Execution Engine Topics &amp; Handlers</h2>
+<h3 id="static-endpoints-point-to-point_1">Static Endpoints (Point-to-Point)</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint Name</th>
+<th>Endpoint Pattern</th>
+<th>Handler Type</th>
+<th>Handler Component</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ExecEngine.execute</code></td>
+<td><code>ExecEngine.execute</code></td>
+<td><code>TradingCommand</code></td>
+<td>ExecutionEngine</td>
+<td>N/A (direct)</td>
+</tr>
+<tr>
+<td><code>ExecEngine.queue_execute</code></td>
+<td><code>ExecEngine.queue_execute</code></td>
+<td><code>TradingCommand</code></td>
+<td>ExecutionEngine</td>
+<td>N/A (queued)</td>
+</tr>
+<tr>
+<td><code>ExecEngine.process</code></td>
+<td><code>ExecEngine.process</code></td>
+<td><code>OrderEventAny</code></td>
+<td>ExecutionEngine, RiskEngine</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>ExecEngine.reconcile_execution_report</code></td>
+<td><code>ExecEngine.reconcile_execution_report</code></td>
+<td><code>ExecutionReport</code></td>
+<td>ExecutionEngine</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<h3 id="publishsubscribe-topics-order-events">Publish/Subscribe Topics (Order Events)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Subscribers</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>events.order.{strategy_id}</code></td>
+<td><code>OrderEventAny</code></td>
+<td>Strategy, Portfolio, RiskEngine</td>
+<td>None</td>
+<td>Strategy-specific order events</td>
+</tr>
+<tr>
+<td><code>events.order.*</code></td>
+<td><code>OrderEventAny</code></td>
+<td>Portfolio, RiskEngine</td>
+<td>10 (Portfolio)</td>
+<td>All order events</td>
+</tr>
+</tbody>
+</table>
+<h3 id="reconciliation-topics-event-store">Reconciliation Topics (Event Store)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Purpose</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>reconciliation.raw.OrderStatusReport</code></td>
+<td><code>OrderStatusReport</code></td>
+<td>EventStore</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>reconciliation.raw.FillReport</code></td>
+<td><code>FillReport</code></td>
+<td>EventStore</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>reconciliation.raw.PositionStatusReport</code></td>
+<td><code>PositionStatusReport</code></td>
+<td>EventStore</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-risk-engine-topics-handlers">3. Risk Engine Topics &amp; Handlers</h2>
+<h3 id="static-endpoints-point-to-point_2">Static Endpoints (Point-to-Point)</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint Name</th>
+<th>Endpoint Pattern</th>
+<th>Handler Type</th>
+<th>Handler Component</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RiskEngine.execute</code></td>
+<td><code>RiskEngine.execute</code></td>
+<td><code>TradingCommand</code></td>
+<td>RiskEngine</td>
+<td>N/A (direct)</td>
+</tr>
+<tr>
+<td><code>RiskEngine.queue_execute</code></td>
+<td><code>RiskEngine.queue_execute</code></td>
+<td><code>TradingCommand</code></td>
+<td>RiskEngine</td>
+<td>N/A (queued)</td>
+</tr>
+<tr>
+<td><code>RiskEngine.process</code></td>
+<td><code>RiskEngine.process</code></td>
+<td><code>OrderEventAny</code></td>
+<td>RiskEngine</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<h3 id="publishsubscribe-topics-risk-events">Publish/Subscribe Topics (Risk Events)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Subscribers</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>events.risk</code></td>
+<td><code>RiskEvent</code></td>
+<td>Trader, EventStore</td>
+<td>None</td>
+<td>Risk engine events</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-portfolio-topics-handlers">4. Portfolio Topics &amp; Handlers</h2>
+<h3 id="static-endpoints-point-to-point_3">Static Endpoints (Point-to-Point)</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint Name</th>
+<th>Endpoint Pattern</th>
+<th>Handler Type</th>
+<th>Handler Component</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Portfolio.update_account</code></td>
+<td><code>Portfolio.update_account</code></td>
+<td><code>AccountState</code></td>
+<td>Portfolio</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>Portfolio.update_order</code></td>
+<td><code>Portfolio.update_order</code></td>
+<td><code>OrderAny</code></td>
+<td>Portfolio</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<h3 id="publishsubscribe-topics-portfolio-events">Publish/Subscribe Topics (Portfolio Events)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Subscribers</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>events.account.{account_id}</code></td>
+<td><code>AccountState</code></td>
+<td>Portfolio, Trader</td>
+<td>10 (Portfolio)</td>
+<td>Account state changes</td>
+</tr>
+<tr>
+<td><code>events.account.*</code></td>
+<td><code>AccountState</code></td>
+<td>Portfolio, Trader</td>
+<td>10 (Portfolio)</td>
+<td>All account state changes</td>
+</tr>
+<tr>
+<td><code>events.position.{strategy_id}</code></td>
+<td><code>PositionEvent</code></td>
+<td>Strategy, Portfolio, Trader</td>
+<td>None</td>
+<td>Strategy-specific position events</td>
+</tr>
+<tr>
+<td><code>events.position.*</code></td>
+<td><code>PositionEvent</code></td>
+<td>Portfolio, Trader</td>
+<td>10 (Portfolio)</td>
+<td>All position events</td>
+</tr>
+<tr>
+<td><code>portfolio.snapshots</code></td>
+<td><code>PortfolioSnapshot</code></td>
+<td>Portfolio, Trader</td>
+<td>None</td>
+<td>Portfolio snapshots for analysis</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-strategy-topics-handlers">5. Strategy Topics &amp; Handlers</h2>
+<h3 id="static-endpoints-point-to-point_4">Static Endpoints (Point-to-Point)</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint Name</th>
+<th>Endpoint Pattern</th>
+<th>Handler Type</th>
+<th>Handler Component</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Strategy.{strategy_id}.execute</code></td>
+<td><code>Strategy.{strategy_id}.execute</code></td>
+<td><code>TradingCommand</code></td>
+<td>Strategy</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>Strategy.{strategy_id}.orders</code></td>
+<td><code>Strategy.{strategy_id}.orders</code></td>
+<td><code>OrderEventAny</code></td>
+<td>Strategy</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>Strategy.{strategy_id}.positions</code></td>
+<td><code>Strategy.{strategy_id}.positions</code></td>
+<td><code>PositionEvent</code></td>
+<td>Strategy</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<h3 id="publishsubscribe-topics-strategy-data">Publish/Subscribe Topics (Strategy Data)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Subscribers</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>events.order.{strategy_id}</code></td>
+<td><code>OrderEventAny</code></td>
+<td>Strategy</td>
+<td>None</td>
+<td>Strategy's order events</td>
+</tr>
+<tr>
+<td><code>events.position.{strategy_id}</code></td>
+<td><code>PositionEvent</code></td>
+<td>Strategy</td>
+<td>None</td>
+<td>Strategy's position events</td>
+</tr>
+<tr>
+<td><code>data.quotes.{venue}.{symbol}</code></td>
+<td><code>QuoteTick</code></td>
+<td>Strategy</td>
+<td>None</td>
+<td>Market data for strategies</td>
+</tr>
+<tr>
+<td><code>data.trades.{venue}.{symbol}</code></td>
+<td><code>TradeTick</code></td>
+<td>Strategy</td>
+<td>None</td>
+<td>Market data for strategies</td>
+</tr>
+<tr>
+<td><code>data.bars.{bar_type}</code></td>
+<td><code>Bar</code></td>
+<td>Strategy</td>
+<td>None</td>
+<td>Market data for strategies</td>
+</tr>
+<tr>
+<td><code>data.book.deltas.{venue}.{symbol}</code></td>
+<td><code>OrderBookDeltas</code></td>
+<td>Strategy</td>
+<td>None</td>
+<td>Market data for strategies</td>
+</tr>
+<tr>
+<td><code>data.book.depth10.{venue}.{symbol}</code></td>
+<td><code>OrderBookDepth10</code></td>
+<td>Strategy</td>
+<td>None</td>
+<td>Market data for strategies</td>
+</tr>
+<tr>
+<td><code>data.Signal*</code></td>
+<td>Custom signals</td>
+<td>Strategy</td>
+<td>None</td>
+<td>User-defined signals</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-trader-topics-handlers">6. Trader Topics &amp; Handlers</h2>
+<h3 id="static-endpoints-point-to-point_5">Static Endpoints (Point-to-Point)</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint Name</th>
+<th>Endpoint Pattern</th>
+<th>Handler Type</th>
+<th>Handler Component</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Trader.command</code></td>
+<td><code>Trader.command</code></td>
+<td><code>TraderCommand</code></td>
+<td>Trader</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<h3 id="publishsubscribe-topics-system-events">Publish/Subscribe Topics (System Events)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Subscribers</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>events.order.{strategy_id}</code></td>
+<td><code>OrderEventAny</code></td>
+<td>Trader</td>
+<td>None</td>
+<td>Order events for trader monitoring</td>
+</tr>
+<tr>
+<td><code>events.position.{strategy_id}</code></td>
+<td><code>PositionEvent</code></td>
+<td>Trader</td>
+<td>None</td>
+<td>Position events for trader monitoring</td>
+</tr>
+<tr>
+<td><code>commands.system.shutdown</code></td>
+<td><code>ShutdownSystem</code></td>
+<td>Kernel, System components</td>
+<td>None</td>
+<td>System shutdown signal</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-order-emulator-topics-handlers">7. Order Emulator Topics &amp; Handlers</h2>
+<h3 id="static-endpoints-point-to-point_6">Static Endpoints (Point-to-Point)</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint Name</th>
+<th>Endpoint Pattern</th>
+<th>Handler Type</th>
+<th>Handler Component</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OrderEmulator.execute</code></td>
+<td><code>OrderEmulator.execute</code></td>
+<td><code>TradingCommand</code></td>
+<td>OrderEmulator</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-event-store-topics-handlers">8. Event Store Topics &amp; Handlers</h2>
+<h3 id="publishsubscribe-topics-event-capture">Publish/Subscribe Topics (Event Capture)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Subscribers</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*</code></td>
+<td>All types</td>
+<td>EventStore</td>
+<td>None</td>
+<td>Wildcard capture for persistence</td>
+</tr>
+<tr>
+<td><code>reconciliation.raw.OrderStatusReport</code></td>
+<td><code>OrderStatusReport</code></td>
+<td>EventStore</td>
+<td>None</td>
+<td>Raw order status for replay</td>
+</tr>
+<tr>
+<td><code>reconciliation.raw.FillReport</code></td>
+<td><code>FillReport</code></td>
+<td>EventStore</td>
+<td>None</td>
+<td>Raw fill reports for replay</td>
+</tr>
+<tr>
+<td><code>reconciliation.raw.PositionStatusReport</code></td>
+<td><code>PositionStatusReport</code></td>
+<td>EventStore</td>
+<td>None</td>
+<td>Raw position reports for replay</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-system-topics-handlers">9. System Topics &amp; Handlers</h2>
+<h3 id="static-endpoints-point-to-point_7">Static Endpoints (Point-to-Point)</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint Name</th>
+<th>Endpoint Pattern</th>
+<th>Handler Type</th>
+<th>Handler Component</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Clock.time_event</code></td>
+<td><code>clock.time_event</code></td>
+<td><code>TimeEvent</code></td>
+<td>TimeEvent handlers</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<h3 id="publishsubscribe-topics-system-events_1">Publish/Subscribe Topics (System Events)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Subscribers</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>clock.time_event</code></td>
+<td><code>TimeEvent</code></td>
+<td>All time event subscribers</td>
+<td>None</td>
+<td>Time events for timers</td>
+</tr>
+<tr>
+<td><code>commands.system.shutdown</code></td>
+<td><code>ShutdownSystem</code></td>
+<td>Kernel, System components</td>
+<td>None</td>
+<td>Graceful shutdown signal</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-data-actor-topics-handlers">10. Data Actor Topics &amp; Handlers</h2>
+<h3 id="publishsubscribe-topics-data-forwarding">Publish/Subscribe Topics (Data Forwarding)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Subscribers</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data.instrument.{venue}.{symbol}</code></td>
+<td><code>InstrumentAny</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Instrument updates</td>
+</tr>
+<tr>
+<td><code>data.quotes.{venue}.{symbol}</code></td>
+<td><code>QuoteTick</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Market data forwarding</td>
+</tr>
+<tr>
+<td><code>data.trades.{venue}.{symbol}</code></td>
+<td><code>TradeTick</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Market data forwarding</td>
+</tr>
+<tr>
+<td><code>data.bars.{bar_type}</code></td>
+<td><code>Bar</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Market data forwarding</td>
+</tr>
+<tr>
+<td><code>data.book.deltas.{venue}.{symbol}</code></td>
+<td><code>OrderBookDeltas</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Market data forwarding</td>
+</tr>
+<tr>
+<td><code>data.book.depth10.{venue}.{symbol}</code></td>
+<td><code>OrderBookDepth10</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Market data forwarding</td>
+</tr>
+<tr>
+<td><code>data.book.snapshots.{venue}.{symbol}.{interval_ms}</code></td>
+<td><code>OrderBook</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Market data forwarding</td>
+</tr>
+<tr>
+<td><code>data.mark_prices.{venue}.{symbol}</code></td>
+<td><code>MarkPriceUpdate</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Market data forwarding</td>
+</tr>
+<tr>
+<td><code>data.index_prices.{venue}.{symbol}</code></td>
+<td><code>IndexPriceUpdate</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Market data forwarding</td>
+</tr>
+<tr>
+<td><code>data.funding_rates.{venue}.{symbol}</code></td>
+<td><code>FundingRateUpdate</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Market data forwarding</td>
+</tr>
+<tr>
+<td><code>data.option_greeks.{venue}.{symbol}</code></td>
+<td><code>OptionGreeks</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Market data forwarding</td>
+</tr>
+<tr>
+<td><code>data.option_chain.{series_id}</code></td>
+<td><code>OptionChainSlice</code></td>
+<td>DataActor</td>
+<td>None</td>
+<td>Market data forwarding</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-option-chain-manager-topics-handlers">11. Option Chain Manager Topics &amp; Handlers</h2>
+<h3 id="publishsubscribe-topics-option-chain-data">Publish/Subscribe Topics (Option Chain Data)</h3>
+<table>
+<thead>
+<tr>
+<th>Topic Pattern</th>
+<th>Message Type</th>
+<th>Subscribers</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data.quotes.{venue}.{symbol}</code></td>
+<td><code>QuoteTick</code></td>
+<td>OptionChainManager</td>
+<td>Configured</td>
+<td>Quote data for option chains</td>
+</tr>
+<tr>
+<td><code>data.option_greeks.{venue}.{symbol}</code></td>
+<td><code>OptionGreeks</code></td>
+<td>OptionChainManager</td>
+<td>Configured</td>
+<td>Greeks data for option chains</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="component-to-topic-mapping-summary">Component-to-Topic Mapping Summary</h2>
+<h3 id="data-engine">Data Engine</h3>
+<ul>
+<li><strong>Subscribes to</strong>: Various data client responses</li>
+<li><strong>Publishes to</strong>: All <code>data.*</code> topics, <code>data.pipeline.*</code> topics</li>
+<li><strong>Handles via endpoints</strong>: <code>DataEngine.*</code> endpoints</li>
+</ul>
+<h3 id="execution-engine">Execution Engine</h3>
+<ul>
+<li><strong>Subscribes to</strong>: <code>data.instrument.*</code> (for venue instruments)</li>
+<li><strong>Publishes to</strong>: <code>events.order.*</code>, reconciliation topics</li>
+<li><strong>Handles via endpoints</strong>: <code>ExecEngine.*</code> endpoints</li>
+</ul>
+<h3 id="risk-engine">Risk Engine</h3>
+<ul>
+<li><strong>Subscribes to</strong>: <code>events.order.*</code>, <code>events.position.*</code></li>
+<li><strong>Publishes to</strong>: <code>events.risk</code>, forwarded commands to <code>ExecEngine</code></li>
+<li><strong>Handles via endpoints</strong>: <code>RiskEngine.*</code> endpoints</li>
+</ul>
+<h3 id="portfolio">Portfolio</h3>
+<ul>
+<li><strong>Subscribes to</strong>: <code>data.quotes.*</code>, <code>data.bars.*EXTERNAL</code>, <code>data.mark_prices.*</code>, <code>events.order.*</code>, <code>events.position.*</code>, <code>events.account.*</code></li>
+<li><strong>Publishes to</strong>: <code>portfolio.snapshots</code></li>
+<li><strong>Handles via endpoints</strong>: <code>Portfolio.*</code> endpoints</li>
+</ul>
+<h3 id="strategy">Strategy</h3>
+<ul>
+<li><strong>Subscribes to</strong>: <code>events.order.{strategy_id}</code>, <code>events.position.{strategy_id}</code>, market data topics</li>
+<li><strong>Publishes to</strong>: None (consumes only)</li>
+<li><strong>Handles via endpoints</strong>: <code>Strategy.{strategy_id}.*</code> endpoints</li>
+</ul>
+<h3 id="event-store">Event Store</h3>
+<ul>
+<li><strong>Subscribes to</strong>: <code>*</code> (wildcard), reconciliation topics</li>
+<li><strong>Publishes to</strong>: None (consumer only)</li>
+<li><strong>Handles via endpoints</strong>: None (consumer only)</li>
+</ul>
+<hr />
+<h2 id="priority-levels">Priority Levels</h2>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Usage</th>
+<th>Components</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>High priority (early processing)</td>
+<td>Portfolio, RiskEngine</td>
+</tr>
+<tr>
+<td>5-9</td>
+<td>Medium priority</td>
+<td>OptionChainManager</td>
+</tr>
+<tr>
+<td>1-4</td>
+<td>Low priority</td>
+<td>Data quality checks</td>
+</tr>
+<tr>
+<td>None</td>
+<td>Default (last)</td>
+<td>Most components</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="message-flow-patterns">Message Flow Patterns</h2>
+<h3 id="1-market-data-flow">1. Market Data Flow</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>DataClient → DataEngine → data.quotes.* → BarAggregator → data.bars.* → Strategy
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>                                     ↘ Portfolio (PnL updates)
+</span></code></pre></div>
+<h3 id="2-order-flow">2. Order Flow</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Strategy → TradingCommand → RiskEngine (check) → ExecEngine (execute)
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                                       ↓
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>                                 events.order.* → Portfolio, Strategy
+</span></code></pre></div>
+<h3 id="3-risk-flow">3. Risk Flow</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ExecEngine → events.order.* → RiskEngine → Deny/Forward
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>                                           ↓
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>                                     events.risk
+</span></code></pre></div>
+<h3 id="4-position-flow">4. Position Flow</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ExecEngine → events.position.* → Portfolio → portfolio.snapshots
+</span></code></pre></div>
+<hr />
+<h2 id="type-mapping">Type Mapping</h2>
+<table>
+<thead>
+<tr>
+<th>Message Type</th>
+<th>Routing Mechanisms</th>
+<th>Handler Routes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QuoteTick</td>
+<td>✓ (router_quotes), ✓ (endpoints_quotes), Any-based</td>
+<td>BarAggregator (quotes), Portfolio, DataActor, Strategy, OptionChainManager</td>
+</tr>
+<tr>
+<td>TradeTick</td>
+<td>✓ (router_trades), ✓ (endpoints_trades), Any-based</td>
+<td>BarAggregator (trades), DataActor, Strategy</td>
+</tr>
+<tr>
+<td>Bar</td>
+<td>✓ (router_bars), ✓ (endpoints_bars), Any-based</td>
+<td>BarAggregator (bars), Portfolio (EXTERNAL), Strategy</td>
+</tr>
+<tr>
+<td>OrderBookDeltas</td>
+<td>✓ (router_deltas), Any-based</td>
+<td>BookUpdater, BookSnapshotter, DataActor</td>
+</tr>
+<tr>
+<td>OrderBookDepth10</td>
+<td>✓ (router_depth10), Any-based</td>
+<td>BookUpdater, DataActor</td>
+</tr>
+<tr>
+<td>OrderBook</td>
+<td>✓ (router_book_snapshots), Any-based</td>
+<td>BookSnapshotter</td>
+</tr>
+<tr>
+<td>OrderEventAny</td>
+<td>✓ (router_order_events), ✓ (endpoints_order_events), Any-based</td>
+<td>Strategy, Portfolio, RiskEngine, Trader</td>
+</tr>
+<tr>
+<td>PositionEvent</td>
+<td>✓ (router_position_events), Any-based</td>
+<td>Strategy, Portfolio, Trader</td>
+</tr>
+<tr>
+<td>AccountState</td>
+<td>✓ (router_account_state), ✓ (endpoints_account_state), Any-based</td>
+<td>Portfolio, Trader</td>
+</tr>
+<tr>
+<td>PortfolioSnapshot</td>
+<td>✓ (router_portfolio), Any-based</td>
+<td>Portfolio, Trader</td>
+</tr>
+<tr>
+<td>InstrumentAny</td>
+<td>✓ (router_instruments), Any-based</td>
+<td>ExecutionEngine, DataActor</td>
+</tr>
+<tr>
+<td>TradingCommand</td>
+<td>✓ (endpoints_trading_commands), Any-based</td>
+<td>ExecutionEngine (direct &amp; queue), RiskEngine (direct &amp; queue), OrderEmulator</td>
+</tr>
+<tr>
+<td>DataCommand</td>
+<td>✓ (endpoints_data_commands), Any-based</td>
+<td>DataEngine (direct &amp; queue)</td>
+</tr>
+<tr>
+<td>DataResponse</td>
+<td>✓ (endpoints_data_responses), Any-based</td>
+<td>DataEngine</td>
+</tr>
+<tr>
+<td>ExecutionReport</td>
+<td>✓ (endpoints_exec_reports), Any-based</td>
+<td>ExecutionEngine (reconciliation)</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>✓ (endpoints_data), Any-based</td>
+<td>DataEngine (processed data)</td>
+</tr>
+<tr>
+<td>MarkPriceUpdate</td>
+<td>✓ (router_mark_prices), Any-based</td>
+<td>Portfolio, DataActor</td>
+</tr>
+<tr>
+<td>IndexPriceUpdate</td>
+<td>✓ (router_index_prices), Any-based</td>
+<td>Portfolio, DataActor</td>
+</tr>
+<tr>
+<td>FundingRateUpdate</td>
+<td>✓ (router_funding_rates), Any-based</td>
+<td>Portfolio, DataActor</td>
+</tr>
+<tr>
+<td>OptionGreeks</td>
+<td>✓ (router_option_greeks), Any-based</td>
+<td>Portfolio, DataActor</td>
+</tr>
+<tr>
+<td>OptionChainSlice</td>
+<td>✓ (router_option_chain), Any-based</td>
+<td>Portfolio, DataActor</td>
+</tr>
+<tr>
+<td>Position</td>
+<td>✓ (router_positions), Any-based</td>
+<td>(internal position routing)</td>
+</tr>
+<tr>
+<td>OrderAny</td>
+<td>✓ (router_orders), Any-based</td>
+<td>(internal order routing)</td>
+</tr>
+<tr>
+<td>GreeksData</td>
+<td>✓ (router_greeks), Any-based</td>
+<td>(internal greeks routing)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="notes">Notes</h2>
+<ol>
+<li><strong>Wildcards</strong>: Topics support <code>*</code> (multi-character) and <code>?</code> (single-character) wildcards</li>
+<li><strong>Priority</strong>: Higher priority handlers receive messages before lower priority ones</li>
+<li><strong>Routing</strong>: Two separate routing paths exist (typed vs Any-based) for performance and flexibility</li>
+<li><strong>Caching</strong>: The switchboard caches topic strings to avoid repeated allocations</li>
+<li><strong>Patterns</strong>: Composite instruments use wildcard patterns (e.g., <code>data.book.deltas.{venue}.ES*</code>)</li>
+<li><strong>Re-entrancy</strong>: Queued endpoints support re-entrant handler calls</li>
+</ol>
+<hr />
+<h2 id="future-improvements">Future Improvements</h2>
+<ol>
+<li><strong>Static validation</strong>: Generate compile-time verification of critical subscriptions</li>
+<li><strong>Visualization</strong>: Create directed graphs showing message flow</li>
+<li><strong>Metrics</strong>: Track subscription counts and handler performance</li>
+<li><strong>Testing</strong>: Add tests to verify handler registration completeness</li>
+<li><strong>Documentation</strong>: Auto-generate API docs from this matrix</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
