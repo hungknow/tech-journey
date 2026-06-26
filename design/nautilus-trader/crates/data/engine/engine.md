@@ -20,58 +20,49 @@ Provides a high-performance engine for all environments that:
 
 The struct stores extensive state including:
 
-1. **Core Components**:
+- **Core Components**:
+    * `clock: Rc<RefCell<dyn Clock>>` - Reference to the system clock
+    * `cache: Rc<RefCell<Cache>>` - Reference to the data cache
+    * `clients: IndexMap<ClientId, DataClientAdapter>` - Registered data clients
+    * `default_client: Option<DataClientAdapter>` - Default fallback client
 
-   - `clock: Rc<RefCell<dyn Clock>>` - Reference to the system clock
-   - `cache: Rc<RefCell<Cache>>` - Reference to the data cache
-   - `clients: IndexMap<ClientId, DataClientAdapter>` - Registered data clients
-   - `default_client: Option<DataClientAdapter>` - Default fallback client
+- **Subscription Management**:
+    * `external_clients: AHashSet<ClientId>` - Set of external client IDs
+    * `routing_map: IndexMap<Venue, ClientId>` - Maps venues to clients
+    * `book_deltas_counts: IndexMap<BookDeltasKey, usize>` - Delta subscription counts
+    * `book_depth10_subs: AHashSet<InstrumentId>` - Depth10 subscriptions
+    * `book_snapshot_counts: IndexMap<BookSnapshotKey, usize>` - Snapshot counts
 
-2. **Subscription Management**:
+- **Book Management**:
+    * `book_updaters: AHashMap<InstrumentId, Rc<BookUpdater>>` - Book updaters
+    * `book_snapshotters: AHashMap<NonZeroUsize, Rc<BookSnapshotter>>` - Snapshot timers
+    * `book_intervals: AHashMap<NonZeroUsize, BookSnapshotInfos>` - Interval configurations
 
-   - `external_clients: AHashSet<ClientId>` - Set of external client IDs
-   - `routing_map: IndexMap<Venue, ClientId>` - Maps venues to clients
-   - `book_deltas_counts: IndexMap<BookDeltasKey, usize>` - Delta subscription counts
-   - `book_depth10_subs: AHashSet<InstrumentId>` - Depth10 subscriptions
-   - `book_snapshot_counts: IndexMap<BookSnapshotKey, usize>` - Snapshot counts
+- **Bar Aggregation**:
+    - `bar_aggregators: IndexMap<BarAggregatorKey, Rc<RefCell<Box<dyn BarAggregator>>>>` - Active aggregators
+    - `bar_aggregator_handlers: AHashMap<BarAggregatorKey, Vec<BarAggregatorSubscription>>` - Handlers
 
-3. **Book Management**:
+- **Request Processing**:
+    * `request_bar_aggregations: AHashMap<UUID4, RequestBarAggregation>` - Request aggregations
+    * `request_pipeline_parent_request: AHashMap<UUID4, RequestCommand>` - Parent requests
+    * `time_range_pipeline_requests: AHashMap<UUID4, TimeRangePipelineState>` - Time range pipelines
 
-   - `book_updaters: AHashMap<InstrumentId, Rc<BookUpdater>>` - Book updaters
-   - `book_snapshotters: AHashMap<NonZeroUsize, Rc<BookSnapshotter>>` - Snapshot timers
-   - `book_intervals: AHashMap<NonZeroUsize, BookSnapshotInfos>` - Interval configurations
+- **Continuous Futures**:
+    * `continuous_future_requests: AHashMap<UUID4, ContinuousFutureRequestState>` - Active requests
+    * `continuous_future_subscriptions: AHashMap<BarType, ContinuousFutureSubscriptionState>` - Subscriptions
 
-4. **Bar Aggregation**:
+- **Option Chains**:
+    * `option_chain_managers: AHashMap<OptionSeriesId, Rc<RefCell<OptionChainManager>>>` - Chain managers
 
-   - `bar_aggregators: IndexMap<BarAggregatorKey, Rc<RefCell<Box<dyn BarAggregator>>>>` - Active aggregators
-   - `bar_aggregator_handlers: AHashMap<BarAggregatorKey, Vec<BarAggregatorSubscription>>` - Handlers
+- **Synthetic Instruments**:
+    - `synthetic_quote_feeds: AHashMap<InstrumentId, Vec<SyntheticInstrument>>` - Quote feeds
+    - `synthetic_trade_feeds: AHashMap<InstrumentId, Vec<SyntheticInstrument>>` - Trade feeds
 
-5. **Request Processing**:
-
-   - `request_bar_aggregations: AHashMap<UUID4, RequestBarAggregation>` - Request aggregations
-   - `request_pipeline_parent_request: AHashMap<UUID4, RequestCommand>` - Parent requests
-   - `time_range_pipeline_requests: AHashMap<UUID4, TimeRangePipelineState>` - Time range pipelines
-
-6. **Continuous Futures**:
-
-   - `continuous_future_requests: AHashMap<UUID4, ContinuousFutureRequestState>` - Active requests
-   - `continuous_future_subscriptions: AHashMap<BarType, ContinuousFutureSubscriptionState>` - Subscriptions
-
-7. **Option Chains**:
-
-   - `option_chain_managers: AHashMap<OptionSeriesId, Rc<RefCell<OptionChainManager>>>` - Chain managers
-
-8. **Synthetic Instruments**:
-
-   - `synthetic_quote_feeds: AHashMap<InstrumentId, Vec<SyntheticInstrument>>` - Quote feeds
-   - `synthetic_trade_feeds: AHashMap<InstrumentId, Vec<SyntheticInstrument>>` - Trade feeds
-
-9. **Counters**:
-
-   - `command_count: u64` - Total commands received
-   - `data_count: u64` - Total data objects received
-   - `request_count: u64` - Total requests received
-   - `response_count: u64` - Total responses received
+- **Counters**:
+    * `command_count: u64` - Total commands received
+    * `data_count: u64` - Total data objects received
+    * `request_count: u64` - Total requests received
+    * `response_count: u64` - Total responses received
 
 **Example**:
 
