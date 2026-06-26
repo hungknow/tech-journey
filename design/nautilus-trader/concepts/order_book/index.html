@@ -4485,13 +4485,15 @@
 </span></code></pre></div></p>
 <h3 id="2-orderbookdelta-orderbook">2. OrderBookDelta → OrderBook</h3>
 <p><strong>Data Flow:</strong> <code>Exchange</code> → <code>Adapter.parse_order_book_delta()</code> → <code>OrderBookDelta</code> → <code>DataEngine._handle_order_book_delta()</code> → <code>Cache.order_book().apply_delta()</code> → <code>OrderBook.apply_delta()</code> → <code>OrderBook (updated)</code></p>
-<p><strong>Processing Steps:</strong>
-1. Exchange sends order book update message
-2. Adapter parses message into <code>OrderBookDelta</code>
-3. <code>DataEngine</code> receives delta and publishes to message bus
-4. <code>BookUpdater</code> handler applies delta to cached <code>OrderBook</code>
-5. <code>OrderBook.apply_delta()</code> processes the action (Add/Update/Delete/Clear)
-6. OrderBook state is updated</p>
+<p><strong>Processing Steps:</strong></p>
+<ol>
+<li>Exchange sends order book update message</li>
+<li>Adapter parses message into <code>OrderBookDelta</code></li>
+<li><code>DataEngine</code> receives delta and publishes to message bus</li>
+<li><code>BookUpdater</code> handler applies delta to cached <code>OrderBook</code></li>
+<li><code>OrderBook.apply_delta()</code> processes the action (Add/Update/Delete/Clear)</li>
+<li>OrderBook state is updated</li>
+</ol>
 <p><strong>Example:</strong>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Delta arrives</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">delta</span> <span class="o">=</span> <span class="n">OrderBookDelta</span><span class="p">(</span>
@@ -4512,13 +4514,15 @@
 </span></code></pre></div></p>
 <h3 id="3-orderbookdeltas-orderbook">3. OrderBookDeltas → OrderBook</h3>
 <p><strong>Data Flow:</strong> <code>Exchange</code> → <code>Adapter.parse_order_book_deltas()</code> → <code>OrderBookDeltas</code> → <code>DataEngine._handle_order_book_deltas()</code> → <code>Cache.order_book().apply_deltas()</code> → <code>OrderBook.apply_deltas()</code> → <code>OrderBook (updated)</code></p>
-<p><strong>Processing Steps:</strong>
-1. Exchange sends batched order book updates
-2. Adapter parses into <code>OrderBookDeltas</code> (multiple deltas)
-3. <code>DataEngine</code> may buffer deltas if <code>buffer_deltas=True</code>
-4. When last delta arrives (flag <code>F_LAST</code>), deltas are published
-5. <code>BookUpdater</code> applies all deltas sequentially
-6. OrderBook state reflects all changes</p>
+<p><strong>Processing Steps:</strong></p>
+<ol>
+<li>Exchange sends batched order book updates</li>
+<li>Adapter parses into <code>OrderBookDeltas</code> (multiple deltas)</li>
+<li><code>DataEngine</code> may buffer deltas if <code>buffer_deltas=True</code></li>
+<li>When last delta arrives (flag <code>F_LAST</code>), deltas are published</li>
+<li><code>BookUpdater</code> applies all deltas sequentially</li>
+<li>OrderBook state reflects all changes</li>
+</ol>
 <p><strong>Example:</strong>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Batched deltas arrive</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">deltas</span> <span class="o">=</span> <span class="n">OrderBookDeltas</span><span class="p">(</span>
