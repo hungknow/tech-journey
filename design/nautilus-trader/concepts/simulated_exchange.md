@@ -35,7 +35,7 @@ The `SimulatedExchange` integrates several key submodules to provide its functio
 
 **Responsibilities**:
 
-- Maintains order books for each instrument
+- Maintains an order book for a single instrument
 - Processes order submissions, modifications, and cancellations
 - Executes orders against market data (quotes, trades, bars, order book deltas)
 - Applies fill models to determine execution probabilities
@@ -111,12 +111,10 @@ The `SimulatedExchange` integrates several key submodules to provide its functio
 **Location**: `crates/common/src/clock.rs`
 
 **Responsibilities**:
-
 - Tracks current simulation timestamp
 - Provides time-based operations
 
 **State Managed**:
-
 - Current timestamp (`UnixNanos`)
 
 ## Core State and Data Management
@@ -142,8 +140,14 @@ The `SimulatedExchange` manages the following state:
 ### Instrument and Engine Management
 
 - **`instruments`**: HashMap of registered instruments (`InstrumentId` → `InstrumentAny`)
-- **`matching_engines`**: HashMap of order matching engines (`InstrumentId` → `OrderMatchingEngine`)
+- **`matching_engines`**: HashMap of order matching engines, where each engine manages a single instrument's order book (`InstrumentId` → `OrderMatchingEngine`)
 - **`modules`**: Vector of simulation modules for custom behaviors
+
+**Architecture Notes**:
+- One `OrderMatchingEngine` per instrument (1:1 mapping)
+- One `OrderBook` per matching engine (independent order books)
+- Multi-instrument support enables simultaneous trading on different markets
+- The exchange routes all operations to the appropriate matching engine based on `InstrumentId`
 
 ### Command Processing
 
@@ -174,13 +178,11 @@ The `SimulatedExchange` manages the following state:
 ### 1. Initialization
 
 **Submodules Involved**:
-
 - `Cache`: Provides instrument and account data
 - `Clock`: Provides initial timestamp
 - `BacktestExecutionClient`: Registers with exchange
 
 **Actions**:
-
 1. Validates starting balances and base currency configuration
 2. Initializes empty data structures (instruments, matching engines, queues)
 3. Sets execution options and models
@@ -201,12 +203,20 @@ The `SimulatedExchange` manages the following state:
 - `Cache`: Retrieves instrument definition if needed
 
 **Actions**:
-
 1. Validates instrument venue matches exchange venue
 2. Validates account type compatibility (cash accounts cannot trade futures/perpetuals)
 3. Inserts instrument into `instruments` HashMap
 4. Creates `OrderMatchingEngine` with configuration
 5. Inserts matching engine into `matching_engines` HashMap
+
+**Multi-Order Book Architecture**:
+
+The `SimulatedExchange` supports multiple order books through a one-to-one mapping:
+- Each instrument gets exactly one `OrderMatchingEngine`
+- Each matching engine maintains exactly one `OrderBook`
+- The `matching_engines` HashMap stores all engines keyed by `InstrumentId`
+- Order books operate independently with their own market state
+- The exchange routes commands to the appropriate matching engine based on the instrument ID
 
 **State Changes**:
 
@@ -224,7 +234,6 @@ The `SimulatedExchange` manages the following state:
 - `OrderMatchingEngine`: Processes quote tick and updates order book
 
 **Actions**:
-
 1. All modules call `pre_process()` with quote tick data
 2. If instrument not registered, retrieves from cache and registers it
 3. Matching engine processes quote tick via `process_quote_tick()`
@@ -243,14 +252,12 @@ The `SimulatedExchange` manages the following state:
 - `OrderMatchingEngine`: Processes trade tick and executes orders
 
 **Actions**:
-
 1. All modules call `pre_process()` with trade tick data
 2. If instrument not registered, retrieves from cache and registers it
 3. Matching engine processes trade tick via `process_trade_tick()`
 4. Matching engine updates last trade price and executes matching orders
 
 **State Changes**:
-
 - Order book last price updated
 - Orders may be filled or partially filled
 - Account balances updated via execution client
@@ -258,19 +265,16 @@ The `SimulatedExchange` manages the following state:
 #### 3.3 Bar Processing
 
 **Submodules Involved**:
-
 - `SimulationModule`: Pre-processes bar data
 - `OrderMatchingEngine`: Processes bar and executes orders (if `bar_execution` enabled)
 
 **Actions**:
-
 1. All modules call `pre_process()` with bar data
 2. If instrument not registered, retrieves from cache and registers it
 3. Matching engine processes bar via `process_bar()`
 4. If `bar_execution` is enabled, matching engine updates market prices and executes orders
 
 **State Changes**:
-
 - Order book prices updated based on bar close price
 - Orders may be filled based on bar execution logic
 - Last bar state stored in matching engine
@@ -278,12 +282,10 @@ The `SimulatedExchange` manages the following state:
 #### 3.4 Order Book Delta Processing
 
 **Submodules Involved**:
-
 - `SimulationModule`: Pre-processes delta data
 - `OrderMatchingEngine`: Processes delta and updates order book
 
 **Actions**:
-
 1. All modules call `pre_process()` with delta data
 2. If instrument not registered, retrieves from cache and registers it
 3. Matching engine processes single delta via `process_order_book_delta()`
@@ -291,7 +293,6 @@ The `SimulatedExchange` manages the following state:
 4. Matching engine updates order book with add/update/delete operations
 
 **State Changes**:
-
 - Order book depth updated (for L2/L3 books)
 - Best bid/ask prices may change
 - Order book sequence number incremented
@@ -299,17 +300,14 @@ The `SimulatedExchange` manages the following state:
 #### 3.5 Instrument Status Processing
 
 **Submodules Involved**:
-
 - `OrderMatchingEngine`: Updates market status
 
 **Actions**:
-
 1. If instrument not registered, retrieves from cache and registers it
 2. Matching engine processes status via `process_status()`
 3. Market status updated (open/closed/pre-open/etc.)
 
 **State Changes**:
-
 - Matching engine market status updated
 - May affect order acceptance/rejection
 
@@ -335,12 +333,10 @@ The `SimulatedExchange` manages the following state:
 #### 4.2 Command Processing (with Latency)
 
 **Submodules Involved**:
-
 - `SimulatedExchange`: Processes commands from queues
 - `OrderMatchingEngine`: Executes command against order book
 
 **Actions**:
-
 1. `process()` called with current timestamp
 2. Commands from `inflight_queue` with timestamp <= current time are processed
 3. Commands from `message_queue` are processed in order
@@ -348,7 +344,6 @@ The `SimulatedExchange` manages the following state:
 5. Matching engine processes command (submit/modify/cancel)
 
 **State Changes**:
-
 - Commands removed from queues
 - Orders added/modified/removed in matching engine
 - Order events generated and sent via message bus
@@ -356,13 +351,11 @@ The `SimulatedExchange` manages the following state:
 #### 4.3 Order Submission
 
 **Submodules Involved**:
-
 - `OrderMatchingEngine`: Validates and processes order
 - `FillModel`: Determines fill probability
 - `FeeModel`: Calculates fees on fills
 
 **Actions**:
-
 1. Matching engine receives order via `process_order()`
 2. Order validated (price, quantity, time in force, etc.)
 3. Order added to order book or executed immediately
@@ -378,11 +371,9 @@ The `SimulatedExchange` manages the following state:
 #### 4.4 Order Modification
 
 **Submodules Involved**:
-
 - `OrderMatchingEngine`: Processes modification request
 
 **Actions**:
-
 1. Matching engine receives modify command via `process_modify()`
 2. Existing order located
 3. Order parameters updated (price, quantity, etc.)
@@ -390,18 +381,15 @@ The `SimulatedExchange` manages the following state:
 5. Order updated event generated
 
 **State Changes**:
-
 - Order parameters updated in matching engine
 - Order may be re-executed if new price matches market
 
 #### 4.5 Order Cancellation
 
 **Submodules Involved**:
-
 - `OrderMatchingEngine`: Processes cancellation request
 
 **Actions**:
-
 1. Matching engine receives cancel command via `process_cancel()`
    OR `process_cancel_all()` for all orders
    OR `process_batch_cancel()` for specific orders
@@ -417,12 +405,10 @@ The `SimulatedExchange` manages the following state:
 #### 5.1 Account Initialization
 
 **Submodules Involved**:
-
 - `BacktestExecutionClient`: Generates account state
 - `Cache`: Stores account information
 
 **Actions**:
-
 1. `initialize_account()` called
 2. Starting balances converted to `AccountBalance` objects
 3. Execution client generates account state via `generate_account_state()`
@@ -430,7 +416,6 @@ The `SimulatedExchange` manages the following state:
 5. Instrument-specific leverages applied
 
 **State Changes**:
-
 - Account created in cache with starting balances
 - Leverage settings applied
 - Account state event published
@@ -438,12 +423,10 @@ The `SimulatedExchange` manages the following state:
 #### 5.2 Account Adjustment
 
 **Submodules Involved**:
-
 - `BacktestExecutionClient`: Updates account state
 - `Cache`: Retrieves current account state
 
 **Actions**:
-
 1. `adjust_account()` called with adjustment amount
 2. If account frozen, no action taken
 3. Current balance retrieved from cache
@@ -451,19 +434,16 @@ The `SimulatedExchange` manages the following state:
 5. New account state generated via execution client
 
 **State Changes**:
-
 - Account balance updated
 - Account state event published with new balances
 
 ### 6. Query Operations
 
 **Submodules Involved**:
-
 - `OrderMatchingEngine`: Provides order book and order information
 - `Cache`: Provides account information
 
 **Actions**:
-
 - `best_bid_price()`: Returns best bid price from matching engine
 - `best_ask_price()`: Returns best ask price from matching engine
 - `get_book()`: Returns order book snapshot
@@ -475,13 +455,11 @@ The `SimulatedExchange` manages the following state:
 ### 7. Reset Operations
 
 **Submodules Involved**:
-
 - `SimulationModule`: Resets module state
 - `OrderMatchingEngine`: Resets matching engine state
 - `BacktestExecutionClient`: Resets account state
 
 **Actions**:
-
 1. `reset()` called
 2. All modules call `reset()`
 3. Fresh account state generated
@@ -489,7 +467,6 @@ The `SimulatedExchange` manages the following state:
 5. Queues cleared (TODO: currently not fully implemented)
 
 **State Changes**:
-
 - All trading state reset to initial values
 - Account balances reset to starting balances
 - Order books cleared
@@ -594,6 +571,44 @@ let mut exchange = SimulatedExchange::new(
     fill_model,
     ...,
 )?;
+```
+
+### Multi-Instrument Exchange with Multiple Order Books
+
+```rust
+let mut exchange = SimulatedExchange::new(
+    Venue::new("BINANCE"),
+    OmsType::Netting,
+    AccountType::Margin,
+    vec![Money::new(100000.0, Currency::USDT())],
+    Some(Currency::USDT()),
+    Decimal::from(1),
+    HashMap::new(),
+    vec![],
+    cache,
+    clock,
+    FillModel::default(),
+    FeeModelAny::MakerTaker(MakerTakerFeeModel),
+    BookType::L2_MBP,
+    None,
+    None,
+)?;
+
+// Add multiple instruments - each gets its own matching engine and order book
+exchange.add_instrument(btc_usdt_instrument)?;
+exchange.add_instrument(eth_usdt_instrument)?;
+exchange.add_instrument(sol_usdt_instrument)?;
+
+// Now exchange.matching_engines contains:
+// - InstrumentId("BINANCE", "BTCUSDT") -> OrderMatchingEngine (with BTC/USDT order book)
+// - InstrumentId("BINANCE", "ETHUSDT") -> OrderMatchingEngine (with ETH/USDT order book)
+// - InstrumentId("BINANCE", "SOLUSDT") -> OrderMatchingEngine (with SOL/USDT order book)
+
+// Query prices for different instruments
+let btc_bid = exchange.best_bid_price(instrument_id!("BINANCE", "BTCUSDT"));
+let eth_ask = exchange.best_ask_price(instrument_id!("BINANCE", "ETHUSDT"));
+
+// Each order book operates independently
 ```
 
 ## Best Practices

@@ -195,6 +195,7 @@ book = OrderBook(
 **Data Flow:** `Exchange` → `Adapter.parse_order_book_delta()` → `OrderBookDelta` → `DataEngine._handle_order_book_delta()` → `Cache.order_book().apply_delta()` → `OrderBook.apply_delta()` → `OrderBook (updated)`
 
 **Processing Steps:**
+
 1. Exchange sends order book update message
 2. Adapter parses message into `OrderBookDelta`
 3. `DataEngine` receives delta and publishes to message bus
@@ -227,6 +228,7 @@ book.apply_delta(delta)
 **Data Flow:** `Exchange` → `Adapter.parse_order_book_deltas()` → `OrderBookDeltas` → `DataEngine._handle_order_book_deltas()` → `Cache.order_book().apply_deltas()` → `OrderBook.apply_deltas()` → `OrderBook (updated)`
 
 **Processing Steps:**
+
 1. Exchange sends batched order book updates
 2. Adapter parses into `OrderBookDeltas` (multiple deltas)
 3. `DataEngine` may buffer deltas if `buffer_deltas=True`
