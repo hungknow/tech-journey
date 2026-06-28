@@ -2615,6 +2615,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#multi-instrument-exchange-with-multiple-order-books" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Instrument Exchange with Multiple Order Books
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4500,6 +4511,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#multi-instrument-exchange-with-multiple-order-books" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Instrument Exchange with Multiple Order Books
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4571,7 +4593,7 @@
 <p><strong>Location</strong>: <code>crates/execution/src/matching_engine/engine.rs</code></p>
 <p><strong>Responsibilities</strong>:</p>
 <ul>
-<li>Maintains order books for each instrument</li>
+<li>Maintains an order book for a single instrument</li>
 <li>Processes order submissions, modifications, and cancellations</li>
 <li>Executes orders against market data (quotes, trades, bars, order book deltas)</li>
 <li>Applies fill models to determine execution probabilities</li>
@@ -4633,15 +4655,11 @@
 <h3 id="5-clock">5. Clock</h3>
 <p><strong>Purpose</strong>: Provides time management for the simulation.</p>
 <p><strong>Location</strong>: <code>crates/common/src/clock.rs</code></p>
-<p><strong>Responsibilities</strong>:</p>
-<ul>
-<li>Tracks current simulation timestamp</li>
-<li>Provides time-based operations</li>
-</ul>
-<p><strong>State Managed</strong>:</p>
-<ul>
-<li>Current timestamp (<code>UnixNanos</code>)</li>
-</ul>
+<p><strong>Responsibilities</strong>:
+- Tracks current simulation timestamp
+- Provides time-based operations</p>
+<p><strong>State Managed</strong>:
+- Current timestamp (<code>UnixNanos</code>)</p>
 <h2 id="core-state-and-data-management">Core State and Data Management</h2>
 <p>The <code>SimulatedExchange</code> manages the following state:</p>
 <h3 id="exchange-configuration">Exchange Configuration</h3>
@@ -4663,9 +4681,14 @@
 <h3 id="instrument-and-engine-management">Instrument and Engine Management</h3>
 <ul>
 <li><strong><code>instruments</code></strong>: HashMap of registered instruments (<code>InstrumentId</code> → <code>InstrumentAny</code>)</li>
-<li><strong><code>matching_engines</code></strong>: HashMap of order matching engines (<code>InstrumentId</code> → <code>OrderMatchingEngine</code>)</li>
+<li><strong><code>matching_engines</code></strong>: HashMap of order matching engines, where each engine manages a single instrument's order book (<code>InstrumentId</code> → <code>OrderMatchingEngine</code>)</li>
 <li><strong><code>modules</code></strong>: Vector of simulation modules for custom behaviors</li>
 </ul>
+<p><strong>Architecture Notes</strong>:
+- One <code>OrderMatchingEngine</code> per instrument (1:1 mapping)
+- One <code>OrderBook</code> per matching engine (independent order books)
+- Multi-instrument support enables simultaneous trading on different markets
+- The exchange routes all operations to the appropriate matching engine based on <code>InstrumentId</code></p>
 <h3 id="command-processing">Command Processing</h3>
 <ul>
 <li><strong><code>message_queue</code></strong>: Queue for immediate command processing (<code>VecDeque&lt;TradingCommand&gt;</code>)</li>
@@ -4692,20 +4715,16 @@
 </ul>
 <h2 id="operational-contexts">Operational Contexts</h2>
 <h3 id="1-initialization">1. Initialization</h3>
-<p><strong>Submodules Involved</strong>:</p>
-<ul>
-<li><code>Cache</code>: Provides instrument and account data</li>
-<li><code>Clock</code>: Provides initial timestamp</li>
-<li><code>BacktestExecutionClient</code>: Registers with exchange</li>
-</ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li>Validates starting balances and base currency configuration</li>
-<li>Initializes empty data structures (instruments, matching engines, queues)</li>
-<li>Sets execution options and models</li>
-<li>Registers execution client (via <code>register_client()</code>)</li>
-<li>Initializes account state (via <code>initialize_account()</code>)</li>
-</ol>
+<p><strong>Submodules Involved</strong>:
+- <code>Cache</code>: Provides instrument and account data
+- <code>Clock</code>: Provides initial timestamp
+- <code>BacktestExecutionClient</code>: Registers with exchange</p>
+<p><strong>Actions</strong>:
+1. Validates starting balances and base currency configuration
+2. Initializes empty data structures (instruments, matching engines, queues)
+3. Sets execution options and models
+4. Registers execution client (via <code>register_client()</code>)
+5. Initializes account state (via <code>initialize_account()</code>)</p>
 <p><strong>State Changes</strong>:</p>
 <ul>
 <li>Creates fresh account state with starting balances</li>
@@ -4718,14 +4737,19 @@
 <li><code>OrderMatchingEngine</code>: Creates new matching engine for instrument</li>
 <li><code>Cache</code>: Retrieves instrument definition if needed</li>
 </ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li>Validates instrument venue matches exchange venue</li>
-<li>Validates account type compatibility (cash accounts cannot trade futures/perpetuals)</li>
-<li>Inserts instrument into <code>instruments</code> HashMap</li>
-<li>Creates <code>OrderMatchingEngine</code> with configuration</li>
-<li>Inserts matching engine into <code>matching_engines</code> HashMap</li>
-</ol>
+<p><strong>Actions</strong>:
+1. Validates instrument venue matches exchange venue
+2. Validates account type compatibility (cash accounts cannot trade futures/perpetuals)
+3. Inserts instrument into <code>instruments</code> HashMap
+4. Creates <code>OrderMatchingEngine</code> with configuration
+5. Inserts matching engine into <code>matching_engines</code> HashMap</p>
+<p><strong>Multi-Order Book Architecture</strong>:</p>
+<p>The <code>SimulatedExchange</code> supports multiple order books through a one-to-one mapping:
+- Each instrument gets exactly one <code>OrderMatchingEngine</code>
+- Each matching engine maintains exactly one <code>OrderBook</code>
+- The <code>matching_engines</code> HashMap stores all engines keyed by <code>InstrumentId</code>
+- Order books operate independently with their own market state
+- The exchange routes commands to the appropriate matching engine based on the instrument ID</p>
 <p><strong>State Changes</strong>:</p>
 <ul>
 <li>Adds new entry to <code>instruments</code> HashMap</li>
@@ -4739,13 +4763,11 @@
 <li><code>SimulationModule</code>: Pre-processes quote tick data</li>
 <li><code>OrderMatchingEngine</code>: Processes quote tick and updates order book</li>
 </ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li>All modules call <code>pre_process()</code> with quote tick data</li>
-<li>If instrument not registered, retrieves from cache and registers it</li>
-<li>Matching engine processes quote tick via <code>process_quote_tick()</code></li>
-<li>Matching engine updates order book bid/ask prices</li>
-</ol>
+<p><strong>Actions</strong>:
+1. All modules call <code>pre_process()</code> with quote tick data
+2. If instrument not registered, retrieves from cache and registers it
+3. Matching engine processes quote tick via <code>process_quote_tick()</code>
+4. Matching engine updates order book bid/ask prices</p>
 <p><strong>State Changes</strong>:</p>
 <ul>
 <li>Order book bid/ask prices updated in matching engine</li>
@@ -4757,74 +4779,52 @@
 <li><code>SimulationModule</code>: Pre-processes trade tick data</li>
 <li><code>OrderMatchingEngine</code>: Processes trade tick and executes orders</li>
 </ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li>All modules call <code>pre_process()</code> with trade tick data</li>
-<li>If instrument not registered, retrieves from cache and registers it</li>
-<li>Matching engine processes trade tick via <code>process_trade_tick()</code></li>
-<li>Matching engine updates last trade price and executes matching orders</li>
-</ol>
-<p><strong>State Changes</strong>:</p>
-<ul>
-<li>Order book last price updated</li>
-<li>Orders may be filled or partially filled</li>
-<li>Account balances updated via execution client</li>
-</ul>
+<p><strong>Actions</strong>:
+1. All modules call <code>pre_process()</code> with trade tick data
+2. If instrument not registered, retrieves from cache and registers it
+3. Matching engine processes trade tick via <code>process_trade_tick()</code>
+4. Matching engine updates last trade price and executes matching orders</p>
+<p><strong>State Changes</strong>:
+- Order book last price updated
+- Orders may be filled or partially filled
+- Account balances updated via execution client</p>
 <h4 id="33-bar-processing">3.3 Bar Processing</h4>
-<p><strong>Submodules Involved</strong>:</p>
-<ul>
-<li><code>SimulationModule</code>: Pre-processes bar data</li>
-<li><code>OrderMatchingEngine</code>: Processes bar and executes orders (if <code>bar_execution</code> enabled)</li>
-</ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li>All modules call <code>pre_process()</code> with bar data</li>
-<li>If instrument not registered, retrieves from cache and registers it</li>
-<li>Matching engine processes bar via <code>process_bar()</code></li>
-<li>If <code>bar_execution</code> is enabled, matching engine updates market prices and executes orders</li>
-</ol>
-<p><strong>State Changes</strong>:</p>
-<ul>
-<li>Order book prices updated based on bar close price</li>
-<li>Orders may be filled based on bar execution logic</li>
-<li>Last bar state stored in matching engine</li>
-</ul>
+<p><strong>Submodules Involved</strong>:
+- <code>SimulationModule</code>: Pre-processes bar data
+- <code>OrderMatchingEngine</code>: Processes bar and executes orders (if <code>bar_execution</code> enabled)</p>
+<p><strong>Actions</strong>:
+1. All modules call <code>pre_process()</code> with bar data
+2. If instrument not registered, retrieves from cache and registers it
+3. Matching engine processes bar via <code>process_bar()</code>
+4. If <code>bar_execution</code> is enabled, matching engine updates market prices and executes orders</p>
+<p><strong>State Changes</strong>:
+- Order book prices updated based on bar close price
+- Orders may be filled based on bar execution logic
+- Last bar state stored in matching engine</p>
 <h4 id="34-order-book-delta-processing">3.4 Order Book Delta Processing</h4>
-<p><strong>Submodules Involved</strong>:</p>
-<ul>
-<li><code>SimulationModule</code>: Pre-processes delta data</li>
-<li><code>OrderMatchingEngine</code>: Processes delta and updates order book</li>
-</ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li>All modules call <code>pre_process()</code> with delta data</li>
-<li>If instrument not registered, retrieves from cache and registers it</li>
-<li>Matching engine processes single delta via <code>process_order_book_delta()</code>
-   OR processes batch deltas via <code>process_order_book_deltas()</code></li>
-<li>Matching engine updates order book with add/update/delete operations</li>
-</ol>
-<p><strong>State Changes</strong>:</p>
-<ul>
-<li>Order book depth updated (for L2/L3 books)</li>
-<li>Best bid/ask prices may change</li>
-<li>Order book sequence number incremented</li>
-</ul>
+<p><strong>Submodules Involved</strong>:
+- <code>SimulationModule</code>: Pre-processes delta data
+- <code>OrderMatchingEngine</code>: Processes delta and updates order book</p>
+<p><strong>Actions</strong>:
+1. All modules call <code>pre_process()</code> with delta data
+2. If instrument not registered, retrieves from cache and registers it
+3. Matching engine processes single delta via <code>process_order_book_delta()</code>
+   OR processes batch deltas via <code>process_order_book_deltas()</code>
+4. Matching engine updates order book with add/update/delete operations</p>
+<p><strong>State Changes</strong>:
+- Order book depth updated (for L2/L3 books)
+- Best bid/ask prices may change
+- Order book sequence number incremented</p>
 <h4 id="35-instrument-status-processing">3.5 Instrument Status Processing</h4>
-<p><strong>Submodules Involved</strong>:</p>
-<ul>
-<li><code>OrderMatchingEngine</code>: Updates market status</li>
-</ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li>If instrument not registered, retrieves from cache and registers it</li>
-<li>Matching engine processes status via <code>process_status()</code></li>
-<li>Market status updated (open/closed/pre-open/etc.)</li>
-</ol>
-<p><strong>State Changes</strong>:</p>
-<ul>
-<li>Matching engine market status updated</li>
-<li>May affect order acceptance/rejection</li>
-</ul>
+<p><strong>Submodules Involved</strong>:
+- <code>OrderMatchingEngine</code>: Updates market status</p>
+<p><strong>Actions</strong>:
+1. If instrument not registered, retrieves from cache and registers it
+2. Matching engine processes status via <code>process_status()</code>
+3. Market status updated (open/closed/pre-open/etc.)</p>
+<p><strong>State Changes</strong>:
+- Matching engine market status updated
+- May affect order acceptance/rejection</p>
 <h3 id="4-trading-command-processing">4. Trading Command Processing</h3>
 <h4 id="41-command-submission">4.1 Command Submission</h4>
 <p><strong>Submodules Involved</strong>:
@@ -4840,156 +4840,114 @@
 - Command added to appropriate queue
 - Inflight counter incremented if using latency model</p>
 <h4 id="42-command-processing-with-latency">4.2 Command Processing (with Latency)</h4>
-<p><strong>Submodules Involved</strong>:</p>
-<ul>
-<li><code>SimulatedExchange</code>: Processes commands from queues</li>
-<li><code>OrderMatchingEngine</code>: Executes command against order book</li>
-</ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li><code>process()</code> called with current timestamp</li>
-<li>Commands from <code>inflight_queue</code> with timestamp &lt;= current time are processed</li>
-<li>Commands from <code>message_queue</code> are processed in order</li>
-<li>Each command routed to appropriate matching engine</li>
-<li>Matching engine processes command (submit/modify/cancel)</li>
-</ol>
-<p><strong>State Changes</strong>:</p>
-<ul>
-<li>Commands removed from queues</li>
-<li>Orders added/modified/removed in matching engine</li>
-<li>Order events generated and sent via message bus</li>
-</ul>
+<p><strong>Submodules Involved</strong>:
+- <code>SimulatedExchange</code>: Processes commands from queues
+- <code>OrderMatchingEngine</code>: Executes command against order book</p>
+<p><strong>Actions</strong>:
+1. <code>process()</code> called with current timestamp
+2. Commands from <code>inflight_queue</code> with timestamp &lt;= current time are processed
+3. Commands from <code>message_queue</code> are processed in order
+4. Each command routed to appropriate matching engine
+5. Matching engine processes command (submit/modify/cancel)</p>
+<p><strong>State Changes</strong>:
+- Commands removed from queues
+- Orders added/modified/removed in matching engine
+- Order events generated and sent via message bus</p>
 <h4 id="43-order-submission">4.3 Order Submission</h4>
-<p><strong>Submodules Involved</strong>:</p>
-<ul>
-<li><code>OrderMatchingEngine</code>: Validates and processes order</li>
-<li><code>FillModel</code>: Determines fill probability</li>
-<li><code>FeeModel</code>: Calculates fees on fills</li>
-</ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li>Matching engine receives order via <code>process_order()</code></li>
-<li>Order validated (price, quantity, time in force, etc.)</li>
-<li>Order added to order book or executed immediately</li>
-<li>Fill model applied to determine execution</li>
-<li>Fees calculated on fills</li>
-<li>Order events generated (accepted, filled, rejected)</li>
-</ol>
+<p><strong>Submodules Involved</strong>:
+- <code>OrderMatchingEngine</code>: Validates and processes order
+- <code>FillModel</code>: Determines fill probability
+- <code>FeeModel</code>: Calculates fees on fills</p>
+<p><strong>Actions</strong>:
+1. Matching engine receives order via <code>process_order()</code>
+2. Order validated (price, quantity, time in force, etc.)
+3. Order added to order book or executed immediately
+4. Fill model applied to determine execution
+5. Fees calculated on fills
+6. Order events generated (accepted, filled, rejected)</p>
 <p><strong>State Changes</strong>:
 - Order added to matching engine's order book
 - Account balances updated on fills
 - Position state updated (if applicable)</p>
 <h4 id="44-order-modification">4.4 Order Modification</h4>
-<p><strong>Submodules Involved</strong>:</p>
-<ul>
-<li><code>OrderMatchingEngine</code>: Processes modification request</li>
-</ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li>Matching engine receives modify command via <code>process_modify()</code></li>
-<li>Existing order located</li>
-<li>Order parameters updated (price, quantity, etc.)</li>
-<li>Order re-evaluated for execution</li>
-<li>Order updated event generated</li>
-</ol>
-<p><strong>State Changes</strong>:</p>
-<ul>
-<li>Order parameters updated in matching engine</li>
-<li>Order may be re-executed if new price matches market</li>
-</ul>
+<p><strong>Submodules Involved</strong>:
+- <code>OrderMatchingEngine</code>: Processes modification request</p>
+<p><strong>Actions</strong>:
+1. Matching engine receives modify command via <code>process_modify()</code>
+2. Existing order located
+3. Order parameters updated (price, quantity, etc.)
+4. Order re-evaluated for execution
+5. Order updated event generated</p>
+<p><strong>State Changes</strong>:
+- Order parameters updated in matching engine
+- Order may be re-executed if new price matches market</p>
 <h4 id="45-order-cancellation">4.5 Order Cancellation</h4>
-<p><strong>Submodules Involved</strong>:</p>
-<ul>
-<li><code>OrderMatchingEngine</code>: Processes cancellation request</li>
-</ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li>Matching engine receives cancel command via <code>process_cancel()</code>
+<p><strong>Submodules Involved</strong>:
+- <code>OrderMatchingEngine</code>: Processes cancellation request</p>
+<p><strong>Actions</strong>:
+1. Matching engine receives cancel command via <code>process_cancel()</code>
    OR <code>process_cancel_all()</code> for all orders
-   OR <code>process_batch_cancel()</code> for specific orders</li>
-<li>Order(s) located and removed from order book</li>
-<li>Order canceled event generated</li>
-</ol>
+   OR <code>process_batch_cancel()</code> for specific orders
+2. Order(s) located and removed from order book
+3. Order canceled event generated</p>
 <p><strong>State Changes</strong>:
 - Order removed from matching engine's order book
 - Order state updated to canceled</p>
 <h3 id="5-account-management">5. Account Management</h3>
 <h4 id="51-account-initialization">5.1 Account Initialization</h4>
-<p><strong>Submodules Involved</strong>:</p>
-<ul>
-<li><code>BacktestExecutionClient</code>: Generates account state</li>
-<li><code>Cache</code>: Stores account information</li>
-</ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li><code>initialize_account()</code> called</li>
-<li>Starting balances converted to <code>AccountBalance</code> objects</li>
-<li>Execution client generates account state via <code>generate_account_state()</code></li>
-<li>Default leverage set for margin accounts</li>
-<li>Instrument-specific leverages applied</li>
-</ol>
-<p><strong>State Changes</strong>:</p>
-<ul>
-<li>Account created in cache with starting balances</li>
-<li>Leverage settings applied</li>
-<li>Account state event published</li>
-</ul>
+<p><strong>Submodules Involved</strong>:
+- <code>BacktestExecutionClient</code>: Generates account state
+- <code>Cache</code>: Stores account information</p>
+<p><strong>Actions</strong>:
+1. <code>initialize_account()</code> called
+2. Starting balances converted to <code>AccountBalance</code> objects
+3. Execution client generates account state via <code>generate_account_state()</code>
+4. Default leverage set for margin accounts
+5. Instrument-specific leverages applied</p>
+<p><strong>State Changes</strong>:
+- Account created in cache with starting balances
+- Leverage settings applied
+- Account state event published</p>
 <h4 id="52-account-adjustment">5.2 Account Adjustment</h4>
-<p><strong>Submodules Involved</strong>:</p>
-<ul>
-<li><code>BacktestExecutionClient</code>: Updates account state</li>
-<li><code>Cache</code>: Retrieves current account state</li>
-</ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li><code>adjust_account()</code> called with adjustment amount</li>
-<li>If account frozen, no action taken</li>
-<li>Current balance retrieved from cache</li>
-<li>Balance adjusted (added to total and free)</li>
-<li>New account state generated via execution client</li>
-</ol>
-<p><strong>State Changes</strong>:</p>
-<ul>
-<li>Account balance updated</li>
-<li>Account state event published with new balances</li>
-</ul>
+<p><strong>Submodules Involved</strong>:
+- <code>BacktestExecutionClient</code>: Updates account state
+- <code>Cache</code>: Retrieves current account state</p>
+<p><strong>Actions</strong>:
+1. <code>adjust_account()</code> called with adjustment amount
+2. If account frozen, no action taken
+3. Current balance retrieved from cache
+4. Balance adjusted (added to total and free)
+5. New account state generated via execution client</p>
+<p><strong>State Changes</strong>:
+- Account balance updated
+- Account state event published with new balances</p>
 <h3 id="6-query-operations">6. Query Operations</h3>
-<p><strong>Submodules Involved</strong>:</p>
-<ul>
-<li><code>OrderMatchingEngine</code>: Provides order book and order information</li>
-<li><code>Cache</code>: Provides account information</li>
-</ul>
-<p><strong>Actions</strong>:</p>
-<ul>
-<li><code>best_bid_price()</code>: Returns best bid price from matching engine</li>
-<li><code>best_ask_price()</code>: Returns best ask price from matching engine</li>
-<li><code>get_book()</code>: Returns order book snapshot</li>
-<li><code>get_open_orders()</code>: Returns all open orders (optionally filtered by instrument)</li>
-<li><code>get_account()</code>: Returns account from execution client</li>
-</ul>
+<p><strong>Submodules Involved</strong>:
+- <code>OrderMatchingEngine</code>: Provides order book and order information
+- <code>Cache</code>: Provides account information</p>
+<p><strong>Actions</strong>:
+- <code>best_bid_price()</code>: Returns best bid price from matching engine
+- <code>best_ask_price()</code>: Returns best ask price from matching engine
+- <code>get_book()</code>: Returns order book snapshot
+- <code>get_open_orders()</code>: Returns all open orders (optionally filtered by instrument)
+- <code>get_account()</code>: Returns account from execution client</p>
 <p><strong>State Changes</strong>: None (read-only operations)</p>
 <h3 id="7-reset-operations">7. Reset Operations</h3>
-<p><strong>Submodules Involved</strong>:</p>
-<ul>
-<li><code>SimulationModule</code>: Resets module state</li>
-<li><code>OrderMatchingEngine</code>: Resets matching engine state</li>
-<li><code>BacktestExecutionClient</code>: Resets account state</li>
-</ul>
-<p><strong>Actions</strong>:</p>
-<ol>
-<li><code>reset()</code> called</li>
-<li>All modules call <code>reset()</code></li>
-<li>Fresh account state generated</li>
-<li>All matching engines call <code>reset()</code></li>
-<li>Queues cleared (TODO: currently not fully implemented)</li>
-</ol>
-<p><strong>State Changes</strong>:</p>
-<ul>
-<li>All trading state reset to initial values</li>
-<li>Account balances reset to starting balances</li>
-<li>Order books cleared</li>
-<li>All open orders removed</li>
-</ul>
+<p><strong>Submodules Involved</strong>:
+- <code>SimulationModule</code>: Resets module state
+- <code>OrderMatchingEngine</code>: Resets matching engine state
+- <code>BacktestExecutionClient</code>: Resets account state</p>
+<p><strong>Actions</strong>:
+1. <code>reset()</code> called
+2. All modules call <code>reset()</code>
+3. Fresh account state generated
+4. All matching engines call <code>reset()</code>
+5. Queues cleared (TODO: currently not fully implemented)</p>
+<p><strong>State Changes</strong>:
+- All trading state reset to initial values
+- Account balances reset to starting balances
+- Order books cleared
+- All open orders removed</p>
 <h2 id="data-flow">Data Flow</h2>
 <h3 id="market-data-flow">Market Data Flow</h3>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Market Data (QuoteTick/TradeTick/Bar/OrderBookDelta)
@@ -5073,6 +5031,41 @@
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">fill_model</span><span class="p">,</span>
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="o">..</span><span class="p">.,</span>
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="multi-instrument-exchange-with-multiple-order-books">Multi-Instrument Exchange with Multiple Order Books</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">exchange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SimulatedExchange</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="n">Venue</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s">&quot;BINANCE&quot;</span><span class="p">),</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">OmsType</span><span class="p">::</span><span class="n">Netting</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="n">AccountType</span><span class="p">::</span><span class="n">Margin</span><span class="p">,</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="fm">vec!</span><span class="p">[</span><span class="n">Money</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="mf">100000.0</span><span class="p">,</span><span class="w"> </span><span class="n">Currency</span><span class="p">::</span><span class="n">USDT</span><span class="p">())],</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="n">Currency</span><span class="p">::</span><span class="n">USDT</span><span class="p">()),</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="n">Decimal</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="n">HashMap</span><span class="p">::</span><span class="n">new</span><span class="p">(),</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="fm">vec!</span><span class="p">[],</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="n">cache</span><span class="p">,</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="n">clock</span><span class="p">,</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="n">FillModel</span><span class="p">::</span><span class="n">default</span><span class="p">(),</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="n">FeeModelAny</span><span class="p">::</span><span class="n">MakerTaker</span><span class="p">(</span><span class="n">MakerTakerFeeModel</span><span class="p">),</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">    </span><span class="n">BookType</span><span class="p">::</span><span class="n">L2_MBP</span><span class="p">,</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="c1">// Add multiple instruments - each gets its own matching engine and order book</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="n">exchange</span><span class="p">.</span><span class="n">add_instrument</span><span class="p">(</span><span class="n">btc_usdt_instrument</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="n">exchange</span><span class="p">.</span><span class="n">add_instrument</span><span class="p">(</span><span class="n">eth_usdt_instrument</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="n">exchange</span><span class="p">.</span><span class="n">add_instrument</span><span class="p">(</span><span class="n">sol_usdt_instrument</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="c1">// Now exchange.matching_engines contains:</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="c1">// - InstrumentId(&quot;BINANCE&quot;, &quot;BTCUSDT&quot;) -&gt; OrderMatchingEngine (with BTC/USDT order book)</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="c1">// - InstrumentId(&quot;BINANCE&quot;, &quot;ETHUSDT&quot;) -&gt; OrderMatchingEngine (with ETH/USDT order book)</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="c1">// - InstrumentId(&quot;BINANCE&quot;, &quot;SOLUSDT&quot;) -&gt; OrderMatchingEngine (with SOL/USDT order book)</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="c1">// Query prices for different instruments</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="kd">let</span><span class="w"> </span><span class="n">btc_bid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exchange</span><span class="p">.</span><span class="n">best_bid_price</span><span class="p">(</span><span class="n">instrument_id</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;BINANCE&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;BTCUSDT&quot;</span><span class="p">));</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="kd">let</span><span class="w"> </span><span class="n">eth_ask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exchange</span><span class="p">.</span><span class="n">best_ask_price</span><span class="p">(</span><span class="n">instrument_id</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;BINANCE&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ETHUSDT&quot;</span><span class="p">));</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="c1">// Each order book operates independently</span>
 </span></code></pre></div>
 <h2 id="best-practices">Best Practices</h2>
 <ol>
