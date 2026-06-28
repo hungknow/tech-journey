@@ -4615,11 +4615,13 @@
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
 </span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">)</span>
 </span></code></pre></div>
-<p><strong>Impact</strong>:
-- Fewer limit order fills → missed trading opportunities
-- Some slippage on market orders → higher execution costs
-- More conservative backtest results → lower reported returns
-- Better represents challenging market conditions</p>
+<p><strong>Impact</strong>:</p>
+<ul>
+<li>Fewer limit order fills → missed trading opportunities</li>
+<li>Some slippage on market orders → higher execution costs</li>
+<li>More conservative backtest results → lower reported returns</li>
+<li>Better represents challenging market conditions</li>
+</ul>
 <h3 id="example-2-optimistic-fill-model">Example 2: Optimistic Fill Model</h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">fill_model</span> <span class="o">=</span> <span class="n">FillModel</span><span class="p">(</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="n">prob_fill_on_limit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># All limit orders fill</span>
@@ -4627,11 +4629,13 @@
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
 </span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="p">)</span>
 </span></code></pre></div>
-<p><strong>Impact</strong>:
-- All limit orders fill when price matches → maximum trading opportunities
-- No slippage on market orders → lowest execution costs
-- More optimistic backtest results → higher reported returns
-- May not represent realistic market conditions</p>
+<p><strong>Impact</strong>:</p>
+<ul>
+<li>All limit orders fill when price matches → maximum trading opportunities</li>
+<li>No slippage on market orders → lowest execution costs</li>
+<li>More optimistic backtest results → higher reported returns</li>
+<li>May not represent realistic market conditions</li>
+</ul>
 <h3 id="example-3-realistic-fill-model">Example 3: Realistic Fill Model</h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">fill_model</span> <span class="o">=</span> <span class="n">FillModel</span><span class="p">(</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="n">prob_fill_on_limit</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>  <span class="c1"># 80% of limit orders fill</span>
@@ -4639,10 +4643,12 @@
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
 </span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="p">)</span>
 </span></code></pre></div>
-<p><strong>Impact</strong>:
-- Most limit orders fill → good trading opportunity capture
-- Occasional slippage → realistic execution costs
-- Balanced backtest results → more representative of live trading</p>
+<p><strong>Impact</strong>:</p>
+<ul>
+<li>Most limit orders fill → good trading opportunity capture</li>
+<li>Occasional slippage → realistic execution costs</li>
+<li>Balanced backtest results → more representative of live trading</li>
+</ul>
 <h2 id="testing">Testing</h2>
 <p>The <code>FillModel</code> is thoroughly tested in:</p>
 <ul>
@@ -4670,15 +4676,19 @@
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="p">}</span>
 </span></code></pre></div>
-<p>This means:
-- <code>prob_fill_on_limit = 0.5</code> (50% chance)
-- <code>prob_fill_on_stop = 0.5</code> (50% chance)
-- <code>prob_slippage = 0.1</code> (10% chance)
-- No random seed (non-deterministic)</p>
-<p>However, the Python interface defaults are:
-- <code>prob_fill_on_limit = 1.0</code> (always fill)
-- <code>prob_fill_on_stop = 1.0</code> (always fill)
-- <code>prob_slippage = 0.0</code> (no slippage)</p>
+<p>This means:</p>
+<ul>
+<li><code>prob_fill_on_limit = 0.5</code> (50% chance)</li>
+<li><code>prob_fill_on_stop = 0.5</code> (50% chance)</li>
+<li><code>prob_slippage = 0.1</code> (10% chance)</li>
+<li>No random seed (non-deterministic)</li>
+</ul>
+<p>However, the Python interface defaults are:</p>
+<ul>
+<li><code>prob_fill_on_limit = 1.0</code> (always fill)</li>
+<li><code>prob_fill_on_stop = 1.0</code> (always fill)</li>
+<li><code>prob_slippage = 0.0</code> (no slippage)</li>
+</ul>
 <h2 id="important-considerations">Important Considerations</h2>
 <ol>
 <li>
