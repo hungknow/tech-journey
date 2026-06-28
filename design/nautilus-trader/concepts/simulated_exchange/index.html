@@ -4717,10 +4717,12 @@
 </ul>
 <h2 id="operational-contexts">Operational Contexts</h2>
 <h3 id="1-initialization">1. Initialization</h3>
-<p><strong>Submodules Involved</strong>:
-- <code>Cache</code>: Provides instrument and account data
-- <code>Clock</code>: Provides initial timestamp
-- <code>BacktestExecutionClient</code>: Registers with exchange</p>
+<p><strong>Submodules Involved</strong>:</p>
+<ul>
+<li><code>Cache</code>: Provides instrument and account data</li>
+<li><code>Clock</code>: Provides initial timestamp</li>
+<li><code>BacktestExecutionClient</code>: Registers with exchange</li>
+</ul>
 <p><strong>Actions</strong>:</p>
 <ol>
 <li>Validates starting balances and base currency configuration</li>
@@ -4750,12 +4752,14 @@
 <li>Inserts matching engine into <code>matching_engines</code> HashMap</li>
 </ol>
 <p><strong>Multi-Order Book Architecture</strong>:</p>
-<p>The <code>SimulatedExchange</code> supports multiple order books through a one-to-one mapping:
-- Each instrument gets exactly one <code>OrderMatchingEngine</code>
-- Each matching engine maintains exactly one <code>OrderBook</code>
-- The <code>matching_engines</code> HashMap stores all engines keyed by <code>InstrumentId</code>
-- Order books operate independently with their own market state
-- The exchange routes commands to the appropriate matching engine based on the instrument ID</p>
+<p>The <code>SimulatedExchange</code> supports multiple order books through a one-to-one mapping:</p>
+<ul>
+<li>Each instrument gets exactly one <code>OrderMatchingEngine</code></li>
+<li>Each matching engine maintains exactly one <code>OrderBook</code></li>
+<li>The <code>matching_engines</code> HashMap stores all engines keyed by <code>InstrumentId</code></li>
+<li>Order books operate independently with their own market state</li>
+<li>The exchange routes commands to the appropriate matching engine based on the instrument ID</li>
+</ul>
 <p><strong>State Changes</strong>:</p>
 <ul>
 <li>Adds new entry to <code>instruments</code> HashMap</li>
