@@ -38,7 +38,6 @@ pub struct FillModel {
 **Purpose**: Simulates the probability of a limit order getting filled when its price level is reached in the market.
 
 **How it works**:
-
 - Simulates your position in the order queue at a given price level
 - Applies to all data types (L1/L2/L3 order book, quotes, trades, bars)
 - New random probability check occurs each time market price touches your order price (but does not move through it)
@@ -57,6 +56,7 @@ if order.order_side() == OrderSide::Buy
 ```
 
 **Examples**:
+
 - `prob_fill_on_limit=0.0`: Limit orders never fill when price matches (simulates being at the very back of the queue)
 - `prob_fill_on_limit=0.5`: 50% chance of filling (simulates being in the middle of the queue)
 - `prob_fill_on_limit=1.0`: Always fills when price matches (simulates being at the front of the queue)
@@ -84,6 +84,7 @@ if self.book_type == BookType::L1_MBP && self.fill_model.is_slipped() {
 ```
 
 **Examples**:
+
 - `prob_slippage=0.0`: No artificial slippage (idealized scenario)
 - `prob_slippage=0.5`: 50% chance of filling one tick worse
 - `prob_slippage=1.0`: Always fills one tick worse (consistent adverse price movement)
@@ -179,6 +180,7 @@ Stop orders convert to market orders when triggered, so they are affected by:
 - `prob_fill_on_stop` (deprecated, legacy behavior)
 
 **Impact on trading**:
+
 - Slippage on stop orders can worsen stop-loss execution
 - This is particularly important for risk management strategies
 
@@ -391,12 +393,14 @@ impl Default for FillModel {
 ```
 
 This means:
+
 - `prob_fill_on_limit = 0.5` (50% chance)
 - `prob_fill_on_stop = 0.5` (50% chance)
 - `prob_slippage = 0.1` (10% chance)
 - No random seed (non-deterministic)
 
 However, the Python interface defaults are:
+
 - `prob_fill_on_limit = 1.0` (always fill)
 - `prob_fill_on_stop = 1.0` (always fill)
 - `prob_slippage = 0.0` (no slippage)
