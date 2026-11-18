@@ -67,6 +67,73 @@ Algorithm:
 - **Time**: O(9²) = O(1) - constant 81 cells
 - **Space**: O(9²) = O(1) - constant space for tracking seen numbers
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+func isValidSudoku(board [][]byte) bool {
+	rows := make([]map[byte]bool, 9)
+	cols := make([]map[byte]bool, 9)
+	blocks := make([]map[byte]bool, 9)
+	for i := 0; i < 9; i++ {
+		rows[i] = make(map[byte]bool)
+		cols[i] = make(map[byte]bool)
+		blocks[i] = make(map[byte]bool)
+	}
+
+	for r := 0; r < 9; r++ {
+		for c := 0; c < 9; c++ {
+			val := board[r][c]
+			if val == '.' {
+				continue
+			}
+			b := (r/3)*3 + c/3
+			if rows[r][val] || cols[c][val] || blocks[b][val] {
+				return false
+			}
+			rows[r][val] = true
+			cols[c][val] = true
+			blocks[b][val] = true
+		}
+	}
+
+	return true
+}
+```
+
+### Rust
+
+```rust
+use std::collections::HashSet;
+
+pub fn is_valid_sudoku(board: Vec<Vec<char>>) -> bool {
+    let mut rows: Vec<HashSet<char>> = (0..9).map(|_| HashSet::new()).collect();
+    let mut cols: Vec<HashSet<char>> = (0..9).map(|_| HashSet::new()).collect();
+    let mut blocks: Vec<HashSet<char>> = (0..9).map(|_| HashSet::new()).collect();
+
+    for r in 0..9 {
+        for c in 0..9 {
+            let val = board[r][c];
+            if val == '.' {
+                continue;
+            }
+            let b = (r / 3) * 3 + c / 3;
+            if rows[r].contains(&val) || cols[c].contains(&val) || blocks[b].contains(&val) {
+                return false;
+            }
+            rows[r].insert(val);
+            cols[c].insert(val);
+            blocks[b].insert(val);
+        }
+    }
+
+    true
+}
+```
+
 ## Link
 
 [LeetCode 0036 Valid Sudoku](https://leetcode.com/problems/valid-sudoku/)
