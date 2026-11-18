@@ -49,6 +49,65 @@ Algorithm:
 - **Time**: O(n) - single pass through the strings
 - **Space**: O(1) - at most 256 characters (for ASCII) in each map
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+func isIsomorphic(s string, t string) bool {
+	if len(s) != len(t) {
+		return false
+	}
+
+	sToT := make(map[byte]byte)
+	tToS := make(map[byte]byte)
+
+	for i := 0; i < len(s); i++ {
+		sChar, tChar := s[i], t[i]
+
+		if mapped, ok := sToT[sChar]; ok && mapped != tChar {
+			return false
+		}
+		if mapped, ok := tToS[tChar]; ok && mapped != sChar {
+			return false
+		}
+
+		sToT[sChar] = tChar
+		tToS[tChar] = sChar
+	}
+
+	return true
+}
+```
+
+### Rust
+
+```rust
+use std::collections::HashMap;
+
+pub fn is_isomorphic(s: &str, t: &str) -> bool {
+    if s.len() != t.len() {
+        return false;
+    }
+
+    let mut s_to_t: HashMap<u8, u8> = HashMap::new();
+    let mut t_to_s: HashMap<u8, u8> = HashMap::new();
+
+    for (s_char, t_char) in s.bytes().zip(t.bytes()) {
+        if *s_to_t.entry(s_char).or_insert(t_char) != t_char {
+            return false;
+        }
+        if *t_to_s.entry(t_char).or_insert(s_char) != s_char {
+            return false;
+        }
+    }
+
+    true
+}
+```
+
 ## Link
 
 [LeetCode 0205 Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/)
