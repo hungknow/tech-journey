@@ -2998,10 +2998,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-twist" class="md-nav__link">
+  <a href="#approach" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Twist
+        Approach
       
     </span>
   </a>
@@ -3009,21 +3009,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hash-table-usage" class="md-nav__link">
+  <a href="#solution-code" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hash Table Usage
+        Solution Code
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#go" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Go
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#complexity" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#rust" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Complexity
+        Rust
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complexity-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complexity Analysis
       
     </span>
   </a>
@@ -3061,12 +3089,11 @@
 <h1 id="0001-two-sum">0001 Two Sum</h1>
 <h2 id="problem-description">Problem Description</h2>
 <p>Given an array of integers <code>nums</code> and an integer <code>target</code>, return indices of the two numbers such that they add up to <code>target</code>.</p>
-<p>You may assume that each input would have <strong>exactly one solution</strong>, and you may not use the same element twice.</p>
-<p>You can return the answer in any order.</p>
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order.</p>
 <h3 id="example-1">Example 1:</h3>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Input: nums = [2,7,11,15], target = 9
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Output: [0,1]
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Explanation: nums[0] + nums[1] == 9, so we return [0, 1].
 </span></code></pre></div>
 <h3 id="example-2">Example 2:</h3>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Input: nums = [3,2,4], target = 6
@@ -3076,18 +3103,57 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Input: nums = [3,3], target = 6
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Output: [0,1]
 </span></code></pre></div>
-<h2 id="the-twist">The Twist</h2>
-<p>The twist is returning <strong>indices</strong> instead of a boolean. This means we need to track where each number appears, not just whether it exists.</p>
-<h2 id="hash-table-usage">Hash Table Usage</h2>
+<h2 id="approach">Approach</h2>
+<p>This problem can be solved efficiently using a hash map:</p>
+<ol>
+<li><strong>One-pass Hash Map</strong>:</li>
+<li>Iterate through the array once</li>
+<li>For each element, compute the complement <code>target - nums[i]</code></li>
+<li>Check if the complement already exists in the hash map</li>
+<li>If yes, return the stored index and the current index</li>
+<li>
+<p>Otherwise, store <code>nums[i] -&gt; i</code> in the hash map</p>
+</li>
+<li>
+<p><strong>Why it works</strong>:</p>
+</li>
+<li>The hash map gives O(1) average-time lookups</li>
+<li>Since exactly one solution exists, the first match found is the answer</li>
+<li>By checking before inserting, we never use the same element twice</li>
+</ol>
+<h2 id="solution-code">Solution Code</h2>
+<h3 id="go">Go</h3>
+<div class="language-go highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">twoSum</span><span class="p">(</span><span class="nx">nums</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">target</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nx">seen</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">))</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="p">,</span><span class="w"> </span><span class="nx">num</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">nums</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">j</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">seen</span><span class="p">[</span><span class="nx">target</span><span class="o">-</span><span class="nx">num</span><span class="p">];</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="nx">j</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">}</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">        </span><span class="nx">seen</span><span class="p">[</span><span class="nx">num</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">i</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="rust">Rust</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">use</span><span class="w"> </span><span class="n">std</span><span class="p">::</span><span class="n">collections</span><span class="p">::</span><span class="n">HashMap</span><span class="p">;</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">impl</span><span class="w"> </span><span class="n">Solution</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">two_sum</span><span class="p">(</span><span class="n">nums</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">target</span><span class="p">:</span><span class="w"> </span><span class="kt">i32</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">seen</span><span class="p">:</span><span class="w"> </span><span class="nc">HashMap</span><span class="o">&lt;</span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HashMap</span><span class="p">::</span><span class="n">with_capacity</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">len</span><span class="p">());</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">num</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="o">&amp;</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seen</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">target</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">num</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">];</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">            </span><span class="n">seen</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">);</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">        </span><span class="fm">vec!</span><span class="p">[]</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="complexity-analysis">Complexity Analysis</h2>
 <ul>
-<li><strong>Key</strong>: <code>number</code> (the value from the array)</li>
-<li><strong>Value</strong>: <code>index</code> (the position where the number was found)</li>
-</ul>
-<p>For each number <code>num</code> at index <code>i</code>, we check if <code>target - num</code> exists in the map. If it does, we've found our pair. If not, we store <code>num -&gt; i</code> in the map for future lookups.</p>
-<h2 id="complexity">Complexity</h2>
-<ul>
-<li><strong>Time</strong>: O(n) - single pass through the array</li>
-<li><strong>Space</strong>: O(n) - storing up to n elements in the hash table</li>
+<li><strong>Time</strong>: O(n), single pass through the array with O(1) average hash map operations</li>
+<li><strong>Space</strong>: O(n), the hash map stores at most n entries</li>
 </ul>
 <h2 id="link">Link</h2>
 <p><a href="https://leetcode.com/problems/two-sum/">LeetCode 0001 Two Sum</a></p>
