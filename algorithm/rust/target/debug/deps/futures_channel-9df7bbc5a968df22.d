@@ -1,0 +1,10 @@
+/Users/hung/work/hk/tech-journey/algorithm/rust/target/debug/deps/futures_channel-9df7bbc5a968df22.d: /Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/lib.rs /Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/lock.rs /Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/mpsc/mod.rs /Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/mpsc/queue.rs /Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/mpsc/sink_impl.rs /Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/oneshot.rs
+
+/Users/hung/work/hk/tech-journey/algorithm/rust/target/debug/deps/libfutures_channel-9df7bbc5a968df22.rmeta: /Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/lib.rs /Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/lock.rs /Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/mpsc/mod.rs /Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/mpsc/queue.rs /Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/mpsc/sink_impl.rs /Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/oneshot.rs
+
+/Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/lib.rs:
+/Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/lock.rs:
+/Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/mpsc/mod.rs:
+/Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/mpsc/queue.rs:
+/Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/mpsc/sink_impl.rs:
+/Users/hung/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.30/src/oneshot.rs:
