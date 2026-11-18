@@ -47,6 +47,52 @@ Algorithm:
 - **Time**: O(n * k log k) where n is number of words, k is average word length (for sorting approach)
 - **Space**: O(n * k) - storing all words in the map
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+import "sort"
+
+func groupAnagrams(strs []string) [][]string {
+	groups := make(map[string][]string)
+
+	for _, s := range strs {
+		key := []byte(s)
+		sort.Slice(key, func(i, j int) bool { return key[i] < key[j] })
+		groups[string(key)] = append(groups[string(key)], s)
+	}
+
+	result := make([][]string, 0, len(groups))
+	for _, group := range groups {
+		result = append(result, group)
+	}
+	return result
+}
+```
+
+### Rust
+
+```rust
+use std::collections::HashMap;
+
+pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {
+    let mut groups: HashMap<[u8; 26], Vec<String>> = HashMap::new();
+
+    for s in strs {
+        let mut count = [0u8; 26];
+        for b in s.bytes() {
+            count[(b - b'a') as usize] += 1;
+        }
+        groups.entry(count).or_default().push(s);
+    }
+
+    groups.into_values().collect()
+}
+```
+
 ## Link
 
 [LeetCode 0049 Group Anagrams](https://leetcode.com/problems/group-anagrams/)

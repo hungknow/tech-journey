@@ -57,6 +57,8 @@ Implementing an LRU cache with O(1) time complexity for both get and put operati
 
 ## Solution Code
 
+### Go
+
 ```go
 package main
 
@@ -133,6 +135,117 @@ func (this *LRUCache) removeLast() {
     last := this.tail.prev
     this.remove(last)
     delete(this.cache, last.key)
+}
+```
+
+### Rust
+
+```rust
+use std::collections::HashMap;
+
+struct Node {
+    key: i32,
+    value: i32,
+    prev: Option<usize>,
+    next: Option<usize>,
+}
+
+struct LRUCache {
+    capacity: usize,
+    map: HashMap<i32, usize>,
+    nodes: Vec<Node>,
+    free: Vec<usize>,
+    head: Option<usize>, // most recently used
+    tail: Option<usize>, // least recently used
+}
+
+/**
+ * `&self` allows the use of the imported methods; `&mut self` allows the change of data.
+ */
+impl LRUCache {
+    fn new(capacity: i32) -> Self {
+        LRUCache {
+            capacity: capacity as usize,
+            map: HashMap::new(),
+            nodes: Vec::new(),
+            free: Vec::new(),
+            head: None,
+            tail: None,
+        }
+    }
+
+    fn get(&mut self, key: i32) -> i32 {
+        match self.map.get(&key) {
+            Some(&idx) => {
+                self.move_to_front(idx);
+                self.nodes[idx].value
+            }
+            None => -1,
+        }
+    }
+
+    fn put(&mut self, key: i32, value: i32) {
+        if let Some(&idx) = self.map.get(&key) {
+            self.nodes[idx].value = value;
+            self.move_to_front(idx);
+            return;
+        }
+
+        if self.map.len() >= self.capacity {
+            self.remove_last();
+        }
+
+        let idx = match self.free.pop() {
+            Some(i) => {
+                self.nodes[i] = Node { key, value, prev: None, next: None };
+                i
+            }
+            None => {
+                self.nodes.push(Node { key, value, prev: None, next: None });
+                self.nodes.len() - 1
+            }
+        };
+        self.push_front(idx);
+        self.map.insert(key, idx);
+    }
+
+    fn move_to_front(&mut self, idx: usize) {
+        if self.head == Some(idx) {
+            return;
+        }
+        self.unlink(idx);
+        self.push_front(idx);
+    }
+
+    fn unlink(&mut self, idx: usize) {
+        let (prev, next) = (self.nodes[idx].prev, self.nodes[idx].next);
+        match prev {
+            Some(p) => self.nodes[p].next = next,
+            None => self.head = next,
+        }
+        match next {
+            Some(n) => self.nodes[n].prev = prev,
+            None => self.tail = prev,
+        }
+    }
+
+    fn push_front(&mut self, idx: usize) {
+        self.nodes[idx].prev = None;
+        self.nodes[idx].next = self.head;
+        match self.head {
+            Some(h) => self.nodes[h].prev = Some(idx),
+            None => self.tail = Some(idx),
+        }
+        self.head = Some(idx);
+    }
+
+    fn remove_last(&mut self) {
+        if let Some(t) = self.tail {
+            self.unlink(t);
+            self.map.remove(&self.nodes[t].key);
+            self.free.push(t);
+        }
+    }
 }
 ```
 

@@ -57,6 +57,61 @@ Postorder traversal visits nodes in the order: **left subtree → right subtree 
 - **Time**: O(n) - each node visited once
 - **Space**: O(h) for recursive/stack, O(1) for Morris Traversal
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val   int
+ *     Left  *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func postorderTraversal(root *TreeNode) []int {
+	var result []int
+	var postorder func(node *TreeNode)
+	postorder = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		postorder(node.Left)
+		postorder(node.Right)
+		result = append(result, node.Val)
+	}
+	postorder(root)
+	return result
+}
+```
+
+### Rust
+
+```rust
+use std::cell::RefCell;
+use std::rc::Rc;
+
+impl Solution {
+    pub fn postorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut result = Vec::new();
+        Self::postorder(&root, &mut result);
+        result
+    }
+
+    fn postorder(node: &Option<Rc<RefCell<TreeNode>>>, result: &mut Vec<i32>) {
+        if let Some(n) = node {
+            let n = n.borrow();
+            Self::postorder(&n.left, result);
+            Self::postorder(&n.right, result);
+            result.push(n.val);
+        }
+    }
+}
+```
+
 ## Link
 
 [LeetCode 0145 Binary Tree Postorder Traversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)

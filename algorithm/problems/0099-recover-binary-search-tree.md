@@ -40,6 +40,91 @@ Finding **two misplaced nodes** in a BST. In a valid BST, inorder traversal shou
 - **Time**: O(n) - single traversal
 - **Space**: O(h) for recursive/stack, O(1) for Morris Traversal
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val   int
+ *     Left  *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func recoverTree(root *TreeNode) {
+	var prev, first, second *TreeNode
+
+	var inorder func(node *TreeNode)
+	inorder = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		inorder(node.Left)
+		if prev != nil && prev.Val > node.Val {
+			if first == nil {
+				first = prev
+			}
+			second = node
+		}
+		prev = node
+		inorder(node.Right)
+	}
+
+	inorder(root)
+	first.Val, second.Val = second.Val, first.Val
+}
+```
+
+### Rust
+
+```rust
+use std::cell::RefCell;
+use std::rc::Rc;
+
+impl Solution {
+    pub fn recover_tree(root: &mut Option<Rc<RefCell<TreeNode>>>) {
+        let mut prev: Option<Rc<RefCell<TreeNode>>> = None;
+        let mut first: Option<Rc<RefCell<TreeNode>>> = None;
+        let mut second: Option<Rc<RefCell<TreeNode>>> = None;
+
+        Self::inorder(root, &mut prev, &mut first, &mut second);
+
+        if let (Some(a), Some(b)) = (first, second) {
+            let tmp = a.borrow().val;
+            a.borrow_mut().val = b.borrow().val;
+            b.borrow_mut().val = tmp;
+        }
+    }
+
+    fn inorder(
+        node: &Option<Rc<RefCell<TreeNode>>>,
+        prev: &mut Option<Rc<RefCell<TreeNode>>>,
+        first: &mut Option<Rc<RefCell<TreeNode>>>,
+        second: &mut Option<Rc<RefCell<TreeNode>>>,
+    ) {
+        let n = match node {
+            Some(n) => n,
+            None => return,
+        };
+        Self::inorder(&n.borrow().left, prev, first, second);
+        if let Some(p) = prev.as_ref() {
+            if p.borrow().val > n.borrow().val {
+                if first.is_none() {
+                    *first = Some(Rc::clone(p));
+                }
+                *second = Some(Rc::clone(n));
+            }
+        }
+        *prev = Some(Rc::clone(n));
+        Self::inorder(&n.borrow().right, prev, first, second);
+    }
+}
+```
+
 ## Link
 
 [LeetCode 0099 Recover Binary Search Tree](https://leetcode.com/problems/recover-binary-search-tree/)
