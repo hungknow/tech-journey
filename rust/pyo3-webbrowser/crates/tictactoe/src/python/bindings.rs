@@ -1,11 +1,19 @@
 use pyo3::prelude::*;
 use crate::game::{Board, Cell, GameState, Player};
 
-#[pyclass(name = "Player")]
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum PyPlayer {
-    X,
-    O,
+// #[pyclass(name = "Player")]
+// #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+// pub enum PyPlayer {
+//     X,
+//     O,
+// }
+
+impl PyPlayer {
+    #[new]
+    fn py_new(py: Python<'_>, value: &Bound<'_, PyAny>) -> PyResult<Self> {
+        let t = Self::type_object(py);
+        Self::py_from_str(&t, value)
+    }
 }
 
 impl From<Player> for PyPlayer {
