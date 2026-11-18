@@ -43,6 +43,45 @@ Algorithm:
 - **Time**: O(n) - single pass through the array
 - **Space**: O(n) - storing up to n elements in the set
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+func containsDuplicate(nums []int) bool {
+	seen := make(map[int]bool)
+
+	for _, num := range nums {
+		if seen[num] {
+			return true
+		}
+		seen[num] = true
+	}
+
+	return false
+}
+```
+
+### Rust
+
+```rust
+use std::collections::HashSet;
+
+pub fn contains_duplicate(nums: Vec<i32>) -> bool {
+    let mut seen: HashSet<i32> = HashSet::new();
+
+    for num in nums {
+        if !seen.insert(num) {
+            return true;
+        }
+    }
+
+    false
+}
+```
+
 ## Link
 
 [LeetCode 0217 Contains Duplicate](https://leetcode.com/problems/contains-duplicate/)

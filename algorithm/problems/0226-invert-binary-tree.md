@@ -45,6 +45,96 @@ Inverting a binary tree means **swapping left and right children** at every node
 - **Time**: O(n) - each node visited once
 - **Space**: O(h) recursive, O(w) iterative (queue width)
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val   int
+ *     Left  *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	root.Left, root.Right = invertTree(root.Right), invertTree(root.Left)
+	return root
+}
+
+// Iterative BFS approach
+func invertTreeIterative(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	queue := []*TreeNode{root}
+	for len(queue) > 0 {
+		node := queue[0]
+		queue = queue[1:]
+		node.Left, node.Right = node.Right, node.Left
+		if node.Left != nil {
+			queue = append(queue, node.Left)
+		}
+		if node.Right != nil {
+			queue = append(queue, node.Right)
+		}
+	}
+	return root
+}
+```
+
+### Rust
+
+```rust
+use std::cell::RefCell;
+use std::collections::VecDeque;
+use std::rc::Rc;
+
+// Recursive approach
+impl Solution {
+    pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
+        let node = root?;
+        let mut n = node.borrow_mut();
+        let left = n.left.clone();
+        let right = n.right.clone();
+        n.left = Self::invert_tree(right);
+        n.right = Self::invert_tree(left);
+        drop(n);
+        Some(node)
+    }
+}
+
+// Iterative BFS approach
+impl Solution {
+    pub fn invert_tree_iterative(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
+        let mut queue = VecDeque::new();
+        if let Some(node) = root.as_ref() {
+            queue.push_back(Rc::clone(node));
+        }
+        while let Some(node) = queue.pop_front() {
+            let mut n = node.borrow_mut();
+            let left = n.left.take();
+            let right = n.right.take();
+            if let Some(child) = left.as_ref() {
+                queue.push_back(Rc::clone(child));
+            }
+            if let Some(child) = right.as_ref() {
+                queue.push_back(Rc::clone(child));
+            }
+            n.left = right;
+            n.right = left;
+        }
+        root
+    }
+}
+```
+
 ## Link
 
 [LeetCode 0226 Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree/)

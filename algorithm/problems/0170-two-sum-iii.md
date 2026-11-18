@@ -36,6 +36,85 @@ For the `find` operation, we iterate through the keys and check if the complemen
 - **find()**: O(n) - iterate through all keys in the worst case
 - **Space**: O(n) - storing unique numbers with their frequencies
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+type TwoSum struct {
+	counts map[int]int
+}
+
+func Constructor() TwoSum {
+	return TwoSum{
+		counts: make(map[int]int),
+	}
+}
+
+func (this *TwoSum) Add(number int) {
+	this.counts[number]++
+}
+
+func (this *TwoSum) Find(value int) bool {
+	for num := range this.counts {
+		complement := value - num
+		if c, ok := this.counts[complement]; ok {
+			if complement != num || c >= 2 {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+/**
+ * Your TwoSum object will be instantiated and called as such:
+ * obj := Constructor();
+ * obj.Add(number);
+ * param_2 := obj.Find(value);
+ */
+```
+
+### Rust
+
+```rust
+use std::collections::HashMap;
+
+struct TwoSum {
+    counts: HashMap<i32, i32>,
+}
+
+/**
+ * `&self` means the method takes an immutable reference.
+ * If you need a mutable reference, change it to `&mut self` instead.
+ */
+impl TwoSum {
+    fn new() -> Self {
+        TwoSum {
+            counts: HashMap::new(),
+        }
+    }
+
+    fn add(&mut self, number: i32) {
+        *self.counts.entry(number).or_insert(0) += 1;
+    }
+
+    fn find(&self, value: i32) -> bool {
+        for (&num, _) in &self.counts {
+            let complement = value - num;
+            if let Some(&c) = self.counts.get(&complement) {
+                if complement != num || c >= 2 {
+                    return true;
+                }
+            }
+        }
+        false
+    }
+}
+```
+
 ## Link
 
 [LeetCode 0170 Two Sum III](https://leetcode.com/problems/two-sum-iii-data-structure-design/)

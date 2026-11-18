@@ -40,6 +40,51 @@ Optimization: Use bit encoding to represent each nucleotide (A=00, C=01, G=10, T
 - **Time**: O(n) - single pass through the string
 - **Space**: O(n) - storing up to n-9 unique slices
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+func findRepeatedDnaSequences(s string) []string {
+	seen := make(map[string]int)
+	result := []string{}
+
+	for i := 0; i+10 <= len(s); i++ {
+		substr := s[i : i+10]
+		seen[substr]++
+		if seen[substr] == 2 {
+			result = append(result, substr)
+		}
+	}
+
+	return result
+}
+```
+
+### Rust
+
+```rust
+use std::collections::HashMap;
+
+pub fn find_repeated_dna_sequences(s: &str) -> Vec<String> {
+    let mut seen: HashMap<&str, usize> = HashMap::new();
+    let mut result: Vec<String> = Vec::new();
+
+    for i in 0..s.len().saturating_sub(9) {
+        let substr = &s[i..i + 10];
+        let count = seen.entry(substr).or_insert(0);
+        *count += 1;
+        if *count == 2 {
+            result.push(substr.to_string());
+        }
+    }
+
+    result
+}
+```
+
 ## Link
 
 [LeetCode 0187 Repeated DNA Sequences](https://leetcode.com/problems/repeated-dna-sequences/)

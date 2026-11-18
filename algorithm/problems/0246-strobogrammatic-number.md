@@ -49,6 +49,68 @@ Algorithm:
 - **Time**: O(n) - single pass through the string
 - **Space**: O(1) - constant size map (5 entries)
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+func isStrobogrammatic(num string) bool {
+	rotated := map[byte]byte{
+		'0': '0',
+		'1': '1',
+		'6': '9',
+		'8': '8',
+		'9': '6',
+	}
+
+	left, right := 0, len(num)-1
+	for left <= right {
+		mapped, ok := rotated[num[left]]
+		if !ok || mapped != num[right] {
+			return false
+		}
+		left++
+		right--
+	}
+
+	return true
+}
+```
+
+Note: when `left == right` (odd-length string), the middle digit must map to itself, which the same check handles automatically (`0`, `1`, or `8`).
+
+### Rust
+
+```rust
+use std::collections::HashMap;
+
+pub fn is_strobogrammatic(num: String) -> bool {
+    let rotated: HashMap<char, char> =
+        [('0', '0'), ('1', '1'), ('6', '9'), ('8', '8'), ('9', '6')]
+            .into_iter()
+            .collect();
+
+    let chars: Vec<char> = num.chars().collect();
+    // right is an exclusive bound to avoid usize underflow on odd-length input
+    let (mut left, mut right) = (0, chars.len());
+
+    while left < right {
+        match rotated.get(&chars[left]) {
+            Some(&c) if c == chars[right - 1] => {}
+            _ => return false,
+        }
+        left += 1;
+        right -= 1;
+    }
+
+    true
+}
+```
+
+For odd-length input, the loop's final iteration compares the middle digit with itself (`chars[right - 1]` is the same digit), so a middle `6` or `9` is correctly rejected.
+
 ## Link
 
 [LeetCode 0246 Strobogrammatic Number](https://leetcode.com/problems/strobogrammatic-number/)

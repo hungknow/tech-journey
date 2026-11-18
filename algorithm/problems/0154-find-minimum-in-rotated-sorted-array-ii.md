@@ -72,6 +72,32 @@ func findMin(nums []int) int {
 }
 ```
 
+### Rust
+
+```rust
+pub fn find_min(nums: Vec<i32>) -> i32 {
+    let mut left = 0;
+    let mut right = nums.len() - 1;
+
+    while left < right {
+        let mid = left + (right - left) / 2;
+
+        if nums[mid] > nums[right] {
+            // Minimum is in the right half
+            left = mid + 1;
+        } else if nums[mid] < nums[right] {
+            // Minimum is in the left half including mid
+            right = mid;
+        } else {
+            // nums[mid] == nums[right], can't determine, shrink search space
+            right -= 1;
+        }
+    }
+
+    nums[left]
+}
+```
+
 ## Link
 
 [LeetCode 0154 Find Minimum in Rotated Sorted Array II](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/)

@@ -45,6 +45,72 @@ Algorithm:
 - **Time**: O(n log log n) - Sieve of Eratosthenes
 - **Space**: O(n) - storing the boolean array
 
+## Solution Code
+
+### Go
+
+```go
+func countPrimes(n int) int {
+	if n < 3 {
+		return 0
+	}
+
+	isPrime := make([]bool, n)
+	for i := 2; i < n; i++ {
+		isPrime[i] = true
+	}
+
+	for i := 2; i*i < n; i++ {
+		if isPrime[i] {
+			// Start marking from i*i (smaller multiples already marked)
+			for j := i * i; j < n; j += i {
+				isPrime[j] = false
+			}
+		}
+	}
+
+	count := 0
+	for i := 2; i < n; i++ {
+		if isPrime[i] {
+			count++
+		}
+	}
+
+	return count
+}
+```
+
+### Rust
+
+```rust
+impl Solution {
+    pub fn count_primes(n: i32) -> i32 {
+        let n = n as usize;
+        if n < 3 {
+            return 0;
+        }
+
+        let mut is_prime = vec![true; n];
+        is_prime[0] = false;
+        is_prime[1] = false;
+
+        let mut i = 2;
+        while i * i < n {
+            if is_prime[i] {
+                let mut j = i * i;
+                while j < n {
+                    is_prime[j] = false;
+                    j += i;
+                }
+            }
+            i += 1;
+        }
+
+        is_prime.iter().filter(|&&p| p).count() as i32
+    }
+}
+```
+
 ## Link
 
 [LeetCode 0204 Count Primes](https://leetcode.com/problems/count-primes/)

@@ -43,6 +43,48 @@ Algorithm:
 - **Time**: O(n) - single pass through the array
 - **Space**: O(min(n, k)) - storing at most k+1 elements (or n if k > n)
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+func containsNearbyDuplicate(nums []int, k int) bool {
+	lastSeen := make(map[int]int)
+
+	for i, num := range nums {
+		if j, ok := lastSeen[num]; ok && i-j <= k {
+			return true
+		}
+		lastSeen[num] = i
+	}
+
+	return false
+}
+```
+
+### Rust
+
+```rust
+use std::collections::HashMap;
+
+pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {
+    let mut last_seen: HashMap<i32, usize> = HashMap::new();
+
+    for (i, &num) in nums.iter().enumerate() {
+        if let Some(&j) = last_seen.get(&num) {
+            if i - j <= k as usize {
+                return true;
+            }
+        }
+        last_seen.insert(num, i);
+    }
+
+    false
+}
+```
+
 ## Link
 
 [LeetCode 0219 Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii/)
