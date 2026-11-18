@@ -53,6 +53,61 @@ Preorder traversal visits nodes in the order: **root → left subtree → right 
 - **Time**: O(n) - each node visited once
 - **Space**: O(h) for recursive/stack, O(1) for Morris Traversal
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val   int
+ *     Left  *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func preorderTraversal(root *TreeNode) []int {
+	var result []int
+	var preorder func(node *TreeNode)
+	preorder = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		result = append(result, node.Val)
+		preorder(node.Left)
+		preorder(node.Right)
+	}
+	preorder(root)
+	return result
+}
+```
+
+### Rust
+
+```rust
+use std::cell::RefCell;
+use std::rc::Rc;
+
+impl Solution {
+    pub fn preorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut result = Vec::new();
+        Self::preorder(&root, &mut result);
+        result
+    }
+
+    fn preorder(node: &Option<Rc<RefCell<TreeNode>>>, result: &mut Vec<i32>) {
+        if let Some(n) = node {
+            let n = n.borrow();
+            result.push(n.val);
+            Self::preorder(&n.left, result);
+            Self::preorder(&n.right, result);
+        }
+    }
+}
+```
+
 ## Link
 
 [LeetCode 0144 Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/)

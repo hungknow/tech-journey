@@ -49,6 +49,71 @@ Algorithm:
 - **Time**: O(n) - single pass through the pattern
 - **Space**: O(n) - storing mappings for each unique pattern character
 
+## Solution Code
+
+### Go
+
+```go
+package main
+
+import "strings"
+
+func wordPattern(pattern string, s string) bool {
+	words := strings.Fields(s)
+	if len(pattern) != len(words) {
+		return false
+	}
+
+	charToWord := make(map[byte]string)
+	wordToChar := make(map[string]byte)
+
+	for i := 0; i < len(pattern); i++ {
+		c, w := pattern[i], words[i]
+
+		if mapped, ok := charToWord[c]; ok && mapped != w {
+			return false
+		}
+		if mapped, ok := wordToChar[w]; ok && mapped != c {
+			return false
+		}
+
+		charToWord[c] = w
+		wordToChar[w] = c
+	}
+
+	return true
+}
+```
+
+### Rust
+
+```rust
+use std::collections::HashMap;
+
+pub fn word_pattern(pattern: &str, s: &str) -> bool {
+    let words: Vec<&str> = s.split_whitespace().collect();
+    let chars: Vec<char> = pattern.chars().collect();
+
+    if chars.len() != words.len() {
+        return false;
+    }
+
+    let mut char_to_word: HashMap<char, &str> = HashMap::new();
+    let mut word_to_char: HashMap<&str, char> = HashMap::new();
+
+    for (c, w) in chars.into_iter().zip(words.into_iter()) {
+        if *char_to_word.entry(c).or_insert(w) != w {
+            return false;
+        }
+        if *word_to_char.entry(w).or_insert(c) != c {
+            return false;
+        }
+    }
+
+    true
+}
+```
+
 ## Link
 
 [LeetCode 0290 Word Pattern](https://leetcode.com/problems/word-pattern/)

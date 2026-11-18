@@ -46,6 +46,61 @@ Algorithm:
 - **Time**: O(n) - single pass through the strings
 - **Space**: O(1) - at most 10 digits (0-9)
 
+## Solution Code
+
+### Go
+
+```go
+func getHint(secret string, guess string) string {
+	bulls, cows := 0, 0
+	count := make([]int, 10)
+	for i := 0; i < len(secret); i++ {
+		s, g := secret[i]-'0', guess[i]-'0'
+		if s == g {
+			bulls++
+			continue
+		}
+		if count[s] < 0 {
+			cows++
+		}
+		count[s]++
+		if count[g] > 0 {
+			cows++
+		}
+		count[g]--
+	}
+	return strconv.Itoa(bulls) + "A" + strconv.Itoa(cows) + "B"
+}
+```
+
+### Rust
+
+```rust
+impl Solution {
+    pub fn get_hint(secret: String, guess: String) -> String {
+        let (secret, guess) = (secret.as_bytes(), guess.as_bytes());
+        let (mut bulls, mut cows) = (0, 0);
+        let mut count = [0i32; 10];
+        for i in 0..secret.len() {
+            let (s, g) = (secret[i] - b'0', guess[i] - b'0');
+            if s == g {
+                bulls += 1;
+                continue;
+            }
+            if count[s as usize] < 0 {
+                cows += 1;
+            }
+            count[s as usize] += 1;
+            if count[g as usize] > 0 {
+                cows += 1;
+            }
+            count[g as usize] -= 1;
+        }
+        format!("{}A{}B", bulls, cows)
+    }
+}
+```
+
 ## Link
 
 [LeetCode 0299 Bulls and Cows](https://leetcode.com/problems/bulls-and-cows/)
